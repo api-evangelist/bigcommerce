@@ -1,0 +1,337 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "",
+        "title": "Wishlist API",
+        "description": "## Wishlist API\n  \nThe Wishlist API allows a developer to create and manage customer [Wishlists](https:\/\/support.bigcommerce.com\/s\/article\/Wishlists). A Wishlist allows you to see what your customers are interested in and saving on the store. With this information you\u2019ll be able to create targeted campaigns to help merchants grow their business.\u00a0 ",
+        "termsOfService": "http:\/\/exmple.com\/license\/"
+    },
+    "servers": [
+        "http:\/\/api.bigcommerce.com\/stores\/{store_hash}\/v3"
+    ],
+    "paths": {
+        "\/wishlists": {
+            "post": {
+                "summary": "Create a Wishlist",
+                "description": "Creates a [*Wishlist*](\/api-reference\/customer-subscribers\/wishlist-api\/models\/wishlist) and [*Wishlist Item*](\/api-reference\/customer-subscribers\/wishlist-api\/models\/wishlistitem). More than one item can be added in the POST.\n\n**Required Fields**\n* name\n* customer_id",
+                "operationId": "WishlistsPost",
+                "deprecated": 0,
+                "parameters": [],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get All Wishlists",
+                "description": "Returns a list of [*Wishlists*](\/api-reference\/customer-subscribers\/wishlist-api\/models\/wishlist). Optional filter parameters can be passed in.",
+                "operationId": "WishlistsGet",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "description": "All wishlists relating to the customer."
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The page number of results per page. 1 is the default and starts from record 0."
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The numbers of items to return per page. Default is 50 and maximum is 250."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "\/wishlists\/{wishlist_id}\/items\/{item_id}": {
+            "delete": {
+                "summary": "Delete Wishlist Item",
+                "description": "Deletes a [*Wishlist Item*](\/api-reference\/customer-subscribers\/wishlist-api\/models\/wishlistitem).",
+                "operationId": "WishlistsItemsByIdDelete",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "wishlist_id",
+                        "in": "path",
+                        "description": "ID of the Wishlist"
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "description": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "parameters": {
+                "summary": "",
+                "description": "",
+                "operationId": "",
+                "deprecated": 0,
+                "parameters": []
+            }
+        },
+        "\/wishlists\/{wishlist_id}": {
+            "get": {
+                "summary": "Get a Wishlist",
+                "description": "Returns a single [*Wishlist*](\/api-reference\/customer-subscribers\/wishlist-api\/models\/wishlist).",
+                "operationId": "WishlistsByIdGet",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "wishlist_id",
+                        "in": "path",
+                        "description": "ID of the Wishlist"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a Wishlist",
+                "description": "Updates a [*Wishlist*](\/api-reference\/customer-subscribers\/wishlist-api\/models\/wishlist).\n\nUse this endpoint to update an existing wishlist items, change the wishlist name, customer ID or if the wishlist is available publicly.\n\n**Required Fields**\n* customer_id",
+                "operationId": "WishlistsByIdPut",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "wishlist_id",
+                        "in": "path",
+                        "description": "ID of the Wishlist"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a Wishlist",
+                "description": "Deletes a [*Wishlist*](\/api-reference\/customer-subscribers\/wishlist-api\/models\/wishlist).",
+                "operationId": "WishlistsByIdDelete",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "wishlist_id",
+                        "in": "path",
+                        "description": "ID of the Wishlist"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                }
+            },
+            "parameters": {
+                "summary": "",
+                "description": "",
+                "operationId": "",
+                "deprecated": 0,
+                "parameters": []
+            }
+        },
+        "\/wishlists\/{wishlist_id}\/items": {
+            "parameters": {
+                "summary": "",
+                "description": "",
+                "operationId": "",
+                "deprecated": 0,
+                "parameters": []
+            },
+            "post": {
+                "summary": "Add Wishlist Item",
+                "description": "Adds a [*Wishlist Item*](\/api-reference\/customer-subscribers\/wishlist-api\/models\/wishlistitem). More than one item can be added at a time.",
+                "operationId": "WishlistsItemsByIdPost",
+                "deprecated": 0,
+                "parameters": [
+                    {
+                        "name": "wishlist_id",
+                        "in": "path",
+                        "description": "ID of the Wishlist"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "WishlistCreateRequestData": {
+                "type": "object",
+                "properties": {
+                    "customer_id": {
+                        "description": "The customer id.",
+                        "type": "integer"
+                    },
+                    "is_public": {
+                        "description": "Whether the wishlist is available to the public.",
+                        "type": "boolean"
+                    },
+                    "name": {
+                        "description": "The title of the wishlist.",
+                        "type": "string"
+                    },
+                    "items": {
+                        "description": "Array of Wishlist items.",
+                        "type": "array"
+                    }
+                }
+            },
+            "items": {
+                "type": "array"
+            },
+            "WishlistUpdateRequestData": {
+                "type": "object",
+                "properties": {
+                    "customer_id": {
+                        "description": "The customer id.",
+                        "type": "integer"
+                    },
+                    "is_public": {
+                        "description": "Whether the wishlist is available to the public.",
+                        "type": "boolean"
+                    },
+                    "name": {
+                        "description": "The title of the wishlist.",
+                        "type": "string"
+                    },
+                    "items": {
+                        "description": "Array of Wishlist items.",
+                        "type": "array"
+                    }
+                }
+            },
+            "Wishlist": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Wishlist ID, provided after creating a wishlist with a POST.",
+                        "type": "integer"
+                    },
+                    "customer_id": {
+                        "description": "The customer id.",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "The title of the wishlist.",
+                        "type": "string"
+                    },
+                    "is_public": {
+                        "description": "Whether the wishlist is available to the public.",
+                        "type": "boolean"
+                    },
+                    "token": {
+                        "description": "The token of the Wishlist. This is created internally within BigCommerce. The Wishlist ID is to be used for external apps. Read-Only",
+                        "type": "string"
+                    },
+                    "items": {
+                        "description": "Array of Wishlist items.",
+                        "type": "array"
+                    }
+                }
+            },
+            "WishlistItem": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Wishlist ID, provided after creating a wishlist with a POST.",
+                        "type": "integer"
+                    },
+                    "product_id": {
+                        "description": "The ID of the product.",
+                        "type": "integer"
+                    },
+                    "variant_id": {
+                        "description": "The variant ID of the item.",
+                        "type": "integer"
+                    }
+                }
+            },
+            "WishlistAddItem": {
+                "type": "object",
+                "properties": {
+                    "product_id": {
+                        "description": "The ID of the product.",
+                        "type": "integer"
+                    },
+                    "variant_id": {
+                        "description": "The variant ID of the item.",
+                        "type": "integer"
+                    }
+                }
+            },
+            "Pagination": {
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "description": "Total number of items in the result set.",
+                        "type": "integer"
+                    },
+                    "count": {
+                        "description": "Total number of items in the collection response.",
+                        "type": "integer"
+                    },
+                    "per_page": {
+                        "description": "The amount of items returned in the collection per page, controlled by the limit parameter.",
+                        "type": "integer"
+                    },
+                    "current_page": {
+                        "description": "The page you are currently on within the collection.",
+                        "type": "integer"
+                    },
+                    "total_pages": {
+                        "description": "The total number of pages in the collection.",
+                        "type": "integer"
+                    }
+                }
+            },
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "title": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "Meta": {
+                "type": "object",
+                "properties": {
+                    "Pagination": {
+                        "description": "Data about the response, including pagination and collection totals.",
+                        "type": "object"
+                    }
+                }
+            }
+        }
+    }
+}
