@@ -1,0 +1,340 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "",
+        "title": "Order Transactions API",
+        "description": "### Order Transactions\n\nThe Transactions API returns granular details about the payment instruments used to pay for an order. Depending on the payment method used, different details will be available. Not all credit card payment gateways will return full card details or all CVV\/fraud response details. This is primarily used to get detailed gateway response information for credit card transactions, however it will also return any available information about digital wallet payments, as well as details about orders paid (partially or in full) via a gift certificate or store credit. \n\nThe [test payment gateway](https:\/\/forum.bigcommerce.com\/s\/article\/Testing-Shipping-Tax-and-Payment-Settings#test-payment) available in the BigCommerce control panel does not return any payment information.\n\nFor an API for more general Order information, such as the information needed to create a new Order, or get all the details of an order for fulfillment purposes, see the [Orders API](\/api-reference\/orders",
+        "termsOfService": ""
+    },
+    "servers": [
+        "http:\/\/api.bigcommerce.com\/stores\/{store_hash}\/v3"
+    ],
+    "paths": [],
+    "components": {
+        "schemas": {
+            "CollectionMeta": {
+                "type": "object",
+                "properties": {
+                    "pagination": {
+                        "description": "Data about the response, including pagination and collection totals.",
+                        "type": "object"
+                    }
+                }
+            },
+            "pagination": {
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "description": "Total number of items in the result set.\n",
+                        "type": "integer"
+                    },
+                    "count": {
+                        "description": "Total number of items in the collection response.\n",
+                        "type": "integer"
+                    },
+                    "per_page": {
+                        "description": "The amount of items returned in the collection per page, controlled by the limit parameter.\n",
+                        "type": "integer"
+                    },
+                    "current_page": {
+                        "description": "The page you are currently on within the collection.\n",
+                        "type": "integer"
+                    },
+                    "total_pages": {
+                        "description": "The total number of pages in the collection.\n",
+                        "type": "integer"
+                    },
+                    "links": {
+                        "description": "Pagination links for the previous and next parts of the whole collection.\n",
+                        "type": "object"
+                    }
+                }
+            },
+            "links": {
+                "type": "object"
+            },
+            "Meta": {
+                "type": "object",
+                "properties": {
+                    "Meta": {
+                        "description": "",
+                        "type": "object"
+                    }
+                }
+            },
+            "ErrorResponse": {
+                "type": "object"
+            },
+            "BaseError": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "description": "The HTTP status code.\n",
+                        "type": "integer"
+                    },
+                    "title": {
+                        "description": "The error title describing the particular error.\n",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "instance": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "DetailedErrors": {
+                "type": "object"
+            },
+            "TransactionPost": {
+                "type": "object",
+                "properties": {
+                    "event": {
+                        "description": "Store event that created the transaction.\n",
+                        "type": "string"
+                    },
+                    "method": {
+                        "description": "The payment method: `credit_card` - a credit-card transaction; `electronic_wallet` - an online wallet; `store_credit` - a transaction using store credit; `gift_certificate` - a transaction using a gift certificate; `custom` - manual payment methods; `token` - payment token; `nonce` - temporary payment token; `offsite` - online payment off the site (e.g., PayPal); `offline` - payment method that takes place offline.\n",
+                        "type": "string"
+                    },
+                    "amount": {
+                        "description": "Amount of money in the transaction.\n",
+                        "type": "number"
+                    },
+                    "currency": {
+                        "description": "Currency used for the transaction.\n",
+                        "type": "string"
+                    },
+                    "gateway": {
+                        "description": "The payment gateway, where applicable.\n",
+                        "type": "string"
+                    },
+                    "gateway_transaction_id": {
+                        "description": "The transaction ID returned by the payment gateway for this transaction item.\n",
+                        "type": "string"
+                    },
+                    "date_created": {
+                        "description": "The datetime of the transaction.\n",
+                        "type": "string"
+                    },
+                    "test": {
+                        "description": "True if the transaction performed was a test, or if the gateway is in test mode.\n",
+                        "type": "boolean"
+                    },
+                    "status": {
+                        "description": "Status of the transaction.\n",
+                        "type": "string"
+                    },
+                    "fraud_review": {
+                        "description": "Result of gateway fraud review, if any. Default is `false`.\n",
+                        "type": "boolean"
+                    },
+                    "reference_transaction_id": {
+                        "description": "Identifier for an existing transaction upon which this transaction acts.\n",
+                        "type": "integer"
+                    },
+                    "offline": {
+                        "description": "Offline payment (e.g., check or purchase order).",
+                        "type": "object"
+                    },
+                    "custom": {
+                        "description": "Custom payment from manual order.",
+                        "type": "object"
+                    },
+                    "_empty_": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "offline": {
+                "type": "object",
+                "properties": {
+                    "display_name": {
+                        "description": "Display name for the offline payment.\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "custom": {
+                "type": "object",
+                "properties": {
+                    "payment_method": {
+                        "description": "Text entered for the payment method in the control panel.\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "NotFound": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "description": "The HTTP status code.\n",
+                        "type": "integer"
+                    },
+                    "title": {
+                        "description": "The error title describing the particular error.\n",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "instance": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "TransactionResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "description": "A BigCommerce Transaction object describes a single transaction.",
+                        "type": "object"
+                    },
+                    "Meta": {
+                        "description": "",
+                        "type": "object"
+                    }
+                }
+            },
+            "data": {
+                "type": "array"
+            },
+            "TransactionCollectionResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "description": "",
+                        "type": "array"
+                    },
+                    "Meta": {
+                        "description": "",
+                        "type": "object"
+                    }
+                }
+            },
+            "Transaction": {
+                "type": "object"
+            },
+            "CreditCard": {
+                "type": "object",
+                "properties": {
+                    "card_type": {
+                        "description": "The credit-card type: Visa, MasterCard, etc.\n",
+                        "type": "string"
+                    },
+                    "card_iin": {
+                        "description": "The IIN of a credit-card number.\n",
+                        "type": "string"
+                    },
+                    "card_last4": {
+                        "description": "The last 4 digits of a credit-card number.\n",
+                        "type": "string"
+                    },
+                    "card_expiry_month": {
+                        "description": "The expiry month of a credit-card.\n",
+                        "type": "integer"
+                    },
+                    "card_expiry_year": {
+                        "description": "The expiry year of a credit-card.\n",
+                        "type": "integer"
+                    }
+                }
+            },
+            "StoreCredit": {
+                "type": "object",
+                "properties": {
+                    "remaining_balance": {
+                        "description": "Remaining balance of shopper's store credit.\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "GiftCertificate": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "description": "The gift-certificate code.\n",
+                        "type": "string"
+                    },
+                    "original_balance": {
+                        "description": "The balance on a gift certificate when it was purchased.\n",
+                        "type": "number"
+                    },
+                    "starting_balance": {
+                        "description": "The balance on a gift certificate at the time of this purchase.\n",
+                        "type": "number"
+                    },
+                    "remaining_balance": {
+                        "description": "The remaining balance on a gift certificate.\n",
+                        "type": "number"
+                    },
+                    "status": {
+                        "description": "Status of the transaction.\n",
+                        "type": "string"
+                    }
+                }
+            },
+            "AVSResult": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "description": "The gift-certificate code.\n",
+                        "type": "string"
+                    },
+                    "message": {
+                        "description": "AVS message.",
+                        "type": "string"
+                    },
+                    "street_match": {
+                        "description": "AVS Code for street matching result.",
+                        "type": "string"
+                    },
+                    "postal_match": {
+                        "description": "AVS Code for postal matching result.",
+                        "type": "string"
+                    }
+                }
+            },
+            "CVVResult": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "description": "The gift-certificate code.\n",
+                        "type": "string"
+                    },
+                    "message": {
+                        "description": "AVS message.",
+                        "type": "string"
+                    }
+                }
+            },
+            "NoContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "description": "The HTTP status code.\n",
+                        "type": "integer"
+                    },
+                    "title": {
+                        "description": "The error title describing the particular error.\n",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "instance": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
