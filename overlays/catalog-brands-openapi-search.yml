@@ -1,0 +1,213 @@
+openapi: 3.0.3
+info:
+  title: Catalog - Brands
+  version: ''
+tags:
+  - name: Brands
+  - name: Images
+  - name: Metafields
+  - name: Batch metafields
+paths:
+  /catalog/brands:
+    get:
+      tags:
+        - Brands
+        - Catalog
+      summary: Get All Brands
+      description: Returns a list of *Brands*. Optional filter parameters can be passed in.
+    post:
+      tags:
+        - Brand
+        - Brands
+        - Catalog
+      summary: Create a Brand
+      description: >-
+        This API allows users to create a new *Brand*, with the following
+        required fields:
+
+        - name
+
+
+        Additionally, the *id* field is read-only and cannot be modified. Each
+        store has a limit of 30,000 brands that can be created.
+    delete:
+      tags:
+        - Brands
+        - Catalog
+      summary: Delete Brands
+      description: |-
+        To remove brand objects from the API, a filter must be included.
+
+        **Required Field**
+        - name
+    parameters:
+      - null
+  /catalog/brands/{brand_id}:
+    get:
+      tags:
+        - Brand
+        - Brands
+        - Catalog
+      summary: Get a Brand
+      description: Returns a single *Brand*. Optional filter parameters can be passed in.
+    put:
+      tags:
+        - Brands
+        - Catalog
+      summary: Update a Brand
+      description: |-
+        Updates a *Brand*.
+
+        **Required Fields**
+        - None
+
+        **Read-Only Fields**
+        - id
+
+        To update a *Brand Image*, send a request with an `image_url`.
+    delete:
+      tags:
+        - Brands
+        - Catalog
+      summary: Delete a Brand
+      description: Deletes a *Brand*.
+    parameters:
+      - null
+      - null
+  /catalog/brands/{brand_id}/metafields:
+    get:
+      tags:
+        - Brands
+        - Catalog
+        - Metafields
+      summary: Get Brand Metafields
+      description: >-
+        Returns a list of *Brand Metafields*. Optional filter parameters can be
+        passed in. 
+    post:
+      tags:
+        - Brands
+        - Catalog
+        - Metafields
+      summary: Create a Brand Metafield
+      description: >-
+        Creates a *Brand Metafield*.
+
+
+        **Required Fields**
+
+        - permission_set
+
+        - namespace
+
+        - key
+
+        - value
+
+
+        **Read-Only Fields**
+
+        - id
+
+
+        **Note:** The maxiumum number of metafields allowed on each order,
+        product, category, variant, or brand is 250 per client ID. For more
+        information, see [Platform
+        Limits](https://support.bigcommerce.com/s/article/Platform-Limits) in
+        the Help Center.
+    parameters:
+      - null
+      - null
+  /catalog/brands/{brand_id}/metafields/{metafield_id}:
+    get:
+      tags:
+        - Brands
+        - Catalog
+        - Metafields
+      summary: Get a Brand Metafields
+      description: >-
+        Returns a *Brand Metafield*. Optional filter parameters can be passed
+        in.
+    put:
+      tags:
+        - Brands
+        - Catalog
+        - Metafields
+      summary: Update a Brand Metafield
+      description: "Updates a *Brand Metafield*.\n\n**Required Fields**  \n* none\n\n**Read-Only Fields**\n* id\n* These fields can only be modified by the app (API credentials) that created the metafield:\n\t* namespace\n\t* key\n\t* permission_set\n\n**Usage Notes**\n* Attempting to modify `namespace`, `key`, and `permission_set` fields using a client ID different from the one used to create those metafields will result in a 403 error message.\n* The maxiumum number of metafields allowed on each order, product, category, variant, or brand is 250 per client ID. For more information, see [Platform Limits](https://support.bigcommerce.com/s/article/Platform-Limits) in the Help Center."
+    delete:
+      tags:
+        - Brands
+        - Catalog
+        - Metafields
+      summary: Delete a Brand Metafield
+      description: Deletes a *Brand Metafield*.
+    parameters:
+      - null
+      - null
+      - null
+  /catalog/brands/{brand_id}/image:
+    post:
+      tags:
+        - Brands
+        - Catalog
+        - Images
+      summary: Create a Brand Image
+      description: >-
+        Creates a *Brand Image*.
+
+
+        **Required Fields**
+
+        - image_file: Form posts are the only accepted upload option.
+
+
+        **Read-Only Fields**
+
+        - id
+
+
+        Only one image at a time can be created. To update a *Brand Image*, use
+        the [Update a brand](/docs/rest-catalog/brands#update-a-brand) endpoint
+        and an `image_url`.
+    delete:
+      tags:
+        - Brands
+        - Catalog
+        - Images
+      summary: Delete a Brand Image
+      description: Deletes a *Brand Image*.
+    parameters:
+      - null
+      - null
+  /catalog/brands/metafields:
+    get:
+      summary: Get All Brand Metafields
+      tags:
+        - Brands
+        - Catalog
+        - Metafields
+      description: Get all brand metafields.
+    post:
+      summary: Create multiple Metafields
+      tags:
+        - Brands
+        - Catalog
+        - Metafields
+        - Multiple
+      description: Create multiple metafields.
+    put:
+      summary: Update multiple Metafields
+      tags:
+        - Brands
+        - Catalog
+        - Metafields
+        - Multiple
+      description: Create multiple metafields.
+    delete:
+      summary: Delete All Metafields
+      tags:
+        - Brands
+        - Catalog
+        - Metafields
+      description: Delete all brand
