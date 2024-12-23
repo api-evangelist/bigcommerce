@@ -6,912 +6,972 @@ BigCommerce is a NASDAQ-listed ecommerce platform that provides software as a se
 ## Scope
 
 
-## Tags
+## Tags:
 
-- Commerce
+ - Commerce
 
 ## Timestamps
 
 - **Created:** 2023/11/21 
-- **Modified:** 2024-12-14 
+- **Modified:** 2024-12-22 
 
 ## APIs
 
-### Abandoned Cart Emails
+### BigCommerce Abandoned Cart Emails
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/abandoned-cart-emails-openapi-original.yml)
-### Abandoned Carts
+### BigCommerce Abandoned Carts
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/abandoned-carts-openapi-original.yml)
-### Accepted Payment Methods
+### BigCommerce Accepted Payment Methods
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/accepted-payment-methods-openapi-original.yml)
-### Payment Access Token
+### BigCommerce Payment Access Token
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/payment-access-token-openapi-original.yml)
-### Catalog - Brands
+### BigCommerce Catalog - Brands
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/catalog-brands-openapi-original.yml)
-### Storefront Carts
+### BigCommerce Storefront Carts
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/storefront-carts-openapi-original.yml)
-### Carts
+### BigCommerce Carts
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/carts-openapi-original.yml)
-### Catalog - Categories
+### BigCommerce Catalog - Categories
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/catalog-categories-openapi-original.yml)
-### Catalog - Category Trees
+### BigCommerce Catalog - Category Trees
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/catalog-category-trees-openapi-original.yml)
-### Channels
+### BigCommerce Channels
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/channels-openapi-original.yml)
-### Storefront Checkouts
+### BigCommerce Storefront Checkouts
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/storefront-checkouts-openapi-original.yml)
-### Checkouts
+### BigCommerce Checkouts
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/checkouts-openapi-original.yml)
-### Storefront Cookie Consent
+### BigCommerce Storefront Cookie Consent
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/storefront-cookie-consent-openapi-original.yml)
-### Currencies
+### BigCommerce Currencies
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/currencies-openapi-original.yml)
-### Current Customer
+### BigCommerce Current Customer
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/current-customer-openapi-original.yml)
-### Custom Template Associations
+### BigCommerce Custom Template Associations
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/custom-template-associations-openapi-original.yml)
-### Customer Login (SSO)
+### BigCommerce Customer Login (SSO)
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/customer-login-sso-openapi-original.yml)
-### Storefront Customers
+### BigCommerce Storefront Customers
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/storefront-customers-openapi-original.yml)
-### Customers
+### BigCommerce Customers
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/customers-openapi-original.yml)
-### Customers
+### BigCommerce Customers
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/customers-openapi-original.yml)
-### Email Templates
+### BigCommerce Email Templates
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/email-templates-openapi-original.yml)
-### Storefront Form Fields (Beta)
+### BigCommerce Storefront Form Fields (Beta)
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/storefront-form-fields-beta-openapi-original.yml)
-### Geography
+### BigCommerce Geography
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/geography-openapi-original.yml)
-### Marketing
+### BigCommerce Marketing
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/marketing-openapi-original.yml)
-### Payment Methods (Deprecated)
+### BigCommerce Payment Methods (Deprecated)
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/payment-methods-deprecated-openapi-original.yml)
-### Storefront Orders
+### BigCommerce Storefront Orders
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/storefront-orders-openapi-original.yml)
-### Orders
+### BigCommerce Orders
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/orders-openapi-original.yml)
-### Orders
+### BigCommerce Orders
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/orders-openapi-original.yml)
-### Pages
+### BigCommerce Pages
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/pages-openapi-original.yml)
-### Price Lists
+### BigCommerce Price Lists
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/price-lists-openapi-original.yml)
-### Pricing
+### BigCommerce Pricing
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/pricing-openapi-original.yml)
-### Payment Processing
+### BigCommerce Payment Processing
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/payment-processing-openapi-original.yml)
-### Catalog - Product Modifiers
+### BigCommerce Catalog - Product Modifiers
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/catalog-product-modifiers-openapi-original.yml)
-### Catalog - Product Variant Options
+### BigCommerce Catalog - Product Variant Options
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/catalog-product-variant-options-openapi-original.yml)
-### Catalog - Product Variants
+### BigCommerce Catalog - Product Variants
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/catalog-product-variants-openapi-original.yml)
-### Catalog - Products
+### BigCommerce Catalog - Products
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/catalog-products-openapi-original.yml)
-### Redirects
+### BigCommerce Redirects
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/redirects-openapi-original.yml)
-### Scripts
+### BigCommerce Scripts
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/scripts-openapi-original.yml)
-### Settings
+### BigCommerce Settings
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/settings-openapi-original.yml)
-### Shipping
+### BigCommerce Shipping
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/shipping-openapi-original.yml)
-### Shipping
+### BigCommerce Shipping
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/shipping-openapi-original.yml)
-### Shipping Providers
+### BigCommerce Shipping Providers
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/shipping-providers-openapi-original.yml)
-### Sites
+### BigCommerce Sites
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/sites-openapi-original.yml)
-### Content
+### BigCommerce Content
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/content-openapi-original.yml)
-### Store Information
+### BigCommerce Store Information
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/store-information-openapi-original.yml)
-### Store Logs
+### BigCommerce Store Logs
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/store-logs-openapi-original.yml)
-### Storefront Token
+### BigCommerce Storefront Token
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/storefront-token-openapi-original.yml)
-### Subscribers
+### BigCommerce Subscribers
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/subscribers-openapi-original.yml)
-### Storefront Subscriptions
+### BigCommerce Storefront Subscriptions
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/storefront-subscriptions-openapi-original.yml)
-### Tax Provider Connection
+### BigCommerce Tax Provider Connection
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/tax-provider-connection-openapi-original.yml)
-### Tax Classes
+### BigCommerce Tax Classes
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/tax-classes-openapi-original.yml)
-### Tax Properties
+### BigCommerce Tax Properties
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/tax-properties-openapi-original.yml)
-### Tax Provider
+### BigCommerce Tax Provider
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/tax-provider-openapi-original.yml)
-### Tax Rates & Zones
+### BigCommerce Tax Rates & Zones
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/tax-rates-zones-openapi-original.yml)
-### Tax Settings
+### BigCommerce Tax Settings
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/tax-settings-openapi-original.yml)
-### Tax Zone Check
+### BigCommerce Tax Zone Check
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/tax-zone-check-openapi-original.yml)
-### Themes
+### BigCommerce Themes
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/themes-openapi-original.yml)
-### Webhooks v3
+### BigCommerce Webhooks v3
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/webhooks-v3-openapi-original.yml)
-### Widgets
+### BigCommerce Widgets
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
 - [Documentation](https://developer.bigcommerce.com/)
 - [OpenAPI](properties/widgets-openapi-original.yml)
-### Wishlist
+### BigCommerce Wishlist
 Needs a description
 
 **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-r
+
 **Base URL:** [https://api.example.com](https://api.example.com)
-r
 
-#### Tags
 
+#### Tags:
+
+ - 
 
 #### Properties
 
