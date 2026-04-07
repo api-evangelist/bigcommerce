@@ -88,14 +88,16 @@ servers:
 security:
   - X-Auth-Token: []
 tags:
-  - 
+  - name: Batch Metafields
+  - name: Categories (Deprecated)
   - name: Images
+  - name: Metafields
   - name: Sort Order
 paths:
   /catalog/categories:
     get:
       tags:
-        - Categories (deprecated)
+        - Categories (Deprecated)
       deprecated: true
       summary: BigCommerce Get All Categories
       description: >-
@@ -432,7 +434,7 @@ paths:
                       current: '?page=1&limit=50'
     post:
       tags:
-        - Categories (deprecated)
+        - Categories (Deprecated)
       deprecated: true
       summary: BigCommerce Create a Category
       description: "When possible, use the [Category Trees - Create categories](/docs/rest-catalog/category-trees/categories#create-categories) endpoint instead.\n\nCreates a *Category*.\n\nUse this endpoint when an API only works with categories of a default BigCommerce storefront (`channel_id=1`). \n\nUse the [Create categories](/docs/rest-catalog/category-trees/categories#create-categories) endpoint when an API works with categories across different category trees that belong to different storefront channels.\n\n**Required Fields**:\n- `parent_id`: \n\t- To create a child category, set the `parent_id` to the parent category.\n\t- To create a top level category, set the `parent_id` to `0`.\n- `name`\n\n**Read-Only Fields**:\n- `id`\n\n**Limits**:\n- 16,000 categories per store limit.\n- 1,000 categories per product limit.\n- 50 characters category name length.\n- 8 levels of category depth limit.\n- 65,642 characters category description length limit.\n\n **Note:**\n The default rate limit for this endpoint is 40 concurrent requests.\n"
@@ -676,7 +678,7 @@ paths:
       x-codegen-request-body-name: category
     delete:
       tags:
-        - Categories (deprecated)
+        - Categories (Deprecated)
       deprecated: true
       summary: BigCommerce Delete Categories
       description: >-
@@ -848,7 +850,7 @@ paths:
   /catalog/categories/{category_id}:
     get:
       tags:
-        - Categories (deprecated)
+        - Categories (Deprecated)
       deprecated: true
       summary: BigCommerce Get a Category
       description: >-
@@ -916,7 +918,7 @@ paths:
                 description: Error payload for the BigCommerce API.
     put:
       tags:
-        - Categories (deprecated)
+        - Categories (Deprecated)
       deprecated: true
       summary: BigCommerce Update a Category
       description: >-
@@ -1360,7 +1362,7 @@ paths:
       x-codegen-request-body-name: category
     delete:
       tags:
-        - Categories (deprecated)
+        - Categories (Deprecated)
       deprecated: true
       summary: BigCommerce Delete a Category
       description: >-
@@ -2044,7 +2046,7 @@ paths:
     get:
       summary: BigCommerce Get All Category Metafields
       tags:
-        - Batch metafields
+        - Batch Metafields
       description: Get all category metafields.
       operationId: getCategoriesMetafields
       responses:
@@ -2068,7 +2070,7 @@ paths:
     post:
       summary: BigCommerce Create multiple Metafields
       tags:
-        - Batch metafields
+        - Batch Metafields
       description: Create multiple metafields.
       operationId: createCategoriesMetafields
       requestBody:
@@ -2111,7 +2113,7 @@ paths:
     put:
       summary: BigCommerce Update multiple Metafields
       tags:
-        - Batch metafields
+        - Batch Metafields
       description: Create multiple metafields.
       operationId: updateCategoriesMetafields
       requestBody:
@@ -2153,7 +2155,7 @@ paths:
     delete:
       summary: BigCommerce Delete All Metafields
       tags:
-        - Batch metafields
+        - Batch Metafields
       description: Delete all category metafields.
       operationId: deleteCategoriesMetafields
       requestBody:
