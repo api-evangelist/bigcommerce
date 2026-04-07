@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   version: ''
-  title: Customers V3
+  title: BigCommerce Customers V3
   description: |-
     Create and manage customers.
 
@@ -25,7 +25,7 @@ tags:
   - name: Customers
   - name: Consent
   - name: Validate Credentials
-  - null
+  - 
   - name: Customer Metafields
   - name: Customer Batch Metafields
   - name: Addresses
@@ -48,7 +48,7 @@ paths:
 
 
         Attribute names are not available on the customer object.
-      summary: Get All Customers
+      summary: BigCommerce Get All Customers
       tags:
         - Customers
       operationId: getCustomers
@@ -266,7 +266,7 @@ paths:
           * Omit `channel_ids` field, or provide `channel_ids: null`.
         * **Channel-specific access:**
           * Provide a `channel_ids` array containing the channels accessible by the customer. This array cannot be empty.
-      summary: Create Customers
+      summary: BigCommerce Create Customers
       tags:
         - Customers
       operationId: createCustomers
@@ -378,7 +378,7 @@ paths:
         create some side effects in a multi-storefront situation. This list
         determines which customer account we will use to authenticate a shopper
         given a channel.
-      summary: Update Customers
+      summary: BigCommerce Update Customers
       tags:
         - Customers
       operationId: updateCustomers
@@ -451,7 +451,7 @@ paths:
 
         A query is required to delete customers. If not provided, a 204 is
         returned, with no changes to the data.
-      summary: Delete Customers
+      summary: BigCommerce Delete Customers
       tags:
         - Customers
       operationId: deleteCustomers
@@ -478,7 +478,7 @@ paths:
       description: >-
         Returns a list of Customer Addresses. Optional filter parameters can be
         passed in.
-      summary: Get All Customer Addresses
+      summary: BigCommerce Get All Customer Addresses
       operationId: getCustomersAddresses
       deprecated: false
       parameters:
@@ -599,7 +599,7 @@ paths:
         code, and the address will be absent from the response body.
 
         * The default rate limit for this endpoint is 10 concurrent requests.
-      summary: Create a Customer Address
+      summary: BigCommerce Create a Customer Address
       operationId: createCustomersAddresses
       deprecated: false
       parameters:
@@ -703,7 +703,7 @@ paths:
         target address or custom form field values. The response will have an
         HTTP 200 return code, and the address will be absent from the response
         body.
-      summary: Update a Customer Address
+      summary: BigCommerce Update a Customer Address
       operationId: updateCustomersAddresses
       deprecated: false
       parameters:
@@ -780,7 +780,7 @@ paths:
 
         **Required Query**
         * id:in -- ID of the *Customer Address*
-      summary: Delete a Customer Address
+      summary: BigCommerce Delete a Customer Address
       operationId: deleteCustomersAddresses
       deprecated: false
       parameters:
@@ -819,7 +819,7 @@ paths:
       description: >-
         Validate a customer credentials - This endpoint has special rate
         limiting protections to protect against abuse.
-      summary: Validate a customer credentials
+      summary: BigCommerce Validate a customer credentials
       operationId: validateCustomerCredentials
       requestBody:
         required: true
@@ -872,7 +872,7 @@ paths:
       tags:
         - Global Settings
       description: Returns the global-level customer settings.
-      summary: Get Customer Settings
+      summary: BigCommerce Get Customer Settings
       operationId: getCustomersSettings
       responses:
         '200':
@@ -894,7 +894,7 @@ paths:
       tags:
         - Global Settings
       description: Updates the customer settings on the global level.
-      summary: Update Customer Settings
+      summary: BigCommerce Update Customer Settings
       operationId: updateCustomersSettings
       requestBody:
         content:
@@ -938,7 +938,7 @@ paths:
         **Notes**
 
          * `null` indicates that there is no override per given channel and values are inherited from the global level.
-      summary: Get Customer Settings per Channel
+      summary: BigCommerce Get Customer Settings per Channel
       operationId: getCustomersSettingsChannel
       parameters:
         - in: path
@@ -983,7 +983,7 @@ paths:
         * Setting `null` will delete override per given channel, and values will
         be inherited from the global level. Make sure the channel has
         `allow_global_logins` enabled.
-      summary: Update Customer Settings per Channel
+      summary: BigCommerce Update Customer Settings per Channel
       operationId: updateCustomersSettingsChannel
       parameters:
         - in: path
@@ -1020,7 +1020,7 @@ paths:
                     privacy_settings:
                       ask_shopper_for_tracking_consent: true
                       policy_url: https://bigcommmerce.com/policy
-                      ask_shopper_for_tracking_consent_on_checkout: null
+                      ask_shopper_for_tracking_consent_on_checkout:
                     customer_group_settings:
                       guest_customer_group_id: 0
                       default_customer_group_id: 0
@@ -1036,7 +1036,7 @@ paths:
       description: >-
         Returns a list of Customer Attributes. You can pass in optional filter
         parameters.
-      summary: Get All Customer Attributes
+      summary: BigCommerce Get All Customer Attributes
       operationId: getCustomersAttributes
       deprecated: false
       parameters:
@@ -1171,7 +1171,7 @@ paths:
 
 
         A store cannot have more than 50 customer attributes.
-      summary: Create a Customer Attribute
+      summary: BigCommerce Create a Customer Attribute
       operationId: createCustomersAttributes
       deprecated: false
       parameters:
@@ -1230,7 +1230,7 @@ paths:
         **Limits**
 
         * Limit of 3 concurrent requests.
-      summary: Update a Customer Attribute
+      summary: BigCommerce Update a Customer Attribute
       operationId: updateCustomersAttributes
       deprecated: false
       parameters:
@@ -1276,7 +1276,7 @@ paths:
 
         **Required Query**
         * id:in -- ID of the *Customer Attribute*
-      summary: Delete Customer Attributes
+      summary: BigCommerce Delete Customer Attributes
       operationId: deleteCustomersAttributes
       deprecated: false
       parameters:
@@ -1312,7 +1312,7 @@ paths:
       description: >-
         Returns a list of Customer Attribute Values. Optional filter parameters
         can be passed in.
-      summary: Get All Customer Attribute Values
+      summary: BigCommerce Get All Customer Attribute Values
       operationId: getCustomersAttributeValues
       deprecated: false
       parameters:
@@ -1423,7 +1423,7 @@ paths:
         **Limits**
 
         * 10 per call limit.
-      summary: Upsert Customer Attribute Values
+      summary: BigCommerce Upsert Customer Attribute Values
       operationId: upsertCustomersAttributeValues
       deprecated: false
       parameters:
@@ -1493,7 +1493,7 @@ paths:
         **Required Query**
 
         * id:in - ID of the *Customer Attribute Value*
-      summary: Delete Customer Attribute Values
+      summary: BigCommerce Delete Customer Attribute Values
       operationId: deleteCustomersAttributeValues
       deprecated: false
       parameters:
@@ -1540,7 +1540,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-      summary: Get Customer Form Field Values
+      summary: BigCommerce Get Customer Form Field Values
       description: >-
         Returns a list of form field values for the Customer or Customer Address
         object.
@@ -1624,7 +1624,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-      summary: Upsert Customer Form Field Values
+      summary: BigCommerce Upsert Customer Form Field Values
       description: >-
         Updates form field values on the Customer or Customer Address objects.
         Multiple form field values can be updated in one call.
@@ -1669,7 +1669,7 @@ paths:
       description: >-
         Gets the status of a customerʼs consent to allow data collection by
         cookies and scripts while shopping on a storefront.
-      summary: Get Customer Consent
+      summary: BigCommerce Get Customer Consent
       tags:
         - Consent
       operationId: getCustomerConsent
@@ -1703,7 +1703,7 @@ paths:
       description: >-
         Updates the status of a customerʼs consent to allow data collection by
         cookies and scripts while shopping on a storefront.
-      summary: Update Customer Consent
+      summary: BigCommerce Update Customer Consent
       tags:
         - Consent
       operationId: updateCustomerConsent
@@ -1755,7 +1755,7 @@ paths:
       - $ref: '#/components/parameters/customerId'
   /customers/{customerId}/stored-instruments:
     get:
-      summary: Get Stored Instruments
+      summary: BigCommerce Get Stored Instruments
       tags:
         - Stored Instruments
       description: >-
@@ -1836,7 +1836,7 @@ paths:
         required: true
   /customers/{customerId}/metafields:
     get:
-      summary: Get Customer Metafields
+      summary: BigCommerce Get Customer Metafields
       tags:
         - Customer Metafields
       description: >-
@@ -1857,7 +1857,7 @@ paths:
         '500':
           description: Internal Server Error
     post:
-      summary: Create Customer Metafields
+      summary: BigCommerce Create Customer Metafields
       tags:
         - Customer Metafields
       description: >-
@@ -1881,7 +1881,7 @@ paths:
                 $ref: '#/components/schemas/MetaFieldCollectionPostPutResponses'
   /customers/{customerId}/metafields/{metafieldId}:
     get:
-      summary: Get Customer Metafields List
+      summary: BigCommerce Get Customer Metafields List
       description: >
         Lists available metafields for a customer. To retrieve the list, use
         `customerId` and `metafieldId` in the query parameters.
@@ -1911,7 +1911,7 @@ paths:
         '200':
           $ref: '#/components/responses/MetafieldCollectionResponse'
     put:
-      summary: Update a Metafield
+      summary: BigCommerce Update a Metafield
       tags:
         - Customer Metafields
       description: >-
@@ -1952,7 +1952,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/MetaFieldCollectionPostPutResponses'
     delete:
-      summary: Delete Customer Metafields
+      summary: BigCommerce Delete Customer Metafields
       tags:
         - Customer Metafields
       description: >
@@ -1976,7 +1976,7 @@ paths:
             Response object for customer metafields deletion with success.
   /customers/metafields:
     get:
-      summary: Get All Customer Metafields
+      summary: BigCommerce Get All Customer Metafields
       tags:
         - Customer Batch Metafields
       description: Get all customer metafields.
@@ -2000,7 +2000,7 @@ paths:
         - $ref: '#/components/parameters/MetafieldNamespaceInParam'
         - $ref: '#/components/parameters/DirectionParam'
     post:
-      summary: Create Multiple Metafields
+      summary: BigCommerce Create Multiple Metafields
       tags:
         - Customer Batch Metafields
       description: Create multiple metafields.
@@ -2042,7 +2042,7 @@ paths:
         '500':
           description: Internal Server Error
     put:
-      summary: Update Multiple Metafields
+      summary: BigCommerce Update Multiple Metafields
       tags:
         - Customer Batch Metafields
       description: Create multiple metafields.
@@ -2083,7 +2083,7 @@ paths:
         '500':
           description: Internal Server Error
     delete:
-      summary: Delete All Metafields
+      summary: BigCommerce Delete All Metafields
       tags:
         - Customer Batch Metafields
       description: Delete all customer metafields.

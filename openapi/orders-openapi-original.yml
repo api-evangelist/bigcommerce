@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Orders V3
+  title: BigCommerce Orders V3
   version: ''
   description: Manage order settings of BigCommerce stores.
   termsOfService: https://www.bigcommerce.com/terms
@@ -20,14 +20,14 @@ servers:
 security:
   - X-Auth-Token: []
 tags:
-  - null
+  - 
   - name: Payment Actions
   - name: Transactions
   - name: Order Settings
 paths:
   /orders/{order_id}/payment_actions/capture:
     post:
-      summary: Capture order payment
+      summary: BigCommerce Capture order payment
       description: >-
         Capture the payment for an order. When there are no payment method
         validation issues, the capture process is successful, the
@@ -64,7 +64,7 @@ paths:
       - $ref: '#/components/parameters/OrderIdParam'
   /orders/{order_id}/payment_actions/void:
     post:
-      summary: Void
+      summary: BigCommerce Void
       description: >-
         Void the payment for an order. When there are no payment method
         validation issues, the void process is successful, the `payment_status`
@@ -169,10 +169,10 @@ paths:
                   instance:
                     type: string
                 title: Not Found
-      summary: Get Transactions
+      summary: BigCommerce Get Transactions
   /orders/{order_id}/payment_actions/refund_quotes:
     post:
-      summary: Create a Refund Quote
+      summary: BigCommerce Create a Refund Quote
       description: >-
         Calculate the tax amount, total refund amount and get available payment
         options for an order refund by providing items and costs or quantities
@@ -245,7 +245,7 @@ paths:
       - $ref: '#/components/parameters/OrderIdParam'
   /orders/{order_id}/payment_actions/refunds:
     post:
-      summary: Create a Refund
+      summary: BigCommerce Create a Refund
       description: >-
         Creates a refund. When there are no payment method validation issues,
         the refund process is successful and the refund payment request is
@@ -286,7 +286,7 @@ paths:
                 offline: false
             merchant_calculated_override:
               - total_amount: 45
-                total_tax: null
+                total_tax:
           Tax Exempt (Order Level):
             order_id: 1234
             items:
@@ -374,7 +374,7 @@ paths:
       tags:
         - Payment Actions
     get:
-      summary: Get Refunds for Order
+      summary: BigCommerce Get Refunds for Order
       description: >-
         Returns a list of refunds ordered by refund ID in ascending order for
         the given order.
@@ -408,7 +408,7 @@ paths:
         schema:
           type: integer
     get:
-      summary: Get a Refund
+      summary: BigCommerce Get a Refund
       description: Returns a refund by refund ID.
       operationId: getOrderRefund
       responses:
@@ -420,7 +420,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/Accept'
     get:
-      summary: Get All Refunds
+      summary: BigCommerce Get All Refunds
       description: |-
         Returns a list of refunds ordered by refund ID in ascending order.
 
@@ -491,7 +491,7 @@ paths:
           $ref: '#/components/responses/RefundCollection_Resp'
   /orders/payment_actions/refund_quotes:
     post:
-      summary: Create Refund Quotes - BATCH
+      summary: BigCommerce Create Refund Quotes - BATCH
       description: >-
         Calculate the tax amount, total refund amount and get available payment
         options for an order refund by providing items and costs or quantities
@@ -607,7 +607,7 @@ paths:
       - $ref: '#/components/parameters/Accept'
       - $ref: '#/components/parameters/OrderIdParam'
     get:
-      summary: Get Order Metafields
+      summary: BigCommerce Get Order Metafields
       tags:
         - Metafields
       description: >
@@ -647,7 +647,7 @@ paths:
                     type: >-
                       https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
     post:
-      summary: Create Metafields
+      summary: BigCommerce Create Metafields
       tags:
         - Metafields
       description: >-
@@ -705,7 +705,7 @@ paths:
         schema:
           type: integer
     get:
-      summary: Get a Metafield
+      summary: BigCommerce Get a Metafield
       tags:
         - Metafields
       description: |
@@ -727,7 +727,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFound'
     put:
-      summary: Update a Metafield
+      summary: BigCommerce Update a Metafield
       tags:
         - Metafields
       description: >-
@@ -763,7 +763,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFound'
     delete:
-      summary: Delete a Metafield
+      summary: BigCommerce Delete a Metafield
       tags:
         - Metafields
       description: |
@@ -775,7 +775,7 @@ paths:
             An empty response.
   /orders/settings:
     get:
-      summary: Get Global Order Settings
+      summary: BigCommerce Get Global Order Settings
       description: Returns global order settings.
       operationId: getGlobalOrderSettings
       tags:
@@ -800,7 +800,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse400'
     put:
-      summary: Update Global Order Settings
+      summary: BigCommerce Update Global Order Settings
       description: Updates global order settings.
       operationId: updateGlobalOrderSettings
       parameters:
@@ -849,7 +849,7 @@ paths:
       - $ref: '#/components/parameters/Accept'
   /orders/settings/channels/{channel_id}:
     get:
-      summary: Get Channel Order Settings
+      summary: BigCommerce Get Channel Order Settings
       description: Returns order settings for a specific channel.
       operationId: getChannelOrderSettings
       tags:
@@ -874,7 +874,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse400'
     put:
-      summary: Update Channel Order Settings
+      summary: BigCommerce Update Channel Order Settings
       description: |-
         Updates order settings for a specific channel.
 
@@ -935,7 +935,7 @@ paths:
         required: true
   /orders/metafields:
     get:
-      summary: Get All Order Metafields
+      summary: BigCommerce Get All Order Metafields
       tags:
         - Batch metafields
       description: Get all order metafields.
@@ -959,7 +959,7 @@ paths:
         - $ref: '#/components/parameters/MetafieldNamespaceInParam'
         - $ref: '#/components/parameters/DirectionParam'
     post:
-      summary: Create multiple Metafields
+      summary: BigCommerce Create multiple Metafields
       tags:
         - Batch metafields
       description: Create multiple metafields.
@@ -1002,7 +1002,7 @@ paths:
         '500':
           description: Internal Server Error
     put:
-      summary: Update multiple Metafields
+      summary: BigCommerce Update multiple Metafields
       tags:
         - Batch metafields
       description: Create multiple metafields.
@@ -1044,7 +1044,7 @@ paths:
         '500':
           description: Internal Server Error
     delete:
-      summary: Delete All Metafields
+      summary: BigCommerce Delete All Metafields
       tags:
         - Batch metafields
       description: Delete all order metafields.
@@ -2494,7 +2494,7 @@ components:
               - item_type: PRODUCT
                 item_id: 87
                 quantity: 1
-                requested_amount: null
+                requested_amount:
           meta: {}
       properties:
         data:
@@ -3924,7 +3924,7 @@ components:
                     - item_type: PRODUCT
                       item_id: 87
                       quantity: 1
-                      requested_amount: null
+                      requested_amount:
                 meta: {}
   parameters:
     OrderIdParam:
@@ -4121,9 +4121,9 @@ components:
       value:
         notifications:
           order_placed:
-            email_addresses: null
+            email_addresses:
           forward_invoice:
-            email_addresses: null
+            email_addresses:
     ChannelOrderSettingsDisableBothNotifications:
       summary: Disable order placed notifications for channel
       value:

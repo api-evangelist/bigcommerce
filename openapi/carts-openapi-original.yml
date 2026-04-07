@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Carts
+  title: BigCommerce Carts
   version: ''
   description: |-
     Create a cart using BigCommerce cart logic.
@@ -25,7 +25,7 @@ tags:
   - name: Items
   - name: Redirects
   - name: Settings
-  - null
+  - 
 paths:
   /carts:
     parameters:
@@ -282,7 +282,7 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/CartResponse'
-      summary: Create a Cart
+      summary: BigCommerce Create a Cart
       operationId: createCart
   /carts/{cartId}/items:
     parameters:
@@ -375,7 +375,7 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/CartResponse'
-      summary: Add Cart Line Items
+      summary: BigCommerce Add Cart Line Items
       operationId: addCartLineItems
   /carts/{cartId}/redirect_urls:
     parameters:
@@ -417,8 +417,7 @@ paths:
         the URL. The `query_params` feature allows passing additional
         information to the redirect URL.
       tags:
-        - Redirects
-              - Cart Redirect URLs
+        - Redirects - Cart Redirect URLs
       requestBody:
         content:
           application/json:
@@ -427,7 +426,7 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/CartRedirectResponse'
-      summary: Create Cart Redirect URL
+      summary: BigCommerce Create Cart Redirect URL
       operationId: createCartRedirectURL
   /carts/{cartId}/items/{itemId}:
     parameters:
@@ -509,7 +508,7 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/CartResponse'
-      summary: Update Cart Line Item
+      summary: BigCommerce Update Cart Line Item
       operationId: updateCartLineItem
     delete:
       description: |-
@@ -625,7 +624,7 @@ paths:
           description: >-
             If the action’s result is an empty cart, the cart is automatically
             deleted.
-      summary: Delete Cart Line Item
+      summary: BigCommerce Delete Cart Line Item
       operationId: deleteCartLineItem
   /carts/{cartId}:
     parameters:
@@ -663,7 +662,7 @@ paths:
           $ref: '#/components/responses/CartResponse'
         '404':
           description: Cart not found.
-      summary: Get a Cart
+      summary: BigCommerce Get a Cart
       operationId: getCart
     put:
       description: >-
@@ -713,7 +712,7 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/CartResponse'
-      summary: Update Customer ID
+      summary: BigCommerce Update Customer ID
       operationId: updateCart
     delete:
       description: Deletes a *Cart*. Once a *Cart* has been deleted it can’t be recovered.
@@ -722,13 +721,13 @@ paths:
       responses:
         '204':
           description: ''
-      summary: Delete a Cart
+      summary: BigCommerce Delete a Cart
       operationId: deleteCart
   /carts/settings:
     parameters:
       - $ref: '#/components/parameters/Accept'
     get:
-      summary: Get Global Cart Settings
+      summary: BigCommerce Get Global Cart Settings
       description: Returns the global cart settings of a store.
       operationId: getGlobalCartSettings
       tags:
@@ -747,7 +746,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     put:
-      summary: Update Global Cart Settings
+      summary: BigCommerce Update Global Cart Settings
       description: Update the global cart settings of a store.
       parameters:
         - $ref: '#/components/parameters/ContentType'
@@ -814,7 +813,7 @@ paths:
         schema:
           type: integer
     get:
-      summary: Get Channel Cart Settings
+      summary: BigCommerce Get Channel Cart Settings
       description: Returns the per-channel overrides for the cart settings of a store.
       tags:
         - Settings
@@ -833,7 +832,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       operationId: getChannelCartSettings
     put:
-      summary: Update Channel Cart Settings
+      summary: BigCommerce Update Channel Cart Settings
       description: Update the per-channel overrides for the cart settings of a store.
       tags:
         - Settings
@@ -895,7 +894,7 @@ paths:
       - $ref: '#/components/parameters/cart_id'
       - $ref: '#/components/parameters/Accept'
     get:
-      summary: Get Cart Metafields
+      summary: BigCommerce Get Cart Metafields
       tags:
         - Metafields
       description: Get a cart's metafields.
@@ -932,7 +931,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     post:
-      summary: Create a Cart Metafield
+      summary: BigCommerce Create a Cart Metafield
       tags:
         - Metafields
       description: >
@@ -976,8 +975,8 @@ paths:
                   resource_type: cart
                   resource_id: b810114d-9926-45b7-bba5-7633b251154b
                   description: Name of staff member
-                  date_created: 2023-11-15T15:16:35.000Z
-                  date_modified: 2023-11-15T15:16:35.000Z
+                  date_created: 2023-11-15T15:16:35Z
+                  date_modified: 2023-11-15T15:16:35Z
                 meta: {}
         '404':
           description: |
@@ -995,7 +994,7 @@ paths:
                       https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
   /carts/{cart_id}/metafields/{metafield_id}:
     get:
-      summary: Get a Cart Metafield
+      summary: BigCommerce Get a Cart Metafield
       tags:
         - Metafields
       description: Gets a cart metafield.
@@ -1034,7 +1033,7 @@ paths:
         - $ref: '#/components/parameters/MetafieldNamespaceParam'
         - $ref: '#/components/parameters/DirectionParam'
     put:
-      summary: Update a Cart Metafield
+      summary: BigCommerce Update a Cart Metafield
       tags:
         - Metafields
       description: |
@@ -1075,7 +1074,7 @@ paths:
                     type: >-
                       https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
     delete:
-      summary: Delete a Metafield
+      summary: BigCommerce Delete a Metafield
       tags:
         - Metafields
       description: |
@@ -1096,7 +1095,7 @@ paths:
         description: The unique ID of the subject `Metafield`.
   /carts/metafields:
     get:
-      summary: Get All Cart Metafields
+      summary: BigCommerce Get All Cart Metafields
       tags:
         - Batch metafields
       description: Get all cart metafields.
@@ -1120,7 +1119,7 @@ paths:
         - $ref: '#/components/parameters/MetafieldNamespaceInParam'
         - $ref: '#/components/parameters/DirectionParam'
     post:
-      summary: Create multiple Metafields
+      summary: BigCommerce Create multiple Metafields
       tags:
         - Batch metafields
       description: Create multiple metafields.
@@ -1164,7 +1163,7 @@ paths:
         '500':
           description: Internal Server Error
     put:
-      summary: Update multiple Metafields
+      summary: BigCommerce Update multiple Metafields
       tags:
         - Batch metafields
       description: Create multiple metafields.
@@ -1207,7 +1206,7 @@ paths:
         '500':
           description: Internal Server Error
     delete:
-      summary: Delete All Metafields
+      summary: BigCommerce Delete All Metafields
       tags:
         - Batch metafields
       description: Delete all cart metafields.

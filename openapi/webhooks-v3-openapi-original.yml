@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Webhooks v3
+  title: BigCommerce Webhooks v3
   version: ''
   description: >-
     Get notified when specific events occur on a BigCommerce store. For more
@@ -78,7 +78,7 @@ paths:
           $ref: '#/components/responses/401_Unauthorized'
         '422':
           $ref: '#/components/responses/422_UnprocessableEntity'
-      summary: Create a Webhook
+      summary: BigCommerce Create a Webhook
       description: >-
         Creates a webhook. Only one webhook at a time can be created. Custom
         headers can be added. Destination URL must be served on port 443 (custom
@@ -102,7 +102,7 @@ paths:
           $ref: '#/components/responses/400_BadRequest'
         '401':
           $ref: '#/components/responses/401_Unauthorized'
-      summary: Get Webhooks
+      summary: BigCommerce Get Webhooks
       description: >-
         Returns a list of all webhooks on a store associated to the `client_id`
         used to authenticate the request.
@@ -133,7 +133,7 @@ paths:
           $ref: '#/components/responses/404_NotFound'
       description: Return a webhook by ID.
       operationId: getWebhook
-      summary: Get a Webhook
+      summary: BigCommerce Get a Webhook
       tags:
         - Manage Webhooks (Single)
       parameters:
@@ -145,7 +145,7 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/webhook_Resp'
-      summary: Update a Webhook
+      summary: BigCommerce Update a Webhook
       description: Updates a webhook. Custom headers can be added.
       operationId: updateWebhook
       parameters:
@@ -170,7 +170,7 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/webhook_Resp'
-      summary: Delete a Webhook
+      summary: BigCommerce Delete a Webhook
       description: >-
         Deletes a webhook. Only one webhook at a time can be deleted. When a
         webhook is deleted, it is returned in the response as a 200 OK.
@@ -183,7 +183,7 @@ paths:
   /hooks/admin:
     get:
       operationId: getHooksAdmin
-      summary: Get Admin Info
+      summary: BigCommerce Get Admin Info
       description: >-
         List all notification emails, webhooks, and denylisted domains
         associated with the API account.
@@ -319,7 +319,7 @@ paths:
         - Webhooks Admin
     put:
       operationId: updateHooksAdmin
-      summary: Upsert Email Notifications
+      summary: BigCommerce Upsert Email Notifications
       description: >
         Update email addresses that are sent notification emails when any domain
         associated with the API account is denylisted or when a webhook is
@@ -359,7 +359,7 @@ paths:
     get:
       tags:
         - Webhook Events
-      summary: Get Events
+      summary: BigCommerce Get Events
       deprecated: true
       parameters:
         - $ref: '#/components/parameters/FilterPageParam'
@@ -665,7 +665,7 @@ components:
                   store_hash: 29iql3rwa6
                   scope: store/order/*
                   destination: https://665b65a6.ngrok.io/webhooks
-                  headers: null
+                  headers:
                   is_active: false
                   created_at: 1626812212
                   updated_at: 1627588222
