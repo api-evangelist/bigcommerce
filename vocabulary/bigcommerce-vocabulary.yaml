@@ -1,0 +1,150 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: BigCommerce
+  description: >-
+    Domain vocabulary for the BigCommerce e-commerce platform, covering
+    catalog management, order processing, customer management, and storefront
+    concepts across 65+ REST APIs.
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+operational:
+  apis:
+    - namespace: bigcommerce-catalog-v3
+      version: v3
+      baseUrl: https://api.bigcommerce.com/stores/{store_hash}/v3
+      status: active
+      description: BigCommerce Catalog API for products, categories, brands, and variants
+    - namespace: bigcommerce-orders-v2
+      version: v2
+      baseUrl: https://api.bigcommerce.com/stores/{store_hash}/v2
+      status: active
+      description: BigCommerce Orders API for order management
+    - namespace: bigcommerce-customers-v3
+      version: v3
+      baseUrl: https://api.bigcommerce.com/stores/{store_hash}/v3
+      status: active
+      description: BigCommerce Customers API for customer account management
+    - namespace: bigcommerce-checkout-v3
+      version: v3
+      baseUrl: https://api.bigcommerce.com/stores/{store_hash}/v3
+      status: active
+      description: BigCommerce Checkout API for custom checkout flows
+    - namespace: bigcommerce-carts-v3
+      version: v3
+      baseUrl: https://api.bigcommerce.com/stores/{store_hash}/v3
+      status: active
+      description: BigCommerce Carts API for shopping cart management
+
+  resources:
+    - name: products
+      api: bigcommerce-catalog-v3
+      actions: [list, get, create, update, delete]
+      description: Product catalog entries
+    - name: categories
+      api: bigcommerce-catalog-v3
+      actions: [list, get, create, update, delete]
+      description: Product category hierarchy
+    - name: brands
+      api: bigcommerce-catalog-v3
+      actions: [list, get, create, update, delete]
+      description: Product brands
+    - name: orders
+      api: bigcommerce-orders-v2
+      actions: [list, get, create, update]
+      description: Customer orders
+    - name: customers
+      api: bigcommerce-customers-v3
+      actions: [list, get, create, update, delete]
+      description: Customer accounts
+    - name: carts
+      api: bigcommerce-carts-v3
+      actions: [create, get, update, delete, addItem]
+      description: Shopping carts
+    - name: checkouts
+      api: bigcommerce-checkout-v3
+      actions: [get, update, complete]
+      description: Checkout sessions
+
+  actions:
+    - name: list
+      httpMethod: GET
+      pattern: read
+    - name: get
+      httpMethod: GET
+      pattern: read
+    - name: create
+      httpMethod: POST
+      pattern: write
+    - name: update
+      httpMethod: PUT
+      pattern: write
+    - name: delete
+      httpMethod: DELETE
+      pattern: write
+    - name: addItem
+      httpMethod: POST
+      pattern: write
+      description: Add an item to a cart
+
+  schemas:
+    core:
+      - name: Product
+        keyProperties: [id, name, sku, price, categories]
+      - name: Category
+        keyProperties: [id, name, parent_id, url]
+      - name: Order
+        keyProperties: [id, status, customer_id, total_inc_tax]
+      - name: Customer
+        keyProperties: [id, email, first_name, last_name]
+      - name: Cart
+        keyProperties: [id, customer_id, line_items, currency]
+      - name: LineItem
+        keyProperties: [id, product_id, variant_id, quantity, price]
+
+  authentication:
+    schemes:
+      - type: apiKey
+        header: X-Auth-Token
+        description: Store API token passed as X-Auth-Token header
+
+capability:
+  workflows:
+    - id: catalog-management
+      name: Catalog Management
+      description: Manage product catalog including products, categories, and brands
+      tools: [list-products, get-product, create-product, update-product, list-categories, create-category]
+
+  personas:
+    - id: store-developer
+      name: Store Developer
+      description: Developer building BigCommerce store integrations and customizations
+      workflows: [catalog-management]
+    - id: merchant
+      name: Merchant
+      description: Online store owner managing catalog, orders, and customers via API
+      workflows: [catalog-management]
+
+  domains:
+    - name: Catalog
+      description: Product catalog management including products, variants, and categories
+    - name: Orders
+      description: Order lifecycle management from placement to fulfillment
+    - name: Customers
+      description: Customer account and address book management
+    - name: Checkout
+      description: Shopping cart and checkout flow management
+    - name: Payments
+      description: Payment method configuration and transaction processing
+    - name: Shipping
+      description: Shipping zone, method, and carrier configuration
+
+crossReference:
+  resources:
+    - operational: products
+      capability: list-products
+    - operational: orders
+      capability: list-orders
+    - operational: customers
+      capability: list-customers

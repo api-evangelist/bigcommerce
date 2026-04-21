@@ -1,0 +1,244 @@
+rules:
+
+  # Info rules
+  bigcommerce-info-title-prefix:
+    description: API title must start with "BigCommerce"
+    message: 'Info title must start with "BigCommerce": {{value}}'
+    severity: error
+    given: $.info.title
+    then:
+      function: pattern
+      functionOptions:
+        match: "^BigCommerce"
+
+  bigcommerce-info-version-present:
+    description: API info must have a version field
+    message: Info object must include a version
+    severity: error
+    given: $.info
+    then:
+      field: version
+      function: truthy
+
+  bigcommerce-info-contact-present:
+    description: API info must include contact details
+    message: Info object must include contact
+    severity: warn
+    given: $.info
+    then:
+      field: contact
+      function: truthy
+
+  bigcommerce-info-description-present:
+    description: API info must have a description
+    message: Info must include description
+    severity: warn
+    given: $.info
+    then:
+      field: description
+      function: truthy
+
+  # Operation rules
+  bigcommerce-operation-summary-prefix:
+    description: Operation summaries must start with "BigCommerce"
+    message: 'Operation summary must start with "BigCommerce": {{value}}'
+    severity: error
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^BigCommerce"
+
+  bigcommerce-operation-id-camel-case:
+    description: Operation IDs must be camelCase
+    message: 'OperationId must be camelCase: {{value}}'
+    severity: warn
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  bigcommerce-operation-tags-present:
+    description: Every operation must have at least one tag
+    message: Operations must include tags
+    severity: warn
+    given: "$.paths[*][*]"
+    then:
+      field: tags
+      function: truthy
+
+  bigcommerce-operation-description-present:
+    description: Every operation must have a description
+    message: Operations must include description
+    severity: warn
+    given: "$.paths[*][*]"
+    then:
+      field: description
+      function: truthy
+
+  # Path rules
+  bigcommerce-path-kebab-case:
+    description: Path segments must use kebab-case
+    message: 'Path segments must be kebab-case: {{value}}'
+    severity: warn
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(/[a-z0-9-{}._]*)+$"
+
+  # Response rules
+  bigcommerce-response-200-present:
+    description: Every operation must define a success response
+    message: Operations must include a 200 or 201 response
+    severity: error
+    given: "$.paths[*][*].responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - required: ['200']
+            - required: ['201']
+
+  bigcommerce-response-error-present:
+    description: Operations must define error responses
+    message: Operations should define 4xx error responses
+    severity: warn
+    given: "$.paths[*][post,put,patch,delete].responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - required: ['400']
+            - required: ['404']
+            - required: ['422']
+
+  # Schema rules
+  bigcommerce-schema-title-present:
+    description: All schemas must have a title
+    message: Schemas must include title
+    severity: warn
+    given: "$.components.schemas[*]"
+    then:
+      field: title
+      function: truthy
+
+  bigcommerce-schema-description-present:
+    description: All schemas must have a description
+    message: Schemas must include description
+    severity: warn
+    given: "$.components.schemas[*]"
+    then:
+      field: description
+      function: truthy
+
+  bigcommerce-schema-properties-described:
+    description: Schema properties must have descriptions
+    message: Schema properties must include description
+    severity: warn
+    given: "$.components.schemas[*].properties[*]"
+    then:
+      field: description
+      function: truthy
+
+  # Security rules
+  bigcommerce-security-scheme-present:
+    description: API must define at least one security scheme
+    message: Components must include securitySchemes
+    severity: error
+    given: "$.components"
+    then:
+      field: securitySchemes
+      function: truthy
+
+  bigcommerce-operation-security-present:
+    description: Mutating operations must declare security
+    message: POST/PUT/PATCH/DELETE operations must include security
+    severity: warn
+    given: "$.paths[*][post,put,patch,delete]"
+    then:
+      field: security
+      function: truthy
+
+  # Tag rules
+  bigcommerce-tags-defined:
+    description: All tags used in operations must be defined at top level
+    message: Tags must be defined in the global tags section
+    severity: warn
+    given: "$.tags"
+    then:
+      function: truthy
+
+  bigcommerce-tag-description-present:
+    description: Top-level tags must have a description
+    message: Tags must include a description
+    severity: warn
+    given: "$.tags[*]"
+    then:
+      field: description
+      function: truthy
+
+  # Server rules
+  bigcommerce-servers-present:
+    description: API must define servers
+    message: Servers array must be present and non-empty
+    severity: error
+    given: "$"
+    then:
+      field: servers
+      function: truthy
+
+  bigcommerce-server-url-https:
+    description: Server URLs must use HTTPS
+    message: 'Server URL must use HTTPS: {{value}}'
+    severity: error
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^https://"
+
+  # Examples rules
+  bigcommerce-operation-examples-present:
+    description: Responses with content should include examples
+    message: Response content should include examples
+    severity: warn
+    given: "$.paths[*][*].responses[*].content[*]"
+    then:
+      field: examples
+      function: truthy
+
+  bigcommerce-microcks-operation-present:
+    description: Every operation must include x-microcks-operation extension
+    message: Operations must include x-microcks-operation
+    severity: warn
+    given: "$.paths[*][*]"
+    then:
+      field: x-microcks-operation
+      function: truthy
+
+  # Store hash rules
+  bigcommerce-store-hash-variable:
+    description: Server URLs should use store hash variable
+    message: Server URL should include store_hash variable
+    severity: warn
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "\\{store_hash\\}"
+
+  # License rules
+  bigcommerce-license-present:
+    description: API info must include license
+    message: Info must include license
+    severity: warn
+    given: "$.info"
+    then:
+      field: license
+      function: truthy

@@ -1,0 +1,170 @@
+name: Catalog Management
+description: >-
+  Workflow capability for managing BigCommerce product catalogs including
+  products, variants, categories, and brands.
+version: v1
+
+imports:
+  - shared/bigcommerce.yaml
+
+tools:
+  - name: list-products
+    import: bigcommerce.list-products
+    description: List all products in the BigCommerce catalog with filtering options.
+    inputSchema:
+      type: object
+      properties:
+        limit:
+          type: integer
+          description: Number of products per page
+        page:
+          type: integer
+          description: Page number for pagination
+        keyword:
+          type: string
+          description: Filter products by keyword
+  - name: get-product
+    import: bigcommerce.get-product
+    description: Get a single product by its ID including all variants and images.
+    inputSchema:
+      type: object
+      required:
+        - product_id
+      properties:
+        product_id:
+          type: integer
+          description: The product ID to retrieve
+  - name: create-product
+    import: bigcommerce.create-product
+    description: Create a new product in the BigCommerce catalog.
+    inputSchema:
+      type: object
+      required:
+        - name
+        - price
+        - type
+        - weight
+      properties:
+        name:
+          type: string
+          description: Product name
+        price:
+          type: number
+          description: Product price
+        type:
+          type: string
+          description: Product type (physical or digital)
+        sku:
+          type: string
+          description: Stock keeping unit
+  - name: update-product
+    import: bigcommerce.update-product
+    description: Update an existing product's details, price, or inventory.
+    inputSchema:
+      type: object
+      required:
+        - product_id
+      properties:
+        product_id:
+          type: integer
+          description: The product ID to update
+  - name: delete-product
+    import: bigcommerce.delete-product
+    description: Delete a product from the catalog.
+    inputSchema:
+      type: object
+      required:
+        - product_id
+      properties:
+        product_id:
+          type: integer
+          description: The product ID to delete
+  - name: list-categories
+    import: bigcommerce.list-categories
+    description: List all product categories in the category tree.
+    inputSchema:
+      type: object
+      properties:
+        parent_id:
+          type: integer
+          description: Filter by parent category ID
+  - name: create-category
+    import: bigcommerce.create-category
+    description: Create a new product category.
+    inputSchema:
+      type: object
+      required:
+        - name
+        - parent_id
+      properties:
+        name:
+          type: string
+          description: Category name
+        parent_id:
+          type: integer
+          description: Parent category ID (0 for root)
+  - name: list-orders
+    import: bigcommerce.list-orders
+    description: List all store orders with status filtering.
+    inputSchema:
+      type: object
+      properties:
+        status_id:
+          type: integer
+          description: Filter by order status ID
+        limit:
+          type: integer
+          description: Number of orders per page
+  - name: get-order
+    import: bigcommerce.get-order
+    description: Get a specific order by ID including all line items.
+    inputSchema:
+      type: object
+      required:
+        - order_id
+      properties:
+        order_id:
+          type: integer
+          description: The order ID to retrieve
+  - name: list-customers
+    import: bigcommerce.list-customers
+    description: List all store customers.
+    inputSchema:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Filter by customer email
+  - name: create-customer
+    import: bigcommerce.create-customer
+    description: Create a new customer account in the store.
+    inputSchema:
+      type: object
+      required:
+        - email
+        - first_name
+        - last_name
+      properties:
+        email:
+          type: string
+          description: Customer email address
+        first_name:
+          type: string
+          description: Customer first name
+        last_name:
+          type: string
+          description: Customer last name
+
+expose:
+  rest:
+    port: 8080
+  mcp:
+    port: 9080
+
+personas:
+  - id: store-developer
+    name: Store Developer
+    description: Developer building BigCommerce integrations, apps, and custom storefronts
+  - id: merchant
+    name: Merchant
+    description: Store owner managing catalog, orders, and customers through automation
