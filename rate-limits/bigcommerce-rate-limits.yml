@@ -1,0 +1,47 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: BigCommerce
+providerId: bigcommerce
+created: '2026-05-04'
+modified: '2026-05-04'
+reconciled: true
+tags:
+  - Rate Limiting
+  - Commerce
+description: BigCommerce REST and GraphQL APIs enforce per-store, per-API-account limits.
+sources:
+  - https://www.bigcommerce.com/essentials/pricing/
+  - https://developer.bigcommerce.com/docs/start/about/api-rate-limits
+headers:
+  requestsLimit: X-Rate-Limit-Requests-Quota
+  requestsLeft: X-Rate-Limit-Requests-Left
+  timeReset: X-Rate-Limit-Time-Reset-Ms
+  windowMs: X-Rate-Limit-Time-Window-Ms
+responseCodes:
+  throttled: 429
+limits:
+  - name: REST API (Standard)
+    scope: store
+    metric: requests_per_30s
+    limit: 450
+    timeFrame: 30 seconds
+  - name: REST API (Plus)
+    scope: store
+    metric: requests_per_30s
+    limit: 450
+    timeFrame: 30 seconds
+  - name: REST API (Pro)
+    scope: store
+    metric: requests_per_30s
+    limit: 600
+    timeFrame: 30 seconds
+  - name: REST API (Enterprise)
+    scope: store
+    metric: requests_per_30s
+    limit: unlimited
+  - name: Storefront GraphQL
+    scope: store
+    metric: requests_per_minute
+    limit: 60
+    timeFrame: minute
