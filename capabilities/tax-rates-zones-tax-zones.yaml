@@ -1,0 +1,167 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Tax Rates & Zones — Tax Zones
+  description: 'BigCommerce Tax Rates & Zones — Tax Zones. 4 operations. Lead operation: BigCommerce Get Tax Zones. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Tax Zones
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: tax-rates-zones-tax-zones
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Tax Rates & Zones — Tax Zones business capability. Self-contained, no shared references.
+    resources:
+    - name: tax-zones
+      path: /tax/zones
+      operations:
+      - name: gettaxzones
+        method: GET
+        description: BigCommerce Get Tax Zones
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatetaxzones
+        method: PUT
+        description: BigCommerce Update Tax Zones
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: createtaxzones
+        method: POST
+        description: BigCommerce Create Tax Zones
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletetaxzones
+        method: DELETE
+        description: BigCommerce Delete Tax Zones
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: tax-rates-zones-tax-zones-rest
+    port: 8080
+    description: REST adapter for BigCommerce Tax Rates & Zones — Tax Zones. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/tax/zones
+      name: tax-zones
+      description: REST surface for tax-zones.
+      operations:
+      - method: GET
+        name: gettaxzones
+        description: BigCommerce Get Tax Zones
+        call: tax-rates-zones-tax-zones.gettaxzones
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatetaxzones
+        description: BigCommerce Update Tax Zones
+        call: tax-rates-zones-tax-zones.updatetaxzones
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createtaxzones
+        description: BigCommerce Create Tax Zones
+        call: tax-rates-zones-tax-zones.createtaxzones
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletetaxzones
+        description: BigCommerce Delete Tax Zones
+        call: tax-rates-zones-tax-zones.deletetaxzones
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: tax-rates-zones-tax-zones-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Tax Rates & Zones — Tax Zones. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-tax-zones
+      description: BigCommerce Get Tax Zones
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: tax-rates-zones-tax-zones.gettaxzones
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-tax-zones
+      description: BigCommerce Update Tax Zones
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: tax-rates-zones-tax-zones.updatetaxzones
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-tax-zones
+      description: BigCommerce Create Tax Zones
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: tax-rates-zones-tax-zones.createtaxzones
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-tax-zones
+      description: BigCommerce Delete Tax Zones
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: tax-rates-zones-tax-zones.deletetaxzones
+      outputParameters:
+      - type: object
+        mapping: $.

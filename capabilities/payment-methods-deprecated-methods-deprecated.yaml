@@ -1,0 +1,88 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Payment Methods (Deprecated) — Methods (Deprecated)
+  description: 'BigCommerce Payment Methods (Deprecated) — Methods (Deprecated). 1 operations. Lead operation: BigCommerce
+    Get All Payment Methods. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Methods (Deprecated)
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: payment-methods-deprecated-methods-deprecated
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v2
+    description: BigCommerce Payment Methods (Deprecated) — Methods (Deprecated) business capability. Self-contained, no shared
+      references.
+    resources:
+    - name: payments-methods
+      path: /payments/methods
+      operations:
+      - name: getallpaymentmethods
+        method: GET
+        description: BigCommerce Get All Payment Methods
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: number
+          description: Optional filter param `/api/v2/payments/methods?page={number}`
+        - name: limit
+          in: query
+          type: number
+          description: Optional filter param `/api/v2/payments/methods?limit={count}`
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: payment-methods-deprecated-methods-deprecated-rest
+    port: 8080
+    description: REST adapter for BigCommerce Payment Methods (Deprecated) — Methods (Deprecated). One Spectral-compliant
+      resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/payments/methods
+      name: payments-methods
+      description: REST surface for payments-methods.
+      operations:
+      - method: GET
+        name: getallpaymentmethods
+        description: BigCommerce Get All Payment Methods
+        call: payment-methods-deprecated-methods-deprecated.getallpaymentmethods
+        with:
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: payment-methods-deprecated-methods-deprecated-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Payment Methods (Deprecated) — Methods (Deprecated). One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-payment-methods
+      description: BigCommerce Get All Payment Methods
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: payment-methods-deprecated-methods-deprecated.getallpaymentmethods
+      with:
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.

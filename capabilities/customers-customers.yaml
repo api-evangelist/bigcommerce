@@ -1,0 +1,284 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Customers V3 — Customers
+  description: 'BigCommerce Customers V3 — Customers. 4 operations. Lead operation: BigCommerce Get All Customers. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Customers
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: customers-customers
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Customers V3 — Customers business capability. Self-contained, no shared references.
+    resources:
+    - name: customers
+      path: /customers
+      operations:
+      - name: getcustomers
+        method: GET
+        description: BigCommerce Get All Customers
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: Page number. `page=1`
+        - name: limit
+          in: query
+          type: number
+          description: Items count per page. `limit=50`
+        - name: id:in
+          in: query
+          type: array
+          description: Filter items by ID.
+        - name: company:in
+          in: query
+          type: array
+          description: Filter items by company. `company:in=bigcommerce,commongood`
+        - name: customer_group_id:in
+          in: query
+          type: array
+          description: Filter items by customer_group_id. `customer_group_id:in=5,6`
+        - name: date_created
+          in: query
+          type: string
+          description: Filter items by date_created. `date_created=2018-09-05T13:43:54`
+        - name: date_created:max
+          in: query
+          type: string
+          description: Filter items by maximum date_created. `date_created:max=2018-09-10`
+        - name: date_created:min
+          in: query
+          type: string
+          description: Filter items by date_created. `date_created:min=2018-09-05`
+        - name: date_modified
+          in: query
+          type: string
+          description: Filter items by date_modified. `date_modified=2018-09-05T13:45:03`
+        - name: date_modified:min
+          in: query
+          type: string
+          description: Filter items by minimum date_modified. `date_modified:min=2019-09-04T:00:00:00` or `date_modified:min=2019-09-04`
+        - name: date_modified:max
+          in: query
+          type: string
+          description: Filter items by maximum date_modified. `date_modified:max=2018-09-05T13:45:03` or `date_modified:max=2019-09-04`
+        - name: email:in
+          in: query
+          type: string
+          description: Filter items by email. `email:in=janedoe@example.com`
+        - name: name:in
+          in: query
+          type: array
+          description: Filter items by first_name and last_name. `name=james moriarty`
+        - name: name:like
+          in: query
+          type: array
+          description: Filter items by substring in first_name and last_name.
+        - name: registration_ip_address:in
+          in: query
+          type: array
+          description: Filter items by registration_ip_address. If the customer was created using the API, then registration
+            address is blank.
+        - name: include
+          in: query
+          type: array
+          description: 'Indicates whether to include customer sub-resources:'
+        - name: sort
+          in: query
+          type: string
+          description: Sort items by date_created, date_modified, or last_name:* `date_created:asc` - date created, ascending*
+            `date_created:desc` - date created, descending* `last_na
+      - name: createcustomers
+        method: POST
+        description: BigCommerce Create Customers
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: updatecustomers
+        method: PUT
+        description: BigCommerce Update Customers
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletecustomers
+        method: DELETE
+        description: BigCommerce Delete Customers
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id:in
+          in: query
+          type: array
+          description: Filter items by ID.
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: customers-customers-rest
+    port: 8080
+    description: REST adapter for BigCommerce Customers V3 — Customers. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/customers
+      name: customers
+      description: REST surface for customers.
+      operations:
+      - method: GET
+        name: getcustomers
+        description: BigCommerce Get All Customers
+        call: customers-customers.getcustomers
+        with:
+          page: rest.page
+          limit: rest.limit
+          id:in: rest.id:in
+          company:in: rest.company:in
+          customer_group_id:in: rest.customer_group_id:in
+          date_created: rest.date_created
+          date_created:max: rest.date_created:max
+          date_created:min: rest.date_created:min
+          date_modified: rest.date_modified
+          date_modified:min: rest.date_modified:min
+          date_modified:max: rest.date_modified:max
+          email:in: rest.email:in
+          name:in: rest.name:in
+          name:like: rest.name:like
+          registration_ip_address:in: rest.registration_ip_address:in
+          include: rest.include
+          sort: rest.sort
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcustomers
+        description: BigCommerce Create Customers
+        call: customers-customers.createcustomers
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecustomers
+        description: BigCommerce Update Customers
+        call: customers-customers.updatecustomers
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecustomers
+        description: BigCommerce Delete Customers
+        call: customers-customers.deletecustomers
+        with:
+          id:in: rest.id:in
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: customers-customers-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Customers V3 — Customers. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-customers
+      description: BigCommerce Get All Customers
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: customers-customers.getcustomers
+      with:
+        page: tools.page
+        limit: tools.limit
+        id:in: tools.id:in
+        company:in: tools.company:in
+        customer_group_id:in: tools.customer_group_id:in
+        date_created: tools.date_created
+        date_created:max: tools.date_created:max
+        date_created:min: tools.date_created:min
+        date_modified: tools.date_modified
+        date_modified:min: tools.date_modified:min
+        date_modified:max: tools.date_modified:max
+        email:in: tools.email:in
+        name:in: tools.name:in
+        name:like: tools.name:like
+        registration_ip_address:in: tools.registration_ip_address:in
+        include: tools.include
+        sort: tools.sort
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-customers
+      description: BigCommerce Create Customers
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: customers-customers.createcustomers
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-customers
+      description: BigCommerce Update Customers
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: customers-customers.updatecustomers
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-customers
+      description: BigCommerce Delete Customers
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: customers-customers.deletecustomers
+      with:
+        id:in: tools.id:in
+      outputParameters:
+      - type: object
+        mapping: $.

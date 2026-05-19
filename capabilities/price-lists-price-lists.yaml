@@ -1,0 +1,371 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Price Lists — Price Lists
+  description: 'BigCommerce Price Lists — Price Lists. 6 operations. Lead operation: BigCommerce Get All Price Lists. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Price Lists
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: price-lists-price-lists
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Price Lists — Price Lists business capability. Self-contained, no shared references.
+    resources:
+    - name: pricelists
+      path: /pricelists
+      operations:
+      - name: getpricelists
+        method: GET
+        description: BigCommerce Get All Price Lists
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: query
+          type: integer
+          description: Filter items by ID.
+        - name: name
+          in: query
+          type: string
+          description: Filter items by name.
+        - name: date_created
+          in: query
+          type: string
+          description: Filter items by date_created.
+        - name: date_modified
+          in: query
+          type: string
+          description: Filter items by date_modified. For example `v3/catalog/products?date_last_imported:min=2018-06-15`
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of products.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of products.
+        - name: id:in
+          in: query
+          type: array
+        - name: name:like
+          in: query
+          type: array
+        - name: date_created:max
+          in: query
+          type: string
+        - name: date_created:min
+          in: query
+          type: string
+        - name: date_modified:max
+          in: query
+          type: string
+        - name: date_modified:min
+          in: query
+          type: string
+      - name: createpricelist
+        method: POST
+        description: BigCommerce Create a Price List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletepricelists
+        method: DELETE
+        description: BigCommerce Delete All Price Lists
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id:in
+          in: query
+          type: integer
+          description: Filter by `id`. Accepts multiple comma-separated values.
+        - name: name
+          in: query
+          type: string
+          description: Filter items by name.
+    - name: pricelists-price_list_id
+      path: /pricelists/{price_list_id}
+      operations:
+      - name: getpricelist
+        method: GET
+        description: BigCommerce Get a Price List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: price_list_id
+          in: path
+          type: integer
+          description: The ID of the `Price List` requested.
+          required: true
+        - name: id
+          in: query
+          type: integer
+          description: Filter items by ID.
+        - name: name
+          in: query
+          type: string
+          description: Filter items by name.
+        - name: date_created
+          in: query
+          type: string
+          description: Filter items by date_created.
+        - name: date_modified
+          in: query
+          type: string
+          description: Filter items by date_modified. For example `v3/catalog/products?date_last_imported:min=2022-06-15`
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of products.
+        - name: limit
+          in: query
+          type: integer
+          description: Specifies the number of items per page in a limited (paginated) list of products.
+      - name: updatepricelist
+        method: PUT
+        description: BigCommerce Update a Price List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: price_list_id
+          in: path
+          type: integer
+          description: The ID of the `Price List` requested.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletepricelist
+        method: DELETE
+        description: BigCommerce Delete a Price List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: price_list_id
+          in: path
+          type: integer
+          description: The ID of the `Price List` requested.
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: price-lists-price-lists-rest
+    port: 8080
+    description: REST adapter for BigCommerce Price Lists — Price Lists. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/pricelists
+      name: pricelists
+      description: REST surface for pricelists.
+      operations:
+      - method: GET
+        name: getpricelists
+        description: BigCommerce Get All Price Lists
+        call: price-lists-price-lists.getpricelists
+        with:
+          id: rest.id
+          name: rest.name
+          date_created: rest.date_created
+          date_modified: rest.date_modified
+          page: rest.page
+          limit: rest.limit
+          id:in: rest.id:in
+          name:like: rest.name:like
+          date_created:max: rest.date_created:max
+          date_created:min: rest.date_created:min
+          date_modified:max: rest.date_modified:max
+          date_modified:min: rest.date_modified:min
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createpricelist
+        description: BigCommerce Create a Price List
+        call: price-lists-price-lists.createpricelist
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletepricelists
+        description: BigCommerce Delete All Price Lists
+        call: price-lists-price-lists.deletepricelists
+        with:
+          id:in: rest.id:in
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/pricelists/{price-list-id}
+      name: pricelists-price-list-id
+      description: REST surface for pricelists-price_list_id.
+      operations:
+      - method: GET
+        name: getpricelist
+        description: BigCommerce Get a Price List
+        call: price-lists-price-lists.getpricelist
+        with:
+          price_list_id: rest.price_list_id
+          id: rest.id
+          name: rest.name
+          date_created: rest.date_created
+          date_modified: rest.date_modified
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatepricelist
+        description: BigCommerce Update a Price List
+        call: price-lists-price-lists.updatepricelist
+        with:
+          price_list_id: rest.price_list_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletepricelist
+        description: BigCommerce Delete a Price List
+        call: price-lists-price-lists.deletepricelist
+        with:
+          price_list_id: rest.price_list_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: price-lists-price-lists-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Price Lists — Price Lists. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-price-lists
+      description: BigCommerce Get All Price Lists
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: price-lists-price-lists.getpricelists
+      with:
+        id: tools.id
+        name: tools.name
+        date_created: tools.date_created
+        date_modified: tools.date_modified
+        page: tools.page
+        limit: tools.limit
+        id:in: tools.id:in
+        name:like: tools.name:like
+        date_created:max: tools.date_created:max
+        date_created:min: tools.date_created:min
+        date_modified:max: tools.date_modified:max
+        date_modified:min: tools.date_modified:min
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-price-list
+      description: BigCommerce Create a Price List
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: price-lists-price-lists.createpricelist
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-all-price-lists
+      description: BigCommerce Delete All Price Lists
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: price-lists-price-lists.deletepricelists
+      with:
+        id:in: tools.id:in
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-price-list
+      description: BigCommerce Get a Price List
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: price-lists-price-lists.getpricelist
+      with:
+        price_list_id: tools.price_list_id
+        id: tools.id
+        name: tools.name
+        date_created: tools.date_created
+        date_modified: tools.date_modified
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-price-list
+      description: BigCommerce Update a Price List
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: price-lists-price-lists.updatepricelist
+      with:
+        price_list_id: tools.price_list_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-price-list
+      description: BigCommerce Delete a Price List
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: price-lists-price-lists.deletepricelist
+      with:
+        price_list_id: tools.price_list_id
+      outputParameters:
+      - type: object
+        mapping: $.

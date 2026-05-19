@@ -1,0 +1,358 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Orders V3 — Payment Actions
+  description: 'BigCommerce Orders V3 — Payment Actions. 8 operations. Lead operation: BigCommerce Create Refund Quotes -
+    BATCH. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Payment Actions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: orders-payment-actions
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Orders V3 — Payment Actions business capability. Self-contained, no shared references.
+    resources:
+    - name: orders-payment_actions-refund_quotes
+      path: /orders/payment_actions/refund_quotes
+      operations:
+      - name: createordersrefundquotes
+        method: POST
+        description: BigCommerce Create Refund Quotes - BATCH
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orders-payment_actions-refunds
+      path: /orders/payment_actions/refunds
+      operations:
+      - name: getordersrefunds
+        method: GET
+        description: BigCommerce Get All Refunds
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: order_id:in
+          in: query
+          type: array
+          description: Filter by `order_id`. Accepts multiple as comma-separated values.
+        - name: id:in
+          in: query
+          type: array
+          description: Filter by refund `id`. Accepts multiple as comma-separated values.
+        - name: created:min
+          in: query
+          type: string
+          description: Filter results so they are later than or equal to provided date.
+        - name: created:max
+          in: query
+          type: string
+          description: Filter results so they are earlier than or equal to provided date.
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of items.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of items.
+    - name: orders-payment_actions-refunds-refund_id
+      path: /orders/payment_actions/refunds/{refund_id}
+      operations:
+      - name: getorderrefund
+        method: GET
+        description: BigCommerce Get a Refund
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orders-order_id-payment_actions-capture
+      path: /orders/{order_id}/payment_actions/capture
+      operations:
+      - name: captureorderpayment
+        method: POST
+        description: BigCommerce Capture order payment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orders-order_id-payment_actions-refund_quotes
+      path: /orders/{order_id}/payment_actions/refund_quotes
+      operations:
+      - name: createorderrefundquotes
+        method: POST
+        description: BigCommerce Create a Refund Quote
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orders-order_id-payment_actions-refunds
+      path: /orders/{order_id}/payment_actions/refunds
+      operations:
+      - name: createorderrefund
+        method: POST
+        description: BigCommerce Create a Refund
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: getorderrefunds
+        method: GET
+        description: BigCommerce Get Refunds for Order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orders-order_id-payment_actions-void
+      path: /orders/{order_id}/payment_actions/void
+      operations:
+      - name: voidorderpayment
+        method: POST
+        description: BigCommerce Void
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: orders-payment-actions-rest
+    port: 8080
+    description: REST adapter for BigCommerce Orders V3 — Payment Actions. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/orders/payment-actions/refund-quotes
+      name: orders-payment-actions-refund-quotes
+      description: REST surface for orders-payment_actions-refund_quotes.
+      operations:
+      - method: POST
+        name: createordersrefundquotes
+        description: BigCommerce Create Refund Quotes - BATCH
+        call: orders-payment-actions.createordersrefundquotes
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orders/payment-actions/refunds
+      name: orders-payment-actions-refunds
+      description: REST surface for orders-payment_actions-refunds.
+      operations:
+      - method: GET
+        name: getordersrefunds
+        description: BigCommerce Get All Refunds
+        call: orders-payment-actions.getordersrefunds
+        with:
+          order_id:in: rest.order_id:in
+          id:in: rest.id:in
+          created:min: rest.created:min
+          created:max: rest.created:max
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orders/payment-actions/refunds/{refund-id}
+      name: orders-payment-actions-refunds-refund-id
+      description: REST surface for orders-payment_actions-refunds-refund_id.
+      operations:
+      - method: GET
+        name: getorderrefund
+        description: BigCommerce Get a Refund
+        call: orders-payment-actions.getorderrefund
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orders/{order-id}/payment-actions/capture
+      name: orders-order-id-payment-actions-capture
+      description: REST surface for orders-order_id-payment_actions-capture.
+      operations:
+      - method: POST
+        name: captureorderpayment
+        description: BigCommerce Capture order payment
+        call: orders-payment-actions.captureorderpayment
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orders/{order-id}/payment-actions/refund-quotes
+      name: orders-order-id-payment-actions-refund-quotes
+      description: REST surface for orders-order_id-payment_actions-refund_quotes.
+      operations:
+      - method: POST
+        name: createorderrefundquotes
+        description: BigCommerce Create a Refund Quote
+        call: orders-payment-actions.createorderrefundquotes
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orders/{order-id}/payment-actions/refunds
+      name: orders-order-id-payment-actions-refunds
+      description: REST surface for orders-order_id-payment_actions-refunds.
+      operations:
+      - method: POST
+        name: createorderrefund
+        description: BigCommerce Create a Refund
+        call: orders-payment-actions.createorderrefund
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getorderrefunds
+        description: BigCommerce Get Refunds for Order
+        call: orders-payment-actions.getorderrefunds
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orders/{order-id}/payment-actions/void
+      name: orders-order-id-payment-actions-void
+      description: REST surface for orders-order_id-payment_actions-void.
+      operations:
+      - method: POST
+        name: voidorderpayment
+        description: BigCommerce Void
+        call: orders-payment-actions.voidorderpayment
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: orders-payment-actions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Orders V3 — Payment Actions. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-create-refund-quotes-batch
+      description: BigCommerce Create Refund Quotes - BATCH
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: orders-payment-actions.createordersrefundquotes
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-all-refunds
+      description: BigCommerce Get All Refunds
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: orders-payment-actions.getordersrefunds
+      with:
+        order_id:in: tools.order_id:in
+        id:in: tools.id:in
+        created:min: tools.created:min
+        created:max: tools.created:max
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-refund
+      description: BigCommerce Get a Refund
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: orders-payment-actions.getorderrefund
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-capture-order-payment
+      description: BigCommerce Capture order payment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: orders-payment-actions.captureorderpayment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-refund-quote
+      description: BigCommerce Create a Refund Quote
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: orders-payment-actions.createorderrefundquotes
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-refund
+      description: BigCommerce Create a Refund
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: orders-payment-actions.createorderrefund
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-refunds-order
+      description: BigCommerce Get Refunds for Order
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: orders-payment-actions.getorderrefunds
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-void
+      description: BigCommerce Void
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: orders-payment-actions.voidorderpayment
+      outputParameters:
+      - type: object
+        mapping: $.

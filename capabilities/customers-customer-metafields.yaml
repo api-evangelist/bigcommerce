@@ -1,0 +1,249 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Customers V3 — Customer Metafields
+  description: 'BigCommerce Customers V3 — Customer Metafields. 5 operations. Lead operation: BigCommerce Get Customer Metafields.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Customer Metafields
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: customers-customer-metafields
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Customers V3 — Customer Metafields business capability. Self-contained, no shared references.
+    resources:
+    - name: customers-customerId-metafields
+      path: /customers/{customerId}/metafields
+      operations:
+      - name: getcustomersmetafields
+        method: GET
+        description: BigCommerce Get Customer Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: createcustomermetafields
+        method: POST
+        description: BigCommerce Create Customer Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: customers-customerId-metafields-metafieldId
+      path: /customers/{customerId}/metafields/{metafieldId}
+      operations:
+      - name: getmetafieldscustomerid
+        method: GET
+        description: BigCommerce Get Customer Metafields List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: customerId
+          in: path
+          type: integer
+          description: The ID that belongs to the customer.
+          required: true
+        - name: metafieldId
+          in: path
+          type: integer
+          description: The ID that is generated for a metafield when created.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: updatecustomermetafield
+        method: PUT
+        description: BigCommerce Update a Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: metafieldId
+          in: query
+          type: integer
+          description: The ID that is generated for a metafield when created.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletecustomermetafieldsid
+        method: DELETE
+        description: BigCommerce Delete Customer Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: customers-customer-metafields-rest
+    port: 8080
+    description: REST adapter for BigCommerce Customers V3 — Customer Metafields. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/customers/{customerid}/metafields
+      name: customers-customerid-metafields
+      description: REST surface for customers-customerId-metafields.
+      operations:
+      - method: GET
+        name: getcustomersmetafields
+        description: BigCommerce Get Customer Metafields
+        call: customers-customer-metafields.getcustomersmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcustomermetafields
+        description: BigCommerce Create Customer Metafields
+        call: customers-customer-metafields.createcustomermetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/customers/{customerid}/metafields/{metafieldid}
+      name: customers-customerid-metafields-metafieldid
+      description: REST surface for customers-customerId-metafields-metafieldId.
+      operations:
+      - method: GET
+        name: getmetafieldscustomerid
+        description: BigCommerce Get Customer Metafields List
+        call: customers-customer-metafields.getmetafieldscustomerid
+        with:
+          customerId: rest.customerId
+          metafieldId: rest.metafieldId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecustomermetafield
+        description: BigCommerce Update a Metafield
+        call: customers-customer-metafields.updatecustomermetafield
+        with:
+          metafieldId: rest.metafieldId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecustomermetafieldsid
+        description: BigCommerce Delete Customer Metafields
+        call: customers-customer-metafields.deletecustomermetafieldsid
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: customers-customer-metafields-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Customers V3 — Customer Metafields. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-customer-metafields
+      description: BigCommerce Get Customer Metafields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: customers-customer-metafields.getcustomersmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-customer-metafields
+      description: BigCommerce Create Customer Metafields
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: customers-customer-metafields.createcustomermetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-customer-metafields-list
+      description: BigCommerce Get Customer Metafields List
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: customers-customer-metafields.getmetafieldscustomerid
+      with:
+        customerId: tools.customerId
+        metafieldId: tools.metafieldId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-metafield
+      description: BigCommerce Update a Metafield
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: customers-customer-metafields.updatecustomermetafield
+      with:
+        metafieldId: tools.metafieldId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-customer-metafields
+      description: BigCommerce Delete Customer Metafields
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: customers-customer-metafields.deletecustomermetafieldsid
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

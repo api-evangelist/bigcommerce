@@ -1,0 +1,160 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Product Variants — Variants (Batch)
+  description: 'BigCommerce Catalog - Product Variants — Variants (Batch). 2 operations. Lead operation: BigCommerce Get All
+    Variants. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Variants (Batch)
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-product-variants-variants-batch
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Product Variants — Variants (Batch) business capability. Self-contained, no shared
+      references.
+    resources:
+    - name: catalog-variants
+      path: /catalog/variants
+      operations:
+      - name: getvariants
+        method: GET
+        description: BigCommerce Get All Variants
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: query
+          type: integer
+          description: Filter items by ID.
+        - name: sku
+          in: query
+          type: string
+          description: Filter items by SKU.
+        - name: upc
+          in: query
+          type: string
+          description: Filter items by UPC.
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of products.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of products.
+        - name: include_fields
+          in: query
+          type: string
+          description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        - name: exclude_fields
+          in: query
+          type: string
+          description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response.
+            The ID cannot be excluded.
+        - name: product_id
+          in: query
+          type: string
+          description: A comma-separated list of IDs of products whose variants were requested. For example:`?product_id:in=77,80,81`
+      - name: updatevariantsbatch
+        method: PUT
+        description: BigCommerce Update Variants (Batch)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-product-variants-variants-batch-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Product Variants — Variants (Batch). One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/variants
+      name: catalog-variants
+      description: REST surface for catalog-variants.
+      operations:
+      - method: GET
+        name: getvariants
+        description: BigCommerce Get All Variants
+        call: catalog-product-variants-variants-batch.getvariants
+        with:
+          id: rest.id
+          sku: rest.sku
+          upc: rest.upc
+          page: rest.page
+          limit: rest.limit
+          include_fields: rest.include_fields
+          exclude_fields: rest.exclude_fields
+          product_id: rest.product_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatevariantsbatch
+        description: BigCommerce Update Variants (Batch)
+        call: catalog-product-variants-variants-batch.updatevariantsbatch
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-product-variants-variants-batch-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Product Variants — Variants (Batch). One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-variants
+      description: BigCommerce Get All Variants
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-product-variants-variants-batch.getvariants
+      with:
+        id: tools.id
+        sku: tools.sku
+        upc: tools.upc
+        page: tools.page
+        limit: tools.limit
+        include_fields: tools.include_fields
+        exclude_fields: tools.exclude_fields
+        product_id: tools.product_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-variants-batch
+      description: BigCommerce Update Variants (Batch)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: catalog-product-variants-variants-batch.updatevariantsbatch
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

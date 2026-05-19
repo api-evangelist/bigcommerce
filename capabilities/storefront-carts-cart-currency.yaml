@@ -1,0 +1,84 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Storefront Carts — Cart Currency
+  description: 'BigCommerce Storefront Carts — Cart Currency. 1 operations. Lead operation: BigCommerce Update Cart Currency.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Cart Currency
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: storefront-carts-cart-currency
+    baseUri: https://{store_domain}/api/storefront
+    description: BigCommerce Storefront Carts — Cart Currency business capability. Self-contained, no shared references.
+    resources:
+    - name: carts-cartId-currency
+      path: /carts/{cartId}/currency
+      operations:
+      - name: updatecartcurrency
+        method: POST
+        description: BigCommerce Update Cart Currency
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: cartId
+          in: path
+          type: string
+          description: This cart's unique ID.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+  exposes:
+  - type: rest
+    namespace: storefront-carts-cart-currency-rest
+    port: 8080
+    description: REST adapter for BigCommerce Storefront Carts — Cart Currency. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/carts/{cartid}/currency
+      name: carts-cartid-currency
+      description: REST surface for carts-cartId-currency.
+      operations:
+      - method: POST
+        name: updatecartcurrency
+        description: BigCommerce Update Cart Currency
+        call: storefront-carts-cart-currency.updatecartcurrency
+        with:
+          cartId: rest.cartId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: storefront-carts-cart-currency-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Storefront Carts — Cart Currency. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-update-cart-currency
+      description: BigCommerce Update Cart Currency
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: storefront-carts-cart-currency.updatecartcurrency
+      with:
+        cartId: tools.cartId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Store Information — Store Information
+  description: 'BigCommerce Store Information — Store Information. 1 operations. Lead operation: BigCommerce Get Store Information.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Store Information
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: store-information-store-information
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v2
+    description: BigCommerce Store Information — Store Information business capability. Self-contained, no shared references.
+    resources:
+    - name: store
+      path: /store
+      operations:
+      - name: getstoreinformation
+        method: GET
+        description: BigCommerce Get Store Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: store-information-store-information-rest
+    port: 8080
+    description: REST adapter for BigCommerce Store Information — Store Information. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/store
+      name: store
+      description: REST surface for store.
+      operations:
+      - method: GET
+        name: getstoreinformation
+        description: BigCommerce Get Store Information
+        call: store-information-store-information.getstoreinformation
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: store-information-store-information-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Store Information — Store Information. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-store-information
+      description: BigCommerce Get Store Information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: store-information-store-information.getstoreinformation
+      outputParameters:
+      - type: object
+        mapping: $.

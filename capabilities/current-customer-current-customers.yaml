@@ -1,0 +1,78 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Current Customer — Current Customers
+  description: 'BigCommerce Current Customer — Current Customers. 1 operations. Lead operation: BigCommerce Get Current Customer.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Current Customers
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: current-customer-current-customers
+    baseUri: https://{store_domain}
+    description: BigCommerce Current Customer — Current Customers business capability. Self-contained, no shared references.
+    resources:
+    - name: customer-current.jwt
+      path: /customer/current.jwt
+      operations:
+      - name: getcurrentcustomer
+        method: GET
+        description: BigCommerce Get Current Customer
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: app_client_id
+          in: query
+          type: string
+          description: This is your applicationʼs client ID, which is obtained during application registration in the Developer
+            Portal.
+          required: true
+  exposes:
+  - type: rest
+    namespace: current-customer-current-customers-rest
+    port: 8080
+    description: REST adapter for BigCommerce Current Customer — Current Customers. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/customer/current-jwt
+      name: customer-current-jwt
+      description: REST surface for customer-current.jwt.
+      operations:
+      - method: GET
+        name: getcurrentcustomer
+        description: BigCommerce Get Current Customer
+        call: current-customer-current-customers.getcurrentcustomer
+        with:
+          app_client_id: rest.app_client_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: current-customer-current-customers-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Current Customer — Current Customers. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-current-customer
+      description: BigCommerce Get Current Customer
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: current-customer-current-customers.getcurrentcustomer
+      with:
+        app_client_id: tools.app_client_id
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,107 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Settings V3 — Storefront Status
+  description: 'BigCommerce Settings V3 — Storefront Status. 2 operations. Lead operation: BigCommerce Get Storefront Status.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Storefront Status
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: settings-storefront-status
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Settings V3 — Storefront Status business capability. Self-contained, no shared references.
+    resources:
+    - name: settings-storefront-status
+      path: /settings/storefront/status
+      operations:
+      - name: getsettingsstorefrontstatus
+        method: GET
+        description: BigCommerce Get Storefront Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatesettingsstorefrontstatus
+        method: PUT
+        description: BigCommerce Update Storefront Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: settings-storefront-status-rest
+    port: 8080
+    description: REST adapter for BigCommerce Settings V3 — Storefront Status. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/settings/storefront/status
+      name: settings-storefront-status
+      description: REST surface for settings-storefront-status.
+      operations:
+      - method: GET
+        name: getsettingsstorefrontstatus
+        description: BigCommerce Get Storefront Status
+        call: settings-storefront-status.getsettingsstorefrontstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatesettingsstorefrontstatus
+        description: BigCommerce Update Storefront Status
+        call: settings-storefront-status.updatesettingsstorefrontstatus
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: settings-storefront-status-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Settings V3 — Storefront Status. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-storefront-status
+      description: BigCommerce Get Storefront Status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: settings-storefront-status.getsettingsstorefrontstatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-storefront-status
+      description: BigCommerce Update Storefront Status
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: settings-storefront-status.updatesettingsstorefrontstatus
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

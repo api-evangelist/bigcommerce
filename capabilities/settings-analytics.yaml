@@ -1,0 +1,139 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Settings V3 — Analytics
+  description: 'BigCommerce Settings V3 — Analytics. 3 operations. Lead operation: BigCommerce Get All Web Analytics Providers.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Analytics
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: settings-analytics
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Settings V3 — Analytics business capability. Self-contained, no shared references.
+    resources:
+    - name: settings-analytics
+      path: /settings/analytics
+      operations:
+      - name: getanalyticsproviders
+        method: GET
+        description: BigCommerce Get All Web Analytics Providers
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: settings-analytics-id
+      path: /settings/analytics/{id}
+      operations:
+      - name: getanalyticsprovider
+        method: GET
+        description: BigCommerce Get a Web Analytics Provider
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateanalyticsprovider
+        method: PUT
+        description: BigCommerce Update a Web Analytics Provider
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: settings-analytics-rest
+    port: 8080
+    description: REST adapter for BigCommerce Settings V3 — Analytics. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/settings/analytics
+      name: settings-analytics
+      description: REST surface for settings-analytics.
+      operations:
+      - method: GET
+        name: getanalyticsproviders
+        description: BigCommerce Get All Web Analytics Providers
+        call: settings-analytics.getanalyticsproviders
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/settings/analytics/{id}
+      name: settings-analytics-id
+      description: REST surface for settings-analytics-id.
+      operations:
+      - method: GET
+        name: getanalyticsprovider
+        description: BigCommerce Get a Web Analytics Provider
+        call: settings-analytics.getanalyticsprovider
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateanalyticsprovider
+        description: BigCommerce Update a Web Analytics Provider
+        call: settings-analytics.updateanalyticsprovider
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: settings-analytics-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Settings V3 — Analytics. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-web-analytics
+      description: BigCommerce Get All Web Analytics Providers
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: settings-analytics.getanalyticsproviders
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-web-analytics-provider
+      description: BigCommerce Get a Web Analytics Provider
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: settings-analytics.getanalyticsprovider
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-web-analytics-provider
+      description: BigCommerce Update a Web Analytics Provider
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: settings-analytics.updateanalyticsprovider
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

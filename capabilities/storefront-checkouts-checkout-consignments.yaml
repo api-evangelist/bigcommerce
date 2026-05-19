@@ -1,0 +1,187 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Storefront Checkouts — Checkout Consignments
+  description: 'BigCommerce Storefront Checkouts — Checkout Consignments. 3 operations. Lead operation: BigCommerce Create
+    a Consignment. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Checkout Consignments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: storefront-checkouts-checkout-consignments
+    baseUri: https://{store_domain}/api/storefront
+    description: BigCommerce Storefront Checkouts — Checkout Consignments business capability. Self-contained, no shared references.
+    resources:
+    - name: checkouts-checkoutId-consignments
+      path: /checkouts/{checkoutId}/consignments
+      operations:
+      - name: createcheckoutconsignment
+        method: POST
+        description: BigCommerce Create a Consignment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: checkoutId
+          in: path
+          type: string
+          required: true
+        - name: include
+          in: query
+          type: string
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: checkouts-checkoutId-consignments-consignmentId
+      path: /checkouts/{checkoutId}/consignments/{consignmentId}
+      operations:
+      - name: updatecheckoutconsignment
+        method: PUT
+        description: BigCommerce Update a Consignment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: checkoutId
+          in: path
+          type: string
+          required: true
+        - name: consignmentId
+          in: path
+          type: string
+          required: true
+        - name: include
+          in: query
+          type: string
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletecheckoutconsignment
+        method: DELETE
+        description: BigCommerce Delete a Consignment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: checkoutId
+          in: path
+          type: string
+          required: true
+        - name: consignmentId
+          in: path
+          type: string
+          required: true
+  exposes:
+  - type: rest
+    namespace: storefront-checkouts-checkout-consignments-rest
+    port: 8080
+    description: REST adapter for BigCommerce Storefront Checkouts — Checkout Consignments. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/checkouts/{checkoutid}/consignments
+      name: checkouts-checkoutid-consignments
+      description: REST surface for checkouts-checkoutId-consignments.
+      operations:
+      - method: POST
+        name: createcheckoutconsignment
+        description: BigCommerce Create a Consignment
+        call: storefront-checkouts-checkout-consignments.createcheckoutconsignment
+        with:
+          checkoutId: rest.checkoutId
+          include: rest.include
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/checkouts/{checkoutid}/consignments/{consignmentid}
+      name: checkouts-checkoutid-consignments-consignmentid
+      description: REST surface for checkouts-checkoutId-consignments-consignmentId.
+      operations:
+      - method: PUT
+        name: updatecheckoutconsignment
+        description: BigCommerce Update a Consignment
+        call: storefront-checkouts-checkout-consignments.updatecheckoutconsignment
+        with:
+          checkoutId: rest.checkoutId
+          consignmentId: rest.consignmentId
+          include: rest.include
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecheckoutconsignment
+        description: BigCommerce Delete a Consignment
+        call: storefront-checkouts-checkout-consignments.deletecheckoutconsignment
+        with:
+          checkoutId: rest.checkoutId
+          consignmentId: rest.consignmentId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: storefront-checkouts-checkout-consignments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Storefront Checkouts — Checkout Consignments. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-create-consignment
+      description: BigCommerce Create a Consignment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: storefront-checkouts-checkout-consignments.createcheckoutconsignment
+      with:
+        checkoutId: tools.checkoutId
+        include: tools.include
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-consignment
+      description: BigCommerce Update a Consignment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: storefront-checkouts-checkout-consignments.updatecheckoutconsignment
+      with:
+        checkoutId: tools.checkoutId
+        consignmentId: tools.consignmentId
+        include: tools.include
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-consignment
+      description: BigCommerce Delete a Consignment
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: storefront-checkouts-checkout-consignments.deletecheckoutconsignment
+      with:
+        checkoutId: tools.checkoutId
+        consignmentId: tools.consignmentId
+      outputParameters:
+      - type: object
+        mapping: $.

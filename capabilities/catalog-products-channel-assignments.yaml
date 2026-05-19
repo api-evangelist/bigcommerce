@@ -1,0 +1,168 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Products — Channel Assignments
+  description: 'BigCommerce Catalog - Products — Channel Assignments. 3 operations. Lead operation: BigCommerce Get Products
+    Channel Assignments. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Channel Assignments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-products-channel-assignments
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Products — Channel Assignments business capability. Self-contained, no shared references.
+    resources:
+    - name: catalog-products-channel-assignments
+      path: /catalog/products/channel-assignments
+      operations:
+      - name: getproductschannelassignments
+        method: GET
+        description: BigCommerce Get Products Channel Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+        - name: limit
+          in: query
+          type: integer
+        - name: product_id:in
+          in: query
+          type: string
+        - name: channel_id:in
+          in: query
+          type: string
+      - name: createproductschannelassignments
+        method: PUT
+        description: BigCommerce Create Products Channel Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteproductschannelassignments
+        method: DELETE
+        description: BigCommerce Delete Products Channel Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: product_id:in
+          in: query
+          type: string
+        - name: channel_id:in
+          in: query
+          type: string
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-products-channel-assignments-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Products — Channel Assignments. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/products/channel-assignments
+      name: catalog-products-channel-assignments
+      description: REST surface for catalog-products-channel-assignments.
+      operations:
+      - method: GET
+        name: getproductschannelassignments
+        description: BigCommerce Get Products Channel Assignments
+        call: catalog-products-channel-assignments.getproductschannelassignments
+        with:
+          page: rest.page
+          limit: rest.limit
+          product_id:in: rest.product_id:in
+          channel_id:in: rest.channel_id:in
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: createproductschannelassignments
+        description: BigCommerce Create Products Channel Assignments
+        call: catalog-products-channel-assignments.createproductschannelassignments
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteproductschannelassignments
+        description: BigCommerce Delete Products Channel Assignments
+        call: catalog-products-channel-assignments.deleteproductschannelassignments
+        with:
+          product_id:in: rest.product_id:in
+          channel_id:in: rest.channel_id:in
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-products-channel-assignments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Products — Channel Assignments. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-products-channel-assignments
+      description: BigCommerce Get Products Channel Assignments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-products-channel-assignments.getproductschannelassignments
+      with:
+        page: tools.page
+        limit: tools.limit
+        product_id:in: tools.product_id:in
+        channel_id:in: tools.channel_id:in
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-products-channel-assignments
+      description: BigCommerce Create Products Channel Assignments
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: catalog-products-channel-assignments.createproductschannelassignments
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-products-channel-assignments
+      description: BigCommerce Delete Products Channel Assignments
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: catalog-products-channel-assignments.deleteproductschannelassignments
+      with:
+        product_id:in: tools.product_id:in
+        channel_id:in: tools.channel_id:in
+      outputParameters:
+      - type: object
+        mapping: $.

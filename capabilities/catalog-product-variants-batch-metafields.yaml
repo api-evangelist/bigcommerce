@@ -1,0 +1,178 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Product Variants — Batch Metafields
+  description: 'BigCommerce Catalog - Product Variants — Batch Metafields. 4 operations. Lead operation: BigCommerce Get All
+    Product Variant Metafields. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Batch Metafields
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-product-variants-batch-metafields
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Product Variants — Batch Metafields business capability. Self-contained, no shared
+      references.
+    resources:
+    - name: catalog-variants-metafields
+      path: /catalog/variants/metafields
+      operations:
+      - name: getvariantsmetafields
+        method: GET
+        description: BigCommerce Get All Product Variant Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createvariantsmetafields
+        method: POST
+        description: BigCommerce Create multiple Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: updatevariantsmetafields
+        method: PUT
+        description: BigCommerce Update multiple Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletevariantsmetafields
+        method: DELETE
+        description: BigCommerce Delete All Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-product-variants-batch-metafields-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Product Variants — Batch Metafields. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/variants/metafields
+      name: catalog-variants-metafields
+      description: REST surface for catalog-variants-metafields.
+      operations:
+      - method: GET
+        name: getvariantsmetafields
+        description: BigCommerce Get All Product Variant Metafields
+        call: catalog-product-variants-batch-metafields.getvariantsmetafields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createvariantsmetafields
+        description: BigCommerce Create multiple Metafields
+        call: catalog-product-variants-batch-metafields.createvariantsmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatevariantsmetafields
+        description: BigCommerce Update multiple Metafields
+        call: catalog-product-variants-batch-metafields.updatevariantsmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletevariantsmetafields
+        description: BigCommerce Delete All Metafields
+        call: catalog-product-variants-batch-metafields.deletevariantsmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-product-variants-batch-metafields-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Product Variants — Batch Metafields. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-product-variant
+      description: BigCommerce Get All Product Variant Metafields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-product-variants-batch-metafields.getvariantsmetafields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-multiple-metafields
+      description: BigCommerce Create multiple Metafields
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: catalog-product-variants-batch-metafields.createvariantsmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-multiple-metafields
+      description: BigCommerce Update multiple Metafields
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: catalog-product-variants-batch-metafields.updatevariantsmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-all-metafields
+      description: BigCommerce Delete All Metafields
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: catalog-product-variants-batch-metafields.deletevariantsmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

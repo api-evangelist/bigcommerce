@@ -1,0 +1,168 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Products — Category Assignments
+  description: 'BigCommerce Catalog - Products — Category Assignments. 3 operations. Lead operation: BigCommerce Get Products
+    Category Assignments. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Category Assignments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-products-category-assignments
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Products — Category Assignments business capability. Self-contained, no shared references.
+    resources:
+    - name: catalog-products-category-assignments
+      path: /catalog/products/category-assignments
+      operations:
+      - name: getproductscategoryassignments
+        method: GET
+        description: BigCommerce Get Products Category Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+        - name: limit
+          in: query
+          type: integer
+        - name: product_id:in
+          in: query
+          type: string
+        - name: category_id:in
+          in: query
+          type: string
+      - name: createproductscategoryassignments
+        method: PUT
+        description: BigCommerce Create Products Category Assignments.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteproductscategoryassignments
+        method: DELETE
+        description: BigCommerce Delete Products Category Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: product_id:in
+          in: query
+          type: string
+        - name: category_id:in
+          in: query
+          type: string
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-products-category-assignments-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Products — Category Assignments. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/products/category-assignments
+      name: catalog-products-category-assignments
+      description: REST surface for catalog-products-category-assignments.
+      operations:
+      - method: GET
+        name: getproductscategoryassignments
+        description: BigCommerce Get Products Category Assignments
+        call: catalog-products-category-assignments.getproductscategoryassignments
+        with:
+          page: rest.page
+          limit: rest.limit
+          product_id:in: rest.product_id:in
+          category_id:in: rest.category_id:in
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: createproductscategoryassignments
+        description: BigCommerce Create Products Category Assignments.
+        call: catalog-products-category-assignments.createproductscategoryassignments
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteproductscategoryassignments
+        description: BigCommerce Delete Products Category Assignments
+        call: catalog-products-category-assignments.deleteproductscategoryassignments
+        with:
+          product_id:in: rest.product_id:in
+          category_id:in: rest.category_id:in
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-products-category-assignments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Products — Category Assignments. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-products-category-assignments
+      description: BigCommerce Get Products Category Assignments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-products-category-assignments.getproductscategoryassignments
+      with:
+        page: tools.page
+        limit: tools.limit
+        product_id:in: tools.product_id:in
+        category_id:in: tools.category_id:in
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-products-category-assignments
+      description: BigCommerce Create Products Category Assignments.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: catalog-products-category-assignments.createproductscategoryassignments
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-products-category-assignments
+      description: BigCommerce Delete Products Category Assignments
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: catalog-products-category-assignments.deleteproductscategoryassignments
+      with:
+        product_id:in: tools.product_id:in
+        category_id:in: tools.category_id:in
+      outputParameters:
+      - type: object
+        mapping: $.

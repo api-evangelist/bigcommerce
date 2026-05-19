@@ -1,0 +1,107 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Settings V3 — Logo
+  description: 'BigCommerce Settings V3 — Logo. 2 operations. Lead operation: BigCommerce Get Store Logo Settings. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Logo
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: settings-logo
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Settings V3 — Logo business capability. Self-contained, no shared references.
+    resources:
+    - name: settings-logo
+      path: /settings/logo
+      operations:
+      - name: getsettingslogo
+        method: GET
+        description: BigCommerce Get Store Logo Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatesettingslogo
+        method: PUT
+        description: BigCommerce Update Store Logo Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: settings-logo-rest
+    port: 8080
+    description: REST adapter for BigCommerce Settings V3 — Logo. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/settings/logo
+      name: settings-logo
+      description: REST surface for settings-logo.
+      operations:
+      - method: GET
+        name: getsettingslogo
+        description: BigCommerce Get Store Logo Settings
+        call: settings-logo.getsettingslogo
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatesettingslogo
+        description: BigCommerce Update Store Logo Settings
+        call: settings-logo.updatesettingslogo
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: settings-logo-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Settings V3 — Logo. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-get-store-logo-settings
+      description: BigCommerce Get Store Logo Settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: settings-logo.getsettingslogo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-store-logo-settings
+      description: BigCommerce Update Store Logo Settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: settings-logo.updatesettingslogo
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

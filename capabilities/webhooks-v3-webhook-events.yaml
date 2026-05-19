@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Webhooks v3 — Webhook Events
+  description: 'BigCommerce Webhooks v3 — Webhook Events. 1 operations. Lead operation: BigCommerce Get Events. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Webhook Events
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: webhooks-v3-webhook-events
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Webhooks v3 — Webhook Events business capability. Self-contained, no shared references.
+    resources:
+    - name: hooks-events
+      path: /hooks/events
+      operations:
+      - name: getwebhookevents
+        method: GET
+        description: BigCommerce Get Events
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: webhooks-v3-webhook-events-rest
+    port: 8080
+    description: REST adapter for BigCommerce Webhooks v3 — Webhook Events. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/hooks/events
+      name: hooks-events
+      description: REST surface for hooks-events.
+      operations:
+      - method: GET
+        name: getwebhookevents
+        description: BigCommerce Get Events
+        call: webhooks-v3-webhook-events.getwebhookevents
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: webhooks-v3-webhook-events-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Webhooks v3 — Webhook Events. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-events
+      description: BigCommerce Get Events
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: webhooks-v3-webhook-events.getwebhookevents
+      outputParameters:
+      - type: object
+        mapping: $.

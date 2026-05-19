@@ -1,0 +1,283 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Category Trees — Categories
+  description: 'BigCommerce Catalog - Category Trees — Categories. 4 operations. Lead operation: BigCommerce Get All Categories.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Categories
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-category-trees-categories
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Category Trees — Categories business capability. Self-contained, no shared references.
+    resources:
+    - name: catalog-trees-categories
+      path: /catalog/trees/categories
+      operations:
+      - name: getallcategories
+        method: GET
+        description: BigCommerce Get All Categories
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: category_uuid:in
+          in: query
+          type: string
+        - name: category_uuid:not_in
+          in: query
+          type: string
+        - name: category_id:in
+          in: query
+          type: string
+        - name: category_id:not_in
+          in: query
+          type: string
+        - name: tree_id:in
+          in: query
+          type: string
+        - name: tree_id:not_in
+          in: query
+          type: string
+        - name: parent_id:in
+          in: query
+          type: string
+        - name: parent_id:not_in
+          in: query
+          type: string
+        - name: name
+          in: query
+          type: string
+        - name: name:like
+          in: query
+          type: string
+        - name: page_title
+          in: query
+          type: string
+        - name: page_title:like
+          in: query
+          type: string
+        - name: keyword
+          in: query
+          type: string
+        - name: is_visible
+          in: query
+          type: boolean
+        - name: page
+          in: query
+          type: integer
+        - name: limit
+          in: query
+          type: integer
+        - name: include_fields
+          in: query
+          type: string
+        - name: exclude_fields
+          in: query
+          type: string
+      - name: createcategories
+        method: POST
+        description: BigCommerce Create Categories
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: updatecategories
+        method: PUT
+        description: BigCommerce Update Categories
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletetreecategories
+        method: DELETE
+        description: BigCommerce Delete Categories
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: category_uuid:in
+          in: query
+          type: string
+        - name: category_id:in
+          in: query
+          type: string
+        - name: tree_id:in
+          in: query
+          type: string
+        - name: parent_id:in
+          in: query
+          type: string
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-category-trees-categories-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Category Trees — Categories. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/trees/categories
+      name: catalog-trees-categories
+      description: REST surface for catalog-trees-categories.
+      operations:
+      - method: GET
+        name: getallcategories
+        description: BigCommerce Get All Categories
+        call: catalog-category-trees-categories.getallcategories
+        with:
+          category_uuid:in: rest.category_uuid:in
+          category_uuid:not_in: rest.category_uuid:not_in
+          category_id:in: rest.category_id:in
+          category_id:not_in: rest.category_id:not_in
+          tree_id:in: rest.tree_id:in
+          tree_id:not_in: rest.tree_id:not_in
+          parent_id:in: rest.parent_id:in
+          parent_id:not_in: rest.parent_id:not_in
+          name: rest.name
+          name:like: rest.name:like
+          page_title: rest.page_title
+          page_title:like: rest.page_title:like
+          keyword: rest.keyword
+          is_visible: rest.is_visible
+          page: rest.page
+          limit: rest.limit
+          include_fields: rest.include_fields
+          exclude_fields: rest.exclude_fields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcategories
+        description: BigCommerce Create Categories
+        call: catalog-category-trees-categories.createcategories
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecategories
+        description: BigCommerce Update Categories
+        call: catalog-category-trees-categories.updatecategories
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletetreecategories
+        description: BigCommerce Delete Categories
+        call: catalog-category-trees-categories.deletetreecategories
+        with:
+          category_uuid:in: rest.category_uuid:in
+          category_id:in: rest.category_id:in
+          tree_id:in: rest.tree_id:in
+          parent_id:in: rest.parent_id:in
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-category-trees-categories-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Category Trees — Categories. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-categories
+      description: BigCommerce Get All Categories
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-category-trees-categories.getallcategories
+      with:
+        category_uuid:in: tools.category_uuid:in
+        category_uuid:not_in: tools.category_uuid:not_in
+        category_id:in: tools.category_id:in
+        category_id:not_in: tools.category_id:not_in
+        tree_id:in: tools.tree_id:in
+        tree_id:not_in: tools.tree_id:not_in
+        parent_id:in: tools.parent_id:in
+        parent_id:not_in: tools.parent_id:not_in
+        name: tools.name
+        name:like: tools.name:like
+        page_title: tools.page_title
+        page_title:like: tools.page_title:like
+        keyword: tools.keyword
+        is_visible: tools.is_visible
+        page: tools.page
+        limit: tools.limit
+        include_fields: tools.include_fields
+        exclude_fields: tools.exclude_fields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-categories
+      description: BigCommerce Create Categories
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: catalog-category-trees-categories.createcategories
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-categories
+      description: BigCommerce Update Categories
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: catalog-category-trees-categories.updatecategories
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-categories
+      description: BigCommerce Delete Categories
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: catalog-category-trees-categories.deletetreecategories
+      with:
+        category_uuid:in: tools.category_uuid:in
+        category_id:in: tools.category_id:in
+        tree_id:in: tools.tree_id:in
+        parent_id:in: tools.parent_id:in
+      outputParameters:
+      - type: object
+        mapping: $.

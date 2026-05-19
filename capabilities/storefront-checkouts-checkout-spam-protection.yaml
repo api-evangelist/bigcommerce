@@ -1,0 +1,84 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Storefront Checkouts — Checkout Spam Protection
+  description: 'BigCommerce Storefront Checkouts — Checkout Spam Protection. 1 operations. Lead operation: BigCommerce Checkout
+    Spam Protection. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Checkout Spam Protection
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: storefront-checkouts-checkout-spam-protection
+    baseUri: https://{store_domain}/api/storefront
+    description: BigCommerce Storefront Checkouts — Checkout Spam Protection business capability. Self-contained, no shared
+      references.
+    resources:
+    - name: checkouts-checkoutId-spam-protection
+      path: /checkouts/{checkoutId}/spam-protection
+      operations:
+      - name: checkoutspamprotection
+        method: POST
+        description: BigCommerce Checkout Spam Protection
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: checkoutId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: rest
+    namespace: storefront-checkouts-checkout-spam-protection-rest
+    port: 8080
+    description: REST adapter for BigCommerce Storefront Checkouts — Checkout Spam Protection. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/checkouts/{checkoutid}/spam-protection
+      name: checkouts-checkoutid-spam-protection
+      description: REST surface for checkouts-checkoutId-spam-protection.
+      operations:
+      - method: POST
+        name: checkoutspamprotection
+        description: BigCommerce Checkout Spam Protection
+        call: storefront-checkouts-checkout-spam-protection.checkoutspamprotection
+        with:
+          checkoutId: rest.checkoutId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: storefront-checkouts-checkout-spam-protection-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Storefront Checkouts — Checkout Spam Protection. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-checkout-spam-protection
+      description: BigCommerce Checkout Spam Protection
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: storefront-checkouts-checkout-spam-protection.checkoutspamprotection
+      with:
+        checkoutId: tools.checkoutId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

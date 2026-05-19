@@ -1,0 +1,271 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Content — Redirects
+  description: 'BigCommerce Content — Redirects. 7 operations. Lead operation: BigCommerce Get All Redirects. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Redirects
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: content-redirects
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v2
+    description: BigCommerce Content — Redirects business capability. Self-contained, no shared references.
+    resources:
+    - name: redirects
+      path: /redirects
+      operations:
+      - name: getredirects
+        method: GET
+        description: BigCommerce Get All Redirects
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: Filter param.
+        - name: limit
+          in: query
+          type: integer
+          description: Filter param.
+      - name: createredirect
+        method: POST
+        description: BigCommerce Create a Redirect
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteredirects
+        method: DELETE
+        description: BigCommerce Delete All Redirects
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: redirects-count
+      path: /redirects/count
+      operations:
+      - name: getredirectscount
+        method: GET
+        description: BigCommerce Get a Count of Redirects
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: redirects-id
+      path: /redirects/{id}
+      operations:
+      - name: getredirect
+        method: GET
+        description: BigCommerce Get a Redirect
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateredirect
+        method: PUT
+        description: BigCommerce Update a Redirect
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteredirect
+        method: DELETE
+        description: BigCommerce Delete a Redirect
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: content-redirects-rest
+    port: 8080
+    description: REST adapter for BigCommerce Content — Redirects. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/redirects
+      name: redirects
+      description: REST surface for redirects.
+      operations:
+      - method: GET
+        name: getredirects
+        description: BigCommerce Get All Redirects
+        call: content-redirects.getredirects
+        with:
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createredirect
+        description: BigCommerce Create a Redirect
+        call: content-redirects.createredirect
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteredirects
+        description: BigCommerce Delete All Redirects
+        call: content-redirects.deleteredirects
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/redirects/count
+      name: redirects-count
+      description: REST surface for redirects-count.
+      operations:
+      - method: GET
+        name: getredirectscount
+        description: BigCommerce Get a Count of Redirects
+        call: content-redirects.getredirectscount
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/redirects/{id}
+      name: redirects-id
+      description: REST surface for redirects-id.
+      operations:
+      - method: GET
+        name: getredirect
+        description: BigCommerce Get a Redirect
+        call: content-redirects.getredirect
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateredirect
+        description: BigCommerce Update a Redirect
+        call: content-redirects.updateredirect
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteredirect
+        description: BigCommerce Delete a Redirect
+        call: content-redirects.deleteredirect
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: content-redirects-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Content — Redirects. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-redirects
+      description: BigCommerce Get All Redirects
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-redirects.getredirects
+      with:
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-redirect
+      description: BigCommerce Create a Redirect
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: content-redirects.createredirect
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-all-redirects
+      description: BigCommerce Delete All Redirects
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: content-redirects.deleteredirects
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-count-redirects
+      description: BigCommerce Get a Count of Redirects
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-redirects.getredirectscount
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-redirect
+      description: BigCommerce Get a Redirect
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-redirects.getredirect
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-redirect
+      description: BigCommerce Update a Redirect
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: content-redirects.updateredirect
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-redirect
+      description: BigCommerce Delete a Redirect
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: content-redirects.deleteredirect
+      outputParameters:
+      - type: object
+        mapping: $.

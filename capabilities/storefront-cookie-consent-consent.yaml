@@ -1,0 +1,77 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Storefront Cookie Consent — Consent
+  description: 'BigCommerce Storefront Cookie Consent — Consent. 1 operations. Lead operation: BigCommerce Set Cookie Consent
+    Preferences. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Consent
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: storefront-cookie-consent-consent
+    baseUri: https://{store_domain}/api/storefront
+    description: BigCommerce Storefront Cookie Consent — Consent business capability. Self-contained, no shared references.
+    resources:
+    - name: consent
+      path: /consent
+      operations:
+      - name: postcookieconsent
+        method: POST
+        description: BigCommerce Set Cookie Consent Preferences
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: rest
+    namespace: storefront-cookie-consent-consent-rest
+    port: 8080
+    description: REST adapter for BigCommerce Storefront Cookie Consent — Consent. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/consent
+      name: consent
+      description: REST surface for consent.
+      operations:
+      - method: POST
+        name: postcookieconsent
+        description: BigCommerce Set Cookie Consent Preferences
+        call: storefront-cookie-consent-consent.postcookieconsent
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: storefront-cookie-consent-consent-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Storefront Cookie Consent — Consent. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-set-cookie-consent-preferences
+      description: BigCommerce Set Cookie Consent Preferences
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: storefront-cookie-consent-consent.postcookieconsent
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

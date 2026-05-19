@@ -1,0 +1,144 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Storefront Carts — Cart
+  description: 'BigCommerce Storefront Carts — Cart. 3 operations. Lead operation: BigCommerce Get a Cart. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Cart
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: storefront-carts-cart
+    baseUri: https://{store_domain}/api/storefront
+    description: BigCommerce Storefront Carts — Cart business capability. Self-contained, no shared references.
+    resources:
+    - name: carts
+      path: /carts
+      operations:
+      - name: getcart
+        method: GET
+        description: BigCommerce Get a Cart
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createcart
+        method: POST
+        description: BigCommerce Create a Cart
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: carts-cartId
+      path: /carts/{cartId}
+      operations:
+      - name: deletecart
+        method: DELETE
+        description: BigCommerce Delete a Cart
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: cartId
+          in: path
+          type: string
+          description: This cart's unique ID.
+          required: true
+  exposes:
+  - type: rest
+    namespace: storefront-carts-cart-rest
+    port: 8080
+    description: REST adapter for BigCommerce Storefront Carts — Cart. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/carts
+      name: carts
+      description: REST surface for carts.
+      operations:
+      - method: GET
+        name: getcart
+        description: BigCommerce Get a Cart
+        call: storefront-carts-cart.getcart
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcart
+        description: BigCommerce Create a Cart
+        call: storefront-carts-cart.createcart
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/carts/{cartid}
+      name: carts-cartid
+      description: REST surface for carts-cartId.
+      operations:
+      - method: DELETE
+        name: deletecart
+        description: BigCommerce Delete a Cart
+        call: storefront-carts-cart.deletecart
+        with:
+          cartId: rest.cartId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: storefront-carts-cart-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Storefront Carts — Cart. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-cart
+      description: BigCommerce Get a Cart
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: storefront-carts-cart.getcart
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-cart
+      description: BigCommerce Create a Cart
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: storefront-carts-cart.createcart
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-cart
+      description: BigCommerce Delete a Cart
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: storefront-carts-cart.deletecart
+      with:
+        cartId: tools.cartId
+      outputParameters:
+      - type: object
+        mapping: $.

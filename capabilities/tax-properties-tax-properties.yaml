@@ -1,0 +1,167 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Tax Properties — Tax Properties
+  description: 'BigCommerce Tax Properties — Tax Properties. 4 operations. Lead operation: BigCommerce Get Tax Properties.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Tax Properties
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: tax-properties-tax-properties
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Tax Properties — Tax Properties business capability. Self-contained, no shared references.
+    resources:
+    - name: tax-properties
+      path: /tax/properties
+      operations:
+      - name: gettaxproperties
+        method: GET
+        description: BigCommerce Get Tax Properties
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatetaxproperties
+        method: PUT
+        description: BigCommerce Update Tax Properties
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: createtaxproperties
+        method: POST
+        description: BigCommerce Create Tax Properties
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletetaxproperties
+        method: DELETE
+        description: BigCommerce Delete Tax Properties
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: tax-properties-tax-properties-rest
+    port: 8080
+    description: REST adapter for BigCommerce Tax Properties — Tax Properties. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/tax/properties
+      name: tax-properties
+      description: REST surface for tax-properties.
+      operations:
+      - method: GET
+        name: gettaxproperties
+        description: BigCommerce Get Tax Properties
+        call: tax-properties-tax-properties.gettaxproperties
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatetaxproperties
+        description: BigCommerce Update Tax Properties
+        call: tax-properties-tax-properties.updatetaxproperties
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createtaxproperties
+        description: BigCommerce Create Tax Properties
+        call: tax-properties-tax-properties.createtaxproperties
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletetaxproperties
+        description: BigCommerce Delete Tax Properties
+        call: tax-properties-tax-properties.deletetaxproperties
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: tax-properties-tax-properties-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Tax Properties — Tax Properties. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-tax-properties
+      description: BigCommerce Get Tax Properties
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: tax-properties-tax-properties.gettaxproperties
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-tax-properties
+      description: BigCommerce Update Tax Properties
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: tax-properties-tax-properties.updatetaxproperties
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-tax-properties
+      description: BigCommerce Create Tax Properties
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: tax-properties-tax-properties.createtaxproperties
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-tax-properties
+      description: BigCommerce Delete Tax Properties
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: tax-properties-tax-properties.deletetaxproperties
+      outputParameters:
+      - type: object
+        mapping: $.

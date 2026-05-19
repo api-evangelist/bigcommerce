@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Abandoned Carts — Abandoned Cart Settings
+  description: 'BigCommerce Abandoned Carts — Abandoned Cart Settings. 1 operations. Lead operation: BigCommerce Get Global
+    Abandoned Cart Settings. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Abandoned Cart Settings
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: abandoned-carts-abandoned-cart-settings
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Abandoned Carts — Abandoned Cart Settings business capability. Self-contained, no shared references.
+    resources:
+    - name: abandoned-carts-settings
+      path: /abandoned-carts/settings
+      operations:
+      - name: getglobalabandonedcartsettings
+        method: GET
+        description: BigCommerce Get Global Abandoned Cart Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: abandoned-carts-abandoned-cart-settings-rest
+    port: 8080
+    description: REST adapter for BigCommerce Abandoned Carts — Abandoned Cart Settings. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/abandoned-carts/settings
+      name: abandoned-carts-settings
+      description: REST surface for abandoned-carts-settings.
+      operations:
+      - method: GET
+        name: getglobalabandonedcartsettings
+        description: BigCommerce Get Global Abandoned Cart Settings
+        call: abandoned-carts-abandoned-cart-settings.getglobalabandonedcartsettings
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: abandoned-carts-abandoned-cart-settings-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Abandoned Carts — Abandoned Cart Settings. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-global-abandoned-cart
+      description: BigCommerce Get Global Abandoned Cart Settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: abandoned-carts-abandoned-cart-settings.getglobalabandonedcartsettings
+      outputParameters:
+      - type: object
+        mapping: $.

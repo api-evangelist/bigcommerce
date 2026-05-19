@@ -1,0 +1,89 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Product Variants — Images
+  description: 'BigCommerce Catalog - Product Variants — Images. 1 operations. Lead operation: BigCommerce Create a Product
+    Variant Image. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Images
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-product-variants-images
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Product Variants — Images business capability. Self-contained, no shared references.
+    resources:
+    - name: catalog-products-product_id-variants-variant_id-image
+      path: /catalog/products/{product_id}/variants/{variant_id}/image
+      operations:
+      - name: createproductvariantimage
+        method: POST
+        description: BigCommerce Create a Product Variant Image
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: variant_id
+          in: path
+          type: integer
+          description: ID of the variant on a product, or on an associated Price List Record.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-product-variants-images-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Product Variants — Images. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/products/{product-id}/variants/{variant-id}/image
+      name: catalog-products-product-id-variants-variant-id-image
+      description: REST surface for catalog-products-product_id-variants-variant_id-image.
+      operations:
+      - method: POST
+        name: createproductvariantimage
+        description: BigCommerce Create a Product Variant Image
+        call: catalog-product-variants-images.createproductvariantimage
+        with:
+          variant_id: rest.variant_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-product-variants-images-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Product Variants — Images. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-create-product-variant-image
+      description: BigCommerce Create a Product Variant Image
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: catalog-product-variants-images.createproductvariantimage
+      with:
+        variant_id: tools.variant_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

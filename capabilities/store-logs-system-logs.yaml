@@ -1,0 +1,150 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Store Logs V3 API — System Logs
+  description: 'BigCommerce Store Logs V3 API — System Logs. 1 operations. Lead operation: BigCommerce Get System Logs. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - System Logs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: store-logs-system-logs
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Store Logs V3 API — System Logs business capability. Self-contained, no shared references.
+    resources:
+    - name: store-systemlogs
+      path: /store/systemlogs
+      operations:
+      - name: getstoresystemlogs
+        method: GET
+        description: BigCommerce Get System Logs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: limit
+          in: query
+          type: integer
+          description: Query parameter that lets you return the number of results displayed per page.
+        - name: page
+          in: query
+          type: integer
+          description: Query parameter that lets you specify the starting page in which results are returned.
+        - name: type
+          in: query
+          type: string
+          description: Query parameter that lets you filter the results by log type.
+        - name: type:not
+          in: query
+          type: string
+          description: Query parameter that lets you exclude a log type from the results.
+        - name: module
+          in: query
+          type: string
+          description: Query parameter that lets you filter the results by module.
+        - name: module:not
+          in: query
+          type: string
+          description: Query parameter that lets you exclude a log module from the results.
+        - name: severity
+          in: query
+          type: integer
+          description: 'Query parameter that lets you filter results by severity level, as an integer. The following values
+            are possible: Success = 1, Notice = 2, Warning = 3, Error = '
+        - name: severity:min
+          in: query
+          type: integer
+          description: Query parameter that lets you filter by minimum severity, as an integer.
+        - name: severity:max
+          in: query
+          type: integer
+          description: Query parameter that lets you filter by maximum severity, as an integer.
+        - name: id:in
+          in: query
+          type: string
+          description: Query parameter that lets you filter by a list of log IDs, as a CSV. For example ?id:in=3,4,6
+        - name: date_created:min
+          in: query
+          type: string
+          description: Query parameter that lets you filter by the minimum date created in [Unix time](https://www.unixtimestamp.com/),
+            for example, `?date_created:min=1657688400`. Re
+        - name: date_created:max
+          in: query
+          type: string
+          description: Query parameter that lets you filter by the maximum date created in [Unix time](https://www.unixtimestamp.com/),
+            for example, `?date_created:min=1658379600`. Re
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: store-logs-system-logs-rest
+    port: 8080
+    description: REST adapter for BigCommerce Store Logs V3 API — System Logs. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/store/systemlogs
+      name: store-systemlogs
+      description: REST surface for store-systemlogs.
+      operations:
+      - method: GET
+        name: getstoresystemlogs
+        description: BigCommerce Get System Logs
+        call: store-logs-system-logs.getstoresystemlogs
+        with:
+          limit: rest.limit
+          page: rest.page
+          type: rest.type
+          type:not: rest.type:not
+          module: rest.module
+          module:not: rest.module:not
+          severity: rest.severity
+          severity:min: rest.severity:min
+          severity:max: rest.severity:max
+          id:in: rest.id:in
+          date_created:min: rest.date_created:min
+          date_created:max: rest.date_created:max
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: store-logs-system-logs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Store Logs V3 API — System Logs. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-system-logs
+      description: BigCommerce Get System Logs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: store-logs-system-logs.getstoresystemlogs
+      with:
+        limit: tools.limit
+        page: tools.page
+        type: tools.type
+        type:not: tools.type:not
+        module: tools.module
+        module:not: tools.module:not
+        severity: tools.severity
+        severity:min: tools.severity:min
+        severity:max: tools.severity:max
+        id:in: tools.id:in
+        date_created:min: tools.date_created:min
+        date_created:max: tools.date_created:max
+      outputParameters:
+      - type: object
+        mapping: $.

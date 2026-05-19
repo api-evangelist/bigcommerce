@@ -1,0 +1,195 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Carts — Carts (Single)
+  description: 'BigCommerce Carts — Carts (Single). 4 operations. Lead operation: BigCommerce Create a Cart. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Carts (Single)
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: carts-carts-single
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Carts — Carts (Single) business capability. Self-contained, no shared references.
+    resources:
+    - name: carts
+      path: /carts
+      operations:
+      - name: createcart
+        method: POST
+        description: BigCommerce Create a Cart
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: include
+          in: query
+          type: string
+          description: '* `redirect_urls`: Create a direct link to a cart. This can be used for the /POST request for carts.'
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: carts-cartId
+      path: /carts/{cartId}
+      operations:
+      - name: getcart
+        method: GET
+        description: BigCommerce Get a Cart
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: include
+          in: query
+          type: string
+          description: '* `redirect_urls`: Create a direct link to a cart. This can be used for the /POST request for carts.'
+      - name: updatecart
+        method: PUT
+        description: BigCommerce Update Customer ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: include
+          in: query
+          type: string
+          description: '* `redirect_urls`: Create a direct link to a cart. This can be used for the /POST request for carts.'
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletecart
+        method: DELETE
+        description: BigCommerce Delete a Cart
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: carts-carts-single-rest
+    port: 8080
+    description: REST adapter for BigCommerce Carts — Carts (Single). One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/carts
+      name: carts
+      description: REST surface for carts.
+      operations:
+      - method: POST
+        name: createcart
+        description: BigCommerce Create a Cart
+        call: carts-carts-single.createcart
+        with:
+          include: rest.include
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/carts/{cartid}
+      name: carts-cartid
+      description: REST surface for carts-cartId.
+      operations:
+      - method: GET
+        name: getcart
+        description: BigCommerce Get a Cart
+        call: carts-carts-single.getcart
+        with:
+          include: rest.include
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecart
+        description: BigCommerce Update Customer ID
+        call: carts-carts-single.updatecart
+        with:
+          include: rest.include
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecart
+        description: BigCommerce Delete a Cart
+        call: carts-carts-single.deletecart
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: carts-carts-single-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Carts — Carts (Single). One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-create-cart
+      description: BigCommerce Create a Cart
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: carts-carts-single.createcart
+      with:
+        include: tools.include
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-cart
+      description: BigCommerce Get a Cart
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: carts-carts-single.getcart
+      with:
+        include: tools.include
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-customer-id
+      description: BigCommerce Update Customer ID
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: carts-carts-single.updatecart
+      with:
+        include: tools.include
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-cart
+      description: BigCommerce Delete a Cart
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: carts-carts-single.deletecart
+      outputParameters:
+      - type: object
+        mapping: $.

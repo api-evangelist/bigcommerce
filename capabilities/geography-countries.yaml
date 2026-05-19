@@ -1,0 +1,200 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Geography — Countries
+  description: 'BigCommerce Geography — Countries. 3 operations. Lead operation: BigCommerce Get All Countries. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Countries
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: geography-countries
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v2
+    description: BigCommerce Geography — Countries business capability. Self-contained, no shared references.
+    resources:
+    - name: countries
+      path: /countries
+      operations:
+      - name: getcountries
+        method: GET
+        description: BigCommerce Get All Countries
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Accept
+          in: header
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: page
+          in: query
+          type: number
+          description: Number of pages
+        - name: limit
+          in: query
+          type: number
+          description: Count per page
+        - name: country
+          in: query
+          type: string
+        - name: country_iso2
+          in: query
+          type: string
+        - name: country_iso3
+          in: query
+          type: string
+    - name: countries-count
+      path: /countries/count
+      operations:
+      - name: getcountriescount
+        method: GET
+        description: BigCommerce Get a Count of All Countries
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: countries-id
+      path: /countries/{id}
+      operations:
+      - name: getcountry
+        method: GET
+        description: BigCommerce Get a Country
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          description: The ID of the country.
+          required: true
+        - name: Accept
+          in: header
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: geography-countries-rest
+    port: 8080
+    description: REST adapter for BigCommerce Geography — Countries. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/countries
+      name: countries
+      description: REST surface for countries.
+      operations:
+      - method: GET
+        name: getcountries
+        description: BigCommerce Get All Countries
+        call: geography-countries.getcountries
+        with:
+          Accept: rest.Accept
+          Content-Type: rest.Content-Type
+          page: rest.page
+          limit: rest.limit
+          country: rest.country
+          country_iso2: rest.country_iso2
+          country_iso3: rest.country_iso3
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/countries/count
+      name: countries-count
+      description: REST surface for countries-count.
+      operations:
+      - method: GET
+        name: getcountriescount
+        description: BigCommerce Get a Count of All Countries
+        call: geography-countries.getcountriescount
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/countries/{id}
+      name: countries-id
+      description: REST surface for countries-id.
+      operations:
+      - method: GET
+        name: getcountry
+        description: BigCommerce Get a Country
+        call: geography-countries.getcountry
+        with:
+          id: rest.id
+          Accept: rest.Accept
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: geography-countries-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Geography — Countries. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-countries
+      description: BigCommerce Get All Countries
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: geography-countries.getcountries
+      with:
+        Accept: tools.Accept
+        Content-Type: tools.Content-Type
+        page: tools.page
+        limit: tools.limit
+        country: tools.country
+        country_iso2: tools.country_iso2
+        country_iso3: tools.country_iso3
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-count-all-countries
+      description: BigCommerce Get a Count of All Countries
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: geography-countries.getcountriescount
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-country
+      description: BigCommerce Get a Country
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: geography-countries.getcountry
+      with:
+        id: tools.id
+        Accept: tools.Accept
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

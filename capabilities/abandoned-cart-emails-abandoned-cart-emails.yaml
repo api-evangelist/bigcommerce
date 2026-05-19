@@ -1,0 +1,232 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Abandoned Cart Emails — Abandoned Cart Emails
+  description: 'BigCommerce Abandoned Cart Emails — Abandoned Cart Emails. 6 operations. Lead operation: BigCommerce Get all
+    abandoned cart email templates. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Abandoned Cart Emails
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: abandoned-cart-emails-abandoned-cart-emails
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Abandoned Cart Emails — Abandoned Cart Emails business capability. Self-contained, no shared
+      references.
+    resources:
+    - name: marketing-abandoned-cart-emails
+      path: /marketing/abandoned-cart-emails
+      operations:
+      - name: getabandonedcartemailtemplates
+        method: GET
+        description: BigCommerce Get all abandoned cart email templates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createabandonedcartemailtemplate
+        method: POST
+        description: BigCommerce Create abandoned cart email template
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: marketing-abandoned-cart-emails-default
+      path: /marketing/abandoned-cart-emails/default
+      operations:
+      - name: getdefaultabandonedcartemailtemplate
+        method: GET
+        description: BigCommerce Get default email template
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: marketing-abandoned-cart-emails-id
+      path: /marketing/abandoned-cart-emails/{id}
+      operations:
+      - name: getabandonedcartemailtemplate
+        method: GET
+        description: BigCommerce Get an email template
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateabandonedcartemailtemplate
+        method: PUT
+        description: BigCommerce Update an email template
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deleteabandonedcartemailtemplate
+        method: DELETE
+        description: BigCommerce Delete email template
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: abandoned-cart-emails-abandoned-cart-emails-rest
+    port: 8080
+    description: REST adapter for BigCommerce Abandoned Cart Emails — Abandoned Cart Emails. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/marketing/abandoned-cart-emails
+      name: marketing-abandoned-cart-emails
+      description: REST surface for marketing-abandoned-cart-emails.
+      operations:
+      - method: GET
+        name: getabandonedcartemailtemplates
+        description: BigCommerce Get all abandoned cart email templates
+        call: abandoned-cart-emails-abandoned-cart-emails.getabandonedcartemailtemplates
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createabandonedcartemailtemplate
+        description: BigCommerce Create abandoned cart email template
+        call: abandoned-cart-emails-abandoned-cart-emails.createabandonedcartemailtemplate
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/marketing/abandoned-cart-emails/default
+      name: marketing-abandoned-cart-emails-default
+      description: REST surface for marketing-abandoned-cart-emails-default.
+      operations:
+      - method: GET
+        name: getdefaultabandonedcartemailtemplate
+        description: BigCommerce Get default email template
+        call: abandoned-cart-emails-abandoned-cart-emails.getdefaultabandonedcartemailtemplate
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/marketing/abandoned-cart-emails/{id}
+      name: marketing-abandoned-cart-emails-id
+      description: REST surface for marketing-abandoned-cart-emails-id.
+      operations:
+      - method: GET
+        name: getabandonedcartemailtemplate
+        description: BigCommerce Get an email template
+        call: abandoned-cart-emails-abandoned-cart-emails.getabandonedcartemailtemplate
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateabandonedcartemailtemplate
+        description: BigCommerce Update an email template
+        call: abandoned-cart-emails-abandoned-cart-emails.updateabandonedcartemailtemplate
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteabandonedcartemailtemplate
+        description: BigCommerce Delete email template
+        call: abandoned-cart-emails-abandoned-cart-emails.deleteabandonedcartemailtemplate
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: abandoned-cart-emails-abandoned-cart-emails-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Abandoned Cart Emails — Abandoned Cart Emails. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-abandoned-cart
+      description: BigCommerce Get all abandoned cart email templates
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: abandoned-cart-emails-abandoned-cart-emails.getabandonedcartemailtemplates
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-abandoned-cart-email
+      description: BigCommerce Create abandoned cart email template
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: abandoned-cart-emails-abandoned-cart-emails.createabandonedcartemailtemplate
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-default-email-template
+      description: BigCommerce Get default email template
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: abandoned-cart-emails-abandoned-cart-emails.getdefaultabandonedcartemailtemplate
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-email-template
+      description: BigCommerce Get an email template
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: abandoned-cart-emails-abandoned-cart-emails.getabandonedcartemailtemplate
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-email-template
+      description: BigCommerce Update an email template
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: abandoned-cart-emails-abandoned-cart-emails.updateabandonedcartemailtemplate
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-email-template
+      description: BigCommerce Delete email template
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: abandoned-cart-emails-abandoned-cart-emails.deleteabandonedcartemailtemplate
+      outputParameters:
+      - type: object
+        mapping: $.

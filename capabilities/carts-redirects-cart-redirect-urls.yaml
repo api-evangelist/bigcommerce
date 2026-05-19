@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Carts — Redirects - Cart Redirect URLs
+  description: 'BigCommerce Carts — Redirects - Cart Redirect URLs. 1 operations. Lead operation: BigCommerce Create Cart
+    Redirect URL. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Redirects - Cart Redirect URLs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: carts-redirects-cart-redirect-urls
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Carts — Redirects - Cart Redirect URLs business capability. Self-contained, no shared references.
+    resources:
+    - name: carts-cartId-redirect_urls
+      path: /carts/{cartId}/redirect_urls
+      operations:
+      - name: createcartredirecturl
+        method: POST
+        description: BigCommerce Create Cart Redirect URL
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: carts-redirects-cart-redirect-urls-rest
+    port: 8080
+    description: REST adapter for BigCommerce Carts — Redirects - Cart Redirect URLs. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/carts/{cartid}/redirect-urls
+      name: carts-cartid-redirect-urls
+      description: REST surface for carts-cartId-redirect_urls.
+      operations:
+      - method: POST
+        name: createcartredirecturl
+        description: BigCommerce Create Cart Redirect URL
+        call: carts-redirects-cart-redirect-urls.createcartredirecturl
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: carts-redirects-cart-redirect-urls-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Carts — Redirects - Cart Redirect URLs. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-create-cart-redirect-url
+      description: BigCommerce Create Cart Redirect URL
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: carts-redirects-cart-redirect-urls.createcartredirecturl
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,589 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Price Lists — Price Lists Records
+  description: 'BigCommerce Price Lists — Price Lists Records. 8 operations. Lead operation: BigCommerce Create Batch of Price
+    Lists Records. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Price Lists Records
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: price-lists-price-lists-records
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Price Lists — Price Lists Records business capability. Self-contained, no shared references.
+    resources:
+    - name: pricelists-records
+      path: /pricelists/records
+      operations:
+      - name: upsertpricelistsrecords
+        method: PUT
+        description: BigCommerce Create Batch of Price Lists Records
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: pricelists-price_list_id-records
+      path: /pricelists/{price_list_id}/records
+      operations:
+      - name: getpricelistrecords
+        method: GET
+        description: BigCommerce Get All Price List Records
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: price_list_id
+          in: path
+          type: integer
+          description: The ID of the `Price List` requested.
+          required: true
+        - name: variant_id:in
+          in: query
+          type: integer
+          description: The ID of the `Variant` for which prices were requested.
+        - name: product_id:in
+          in: query
+          type: string
+          description: A comma-separated list of IDs of `Product`s for which prices were requested.
+        - name: currency
+          in: query
+          type: string
+          description: Filter items by currency.
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of products.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of products.
+        - name: include
+          in: query
+          type: array
+          description: Sub-resources to include on a price record, in a comma-separated list. Valid expansions currently include
+            `bulk_pricing_tiers` and `sku`. Other values will be i
+        - name: price
+          in: query
+          type: number
+          description: Filter items by price.
+        - name: sale_price
+          in: query
+          type: number
+          description: Filter items by sale_price.
+        - name: retail_price
+          in: query
+          type: number
+          description: Filter items by retail_price.
+        - name: map_price
+          in: query
+          type: number
+          description: Filter items by map_price.
+        - name: calculated_price
+          in: query
+          type: number
+          description: Filter items by calculated_price.
+        - name: date_created
+          in: query
+          type: string
+          description: Filter items by date_created.
+        - name: date_modified
+          in: query
+          type: string
+          description: Filter items by date_modified. For example `v3/catalog/products?date_last_imported:min=2022-06-15`
+        - name: sku
+          in: query
+          type: string
+          description: Filter items by SKU.
+        - name: sku:in
+          in: query
+          type: array
+        - name: currency:in
+          in: query
+          type: array
+        - name: price:max
+          in: query
+          type: number
+        - name: price:min
+          in: query
+          type: number
+        - name: sale_price:max
+          in: query
+          type: number
+        - name: sale_price:min
+          in: query
+          type: number
+        - name: retail_price:max
+          in: query
+          type: number
+        - name: retail_price:min
+          in: query
+          type: number
+        - name: map_price:max
+          in: query
+          type: number
+        - name: map_price:min
+          in: query
+          type: number
+        - name: calculated_price:max
+          in: query
+          type: number
+        - name: calculated_price:min
+          in: query
+          type: number
+        - name: date_created:max
+          in: query
+          type: string
+        - name: date_created:min
+          in: query
+          type: string
+        - name: date_modified:max
+          in: query
+          type: string
+        - name: date_modified:min
+          in: query
+          type: string
+      - name: upsertpricelistrecords
+        method: PUT
+        description: BigCommerce Upsert Price List Records
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: price_list_id
+          in: path
+          type: integer
+          description: The ID of the `Price List` requested.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletepricelistrecords
+        method: DELETE
+        description: BigCommerce Delete a Price List Record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: price_list_id
+          in: path
+          type: integer
+          description: The ID of the `Price List` requested.
+          required: true
+        - name: variant_id:in
+          in: query
+          type: integer
+          description: The ID of the `Variant` for which prices were requested.
+    - name: pricelists-price_list_id-records-variant_id
+      path: /pricelists/{price_list_id}/records/{variant_id}
+      operations:
+      - name: getpricelistrecordsbyvariantid
+        method: GET
+        description: BigCommerce Get Price Records by Variant
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: price_list_id
+          in: path
+          type: integer
+          description: The ID of the `Price List` requested.
+          required: true
+        - name: variant_id
+          in: path
+          type: integer
+          description: ID of the variant on a product, or on an associated Price List Record.
+          required: true
+    - name: pricelists-price_list_id-records-variant_id-currency_code
+      path: /pricelists/{price_list_id}/records/{variant_id}/{currency_code}
+      operations:
+      - name: getpricelistrecord
+        method: GET
+        description: BigCommerce Get a Price Record by Currency Code
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: price_list_id
+          in: path
+          type: integer
+          description: The ID of the `Price List` requested.
+          required: true
+        - name: variant_id
+          in: path
+          type: integer
+          description: ID of the variant on a product, or on an associated Price List Record.
+          required: true
+        - name: currency_code
+          in: path
+          type: string
+          description: The currency code associated with the price record being acted upon.
+          required: true
+        - name: include
+          in: query
+          type: array
+          description: Sub-resources to include on a price record, in a comma-separated list. Valid expansions currently include
+            `bulk_pricing_tiers` and `sku`. Other values will be i
+      - name: setpricelistrecord
+        method: PUT
+        description: BigCommerce Set Price List Record by Currency Code
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: price_list_id
+          in: path
+          type: integer
+          description: The ID of the `Price List` requested.
+          required: true
+        - name: variant_id
+          in: path
+          type: integer
+          description: ID of the variant on a product, or on an associated Price List Record.
+          required: true
+        - name: currency_code
+          in: path
+          type: string
+          description: The currency code associated with the price record being acted upon.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletepricelistrecord
+        method: DELETE
+        description: BigCommerce Delete a Price Record by Currency Code
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: price_list_id
+          in: path
+          type: integer
+          description: The ID of the `Price List` requested.
+          required: true
+        - name: variant_id
+          in: path
+          type: integer
+          description: ID of the variant on a product, or on an associated Price List Record.
+          required: true
+        - name: currency_code
+          in: path
+          type: string
+          description: The currency code associated with the price record being acted upon.
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: price-lists-price-lists-records-rest
+    port: 8080
+    description: REST adapter for BigCommerce Price Lists — Price Lists Records. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/pricelists/records
+      name: pricelists-records
+      description: REST surface for pricelists-records.
+      operations:
+      - method: PUT
+        name: upsertpricelistsrecords
+        description: BigCommerce Create Batch of Price Lists Records
+        call: price-lists-price-lists-records.upsertpricelistsrecords
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/pricelists/{price-list-id}/records
+      name: pricelists-price-list-id-records
+      description: REST surface for pricelists-price_list_id-records.
+      operations:
+      - method: GET
+        name: getpricelistrecords
+        description: BigCommerce Get All Price List Records
+        call: price-lists-price-lists-records.getpricelistrecords
+        with:
+          price_list_id: rest.price_list_id
+          variant_id:in: rest.variant_id:in
+          product_id:in: rest.product_id:in
+          currency: rest.currency
+          page: rest.page
+          limit: rest.limit
+          include: rest.include
+          price: rest.price
+          sale_price: rest.sale_price
+          retail_price: rest.retail_price
+          map_price: rest.map_price
+          calculated_price: rest.calculated_price
+          date_created: rest.date_created
+          date_modified: rest.date_modified
+          sku: rest.sku
+          sku:in: rest.sku:in
+          currency:in: rest.currency:in
+          price:max: rest.price:max
+          price:min: rest.price:min
+          sale_price:max: rest.sale_price:max
+          sale_price:min: rest.sale_price:min
+          retail_price:max: rest.retail_price:max
+          retail_price:min: rest.retail_price:min
+          map_price:max: rest.map_price:max
+          map_price:min: rest.map_price:min
+          calculated_price:max: rest.calculated_price:max
+          calculated_price:min: rest.calculated_price:min
+          date_created:max: rest.date_created:max
+          date_created:min: rest.date_created:min
+          date_modified:max: rest.date_modified:max
+          date_modified:min: rest.date_modified:min
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: upsertpricelistrecords
+        description: BigCommerce Upsert Price List Records
+        call: price-lists-price-lists-records.upsertpricelistrecords
+        with:
+          price_list_id: rest.price_list_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletepricelistrecords
+        description: BigCommerce Delete a Price List Record
+        call: price-lists-price-lists-records.deletepricelistrecords
+        with:
+          price_list_id: rest.price_list_id
+          variant_id:in: rest.variant_id:in
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/pricelists/{price-list-id}/records/{variant-id}
+      name: pricelists-price-list-id-records-variant-id
+      description: REST surface for pricelists-price_list_id-records-variant_id.
+      operations:
+      - method: GET
+        name: getpricelistrecordsbyvariantid
+        description: BigCommerce Get Price Records by Variant
+        call: price-lists-price-lists-records.getpricelistrecordsbyvariantid
+        with:
+          price_list_id: rest.price_list_id
+          variant_id: rest.variant_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/pricelists/{price-list-id}/records/{variant-id}/{currency-code}
+      name: pricelists-price-list-id-records-variant-id-currency-code
+      description: REST surface for pricelists-price_list_id-records-variant_id-currency_code.
+      operations:
+      - method: GET
+        name: getpricelistrecord
+        description: BigCommerce Get a Price Record by Currency Code
+        call: price-lists-price-lists-records.getpricelistrecord
+        with:
+          price_list_id: rest.price_list_id
+          variant_id: rest.variant_id
+          currency_code: rest.currency_code
+          include: rest.include
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: setpricelistrecord
+        description: BigCommerce Set Price List Record by Currency Code
+        call: price-lists-price-lists-records.setpricelistrecord
+        with:
+          price_list_id: rest.price_list_id
+          variant_id: rest.variant_id
+          currency_code: rest.currency_code
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletepricelistrecord
+        description: BigCommerce Delete a Price Record by Currency Code
+        call: price-lists-price-lists-records.deletepricelistrecord
+        with:
+          price_list_id: rest.price_list_id
+          variant_id: rest.variant_id
+          currency_code: rest.currency_code
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: price-lists-price-lists-records-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Price Lists — Price Lists Records. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-create-batch-price-lists
+      description: BigCommerce Create Batch of Price Lists Records
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: price-lists-price-lists-records.upsertpricelistsrecords
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-all-price-list
+      description: BigCommerce Get All Price List Records
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: price-lists-price-lists-records.getpricelistrecords
+      with:
+        price_list_id: tools.price_list_id
+        variant_id:in: tools.variant_id:in
+        product_id:in: tools.product_id:in
+        currency: tools.currency
+        page: tools.page
+        limit: tools.limit
+        include: tools.include
+        price: tools.price
+        sale_price: tools.sale_price
+        retail_price: tools.retail_price
+        map_price: tools.map_price
+        calculated_price: tools.calculated_price
+        date_created: tools.date_created
+        date_modified: tools.date_modified
+        sku: tools.sku
+        sku:in: tools.sku:in
+        currency:in: tools.currency:in
+        price:max: tools.price:max
+        price:min: tools.price:min
+        sale_price:max: tools.sale_price:max
+        sale_price:min: tools.sale_price:min
+        retail_price:max: tools.retail_price:max
+        retail_price:min: tools.retail_price:min
+        map_price:max: tools.map_price:max
+        map_price:min: tools.map_price:min
+        calculated_price:max: tools.calculated_price:max
+        calculated_price:min: tools.calculated_price:min
+        date_created:max: tools.date_created:max
+        date_created:min: tools.date_created:min
+        date_modified:max: tools.date_modified:max
+        date_modified:min: tools.date_modified:min
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-upsert-price-list-records
+      description: BigCommerce Upsert Price List Records
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: price-lists-price-lists-records.upsertpricelistrecords
+      with:
+        price_list_id: tools.price_list_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-price-list-record
+      description: BigCommerce Delete a Price List Record
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: price-lists-price-lists-records.deletepricelistrecords
+      with:
+        price_list_id: tools.price_list_id
+        variant_id:in: tools.variant_id:in
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-price-records-variant
+      description: BigCommerce Get Price Records by Variant
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: price-lists-price-lists-records.getpricelistrecordsbyvariantid
+      with:
+        price_list_id: tools.price_list_id
+        variant_id: tools.variant_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-price-record-currency
+      description: BigCommerce Get a Price Record by Currency Code
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: price-lists-price-lists-records.getpricelistrecord
+      with:
+        price_list_id: tools.price_list_id
+        variant_id: tools.variant_id
+        currency_code: tools.currency_code
+        include: tools.include
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-set-price-list-record
+      description: BigCommerce Set Price List Record by Currency Code
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: price-lists-price-lists-records.setpricelistrecord
+      with:
+        price_list_id: tools.price_list_id
+        variant_id: tools.variant_id
+        currency_code: tools.currency_code
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-price-record-currency
+      description: BigCommerce Delete a Price Record by Currency Code
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: price-lists-price-lists-records.deletepricelistrecord
+      with:
+        price_list_id: tools.price_list_id
+        variant_id: tools.variant_id
+        currency_code: tools.currency_code
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,177 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Categories — Batch Metafields
+  description: 'BigCommerce Catalog - Categories — Batch Metafields. 4 operations. Lead operation: BigCommerce Get All Category
+    Metafields. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Batch Metafields
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-categories-batch-metafields
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Categories — Batch Metafields business capability. Self-contained, no shared references.
+    resources:
+    - name: catalog-categories-metafields
+      path: /catalog/categories/metafields
+      operations:
+      - name: getcategoriesmetafields
+        method: GET
+        description: BigCommerce Get All Category Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createcategoriesmetafields
+        method: POST
+        description: BigCommerce Create multiple Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: updatecategoriesmetafields
+        method: PUT
+        description: BigCommerce Update multiple Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletecategoriesmetafields
+        method: DELETE
+        description: BigCommerce Delete All Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-categories-batch-metafields-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Categories — Batch Metafields. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/categories/metafields
+      name: catalog-categories-metafields
+      description: REST surface for catalog-categories-metafields.
+      operations:
+      - method: GET
+        name: getcategoriesmetafields
+        description: BigCommerce Get All Category Metafields
+        call: catalog-categories-batch-metafields.getcategoriesmetafields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcategoriesmetafields
+        description: BigCommerce Create multiple Metafields
+        call: catalog-categories-batch-metafields.createcategoriesmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecategoriesmetafields
+        description: BigCommerce Update multiple Metafields
+        call: catalog-categories-batch-metafields.updatecategoriesmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecategoriesmetafields
+        description: BigCommerce Delete All Metafields
+        call: catalog-categories-batch-metafields.deletecategoriesmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-categories-batch-metafields-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Categories — Batch Metafields. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-category-metafields
+      description: BigCommerce Get All Category Metafields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-categories-batch-metafields.getcategoriesmetafields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-multiple-metafields
+      description: BigCommerce Create multiple Metafields
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: catalog-categories-batch-metafields.createcategoriesmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-multiple-metafields
+      description: BigCommerce Update multiple Metafields
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: catalog-categories-batch-metafields.updatecategoriesmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-all-metafields
+      description: BigCommerce Delete All Metafields
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: catalog-categories-batch-metafields.deletecategoriesmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

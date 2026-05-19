@@ -1,0 +1,164 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Themes — Themes
+  description: 'BigCommerce Themes — Themes. 4 operations. Lead operation: BigCommerce Get all Themes. Self-contained Naftiko
+    capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Themes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: themes-themes
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Themes — Themes business capability. Self-contained, no shared references.
+    resources:
+    - name: themes
+      path: /themes
+      operations:
+      - name: getstorethemes
+        method: GET
+        description: BigCommerce Get all Themes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: uploadstoretheme
+        method: POST
+        description: BigCommerce Upload a Theme
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: themes-uuid
+      path: /themes/{uuid}
+      operations:
+      - name: getstoretheme
+        method: GET
+        description: BigCommerce Get a Theme
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletestoretheme
+        method: DELETE
+        description: BigCommerce Delete a Theme
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: themes-themes-rest
+    port: 8080
+    description: REST adapter for BigCommerce Themes — Themes. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/themes
+      name: themes
+      description: REST surface for themes.
+      operations:
+      - method: GET
+        name: getstorethemes
+        description: BigCommerce Get all Themes
+        call: themes-themes.getstorethemes
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: uploadstoretheme
+        description: BigCommerce Upload a Theme
+        call: themes-themes.uploadstoretheme
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/themes/{uuid}
+      name: themes-uuid
+      description: REST surface for themes-uuid.
+      operations:
+      - method: GET
+        name: getstoretheme
+        description: BigCommerce Get a Theme
+        call: themes-themes.getstoretheme
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletestoretheme
+        description: BigCommerce Delete a Theme
+        call: themes-themes.deletestoretheme
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: themes-themes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Themes — Themes. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-themes
+      description: BigCommerce Get all Themes
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: themes-themes.getstorethemes
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-upload-theme
+      description: BigCommerce Upload a Theme
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: themes-themes.uploadstoretheme
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-theme
+      description: BigCommerce Get a Theme
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: themes-themes.getstoretheme
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-theme
+      description: BigCommerce Delete a Theme
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: themes-themes.deletestoretheme
+      outputParameters:
+      - type: object
+        mapping: $.

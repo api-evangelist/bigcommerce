@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Payment Processing — Processing
+  description: 'BigCommerce Payment Processing — Processing. 1 operations. Lead operation: BigCommerce Process Payments. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Processing
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: payment-processing-processing
+    baseUri: https://payments.bigcommerce.com/stores/{store_hash}
+    description: BigCommerce Payment Processing — Processing business capability. Self-contained, no shared references.
+    resources:
+    - name: payments
+      path: /payments
+      operations:
+      - name: paymentspost
+        method: POST
+        description: BigCommerce Process Payments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.BIGCOMMERCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: payment-processing-processing-rest
+    port: 8080
+    description: REST adapter for BigCommerce Payment Processing — Processing. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/payments
+      name: payments
+      description: REST surface for payments.
+      operations:
+      - method: POST
+        name: paymentspost
+        description: BigCommerce Process Payments
+        call: payment-processing-processing.paymentspost
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: payment-processing-processing-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Payment Processing — Processing. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-process-payments
+      description: BigCommerce Process Payments
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: payment-processing-processing.paymentspost
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

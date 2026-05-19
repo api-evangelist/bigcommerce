@@ -1,0 +1,177 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Orders V3 — Batch Metafields
+  description: 'BigCommerce Orders V3 — Batch Metafields. 4 operations. Lead operation: BigCommerce Get All Order Metafields.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Batch Metafields
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: orders-batch-metafields
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Orders V3 — Batch Metafields business capability. Self-contained, no shared references.
+    resources:
+    - name: orders-metafields
+      path: /orders/metafields
+      operations:
+      - name: getordersmetafields
+        method: GET
+        description: BigCommerce Get All Order Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createordersmetafields
+        method: POST
+        description: BigCommerce Create multiple Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: updateordersmetafields
+        method: PUT
+        description: BigCommerce Update multiple Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deleteordersmetafields
+        method: DELETE
+        description: BigCommerce Delete All Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: orders-batch-metafields-rest
+    port: 8080
+    description: REST adapter for BigCommerce Orders V3 — Batch Metafields. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/orders/metafields
+      name: orders-metafields
+      description: REST surface for orders-metafields.
+      operations:
+      - method: GET
+        name: getordersmetafields
+        description: BigCommerce Get All Order Metafields
+        call: orders-batch-metafields.getordersmetafields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createordersmetafields
+        description: BigCommerce Create multiple Metafields
+        call: orders-batch-metafields.createordersmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateordersmetafields
+        description: BigCommerce Update multiple Metafields
+        call: orders-batch-metafields.updateordersmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteordersmetafields
+        description: BigCommerce Delete All Metafields
+        call: orders-batch-metafields.deleteordersmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: orders-batch-metafields-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Orders V3 — Batch Metafields. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-order-metafields
+      description: BigCommerce Get All Order Metafields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: orders-batch-metafields.getordersmetafields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-multiple-metafields
+      description: BigCommerce Create multiple Metafields
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: orders-batch-metafields.createordersmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-multiple-metafields
+      description: BigCommerce Update multiple Metafields
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: orders-batch-metafields.updateordersmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-all-metafields
+      description: BigCommerce Delete All Metafields
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: orders-batch-metafields.deleteordersmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

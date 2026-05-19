@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Pricing — Products
+  description: 'BigCommerce Pricing — Products. 1 operations. Lead operation: BigCommerce Get Prices (Batch). Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Products
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pricing-products
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Pricing — Products business capability. Self-contained, no shared references.
+    resources:
+    - name: pricing-products
+      path: /pricing/products
+      operations:
+      - name: getprices
+        method: POST
+        description: BigCommerce Get Prices (Batch)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: pricing-products-rest
+    port: 8080
+    description: REST adapter for BigCommerce Pricing — Products. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/pricing/products
+      name: pricing-products
+      description: REST surface for pricing-products.
+      operations:
+      - method: POST
+        name: getprices
+        description: BigCommerce Get Prices (Batch)
+        call: pricing-products.getprices
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: pricing-products-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Pricing — Products. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-get-prices-batch
+      description: BigCommerce Get Prices (Batch)
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: pricing-products.getprices
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,238 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Widgets — Placement
+  description: 'BigCommerce Widgets — Placement. 5 operations. Lead operation: BigCommerce Create a Placement. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Placement
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: widgets-placement
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Widgets — Placement business capability. Self-contained, no shared references.
+    resources:
+    - name: content-placements
+      path: /content/placements
+      operations:
+      - name: createplacement
+        method: POST
+        description: BigCommerce Create a Placement
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: getplacements
+        method: GET
+        description: BigCommerce Get All Placements
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of products.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of products.
+        - name: widget_template_kind
+          in: query
+          type: string
+          description: The kind of widget template.
+        - name: template_file
+          in: query
+          type: string
+          description: 'The template file, for example: `pages/home`.'
+        - name: widget_uuid
+          in: query
+          type: string
+          description: The identifier for a specific widget.
+        - name: widget_template_uuid
+          in: query
+          type: string
+          description: The identifier for a specific widget template.
+    - name: content-placements-uuid
+      path: /content/placements/{uuid}
+      operations:
+      - name: getplacement
+        method: GET
+        description: BigCommerce Get a Placement
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateplacement
+        method: PUT
+        description: BigCommerce Update a Placement
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteplacement
+        method: DELETE
+        description: BigCommerce Delete a Placement
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: widgets-placement-rest
+    port: 8080
+    description: REST adapter for BigCommerce Widgets — Placement. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/content/placements
+      name: content-placements
+      description: REST surface for content-placements.
+      operations:
+      - method: POST
+        name: createplacement
+        description: BigCommerce Create a Placement
+        call: widgets-placement.createplacement
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getplacements
+        description: BigCommerce Get All Placements
+        call: widgets-placement.getplacements
+        with:
+          page: rest.page
+          limit: rest.limit
+          widget_template_kind: rest.widget_template_kind
+          template_file: rest.template_file
+          widget_uuid: rest.widget_uuid
+          widget_template_uuid: rest.widget_template_uuid
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/placements/{uuid}
+      name: content-placements-uuid
+      description: REST surface for content-placements-uuid.
+      operations:
+      - method: GET
+        name: getplacement
+        description: BigCommerce Get a Placement
+        call: widgets-placement.getplacement
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateplacement
+        description: BigCommerce Update a Placement
+        call: widgets-placement.updateplacement
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteplacement
+        description: BigCommerce Delete a Placement
+        call: widgets-placement.deleteplacement
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: widgets-placement-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Widgets — Placement. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-create-placement
+      description: BigCommerce Create a Placement
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: widgets-placement.createplacement
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-all-placements
+      description: BigCommerce Get All Placements
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: widgets-placement.getplacements
+      with:
+        page: tools.page
+        limit: tools.limit
+        widget_template_kind: tools.widget_template_kind
+        template_file: tools.template_file
+        widget_uuid: tools.widget_uuid
+        widget_template_uuid: tools.widget_template_uuid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-placement
+      description: BigCommerce Get a Placement
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: widgets-placement.getplacement
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-placement
+      description: BigCommerce Update a Placement
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: widgets-placement.updateplacement
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-placement
+      description: BigCommerce Delete a Placement
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: widgets-placement.deleteplacement
+      outputParameters:
+      - type: object
+        mapping: $.

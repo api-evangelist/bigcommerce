@@ -1,0 +1,84 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Storefront Orders — Order
+  description: 'BigCommerce Storefront Orders — Order. 1 operations. Lead operation: BigCommerce Get Order. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Order
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: storefront-orders-order
+    baseUri: https://{store_domain}/api/storefront
+    description: BigCommerce Storefront Orders — Order business capability. Self-contained, no shared references.
+    resources:
+    - name: orders-orderId
+      path: /orders/{orderId}
+      operations:
+      - name: getorder
+        method: GET
+        description: BigCommerce Get Order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orderId
+          in: path
+          type: integer
+          description: ID of an Order.
+          required: true
+        - name: include
+          in: query
+          type: array
+          description: Sub-resources to include in an Order, in a comma-separated list. The ID and the specified fields will
+            be returned.
+  exposes:
+  - type: rest
+    namespace: storefront-orders-order-rest
+    port: 8080
+    description: REST adapter for BigCommerce Storefront Orders — Order. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/orders/{orderid}
+      name: orders-orderid
+      description: REST surface for orders-orderId.
+      operations:
+      - method: GET
+        name: getorder
+        description: BigCommerce Get Order
+        call: storefront-orders-order.getorder
+        with:
+          orderId: rest.orderId
+          include: rest.include
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: storefront-orders-order-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Storefront Orders — Order. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-order
+      description: BigCommerce Get Order
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: storefront-orders-order.getorder
+      with:
+        orderId: tools.orderId
+        include: tools.include
+      outputParameters:
+      - type: object
+        mapping: $.

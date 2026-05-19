@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Content — Blog Tags
+  description: 'BigCommerce Content — Blog Tags. 1 operations. Lead operation: BigCommerce Get All Blog Tags. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Blog Tags
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: content-blog-tags
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v2
+    description: BigCommerce Content — Blog Tags business capability. Self-contained, no shared references.
+    resources:
+    - name: blog-tags
+      path: /blog/tags
+      operations:
+      - name: getblogtags
+        method: GET
+        description: BigCommerce Get All Blog Tags
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: content-blog-tags-rest
+    port: 8080
+    description: REST adapter for BigCommerce Content — Blog Tags. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/blog/tags
+      name: blog-tags
+      description: REST surface for blog-tags.
+      operations:
+      - method: GET
+        name: getblogtags
+        description: BigCommerce Get All Blog Tags
+        call: content-blog-tags.getblogtags
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: content-blog-tags-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Content — Blog Tags. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-blog-tags
+      description: BigCommerce Get All Blog Tags
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-blog-tags.getblogtags
+      outputParameters:
+      - type: object
+        mapping: $.

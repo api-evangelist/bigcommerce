@@ -1,0 +1,359 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Subscribers — Subscribers
+  description: 'BigCommerce Subscribers — Subscribers. 6 operations. Lead operation: BigCommerce Get Subscribers. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Subscribers
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: subscribers-subscribers
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Subscribers — Subscribers business capability. Self-contained, no shared references.
+    resources:
+    - name: customers-subscribers
+      path: /customers/subscribers
+      operations:
+      - name: getsubscribers
+        method: GET
+        description: BigCommerce Get Subscribers
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: email
+          in: query
+          type: string
+          description: Filter items by email.
+        - name: first_name
+          in: query
+          type: string
+          description: Filter items by first_name.
+        - name: last_name
+          in: query
+          type: string
+          description: Filter items by last_name.
+        - name: source
+          in: query
+          type: string
+          description: Filter items by source.
+        - name: order_id
+          in: query
+          type: integer
+          description: Filter items by order_id.
+        - name: date_created
+          in: query
+          type: string
+          description: Filter items by date_created.
+        - name: date_modified
+          in: query
+          type: string
+          description: Filter items by date_modified. For example `v3/catalog/products?date_last_imported:min=2018-06-15`
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of products.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of products.
+        - name: id
+          in: query
+          type: integer
+          description: Filter items by id.
+      - name: createsubscriber
+        method: POST
+        description: BigCommerce Create a Subscriber
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletesubscribers
+        method: DELETE
+        description: BigCommerce Delete Subscribers
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: email
+          in: query
+          type: string
+          description: Filter items by email.
+        - name: first_name
+          in: query
+          type: string
+          description: Filter items by first_name.
+        - name: last_name
+          in: query
+          type: string
+          description: Filter items by last_name.
+        - name: source
+          in: query
+          type: string
+          description: Filter items by source.
+        - name: order_id
+          in: query
+          type: integer
+          description: Filter items by order_id.
+        - name: date_created
+          in: query
+          type: string
+          description: Filter items by date_created.
+        - name: date_modified
+          in: query
+          type: string
+          description: Filter items by date_modified. For example `v3/catalog/products?date_last_imported:min=2018-06-15`
+    - name: customers-subscribers-subscriber_id
+      path: /customers/subscribers/{subscriber_id}
+      operations:
+      - name: getsubscriber
+        method: GET
+        description: BigCommerce Get a Subscriber
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: subscriber_id
+          in: path
+          type: integer
+          description: The ID of the `Subscriber` requested.
+          required: true
+      - name: updatesubscriber
+        method: PUT
+        description: BigCommerce Update a Subscriber
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: subscriber_id
+          in: path
+          type: integer
+          description: The ID of the `Subscriber` requested.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletesubscriber
+        method: DELETE
+        description: BigCommerce Delete a Subscriber
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: subscriber_id
+          in: path
+          type: integer
+          description: The ID of the `Subscriber` requested.
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: subscribers-subscribers-rest
+    port: 8080
+    description: REST adapter for BigCommerce Subscribers — Subscribers. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/customers/subscribers
+      name: customers-subscribers
+      description: REST surface for customers-subscribers.
+      operations:
+      - method: GET
+        name: getsubscribers
+        description: BigCommerce Get Subscribers
+        call: subscribers-subscribers.getsubscribers
+        with:
+          email: rest.email
+          first_name: rest.first_name
+          last_name: rest.last_name
+          source: rest.source
+          order_id: rest.order_id
+          date_created: rest.date_created
+          date_modified: rest.date_modified
+          page: rest.page
+          limit: rest.limit
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createsubscriber
+        description: BigCommerce Create a Subscriber
+        call: subscribers-subscribers.createsubscriber
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletesubscribers
+        description: BigCommerce Delete Subscribers
+        call: subscribers-subscribers.deletesubscribers
+        with:
+          email: rest.email
+          first_name: rest.first_name
+          last_name: rest.last_name
+          source: rest.source
+          order_id: rest.order_id
+          date_created: rest.date_created
+          date_modified: rest.date_modified
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/customers/subscribers/{subscriber-id}
+      name: customers-subscribers-subscriber-id
+      description: REST surface for customers-subscribers-subscriber_id.
+      operations:
+      - method: GET
+        name: getsubscriber
+        description: BigCommerce Get a Subscriber
+        call: subscribers-subscribers.getsubscriber
+        with:
+          subscriber_id: rest.subscriber_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatesubscriber
+        description: BigCommerce Update a Subscriber
+        call: subscribers-subscribers.updatesubscriber
+        with:
+          subscriber_id: rest.subscriber_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletesubscriber
+        description: BigCommerce Delete a Subscriber
+        call: subscribers-subscribers.deletesubscriber
+        with:
+          subscriber_id: rest.subscriber_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: subscribers-subscribers-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Subscribers — Subscribers. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-subscribers
+      description: BigCommerce Get Subscribers
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: subscribers-subscribers.getsubscribers
+      with:
+        email: tools.email
+        first_name: tools.first_name
+        last_name: tools.last_name
+        source: tools.source
+        order_id: tools.order_id
+        date_created: tools.date_created
+        date_modified: tools.date_modified
+        page: tools.page
+        limit: tools.limit
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-subscriber
+      description: BigCommerce Create a Subscriber
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: subscribers-subscribers.createsubscriber
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-subscribers
+      description: BigCommerce Delete Subscribers
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: subscribers-subscribers.deletesubscribers
+      with:
+        email: tools.email
+        first_name: tools.first_name
+        last_name: tools.last_name
+        source: tools.source
+        order_id: tools.order_id
+        date_created: tools.date_created
+        date_modified: tools.date_modified
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-subscriber
+      description: BigCommerce Get a Subscriber
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: subscribers-subscribers.getsubscriber
+      with:
+        subscriber_id: tools.subscriber_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-subscriber
+      description: BigCommerce Update a Subscriber
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: subscribers-subscribers.updatesubscriber
+      with:
+        subscriber_id: tools.subscriber_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-subscriber
+      description: BigCommerce Delete a Subscriber
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: subscribers-subscribers.deletesubscriber
+      with:
+        subscriber_id: tools.subscriber_id
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,76 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Customer Login (SSO) — Login Token
+  description: 'BigCommerce Customer Login (SSO) — Login Token. 1 operations. Lead operation: BigCommerce Login Token. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Login Token
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: customer-login-sso-login-token
+    baseUri: https://{store_domain}
+    description: BigCommerce Customer Login (SSO) — Login Token business capability. Self-contained, no shared references.
+    resources:
+    - name: login-token-jwt_token
+      path: /login/token/{jwt_token}
+      operations:
+      - name: getcustomerlogin
+        method: GET
+        description: BigCommerce Login Token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: jwt_token
+          in: path
+          type: string
+          required: true
+  exposes:
+  - type: rest
+    namespace: customer-login-sso-login-token-rest
+    port: 8080
+    description: REST adapter for BigCommerce Customer Login (SSO) — Login Token. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/login/token/{jwt-token}
+      name: login-token-jwt-token
+      description: REST surface for login-token-jwt_token.
+      operations:
+      - method: GET
+        name: getcustomerlogin
+        description: BigCommerce Login Token
+        call: customer-login-sso-login-token.getcustomerlogin
+        with:
+          jwt_token: rest.jwt_token
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: customer-login-sso-login-token-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Customer Login (SSO) — Login Token. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-login-token
+      description: BigCommerce Login Token
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: customer-login-sso-login-token.getcustomerlogin
+      with:
+        jwt_token: tools.jwt_token
+      outputParameters:
+      - type: object
+        mapping: $.

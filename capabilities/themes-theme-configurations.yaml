@@ -1,0 +1,135 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Themes — Theme Configurations
+  description: 'BigCommerce Themes — Theme Configurations. 2 operations. Lead operation: BigCommerce Get Theme Configuration.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Theme Configurations
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: themes-theme-configurations
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Themes — Theme Configurations business capability. Self-contained, no shared references.
+    resources:
+    - name: themes-uuid-configurations
+      path: /themes/{uuid}/configurations
+      operations:
+      - name: getthemeconfiguration
+        method: GET
+        description: BigCommerce Get Theme Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: uuid:in
+          in: query
+          type: array
+          description: Filter configurations by a list of configuration UUIDs.
+        - name: channel_id:in
+          in: query
+          type: array
+          description: Filter configurations by a list of channel_ids.
+        - name: variation_uuid
+          in: query
+          type: string
+          description: Filter configurations by a variation_uuid.
+    - name: themes-uuid-configurations-validate
+      path: /themes/{uuid}/configurations/validate
+      operations:
+      - name: validatethemeconfiguration
+        method: POST
+        description: BigCommerce Validate Theme Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: themes-theme-configurations-rest
+    port: 8080
+    description: REST adapter for BigCommerce Themes — Theme Configurations. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/themes/{uuid}/configurations
+      name: themes-uuid-configurations
+      description: REST surface for themes-uuid-configurations.
+      operations:
+      - method: GET
+        name: getthemeconfiguration
+        description: BigCommerce Get Theme Configuration
+        call: themes-theme-configurations.getthemeconfiguration
+        with:
+          uuid:in: rest.uuid:in
+          channel_id:in: rest.channel_id:in
+          variation_uuid: rest.variation_uuid
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/themes/{uuid}/configurations/validate
+      name: themes-uuid-configurations-validate
+      description: REST surface for themes-uuid-configurations-validate.
+      operations:
+      - method: POST
+        name: validatethemeconfiguration
+        description: BigCommerce Validate Theme Configuration
+        call: themes-theme-configurations.validatethemeconfiguration
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: themes-theme-configurations-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Themes — Theme Configurations. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-theme-configuration
+      description: BigCommerce Get Theme Configuration
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: themes-theme-configurations.getthemeconfiguration
+      with:
+        uuid:in: tools.uuid:in
+        channel_id:in: tools.channel_id:in
+        variation_uuid: tools.variation_uuid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-validate-theme-configuration
+      description: BigCommerce Validate Theme Configuration
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: themes-theme-configurations.validatethemeconfiguration
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

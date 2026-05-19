@@ -1,0 +1,129 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Tax Classes — Taxes
+  description: 'BigCommerce Tax Classes — Taxes. 2 operations. Lead operation: BigCommerce Get All Tax Classes. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Taxes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: tax-classes-taxes
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v2
+    description: BigCommerce Tax Classes — Taxes business capability. Self-contained, no shared references.
+    resources:
+    - name: tax_classes
+      path: /tax_classes
+      operations:
+      - name: gettaxclasses
+        method: GET
+        description: BigCommerce Get All Tax Classes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: number
+          description: Optional filter param. Number of pages.
+        - name: limit
+          in: query
+          type: number
+          description: Optional filter param. Number of items per page
+    - name: tax_classes-id
+      path: /tax_classes/{id}
+      operations:
+      - name: gettaxclass
+        method: GET
+        description: BigCommerce Get a Tax Class
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          description: ID of the tax class.
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: tax-classes-taxes-rest
+    port: 8080
+    description: REST adapter for BigCommerce Tax Classes — Taxes. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/tax-classes
+      name: tax-classes
+      description: REST surface for tax_classes.
+      operations:
+      - method: GET
+        name: gettaxclasses
+        description: BigCommerce Get All Tax Classes
+        call: tax-classes-taxes.gettaxclasses
+        with:
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/tax-classes/{id}
+      name: tax-classes-id
+      description: REST surface for tax_classes-id.
+      operations:
+      - method: GET
+        name: gettaxclass
+        description: BigCommerce Get a Tax Class
+        call: tax-classes-taxes.gettaxclass
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: tax-classes-taxes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Tax Classes — Taxes. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-tax-classes
+      description: BigCommerce Get All Tax Classes
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: tax-classes-taxes.gettaxclasses
+      with:
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-tax-class
+      description: BigCommerce Get a Tax Class
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: tax-classes-taxes.gettaxclass
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

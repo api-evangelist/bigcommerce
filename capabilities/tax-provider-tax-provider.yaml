@@ -1,0 +1,214 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Tax Provider API — Tax Provider
+  description: 'BigCommerce Tax Provider API — Tax Provider. 4 operations. Lead operation: BigCommerce Adjust Tax Quote. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Tax Provider
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: tax-provider-tax-provider
+    baseUri: https://{app_domain}
+    description: BigCommerce Tax Provider API — Tax Provider business capability. Self-contained, no shared references.
+    resources:
+    - name: adjust
+      path: /adjust
+      operations:
+      - name: adjusttaxquote
+        method: POST
+        description: BigCommerce Adjust Tax Quote
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: query
+          type: string
+          description: Unique ID identifying the existing, persisted Tax Quote that will be adjusted.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: commit
+      path: /commit
+      operations:
+      - name: committaxquote
+        method: POST
+        description: BigCommerce Commit Tax Quote
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: estimate
+      path: /estimate
+      operations:
+      - name: estimatetaxes
+        method: POST
+        description: BigCommerce Estimate Taxes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: void
+      path: /void
+      operations:
+      - name: voidtaxquote
+        method: POST
+        description: BigCommerce Void Tax Quote
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: query
+          type: string
+          description: Unique ID identifying the existing, persisted Tax Quote that will be voided.
+          required: true
+    authentication:
+      type: basic
+      username: '{{env.BIGCOMMERCE_USER}}'
+      password: '{{env.BIGCOMMERCE_PASS}}'
+  exposes:
+  - type: rest
+    namespace: tax-provider-tax-provider-rest
+    port: 8080
+    description: REST adapter for BigCommerce Tax Provider API — Tax Provider. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/adjust
+      name: adjust
+      description: REST surface for adjust.
+      operations:
+      - method: POST
+        name: adjusttaxquote
+        description: BigCommerce Adjust Tax Quote
+        call: tax-provider-tax-provider.adjusttaxquote
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/commit
+      name: commit
+      description: REST surface for commit.
+      operations:
+      - method: POST
+        name: committaxquote
+        description: BigCommerce Commit Tax Quote
+        call: tax-provider-tax-provider.committaxquote
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/estimate
+      name: estimate
+      description: REST surface for estimate.
+      operations:
+      - method: POST
+        name: estimatetaxes
+        description: BigCommerce Estimate Taxes
+        call: tax-provider-tax-provider.estimatetaxes
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/void
+      name: void
+      description: REST surface for void.
+      operations:
+      - method: POST
+        name: voidtaxquote
+        description: BigCommerce Void Tax Quote
+        call: tax-provider-tax-provider.voidtaxquote
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: tax-provider-tax-provider-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Tax Provider API — Tax Provider. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-adjust-tax-quote
+      description: BigCommerce Adjust Tax Quote
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: tax-provider-tax-provider.adjusttaxquote
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-commit-tax-quote
+      description: BigCommerce Commit Tax Quote
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: tax-provider-tax-provider.committaxquote
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-estimate-taxes
+      description: BigCommerce Estimate Taxes
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: tax-provider-tax-provider.estimatetaxes
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-void-tax-quote
+      description: BigCommerce Void Tax Quote
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: tax-provider-tax-provider.voidtaxquote
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

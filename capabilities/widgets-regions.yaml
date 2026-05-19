@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Widgets — Regions
+  description: 'BigCommerce Widgets — Regions. 1 operations. Lead operation: BigCommerce Get Theme Regions. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Regions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: widgets-regions
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Widgets — Regions business capability. Self-contained, no shared references.
+    resources:
+    - name: content-regions
+      path: /content/regions
+      operations:
+      - name: getcontentregions
+        method: GET
+        description: BigCommerce Get Theme Regions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: template_file
+          in: query
+          type: string
+          description: 'The template file, for example: `templateFile=pages/home`.'
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: widgets-regions-rest
+    port: 8080
+    description: REST adapter for BigCommerce Widgets — Regions. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/content/regions
+      name: content-regions
+      description: REST surface for content-regions.
+      operations:
+      - method: GET
+        name: getcontentregions
+        description: BigCommerce Get Theme Regions
+        call: widgets-regions.getcontentregions
+        with:
+          template_file: rest.template_file
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: widgets-regions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Widgets — Regions. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-get-theme-regions
+      description: BigCommerce Get Theme Regions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: widgets-regions.getcontentregions
+      with:
+        template_file: tools.template_file
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,226 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Sites — Sites
+  description: 'BigCommerce Sites — Sites. 5 operations. Lead operation: BigCommerce Create a Site. Self-contained Naftiko
+    capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Sites
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: sites-sites
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Sites — Sites business capability. Self-contained, no shared references.
+    resources:
+    - name: sites
+      path: /sites
+      operations:
+      - name: createsite
+        method: POST
+        description: BigCommerce Create a Site
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: getsites
+        method: GET
+        description: BigCommerce Get Sites
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of items.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of items.
+        - name: channel_id:in
+          in: query
+          type: integer
+          description: Filters returned sites by channel ID.
+        - name: url_type:in
+          in: query
+          type: string
+          description: Filters sites returned in the `data.urls` array by their URL type.
+    - name: sites-site_id
+      path: /sites/{site_id}
+      operations:
+      - name: getsite
+        method: GET
+        description: BigCommerce Get a Site
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatesite
+        method: PUT
+        description: BigCommerce Update a Site
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletesite
+        method: DELETE
+        description: BigCommerce Delete a Site
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: sites-sites-rest
+    port: 8080
+    description: REST adapter for BigCommerce Sites — Sites. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/sites
+      name: sites
+      description: REST surface for sites.
+      operations:
+      - method: POST
+        name: createsite
+        description: BigCommerce Create a Site
+        call: sites-sites.createsite
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getsites
+        description: BigCommerce Get Sites
+        call: sites-sites.getsites
+        with:
+          page: rest.page
+          limit: rest.limit
+          channel_id:in: rest.channel_id:in
+          url_type:in: rest.url_type:in
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/sites/{site-id}
+      name: sites-site-id
+      description: REST surface for sites-site_id.
+      operations:
+      - method: GET
+        name: getsite
+        description: BigCommerce Get a Site
+        call: sites-sites.getsite
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatesite
+        description: BigCommerce Update a Site
+        call: sites-sites.updatesite
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletesite
+        description: BigCommerce Delete a Site
+        call: sites-sites.deletesite
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: sites-sites-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Sites — Sites. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: bigcommerce-create-site
+      description: BigCommerce Create a Site
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: sites-sites.createsite
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-sites
+      description: BigCommerce Get Sites
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: sites-sites.getsites
+      with:
+        page: tools.page
+        limit: tools.limit
+        channel_id:in: tools.channel_id:in
+        url_type:in: tools.url_type:in
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-site
+      description: BigCommerce Get a Site
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: sites-sites.getsite
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-site
+      description: BigCommerce Update a Site
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: sites-sites.updatesite
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-site
+      description: BigCommerce Delete a Site
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: sites-sites.deletesite
+      outputParameters:
+      - type: object
+        mapping: $.

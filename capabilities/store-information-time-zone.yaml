@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Store Information — Time Zone
+  description: 'BigCommerce Store Information — Time Zone. 1 operations. Lead operation: BigCommerce Get System Timestamp.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Time Zone
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: store-information-time-zone
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v2
+    description: BigCommerce Store Information — Time Zone business capability. Self-contained, no shared references.
+    resources:
+    - name: time
+      path: /time
+      operations:
+      - name: getsystemtimestamp
+        method: GET
+        description: BigCommerce Get System Timestamp
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: store-information-time-zone-rest
+    port: 8080
+    description: REST adapter for BigCommerce Store Information — Time Zone. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/time
+      name: time
+      description: REST surface for time.
+      operations:
+      - method: GET
+        name: getsystemtimestamp
+        description: BigCommerce Get System Timestamp
+        call: store-information-time-zone.getsystemtimestamp
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: store-information-time-zone-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Store Information — Time Zone. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-system-timestamp
+      description: BigCommerce Get System Timestamp
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: store-information-time-zone.getsystemtimestamp
+      outputParameters:
+      - type: object
+        mapping: $.

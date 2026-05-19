@@ -1,0 +1,133 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Tax Provider Connection — Tax Provider Connection
+  description: 'BigCommerce Tax Provider Connection — Tax Provider Connection. 3 operations. Lead operation: BigCommerce Get
+    Connection Status. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Tax Provider Connection
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: tax-provider-connection-tax-provider-connection
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Tax Provider Connection — Tax Provider Connection business capability. Self-contained, no shared
+      references.
+    resources:
+    - name: tax-providers-provider_id-connection
+      path: /tax/providers/{provider_id}/connection
+      operations:
+      - name: gettaxproviderconnection
+        method: GET
+        description: BigCommerce Get Connection Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletetaxproviderconnection
+        method: DELETE
+        description: BigCommerce Delete a Connection
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatetaxproviderconnection
+        method: PUT
+        description: BigCommerce Update a Connection
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: tax-provider-connection-tax-provider-connection-rest
+    port: 8080
+    description: REST adapter for BigCommerce Tax Provider Connection — Tax Provider Connection. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/tax/providers/{provider-id}/connection
+      name: tax-providers-provider-id-connection
+      description: REST surface for tax-providers-provider_id-connection.
+      operations:
+      - method: GET
+        name: gettaxproviderconnection
+        description: BigCommerce Get Connection Status
+        call: tax-provider-connection-tax-provider-connection.gettaxproviderconnection
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletetaxproviderconnection
+        description: BigCommerce Delete a Connection
+        call: tax-provider-connection-tax-provider-connection.deletetaxproviderconnection
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatetaxproviderconnection
+        description: BigCommerce Update a Connection
+        call: tax-provider-connection-tax-provider-connection.updatetaxproviderconnection
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: tax-provider-connection-tax-provider-connection-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Tax Provider Connection — Tax Provider Connection. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-connection-status
+      description: BigCommerce Get Connection Status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: tax-provider-connection-tax-provider-connection.gettaxproviderconnection
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-connection
+      description: BigCommerce Delete a Connection
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: tax-provider-connection-tax-provider-connection.deletetaxproviderconnection
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-connection
+      description: BigCommerce Update a Connection
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: tax-provider-connection-tax-provider-connection.updatetaxproviderconnection
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

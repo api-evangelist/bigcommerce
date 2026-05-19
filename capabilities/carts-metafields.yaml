@@ -1,0 +1,199 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Carts — Metafields
+  description: 'BigCommerce Carts — Metafields. 5 operations. Lead operation: BigCommerce Get Cart Metafields. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Metafields
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: carts-metafields
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Carts — Metafields business capability. Self-contained, no shared references.
+    resources:
+    - name: carts-cart_id-metafields
+      path: /carts/{cart_id}/metafields
+      operations:
+      - name: getcartmetafields
+        method: GET
+        description: BigCommerce Get Cart Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createcartmetafield
+        method: POST
+        description: BigCommerce Create a Cart Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: carts-cart_id-metafields-metafield_id
+      path: /carts/{cart_id}/metafields/{metafield_id}
+      operations:
+      - name: getcartmetafield
+        method: GET
+        description: BigCommerce Get a Cart Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatecartmetafield
+        method: PUT
+        description: BigCommerce Update a Cart Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletecartmetafield
+        method: DELETE
+        description: BigCommerce Delete a Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: carts-metafields-rest
+    port: 8080
+    description: REST adapter for BigCommerce Carts — Metafields. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/carts/{cart-id}/metafields
+      name: carts-cart-id-metafields
+      description: REST surface for carts-cart_id-metafields.
+      operations:
+      - method: GET
+        name: getcartmetafields
+        description: BigCommerce Get Cart Metafields
+        call: carts-metafields.getcartmetafields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcartmetafield
+        description: BigCommerce Create a Cart Metafield
+        call: carts-metafields.createcartmetafield
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/carts/{cart-id}/metafields/{metafield-id}
+      name: carts-cart-id-metafields-metafield-id
+      description: REST surface for carts-cart_id-metafields-metafield_id.
+      operations:
+      - method: GET
+        name: getcartmetafield
+        description: BigCommerce Get a Cart Metafield
+        call: carts-metafields.getcartmetafield
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecartmetafield
+        description: BigCommerce Update a Cart Metafield
+        call: carts-metafields.updatecartmetafield
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecartmetafield
+        description: BigCommerce Delete a Metafield
+        call: carts-metafields.deletecartmetafield
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: carts-metafields-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Carts — Metafields. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-get-cart-metafields
+      description: BigCommerce Get Cart Metafields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: carts-metafields.getcartmetafields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-cart-metafield
+      description: BigCommerce Create a Cart Metafield
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: carts-metafields.createcartmetafield
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-cart-metafield
+      description: BigCommerce Get a Cart Metafield
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: carts-metafields.getcartmetafield
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-cart-metafield
+      description: BigCommerce Update a Cart Metafield
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: carts-metafields.updatecartmetafield
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-metafield
+      description: BigCommerce Delete a Metafield
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: carts-metafields.deletecartmetafield
+      outputParameters:
+      - type: object
+        mapping: $.

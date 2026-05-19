@@ -1,0 +1,199 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Orders V3 — Metafields
+  description: 'BigCommerce Orders V3 — Metafields. 5 operations. Lead operation: BigCommerce Get Order Metafields. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Metafields
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: orders-metafields
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Orders V3 — Metafields business capability. Self-contained, no shared references.
+    resources:
+    - name: orders-order_id-metafields
+      path: /orders/{order_id}/metafields
+      operations:
+      - name: getordermetafields
+        method: GET
+        description: BigCommerce Get Order Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createordermetafield
+        method: POST
+        description: BigCommerce Create Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orders-order_id-metafields-metafield_id
+      path: /orders/{order_id}/metafields/{metafield_id}
+      operations:
+      - name: getordermetafield
+        method: GET
+        description: BigCommerce Get a Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateordermetafield
+        method: PUT
+        description: BigCommerce Update a Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteordermetafield
+        method: DELETE
+        description: BigCommerce Delete a Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: orders-metafields-rest
+    port: 8080
+    description: REST adapter for BigCommerce Orders V3 — Metafields. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/orders/{order-id}/metafields
+      name: orders-order-id-metafields
+      description: REST surface for orders-order_id-metafields.
+      operations:
+      - method: GET
+        name: getordermetafields
+        description: BigCommerce Get Order Metafields
+        call: orders-metafields.getordermetafields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createordermetafield
+        description: BigCommerce Create Metafields
+        call: orders-metafields.createordermetafield
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orders/{order-id}/metafields/{metafield-id}
+      name: orders-order-id-metafields-metafield-id
+      description: REST surface for orders-order_id-metafields-metafield_id.
+      operations:
+      - method: GET
+        name: getordermetafield
+        description: BigCommerce Get a Metafield
+        call: orders-metafields.getordermetafield
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateordermetafield
+        description: BigCommerce Update a Metafield
+        call: orders-metafields.updateordermetafield
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteordermetafield
+        description: BigCommerce Delete a Metafield
+        call: orders-metafields.deleteordermetafield
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: orders-metafields-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Orders V3 — Metafields. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-order-metafields
+      description: BigCommerce Get Order Metafields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: orders-metafields.getordermetafields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-metafields
+      description: BigCommerce Create Metafields
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: orders-metafields.createordermetafield
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-metafield
+      description: BigCommerce Get a Metafield
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: orders-metafields.getordermetafield
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-metafield
+      description: BigCommerce Update a Metafield
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: orders-metafields.updateordermetafield
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-metafield
+      description: BigCommerce Delete a Metafield
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: orders-metafields.deleteordermetafield
+      outputParameters:
+      - type: object
+        mapping: $.

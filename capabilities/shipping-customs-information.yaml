@@ -1,0 +1,160 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Shipping V3 — Customs Information
+  description: 'BigCommerce Shipping V3 — Customs Information. 3 operations. Lead operation: BigCommerce Get Customs Information.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Customs Information
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: shipping-customs-information
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Shipping V3 — Customs Information business capability. Self-contained, no shared references.
+    resources:
+    - name: shipping-products-customs-information
+      path: /shipping/products/customs-information
+      operations:
+      - name: getcustomsinformation
+        method: GET
+        description: BigCommerce Get Customs Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: product_id:in
+          in: query
+          type: array
+          description: A comma-separated list of product IDs. For more information, see [Filtering](/docs/start/about/common-query-params).
+        - name: page
+          in: query
+          type: integer
+        - name: limit
+          in: query
+          type: integer
+      - name: deletecustomsinformation
+        method: DELETE
+        description: BigCommerce Delete Customs Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: product_id:in
+          in: query
+          type: string
+          required: true
+      - name: updatecustomsinformation
+        method: PUT
+        description: BigCommerce Upsert Customs Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: shipping-customs-information-rest
+    port: 8080
+    description: REST adapter for BigCommerce Shipping V3 — Customs Information. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/shipping/products/customs-information
+      name: shipping-products-customs-information
+      description: REST surface for shipping-products-customs-information.
+      operations:
+      - method: GET
+        name: getcustomsinformation
+        description: BigCommerce Get Customs Information
+        call: shipping-customs-information.getcustomsinformation
+        with:
+          product_id:in: rest.product_id:in
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecustomsinformation
+        description: BigCommerce Delete Customs Information
+        call: shipping-customs-information.deletecustomsinformation
+        with:
+          product_id:in: rest.product_id:in
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecustomsinformation
+        description: BigCommerce Upsert Customs Information
+        call: shipping-customs-information.updatecustomsinformation
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: shipping-customs-information-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Shipping V3 — Customs Information. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-customs-information
+      description: BigCommerce Get Customs Information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: shipping-customs-information.getcustomsinformation
+      with:
+        product_id:in: tools.product_id:in
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-customs-information
+      description: BigCommerce Delete Customs Information
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: shipping-customs-information.deletecustomsinformation
+      with:
+        product_id:in: tools.product_id:in
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-upsert-customs-information
+      description: BigCommerce Upsert Customs Information
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: shipping-customs-information.updatecustomsinformation
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

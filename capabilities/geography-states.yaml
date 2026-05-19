@@ -1,0 +1,290 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Geography — States
+  description: 'BigCommerce Geography — States. 5 operations. Lead operation: BigCommerce Get All States. Self-contained Naftiko
+    capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - States
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: geography-states
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v2
+    description: BigCommerce Geography — States business capability. Self-contained, no shared references.
+    resources:
+    - name: countries-states
+      path: /countries/states
+      operations:
+      - name: getstates
+        method: GET
+        description: BigCommerce Get All States
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: limit
+          in: query
+          type: integer
+          description: The number of results to return per request.
+        - name: page
+          in: query
+          type: integer
+          description: The ordered grouping of results to return.
+    - name: countries-states-count
+      path: /countries/states/count
+      operations:
+      - name: getstatescount
+        method: GET
+        description: BigCommerce Get a Count of All States
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: countries-country_id-states
+      path: /countries/{country_id}/states
+      operations:
+      - name: getcountrystates
+        method: GET
+        description: BigCommerce Get All Countryʼs States
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: country_id
+          in: path
+          type: integer
+          description: Id of the country
+          required: true
+        - name: Accept
+          in: header
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: state
+          in: query
+          type: string
+          description: Name of the state/province.
+        - name: state_abbreviation
+          in: query
+          type: string
+          description: Abbreviation for the state/province.
+        - name: page
+          in: query
+          type: number
+          description: Number of pages
+        - name: limit
+          in: query
+          type: number
+          description: Count per page
+    - name: countries-country_id-states-count
+      path: /countries/{country_id}/states/count
+      operations:
+      - name: getcountrystatescount
+        method: GET
+        description: BigCommerce Get a Count of Country’s States
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: countries-country_id-states-id
+      path: /countries/{country_id}/states/{id}
+      operations:
+      - name: getcountrystate
+        method: GET
+        description: BigCommerce Get a Countryʼs State
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: country_id
+          in: path
+          type: integer
+          description: Id of the country
+          required: true
+        - name: id
+          in: path
+          type: integer
+          description: Id of the states
+          required: true
+        - name: Accept
+          in: header
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: geography-states-rest
+    port: 8080
+    description: REST adapter for BigCommerce Geography — States. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/countries/states
+      name: countries-states
+      description: REST surface for countries-states.
+      operations:
+      - method: GET
+        name: getstates
+        description: BigCommerce Get All States
+        call: geography-states.getstates
+        with:
+          limit: rest.limit
+          page: rest.page
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/countries/states/count
+      name: countries-states-count
+      description: REST surface for countries-states-count.
+      operations:
+      - method: GET
+        name: getstatescount
+        description: BigCommerce Get a Count of All States
+        call: geography-states.getstatescount
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/countries/{country-id}/states
+      name: countries-country-id-states
+      description: REST surface for countries-country_id-states.
+      operations:
+      - method: GET
+        name: getcountrystates
+        description: BigCommerce Get All Countryʼs States
+        call: geography-states.getcountrystates
+        with:
+          country_id: rest.country_id
+          Accept: rest.Accept
+          Content-Type: rest.Content-Type
+          state: rest.state
+          state_abbreviation: rest.state_abbreviation
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/countries/{country-id}/states/count
+      name: countries-country-id-states-count
+      description: REST surface for countries-country_id-states-count.
+      operations:
+      - method: GET
+        name: getcountrystatescount
+        description: BigCommerce Get a Count of Country’s States
+        call: geography-states.getcountrystatescount
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/countries/{country-id}/states/{id}
+      name: countries-country-id-states-id
+      description: REST surface for countries-country_id-states-id.
+      operations:
+      - method: GET
+        name: getcountrystate
+        description: BigCommerce Get a Countryʼs State
+        call: geography-states.getcountrystate
+        with:
+          country_id: rest.country_id
+          id: rest.id
+          Accept: rest.Accept
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: geography-states-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Geography — States. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-states
+      description: BigCommerce Get All States
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: geography-states.getstates
+      with:
+        limit: tools.limit
+        page: tools.page
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-count-all-states
+      description: BigCommerce Get a Count of All States
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: geography-states.getstatescount
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-all-country-s-states
+      description: BigCommerce Get All Countryʼs States
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: geography-states.getcountrystates
+      with:
+        country_id: tools.country_id
+        Accept: tools.Accept
+        Content-Type: tools.Content-Type
+        state: tools.state
+        state_abbreviation: tools.state_abbreviation
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-count-country-s-states
+      description: BigCommerce Get a Count of Country’s States
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: geography-states.getcountrystatescount
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-country-s-state
+      description: BigCommerce Get a Countryʼs State
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: geography-states.getcountrystate
+      with:
+        country_id: tools.country_id
+        id: tools.id
+        Accept: tools.Accept
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

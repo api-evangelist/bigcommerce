@@ -1,0 +1,122 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Customers V3 — Channel Settings
+  description: 'BigCommerce Customers V3 — Channel Settings. 2 operations. Lead operation: BigCommerce Get Customer Settings
+    per Channel. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Channel Settings
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: customers-channel-settings
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Customers V3 — Channel Settings business capability. Self-contained, no shared references.
+    resources:
+    - name: customers-settings-channels-channel_id
+      path: /customers/settings/channels/{channel_id}
+      operations:
+      - name: getcustomerssettingschannel
+        method: GET
+        description: BigCommerce Get Customer Settings per Channel
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: channel_id
+          in: path
+          type: integer
+          required: true
+      - name: updatecustomerssettingschannel
+        method: PUT
+        description: BigCommerce Update Customer Settings per Channel
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: channel_id
+          in: path
+          type: integer
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: customers-channel-settings-rest
+    port: 8080
+    description: REST adapter for BigCommerce Customers V3 — Channel Settings. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/customers/settings/channels/{channel-id}
+      name: customers-settings-channels-channel-id
+      description: REST surface for customers-settings-channels-channel_id.
+      operations:
+      - method: GET
+        name: getcustomerssettingschannel
+        description: BigCommerce Get Customer Settings per Channel
+        call: customers-channel-settings.getcustomerssettingschannel
+        with:
+          channel_id: rest.channel_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecustomerssettingschannel
+        description: BigCommerce Update Customer Settings per Channel
+        call: customers-channel-settings.updatecustomerssettingschannel
+        with:
+          channel_id: rest.channel_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: customers-channel-settings-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Customers V3 — Channel Settings. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-customer-settings-per
+      description: BigCommerce Get Customer Settings per Channel
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: customers-channel-settings.getcustomerssettingschannel
+      with:
+        channel_id: tools.channel_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-customer-settings-per
+      description: BigCommerce Update Customer Settings per Channel
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: customers-channel-settings.updatecustomerssettingschannel
+      with:
+        channel_id: tools.channel_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

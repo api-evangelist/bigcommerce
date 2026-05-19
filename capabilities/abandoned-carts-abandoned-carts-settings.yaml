@@ -1,0 +1,149 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Abandoned Carts — Abandoned Carts Settings
+  description: 'BigCommerce Abandoned Carts — Abandoned Carts Settings. 3 operations. Lead operation: BigCommerce Update Global
+    Abandoned Cart Settings. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Abandoned Carts Settings
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: abandoned-carts-abandoned-carts-settings
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Abandoned Carts — Abandoned Carts Settings business capability. Self-contained, no shared references.
+    resources:
+    - name: abandoned-carts-settings
+      path: /abandoned-carts/settings
+      operations:
+      - name: updateglobalabandonedcartsettings
+        method: PUT
+        description: BigCommerce Update Global Abandoned Cart Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: abandoned-carts-settings-channels-channel_id
+      path: /abandoned-carts/settings/channels/{channel_id}
+      operations:
+      - name: getchannelabandonedcartsettings
+        method: GET
+        description: BigCommerce Get Channel Abandoned Cart Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatechannelabandonedcartsettings
+        method: PUT
+        description: BigCommerce Update Channel Abandoned Cart Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: abandoned-carts-abandoned-carts-settings-rest
+    port: 8080
+    description: REST adapter for BigCommerce Abandoned Carts — Abandoned Carts Settings. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/abandoned-carts/settings
+      name: abandoned-carts-settings
+      description: REST surface for abandoned-carts-settings.
+      operations:
+      - method: PUT
+        name: updateglobalabandonedcartsettings
+        description: BigCommerce Update Global Abandoned Cart Settings
+        call: abandoned-carts-abandoned-carts-settings.updateglobalabandonedcartsettings
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/abandoned-carts/settings/channels/{channel-id}
+      name: abandoned-carts-settings-channels-channel-id
+      description: REST surface for abandoned-carts-settings-channels-channel_id.
+      operations:
+      - method: GET
+        name: getchannelabandonedcartsettings
+        description: BigCommerce Get Channel Abandoned Cart Settings
+        call: abandoned-carts-abandoned-carts-settings.getchannelabandonedcartsettings
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatechannelabandonedcartsettings
+        description: BigCommerce Update Channel Abandoned Cart Settings
+        call: abandoned-carts-abandoned-carts-settings.updatechannelabandonedcartsettings
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: abandoned-carts-abandoned-carts-settings-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Abandoned Carts — Abandoned Carts Settings. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-update-global-abandoned-cart
+      description: BigCommerce Update Global Abandoned Cart Settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: abandoned-carts-abandoned-carts-settings.updateglobalabandonedcartsettings
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-channel-abandoned-cart
+      description: BigCommerce Get Channel Abandoned Cart Settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: abandoned-carts-abandoned-carts-settings.getchannelabandonedcartsettings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-channel-abandoned-cart
+      description: BigCommerce Update Channel Abandoned Cart Settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: abandoned-carts-abandoned-carts-settings.updatechannelabandonedcartsettings
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

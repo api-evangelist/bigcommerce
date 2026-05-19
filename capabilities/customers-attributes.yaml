@@ -1,0 +1,290 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Customers V3 — Attributes
+  description: 'BigCommerce Customers V3 — Attributes. 4 operations. Lead operation: BigCommerce Get All Customer Attributes.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Attributes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: customers-attributes
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Customers V3 — Attributes business capability. Self-contained, no shared references.
+    resources:
+    - name: customers-attributes
+      path: /customers/attributes
+      operations:
+      - name: getcustomersattributes
+        method: GET
+        description: BigCommerce Get All Customer Attributes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: Page number. `page=1`
+        - name: limit
+          in: query
+          type: number
+          description: Items count per page. `limit=50`
+        - name: name
+          in: query
+          type: string
+          description: Filter items by customer attribute name. `name=Date+Joined`
+        - name: name:like
+          in: query
+          type: string
+          description: Filter items by substring in customer attribute name. `name:like=join`
+        - name: type
+          in: query
+          type: string
+          description: The type of the customer attribute.
+        - name: date_created
+          in: query
+          type: string
+          description: Filter items by `date_created`. `date_created=2021-01-07T20:28:16Z`
+        - name: date_created:max
+          in: query
+          type: string
+          description: Filter items by maximum `date_created`. ISO 8601 full-date is required, ISO 8601 full-time is not required.
+            UNIX timestamp also accepted. `date_created=2021-01-
+        - name: date_created:min
+          in: query
+          type: string
+          description: Filter items by minimum `date_created`. ISO 8601 full-date is required, ISO 8601 full-time is not required.
+            UNIX timestamp also accepted. `date_created=2021-01-
+        - name: date_modified
+          in: query
+          type: string
+          description: Filter items by `date_modified`.
+        - name: date_modified:max
+          in: query
+          type: string
+          description: Filter items by maximum `date_modified`. ISO 8601 full-date is required, ISO 8601 full-time is not
+            required. UNIX timestamp also accepted. `date_created=2021-01
+        - name: date_modified:min
+          in: query
+          type: string
+          description: Filter items by minimum `date_modified`. ISO 8601 full-date is required, ISO 8601 full-time is not
+            required. UNIX timestamp also accepted. `date_created=2021-01
+        - name: Accept
+          in: header
+          type: string
+        - name: Content-Type
+          in: header
+          type: string
+      - name: createcustomersattributes
+        method: POST
+        description: BigCommerce Create a Customer Attribute
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Accept
+          in: header
+          type: string
+        - name: Content-Type
+          in: header
+          type: string
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: updatecustomersattributes
+        method: PUT
+        description: BigCommerce Update a Customer Attribute
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Accept
+          in: header
+          type: string
+        - name: Content-Type
+          in: header
+          type: string
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletecustomersattributes
+        method: DELETE
+        description: BigCommerce Delete Customer Attributes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id:in
+          in: query
+          type: array
+          description: Filter items by ID.
+          required: true
+        - name: Accept
+          in: header
+          type: string
+        - name: Content-Type
+          in: header
+          type: string
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: customers-attributes-rest
+    port: 8080
+    description: REST adapter for BigCommerce Customers V3 — Attributes. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/customers/attributes
+      name: customers-attributes
+      description: REST surface for customers-attributes.
+      operations:
+      - method: GET
+        name: getcustomersattributes
+        description: BigCommerce Get All Customer Attributes
+        call: customers-attributes.getcustomersattributes
+        with:
+          page: rest.page
+          limit: rest.limit
+          name: rest.name
+          name:like: rest.name:like
+          type: rest.type
+          date_created: rest.date_created
+          date_created:max: rest.date_created:max
+          date_created:min: rest.date_created:min
+          date_modified: rest.date_modified
+          date_modified:max: rest.date_modified:max
+          date_modified:min: rest.date_modified:min
+          Accept: rest.Accept
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcustomersattributes
+        description: BigCommerce Create a Customer Attribute
+        call: customers-attributes.createcustomersattributes
+        with:
+          Accept: rest.Accept
+          Content-Type: rest.Content-Type
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecustomersattributes
+        description: BigCommerce Update a Customer Attribute
+        call: customers-attributes.updatecustomersattributes
+        with:
+          Accept: rest.Accept
+          Content-Type: rest.Content-Type
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecustomersattributes
+        description: BigCommerce Delete Customer Attributes
+        call: customers-attributes.deletecustomersattributes
+        with:
+          id:in: rest.id:in
+          Accept: rest.Accept
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: customers-attributes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Customers V3 — Attributes. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-customer-attributes
+      description: BigCommerce Get All Customer Attributes
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: customers-attributes.getcustomersattributes
+      with:
+        page: tools.page
+        limit: tools.limit
+        name: tools.name
+        name:like: tools.name:like
+        type: tools.type
+        date_created: tools.date_created
+        date_created:max: tools.date_created:max
+        date_created:min: tools.date_created:min
+        date_modified: tools.date_modified
+        date_modified:max: tools.date_modified:max
+        date_modified:min: tools.date_modified:min
+        Accept: tools.Accept
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-customer-attribute
+      description: BigCommerce Create a Customer Attribute
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: customers-attributes.createcustomersattributes
+      with:
+        Accept: tools.Accept
+        Content-Type: tools.Content-Type
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-customer-attribute
+      description: BigCommerce Update a Customer Attribute
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: customers-attributes.updatecustomersattributes
+      with:
+        Accept: tools.Accept
+        Content-Type: tools.Content-Type
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-customer-attributes
+      description: BigCommerce Delete Customer Attributes
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: customers-attributes.deletecustomersattributes
+      with:
+        id:in: tools.id:in
+        Accept: tools.Accept
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

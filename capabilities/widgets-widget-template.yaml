@@ -1,0 +1,277 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Widgets — Widget Template
+  description: 'BigCommerce Widgets — Widget Template. 6 operations. Lead operation: BigCommerce Create a Widget Template.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Widget Template
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: widgets-widget-template
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Widgets — Widget Template business capability. Self-contained, no shared references.
+    resources:
+    - name: content-widget-templates
+      path: /content/widget-templates
+      operations:
+      - name: createwidgettemplate
+        method: POST
+        description: BigCommerce Create a Widget Template
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: getwidgettemplates
+        method: GET
+        description: BigCommerce Get All Widget Templates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of products.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of products.
+        - name: widget_template_kind
+          in: query
+          type: string
+          description: The kind of widget template.
+        - name: channel_id:in
+          in: query
+          type: integer
+          description: Filter items by channel_id.
+    - name: content-widget-templates-uuid
+      path: /content/widget-templates/{uuid}
+      operations:
+      - name: getwidgettemplate
+        method: GET
+        description: BigCommerce Get a Widget Template
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: version_uuid
+          in: query
+          type: string
+          description: This is an optional query parameter used to attempt to fetch a specific Widget Template version.
+      - name: updatewidgettemplate
+        method: PUT
+        description: BigCommerce Update a Widget Template
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletewidgettemplate
+        method: DELETE
+        description: BigCommerce Delete A Widget Template
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: content-widget-templates-uuid-preview
+      path: /content/widget-templates/{uuid}/preview
+      operations:
+      - name: previewwidget
+        method: POST
+        description: BigCommerce Render a Widget Template
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: widgets-widget-template-rest
+    port: 8080
+    description: REST adapter for BigCommerce Widgets — Widget Template. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/content/widget-templates
+      name: content-widget-templates
+      description: REST surface for content-widget-templates.
+      operations:
+      - method: POST
+        name: createwidgettemplate
+        description: BigCommerce Create a Widget Template
+        call: widgets-widget-template.createwidgettemplate
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getwidgettemplates
+        description: BigCommerce Get All Widget Templates
+        call: widgets-widget-template.getwidgettemplates
+        with:
+          page: rest.page
+          limit: rest.limit
+          widget_template_kind: rest.widget_template_kind
+          channel_id:in: rest.channel_id:in
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/widget-templates/{uuid}
+      name: content-widget-templates-uuid
+      description: REST surface for content-widget-templates-uuid.
+      operations:
+      - method: GET
+        name: getwidgettemplate
+        description: BigCommerce Get a Widget Template
+        call: widgets-widget-template.getwidgettemplate
+        with:
+          version_uuid: rest.version_uuid
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatewidgettemplate
+        description: BigCommerce Update a Widget Template
+        call: widgets-widget-template.updatewidgettemplate
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletewidgettemplate
+        description: BigCommerce Delete A Widget Template
+        call: widgets-widget-template.deletewidgettemplate
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/widget-templates/{uuid}/preview
+      name: content-widget-templates-uuid-preview
+      description: REST surface for content-widget-templates-uuid-preview.
+      operations:
+      - method: POST
+        name: previewwidget
+        description: BigCommerce Render a Widget Template
+        call: widgets-widget-template.previewwidget
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: widgets-widget-template-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Widgets — Widget Template. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-create-widget-template
+      description: BigCommerce Create a Widget Template
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: widgets-widget-template.createwidgettemplate
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-all-widget-templates
+      description: BigCommerce Get All Widget Templates
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: widgets-widget-template.getwidgettemplates
+      with:
+        page: tools.page
+        limit: tools.limit
+        widget_template_kind: tools.widget_template_kind
+        channel_id:in: tools.channel_id:in
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-widget-template
+      description: BigCommerce Get a Widget Template
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: widgets-widget-template.getwidgettemplate
+      with:
+        version_uuid: tools.version_uuid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-widget-template
+      description: BigCommerce Update a Widget Template
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: widgets-widget-template.updatewidgettemplate
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-widget-template
+      description: BigCommerce Delete A Widget Template
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: widgets-widget-template.deletewidgettemplate
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-render-widget-template
+      description: BigCommerce Render a Widget Template
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: widgets-widget-template.previewwidget
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

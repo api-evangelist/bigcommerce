@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Products — Summary
+  description: 'BigCommerce Catalog - Products — Summary. 1 operations. Lead operation: BigCommerce Get a Catalog Summary.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Summary
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-products-summary
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Products — Summary business capability. Self-contained, no shared references.
+    resources:
+    - name: catalog-summary
+      path: /catalog/summary
+      operations:
+      - name: getcatalogsummary
+        method: GET
+        description: BigCommerce Get a Catalog Summary
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-products-summary-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Products — Summary. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/catalog/summary
+      name: catalog-summary
+      description: REST surface for catalog-summary.
+      operations:
+      - method: GET
+        name: getcatalogsummary
+        description: BigCommerce Get a Catalog Summary
+        call: catalog-products-summary.getcatalogsummary
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-products-summary-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Products — Summary. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-catalog-summary
+      description: BigCommerce Get a Catalog Summary
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-products-summary.getcatalogsummary
+      outputParameters:
+      - type: object
+        mapping: $.

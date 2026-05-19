@@ -1,0 +1,112 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Customers V3 — Consent
+  description: 'BigCommerce Customers V3 — Consent. 2 operations. Lead operation: BigCommerce Get Customer Consent. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Consent
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: customers-consent
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Customers V3 — Consent business capability. Self-contained, no shared references.
+    resources:
+    - name: customers-customerId-consent
+      path: /customers/{customerId}/consent
+      operations:
+      - name: getcustomerconsent
+        method: GET
+        description: BigCommerce Get Customer Consent
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatecustomerconsent
+        method: PUT
+        description: BigCommerce Update Customer Consent
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: customers-consent-rest
+    port: 8080
+    description: REST adapter for BigCommerce Customers V3 — Consent. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/customers/{customerid}/consent
+      name: customers-customerid-consent
+      description: REST surface for customers-customerId-consent.
+      operations:
+      - method: GET
+        name: getcustomerconsent
+        description: BigCommerce Get Customer Consent
+        call: customers-consent.getcustomerconsent
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecustomerconsent
+        description: BigCommerce Update Customer Consent
+        call: customers-consent.updatecustomerconsent
+        with:
+          Content-Type: rest.Content-Type
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: customers-consent-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Customers V3 — Consent. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-customer-consent
+      description: BigCommerce Get Customer Consent
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: customers-consent.getcustomerconsent
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-customer-consent
+      description: BigCommerce Update Customer Consent
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: customers-consent.updatecustomerconsent
+      with:
+        Content-Type: tools.Content-Type
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,336 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Brands — Metafields
+  description: 'BigCommerce Catalog - Brands — Metafields. 5 operations. Lead operation: BigCommerce Get Brand Metafields.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Metafields
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-brands-metafields
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Brands — Metafields business capability. Self-contained, no shared references.
+    resources:
+    - name: catalog-brands-brand_id-metafields
+      path: /catalog/brands/{brand_id}/metafields
+      operations:
+      - name: getbrandmetafields
+        method: GET
+        description: BigCommerce Get Brand Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: query
+          type: integer
+          description: Filter items by ID.
+        - name: id:in
+          in: query
+          type: array
+        - name: id:not_in
+          in: query
+          type: array
+        - name: id:min
+          in: query
+          type: array
+        - name: id:max
+          in: query
+          type: array
+        - name: id:greater
+          in: query
+          type: array
+        - name: id:less
+          in: query
+          type: array
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of products.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of products.
+        - name: key
+          in: query
+          type: string
+          description: Filter based on a metafieldʼs key.
+        - name: namespace
+          in: query
+          type: string
+          description: Filter based on a metafieldʼs namespace.
+        - name: include_fields
+          in: query
+          type: string
+          description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        - name: exclude_fields
+          in: query
+          type: string
+          description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response.
+            The ID cannot be excluded.
+      - name: createbrandmetafield
+        method: POST
+        description: BigCommerce Create a Brand Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: catalog-brands-brand_id-metafields-metafield_id
+      path: /catalog/brands/{brand_id}/metafields/{metafield_id}
+      operations:
+      - name: getbrandmetafield
+        method: GET
+        description: BigCommerce Get a Brand Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: metafield_id
+          in: path
+          type: integer
+          description: The ID of the `Metafield`.
+          required: true
+        - name: brand_id
+          in: path
+          type: integer
+          description: The ID of the `Brand` to which the resource belongs.
+          required: true
+        - name: include_fields
+          in: query
+          type: string
+          description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        - name: exclude_fields
+          in: query
+          type: string
+          description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response.
+            The ID cannot be excluded.
+      - name: updatebrandmetafield
+        method: PUT
+        description: BigCommerce Update a Brand Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: metafield_id
+          in: path
+          type: integer
+          description: The ID of the `Metafield`.
+          required: true
+        - name: brand_id
+          in: path
+          type: integer
+          description: The ID of the `Brand` to which the resource belongs.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletebrandmetafield
+        method: DELETE
+        description: BigCommerce Delete a Brand Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: metafield_id
+          in: path
+          type: integer
+          description: The ID of the `Metafield`.
+          required: true
+        - name: brand_id
+          in: path
+          type: integer
+          description: The ID of the `Brand` to which the resource belongs.
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-brands-metafields-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Brands — Metafields. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/brands/{brand-id}/metafields
+      name: catalog-brands-brand-id-metafields
+      description: REST surface for catalog-brands-brand_id-metafields.
+      operations:
+      - method: GET
+        name: getbrandmetafields
+        description: BigCommerce Get Brand Metafields
+        call: catalog-brands-metafields.getbrandmetafields
+        with:
+          id: rest.id
+          id:in: rest.id:in
+          id:not_in: rest.id:not_in
+          id:min: rest.id:min
+          id:max: rest.id:max
+          id:greater: rest.id:greater
+          id:less: rest.id:less
+          page: rest.page
+          limit: rest.limit
+          key: rest.key
+          namespace: rest.namespace
+          include_fields: rest.include_fields
+          exclude_fields: rest.exclude_fields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createbrandmetafield
+        description: BigCommerce Create a Brand Metafield
+        call: catalog-brands-metafields.createbrandmetafield
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/catalog/brands/{brand-id}/metafields/{metafield-id}
+      name: catalog-brands-brand-id-metafields-metafield-id
+      description: REST surface for catalog-brands-brand_id-metafields-metafield_id.
+      operations:
+      - method: GET
+        name: getbrandmetafield
+        description: BigCommerce Get a Brand Metafields
+        call: catalog-brands-metafields.getbrandmetafield
+        with:
+          metafield_id: rest.metafield_id
+          brand_id: rest.brand_id
+          include_fields: rest.include_fields
+          exclude_fields: rest.exclude_fields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatebrandmetafield
+        description: BigCommerce Update a Brand Metafield
+        call: catalog-brands-metafields.updatebrandmetafield
+        with:
+          metafield_id: rest.metafield_id
+          brand_id: rest.brand_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletebrandmetafield
+        description: BigCommerce Delete a Brand Metafield
+        call: catalog-brands-metafields.deletebrandmetafield
+        with:
+          metafield_id: rest.metafield_id
+          brand_id: rest.brand_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-brands-metafields-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Brands — Metafields. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-brand-metafields
+      description: BigCommerce Get Brand Metafields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-brands-metafields.getbrandmetafields
+      with:
+        id: tools.id
+        id:in: tools.id:in
+        id:not_in: tools.id:not_in
+        id:min: tools.id:min
+        id:max: tools.id:max
+        id:greater: tools.id:greater
+        id:less: tools.id:less
+        page: tools.page
+        limit: tools.limit
+        key: tools.key
+        namespace: tools.namespace
+        include_fields: tools.include_fields
+        exclude_fields: tools.exclude_fields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-brand-metafield
+      description: BigCommerce Create a Brand Metafield
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: catalog-brands-metafields.createbrandmetafield
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-brand-metafields-2
+      description: BigCommerce Get a Brand Metafields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-brands-metafields.getbrandmetafield
+      with:
+        metafield_id: tools.metafield_id
+        brand_id: tools.brand_id
+        include_fields: tools.include_fields
+        exclude_fields: tools.exclude_fields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-brand-metafield
+      description: BigCommerce Update a Brand Metafield
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: catalog-brands-metafields.updatebrandmetafield
+      with:
+        metafield_id: tools.metafield_id
+        brand_id: tools.brand_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-brand-metafield
+      description: BigCommerce Delete a Brand Metafield
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: catalog-brands-metafields.deletebrandmetafield
+      with:
+        metafield_id: tools.metafield_id
+        brand_id: tools.brand_id
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,132 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Webhooks v3 — Manage Webhooks (Single)
+  description: 'BigCommerce Webhooks v3 — Manage Webhooks (Single). 3 operations. Lead operation: BigCommerce Get a Webhook.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Manage Webhooks (Single)
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: webhooks-v3-manage-webhooks-single
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Webhooks v3 — Manage Webhooks (Single) business capability. Self-contained, no shared references.
+    resources:
+    - name: hooks-webhook_id
+      path: /hooks/{webhook_id}
+      operations:
+      - name: getwebhook
+        method: GET
+        description: BigCommerce Get a Webhook
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatewebhook
+        method: PUT
+        description: BigCommerce Update a Webhook
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletewebhook
+        method: DELETE
+        description: BigCommerce Delete a Webhook
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: webhooks-v3-manage-webhooks-single-rest
+    port: 8080
+    description: REST adapter for BigCommerce Webhooks v3 — Manage Webhooks (Single). One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/hooks/{webhook-id}
+      name: hooks-webhook-id
+      description: REST surface for hooks-webhook_id.
+      operations:
+      - method: GET
+        name: getwebhook
+        description: BigCommerce Get a Webhook
+        call: webhooks-v3-manage-webhooks-single.getwebhook
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatewebhook
+        description: BigCommerce Update a Webhook
+        call: webhooks-v3-manage-webhooks-single.updatewebhook
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletewebhook
+        description: BigCommerce Delete a Webhook
+        call: webhooks-v3-manage-webhooks-single.deletewebhook
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: webhooks-v3-manage-webhooks-single-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Webhooks v3 — Manage Webhooks (Single). One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-webhook
+      description: BigCommerce Get a Webhook
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: webhooks-v3-manage-webhooks-single.getwebhook
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-webhook
+      description: BigCommerce Update a Webhook
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: webhooks-v3-manage-webhooks-single.updatewebhook
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-webhook
+      description: BigCommerce Delete a Webhook
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: webhooks-v3-manage-webhooks-single.deletewebhook
+      outputParameters:
+      - type: object
+        mapping: $.

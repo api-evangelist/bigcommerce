@@ -1,0 +1,148 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Products — Bulk Pricing Rules
+  description: 'BigCommerce Catalog - Products — Bulk Pricing Rules. 3 operations. Lead operation: BigCommerce Get a Bulk
+    Pricing Rule. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Bulk Pricing Rules
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-products-bulk-pricing-rules
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Products — Bulk Pricing Rules business capability. Self-contained, no shared references.
+    resources:
+    - name: catalog-products-product_id-bulk-pricing-rules-bulk_pricing_rule_id
+      path: /catalog/products/{product_id}/bulk-pricing-rules/{bulk_pricing_rule_id}
+      operations:
+      - name: getbulkpricingrule
+        method: GET
+        description: BigCommerce Get a Bulk Pricing Rule
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: include_fields
+          in: query
+          type: string
+          description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        - name: exclude_fields
+          in: query
+          type: string
+          description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response.
+            The ID cannot be excluded.
+      - name: updatebulkpricingrule
+        method: PUT
+        description: BigCommerce Update a Bulk Pricing Rule
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletebulkpricingrule
+        method: DELETE
+        description: BigCommerce Delete a Bulk Pricing Rule
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-products-bulk-pricing-rules-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Products — Bulk Pricing Rules. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/products/{product-id}/bulk-pricing-rules/{bulk-pricing-rule-id}
+      name: catalog-products-product-id-bulk-pricing-rules-bulk-pricing-rule-id
+      description: REST surface for catalog-products-product_id-bulk-pricing-rules-bulk_pricing_rule_id.
+      operations:
+      - method: GET
+        name: getbulkpricingrule
+        description: BigCommerce Get a Bulk Pricing Rule
+        call: catalog-products-bulk-pricing-rules.getbulkpricingrule
+        with:
+          include_fields: rest.include_fields
+          exclude_fields: rest.exclude_fields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatebulkpricingrule
+        description: BigCommerce Update a Bulk Pricing Rule
+        call: catalog-products-bulk-pricing-rules.updatebulkpricingrule
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletebulkpricingrule
+        description: BigCommerce Delete a Bulk Pricing Rule
+        call: catalog-products-bulk-pricing-rules.deletebulkpricingrule
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-products-bulk-pricing-rules-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Products — Bulk Pricing Rules. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-bulk-pricing-rule
+      description: BigCommerce Get a Bulk Pricing Rule
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-products-bulk-pricing-rules.getbulkpricingrule
+      with:
+        include_fields: tools.include_fields
+        exclude_fields: tools.exclude_fields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-bulk-pricing-rule
+      description: BigCommerce Update a Bulk Pricing Rule
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: catalog-products-bulk-pricing-rules.updatebulkpricingrule
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-bulk-pricing-rule
+      description: BigCommerce Delete a Bulk Pricing Rule
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: catalog-products-bulk-pricing-rules.deletebulkpricingrule
+      outputParameters:
+      - type: object
+        mapping: $.

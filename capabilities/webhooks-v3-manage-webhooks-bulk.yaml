@@ -1,0 +1,107 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Webhooks v3 — Manage Webhooks (Bulk)
+  description: 'BigCommerce Webhooks v3 — Manage Webhooks (Bulk). 2 operations. Lead operation: BigCommerce Create a Webhook.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Manage Webhooks (Bulk)
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: webhooks-v3-manage-webhooks-bulk
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Webhooks v3 — Manage Webhooks (Bulk) business capability. Self-contained, no shared references.
+    resources:
+    - name: hooks
+      path: /hooks
+      operations:
+      - name: createwebhooks
+        method: POST
+        description: BigCommerce Create a Webhook
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: getwebhooks
+        method: GET
+        description: BigCommerce Get Webhooks
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: webhooks-v3-manage-webhooks-bulk-rest
+    port: 8080
+    description: REST adapter for BigCommerce Webhooks v3 — Manage Webhooks (Bulk). One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/hooks
+      name: hooks
+      description: REST surface for hooks.
+      operations:
+      - method: POST
+        name: createwebhooks
+        description: BigCommerce Create a Webhook
+        call: webhooks-v3-manage-webhooks-bulk.createwebhooks
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getwebhooks
+        description: BigCommerce Get Webhooks
+        call: webhooks-v3-manage-webhooks-bulk.getwebhooks
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: webhooks-v3-manage-webhooks-bulk-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Webhooks v3 — Manage Webhooks (Bulk). One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-create-webhook
+      description: BigCommerce Create a Webhook
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: webhooks-v3-manage-webhooks-bulk.createwebhooks
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-webhooks
+      description: BigCommerce Get Webhooks
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: webhooks-v3-manage-webhooks-bulk.getwebhooks
+      outputParameters:
+      - type: object
+        mapping: $.

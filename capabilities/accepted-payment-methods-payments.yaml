@@ -1,0 +1,87 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Accepted Payment Methods — Payments
+  description: 'BigCommerce Accepted Payment Methods — Payments. 1 operations. Lead operation: BigCommerce Get Accepted Payment
+    Methods. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Payments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: accepted-payment-methods-payments
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Accepted Payment Methods — Payments business capability. Self-contained, no shared references.
+    resources:
+    - name: payments-methods
+      path: /payments/methods
+      operations:
+      - name: getpaymentmethods
+        method: GET
+        description: BigCommerce Get Accepted Payment Methods
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: order_id
+          in: query
+          type: integer
+          description: Identifier for the order
+        - name: checkout_id
+          in: query
+          type: string
+          description: Identifier for the checkout (same as the cart ID)
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: accepted-payment-methods-payments-rest
+    port: 8080
+    description: REST adapter for BigCommerce Accepted Payment Methods — Payments. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/payments/methods
+      name: payments-methods
+      description: REST surface for payments-methods.
+      operations:
+      - method: GET
+        name: getpaymentmethods
+        description: BigCommerce Get Accepted Payment Methods
+        call: accepted-payment-methods-payments.getpaymentmethods
+        with:
+          order_id: rest.order_id
+          checkout_id: rest.checkout_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: accepted-payment-methods-payments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Accepted Payment Methods — Payments. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-accepted-payment-methods
+      description: BigCommerce Get Accepted Payment Methods
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: accepted-payment-methods-payments.getpaymentmethods
+      with:
+        order_id: tools.order_id
+        checkout_id: tools.checkout_id
+      outputParameters:
+      - type: object
+        mapping: $.

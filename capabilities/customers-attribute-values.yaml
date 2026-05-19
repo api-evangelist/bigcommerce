@@ -1,0 +1,245 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Customers V3 — Attribute Values
+  description: 'BigCommerce Customers V3 — Attribute Values. 3 operations. Lead operation: BigCommerce Get All Customer Attribute
+    Values. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Attribute Values
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: customers-attribute-values
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Customers V3 — Attribute Values business capability. Self-contained, no shared references.
+    resources:
+    - name: customers-attribute-values
+      path: /customers/attribute-values
+      operations:
+      - name: getcustomersattributevalues
+        method: GET
+        description: BigCommerce Get All Customer Attribute Values
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Accept
+          in: header
+          type: string
+        - name: Content-Type
+          in: header
+          type: string
+        - name: page
+          in: query
+          type: integer
+          description: Page number. `page=1`
+        - name: limit
+          in: query
+          type: number
+          description: Items count per page. `limit=50`
+        - name: customer_id:in
+          in: query
+          type: array
+          description: Filter items by the customer ID. `customer_id:in=23,24,55`
+        - name: attribute_id:in
+          in: query
+          type: array
+          description: Filter items by the attribute ID. `attribute_id:in=1,2`
+        - name: name
+          in: query
+          type: string
+          description: Filter items by the attribute name. `name=age`
+        - name: date_created
+          in: query
+          type: string
+          description: Filter items by `date_created`. `date_created=2018-09-05T13:43:54`
+        - name: date_created:max
+          in: query
+          type: string
+          description: Filter items by maximum `date_created`. ISO 8601 full-date is required, ISO 8601 full-time is not required.
+            UNIX timestamp also accepted. `date_created=2021-01-
+        - name: date_created:min
+          in: query
+          type: string
+          description: Filter items by minimum `date_created`. ISO 8601 full-date is required, ISO 8601 full-time is not required.
+            UNIX timestamp also accepted. `date_created=2021-01-
+        - name: date_modified
+          in: query
+          type: string
+          description: Filter items by `date_modified`. `date_modified=2018-09-05T13:45:03`
+        - name: date_modified:max
+          in: query
+          type: string
+          description: Filter items by maximum `date_modified`. ISO 8601 full-date is required, ISO 8601 full-time is not
+            required. UNIX timestamp also accepted. `date_created=2021-01
+        - name: date_modified:min
+          in: query
+          type: string
+          description: Filter items by minimum `date_modified`. ISO 8601 full-date is required, ISO 8601 full-time is not
+            required. UNIX timestamp also accepted. `date_created=2021-01
+      - name: upsertcustomersattributevalues
+        method: PUT
+        description: BigCommerce Upsert Customer Attribute Values
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Accept
+          in: header
+          type: string
+        - name: Content-Type
+          in: header
+          type: string
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletecustomersattributevalues
+        method: DELETE
+        description: BigCommerce Delete Customer Attribute Values
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id:in
+          in: query
+          type: array
+          description: Filter items by ID.
+          required: true
+        - name: Accept
+          in: header
+          type: string
+        - name: Content-Type
+          in: header
+          type: string
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: customers-attribute-values-rest
+    port: 8080
+    description: REST adapter for BigCommerce Customers V3 — Attribute Values. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/customers/attribute-values
+      name: customers-attribute-values
+      description: REST surface for customers-attribute-values.
+      operations:
+      - method: GET
+        name: getcustomersattributevalues
+        description: BigCommerce Get All Customer Attribute Values
+        call: customers-attribute-values.getcustomersattributevalues
+        with:
+          Accept: rest.Accept
+          Content-Type: rest.Content-Type
+          page: rest.page
+          limit: rest.limit
+          customer_id:in: rest.customer_id:in
+          attribute_id:in: rest.attribute_id:in
+          name: rest.name
+          date_created: rest.date_created
+          date_created:max: rest.date_created:max
+          date_created:min: rest.date_created:min
+          date_modified: rest.date_modified
+          date_modified:max: rest.date_modified:max
+          date_modified:min: rest.date_modified:min
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: upsertcustomersattributevalues
+        description: BigCommerce Upsert Customer Attribute Values
+        call: customers-attribute-values.upsertcustomersattributevalues
+        with:
+          Accept: rest.Accept
+          Content-Type: rest.Content-Type
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecustomersattributevalues
+        description: BigCommerce Delete Customer Attribute Values
+        call: customers-attribute-values.deletecustomersattributevalues
+        with:
+          id:in: rest.id:in
+          Accept: rest.Accept
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: customers-attribute-values-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Customers V3 — Attribute Values. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-customer-attribute
+      description: BigCommerce Get All Customer Attribute Values
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: customers-attribute-values.getcustomersattributevalues
+      with:
+        Accept: tools.Accept
+        Content-Type: tools.Content-Type
+        page: tools.page
+        limit: tools.limit
+        customer_id:in: tools.customer_id:in
+        attribute_id:in: tools.attribute_id:in
+        name: tools.name
+        date_created: tools.date_created
+        date_created:max: tools.date_created:max
+        date_created:min: tools.date_created:min
+        date_modified: tools.date_modified
+        date_modified:max: tools.date_modified:max
+        date_modified:min: tools.date_modified:min
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-upsert-customer-attribute-values
+      description: BigCommerce Upsert Customer Attribute Values
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: customers-attribute-values.upsertcustomersattributevalues
+      with:
+        Accept: tools.Accept
+        Content-Type: tools.Content-Type
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-customer-attribute-values
+      description: BigCommerce Delete Customer Attribute Values
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: customers-attribute-values.deletecustomersattributevalues
+      with:
+        id:in: tools.id:in
+        Accept: tools.Accept
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

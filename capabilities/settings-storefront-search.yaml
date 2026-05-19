@@ -1,0 +1,107 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Settings V3 — Storefront Search
+  description: 'BigCommerce Settings V3 — Storefront Search. 2 operations. Lead operation: BigCommerce Get Storefront Search
+    Settings. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Storefront Search
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: settings-storefront-search
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Settings V3 — Storefront Search business capability. Self-contained, no shared references.
+    resources:
+    - name: settings-storefront-search
+      path: /settings/storefront/search
+      operations:
+      - name: getsettingsstorefrontsearch
+        method: GET
+        description: BigCommerce Get Storefront Search Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatesettingsstorefrontsearch
+        method: PUT
+        description: BigCommerce Update Storefront Search Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: settings-storefront-search-rest
+    port: 8080
+    description: REST adapter for BigCommerce Settings V3 — Storefront Search. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/settings/storefront/search
+      name: settings-storefront-search
+      description: REST surface for settings-storefront-search.
+      operations:
+      - method: GET
+        name: getsettingsstorefrontsearch
+        description: BigCommerce Get Storefront Search Settings
+        call: settings-storefront-search.getsettingsstorefrontsearch
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatesettingsstorefrontsearch
+        description: BigCommerce Update Storefront Search Settings
+        call: settings-storefront-search.updatesettingsstorefrontsearch
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: settings-storefront-search-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Settings V3 — Storefront Search. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-storefront-search-settings
+      description: BigCommerce Get Storefront Search Settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: settings-storefront-search.getsettingsstorefrontsearch
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-storefront-search-settings
+      description: BigCommerce Update Storefront Search Settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: settings-storefront-search.updatesettingsstorefrontsearch
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

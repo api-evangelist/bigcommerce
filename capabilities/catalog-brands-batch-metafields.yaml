@@ -1,0 +1,177 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Brands — Batch Metafields
+  description: 'BigCommerce Catalog - Brands — Batch Metafields. 4 operations. Lead operation: BigCommerce Get All Brand Metafields.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Batch Metafields
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-brands-batch-metafields
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Brands — Batch Metafields business capability. Self-contained, no shared references.
+    resources:
+    - name: catalog-brands-metafields
+      path: /catalog/brands/metafields
+      operations:
+      - name: getbrandsmetafields
+        method: GET
+        description: BigCommerce Get All Brand Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createbrandsmetafields
+        method: POST
+        description: BigCommerce Create multiple Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: updatebrandsmetafields
+        method: PUT
+        description: BigCommerce Update multiple Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletebrandsmetafields
+        method: DELETE
+        description: BigCommerce Delete All Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-brands-batch-metafields-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Brands — Batch Metafields. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/brands/metafields
+      name: catalog-brands-metafields
+      description: REST surface for catalog-brands-metafields.
+      operations:
+      - method: GET
+        name: getbrandsmetafields
+        description: BigCommerce Get All Brand Metafields
+        call: catalog-brands-batch-metafields.getbrandsmetafields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createbrandsmetafields
+        description: BigCommerce Create multiple Metafields
+        call: catalog-brands-batch-metafields.createbrandsmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatebrandsmetafields
+        description: BigCommerce Update multiple Metafields
+        call: catalog-brands-batch-metafields.updatebrandsmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletebrandsmetafields
+        description: BigCommerce Delete All Metafields
+        call: catalog-brands-batch-metafields.deletebrandsmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-brands-batch-metafields-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Brands — Batch Metafields. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-brand-metafields
+      description: BigCommerce Get All Brand Metafields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-brands-batch-metafields.getbrandsmetafields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-multiple-metafields
+      description: BigCommerce Create multiple Metafields
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: catalog-brands-batch-metafields.createbrandsmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-multiple-metafields
+      description: BigCommerce Update multiple Metafields
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: catalog-brands-batch-metafields.updatebrandsmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-all-metafields
+      description: BigCommerce Delete All Metafields
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: catalog-brands-batch-metafields.deletebrandsmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,75 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Storefront Form Fields (Beta) — Form Fields
+  description: 'BigCommerce Storefront Form Fields (Beta) — Form Fields. 1 operations. Lead operation: BigCommerce Get Form
+    Fields. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Form Fields
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: storefront-form-fields-beta-form-fields
+    baseUri: https://{store_domain}/api/storefront
+    description: BigCommerce Storefront Form Fields (Beta) — Form Fields business capability. Self-contained, no shared references.
+    resources:
+    - name: form-fields
+      path: /form-fields
+      operations:
+      - name: getformfields
+        method: GET
+        description: BigCommerce Get Form Fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: filter
+          in: query
+          type: string
+  exposes:
+  - type: rest
+    namespace: storefront-form-fields-beta-form-fields-rest
+    port: 8080
+    description: REST adapter for BigCommerce Storefront Form Fields (Beta) — Form Fields. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/form-fields
+      name: form-fields
+      description: REST surface for form-fields.
+      operations:
+      - method: GET
+        name: getformfields
+        description: BigCommerce Get Form Fields
+        call: storefront-form-fields-beta-form-fields.getformfields
+        with:
+          filter: rest.filter
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: storefront-form-fields-beta-form-fields-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Storefront Form Fields (Beta) — Form Fields. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-form-fields
+      description: BigCommerce Get Form Fields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: storefront-form-fields-beta-form-fields.getformfields
+      with:
+        filter: tools.filter
+      outputParameters:
+      - type: object
+        mapping: $.

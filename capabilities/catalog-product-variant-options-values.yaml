@@ -1,0 +1,302 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Product Variant Options — Values
+  description: 'BigCommerce Catalog - Product Variant Options — Values. 5 operations. Lead operation: BigCommerce Get All
+    Product Variant Option Values. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Values
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-product-variant-options-values
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Product Variant Options — Values business capability. Self-contained, no shared references.
+    resources:
+    - name: catalog-products-product_id-options-option_id-values
+      path: /catalog/products/{product_id}/options/{option_id}/values
+      operations:
+      - name: getproductvariantoptionvalues
+        method: GET
+        description: BigCommerce Get All Product Variant Option Values
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: option_id
+          in: path
+          type: integer
+          description: The ID of the `Option`.
+          required: true
+        - name: include_fields
+          in: query
+          type: string
+          description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        - name: exclude_fields
+          in: query
+          type: string
+          description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response.
+            The ID cannot be excluded.
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of products.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of products.
+      - name: createproductvariantoptionvalue
+        method: POST
+        description: BigCommerce Create a Product Variant Option Value
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: option_id
+          in: path
+          type: integer
+          description: The ID of the `Option`.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: catalog-products-product_id-options-option_id-values-value_id
+      path: /catalog/products/{product_id}/options/{option_id}/values/{value_id}
+      operations:
+      - name: getproductvariantoptionvalue
+        method: GET
+        description: BigCommerce Get a Product Variant Option Value
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: option_id
+          in: path
+          type: integer
+          description: The ID of the `Option`.
+          required: true
+        - name: value_id
+          in: path
+          type: integer
+          description: The ID of the `Modifier/Option Value`.
+          required: true
+        - name: include_fields
+          in: query
+          type: string
+          description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        - name: exclude_fields
+          in: query
+          type: string
+          description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response.
+            The ID cannot be excluded.
+      - name: updateproductvariantoptionvalue
+        method: PUT
+        description: BigCommerce Update a Product Variant Option Value
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: option_id
+          in: path
+          type: integer
+          description: The ID of the `Option`.
+          required: true
+        - name: value_id
+          in: path
+          type: integer
+          description: The ID of the `Modifier/Option Value`.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteproductvariantoptionvalue
+        method: DELETE
+        description: BigCommerce Delete a Product Variant Option Value
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: option_id
+          in: path
+          type: integer
+          description: The ID of the `Option`.
+          required: true
+        - name: value_id
+          in: path
+          type: integer
+          description: The ID of the `Modifier/Option Value`.
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-product-variant-options-values-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Product Variant Options — Values. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/products/{product-id}/options/{option-id}/values
+      name: catalog-products-product-id-options-option-id-values
+      description: REST surface for catalog-products-product_id-options-option_id-values.
+      operations:
+      - method: GET
+        name: getproductvariantoptionvalues
+        description: BigCommerce Get All Product Variant Option Values
+        call: catalog-product-variant-options-values.getproductvariantoptionvalues
+        with:
+          option_id: rest.option_id
+          include_fields: rest.include_fields
+          exclude_fields: rest.exclude_fields
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createproductvariantoptionvalue
+        description: BigCommerce Create a Product Variant Option Value
+        call: catalog-product-variant-options-values.createproductvariantoptionvalue
+        with:
+          option_id: rest.option_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/catalog/products/{product-id}/options/{option-id}/values/{value-id}
+      name: catalog-products-product-id-options-option-id-values-value-id
+      description: REST surface for catalog-products-product_id-options-option_id-values-value_id.
+      operations:
+      - method: GET
+        name: getproductvariantoptionvalue
+        description: BigCommerce Get a Product Variant Option Value
+        call: catalog-product-variant-options-values.getproductvariantoptionvalue
+        with:
+          option_id: rest.option_id
+          value_id: rest.value_id
+          include_fields: rest.include_fields
+          exclude_fields: rest.exclude_fields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateproductvariantoptionvalue
+        description: BigCommerce Update a Product Variant Option Value
+        call: catalog-product-variant-options-values.updateproductvariantoptionvalue
+        with:
+          option_id: rest.option_id
+          value_id: rest.value_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteproductvariantoptionvalue
+        description: BigCommerce Delete a Product Variant Option Value
+        call: catalog-product-variant-options-values.deleteproductvariantoptionvalue
+        with:
+          option_id: rest.option_id
+          value_id: rest.value_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-product-variant-options-values-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Product Variant Options — Values. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-product-variant
+      description: BigCommerce Get All Product Variant Option Values
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-product-variant-options-values.getproductvariantoptionvalues
+      with:
+        option_id: tools.option_id
+        include_fields: tools.include_fields
+        exclude_fields: tools.exclude_fields
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-product-variant-option
+      description: BigCommerce Create a Product Variant Option Value
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: catalog-product-variant-options-values.createproductvariantoptionvalue
+      with:
+        option_id: tools.option_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-product-variant-option
+      description: BigCommerce Get a Product Variant Option Value
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-product-variant-options-values.getproductvariantoptionvalue
+      with:
+        option_id: tools.option_id
+        value_id: tools.value_id
+        include_fields: tools.include_fields
+        exclude_fields: tools.exclude_fields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-product-variant-option
+      description: BigCommerce Update a Product Variant Option Value
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: catalog-product-variant-options-values.updateproductvariantoptionvalue
+      with:
+        option_id: tools.option_id
+        value_id: tools.value_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-product-variant-option
+      description: BigCommerce Delete a Product Variant Option Value
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: catalog-product-variant-options-values.deleteproductvariantoptionvalue
+      with:
+        option_id: tools.option_id
+        value_id: tools.value_id
+      outputParameters:
+      - type: object
+        mapping: $.

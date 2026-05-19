@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Themes — Theme Custom Templates
+  description: 'BigCommerce Themes — Theme Custom Templates. 1 operations. Lead operation: BigCommerce Get Custom Templates.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Theme Custom Templates
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: themes-theme-custom-templates
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Themes — Theme Custom Templates business capability. Self-contained, no shared references.
+    resources:
+    - name: themes-custom-templates-version_uuid
+      path: /themes/custom-templates/{version_uuid}
+      operations:
+      - name: getthemecustomtemplates
+        method: GET
+        description: BigCommerce Get Custom Templates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: themes-theme-custom-templates-rest
+    port: 8080
+    description: REST adapter for BigCommerce Themes — Theme Custom Templates. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/themes/custom-templates/{version-uuid}
+      name: themes-custom-templates-version-uuid
+      description: REST surface for themes-custom-templates-version_uuid.
+      operations:
+      - method: GET
+        name: getthemecustomtemplates
+        description: BigCommerce Get Custom Templates
+        call: themes-theme-custom-templates.getthemecustomtemplates
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: themes-theme-custom-templates-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Themes — Theme Custom Templates. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-custom-templates
+      description: BigCommerce Get Custom Templates
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: themes-theme-custom-templates.getthemecustomtemplates
+      outputParameters:
+      - type: object
+        mapping: $.

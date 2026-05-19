@@ -1,0 +1,238 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Settings V3 — Search Filters
+  description: 'BigCommerce Settings V3 — Search Filters. 5 operations. Lead operation: BigCommerce Get Enabled Filters. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Search Filters
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: settings-search-filters
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Settings V3 — Search Filters business capability. Self-contained, no shared references.
+    resources:
+    - name: settings-search-filters
+      path: /settings/search/filters
+      operations:
+      - name: getsettingsenabledsearchfilters
+        method: GET
+        description: BigCommerce Get Enabled Filters
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatesettingsenabledsearchfilters
+        method: PUT
+        description: BigCommerce Update Enabled Filters
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: settings-search-filters-available
+      path: /settings/search/filters/available
+      operations:
+      - name: getsettingsavailablefilters
+        method: GET
+        description: BigCommerce Get Available Filters
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: channel_id
+          in: query
+          type: integer
+          description: Narrows the list of available filters based on channel ID. Only products currently assigned to the
+            given Channel will be considered.
+        - name: category_id
+          in: query
+          type: integer
+          description: Narrows the list of available filters based on category ID. You can display settings to show products
+            from the provided category, subcategories only, or both th
+    - name: settings-search-filters-contexts
+      path: /settings/search/filters/contexts
+      operations:
+      - name: getsettingsfilterscontexts
+        method: GET
+        description: BigCommerce Get Contextual Filters
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: channel_id
+          in: query
+          type: integer
+          description: Only return contextual overrides related to a particular Channel.
+        - name: category_id
+          in: query
+          type: integer
+          description: Only return contextual overrides related to a particular Category.
+      - name: upsertsettingsfilterscontexts
+        method: PUT
+        description: BigCommerce Upsert Contextual Filters
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: settings-search-filters-rest
+    port: 8080
+    description: REST adapter for BigCommerce Settings V3 — Search Filters. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/settings/search/filters
+      name: settings-search-filters
+      description: REST surface for settings-search-filters.
+      operations:
+      - method: GET
+        name: getsettingsenabledsearchfilters
+        description: BigCommerce Get Enabled Filters
+        call: settings-search-filters.getsettingsenabledsearchfilters
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatesettingsenabledsearchfilters
+        description: BigCommerce Update Enabled Filters
+        call: settings-search-filters.updatesettingsenabledsearchfilters
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/settings/search/filters/available
+      name: settings-search-filters-available
+      description: REST surface for settings-search-filters-available.
+      operations:
+      - method: GET
+        name: getsettingsavailablefilters
+        description: BigCommerce Get Available Filters
+        call: settings-search-filters.getsettingsavailablefilters
+        with:
+          channel_id: rest.channel_id
+          category_id: rest.category_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/settings/search/filters/contexts
+      name: settings-search-filters-contexts
+      description: REST surface for settings-search-filters-contexts.
+      operations:
+      - method: GET
+        name: getsettingsfilterscontexts
+        description: BigCommerce Get Contextual Filters
+        call: settings-search-filters.getsettingsfilterscontexts
+        with:
+          channel_id: rest.channel_id
+          category_id: rest.category_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: upsertsettingsfilterscontexts
+        description: BigCommerce Upsert Contextual Filters
+        call: settings-search-filters.upsertsettingsfilterscontexts
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: settings-search-filters-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Settings V3 — Search Filters. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-enabled-filters
+      description: BigCommerce Get Enabled Filters
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: settings-search-filters.getsettingsenabledsearchfilters
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-enabled-filters
+      description: BigCommerce Update Enabled Filters
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: settings-search-filters.updatesettingsenabledsearchfilters
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-available-filters
+      description: BigCommerce Get Available Filters
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: settings-search-filters.getsettingsavailablefilters
+      with:
+        channel_id: tools.channel_id
+        category_id: tools.category_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-contextual-filters
+      description: BigCommerce Get Contextual Filters
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: settings-search-filters.getsettingsfilterscontexts
+      with:
+        channel_id: tools.channel_id
+        category_id: tools.category_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-upsert-contextual-filters
+      description: BigCommerce Upsert Contextual Filters
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: settings-search-filters.upsertsettingsfilterscontexts
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

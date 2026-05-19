@@ -1,0 +1,277 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Marketing — Gift Certificates
+  description: 'BigCommerce Marketing — Gift Certificates. 6 operations. Lead operation: BigCommerce Get All Gift Certificates.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Gift Certificates
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: marketing-gift-certificates
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v2
+    description: BigCommerce Marketing — Gift Certificates business capability. Self-contained, no shared references.
+    resources:
+    - name: gift_certificates
+      path: /gift_certificates
+      operations:
+      - name: getgiftcertificates
+        method: GET
+        description: BigCommerce Get All Gift Certificates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: min_id
+          in: query
+          type: integer
+        - name: max_id
+          in: query
+          type: integer
+        - name: code
+          in: query
+          type: string
+        - name: order_id
+          in: query
+          type: integer
+        - name: to_name
+          in: query
+          type: string
+        - name: to_email
+          in: query
+          type: string
+        - name: from_name
+          in: query
+          type: string
+        - name: from_email
+          in: query
+          type: string
+        - name: page
+          in: query
+          type: number
+        - name: limit
+          in: query
+          type: number
+      - name: creategiftcertificate
+        method: POST
+        description: BigCommerce Create a Gift Certificate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletegiftcertificates
+        method: DELETE
+        description: BigCommerce Delete All Gift Certificates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: gift_certificates-id
+      path: /gift_certificates/{id}
+      operations:
+      - name: getgiftcertificate
+        method: GET
+        description: BigCommerce Get a Gift Certificate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updategiftcertificate
+        method: PUT
+        description: BigCommerce Update a Gift Certificate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletegiftcertificate
+        method: DELETE
+        description: BigCommerce Delete a Gift Certificate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: marketing-gift-certificates-rest
+    port: 8080
+    description: REST adapter for BigCommerce Marketing — Gift Certificates. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/gift-certificates
+      name: gift-certificates
+      description: REST surface for gift_certificates.
+      operations:
+      - method: GET
+        name: getgiftcertificates
+        description: BigCommerce Get All Gift Certificates
+        call: marketing-gift-certificates.getgiftcertificates
+        with:
+          min_id: rest.min_id
+          max_id: rest.max_id
+          code: rest.code
+          order_id: rest.order_id
+          to_name: rest.to_name
+          to_email: rest.to_email
+          from_name: rest.from_name
+          from_email: rest.from_email
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: creategiftcertificate
+        description: BigCommerce Create a Gift Certificate
+        call: marketing-gift-certificates.creategiftcertificate
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletegiftcertificates
+        description: BigCommerce Delete All Gift Certificates
+        call: marketing-gift-certificates.deletegiftcertificates
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/gift-certificates/{id}
+      name: gift-certificates-id
+      description: REST surface for gift_certificates-id.
+      operations:
+      - method: GET
+        name: getgiftcertificate
+        description: BigCommerce Get a Gift Certificate
+        call: marketing-gift-certificates.getgiftcertificate
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updategiftcertificate
+        description: BigCommerce Update a Gift Certificate
+        call: marketing-gift-certificates.updategiftcertificate
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletegiftcertificate
+        description: BigCommerce Delete a Gift Certificate
+        call: marketing-gift-certificates.deletegiftcertificate
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: marketing-gift-certificates-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Marketing — Gift Certificates. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-gift-certificates
+      description: BigCommerce Get All Gift Certificates
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: marketing-gift-certificates.getgiftcertificates
+      with:
+        min_id: tools.min_id
+        max_id: tools.max_id
+        code: tools.code
+        order_id: tools.order_id
+        to_name: tools.to_name
+        to_email: tools.to_email
+        from_name: tools.from_name
+        from_email: tools.from_email
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-gift-certificate
+      description: BigCommerce Create a Gift Certificate
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: marketing-gift-certificates.creategiftcertificate
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-all-gift-certificates
+      description: BigCommerce Delete All Gift Certificates
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: marketing-gift-certificates.deletegiftcertificates
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-gift-certificate
+      description: BigCommerce Get a Gift Certificate
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: marketing-gift-certificates.getgiftcertificate
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-gift-certificate
+      description: BigCommerce Update a Gift Certificate
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: marketing-gift-certificates.updategiftcertificate
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-gift-certificate
+      description: BigCommerce Delete a Gift Certificate
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: marketing-gift-certificates.deletegiftcertificate
+      outputParameters:
+      - type: object
+        mapping: $.

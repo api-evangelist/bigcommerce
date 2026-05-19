@@ -1,0 +1,201 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Redirects — Redirects
+  description: 'BigCommerce Redirects — Redirects. 3 operations. Lead operation: BigCommerce Get Redirects. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Redirects
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: redirects-redirects
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Redirects — Redirects business capability. Self-contained, no shared references.
+    resources:
+    - name: storefront-redirects
+      path: /storefront/redirects
+      operations:
+      - name: getredirects
+        method: GET
+        description: BigCommerce Get Redirects
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: site_id
+          in: query
+          type: integer
+          description: Filters items by `site_id`.
+        - name: id:in
+          in: query
+          type: array
+          description: Filters items by redirect `id`. Also accepts comma-separated values to filter for multiple redirects.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items to return per page.
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of items. Used to paginate large collections.
+        - name: sort
+          in: query
+          type: string
+          description: 'Field name to sort by. Note: Since redirect `id` increments when new redirects are added, you can
+            use that field to sort by redirect create date.'
+        - name: direction
+          in: query
+          type: string
+          description: Sort direction. Acceptable values are `asc`, `desc`.
+        - name: include
+          in: query
+          type: string
+          description: Indicates whether to include redirect sub-resources. Only `to_url` is supported.
+        - name: keyword
+          in: query
+          type: string
+          description: Filters redirects by the specified keyword. Will only search from the beginning of a URL path. For
+            example, `blue` will match `/blue` and `/blue-shirt` ,  **not
+      - name: upsertredirects
+        method: PUT
+        description: BigCommerce Upsert Redirects
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deleteredirects
+        method: DELETE
+        description: BigCommerce Delete Redirects
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id:in
+          in: query
+          type: array
+          description: List of Redirect IDs to delete explicitly.
+          required: true
+        - name: site_id
+          in: query
+          type: integer
+          description: Site ID provided to delete all redirects for a given Site.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: redirects-redirects-rest
+    port: 8080
+    description: REST adapter for BigCommerce Redirects — Redirects. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/storefront/redirects
+      name: storefront-redirects
+      description: REST surface for storefront-redirects.
+      operations:
+      - method: GET
+        name: getredirects
+        description: BigCommerce Get Redirects
+        call: redirects-redirects.getredirects
+        with:
+          site_id: rest.site_id
+          id:in: rest.id:in
+          limit: rest.limit
+          page: rest.page
+          sort: rest.sort
+          direction: rest.direction
+          include: rest.include
+          keyword: rest.keyword
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: upsertredirects
+        description: BigCommerce Upsert Redirects
+        call: redirects-redirects.upsertredirects
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteredirects
+        description: BigCommerce Delete Redirects
+        call: redirects-redirects.deleteredirects
+        with:
+          id:in: rest.id:in
+          site_id: rest.site_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: redirects-redirects-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Redirects — Redirects. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-redirects
+      description: BigCommerce Get Redirects
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: redirects-redirects.getredirects
+      with:
+        site_id: tools.site_id
+        id:in: tools.id:in
+        limit: tools.limit
+        page: tools.page
+        sort: tools.sort
+        direction: tools.direction
+        include: tools.include
+        keyword: tools.keyword
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-upsert-redirects
+      description: BigCommerce Upsert Redirects
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: redirects-redirects.upsertredirects
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-redirects
+      description: BigCommerce Delete Redirects
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: redirects-redirects.deleteredirects
+      with:
+        id:in: tools.id:in
+        site_id: tools.site_id
+      outputParameters:
+      - type: object
+        mapping: $.

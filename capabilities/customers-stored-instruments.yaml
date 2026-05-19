@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Customers V3 — Stored Instruments
+  description: 'BigCommerce Customers V3 — Stored Instruments. 1 operations. Lead operation: BigCommerce Get Stored Instruments.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Stored Instruments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: customers-stored-instruments
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Customers V3 — Stored Instruments business capability. Self-contained, no shared references.
+    resources:
+    - name: customers-customerId-stored-instruments
+      path: /customers/{customerId}/stored-instruments
+      operations:
+      - name: getcustomerstoredinstruments
+        method: GET
+        description: BigCommerce Get Stored Instruments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: customers-stored-instruments-rest
+    port: 8080
+    description: REST adapter for BigCommerce Customers V3 — Stored Instruments. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/customers/{customerid}/stored-instruments
+      name: customers-customerid-stored-instruments
+      description: REST surface for customers-customerId-stored-instruments.
+      operations:
+      - method: GET
+        name: getcustomerstoredinstruments
+        description: BigCommerce Get Stored Instruments
+        call: customers-stored-instruments.getcustomerstoredinstruments
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: customers-stored-instruments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Customers V3 — Stored Instruments. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-stored-instruments
+      description: BigCommerce Get Stored Instruments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: customers-stored-instruments.getcustomerstoredinstruments
+      outputParameters:
+      - type: object
+        mapping: $.

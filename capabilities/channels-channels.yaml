@@ -1,0 +1,174 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Channels — Channels
+  description: 'BigCommerce Channels — Channels. 4 operations. Lead operation: BigCommerce Get All Channels. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Channels
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: channels-channels
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Channels — Channels business capability. Self-contained, no shared references.
+    resources:
+    - name: channels
+      path: /channels
+      operations:
+      - name: getchannels
+        method: GET
+        description: BigCommerce Get All Channels
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createchannel
+        method: POST
+        description: BigCommerce Create a Channel
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: channels-channel_id
+      path: /channels/{channel_id}
+      operations:
+      - name: getchannel
+        method: GET
+        description: BigCommerce Get a Channel
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatechannel
+        method: PUT
+        description: BigCommerce Update a Channel
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: channels-channels-rest
+    port: 8080
+    description: REST adapter for BigCommerce Channels — Channels. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/channels
+      name: channels
+      description: REST surface for channels.
+      operations:
+      - method: GET
+        name: getchannels
+        description: BigCommerce Get All Channels
+        call: channels-channels.getchannels
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createchannel
+        description: BigCommerce Create a Channel
+        call: channels-channels.createchannel
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/channels/{channel-id}
+      name: channels-channel-id
+      description: REST surface for channels-channel_id.
+      operations:
+      - method: GET
+        name: getchannel
+        description: BigCommerce Get a Channel
+        call: channels-channels.getchannel
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatechannel
+        description: BigCommerce Update a Channel
+        call: channels-channels.updatechannel
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: channels-channels-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Channels — Channels. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-channels
+      description: BigCommerce Get All Channels
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: channels-channels.getchannels
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-channel
+      description: BigCommerce Create a Channel
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: channels-channels.createchannel
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-channel
+      description: BigCommerce Get a Channel
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: channels-channels.getchannel
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-channel
+      description: BigCommerce Update a Channel
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: channels-channels.updatechannel
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,255 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Sites — Site Routes
+  description: 'BigCommerce Sites — Site Routes. 6 operations. Lead operation: BigCommerce Get a Site’s Routes. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Site Routes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: sites-site-routes
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Sites — Site Routes business capability. Self-contained, no shared references.
+    resources:
+    - name: sites-site_id-routes
+      path: /sites/{site_id}/routes
+      operations:
+      - name: getsiteroutes
+        method: GET
+        description: BigCommerce Get a Site’s Routes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: type
+          in: query
+          type: string
+          description: Filter routes by a specified resource type.
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of items.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of items.
+      - name: createsiteroute
+        method: POST
+        description: BigCommerce Create a Site Route
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: updatesiteroutes
+        method: PUT
+        description: BigCommerce Update a Site’s Routes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: sites-site_id-routes-route_id
+      path: /sites/{site_id}/routes/{route_id}
+      operations:
+      - name: getsiteroute
+        method: GET
+        description: BigCommerce Get a Site Route
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatesiteroute
+        method: PUT
+        description: BigCommerce Update a Site Route
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletesiteroute
+        method: DELETE
+        description: BigCommerce Delete a Site Route
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: sites-site-routes-rest
+    port: 8080
+    description: REST adapter for BigCommerce Sites — Site Routes. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/sites/{site-id}/routes
+      name: sites-site-id-routes
+      description: REST surface for sites-site_id-routes.
+      operations:
+      - method: GET
+        name: getsiteroutes
+        description: BigCommerce Get a Site’s Routes
+        call: sites-site-routes.getsiteroutes
+        with:
+          type: rest.type
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createsiteroute
+        description: BigCommerce Create a Site Route
+        call: sites-site-routes.createsiteroute
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatesiteroutes
+        description: BigCommerce Update a Site’s Routes
+        call: sites-site-routes.updatesiteroutes
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/sites/{site-id}/routes/{route-id}
+      name: sites-site-id-routes-route-id
+      description: REST surface for sites-site_id-routes-route_id.
+      operations:
+      - method: GET
+        name: getsiteroute
+        description: BigCommerce Get a Site Route
+        call: sites-site-routes.getsiteroute
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatesiteroute
+        description: BigCommerce Update a Site Route
+        call: sites-site-routes.updatesiteroute
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletesiteroute
+        description: BigCommerce Delete a Site Route
+        call: sites-site-routes.deletesiteroute
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: sites-site-routes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Sites — Site Routes. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-get-site-s-routes
+      description: BigCommerce Get a Site’s Routes
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: sites-site-routes.getsiteroutes
+      with:
+        type: tools.type
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-site-route
+      description: BigCommerce Create a Site Route
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: sites-site-routes.createsiteroute
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-site-s-routes
+      description: BigCommerce Update a Site’s Routes
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: sites-site-routes.updatesiteroutes
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-site-route
+      description: BigCommerce Get a Site Route
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: sites-site-routes.getsiteroute
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-site-route
+      description: BigCommerce Update a Site Route
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: sites-site-routes.updatesiteroute
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-site-route
+      description: BigCommerce Delete a Site Route
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: sites-site-routes.deletesiteroute
+      outputParameters:
+      - type: object
+        mapping: $.

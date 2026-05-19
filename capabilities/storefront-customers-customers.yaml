@@ -1,0 +1,77 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Storefront Customers — Customers
+  description: 'BigCommerce Storefront Customers — Customers. 1 operations. Lead operation: BigCommerce Create a Customer.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Customers
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: storefront-customers-customers
+    baseUri: https://{store_domain}/api/storefront
+    description: BigCommerce Storefront Customers — Customers business capability. Self-contained, no shared references.
+    resources:
+    - name: customers
+      path: /customers
+      operations:
+      - name: createcustomer
+        method: POST
+        description: BigCommerce Create a Customer
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+  exposes:
+  - type: rest
+    namespace: storefront-customers-customers-rest
+    port: 8080
+    description: REST adapter for BigCommerce Storefront Customers — Customers. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/customers
+      name: customers
+      description: REST surface for customers.
+      operations:
+      - method: POST
+        name: createcustomer
+        description: BigCommerce Create a Customer
+        call: storefront-customers-customers.createcustomer
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: storefront-customers-customers-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Storefront Customers — Customers. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-create-customer
+      description: BigCommerce Create a Customer
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: storefront-customers-customers.createcustomer
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

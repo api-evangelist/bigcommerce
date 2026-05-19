@@ -1,0 +1,250 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Widgets — Widget
+  description: 'BigCommerce Widgets — Widget. 5 operations. Lead operation: BigCommerce Create a Widget. Self-contained Naftiko
+    capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Widget
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: widgets-widget
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Widgets — Widget business capability. Self-contained, no shared references.
+    resources:
+    - name: content-widgets
+      path: /content/widgets
+      operations:
+      - name: createwidget
+        method: POST
+        description: BigCommerce Create a Widget
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: getwidgets
+        method: GET
+        description: BigCommerce Get All Widgets
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of products.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of products.
+        - name: widget_template_kind
+          in: query
+          type: string
+          description: The kind of widget template.
+        - name: widget_template_uuid
+          in: query
+          type: string
+          description: The identifier for a specific widget template.
+        - name: name
+          in: query
+          type: string
+          description: The URL encoded name of the widget.
+        - name: name:in
+          in: query
+          type: array
+          description: 'Use to pass in comma-separated list of widget names. Example: `/widgets?name:in=test-widget-name,header%20images`'
+        - name: channel_id:in
+          in: query
+          type: integer
+          description: Filter items by channel_id.
+        - name: site_id:in
+          in: query
+          type: string
+          description: A comma-separated list of site ids to filter the results by.
+    - name: content-widgets-uuid
+      path: /content/widgets/{uuid}
+      operations:
+      - name: getwidget
+        method: GET
+        description: BigCommerce Get a Widget
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatewidget
+        method: PUT
+        description: BigCommerce Update a Widget
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletewidget
+        method: DELETE
+        description: BigCommerce Delete a Widget
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: widgets-widget-rest
+    port: 8080
+    description: REST adapter for BigCommerce Widgets — Widget. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/content/widgets
+      name: content-widgets
+      description: REST surface for content-widgets.
+      operations:
+      - method: POST
+        name: createwidget
+        description: BigCommerce Create a Widget
+        call: widgets-widget.createwidget
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getwidgets
+        description: BigCommerce Get All Widgets
+        call: widgets-widget.getwidgets
+        with:
+          page: rest.page
+          limit: rest.limit
+          widget_template_kind: rest.widget_template_kind
+          widget_template_uuid: rest.widget_template_uuid
+          name: rest.name
+          name:in: rest.name:in
+          channel_id:in: rest.channel_id:in
+          site_id:in: rest.site_id:in
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/widgets/{uuid}
+      name: content-widgets-uuid
+      description: REST surface for content-widgets-uuid.
+      operations:
+      - method: GET
+        name: getwidget
+        description: BigCommerce Get a Widget
+        call: widgets-widget.getwidget
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatewidget
+        description: BigCommerce Update a Widget
+        call: widgets-widget.updatewidget
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletewidget
+        description: BigCommerce Delete a Widget
+        call: widgets-widget.deletewidget
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: widgets-widget-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Widgets — Widget. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-create-widget
+      description: BigCommerce Create a Widget
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: widgets-widget.createwidget
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-all-widgets
+      description: BigCommerce Get All Widgets
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: widgets-widget.getwidgets
+      with:
+        page: tools.page
+        limit: tools.limit
+        widget_template_kind: tools.widget_template_kind
+        widget_template_uuid: tools.widget_template_uuid
+        name: tools.name
+        name:in: tools.name:in
+        channel_id:in: tools.channel_id:in
+        site_id:in: tools.site_id:in
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-widget
+      description: BigCommerce Get a Widget
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: widgets-widget.getwidget
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-widget
+      description: BigCommerce Update a Widget
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: widgets-widget.updatewidget
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-widget
+      description: BigCommerce Delete a Widget
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: widgets-widget.deletewidget
+      outputParameters:
+      - type: object
+        mapping: $.

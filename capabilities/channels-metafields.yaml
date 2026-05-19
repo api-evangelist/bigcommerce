@@ -1,0 +1,199 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Channels — Metafields
+  description: 'BigCommerce Channels — Metafields. 5 operations. Lead operation: BigCommerce Get Channel Metafields. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Metafields
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: channels-metafields
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Channels — Metafields business capability. Self-contained, no shared references.
+    resources:
+    - name: channels-channel_id-metafields
+      path: /channels/{channel_id}/metafields
+      operations:
+      - name: getchannelmetafields
+        method: GET
+        description: BigCommerce Get Channel Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createchannelmetafield
+        method: POST
+        description: BigCommerce Create a Channel Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: channels-channel_id-metafields-metafield_id
+      path: /channels/{channel_id}/metafields/{metafield_id}
+      operations:
+      - name: getchannelmetafield
+        method: GET
+        description: BigCommerce Get a Channel Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatechannelmetafield
+        method: PUT
+        description: BigCommerce Update a Channel Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletechannelmetafield
+        method: DELETE
+        description: BigCommerce Delete a Channel Metafield
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: channels-metafields-rest
+    port: 8080
+    description: REST adapter for BigCommerce Channels — Metafields. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/channels/{channel-id}/metafields
+      name: channels-channel-id-metafields
+      description: REST surface for channels-channel_id-metafields.
+      operations:
+      - method: GET
+        name: getchannelmetafields
+        description: BigCommerce Get Channel Metafields
+        call: channels-metafields.getchannelmetafields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createchannelmetafield
+        description: BigCommerce Create a Channel Metafield
+        call: channels-metafields.createchannelmetafield
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/channels/{channel-id}/metafields/{metafield-id}
+      name: channels-channel-id-metafields-metafield-id
+      description: REST surface for channels-channel_id-metafields-metafield_id.
+      operations:
+      - method: GET
+        name: getchannelmetafield
+        description: BigCommerce Get a Channel Metafield
+        call: channels-metafields.getchannelmetafield
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatechannelmetafield
+        description: BigCommerce Update a Channel Metafield
+        call: channels-metafields.updatechannelmetafield
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletechannelmetafield
+        description: BigCommerce Delete a Channel Metafield
+        call: channels-metafields.deletechannelmetafield
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: channels-metafields-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Channels — Metafields. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-channel-metafields
+      description: BigCommerce Get Channel Metafields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: channels-metafields.getchannelmetafields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-channel-metafield
+      description: BigCommerce Create a Channel Metafield
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: channels-metafields.createchannelmetafield
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-channel-metafield
+      description: BigCommerce Get a Channel Metafield
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: channels-metafields.getchannelmetafield
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-channel-metafield
+      description: BigCommerce Update a Channel Metafield
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: channels-metafields.updatechannelmetafield
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-channel-metafield
+      description: BigCommerce Delete a Channel Metafield
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: channels-metafields.deletechannelmetafield
+      outputParameters:
+      - type: object
+        mapping: $.

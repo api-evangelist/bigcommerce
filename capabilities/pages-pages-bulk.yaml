@@ -1,0 +1,167 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Pages V3 — Pages (Bulk)
+  description: 'BigCommerce Pages V3 — Pages (Bulk). 4 operations. Lead operation: BigCommerce Get Pages. Self-contained Naftiko
+    capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Pages (Bulk)
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pages-pages-bulk
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Pages V3 — Pages (Bulk) business capability. Self-contained, no shared references.
+    resources:
+    - name: content-pages
+      path: /content/pages
+      operations:
+      - name: getpages
+        method: GET
+        description: BigCommerce Get Pages
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createpages
+        method: POST
+        description: BigCommerce Create Pages
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: updatepages
+        method: PUT
+        description: BigCommerce Update Pages
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletepages
+        method: DELETE
+        description: BigCommerce Delete Pages
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: pages-pages-bulk-rest
+    port: 8080
+    description: REST adapter for BigCommerce Pages V3 — Pages (Bulk). One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/content/pages
+      name: content-pages
+      description: REST surface for content-pages.
+      operations:
+      - method: GET
+        name: getpages
+        description: BigCommerce Get Pages
+        call: pages-pages-bulk.getpages
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createpages
+        description: BigCommerce Create Pages
+        call: pages-pages-bulk.createpages
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatepages
+        description: BigCommerce Update Pages
+        call: pages-pages-bulk.updatepages
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletepages
+        description: BigCommerce Delete Pages
+        call: pages-pages-bulk.deletepages
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: pages-pages-bulk-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Pages V3 — Pages (Bulk). One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-pages
+      description: BigCommerce Get Pages
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pages-pages-bulk.getpages
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-pages
+      description: BigCommerce Create Pages
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: pages-pages-bulk.createpages
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-pages
+      description: BigCommerce Update Pages
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: pages-pages-bulk.updatepages
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-pages
+      description: BigCommerce Delete Pages
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: pages-pages-bulk.deletepages
+      outputParameters:
+      - type: object
+        mapping: $.

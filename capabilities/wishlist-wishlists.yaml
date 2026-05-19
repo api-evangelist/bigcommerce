@@ -1,0 +1,220 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Wishlist — Wishlists
+  description: 'BigCommerce Wishlist — Wishlists. 5 operations. Lead operation: BigCommerce Get All Wishlists. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Wishlists
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: wishlist-wishlists
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Wishlist — Wishlists business capability. Self-contained, no shared references.
+    resources:
+    - name: wishlists
+      path: /wishlists
+      operations:
+      - name: getwishlists
+        method: GET
+        description: BigCommerce Get All Wishlists
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: customer_id
+          in: query
+          type: integer
+          description: All wishlists relating to the customer.
+        - name: page
+          in: query
+          type: integer
+          description: The page number of results per page. 1 is the default and starts from record 0.
+        - name: limit
+          in: query
+          type: integer
+          description: The numbers of items to return per page. Default is 50 and maximum is 250.
+      - name: createwishlist
+        method: POST
+        description: BigCommerce Create a Wishlist
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: wishlists-wishlist_id
+      path: /wishlists/{wishlist_id}
+      operations:
+      - name: getwishlist
+        method: GET
+        description: BigCommerce Get a Wishlist
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatewishlist
+        method: PUT
+        description: BigCommerce Update a Wishlist
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletewishlist
+        method: DELETE
+        description: BigCommerce Delete a Wishlist
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: wishlist-wishlists-rest
+    port: 8080
+    description: REST adapter for BigCommerce Wishlist — Wishlists. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/wishlists
+      name: wishlists
+      description: REST surface for wishlists.
+      operations:
+      - method: GET
+        name: getwishlists
+        description: BigCommerce Get All Wishlists
+        call: wishlist-wishlists.getwishlists
+        with:
+          customer_id: rest.customer_id
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createwishlist
+        description: BigCommerce Create a Wishlist
+        call: wishlist-wishlists.createwishlist
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/wishlists/{wishlist-id}
+      name: wishlists-wishlist-id
+      description: REST surface for wishlists-wishlist_id.
+      operations:
+      - method: GET
+        name: getwishlist
+        description: BigCommerce Get a Wishlist
+        call: wishlist-wishlists.getwishlist
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatewishlist
+        description: BigCommerce Update a Wishlist
+        call: wishlist-wishlists.updatewishlist
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletewishlist
+        description: BigCommerce Delete a Wishlist
+        call: wishlist-wishlists.deletewishlist
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: wishlist-wishlists-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Wishlist — Wishlists. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-wishlists
+      description: BigCommerce Get All Wishlists
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: wishlist-wishlists.getwishlists
+      with:
+        customer_id: tools.customer_id
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-wishlist
+      description: BigCommerce Create a Wishlist
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: wishlist-wishlists.createwishlist
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-wishlist
+      description: BigCommerce Get a Wishlist
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: wishlist-wishlists.getwishlist
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-wishlist
+      description: BigCommerce Update a Wishlist
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: wishlist-wishlists.updatewishlist
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-wishlist
+      description: BigCommerce Delete a Wishlist
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: wishlist-wishlists.deletewishlist
+      outputParameters:
+      - type: object
+        mapping: $.

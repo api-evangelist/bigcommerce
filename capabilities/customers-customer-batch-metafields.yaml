@@ -1,0 +1,177 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Customers V3 — Customer Batch Metafields
+  description: 'BigCommerce Customers V3 — Customer Batch Metafields. 4 operations. Lead operation: BigCommerce Get All Customer
+    Metafields. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Customer Batch Metafields
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: customers-customer-batch-metafields
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Customers V3 — Customer Batch Metafields business capability. Self-contained, no shared references.
+    resources:
+    - name: customers-metafields
+      path: /customers/metafields
+      operations:
+      - name: getallcustomersmetafields
+        method: GET
+        description: BigCommerce Get All Customer Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createcustomersmetafields
+        method: POST
+        description: BigCommerce Create Multiple Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: updatecustomersmetafields
+        method: PUT
+        description: BigCommerce Update Multiple Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletecustomersmetafields
+        method: DELETE
+        description: BigCommerce Delete All Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: customers-customer-batch-metafields-rest
+    port: 8080
+    description: REST adapter for BigCommerce Customers V3 — Customer Batch Metafields. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/customers/metafields
+      name: customers-metafields
+      description: REST surface for customers-metafields.
+      operations:
+      - method: GET
+        name: getallcustomersmetafields
+        description: BigCommerce Get All Customer Metafields
+        call: customers-customer-batch-metafields.getallcustomersmetafields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcustomersmetafields
+        description: BigCommerce Create Multiple Metafields
+        call: customers-customer-batch-metafields.createcustomersmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecustomersmetafields
+        description: BigCommerce Update Multiple Metafields
+        call: customers-customer-batch-metafields.updatecustomersmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecustomersmetafields
+        description: BigCommerce Delete All Metafields
+        call: customers-customer-batch-metafields.deletecustomersmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: customers-customer-batch-metafields-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Customers V3 — Customer Batch Metafields. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-customer-metafields
+      description: BigCommerce Get All Customer Metafields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: customers-customer-batch-metafields.getallcustomersmetafields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-multiple-metafields
+      description: BigCommerce Create Multiple Metafields
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: customers-customer-batch-metafields.createcustomersmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-multiple-metafields
+      description: BigCommerce Update Multiple Metafields
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: customers-customer-batch-metafields.updatecustomersmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-all-metafields
+      description: BigCommerce Delete All Metafields
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: customers-customer-batch-metafields.deletecustomersmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

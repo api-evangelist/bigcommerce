@@ -1,0 +1,243 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Products — Custom Fields
+  description: 'BigCommerce Catalog - Products — Custom Fields. 5 operations. Lead operation: BigCommerce Get Product Custom
+    Fields. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Custom Fields
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-products-custom-fields
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Products — Custom Fields business capability. Self-contained, no shared references.
+    resources:
+    - name: catalog-products-product_id-custom-fields
+      path: /catalog/products/{product_id}/custom-fields
+      operations:
+      - name: getproductcustomfields
+        method: GET
+        description: BigCommerce Get Product Custom Fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: include_fields
+          in: query
+          type: string
+          description: Fields to include in a comma-separated list; returned fields are the ID and specified fields.
+        - name: exclude_fields
+          in: query
+          type: string
+          description: Fields to exclude in a comma-separated list; responses do not include specified fields, and you can
+            not exclude the ID.
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of products.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of products.
+      - name: createproductcustomfield
+        method: POST
+        description: BigCommerce Create a Product Custom Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: catalog-products-product_id-custom-fields-custom_field_id
+      path: /catalog/products/{product_id}/custom-fields/{custom_field_id}
+      operations:
+      - name: getproductcustomfield
+        method: GET
+        description: BigCommerce Get a Product Custom Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: include_fields
+          in: query
+          type: string
+          description: Fields to include in a comma-separated list; returned fields are the ID and specified fields.
+        - name: exclude_fields
+          in: query
+          type: string
+          description: Fields to exclude in a comma-separated list; responses do not include specified fields, and you can
+            not exclude the ID.
+      - name: updateproductcustomfield
+        method: PUT
+        description: BigCommerce Update a Product Custom Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteproductcustomfield
+        method: DELETE
+        description: BigCommerce Delete a Product Custom Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-products-custom-fields-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Products — Custom Fields. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/products/{product-id}/custom-fields
+      name: catalog-products-product-id-custom-fields
+      description: REST surface for catalog-products-product_id-custom-fields.
+      operations:
+      - method: GET
+        name: getproductcustomfields
+        description: BigCommerce Get Product Custom Fields
+        call: catalog-products-custom-fields.getproductcustomfields
+        with:
+          include_fields: rest.include_fields
+          exclude_fields: rest.exclude_fields
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createproductcustomfield
+        description: BigCommerce Create a Product Custom Field
+        call: catalog-products-custom-fields.createproductcustomfield
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/catalog/products/{product-id}/custom-fields/{custom-field-id}
+      name: catalog-products-product-id-custom-fields-custom-field-id
+      description: REST surface for catalog-products-product_id-custom-fields-custom_field_id.
+      operations:
+      - method: GET
+        name: getproductcustomfield
+        description: BigCommerce Get a Product Custom Field
+        call: catalog-products-custom-fields.getproductcustomfield
+        with:
+          include_fields: rest.include_fields
+          exclude_fields: rest.exclude_fields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateproductcustomfield
+        description: BigCommerce Update a Product Custom Field
+        call: catalog-products-custom-fields.updateproductcustomfield
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteproductcustomfield
+        description: BigCommerce Delete a Product Custom Field
+        call: catalog-products-custom-fields.deleteproductcustomfield
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-products-custom-fields-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Products — Custom Fields. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-product-custom-fields
+      description: BigCommerce Get Product Custom Fields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-products-custom-fields.getproductcustomfields
+      with:
+        include_fields: tools.include_fields
+        exclude_fields: tools.exclude_fields
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-product-custom-field
+      description: BigCommerce Create a Product Custom Field
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: catalog-products-custom-fields.createproductcustomfield
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-product-custom-field
+      description: BigCommerce Get a Product Custom Field
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-products-custom-fields.getproductcustomfield
+      with:
+        include_fields: tools.include_fields
+        exclude_fields: tools.exclude_fields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-product-custom-field
+      description: BigCommerce Update a Product Custom Field
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: catalog-products-custom-fields.updateproductcustomfield
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-product-custom-field
+      description: BigCommerce Delete a Product Custom Field
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: catalog-products-custom-fields.deleteproductcustomfield
+      outputParameters:
+      - type: object
+        mapping: $.

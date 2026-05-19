@@ -1,0 +1,269 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Channels — Currency Assignments
+  description: 'BigCommerce Channels — Currency Assignments. 7 operations. Lead operation: BigCommerce Get All Channels Currency
+    Assignments. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Currency Assignments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: channels-currency-assignments
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Channels — Currency Assignments business capability. Self-contained, no shared references.
+    resources:
+    - name: channels-currency-assignments
+      path: /channels/currency-assignments
+      operations:
+      - name: getallcurrencyassignments
+        method: GET
+        description: BigCommerce Get All Channels Currency Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createmultiplechannelscurrencyassignments
+        method: POST
+        description: BigCommerce Create Multiple Channels Currency Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: updatemultiplechannelscurrencyassignments
+        method: PUT
+        description: BigCommerce Update Multiple Channels Currency Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: channels-channel_id-currency-assignments
+      path: /channels/{channel_id}/currency-assignments
+      operations:
+      - name: getsinglechannelcurrencyassignments
+        method: GET
+        description: BigCommerce Get Channel Currency Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createsinglechannelcurrencyassignments
+        method: POST
+        description: BigCommerce Create Channel Currency Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: updatesinglechannelcurrencyassignments
+        method: PUT
+        description: BigCommerce Update Channel Currency Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletesinglechannelcurrencyassignments
+        method: DELETE
+        description: BigCommerce Delete Channel Currency Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: channels-currency-assignments-rest
+    port: 8080
+    description: REST adapter for BigCommerce Channels — Currency Assignments. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/channels/currency-assignments
+      name: channels-currency-assignments
+      description: REST surface for channels-currency-assignments.
+      operations:
+      - method: GET
+        name: getallcurrencyassignments
+        description: BigCommerce Get All Channels Currency Assignments
+        call: channels-currency-assignments.getallcurrencyassignments
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createmultiplechannelscurrencyassignments
+        description: BigCommerce Create Multiple Channels Currency Assignments
+        call: channels-currency-assignments.createmultiplechannelscurrencyassignments
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatemultiplechannelscurrencyassignments
+        description: BigCommerce Update Multiple Channels Currency Assignments
+        call: channels-currency-assignments.updatemultiplechannelscurrencyassignments
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/channels/{channel-id}/currency-assignments
+      name: channels-channel-id-currency-assignments
+      description: REST surface for channels-channel_id-currency-assignments.
+      operations:
+      - method: GET
+        name: getsinglechannelcurrencyassignments
+        description: BigCommerce Get Channel Currency Assignments
+        call: channels-currency-assignments.getsinglechannelcurrencyassignments
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createsinglechannelcurrencyassignments
+        description: BigCommerce Create Channel Currency Assignments
+        call: channels-currency-assignments.createsinglechannelcurrencyassignments
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatesinglechannelcurrencyassignments
+        description: BigCommerce Update Channel Currency Assignments
+        call: channels-currency-assignments.updatesinglechannelcurrencyassignments
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletesinglechannelcurrencyassignments
+        description: BigCommerce Delete Channel Currency Assignments
+        call: channels-currency-assignments.deletesinglechannelcurrencyassignments
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: channels-currency-assignments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Channels — Currency Assignments. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-channels-currency
+      description: BigCommerce Get All Channels Currency Assignments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: channels-currency-assignments.getallcurrencyassignments
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-multiple-channels-currency
+      description: BigCommerce Create Multiple Channels Currency Assignments
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: channels-currency-assignments.createmultiplechannelscurrencyassignments
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-multiple-channels-currency
+      description: BigCommerce Update Multiple Channels Currency Assignments
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: channels-currency-assignments.updatemultiplechannelscurrencyassignments
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-channel-currency-assignments
+      description: BigCommerce Get Channel Currency Assignments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: channels-currency-assignments.getsinglechannelcurrencyassignments
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-channel-currency-assignments
+      description: BigCommerce Create Channel Currency Assignments
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: channels-currency-assignments.createsinglechannelcurrencyassignments
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-channel-currency-assignments
+      description: BigCommerce Update Channel Currency Assignments
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: channels-currency-assignments.updatesinglechannelcurrencyassignments
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-channel-currency-assignments
+      description: BigCommerce Delete Channel Currency Assignments
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: channels-currency-assignments.deletesinglechannelcurrencyassignments
+      outputParameters:
+      - type: object
+        mapping: $.

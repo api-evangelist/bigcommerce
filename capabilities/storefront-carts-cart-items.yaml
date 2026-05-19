@@ -1,0 +1,200 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Storefront Carts — Cart Items
+  description: 'BigCommerce Storefront Carts — Cart Items. 3 operations. Lead operation: BigCommerce Add Cart Line Items.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Cart Items
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: storefront-carts-cart-items
+    baseUri: https://{store_domain}/api/storefront
+    description: BigCommerce Storefront Carts — Cart Items business capability. Self-contained, no shared references.
+    resources:
+    - name: carts-cartId-items
+      path: /carts/{cartId}/items
+      operations:
+      - name: addcartlineitem
+        method: POST
+        description: BigCommerce Add Cart Line Items
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: cartId
+          in: path
+          type: string
+          description: This cart's unique ID.
+          required: true
+        - name: include
+          in: query
+          type: string
+          description: 'To return product options add one of the following include:'
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: carts-cartId-items-itemId
+      path: /carts/{cartId}/items/{itemId}
+      operations:
+      - name: updatecartlineitem
+        method: PUT
+        description: BigCommerce Update Cart Line Item
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: cartId
+          in: path
+          type: string
+          description: This cart's unique ID.
+          required: true
+        - name: itemId
+          in: path
+          type: string
+          description: This item's ID.
+          required: true
+        - name: include
+          in: query
+          type: string
+          description: 'To return product options add one of the following include:'
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletecartlineitem
+        method: DELETE
+        description: BigCommerce Delete Cart Line Item
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: cartId
+          in: path
+          type: string
+          description: This cart's unique ID.
+          required: true
+        - name: itemId
+          in: path
+          type: string
+          description: The ID of the item to delete.
+          required: true
+        - name: include
+          in: query
+          type: string
+          description: 'To return product options add one of the following include:'
+  exposes:
+  - type: rest
+    namespace: storefront-carts-cart-items-rest
+    port: 8080
+    description: REST adapter for BigCommerce Storefront Carts — Cart Items. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/carts/{cartid}/items
+      name: carts-cartid-items
+      description: REST surface for carts-cartId-items.
+      operations:
+      - method: POST
+        name: addcartlineitem
+        description: BigCommerce Add Cart Line Items
+        call: storefront-carts-cart-items.addcartlineitem
+        with:
+          cartId: rest.cartId
+          include: rest.include
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/carts/{cartid}/items/{itemid}
+      name: carts-cartid-items-itemid
+      description: REST surface for carts-cartId-items-itemId.
+      operations:
+      - method: PUT
+        name: updatecartlineitem
+        description: BigCommerce Update Cart Line Item
+        call: storefront-carts-cart-items.updatecartlineitem
+        with:
+          cartId: rest.cartId
+          itemId: rest.itemId
+          include: rest.include
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecartlineitem
+        description: BigCommerce Delete Cart Line Item
+        call: storefront-carts-cart-items.deletecartlineitem
+        with:
+          cartId: rest.cartId
+          itemId: rest.itemId
+          include: rest.include
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: storefront-carts-cart-items-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Storefront Carts — Cart Items. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-add-cart-line-items
+      description: BigCommerce Add Cart Line Items
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: storefront-carts-cart-items.addcartlineitem
+      with:
+        cartId: tools.cartId
+        include: tools.include
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-cart-line-item
+      description: BigCommerce Update Cart Line Item
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: storefront-carts-cart-items.updatecartlineitem
+      with:
+        cartId: tools.cartId
+        itemId: tools.itemId
+        include: tools.include
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-cart-line-item
+      description: BigCommerce Delete Cart Line Item
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: storefront-carts-cart-items.deletecartlineitem
+      with:
+        cartId: tools.cartId
+        itemId: tools.itemId
+        include: tools.include
+      outputParameters:
+      - type: object
+        mapping: $.

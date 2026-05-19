@@ -1,0 +1,237 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Price Lists — Price Lists Assignments
+  description: 'BigCommerce Price Lists — Price Lists Assignments. 4 operations. Lead operation: BigCommerce Get Price List
+    Assignments. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Price Lists Assignments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: price-lists-price-lists-assignments
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Price Lists — Price Lists Assignments business capability. Self-contained, no shared references.
+    resources:
+    - name: pricelists-assignments
+      path: /pricelists/assignments
+      operations:
+      - name: getlistofpricelistassignments
+        method: GET
+        description: BigCommerce Get Price List Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: query
+          type: integer
+          description: The ID of the `Price List Assignment`.
+        - name: price_list_id
+          in: query
+          type: integer
+          description: The ID of the `Price List`.
+        - name: customer_group_id
+          in: query
+          type: integer
+          description: The ID of the `Customer Group`.
+        - name: channel_id
+          in: query
+          type: integer
+          description: The ID of the `Channel`.
+        - name: id:in
+          in: query
+          type: array
+          description: Filter items by a comma-separated list of `id`s.
+        - name: customer_group_id:in
+          in: query
+          type: array
+          description: Filter items by a comma-separated list of `customer_group_id`s.
+        - name: price_list_id:in
+          in: query
+          type: array
+          description: Filter items by a comma-separated list of `price_list_id`s.
+        - name: channel_id:in
+          in: query
+          type: array
+          description: Filter items by a comma-separated list of `channel_id`s.
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of products.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of products.
+      - name: createpricelistassignments
+        method: POST
+        description: BigCommerce Create Price List Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletepricelistassignments
+        method: DELETE
+        description: BigCommerce Delete Price List Assignments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: pricelists-price_list_id-assignments
+      path: /pricelists/{price_list_id}/assignments
+      operations:
+      - name: upsertpricelistassignment
+        method: PUT
+        description: BigCommerce Upsert Price List Assignment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: price-lists-price-lists-assignments-rest
+    port: 8080
+    description: REST adapter for BigCommerce Price Lists — Price Lists Assignments. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/pricelists/assignments
+      name: pricelists-assignments
+      description: REST surface for pricelists-assignments.
+      operations:
+      - method: GET
+        name: getlistofpricelistassignments
+        description: BigCommerce Get Price List Assignments
+        call: price-lists-price-lists-assignments.getlistofpricelistassignments
+        with:
+          id: rest.id
+          price_list_id: rest.price_list_id
+          customer_group_id: rest.customer_group_id
+          channel_id: rest.channel_id
+          id:in: rest.id:in
+          customer_group_id:in: rest.customer_group_id:in
+          price_list_id:in: rest.price_list_id:in
+          channel_id:in: rest.channel_id:in
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createpricelistassignments
+        description: BigCommerce Create Price List Assignments
+        call: price-lists-price-lists-assignments.createpricelistassignments
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletepricelistassignments
+        description: BigCommerce Delete Price List Assignments
+        call: price-lists-price-lists-assignments.deletepricelistassignments
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/pricelists/{price-list-id}/assignments
+      name: pricelists-price-list-id-assignments
+      description: REST surface for pricelists-price_list_id-assignments.
+      operations:
+      - method: PUT
+        name: upsertpricelistassignment
+        description: BigCommerce Upsert Price List Assignment
+        call: price-lists-price-lists-assignments.upsertpricelistassignment
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: price-lists-price-lists-assignments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Price Lists — Price Lists Assignments. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-price-list-assignments
+      description: BigCommerce Get Price List Assignments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: price-lists-price-lists-assignments.getlistofpricelistassignments
+      with:
+        id: tools.id
+        price_list_id: tools.price_list_id
+        customer_group_id: tools.customer_group_id
+        channel_id: tools.channel_id
+        id:in: tools.id:in
+        customer_group_id:in: tools.customer_group_id:in
+        price_list_id:in: tools.price_list_id:in
+        channel_id:in: tools.channel_id:in
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-price-list-assignments
+      description: BigCommerce Create Price List Assignments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: price-lists-price-lists-assignments.createpricelistassignments
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-price-list-assignments
+      description: BigCommerce Delete Price List Assignments
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: price-lists-price-lists-assignments.deletepricelistassignments
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-upsert-price-list-assignment
+      description: BigCommerce Upsert Price List Assignment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: price-lists-price-lists-assignments.upsertpricelistassignment
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

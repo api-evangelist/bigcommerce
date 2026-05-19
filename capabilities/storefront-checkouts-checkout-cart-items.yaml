@@ -1,0 +1,141 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Storefront Checkouts — Checkout Cart Items
+  description: 'BigCommerce Storefront Checkouts — Checkout Cart Items. 2 operations. Lead operation: BigCommerce Update a
+    Line Item. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Checkout Cart Items
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: storefront-checkouts-checkout-cart-items
+    baseUri: https://{store_domain}/api/storefront
+    description: BigCommerce Storefront Checkouts — Checkout Cart Items business capability. Self-contained, no shared references.
+    resources:
+    - name: checkouts-checkoutId-carts-cartId-items-itemId
+      path: /checkouts/{checkoutId}/carts/{cartId}/items/{itemId}
+      operations:
+      - name: updatecheckoutlineitem
+        method: PUT
+        description: BigCommerce Update a Line Item
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: checkoutId
+          in: path
+          type: string
+          required: true
+        - name: cartId
+          in: path
+          type: string
+          required: true
+        - name: itemId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletecheckoutlineitem
+        method: DELETE
+        description: BigCommerce Delete a Line Item
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: checkoutId
+          in: path
+          type: string
+          required: true
+        - name: cartId
+          in: path
+          type: string
+          required: true
+        - name: itemId
+          in: path
+          type: string
+          required: true
+  exposes:
+  - type: rest
+    namespace: storefront-checkouts-checkout-cart-items-rest
+    port: 8080
+    description: REST adapter for BigCommerce Storefront Checkouts — Checkout Cart Items. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/checkouts/{checkoutid}/carts/{cartid}/items/{itemid}
+      name: checkouts-checkoutid-carts-cartid-items-itemid
+      description: REST surface for checkouts-checkoutId-carts-cartId-items-itemId.
+      operations:
+      - method: PUT
+        name: updatecheckoutlineitem
+        description: BigCommerce Update a Line Item
+        call: storefront-checkouts-checkout-cart-items.updatecheckoutlineitem
+        with:
+          checkoutId: rest.checkoutId
+          cartId: rest.cartId
+          itemId: rest.itemId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecheckoutlineitem
+        description: BigCommerce Delete a Line Item
+        call: storefront-checkouts-checkout-cart-items.deletecheckoutlineitem
+        with:
+          checkoutId: rest.checkoutId
+          cartId: rest.cartId
+          itemId: rest.itemId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: storefront-checkouts-checkout-cart-items-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Storefront Checkouts — Checkout Cart Items. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-update-line-item
+      description: BigCommerce Update a Line Item
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: storefront-checkouts-checkout-cart-items.updatecheckoutlineitem
+      with:
+        checkoutId: tools.checkoutId
+        cartId: tools.cartId
+        itemId: tools.itemId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-line-item
+      description: BigCommerce Delete a Line Item
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: storefront-checkouts-checkout-cart-items.deletecheckoutlineitem
+      with:
+        checkoutId: tools.checkoutId
+        cartId: tools.cartId
+        itemId: tools.itemId
+      outputParameters:
+      - type: object
+        mapping: $.

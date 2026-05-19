@@ -1,0 +1,96 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Product Modifiers — Images
+  description: 'BigCommerce Catalog - Product Modifiers — Images. 1 operations. Lead operation: BigCommerce Create Product
+    Modifier Image. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Images
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-product-modifiers-images
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Product Modifiers — Images business capability. Self-contained, no shared references.
+    resources:
+    - name: catalog-products-product_id-modifiers-modifier_id-values-value_id-image
+      path: /catalog/products/{product_id}/modifiers/{modifier_id}/values/{value_id}/image
+      operations:
+      - name: createproductmodifierimage
+        method: POST
+        description: BigCommerce Create Product Modifier Image
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: modifier_id
+          in: path
+          type: integer
+          description: The ID of the `Modifier`.
+          required: true
+        - name: value_id
+          in: path
+          type: integer
+          description: The ID of the `Modifier`.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-product-modifiers-images-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Product Modifiers — Images. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/products/{product-id}/modifiers/{modifier-id}/values/{value-id}/image
+      name: catalog-products-product-id-modifiers-modifier-id-values-value-id-image
+      description: REST surface for catalog-products-product_id-modifiers-modifier_id-values-value_id-image.
+      operations:
+      - method: POST
+        name: createproductmodifierimage
+        description: BigCommerce Create Product Modifier Image
+        call: catalog-product-modifiers-images.createproductmodifierimage
+        with:
+          modifier_id: rest.modifier_id
+          value_id: rest.value_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-product-modifiers-images-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Product Modifiers — Images. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-create-product-modifier-image
+      description: BigCommerce Create Product Modifier Image
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: catalog-product-modifiers-images.createproductmodifierimage
+      with:
+        modifier_id: tools.modifier_id
+        value_id: tools.value_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,124 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Checkouts — Checkout Coupons
+  description: 'BigCommerce Checkouts — Checkout Coupons. 2 operations. Lead operation: BigCommerce Add Coupon to Checkout.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Checkout Coupons
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: checkouts-checkout-coupons
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Checkouts — Checkout Coupons business capability. Self-contained, no shared references.
+    resources:
+    - name: checkouts-checkoutId-coupons
+      path: /checkouts/{checkoutId}/coupons
+      operations:
+      - name: addcheckoutcoupon
+        method: POST
+        description: BigCommerce Add Coupon to Checkout
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: checkouts-checkoutId-coupons-couponCode
+      path: /checkouts/{checkoutId}/coupons/{couponCode}
+      operations:
+      - name: deletecheckoutcoupon
+        method: DELETE
+        description: BigCommerce Delete Checkout Coupon
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: couponCode
+          in: path
+          type: string
+          description: The actual coupon code value, not the coupon ID.
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: checkouts-checkout-coupons-rest
+    port: 8080
+    description: REST adapter for BigCommerce Checkouts — Checkout Coupons. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/checkouts/{checkoutid}/coupons
+      name: checkouts-checkoutid-coupons
+      description: REST surface for checkouts-checkoutId-coupons.
+      operations:
+      - method: POST
+        name: addcheckoutcoupon
+        description: BigCommerce Add Coupon to Checkout
+        call: checkouts-checkout-coupons.addcheckoutcoupon
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/checkouts/{checkoutid}/coupons/{couponcode}
+      name: checkouts-checkoutid-coupons-couponcode
+      description: REST surface for checkouts-checkoutId-coupons-couponCode.
+      operations:
+      - method: DELETE
+        name: deletecheckoutcoupon
+        description: BigCommerce Delete Checkout Coupon
+        call: checkouts-checkout-coupons.deletecheckoutcoupon
+        with:
+          couponCode: rest.couponCode
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: checkouts-checkout-coupons-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Checkouts — Checkout Coupons. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-add-coupon-checkout
+      description: BigCommerce Add Coupon to Checkout
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: checkouts-checkout-coupons.addcheckoutcoupon
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-checkout-coupon
+      description: BigCommerce Delete Checkout Coupon
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: checkouts-checkout-coupons.deletecheckoutcoupon
+      with:
+        couponCode: tools.couponCode
+      outputParameters:
+      - type: object
+        mapping: $.

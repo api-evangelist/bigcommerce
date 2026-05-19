@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Themes — Theme Jobs
+  description: 'BigCommerce Themes — Theme Jobs. 1 operations. Lead operation: BigCommerce Get a Theme Job. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Theme Jobs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: themes-theme-jobs
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Themes — Theme Jobs business capability. Self-contained, no shared references.
+    resources:
+    - name: themes-jobs-job_id
+      path: /themes/jobs/{job_id}
+      operations:
+      - name: getstorethemejob
+        method: GET
+        description: BigCommerce Get a Theme Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: themes-theme-jobs-rest
+    port: 8080
+    description: REST adapter for BigCommerce Themes — Theme Jobs. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/themes/jobs/{job-id}
+      name: themes-jobs-job-id
+      description: REST surface for themes-jobs-job_id.
+      operations:
+      - method: GET
+        name: getstorethemejob
+        description: BigCommerce Get a Theme Job
+        call: themes-theme-jobs.getstorethemejob
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: themes-theme-jobs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Themes — Theme Jobs. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-get-theme-job
+      description: BigCommerce Get a Theme Job
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: themes-theme-jobs.getstorethemejob
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,174 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Channels — Listings
+  description: 'BigCommerce Channels — Listings. 4 operations. Lead operation: BigCommerce Get Channel Listings. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Listings
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: channels-listings
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Channels — Listings business capability. Self-contained, no shared references.
+    resources:
+    - name: channels-channel_id-listings
+      path: /channels/{channel_id}/listings
+      operations:
+      - name: getchannellistings
+        method: GET
+        description: BigCommerce Get Channel Listings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createchannellistings
+        method: POST
+        description: BigCommerce Create Channel Listings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: updatechannellistings
+        method: PUT
+        description: BigCommerce Update Channel Listings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: channels-channel_id-listings-listing_id
+      path: /channels/{channel_id}/listings/{listing_id}
+      operations:
+      - name: getchannellisting
+        method: GET
+        description: BigCommerce Get a Channel Listing
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: channels-listings-rest
+    port: 8080
+    description: REST adapter for BigCommerce Channels — Listings. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/channels/{channel-id}/listings
+      name: channels-channel-id-listings
+      description: REST surface for channels-channel_id-listings.
+      operations:
+      - method: GET
+        name: getchannellistings
+        description: BigCommerce Get Channel Listings
+        call: channels-listings.getchannellistings
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createchannellistings
+        description: BigCommerce Create Channel Listings
+        call: channels-listings.createchannellistings
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatechannellistings
+        description: BigCommerce Update Channel Listings
+        call: channels-listings.updatechannellistings
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/channels/{channel-id}/listings/{listing-id}
+      name: channels-channel-id-listings-listing-id
+      description: REST surface for channels-channel_id-listings-listing_id.
+      operations:
+      - method: GET
+        name: getchannellisting
+        description: BigCommerce Get a Channel Listing
+        call: channels-listings.getchannellisting
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: channels-listings-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Channels — Listings. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: bigcommerce-get-channel-listings
+      description: BigCommerce Get Channel Listings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: channels-listings.getchannellistings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-channel-listings
+      description: BigCommerce Create Channel Listings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: channels-listings.createchannellistings
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-channel-listings
+      description: BigCommerce Update Channel Listings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: channels-listings.updatechannellistings
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-channel-listing
+      description: BigCommerce Get a Channel Listing
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: channels-listings.getchannellisting
+      outputParameters:
+      - type: object
+        mapping: $.

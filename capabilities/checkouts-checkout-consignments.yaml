@@ -1,0 +1,160 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Checkouts — Checkout Consignments
+  description: 'BigCommerce Checkouts — Checkout Consignments. 3 operations. Lead operation: BigCommerce Add Consignment to
+    Checkout. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Checkout Consignments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: checkouts-checkout-consignments
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Checkouts — Checkout Consignments business capability. Self-contained, no shared references.
+    resources:
+    - name: checkouts-checkoutId-consignments
+      path: /checkouts/{checkoutId}/consignments
+      operations:
+      - name: addcheckoutconsignment
+        method: POST
+        description: BigCommerce Add Consignment to Checkout
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: include
+          in: query
+          type: string
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: checkouts-checkoutId-consignments-consignmentId
+      path: /checkouts/{checkoutId}/consignments/{consignmentId}
+      operations:
+      - name: updatecheckoutconsignment
+        method: PUT
+        description: BigCommerce Update Checkout Consignment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: include
+          in: query
+          type: string
+          description: Include to get available shipping options.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletecheckoutconsignment
+        method: DELETE
+        description: BigCommerce Delete Checkout Consignment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: checkouts-checkout-consignments-rest
+    port: 8080
+    description: REST adapter for BigCommerce Checkouts — Checkout Consignments. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/checkouts/{checkoutid}/consignments
+      name: checkouts-checkoutid-consignments
+      description: REST surface for checkouts-checkoutId-consignments.
+      operations:
+      - method: POST
+        name: addcheckoutconsignment
+        description: BigCommerce Add Consignment to Checkout
+        call: checkouts-checkout-consignments.addcheckoutconsignment
+        with:
+          include: rest.include
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/checkouts/{checkoutid}/consignments/{consignmentid}
+      name: checkouts-checkoutid-consignments-consignmentid
+      description: REST surface for checkouts-checkoutId-consignments-consignmentId.
+      operations:
+      - method: PUT
+        name: updatecheckoutconsignment
+        description: BigCommerce Update Checkout Consignment
+        call: checkouts-checkout-consignments.updatecheckoutconsignment
+        with:
+          include: rest.include
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecheckoutconsignment
+        description: BigCommerce Delete Checkout Consignment
+        call: checkouts-checkout-consignments.deletecheckoutconsignment
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: checkouts-checkout-consignments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Checkouts — Checkout Consignments. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-add-consignment-checkout
+      description: BigCommerce Add Consignment to Checkout
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: checkouts-checkout-consignments.addcheckoutconsignment
+      with:
+        include: tools.include
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-checkout-consignment
+      description: BigCommerce Update Checkout Consignment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: checkouts-checkout-consignments.updatecheckoutconsignment
+      with:
+        include: tools.include
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-checkout-consignment
+      description: BigCommerce Delete Checkout Consignment
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: checkouts-checkout-consignments.deletecheckoutconsignment
+      outputParameters:
+      - type: object
+        mapping: $.

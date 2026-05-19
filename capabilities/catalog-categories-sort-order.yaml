@@ -1,0 +1,107 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Categories — Sort Order
+  description: 'BigCommerce Catalog - Categories — Sort Order. 2 operations. Lead operation: BigCommerce Get Product Sort
+    Order. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Sort Order
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-categories-sort-order
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Categories — Sort Order business capability. Self-contained, no shared references.
+    resources:
+    - name: catalog-categories-category_id-products-sort-order
+      path: /catalog/categories/{category_id}/products/sort-order
+      operations:
+      - name: getcategorysortorders
+        method: GET
+        description: BigCommerce Get Product Sort Order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatecategorysortorders
+        method: PUT
+        description: BigCommerce Update Product Sort Order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-categories-sort-order-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Categories — Sort Order. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/categories/{category-id}/products/sort-order
+      name: catalog-categories-category-id-products-sort-order
+      description: REST surface for catalog-categories-category_id-products-sort-order.
+      operations:
+      - method: GET
+        name: getcategorysortorders
+        description: BigCommerce Get Product Sort Order
+        call: catalog-categories-sort-order.getcategorysortorders
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecategorysortorders
+        description: BigCommerce Update Product Sort Order
+        call: catalog-categories-sort-order.updatecategorysortorders
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-categories-sort-order-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Categories — Sort Order. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-product-sort-order
+      description: BigCommerce Get Product Sort Order
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-categories-sort-order.getcategorysortorders
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-product-sort-order
+      description: BigCommerce Update Product Sort Order
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: catalog-categories-sort-order.updatecategorysortorders
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,177 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Carts — Batch Metafields
+  description: 'BigCommerce Carts — Batch Metafields. 4 operations. Lead operation: BigCommerce Get All Cart Metafields. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Batch Metafields
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: carts-batch-metafields
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Carts — Batch Metafields business capability. Self-contained, no shared references.
+    resources:
+    - name: carts-metafields
+      path: /carts/metafields
+      operations:
+      - name: getcartsmetafields
+        method: GET
+        description: BigCommerce Get All Cart Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createcartsmetafields
+        method: POST
+        description: BigCommerce Create multiple Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: updatecartsmetafields
+        method: PUT
+        description: BigCommerce Update multiple Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletecartsmetafields
+        method: DELETE
+        description: BigCommerce Delete All Metafields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: carts-batch-metafields-rest
+    port: 8080
+    description: REST adapter for BigCommerce Carts — Batch Metafields. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/carts/metafields
+      name: carts-metafields
+      description: REST surface for carts-metafields.
+      operations:
+      - method: GET
+        name: getcartsmetafields
+        description: BigCommerce Get All Cart Metafields
+        call: carts-batch-metafields.getcartsmetafields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcartsmetafields
+        description: BigCommerce Create multiple Metafields
+        call: carts-batch-metafields.createcartsmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecartsmetafields
+        description: BigCommerce Update multiple Metafields
+        call: carts-batch-metafields.updatecartsmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecartsmetafields
+        description: BigCommerce Delete All Metafields
+        call: carts-batch-metafields.deletecartsmetafields
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: carts-batch-metafields-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Carts — Batch Metafields. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-cart-metafields
+      description: BigCommerce Get All Cart Metafields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: carts-batch-metafields.getcartsmetafields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-multiple-metafields
+      description: BigCommerce Create multiple Metafields
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: carts-batch-metafields.createcartsmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-multiple-metafields
+      description: BigCommerce Update multiple Metafields
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: carts-batch-metafields.updatecartsmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-all-metafields
+      description: BigCommerce Delete All Metafields
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: carts-batch-metafields.deletecartsmetafields
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

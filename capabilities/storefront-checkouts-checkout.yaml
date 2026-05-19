@@ -1,0 +1,123 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Storefront Checkouts — Checkout
+  description: 'BigCommerce Storefront Checkouts — Checkout. 2 operations. Lead operation: BigCommerce Get a Checkout. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Checkout
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: storefront-checkouts-checkout
+    baseUri: https://{store_domain}/api/storefront
+    description: BigCommerce Storefront Checkouts — Checkout business capability. Self-contained, no shared references.
+    resources:
+    - name: checkouts-checkoutId
+      path: /checkouts/{checkoutId}
+      operations:
+      - name: getcheckout
+        method: GET
+        description: BigCommerce Get a Checkout
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: checkoutId
+          in: path
+          type: string
+          required: true
+        - name: include
+          in: query
+          type: string
+          description: '* `cart.lineItems.physicalItems.options` - physical options'
+      - name: updatecheckout
+        method: PUT
+        description: BigCommerce Update Customer Messages
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: checkoutId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: rest
+    namespace: storefront-checkouts-checkout-rest
+    port: 8080
+    description: REST adapter for BigCommerce Storefront Checkouts — Checkout. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/checkouts/{checkoutid}
+      name: checkouts-checkoutid
+      description: REST surface for checkouts-checkoutId.
+      operations:
+      - method: GET
+        name: getcheckout
+        description: BigCommerce Get a Checkout
+        call: storefront-checkouts-checkout.getcheckout
+        with:
+          checkoutId: rest.checkoutId
+          include: rest.include
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecheckout
+        description: BigCommerce Update Customer Messages
+        call: storefront-checkouts-checkout.updatecheckout
+        with:
+          checkoutId: rest.checkoutId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: storefront-checkouts-checkout-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Storefront Checkouts — Checkout. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-checkout
+      description: BigCommerce Get a Checkout
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: storefront-checkouts-checkout.getcheckout
+      with:
+        checkoutId: tools.checkoutId
+        include: tools.include
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-customer-messages
+      description: BigCommerce Update Customer Messages
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: storefront-checkouts-checkout.updatecheckout
+      with:
+        checkoutId: tools.checkoutId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

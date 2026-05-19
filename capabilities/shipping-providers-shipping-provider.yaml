@@ -1,0 +1,119 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Shipping Providers — Shipping Provider
+  description: 'BigCommerce Shipping Providers — Shipping Provider. 2 operations. Lead operation: BigCommerce Validate connection
+    options. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Shipping Provider
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: shipping-providers-shipping-provider
+    baseUri: https://{app_domain}
+    description: BigCommerce Shipping Providers — Shipping Provider business capability. Self-contained, no shared references.
+    resources:
+    - name: check_connection_options
+      path: /check_connection_options
+      operations:
+      - name: validateconnectionoptions
+        method: POST
+        description: BigCommerce Validate connection options
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: rate
+      path: /rate
+      operations:
+      - name: requestshippingrates
+        method: POST
+        description: BigCommerce Request shipping rates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: rest
+    namespace: shipping-providers-shipping-provider-rest
+    port: 8080
+    description: REST adapter for BigCommerce Shipping Providers — Shipping Provider. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/check-connection-options
+      name: check-connection-options
+      description: REST surface for check_connection_options.
+      operations:
+      - method: POST
+        name: validateconnectionoptions
+        description: BigCommerce Validate connection options
+        call: shipping-providers-shipping-provider.validateconnectionoptions
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/rate
+      name: rate
+      description: REST surface for rate.
+      operations:
+      - method: POST
+        name: requestshippingrates
+        description: BigCommerce Request shipping rates
+        call: shipping-providers-shipping-provider.requestshippingrates
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: shipping-providers-shipping-provider-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Shipping Providers — Shipping Provider. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-validate-connection-options
+      description: BigCommerce Validate connection options
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: shipping-providers-shipping-provider.validateconnectionoptions
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-request-shipping-rates
+      description: BigCommerce Request shipping rates
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: shipping-providers-shipping-provider.requestshippingrates
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

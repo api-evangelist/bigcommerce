@@ -1,0 +1,696 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Catalog - Products — Products
+  description: 'BigCommerce Catalog - Products — Products. 7 operations. Lead operation: BigCommerce Get All Products. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Products
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: catalog-products-products
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Catalog - Products — Products business capability. Self-contained, no shared references.
+    resources:
+    - name: catalog-products
+      path: /catalog/products
+      operations:
+      - name: getproducts
+        method: GET
+        description: BigCommerce Get All Products
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: query
+          type: integer
+          description: Filter items by ID.
+        - name: id:in
+          in: query
+          type: array
+        - name: id:not_in
+          in: query
+          type: array
+        - name: id:min
+          in: query
+          type: array
+        - name: id:max
+          in: query
+          type: array
+        - name: id:greater
+          in: query
+          type: array
+        - name: id:less
+          in: query
+          type: array
+        - name: name
+          in: query
+          type: string
+          description: Filter items by name.
+        - name: mpn
+          in: query
+          type: string
+          description: Filter items by Manufacturer Part Number (MPN).
+        - name: upc
+          in: query
+          type: string
+          description: Filter items by UPC.
+        - name: price
+          in: query
+          type: number
+          description: Filter items by price.
+        - name: weight
+          in: query
+          type: number
+          description: Filter items by weight.
+        - name: condition
+          in: query
+          type: string
+          description: Filter items by condition.
+        - name: brand_id
+          in: query
+          type: integer
+          description: Filter items by brand_id.
+        - name: date_modified
+          in: query
+          type: string
+          description: Filter items by `date_modified`.
+        - name: date_modified:max
+          in: query
+          type: string
+          description: Filter items by `date_modified`. For example, `date_modified:max=2020-06-15`.
+        - name: date_modified:min
+          in: query
+          type: string
+          description: Filter items by `date_modified`. For example, `date_modified:min=2018-06-15`.
+        - name: date_last_imported
+          in: query
+          type: string
+          description: Filter items by date_last_imported.
+        - name: date_last_imported:not
+          in: query
+          type: string
+          description: Filter items by date_last_imported. For example, `date_last_imported:not=2015-08-21T22%3A53%3A23%2B00%3A00`.
+        - name: date_last_imported:max
+          in: query
+          type: string
+          description: Filter items by date_last_imported. For example, `date_last_imported:max=2015-08-21T22%3A53%3A23%2B00%3A00`.
+        - name: date_last_imported:min
+          in: query
+          type: string
+          description: Filter items by date_last_imported. For example, `date_last_imported:min=2015-08-21T22%3A53%3A23%2B00%3A00`.
+        - name: is_visible
+          in: query
+          type: boolean
+          description: Filter items based on whether the product is currently visible on the storefront.
+        - name: is_featured
+          in: query
+          type: integer
+          description: Filter items by is_featured. `1` for true, `0` for false.
+        - name: is_free_shipping
+          in: query
+          type: integer
+          description: Filter items by is_free_shipping. `1` for true, `0` for false.
+        - name: inventory_level
+          in: query
+          type: integer
+          description: Filter items by inventory_level.
+        - name: inventory_level:in
+          in: query
+          type: integer
+        - name: inventory_level:not_in
+          in: query
+          type: integer
+        - name: inventory_level:min
+          in: query
+          type: integer
+        - name: inventory_level:max
+          in: query
+          type: integer
+        - name: inventory_level:greater
+          in: query
+          type: integer
+        - name: inventory_level:less
+          in: query
+          type: integer
+        - name: inventory_low
+          in: query
+          type: integer
+          description: 'Filter items by inventory_low. Values: 1, 0.'
+        - name: out_of_stock
+          in: query
+          type: integer
+          description: Filter items by out_of_stock. To enable the filter, pass `out_of_stock`=`1`.
+        - name: total_sold
+          in: query
+          type: integer
+          description: Filter items by total_sold.
+        - name: type
+          in: query
+          type: string
+          description: Filter items by type.
+        - name: categories
+          in: query
+          type: integer
+          description: Filter items by categories.
+        - name: keyword
+          in: query
+          type: string
+          description: Filter items by keywords found in the `name` or `sku` fields
+        - name: keyword_context
+          in: query
+          type: string
+          description: 'Set context used by the search algorithm to return results targeted towards the specified group. Use
+            `merchant` to help merchants search their own catalog. Use '
+        - name: status
+          in: query
+          type: integer
+          description: Filter items by status.
+        - name: include
+          in: query
+          type: array
+          description: Sub-resources to include on a product, in a comma-separated list. If `options` or `modifiers` is used,
+            results are limited to 10 per page.
+        - name: include_fields
+          in: query
+          type: string
+          description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        - name: exclude_fields
+          in: query
+          type: string
+          description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response.
+            The ID cannot be excluded.
+        - name: availability
+          in: query
+          type: string
+          description: 'Filter items by availability. Values are: available, disabled, preorder.'
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number in a limited (paginated) list of products.
+        - name: limit
+          in: query
+          type: integer
+          description: Controls the number of items per page in a limited (paginated) list of products. The default product
+            limit is 50 with a maximum limit of 250.
+        - name: direction
+          in: query
+          type: string
+          description: 'Sort direction. Acceptable values are: `asc`, `desc`.'
+        - name: sort
+          in: query
+          type: string
+          description: 'Field name to sort by. Note: Since `id` increments when new products are added, you can use that field
+            to sort by product create date.'
+        - name: categories:in
+          in: query
+          type: array
+          description: Filter items by categories. Use for products in multiple categories. For example, `categories:in=12,15`.
+        - name: sku
+          in: query
+          type: string
+          description: Filter items by main SKU. To filter by variant SKU, see [Get All Variants](/docs/rest-catalog/product-variants#get-all-product-variants).
+        - name: sku:in
+          in: query
+          type: array
+          description: Filter items by SKU.
+      - name: updateproducts
+        method: PUT
+        description: BigCommerce Update Products (Batch)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: include_fields
+          in: query
+          type: string
+          description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: createproduct
+        method: POST
+        description: BigCommerce Create a Product
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: include_fields
+          in: query
+          type: string
+          description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteproducts
+        method: DELETE
+        description: BigCommerce Delete Products
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: query
+          type: string
+          description: Filter items by name.
+        - name: sku
+          in: query
+          type: string
+          description: Filter items by SKU.
+        - name: price
+          in: query
+          type: number
+          description: Filter items by price.
+        - name: weight
+          in: query
+          type: number
+          description: Filter items by weight.
+        - name: condition
+          in: query
+          type: string
+          description: Filter items by condition.
+        - name: brand_id
+          in: query
+          type: integer
+          description: Filter items by brand_id.
+        - name: date_modified
+          in: query
+          type: string
+          description: Filter items by date_modified. For example `v3/catalog/products?date_modified:min=2018-06-15`
+        - name: date_last_imported
+          in: query
+          type: string
+          description: Filter items by date_last_imported. For example `v3/catalog/products?date_last_imported:min=2015-08-21T22%3A53%3A23%2B00%3A00`
+        - name: is_visible
+          in: query
+          type: boolean
+          description: Filter items by if visible on the storefront.
+        - name: is_featured
+          in: query
+          type: integer
+          description: Filter items by is_featured.
+        - name: id:in
+          in: query
+          type: array
+          description: Filter by product ID(s).
+        - name: inventory_level
+          in: query
+          type: integer
+          description: Filter items by inventory_level.
+        - name: total_sold
+          in: query
+          type: integer
+          description: Filter items by total_sold.
+        - name: type
+          in: query
+          type: string
+          description: 'Filter items by type: `physical` or `digital`.'
+        - name: categories
+          in: query
+          type: integer
+          description: Filter items by categories.
+        - name: keyword
+          in: query
+          type: string
+          description: Filter items by keywords found in the `name`, `description`, or `sku` fields, or in the brand name.
+    - name: catalog-products-product_id
+      path: /catalog/products/{product_id}
+      operations:
+      - name: getproduct
+        method: GET
+        description: BigCommerce Get a Product
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: include
+          in: query
+          type: array
+          description: Sub-resources to include on a product, in a comma-separated list. If `options` or `modifiers` is used,
+            results are limited to 10 per page.
+        - name: include_fields
+          in: query
+          type: string
+          description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        - name: exclude_fields
+          in: query
+          type: string
+          description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response.
+            The ID cannot be excluded.
+      - name: updateproduct
+        method: PUT
+        description: BigCommerce Update a Product
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: include_fields
+          in: query
+          type: string
+          description: Sub-resources to include on a product, in a comma-separated list. If `options` or `modifiers` is used,
+            results are limited to 10 per page. The ID and the specif
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteproduct
+        method: DELETE
+        description: BigCommerce Delete a Product
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: catalog-products-products-rest
+    port: 8080
+    description: REST adapter for BigCommerce Catalog - Products — Products. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalog/products
+      name: catalog-products
+      description: REST surface for catalog-products.
+      operations:
+      - method: GET
+        name: getproducts
+        description: BigCommerce Get All Products
+        call: catalog-products-products.getproducts
+        with:
+          id: rest.id
+          id:in: rest.id:in
+          id:not_in: rest.id:not_in
+          id:min: rest.id:min
+          id:max: rest.id:max
+          id:greater: rest.id:greater
+          id:less: rest.id:less
+          name: rest.name
+          mpn: rest.mpn
+          upc: rest.upc
+          price: rest.price
+          weight: rest.weight
+          condition: rest.condition
+          brand_id: rest.brand_id
+          date_modified: rest.date_modified
+          date_modified:max: rest.date_modified:max
+          date_modified:min: rest.date_modified:min
+          date_last_imported: rest.date_last_imported
+          date_last_imported:not: rest.date_last_imported:not
+          date_last_imported:max: rest.date_last_imported:max
+          date_last_imported:min: rest.date_last_imported:min
+          is_visible: rest.is_visible
+          is_featured: rest.is_featured
+          is_free_shipping: rest.is_free_shipping
+          inventory_level: rest.inventory_level
+          inventory_level:in: rest.inventory_level:in
+          inventory_level:not_in: rest.inventory_level:not_in
+          inventory_level:min: rest.inventory_level:min
+          inventory_level:max: rest.inventory_level:max
+          inventory_level:greater: rest.inventory_level:greater
+          inventory_level:less: rest.inventory_level:less
+          inventory_low: rest.inventory_low
+          out_of_stock: rest.out_of_stock
+          total_sold: rest.total_sold
+          type: rest.type
+          categories: rest.categories
+          keyword: rest.keyword
+          keyword_context: rest.keyword_context
+          status: rest.status
+          include: rest.include
+          include_fields: rest.include_fields
+          exclude_fields: rest.exclude_fields
+          availability: rest.availability
+          page: rest.page
+          limit: rest.limit
+          direction: rest.direction
+          sort: rest.sort
+          categories:in: rest.categories:in
+          sku: rest.sku
+          sku:in: rest.sku:in
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateproducts
+        description: BigCommerce Update Products (Batch)
+        call: catalog-products-products.updateproducts
+        with:
+          include_fields: rest.include_fields
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createproduct
+        description: BigCommerce Create a Product
+        call: catalog-products-products.createproduct
+        with:
+          include_fields: rest.include_fields
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteproducts
+        description: BigCommerce Delete Products
+        call: catalog-products-products.deleteproducts
+        with:
+          name: rest.name
+          sku: rest.sku
+          price: rest.price
+          weight: rest.weight
+          condition: rest.condition
+          brand_id: rest.brand_id
+          date_modified: rest.date_modified
+          date_last_imported: rest.date_last_imported
+          is_visible: rest.is_visible
+          is_featured: rest.is_featured
+          id:in: rest.id:in
+          inventory_level: rest.inventory_level
+          total_sold: rest.total_sold
+          type: rest.type
+          categories: rest.categories
+          keyword: rest.keyword
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/catalog/products/{product-id}
+      name: catalog-products-product-id
+      description: REST surface for catalog-products-product_id.
+      operations:
+      - method: GET
+        name: getproduct
+        description: BigCommerce Get a Product
+        call: catalog-products-products.getproduct
+        with:
+          include: rest.include
+          include_fields: rest.include_fields
+          exclude_fields: rest.exclude_fields
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateproduct
+        description: BigCommerce Update a Product
+        call: catalog-products-products.updateproduct
+        with:
+          include_fields: rest.include_fields
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteproduct
+        description: BigCommerce Delete a Product
+        call: catalog-products-products.deleteproduct
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: catalog-products-products-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Catalog - Products — Products. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-products
+      description: BigCommerce Get All Products
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-products-products.getproducts
+      with:
+        id: tools.id
+        id:in: tools.id:in
+        id:not_in: tools.id:not_in
+        id:min: tools.id:min
+        id:max: tools.id:max
+        id:greater: tools.id:greater
+        id:less: tools.id:less
+        name: tools.name
+        mpn: tools.mpn
+        upc: tools.upc
+        price: tools.price
+        weight: tools.weight
+        condition: tools.condition
+        brand_id: tools.brand_id
+        date_modified: tools.date_modified
+        date_modified:max: tools.date_modified:max
+        date_modified:min: tools.date_modified:min
+        date_last_imported: tools.date_last_imported
+        date_last_imported:not: tools.date_last_imported:not
+        date_last_imported:max: tools.date_last_imported:max
+        date_last_imported:min: tools.date_last_imported:min
+        is_visible: tools.is_visible
+        is_featured: tools.is_featured
+        is_free_shipping: tools.is_free_shipping
+        inventory_level: tools.inventory_level
+        inventory_level:in: tools.inventory_level:in
+        inventory_level:not_in: tools.inventory_level:not_in
+        inventory_level:min: tools.inventory_level:min
+        inventory_level:max: tools.inventory_level:max
+        inventory_level:greater: tools.inventory_level:greater
+        inventory_level:less: tools.inventory_level:less
+        inventory_low: tools.inventory_low
+        out_of_stock: tools.out_of_stock
+        total_sold: tools.total_sold
+        type: tools.type
+        categories: tools.categories
+        keyword: tools.keyword
+        keyword_context: tools.keyword_context
+        status: tools.status
+        include: tools.include
+        include_fields: tools.include_fields
+        exclude_fields: tools.exclude_fields
+        availability: tools.availability
+        page: tools.page
+        limit: tools.limit
+        direction: tools.direction
+        sort: tools.sort
+        categories:in: tools.categories:in
+        sku: tools.sku
+        sku:in: tools.sku:in
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-products-batch
+      description: BigCommerce Update Products (Batch)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: catalog-products-products.updateproducts
+      with:
+        include_fields: tools.include_fields
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-product
+      description: BigCommerce Create a Product
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: catalog-products-products.createproduct
+      with:
+        include_fields: tools.include_fields
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-products
+      description: BigCommerce Delete Products
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: catalog-products-products.deleteproducts
+      with:
+        name: tools.name
+        sku: tools.sku
+        price: tools.price
+        weight: tools.weight
+        condition: tools.condition
+        brand_id: tools.brand_id
+        date_modified: tools.date_modified
+        date_last_imported: tools.date_last_imported
+        is_visible: tools.is_visible
+        is_featured: tools.is_featured
+        id:in: tools.id:in
+        inventory_level: tools.inventory_level
+        total_sold: tools.total_sold
+        type: tools.type
+        categories: tools.categories
+        keyword: tools.keyword
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-product
+      description: BigCommerce Get a Product
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: catalog-products-products.getproduct
+      with:
+        include: tools.include
+        include_fields: tools.include_fields
+        exclude_fields: tools.exclude_fields
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-product
+      description: BigCommerce Update a Product
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: catalog-products-products.updateproduct
+      with:
+        include_fields: tools.include_fields
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-product
+      description: BigCommerce Delete a Product
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: catalog-products-products.deleteproduct
+      outputParameters:
+      - type: object
+        mapping: $.

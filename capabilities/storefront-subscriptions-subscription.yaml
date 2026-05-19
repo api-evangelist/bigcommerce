@@ -1,0 +1,77 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Storefront Subscriptions — Subscription
+  description: 'BigCommerce Storefront Subscriptions — Subscription. 1 operations. Lead operation: BigCommerce Create a Subscription.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Subscription
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: storefront-subscriptions-subscription
+    baseUri: https://{store_domain}/api/storefront
+    description: BigCommerce Storefront Subscriptions — Subscription business capability. Self-contained, no shared references.
+    resources:
+    - name: subscriptions
+      path: /subscriptions
+      operations:
+      - name: createsubscription
+        method: POST
+        description: BigCommerce Create a Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+  exposes:
+  - type: rest
+    namespace: storefront-subscriptions-subscription-rest
+    port: 8080
+    description: REST adapter for BigCommerce Storefront Subscriptions — Subscription. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/subscriptions
+      name: subscriptions
+      description: REST surface for subscriptions.
+      operations:
+      - method: POST
+        name: createsubscription
+        description: BigCommerce Create a Subscription
+        call: storefront-subscriptions-subscription.createsubscription
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: storefront-subscriptions-subscription-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Storefront Subscriptions — Subscription. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: bigcommerce-create-subscription
+      description: BigCommerce Create a Subscription
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: storefront-subscriptions-subscription.createsubscription
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,167 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Tax Rates & Zones — Tax Rates
+  description: 'BigCommerce Tax Rates & Zones — Tax Rates. 4 operations. Lead operation: BigCommerce Get Tax Rates. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Tax Rates
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: tax-rates-zones-tax-rates
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Tax Rates & Zones — Tax Rates business capability. Self-contained, no shared references.
+    resources:
+    - name: tax-rates
+      path: /tax/rates
+      operations:
+      - name: gettaxrates
+        method: GET
+        description: BigCommerce Get Tax Rates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatetaxrates
+        method: PUT
+        description: BigCommerce Update Tax Rates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: createtaxrates
+        method: POST
+        description: BigCommerce Create Tax Rates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletetaxrates
+        method: DELETE
+        description: BigCommerce Delete Tax Rates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: tax-rates-zones-tax-rates-rest
+    port: 8080
+    description: REST adapter for BigCommerce Tax Rates & Zones — Tax Rates. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/tax/rates
+      name: tax-rates
+      description: REST surface for tax-rates.
+      operations:
+      - method: GET
+        name: gettaxrates
+        description: BigCommerce Get Tax Rates
+        call: tax-rates-zones-tax-rates.gettaxrates
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatetaxrates
+        description: BigCommerce Update Tax Rates
+        call: tax-rates-zones-tax-rates.updatetaxrates
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createtaxrates
+        description: BigCommerce Create Tax Rates
+        call: tax-rates-zones-tax-rates.createtaxrates
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletetaxrates
+        description: BigCommerce Delete Tax Rates
+        call: tax-rates-zones-tax-rates.deletetaxrates
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: tax-rates-zones-tax-rates-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Tax Rates & Zones — Tax Rates. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-tax-rates
+      description: BigCommerce Get Tax Rates
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: tax-rates-zones-tax-rates.gettaxrates
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-tax-rates
+      description: BigCommerce Update Tax Rates
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: tax-rates-zones-tax-rates.updatetaxrates
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-tax-rates
+      description: BigCommerce Create Tax Rates
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: tax-rates-zones-tax-rates.createtaxrates
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-tax-rates
+      description: BigCommerce Delete Tax Rates
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: tax-rates-zones-tax-rates.deletetaxrates
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,107 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Settings V3 — Store Locale
+  description: 'BigCommerce Settings V3 — Store Locale. 2 operations. Lead operation: BigCommerce Get Locale Settings. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Store Locale
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: settings-store-locale
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Settings V3 — Store Locale business capability. Self-contained, no shared references.
+    resources:
+    - name: settings-store-locale
+      path: /settings/store/locale
+      operations:
+      - name: getsettingslocale
+        method: GET
+        description: BigCommerce Get Locale Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatesettingslocale
+        method: PUT
+        description: BigCommerce Update Locale Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: settings-store-locale-rest
+    port: 8080
+    description: REST adapter for BigCommerce Settings V3 — Store Locale. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/settings/store/locale
+      name: settings-store-locale
+      description: REST surface for settings-store-locale.
+      operations:
+      - method: GET
+        name: getsettingslocale
+        description: BigCommerce Get Locale Settings
+        call: settings-store-locale.getsettingslocale
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatesettingslocale
+        description: BigCommerce Update Locale Settings
+        call: settings-store-locale.updatesettingslocale
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: settings-store-locale-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Settings V3 — Store Locale. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-locale-settings
+      description: BigCommerce Get Locale Settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: settings-store-locale.getsettingslocale
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-locale-settings
+      description: BigCommerce Update Locale Settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: settings-store-locale.updatesettingslocale
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,286 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Redirects — Import-Export
+  description: 'BigCommerce Redirects — Import-Export. 6 operations. Lead operation: BigCommerce Create Redirects Export Job.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Import-Export
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: redirects-import-export
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Redirects — Import-Export business capability. Self-contained, no shared references.
+    resources:
+    - name: storefront-redirects-imex-export
+      path: /storefront/redirects/imex/export
+      operations:
+      - name: createredirectexportjob
+        method: POST
+        description: BigCommerce Create Redirects Export Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: storefront-redirects-imex-export-uuid-download
+      path: /storefront/redirects/imex/export/{uuid}/download
+      operations:
+      - name: getredirectexportdownload
+        method: GET
+        description: BigCommerce Download Redirect Export
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: storefront-redirects-imex-export-uuid-events
+      path: /storefront/redirects/imex/export/{uuid}/events
+      operations:
+      - name: getredirectexportevents
+        method: GET
+        description: BigCommerce Open Redirect Export Event Stream
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: storefront-redirects-imex-import
+      path: /storefront/redirects/imex/import
+      operations:
+      - name: createredirectimportjob
+        method: POST
+        description: BigCommerce Create Redirects Import Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: storefront-redirects-imex-import-uuid-events
+      path: /storefront/redirects/imex/import/{uuid}/events
+      operations:
+      - name: getredirectimportevents
+        method: GET
+        description: BigCommerce Open Redirect Import Event Stream
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: storefront-redirects-imex-jobs
+      path: /storefront/redirects/imex/jobs
+      operations:
+      - name: getredirectimportexportjobs
+        method: GET
+        description: BigCommerce Get Redirect Import-Export Jobs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: query
+          type: string
+          description: Filters results by Redirect Import-Export job ID.
+        - name: type
+          in: query
+          type: string
+          description: Filters results by the type of the Redirect Import-Export job.
+        - name: status
+          in: query
+          type: string
+          description: Filters results by the status of the Redirect Import-Export job.
+        - name: limit
+          in: query
+          type: integer
+          description: Determines the number of items returned per page. The default is 10 items per page.
+        - name: page
+          in: query
+          type: integer
+          description: Specifies the page number to return when the number of items returned exceeds the page limit. Used
+            to paginate large collections.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: redirects-import-export-rest
+    port: 8080
+    description: REST adapter for BigCommerce Redirects — Import-Export. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/storefront/redirects/imex/export
+      name: storefront-redirects-imex-export
+      description: REST surface for storefront-redirects-imex-export.
+      operations:
+      - method: POST
+        name: createredirectexportjob
+        description: BigCommerce Create Redirects Export Job
+        call: redirects-import-export.createredirectexportjob
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/storefront/redirects/imex/export/{uuid}/download
+      name: storefront-redirects-imex-export-uuid-download
+      description: REST surface for storefront-redirects-imex-export-uuid-download.
+      operations:
+      - method: GET
+        name: getredirectexportdownload
+        description: BigCommerce Download Redirect Export
+        call: redirects-import-export.getredirectexportdownload
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/storefront/redirects/imex/export/{uuid}/events
+      name: storefront-redirects-imex-export-uuid-events
+      description: REST surface for storefront-redirects-imex-export-uuid-events.
+      operations:
+      - method: GET
+        name: getredirectexportevents
+        description: BigCommerce Open Redirect Export Event Stream
+        call: redirects-import-export.getredirectexportevents
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/storefront/redirects/imex/import
+      name: storefront-redirects-imex-import
+      description: REST surface for storefront-redirects-imex-import.
+      operations:
+      - method: POST
+        name: createredirectimportjob
+        description: BigCommerce Create Redirects Import Job
+        call: redirects-import-export.createredirectimportjob
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/storefront/redirects/imex/import/{uuid}/events
+      name: storefront-redirects-imex-import-uuid-events
+      description: REST surface for storefront-redirects-imex-import-uuid-events.
+      operations:
+      - method: GET
+        name: getredirectimportevents
+        description: BigCommerce Open Redirect Import Event Stream
+        call: redirects-import-export.getredirectimportevents
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/storefront/redirects/imex/jobs
+      name: storefront-redirects-imex-jobs
+      description: REST surface for storefront-redirects-imex-jobs.
+      operations:
+      - method: GET
+        name: getredirectimportexportjobs
+        description: BigCommerce Get Redirect Import-Export Jobs
+        call: redirects-import-export.getredirectimportexportjobs
+        with:
+          id: rest.id
+          type: rest.type
+          status: rest.status
+          limit: rest.limit
+          page: rest.page
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: redirects-import-export-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Redirects — Import-Export. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-create-redirects-export-job
+      description: BigCommerce Create Redirects Export Job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: redirects-import-export.createredirectexportjob
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-download-redirect-export
+      description: BigCommerce Download Redirect Export
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: redirects-import-export.getredirectexportdownload
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-open-redirect-export-event
+      description: BigCommerce Open Redirect Export Event Stream
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: redirects-import-export.getredirectexportevents
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-redirects-import-job
+      description: BigCommerce Create Redirects Import Job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: redirects-import-export.createredirectimportjob
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-open-redirect-import-event
+      description: BigCommerce Open Redirect Import Event Stream
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: redirects-import-export.getredirectimportevents
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-redirect-import-export
+      description: BigCommerce Get Redirect Import-Export Jobs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: redirects-import-export.getredirectimportexportjobs
+      with:
+        id: tools.id
+        type: tools.type
+        status: tools.status
+        limit: tools.limit
+        page: tools.page
+      outputParameters:
+      - type: object
+        mapping: $.

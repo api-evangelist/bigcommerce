@@ -1,0 +1,310 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Content — Blog Posts
+  description: 'BigCommerce Content — Blog Posts. 7 operations. Lead operation: BigCommerce Get All Blog Posts. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Blog Posts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: content-blog-posts
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v2
+    description: BigCommerce Content — Blog Posts business capability. Self-contained, no shared references.
+    resources:
+    - name: blog-posts
+      path: /blog/posts
+      operations:
+      - name: getblogposts
+        method: GET
+        description: BigCommerce Get All Blog Posts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: is_published
+          in: query
+          type: boolean
+          description: Filter param.
+        - name: url
+          in: query
+          type: string
+          description: Filter param. Value must be URL encoded.
+        - name: tag
+          in: query
+          type: string
+          description: Filter param.
+        - name: published_date
+          in: query
+          type: string
+          description: Filter param.
+        - name: page
+          in: query
+          type: integer
+          description: Filter param.
+        - name: limit
+          in: query
+          type: integer
+          description: Filter param.
+      - name: createblogposts
+        method: POST
+        description: BigCommerce Create a Blog Post
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteblogposts
+        method: DELETE
+        description: BigCommerce Delete Blog Posts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: Filter param.
+        - name: limit
+          in: query
+          type: integer
+          description: Filter param.
+    - name: blog-posts-count
+      path: /blog/posts/count
+      operations:
+      - name: getblogpostscount
+        method: GET
+        description: BigCommerce Get A Count of All Blog Posts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: blog-posts-id
+      path: /blog/posts/{id}
+      operations:
+      - name: getblogpost
+        method: GET
+        description: BigCommerce Get a Blog Post
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateblogpost
+        method: PUT
+        description: BigCommerce Update a Blog Post
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteblogpost
+        method: DELETE
+        description: BigCommerce Delete a Blog Post
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: content-blog-posts-rest
+    port: 8080
+    description: REST adapter for BigCommerce Content — Blog Posts. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/blog/posts
+      name: blog-posts
+      description: REST surface for blog-posts.
+      operations:
+      - method: GET
+        name: getblogposts
+        description: BigCommerce Get All Blog Posts
+        call: content-blog-posts.getblogposts
+        with:
+          is_published: rest.is_published
+          url: rest.url
+          tag: rest.tag
+          published_date: rest.published_date
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createblogposts
+        description: BigCommerce Create a Blog Post
+        call: content-blog-posts.createblogposts
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteblogposts
+        description: BigCommerce Delete Blog Posts
+        call: content-blog-posts.deleteblogposts
+        with:
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/blog/posts/count
+      name: blog-posts-count
+      description: REST surface for blog-posts-count.
+      operations:
+      - method: GET
+        name: getblogpostscount
+        description: BigCommerce Get A Count of All Blog Posts
+        call: content-blog-posts.getblogpostscount
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/blog/posts/{id}
+      name: blog-posts-id
+      description: REST surface for blog-posts-id.
+      operations:
+      - method: GET
+        name: getblogpost
+        description: BigCommerce Get a Blog Post
+        call: content-blog-posts.getblogpost
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateblogpost
+        description: BigCommerce Update a Blog Post
+        call: content-blog-posts.updateblogpost
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteblogpost
+        description: BigCommerce Delete a Blog Post
+        call: content-blog-posts.deleteblogpost
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: content-blog-posts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Content — Blog Posts. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-all-blog-posts
+      description: BigCommerce Get All Blog Posts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-blog-posts.getblogposts
+      with:
+        is_published: tools.is_published
+        url: tools.url
+        tag: tools.tag
+        published_date: tools.published_date
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-create-blog-post
+      description: BigCommerce Create a Blog Post
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: content-blog-posts.createblogposts
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-blog-posts
+      description: BigCommerce Delete Blog Posts
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: content-blog-posts.deleteblogposts
+      with:
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-count-all-blog
+      description: BigCommerce Get A Count of All Blog Posts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-blog-posts.getblogpostscount
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-blog-post
+      description: BigCommerce Get a Blog Post
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-blog-posts.getblogpost
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-update-blog-post
+      description: BigCommerce Update a Blog Post
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: content-blog-posts.updateblogpost
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-delete-blog-post
+      description: BigCommerce Delete a Blog Post
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: content-blog-posts.deleteblogpost
+      outputParameters:
+      - type: object
+        mapping: $.

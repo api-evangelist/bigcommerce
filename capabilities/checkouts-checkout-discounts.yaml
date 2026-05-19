@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Checkouts — Checkout Discounts
+  description: 'BigCommerce Checkouts — Checkout Discounts. 1 operations. Lead operation: BigCommerce Add Discount to Checkout.
+    Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Checkout Discounts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: checkouts-checkout-discounts
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Checkouts — Checkout Discounts business capability. Self-contained, no shared references.
+    resources:
+    - name: checkouts-checkoutId-discounts
+      path: /checkouts/{checkoutId}/discounts
+      operations:
+      - name: addcheckoutdiscount
+        method: POST
+        description: BigCommerce Add Discount to Checkout
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: checkouts-checkout-discounts-rest
+    port: 8080
+    description: REST adapter for BigCommerce Checkouts — Checkout Discounts. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/checkouts/{checkoutid}/discounts
+      name: checkouts-checkoutid-discounts
+      description: REST surface for checkouts-checkoutId-discounts.
+      operations:
+      - method: POST
+        name: addcheckoutdiscount
+        description: BigCommerce Add Discount to Checkout
+        call: checkouts-checkout-discounts.addcheckoutdiscount
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: checkouts-checkout-discounts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Checkouts — Checkout Discounts. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-add-discount-checkout
+      description: BigCommerce Add Discount to Checkout
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: checkouts-checkout-discounts.addcheckoutdiscount
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

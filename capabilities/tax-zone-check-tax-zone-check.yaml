@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Tax Zone Check — Tax Zone Check
+  description: 'BigCommerce Tax Zone Check — Tax Zone Check. 1 operations. Lead operation: BigCommerce Check zone given an
+    address.. Self-contained Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Tax Zone Check
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: tax-zone-check-tax-zone-check
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Tax Zone Check — Tax Zone Check business capability. Self-contained, no shared references.
+    resources:
+    - name: tax-zonecheck
+      path: /tax/zonecheck
+      operations:
+      - name: zonecheck
+        method: POST
+        description: BigCommerce Check zone given an address.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: tax-zone-check-tax-zone-check-rest
+    port: 8080
+    description: REST adapter for BigCommerce Tax Zone Check — Tax Zone Check. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/tax/zonecheck
+      name: tax-zonecheck
+      description: REST surface for tax-zonecheck.
+      operations:
+      - method: POST
+        name: zonecheck
+        description: BigCommerce Check zone given an address.
+        call: tax-zone-check-tax-zone-check.zonecheck
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: tax-zone-check-tax-zone-check-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Tax Zone Check — Tax Zone Check. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bigcommerce-check-zone-given-address
+      description: BigCommerce Check zone given an address.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: tax-zone-check-tax-zone-check.zonecheck
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

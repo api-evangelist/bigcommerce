@@ -1,0 +1,148 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BigCommerce Sites — Site Certificate
+  description: 'BigCommerce Sites — Site Certificate. 3 operations. Lead operation: BigCommerce Get Site Certificates. Self-contained
+    Naftiko capability covering one Bigcommerce business surface.'
+  tags:
+  - Bigcommerce
+  - Site Certificate
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BIGCOMMERCE_API_KEY: BIGCOMMERCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: sites-site-certificate
+    baseUri: https://api.bigcommerce.com/stores/{store_hash}/v3
+    description: BigCommerce Sites — Site Certificate business capability. Self-contained, no shared references.
+    resources:
+    - name: sites-certificates
+      path: /sites/certificates
+      operations:
+      - name: getsitescertificates
+        method: GET
+        description: BigCommerce Get Site Certificates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: urls:in
+          in: query
+          type: string
+          description: Query certificates by one or more URLs
+    - name: sites-site_id-certificate
+      path: /sites/{site_id}/certificate
+      operations:
+      - name: getsitecertificate
+        method: GET
+        description: BigCommerce Get a Site’s SSL/TLS Certificate Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: upsertsitecertificate
+        method: PUT
+        description: BigCommerce Upsert a Site’s SSL/TLS Certificate Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Auth-Token
+      value: '{{env.BIGCOMMERCE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: sites-site-certificate-rest
+    port: 8080
+    description: REST adapter for BigCommerce Sites — Site Certificate. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/sites/certificates
+      name: sites-certificates
+      description: REST surface for sites-certificates.
+      operations:
+      - method: GET
+        name: getsitescertificates
+        description: BigCommerce Get Site Certificates
+        call: sites-site-certificate.getsitescertificates
+        with:
+          urls:in: rest.urls:in
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/sites/{site-id}/certificate
+      name: sites-site-id-certificate
+      description: REST surface for sites-site_id-certificate.
+      operations:
+      - method: GET
+        name: getsitecertificate
+        description: BigCommerce Get a Site’s SSL/TLS Certificate Information
+        call: sites-site-certificate.getsitecertificate
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: upsertsitecertificate
+        description: BigCommerce Upsert a Site’s SSL/TLS Certificate Information
+        call: sites-site-certificate.upsertsitecertificate
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: sites-site-certificate-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BigCommerce Sites — Site Certificate. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: bigcommerce-get-site-certificates
+      description: BigCommerce Get Site Certificates
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: sites-site-certificate.getsitescertificates
+      with:
+        urls:in: tools.urls:in
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-get-site-s-ssl-tls
+      description: BigCommerce Get a Site’s SSL/TLS Certificate Information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: sites-site-certificate.getsitecertificate
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: bigcommerce-upsert-site-s-ssl-tls
+      description: BigCommerce Upsert a Site’s SSL/TLS Certificate Information
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: sites-site-certificate.upsertsitecertificate
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
