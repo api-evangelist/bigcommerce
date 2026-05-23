@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/product_Full",
+  "title": "product_Full",
+  "allOf": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "minimum": 1,
+          "type": "integer",
+          "description": "ID of the product. Read-Only.",
+          "readOnly": true
+        }
+      }
+    },
+    {
+      "$ref": "#/components/schemas/product_Base"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "date_created": {
+          "type": "string",
+          "description": "The date on which the product was created.\n",
+          "format": "date-time",
+          "example": "2018-08-15T14:49:05+00:00"
+        },
+        "date_modified": {
+          "type": "string",
+          "description": "The date on which the product was modified.\n",
+          "format": "date-time",
+          "example": "2018-08-24T14:41:00+00:00"
+        },
+        "base_variant_id": {
+          "type": "integer",
+          "description": "The unique identifier of the base variant associated with a simple product. This value is `null` for complex products."
+        },
+        "calculated_price": {
+          "type": "number",
+          "description": "The calculated_price is derived from the default price and sale price of the product. It is equal to the sale price if set or the default price if there is not a sale price present. Depending on your store settings and customer group, or channel-specific pricing, this value may or may not be equal to the price seen on the storefront.",
+          "format": "float"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/productOption_Base"
+          }
+        },
+        "modifiers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/productModifier_Full"
+          }
+        },
+        "map_price": {
+          "type": "number",
+          "description": "Minimum Advertised Price."
+        },
+        "option_set_id": {
+          "type": "integer",
+          "description": "Indicates that the product is in an Option Set (legacy V2 concept)."
+        },
+        "option_set_display": {
+          "type": "string",
+          "description": "Legacy template setting which controls if the option set shows up to the side of or below the product image and description."
+        }
+      }
+    }
+  ],
+  "x-internal": false
+}

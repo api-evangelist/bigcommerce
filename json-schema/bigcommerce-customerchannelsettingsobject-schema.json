@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CustomerChannelSettingsObject",
+  "title": "CustomerChannelSettingsObject",
+  "type": "object",
+  "properties": {
+    "privacy_settings": {
+      "type": "object",
+      "description": "Controls the privacy settings.",
+      "properties": {
+        "ask_shopper_for_tracking_consent": {
+          "type": "boolean",
+          "description": "Determines if a customer requires consent for tracking privacy."
+        },
+        "policy_url": {
+          "type": "string",
+          "example": "https://bigcommmerce.com/policy",
+          "description": "The URL for a website\u02bcs privacy policy."
+        }
+      }
+    },
+    "customer_group_settings": {
+      "type": "object",
+      "description": "The settings for a collection of customers.",
+      "properties": {
+        "guest_customer_group_id": {
+          "type": "integer",
+          "example": 0,
+          "description": "The ID for a guest customer group."
+        },
+        "default_customer_group_id": {
+          "type": "integer",
+          "example": 0,
+          "description": "The ID for a default customer group."
+        }
+      }
+    },
+    "allow_global_logins": {
+      "type": "boolean",
+      "description": "* Determines if a channel allows global customer to login\n* Determines if customers created on this channel will get global access/login"
+    }
+  },
+  "x-examples": {
+    "example-1": {
+      "value": {
+        "privacy_settings": {
+          "ask_shopper_for_tracking_consent": true,
+          "policy_url": "https://bigcommmerce.com/policy"
+        },
+        "customer_group_settings": {
+          "guest_customer_group_id": 0,
+          "default_customer_group_id": 0
+        },
+        "allow_global_logins": true
+      }
+    }
+  },
+  "x-internal": false
+}

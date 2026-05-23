@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/productModifierOptionValue_Base",
+  "title": "productModifierOptionValue_Base",
+  "required": [
+    "label",
+    "sort_order"
+  ],
+  "type": "object",
+  "properties": {
+    "is_default": {
+      "type": "boolean",
+      "description": "The flag for preselecting a value as the default on the storefront. This field is not supported for swatch options/modifiers.\n",
+      "example": false
+    },
+    "label": {
+      "type": "string",
+      "description": "The text display identifying the value on the storefront. Required in a /POST.\n",
+      "example": "Green",
+      "x-required": [
+        "post"
+      ]
+    },
+    "sort_order": {
+      "maximum": 2147483647,
+      "minimum": -2147483648,
+      "type": "integer",
+      "description": "The order in which the value will be displayed on the product page. Required in a /POST.\n",
+      "example": 0,
+      "x-required": [
+        "post"
+      ]
+    },
+    "value_data": {
+      "type": "object",
+      "properties": {},
+      "description": "Extra data describing the value, based on the type of option or modifier with which the value is associated. The `swatch` type option can accept an array of `colors`, with up to three hexidecimal color keys; or an `image_url`, which is a full image URL path including protocol. The `product list` type option requires a `product_id`. The `checkbox` type option requires a boolean flag, called `checked_value`, to determine which value is considered to be the checked state. If no data is available, returns `null`.\n",
+      "nullable": true
+    },
+    "adjusters": {
+      "$ref": "#/components/schemas/adjusters_Full"
+    }
+  },
+  "description": "Common Product Modifer `option_value` properties.",
+  "x-internal": false
+}

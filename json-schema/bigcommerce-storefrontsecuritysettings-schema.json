@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StorefrontSecuritySettings",
+  "title": "StorefrontSecuritySettings",
+  "type": "object",
+  "properties": {
+    "csp_header": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "header_value": {
+          "type": "string"
+        }
+      }
+    },
+    "hsts": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "include_preload": {
+          "type": "boolean"
+        },
+        "include_subdomains": {
+          "type": "boolean"
+        },
+        "max_age": {
+          "$ref": "#/components/schemas/HSTSMaxAgeEnumValues"
+        }
+      }
+    },
+    "sitewide_https_enabled": {
+      "type": "boolean"
+    },
+    "x_frame_options_header": {
+      "type": "object",
+      "properties": {
+        "allowed_url": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "setting": {
+          "type": "string",
+          "enum": [
+            "deny",
+            "same_origin",
+            "allow_from_url"
+          ]
+        }
+      }
+    }
+  },
+  "x-internal": false
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AppliedCoupon",
+  "title": "Applied Coupon",
+  "type": "object",
+  "description": "|Type `int`|Type Name|\n|-|-|\n|`0`|`per_item_discount`|\n|`1`|`percentage_discount`|\n|`2`|`per_total_discount`|\n|`3`|`shipping_discount`|\n|`4`|`free_shipping`|\n|`5`|`promotion`|",
+  "x-internal": false,
+  "properties": {
+    "code": {
+      "description": "The coupon code.",
+      "type": "string"
+    },
+    "id": {
+      "description": "The coupon ID. (read-only)",
+      "type": "string",
+      "readOnly": true
+    },
+    "coupon_type": {
+      "description": "Key name to identify the type of coupon.\n\ntype 0: per_item_discount\ntype 1: percentage_discount\ntype 2: per_total_discount\ntype 3: shipping_discount\ntype 4: free_shipping\ntype 5: promotion",
+      "type": "string",
+      "enum": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "readOnly": true
+    },
+    "discounted_amount": {
+      "description": "The discounted amount applied within a given context.",
+      "type": "number",
+      "format": "double",
+      "readOnly": true
+    }
+  },
+  "required": [
+    "code"
+  ]
+}

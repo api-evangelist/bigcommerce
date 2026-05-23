@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AmountBoundItem",
+  "title": "Amount Bound Item",
+  "type": "object",
+  "description": "Amount Bound Item\n\nType of refund item that capture refunding of items in the order that are of type amount.\n* `PRODUCT`\n* `ORDER`\n* `GIFT_WRAPPING`\n* `SHIPPING`\n* `HANDLING`\n* `TAX`",
+  "x-internal": false,
+  "properties": {
+    "item_type": {
+      "type": "string",
+      "enum": [
+        "PRODUCT",
+        "ORDER",
+        "GIFT_WRAPPING",
+        "SHIPPING",
+        "HANDLING",
+        "TAX"
+      ],
+      "example": "SHIPPING",
+      "description": "Type of refund."
+    },
+    "item_id": {
+      "type": "integer",
+      "example": 1,
+      "description": "Order address ID."
+    },
+    "amount": {
+      "$ref": "#/components/schemas/Amount"
+    },
+    "quantity": {
+      "type": "integer",
+      "example": 3,
+      "description": "Number of items in refund."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Explanation of refund.",
+      "minLength": 0,
+      "maxLength": 1000,
+      "example": "Customer requested refund"
+    }
+  }
+}

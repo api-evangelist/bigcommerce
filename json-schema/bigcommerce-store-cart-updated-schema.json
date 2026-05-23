@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/store_cart_updated",
+  "title": "store/cart/updated",
+  "description": "Fires when one of the following occurs:\n* A cart\u02bcs line items are modified by adding a new item to a cart, updating an existing item\u02bcs quantity, or deleting an item.\n* A shopper enters or changes their email address during guest checkout. This includes signing in to a customer account after creating a guest cart, which associates the account\u02bcs email address with the cart.\n\nThe `store/cart/created` webhook firing also triggers this webhook because adding a product to an empty cart is considered an update. \n\nChanges to the following fields trigger this event:\n* Quantity\n* Item Price\n\n```json filename=\"Example callback object\" showLineNumbers\n{\n  \"created_at\": 1561482670,\n  \"store_id\": \"1025646\",\n  \"producer\": \"stores/{store_hash}\",\n  \"scope\": \"store/cart/updated\",\n  \"hash\": \"352e4afc6dd3fc85ea26bfdf3f91852604d57528\",\n  \"data\": {\n    \"type\": \"cart\",\n    \"id\": \"09346904-4175-44fd-be53-f7e598531b6c\"\n  }\n}\n```",
+  "x-examples": {},
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/webhook_callback_base"
+    },
+    {
+      "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "A lightweight description of the event that triggered the webhook.",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "can be `cart` or `cart_line_item`",
+              "example": "cart"
+            },
+            "id": {
+              "type": "string",
+              "description": "ID of the cart",
+              "example": "09346904-4175-44fd-be53-f7e598531b6c"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "x-tags": [
+    "created"
+  ],
+  "type": "object",
+  "x-internal": false
+}

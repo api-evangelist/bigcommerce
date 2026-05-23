@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/KeyValuePairSchema",
+  "title": "Key Value Pair Schema",
+  "description": "Options, ranges, defaults, and validation for a carrier-defined field that displays at checkout.",
+  "type": "object",
+  "properties": {
+    "code": {
+      "description": "The internal code that represents this input field.",
+      "type": "string"
+    },
+    "label": {
+      "description": "Display name for this input field.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Longer description text to be displayed as a tooltip at checkout.",
+      "type": "string"
+    },
+    "validation": {
+      "description": "Placeholder for any validation we choose to implement.",
+      "type": "string"
+    },
+    "type": {
+      "description": "How this input will be displayed.",
+      "type": "string",
+      "enum": [
+        "date",
+        "string",
+        "select",
+        "code"
+      ]
+    },
+    "default_value": {
+      "description": "A valid default value for this field.",
+      "type": "string"
+    },
+    "value_options": {
+      "description": "The list of options available for `select` type fields.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "date_ranges": {
+      "description": "For date type fields, a set of valid date ranges available to choose from",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date"
+              },
+              "timezone": {
+                "type": "string"
+              }
+            },
+            "title": "Date Value",
+            "description": "Value Object representing a Date."
+          },
+          "to": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date"
+              },
+              "timezone": {
+                "type": "string"
+              }
+            },
+            "title": "Date Value",
+            "description": "Value Object representing a Date."
+          }
+        },
+        "title": "Date Range",
+        "description": "Representation of a range of date objects."
+      }
+    }
+  },
+  "required": [
+    "code",
+    "label",
+    "type",
+    "default_value"
+  ],
+  "x-internal": false
+}

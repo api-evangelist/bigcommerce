@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Subscription",
+  "title": "Subscription",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The unique numeric ID of the subscriber; increments sequentially.\n"
+    },
+    "email": {
+      "type": "string",
+      "description": "The email of the subscriber. Must be unique.\n"
+    },
+    "firstName": {
+      "maxLength": 255,
+      "minLength": 0,
+      "type": "string",
+      "description": "The first name of the subscriber.\n"
+    },
+    "lastName": {
+      "maxLength": 255,
+      "minLength": 0,
+      "type": "string",
+      "description": "The last name of the subscriber.\n"
+    },
+    "source": {
+      "maxLength": 255,
+      "minLength": 0,
+      "type": "string",
+      "description": "The source of the subscriber. Values are: `storefront`, `order`, or `custom`.\n"
+    },
+    "orderId": {
+      "maximum": 2147483647,
+      "minimum": 1,
+      "type": "integer",
+      "description": "The ID of the source order, if source was an order.\n",
+      "nullable": true
+    },
+    "consents": {
+      "type": "array",
+      "items": {},
+      "description": "The collection of consents the shopper is subscribing to.\n"
+    }
+  },
+  "description": "Subscription properties.",
+  "x-internal": false
+}

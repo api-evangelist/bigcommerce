@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/responseCartLineItemsGiftCertificates",
+  "title": "Item Gift Certificate",
+  "required": [
+    "amount",
+    "recipient",
+    "sender",
+    "theme"
+  ],
+  "type": "object",
+  "properties": {
+    "amount": {
+      "type": "number",
+      "description": "Value must be between 1.00 and 1,000.00 in the store\u02bcs default currency."
+    },
+    "id": {
+      "type": "string",
+      "description": "ID of this gift certificate."
+    },
+    "isTaxable": {
+      "type": "boolean",
+      "description": "Whether or not the gift certificate is taxable."
+    },
+    "message": {
+      "type": "string",
+      "description": "Message that will be sent to the gift certificate's recipient. Limited to 200 characters."
+    },
+    "name": {
+      "type": "string",
+      "description": "GiftCertificate-provided name that will appear in the control panel."
+    },
+    "recipient": {
+      "$ref": "#/components/schemas/responseCartLineItemsGiftCertificatesRecipient"
+    },
+    "sender": {
+      "$ref": "#/components/schemas/responseCartLineItemsGiftCertificatesSender"
+    },
+    "theme": {
+      "type": "string",
+      "description": "Currently supports `Birthday`, `Boy`, `Celebration`, `Christmas`, `General`, and `Girl`."
+    }
+  },
+  "x-internal": false
+}

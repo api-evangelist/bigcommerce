@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/redirect",
+  "title": "redirect",
+  "required": [
+    "forward",
+    "path"
+  ],
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Numeric ID of the redirect.",
+      "example": 1
+    },
+    "path": {
+      "type": "string",
+      "description": "The path from which to redirect.",
+      "example": "/smith-journal-13/"
+    },
+    "forward": {
+      "$ref": "#/components/schemas/forward"
+    },
+    "url": {
+      "type": "string",
+      "description": "URL of the redirect. READ-ONLY.",
+      "readOnly": true,
+      "example": "http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/"
+    }
+  },
+  "example": {
+    "id": 1,
+    "path": "/smith-journal-13/",
+    "forward": {
+      "type": "product",
+      "ref": 111
+    },
+    "url": "http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/"
+  },
+  "x-internal": false
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/productModifier_Full",
+  "title": "productModifier_Full",
+  "description": "Product Modifier",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/productModifier_Base"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The unique numeric ID of the modifier; increments sequentially.\n",
+          "example": 12
+        },
+        "product_id": {
+          "type": "integer",
+          "description": "The unique numeric ID of the product to which the option belongs.\n",
+          "example": 77
+        },
+        "name": {
+          "type": "string",
+          "description": "The unique option name. Auto-generated from the display name, a timestamp, and the product ID.\n",
+          "example": "Add-a-$5-Donation1535039590-191"
+        },
+        "option_values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/productModifierOptionValue_Full"
+          }
+        }
+      }
+    }
+  ],
+  "x-internal": false
+}

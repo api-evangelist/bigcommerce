@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/requestLineItemGiftCertificate",
+  "title": "Line Item Gift Certificate Request Data",
+  "required": [
+    "amount",
+    "name",
+    "quantity",
+    "recipient",
+    "sender",
+    "theme"
+  ],
+  "type": "object",
+  "properties": {
+    "amount": {
+      "maximum": 1000,
+      "minimum": 1,
+      "type": "number",
+      "description": "Gift-certificate amount."
+    },
+    "message": {
+      "type": "string",
+      "description": "Message shown to recipient, as provided by sender."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name assigned to this gift-certificate line item."
+    },
+    "quantity": {
+      "minimum": 1,
+      "type": "integer",
+      "description": "Quantity of this item."
+    },
+    "recipient": {
+      "$ref": "#/components/schemas/requestLineItemGiftCertificateRecipient"
+    },
+    "sender": {
+      "$ref": "#/components/schemas/requestLineItemGiftCertificateSender"
+    },
+    "theme": {
+      "type": "string",
+      "description": "Currently supports `Birthday`, `Boy`, `Celebration`, `Christmas`, `General`, and `Girl`."
+    }
+  },
+  "x-internal": false
+}

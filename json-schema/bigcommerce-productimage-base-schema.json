@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/productImage_Base",
+  "title": "productImage_Base",
+  "type": "object",
+  "properties": {
+    "image_file": {
+      "type": "string",
+      "description": "The local path to the original image file uploaded to BigCommerce. Use image_url when creating a product.\n\nMust be sent as a `multipart/form-data` field in the request body. Limit of 8 MB per file.\n"
+    },
+    "is_thumbnail": {
+      "type": "boolean",
+      "description": "Flag for identifying whether the image is used as the product\u02bcs thumbnail.\n"
+    },
+    "sort_order": {
+      "maximum": 2147483647,
+      "minimum": -2147483648,
+      "type": "integer",
+      "description": "The order in which the image will be displayed on the product page. Higher integers give the image a lower priority. When updating, if the image is given a lower priority, all images with a `sort_order` the same as or greater than the image\u02bcs new `sort_order` value will have their `sort_order`s reordered.\n"
+    },
+    "description": {
+      "type": "string",
+      "description": "The description for the image.\n"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Must be a fully qualified URL path, including protocol. Limit of 8MB per file."
+    }
+  },
+  "description": "Common ProductImage properties.",
+  "x-internal": false
+}

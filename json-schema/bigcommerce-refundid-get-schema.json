@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RefundID_Get",
+  "title": "RefundID_Get",
+  "type": "object",
+  "x-examples": {
+    "Example": {
+      "data": {
+        "id": 12,
+        "order_id": 180,
+        "user_id": 0,
+        "created": "2022-06-16T16:44:15+00:00",
+        "reason": "Customer requires a refund.",
+        "total_amount": 50,
+        "total_tax": 5,
+        "uses_merchant_override_values": false,
+        "payments": [
+          {
+            "id": 13,
+            "provider_id": "storecredit",
+            "amount": 50,
+            "offline": true,
+            "is_declined": false,
+            "declined_message": ""
+          }
+        ],
+        "items": [
+          {
+            "item_type": "PRODUCT",
+            "item_id": 87,
+            "quantity": 1,
+            "requested_amount": null
+          }
+        ]
+      },
+      "meta": {}
+    }
+  },
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Refund ID for the returned refund.\n"
+        },
+        "order_id": {
+          "type": "integer",
+          "description": "Order ID associated with the refund."
+        },
+        "user_id": {
+          "type": "integer",
+          "description": "Reference to the user ID who created the refund. This is automatically populated by BigCommerce.\n"
+        },
+        "created": {
+          "type": "string",
+          "description": "Timestamp of when the refund was created.\n",
+          "format": "date-time"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Reason for refund.\n"
+        },
+        "total_amount": {
+          "type": "number",
+          "description": "A non-negative 2 decimal place rounded value that represents the amount that can be refunded with the correct payment provider(s).\n",
+          "example": 109.11
+        },
+        "total_tax": {
+          "type": "number",
+          "description": "Total tax amount refunded back to the shopper. This can be a negative amount indicating we have collected tax by refunding less to the customer.\n"
+        },
+        "uses_merchant_override_values": {
+          "type": "boolean",
+          "description": "Whether refund amount and tax are provided explicitly by merchant override.\n"
+        },
+        "payments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Reference to refund payment ID.\n"
+              },
+              "provider_id": {
+                "type": "string",
+                "description": "Reference to payment provider.\nexample: storecredit\n"
+              },
+              "amount": {
+                "type": "number",
+                "description": "A non-negative two decimal place rounded value represents the amount that can be charged/refunded with payment providers.\n",
+                "example": 109.11
+              },
+              "offline": {
+                "type": "boolean",
+                "description": "Indicates whether the payment was offline.\n"
+              },
+              "is_declined": {
+                "type": "boolean",
+                "description": "Indicates if this payment has been declined by the payment provider.\n"
+              },
+              "declined_message": {
+                "type": "string",
+                "description": "Message indicates why the payment was declined.\n"
+              }
+            }
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "item_type": {
+                "type": "string",
+                "description": "Type of item that was refunded.\n",
+                "enum": [
+                  "PRODUCT",
+                  "GIFT_WRAPPING",
+                  "SHIPPING",
+                  "HANDLING",
+                  "ORDER"
+                ]
+              },
+              "item_id": {
+                "type": "integer",
+                "description": "`order_product.id` corresponding to the item_types of PRODUCT, GIFT_WRAPPING. `order_address.id` corresponding to the item_types of SHIPPING, HANDLING. `order.id` corresponding to the item_type of ORDER.\n"
+              },
+              "quantity": {
+                "type": "integer",
+                "description": "Quantity of item refunded. Note: this will only be populated for item_type PRODUCT.\n"
+              },
+              "requested_amount": {
+                "type": "string",
+                "description": "A non-negative two decimal place rounded value that represents the amount that can be refunded with the payment provider(s).\n",
+                "example": "109.11",
+                "nullable": true
+              },
+              "reason": {
+                "type": "string",
+                "description": "Reason for refunding an item.\n"
+              }
+            }
+          }
+        }
+      }
+    },
+    "meta": {
+      "$ref": "#/components/schemas/metaEmpty_Full"
+    }
+  }
+}

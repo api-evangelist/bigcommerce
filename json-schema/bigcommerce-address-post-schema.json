@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/address_Post",
+  "title": "address_Post",
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string",
+      "description": "The first name of the customer address.",
+      "minLength": 1,
+      "maxLength": 255,
+      "example": "John"
+    },
+    "last_name": {
+      "type": "string",
+      "description": "The last name of the customer address.",
+      "minLength": 1,
+      "maxLength": 255,
+      "example": "Doe"
+    },
+    "company": {
+      "type": "string",
+      "description": "The company of the customer address.",
+      "minLength": 0,
+      "maxLength": 255,
+      "example": "BigCommerce"
+    },
+    "address1": {
+      "type": "string",
+      "description": "The address 1 line.",
+      "example": "123 Example Street"
+    },
+    "address2": {
+      "type": "string",
+      "description": "The address 2 line.",
+      "example": "Building 4"
+    },
+    "city": {
+      "type": "string",
+      "description": "The city of the customer address.",
+      "minLength": 0,
+      "maxLength": 100,
+      "example": "Austin"
+    },
+    "state_or_province": {
+      "type": "string",
+      "description": "The state or province name spelled out in full. It is required for countries that need a state/province to complete an address. State or province codes not accepted.",
+      "example": "Texas",
+      "minLength": 0,
+      "maxLength": 100
+    },
+    "postal_code": {
+      "type": "string",
+      "description": "The postal code of the customer address. It is required for countries that need postal codes to complete an address.",
+      "minLength": 0,
+      "maxLength": 30,
+      "example": "78759"
+    },
+    "country_code": {
+      "type": "string",
+      "description": "The country code of the customer address.",
+      "example": "US",
+      "minLength": 2,
+      "maxLength": 2
+    },
+    "phone": {
+      "type": "string",
+      "description": "The phone number of the customer address.",
+      "minLength": 0,
+      "maxLength": 50,
+      "example": "15551234567"
+    },
+    "address_type": {
+      "title": "Address Type",
+      "description": "The address type. Residential or Commercial.",
+      "example": "residential",
+      "type": "string",
+      "enum": [
+        "residential",
+        "commercial"
+      ]
+    },
+    "customer_id": {
+      "description": "The customer ID.",
+      "type": "integer",
+      "format": "int32",
+      "example": 1
+    },
+    "form_fields": {
+      "type": "array",
+      "description": "The address custom form field values\n",
+      "items": {
+        "$ref": "#/components/schemas/formFieldValue"
+      }
+    }
+  },
+  "required": [
+    "first_name",
+    "last_name",
+    "address1",
+    "city",
+    "country_code",
+    "customer_id"
+  ],
+  "x-examples": {
+    "Example": {
+      "value": {
+        "first_name": "John",
+        "last_name": "Doe",
+        "company": "BigCommerce",
+        "address1": "123 Example Street",
+        "address2": "Building 4",
+        "city": "Austin",
+        "state_or_province": "Texas",
+        "postal_code": "78759",
+        "country_code": "US",
+        "phone": "15551234567",
+        "address_type": "residential",
+        "customer_id": 1
+      }
+    }
+  },
+  "x-internal": false
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/metafield_Base",
+  "title": "metafield_Base",
+  "type": "object",
+  "description": "Metafield for products, categories, variants, and brands; the max number of metafields allowed on each is 50. For more information, see [Platform Limits](https://support.bigcommerce.com/s/article/Platform-Limits) in the Help Center.",
+  "x-internal": false,
+  "properties": {
+    "key": {
+      "maxLength": 64,
+      "minLength": 1,
+      "type": "string",
+      "description": "The name of the field, for example: `location_id`, `color`. Required for POST.\n",
+      "example": "Location",
+      "x-required": [
+        "post"
+      ]
+    },
+    "value": {
+      "maxLength": 65535,
+      "minLength": 1,
+      "type": "string",
+      "description": "The value of the field, for example: `1`, `blue`. Required for POST.\n",
+      "example": "4HG",
+      "x-required": [
+        "post"
+      ]
+    },
+    "namespace": {
+      "maxLength": 64,
+      "minLength": 1,
+      "type": "string",
+      "description": "Namespace for the metafield, for organizational purposes. This is set by the developer. Required for POST.\n",
+      "example": "Warehouse Locations",
+      "x-required": [
+        "post"
+      ]
+    },
+    "permission_set": {
+      "type": "string",
+      "description": "Determines the visibility and writeability of the field by other API consumers.\n\n|Value|Description\n|-|-|\n|`app_only`|Private to the app that owns the field|\n|`read`|Visible to other API consumers|\n|`write`|Open for reading and writing by other API consumers|\n|`read_and_sf_access`|Visible to other API consumers, including on storefront|\n|`write_and_sf_access`|Open for reading and writing by other API consumers, including on storefront|",
+      "enum": [
+        "app_only",
+        "read",
+        "write",
+        "read_and_sf_access",
+        "write_and_sf_access"
+      ]
+    },
+    "description": {
+      "maxLength": 255,
+      "minLength": 0,
+      "type": "string",
+      "description": "Description for the metafields.\n",
+      "example": "Location in the warehouse"
+    }
+  },
+  "required": [
+    "permission_set",
+    "namespace",
+    "key",
+    "value"
+  ]
+}

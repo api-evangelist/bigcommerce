@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/store_category_updated",
+  "title": "store/category/updated",
+  "description": "Fires when a category is updated. \n\nChanges to the following fields trigger this event:\n* URL\n* Name\n* Redirect Old URLs\n* Description\n* Parent Category\n* Template Layout File\n* Sort Order\n* Default Product Sort\n* Category Image\n* Page Title\n* Meta Keywords\n* Meta Description\n* Search Keywords\n* Google Product Category\n* Enable Google Shopping\n\n\n```json filename=\"Example callback object\" showLineNumbers\n{\n  \"created_at\": 1561482670,\n  \"store_id\": \"1025646\",\n  \"producer\": \"stores/{store_hash}\",\n  \"scope\": \"store/category/updated\",\n  \"hash\": \"352e4afc6dd3fc85ea26bfdf3f91852604d57528\",\n  \"data\": {\n    \"type\": \"category\",\n    \"id\": 42\n  }\n}\n```",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/webhook_callback_base"
+    },
+    {
+      "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The type will always be `category`.",
+              "default": "category"
+            },
+            "id": {
+              "type": "integer",
+              "description": "ID of the category",
+              "example": 42
+            }
+          }
+        }
+      }
+    }
+  ],
+  "x-tags": [
+    "updated"
+  ],
+  "type": "object",
+  "x-internal": false
+}

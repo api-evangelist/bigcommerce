@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/widgetTemplate_Post",
+  "title": "widgetTemplate_Post",
+  "type": "object",
+  "description": "",
+  "x-internal": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "User-friendly name."
+    },
+    "schema": {
+      "$ref": "#/components/schemas/widgetSchema"
+    },
+    "template": {
+      "type": "string",
+      "description": "Handlebars HTML content. Also has access to Stencil Paper helpers.",
+      "format": "html"
+    },
+    "storefront_api_query": {
+      "type": "string",
+      "description": "The GraphQL Storefront API query that provides widget data."
+    },
+    "channel_id": {
+      "type": "integer",
+      "description": "The id of the channel on which to create this template. Defaults to the first channel created on the store."
+    }
+  },
+  "required": [
+    "name",
+    "template"
+  ],
+  "x-examples": {
+    "example-1": {
+      "name": "string",
+      "schema": [
+        "tab"
+      ],
+      "template": "string",
+      "storefront_api_query": "string",
+      "channel_id": 0
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/customsInformation",
+  "title": "customsInformation",
+  "description": "Data about the customs information object.",
+  "type": "object",
+  "x-internal": false,
+  "properties": {
+    "product_id": {
+      "description": "The ID of the product which the customs information data will apply to.",
+      "type": "integer",
+      "format": "int32",
+      "example": 77
+    },
+    "country_of_origin": {
+      "type": "string",
+      "description": "The country of manufacture, production, or growth represented in ISO 3166-1 alpha-2 format.",
+      "example": "US"
+    },
+    "commodity_description": {
+      "description": "Description that provides information for customs to identify and verify shapes physical characteristics and packaging of each shipment.",
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 100,
+      "example": "Baseball caps"
+    },
+    "international_shipping": {
+      "description": "Flag to determine whether this product will be shipped internationally.",
+      "type": "boolean",
+      "enum": [
+        true,
+        false
+      ],
+      "example": true
+    },
+    "hs_codes": {
+      "$ref": "#/components/schemas/harmonizedSystemCodes"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Date and time when the customs information was created.",
+      "readOnly": true,
+      "format": "date-time",
+      "example": "2022-09-21 14:15:00+00:00"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Date and time when the customs information was last updated.",
+      "readOnly": true,
+      "format": "date-time",
+      "example": "2022-09-21 14:15:00+00:00"
+    }
+  }
+}

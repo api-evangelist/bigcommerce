@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/customer_Put",
+  "title": "customer_Put",
+  "type": "object",
+  "properties": {
+    "email": {
+      "description": "The email of the customer. Must be unique.",
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 255
+    },
+    "first_name": {
+      "description": "The first name of the customer.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "last_name": {
+      "description": "The last name of the customer.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "company": {
+      "description": "The company of the customer.",
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 255
+    },
+    "phone": {
+      "description": "The phone number of the customer.",
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 50
+    },
+    "registration_ip_address": {
+      "description": "The IP address from which this customer was registered.",
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 30
+    },
+    "notes": {
+      "description": "The customer notes.",
+      "type": "string"
+    },
+    "tax_exempt_category": {
+      "description": "The tax exempt category code for the customer.",
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 255
+    },
+    "customer_group_id": {
+      "description": "ID of the group which this customer belongs to.",
+      "type": "integer",
+      "format": "int32"
+    },
+    "id": {
+      "description": "The unique numeric ID of the customer.",
+      "type": "integer",
+      "format": "int32"
+    },
+    "authentication": {
+      "$ref": "#/components/schemas/customerAuthentication_PostPut"
+    },
+    "accepts_product_review_abandoned_cart_emails": {
+      "type": "boolean",
+      "description": "It determines if the customer is signed up to receive either product review or abandoned cart emails or receive both emails."
+    },
+    "store_credit_amounts": {
+      "$ref": "#/components/schemas/CustomerStoredCreditAmounts"
+    },
+    "origin_channel_id": {
+      "type": "integer",
+      "description": "Channel ID of the customer that has created the form."
+    },
+    "channel_ids": {
+      "description": "Arrays of channels the customer can access.",
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "form_fields": {
+      "type": "array",
+      "description": "Array of form fields. Controlled by formfields parameter.\n",
+      "items": {
+        "$ref": "#/components/schemas/formFieldValue"
+      }
+    }
+  },
+  "required": [
+    "id"
+  ],
+  "x-internal": false
+}

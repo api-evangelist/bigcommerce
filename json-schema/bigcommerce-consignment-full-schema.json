@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/consignment_Full",
+  "title": "consignment_Full",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": ""
+    },
+    "shippingAddress": {
+      "type": "object",
+      "properties": {},
+      "x-deprecated": true
+    },
+    "address": {
+      "$ref": "#/components/schemas/address_Full"
+    },
+    "selectedPickupOption": {
+      "$ref": "#/components/schemas/PickupOption"
+    },
+    "availableShippingOptions": {
+      "type": "array",
+      "description": "This is available only when \"include=consignments.availableShippingOptions\" is present in the URL.",
+      "items": {
+        "$ref": "#/components/schemas/consignmentAvailableShippingOptions"
+      }
+    },
+    "selectedShippingOption": {
+      "title": "Selected Shipping Option",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Read only.",
+          "readOnly": true
+        },
+        "id": {
+          "type": "string",
+          "description": ""
+        },
+        "type": {
+          "type": "string",
+          "description": "Specifies the type of shipping option; for example, flat rate, UPS, etc."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": ""
+        },
+        "cost": {
+          "type": "number",
+          "description": "",
+          "format": "double"
+        },
+        "transitTime": {
+          "type": "string",
+          "description": "An estimate of the arrival time."
+        },
+        "additionalDescription": {
+          "type": "string",
+          "description": "Read only. Field used for Shipping Provider API.",
+          "readOnly": true
+        }
+      }
+    },
+    "couponDiscounts": {
+      "type": "array",
+      "description": "List of consignment discounts applied through coupons.",
+      "items": {
+        "title": "Consignment Coupon Discount",
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Coupon code that applied this discount."
+          },
+          "amount": {
+            "type": "number",
+            "description": "",
+            "format": "double"
+          }
+        }
+      }
+    },
+    "discounts": {
+      "type": "array",
+      "description": "List of consignment discounts applied through cart level discounts.",
+      "items": {
+        "title": "Consignment Discount",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Discount rule ID that applied this discount."
+          }
+        }
+      }
+    },
+    "shippingCost": {
+      "type": "number",
+      "description": "The shipping cost for this consignment.",
+      "format": "double"
+    },
+    "handlingCost": {
+      "type": "number",
+      "description": "The handling cost of shipping for this consignment.",
+      "format": "double"
+    },
+    "lineItemIds": {
+      "type": "array",
+      "description": "",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "description": "This allows us to have multiple shipping addresses. Where there is only one shipping address, this array will contain only one value, with all the items.",
+  "x-internal": false
+}

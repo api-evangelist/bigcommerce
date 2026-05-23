@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Card",
+  "title": "Card",
+  "type": "object",
+  "x-examples": {
+    "example-1": {
+      "type": "card",
+      "cardholder_name": "string",
+      "number": "string",
+      "expiry_month": 1,
+      "expiry_year": 0,
+      "verification_value": "stri",
+      "issue_month": 1,
+      "issue_year": 0,
+      "issue_number": 0
+    }
+  },
+  "x-internal": false,
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "card",
+      "example": "card",
+      "description": "Type to classify this payment instrument (required)"
+    },
+    "cardholder_name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Cardholder\u02bcs full name (required)"
+    },
+    "number": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Credit card number (required)"
+    },
+    "expiry_month": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 12,
+      "description": "Expiry month of this card (required)"
+    },
+    "expiry_year": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Expiry year of this card (required)"
+    },
+    "verification_value": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 4,
+      "description": "Verification value of this card (CVV)"
+    },
+    "issue_month": {
+      "type": "integer",
+      "description": "Issue month of this card",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 12
+    },
+    "issue_year": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Issue year of this card"
+    },
+    "issue_number": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Issue number of this card"
+    }
+  }
+}

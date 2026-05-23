@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/productVariant_Post",
+  "title": "productVariant_Post",
+  "description": "The model for a POST to create variants on a product.\n",
+  "allOf": [
+    {
+      "title": "Variant Base",
+      "type": "object",
+      "properties": {
+        "cost_price": {
+          "minimum": 0,
+          "type": "number",
+          "description": "The cost price of the variant. Not affected by Price List prices.",
+          "format": "double",
+          "nullable": true
+        },
+        "price": {
+          "minimum": 0,
+          "type": "number",
+          "description": "This variant\u2019s base price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is `null`, the product\u2019s default price (set in the Product resource\u2019s `price` field) will be used as the base price.",
+          "format": "double",
+          "nullable": true
+        },
+        "sale_price": {
+          "minimum": 0,
+          "type": "number",
+          "description": "This variant\u2019s sale price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is null, the product\u2019s sale price (set in the Product resource\u2019s `price` field) will be used as the sale price.",
+          "format": "double",
+          "nullable": true
+        },
+        "retail_price": {
+          "minimum": 0,
+          "type": "number",
+          "description": "This variant\u2019s retail price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is null, the product\u2019s retail price (set in the Product resource\u2019s `price` field) will be used as the retail price.",
+          "format": "double",
+          "nullable": true
+        },
+        "weight": {
+          "minimum": 0,
+          "type": "number",
+          "description": "This variant\u2019s base weight on the storefront. If this value is null, the product\u2019s default weight (set in the Product resource\u2019s weight field) will be used as the base weight.",
+          "format": "double",
+          "nullable": true
+        },
+        "width": {
+          "minimum": 0,
+          "type": "number",
+          "description": "Width of the variant, which can be used when calculating shipping costs. If this value is `null`, the product\u02bcs default width (set in the Product resource\u02bcs `width` field) will be used as the base width.\n",
+          "format": "double",
+          "nullable": true
+        },
+        "height": {
+          "minimum": 0,
+          "type": "number",
+          "description": "Height of the variant, which can be used when calculating shipping costs. If this value is `null`, the product\u02bcs default height (set in the Product resource\u02bcs `height` field) will be used as the base height.\n",
+          "format": "double",
+          "nullable": true
+        },
+        "depth": {
+          "minimum": 0,
+          "type": "number",
+          "description": "Depth of the variant, which can be used when calculating shipping costs. If this value is `null`, the product\u02bcs default depth (set in the Product resource\u02bcs `depth` field) will be used as the base depth.\n",
+          "format": "double",
+          "nullable": true
+        },
+        "is_free_shipping": {
+          "type": "boolean",
+          "description": "Flag used to indicate whether the variant has free shipping. If `true`, the shipping cost for the variant will be zero.\n"
+        },
+        "fixed_cost_shipping_price": {
+          "minimum": 0,
+          "type": "number",
+          "description": "A fixed shipping cost for the variant. If defined, this value will be used during checkout instead of normal shipping-cost calculation.\n",
+          "format": "double",
+          "nullable": true
+        },
+        "purchasing_disabled": {
+          "type": "boolean",
+          "description": "If `true`, this variant will not be purchasable on the storefront."
+        },
+        "purchasing_disabled_message": {
+          "maxLength": 255,
+          "minLength": 0,
+          "type": "string",
+          "description": "If `purchasing_disabled` is `true`, this message should show on the storefront when the variant is selected."
+        },
+        "upc": {
+          "type": "string",
+          "description": "The UPC code used in feeds for shopping comparison sites and external channel integrations.",
+          "nullable": true
+        },
+        "inventory_level": {
+          "type": "integer",
+          "description": "Inventory level for the variant, which is used when the product\u2019s inventory_tracking is set to `variant`. The Catalog API returns the inventory for only the default location.\n\nThe inventory for a variant cannot exceed 2,147,483,647 in the catalog. The sum of the variant inventories, or the total inventory for a product, cannot exceed 2,147,483,647. \n\nIf you exceed the limit, the store sets the variant inventory to the limit if no other variant inventories are set. If other variant inventories are set, the store does not save the variant inventory rather than setting the variant inventory to the remaining limit.\n\nThe Catalog API handles limits in a different way than the Inventory API. For more information, see [Limit handling](/docs/store-operations/catalog/inventory-adjustments#limit-handling-in-inventory-versus-catalog-api). ",
+          "nullable": true,
+          "maximum": 2147483647
+        },
+        "inventory_warning_level": {
+          "type": "integer",
+          "description": "When the variant hits this inventory level, it is considered low stock.",
+          "nullable": true,
+          "maximum": 2147483647
+        },
+        "bin_picking_number": {
+          "maxLength": 255,
+          "minLength": 0,
+          "type": "string",
+          "description": "Identifies where in a warehouse the variant is located.",
+          "nullable": true
+        },
+        "image_url": {
+          "type": "string",
+          "description": "Publicly available image url"
+        },
+        "gtin": {
+          "type": "string",
+          "description": "Global Trade Item Number",
+          "example": "012345678905"
+        },
+        "mpn": {
+          "type": "string",
+          "description": "Manufacturer Part Number",
+          "example": "HV-HM02"
+        }
+      },
+      "description": "Common Variant properties."
+    },
+    {
+      "type": "object",
+      "properties": {
+        "product_id": {
+          "type": "integer",
+          "x-required": [
+            "post"
+          ]
+        },
+        "sku": {
+          "maxLength": 255,
+          "minLength": 1,
+          "type": "string",
+          "x-required": [
+            "post"
+          ]
+        },
+        "option_values": {
+          "type": "array",
+          "description": "Array of option and option values IDs that make up this variant. Will be empty if the variant is the product\u02bcs base variant.",
+          "items": {
+            "$ref": "#/components/schemas/productVariantOptionValue_Full"
+          },
+          "x-required": [
+            "post"
+          ]
+        }
+      }
+    }
+  ],
+  "x-internal": false
+}

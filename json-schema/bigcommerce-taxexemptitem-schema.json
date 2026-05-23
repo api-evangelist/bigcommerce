@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TaxExemptItem",
+  "title": "Tax Exempt (Order Level)",
+  "type": "object",
+  "description": "Use this to refund a custom value at the order level. When `item_type` is set to `ORDER`, tax is not re-calculated.",
+  "x-internal": false,
+  "properties": {
+    "item_type": {
+      "type": "string",
+      "description": "The type of refund. When `item_type` is set to `ORDER`, tax is not re-calculated.",
+      "example": "ORDER",
+      "enum": [
+        "ORDER"
+      ]
+    },
+    "item_id": {
+      "type": "number",
+      "description": "Numeric ID of the product in the order.",
+      "example": 1
+    },
+    "amount": {
+      "$ref": "#/components/schemas/Amount"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for the refund.",
+      "minLength": 0,
+      "maxLength": 1000
+    }
+  }
+}

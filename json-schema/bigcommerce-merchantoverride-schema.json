@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MerchantOverride",
+  "title": "Merchant Calculated Override",
+  "type": "object",
+  "description": "Merchant explicitly provided override based on their own calculation.\n\nThis override gives merchants the flexibility to\n- bypass any tax correction due to tax rate/providers changes between when a customer places an order and a merchant initiates a refund\n- use explicit values calculated by external systems (e.g., merchants' own Extended Producer Responsibility or Order Management System)\n\nNote: when using the override, BC internal tax based refund calculation is skipped and therefore order/taxes records are not updated.",
+  "properties": {
+    "total_amount": {
+      "$ref": "#/components/schemas/Amount"
+    },
+    "total_tax": {
+      "type": "number",
+      "description": "Total tax amount refunded back to the shopper. Use 0 value if there is no tax liability change for the refund or tax does not need to be recorded on the refund and would be handled externally."
+    }
+  },
+  "required": [
+    "total_amount",
+    "total_tax"
+  ],
+  "x-internal": false
+}

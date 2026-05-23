@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EmailTemplate",
+  "title": "EmailTemplate",
+  "type": "object",
+  "description": "Data for a particular email template",
+  "properties": {
+    "type_id": {
+      "type": "string",
+      "enum": [
+        "abandoned_cart_email",
+        "account_details_changed_email",
+        "combined_order_status_email",
+        "createaccount_email",
+        "createguestaccount_email",
+        "giftcertificate_email",
+        "invoice_email",
+        "ordermessage_notification",
+        "return_confirmation_email",
+        "return_statuschange_email",
+        "product_review_email",
+        "account_reset_password_email"
+      ],
+      "example": "account_reset_password_email"
+    },
+    "body": {
+      "type": "string",
+      "example": "<!DOCTYPE html> <html lang=\"en\"> <head>     <meta charset=\"UTF-8\">     <title>Title</title> </head> <body> <p>     {{lang \"reset_password\" name=store.name}} </p> <br/> <br/> <a href=\"{{account.reset_password_link}}\">     {{account.reset_password_link}} </a>  </body> </html>"
+    },
+    "translations": {
+      "$ref": "#/components/schemas/LocaleCollection"
+    },
+    "subject": {
+      "type": "string",
+      "example": "Reset your password at {{store.name}}"
+    }
+  },
+  "x-internal": false
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ItemGiftCertificate",
+  "title": "Item Gift Certificate",
+  "type": "object",
+  "required": [
+    "sender",
+    "recipient",
+    "amount",
+    "theme"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name provided for the gift certificate that will appear in the control panel."
+    },
+    "theme": {
+      "type": "string",
+      "description": "The theme of the gift certificate.",
+      "enum": [
+        "birthday.html",
+        "boy.html",
+        "celebration.html",
+        "christmas.html",
+        "general.html",
+        "girl.html"
+      ]
+    },
+    "amount": {
+      "type": "number",
+      "description": "Value must be between 1.00 and 1,000.00 in the store\u2019s default currency."
+    },
+    "is_taxable": {
+      "type": "boolean"
+    },
+    "sender": {
+      "title": "Contact Entity",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "recipient": {
+      "title": "Contact Entity",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "message": {
+      "type": "string",
+      "description": "Limited to 200 characters."
+    }
+  },
+  "x-internal": false
+}

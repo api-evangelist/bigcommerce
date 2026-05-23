@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/request-document",
+  "title": "DocumentRequest",
+  "type": "object",
+  "description": "Each **DocumentRequest** represents an order or part of an order of items fulfilled from a single origin address to a single destination address. In addition to shipping and billing details, a document request includes the collection of items in the shipment, with tax-relevant information for each item. Multi-address orders, in which items ship to or from multiple addresses, require at least one **DocumentRequest** per combination of sender-recipient addresses. These are similar to \"consignments\" or \"shipments\" in other BigCommerce APIs.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "A unique identifier for this consignment. This value can be expected to be unique within an individual quote request but may be duplicated within subsequent quote requests. A digital consignment will see a prefix **DigitalDelivery_** followed by the Order ID."
+    },
+    "billing_address": {
+      "$ref": "#/components/schemas/Address"
+    },
+    "destination_address": {
+      "$ref": "#/components/schemas/Address"
+    },
+    "origin_address": {
+      "$ref": "#/components/schemas/Address"
+    },
+    "shipping": {
+      "type": "object",
+      "description": "Shipping line item present in each document request.",
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/request-item"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "$ref": "#/components/schemas/shipping_type"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      ]
+    },
+    "handling": {
+      "type": "object",
+      "description": "Handling line item present in each document request.",
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/request-item"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "$ref": "#/components/schemas/handling_type"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      ]
+    },
+    "items": {
+      "type": "array",
+      "description": "Collection of one or more items contained within this consignment that need to be assessed for tax liabilities. An item may or may not have gift wrapping.",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/request-item"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "$ref": "#/components/schemas/item_type"
+              },
+              "wrapping": {
+                "type": "object",
+                "description": "Optional gift wrapping for items in the consignment.",
+                "nullable": true,
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/request-item"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "$ref": "#/components/schemas/wrapping_type"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ]
+                  }
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "destination_address",
+    "origin_address",
+    "shipping",
+    "handling",
+    "items"
+  ],
+  "x-internal": false
+}

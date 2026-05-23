@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/LineItemRequestData",
+  "title": "Line Item Request Data",
+  "type": "object",
+  "properties": {
+    "quantity": {
+      "type": "number"
+    },
+    "product_id": {
+      "type": "number"
+    },
+    "variant_id": {
+      "type": "number",
+      "description": "Variant ID. Required if the product has variants."
+    },
+    "list_price": {
+      "type": "number"
+    },
+    "option_selections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "option_id": {
+            "type": "number"
+          },
+          "option_value": {
+            "type": "string"
+          }
+        },
+        "title": "Product Option Selection"
+      }
+    }
+  },
+  "required": [
+    "quantity",
+    "product_id",
+    "variant_id"
+  ],
+  "x-internal": false
+}

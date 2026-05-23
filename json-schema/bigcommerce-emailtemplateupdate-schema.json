@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EmailTemplateUpdate",
+  "title": "EmailTemplateUpdate",
+  "type": "object",
+  "description": "Data for updated template",
+  "properties": {
+    "body": {
+      "type": "string",
+      "example": "<!DOCTYPE html> <html lang=\"en\"> <head>     <meta charset=\"UTF-8\">     <title>Title</title> </head> <body> <p>     {{lang \"reset_password\" name=store.name}} </p> <br/> <br/> <a href=\"{{account.reset_password_link}}\">     {{account.reset_password_link}} </a>  </body> </html>"
+    },
+    "translations": {
+      "$ref": "#/components/schemas/LocaleCollection"
+    },
+    "subject": {
+      "type": "string",
+      "example": "Reset your password at {{store.name}}"
+    }
+  },
+  "required": [
+    "body",
+    "lang",
+    "subject"
+  ],
+  "x-internal": false
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/request-item",
+  "title": "ItemRequest",
+  "type": "object",
+  "description": "An **ItemRequest** represents required information relating to completing tax calculations for a specific line item.",
+  "x-internal": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "A unique identifier for this item used to map responses back to the corresponding item on the order."
+    },
+    "item_code": {
+      "type": "string",
+      "description": "The UPC or SKU of the item. The UPC is used when both UPC and SKU values are available on the item. Empty string if both UPC and SKU are not available."
+    },
+    "item_reference": {
+      "type": "string",
+      "description": "The SKU of the item. Empty string if SKU is not available."
+    },
+    "name": {
+      "type": "string",
+      "description": "A display name for this item."
+    },
+    "price": {
+      "type": "object",
+      "description": "The final sale price (after discounts, bulk pricing, price lists, etc.) prior to having taxes calculated. If the merchant lists prices inclusive of tax, this price will already be tax inclusive, and so the tax provider will instead calculate the amount of tax that was already included in this price. For multiple quantities, this price includes that multiplication.",
+      "required": [
+        "amount",
+        "tax_inclusive"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "description": "Note: This amount will be **negative** for order-level refunds and may be **zero** for line item refunds.",
+          "format": "double",
+          "example": 1.5
+        },
+        "tax_inclusive": {
+          "type": "boolean",
+          "description": "Note: **Tax Inclusive** and **Tax Exclusive** prices cannot be added together.",
+          "default": false
+        }
+      }
+    },
+    "quantity": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tax_class": {
+      "$ref": "#/components/schemas/TaxClass"
+    },
+    "tax_exempt": {
+      "type": "boolean",
+      "description": "Flag whether or not this item is always tax-exempt. For example, gift certificate purchases and order-level refunds are tax-exempt. Tax-exempt items are included in the request for auditing purposes.",
+      "default": false
+    },
+    "tax_properties": {
+      "type": "array",
+      "description": "Merchants may opt to include additional properties that a tax provider can choose to support, factoring these values into tax calculation.",
+      "items": {
+        "$ref": "#/components/schemas/request-item-tax-property"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "price",
+    "quantity"
+  ]
+}

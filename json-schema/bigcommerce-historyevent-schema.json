@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/HistoryEvent",
+  "title": "HistoryEvent",
+  "type": "object",
+  "properties": {
+    "scope": {
+      "type": "string",
+      "description": "Alias where the event occurred."
+    },
+    "store_id": {
+      "type": "string",
+      "description": "A numerical identifier that is unique to each store."
+    },
+    "data": {
+      "type": "object",
+      "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered."
+    },
+    "hash": {
+      "type": "string",
+      "description": "The payload data encoded in JSON format and then passed through SH1 encryption."
+    },
+    "created_at": {
+      "type": "integer",
+      "format": "int64",
+      "description": "UTC timestamp, in seconds, that the events was created."
+    },
+    "producer": {
+      "type": "string",
+      "description": "Will always follow the pattern stores/store_hash. This is the store that created the webhook."
+    }
+  }
+}

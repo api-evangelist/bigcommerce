@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/metafield_Full",
+  "title": "metafield_Full",
+  "allOf": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique ID of the *Metafield*. Read-Only.",
+          "readOnly": true,
+          "example": 6
+        }
+      }
+    },
+    {
+      "$ref": "#/components/schemas/metafield_Base"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "resource_type": {
+          "type": "string",
+          "description": "The type of resource with which the metafield is associated.\n",
+          "example": "product",
+          "enum": [
+            "category",
+            "brand",
+            "product",
+            "variant"
+          ],
+          "x-required": [
+            "post"
+          ]
+        },
+        "resource_id": {
+          "maximum": 10000000000,
+          "minimum": 0,
+          "type": "integer",
+          "description": "The ID of the resource with which the metafield is associated.\n",
+          "example": 111,
+          "x-required": [
+            "post"
+          ]
+        },
+        "date_created": {
+          "type": "string",
+          "description": "Date and time of the metafield\u02bcs creation. Read-Only.\n",
+          "readOnly": true,
+          "format": "date-time",
+          "example": "2018-05-07T20:14:17+00:00"
+        },
+        "date_modified": {
+          "type": "string",
+          "description": "Date and time when the metafield was last updated. Read-Only.\n",
+          "readOnly": true,
+          "format": "date-time",
+          "example": "2018-05-07T20:14:17+00:00"
+        }
+      }
+    }
+  ],
+  "x-internal": false
+}

@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/script_Base",
+  "title": "script_Base",
+  "type": "object",
+  "description": "Script properties common to `post`, `put`, and `get` requests.",
+  "properties": {
+    "description": {
+      "type": "string",
+      "description": "The user-friendly description."
+    },
+    "html": {
+      "type": "string",
+      "description": "An HTML string containing exactly one `script` tag. Present when the script `kind` is `script_tag`.",
+      "minLength": 0,
+      "maxLength": 65536
+    },
+    "src": {
+      "type": "string",
+      "description": "The `src` attribute of the script to load. Only present if `kind` is `src`.",
+      "example": "https://code.jquery.com/jquery-3.2.1.min.js"
+    },
+    "auto_uninstall": {
+      "type": "boolean",
+      "description": "It will enable automatic cleanup of the script when the single click app is uninstalled or OAuth token is revoked."
+    },
+    "load_method": {
+      "type": "string",
+      "description": "The load method to use for the script. Values are `default`, `async`, or `defer`. It determines how the script should be loaded into the page.",
+      "enum": [
+        "default",
+        "async",
+        "defer"
+      ]
+    },
+    "location": {
+      "type": "string",
+      "description": "Where on the page to place the script. Values are `head` or `footer`.",
+      "enum": [
+        "head",
+        "footer"
+      ]
+    },
+    "visibility": {
+      "type": "string",
+      "description": "Which set of pages the script should load on. \n\nPlease note that you need to have `Checkout content` scope to use `all_pages` and `checkout`.\n\n- The current visibility options are `storefront`, `checkout`, `all_pages` and `order_confirmation`.\n\n     `storefront`: All pages that are not `checkout` or `order_confirmation`.\n\n\t\t \nFor a list of all locations visit [Scripts Visibility](/docs/integrations/scripts#script-visibility-locations).",
+      "enum": [
+        "storefront",
+        "all_pages",
+        "checkout",
+        "order_confirmation"
+      ]
+    },
+    "kind": {
+      "type": "string",
+      "description": "What type of script this is.\n\n`src` - For scripts that use the src URL. A `script` tag will be generated with its `src` attribute set to the value of the `src` property. When your app provides a path to the script, we can optimize and add the script automatically for you. The load_method can vary.\n\n`script_tag` - For scripts that include a raw HTML `script` tag-enclosed block of JavaScript. The value of `html` is added directly to the page. The load_method must be default.",
+      "enum": [
+        "src",
+        "script_tag"
+      ],
+      "example": "src"
+    },
+    "api_client_id": {
+      "type": "string",
+      "description": "The client id of the API user that created this script, or blank if created by other means."
+    },
+    "consent_category": {
+      "type": "string",
+      "description": "Consent category for GDPR and CCPA compliance. Defaults to `unknown` when not specified. Scripts with an `unknown` consent category do not display on stores with customer cookie consent banners enabled.",
+      "enum": [
+        "essential",
+        "functional",
+        "analytics",
+        "targeting"
+      ],
+      "example": "essential"
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Whether the script is enabled or disabled on the storefront."
+    },
+    "channel_id": {
+      "type": "integer",
+      "example": 1,
+      "minimum": 1
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/requestCart",
+  "title": "Create Cart Request Object",
+  "description": "Cart object used in create cart requests.",
+  "oneOf": [
+    {
+      "properties": {
+        "lineItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/requestCartPostLineItem"
+          }
+        },
+        "locale": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "lineItems"
+      ]
+    },
+    {
+      "properties": {
+        "giftCertificates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/requestLineItemGiftCertificate"
+          }
+        },
+        "locale": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "giftCertificates"
+      ]
+    },
+    {
+      "properties": {
+        "lineItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/requestCartPostLineItem"
+          }
+        },
+        "giftCertificates": {
+          "$ref": "#/components/schemas/requestLineItemGiftCertificate"
+        },
+        "locale": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "lineItems",
+        "giftCertificates"
+      ]
+    }
+  ],
+  "type": "object",
+  "x-internal": false
+}

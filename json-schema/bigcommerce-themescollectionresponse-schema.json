@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ThemesCollectionResponse",
+  "title": "Themes Collection Response",
+  "description": "Response payload for the BigCommerce API.\n",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "description": "A theme.",
+        "type": "object",
+        "properties": {
+          "variations": {
+            "description": "The variations.",
+            "type": "array",
+            "items": {
+              "description": "A variation.",
+              "type": "object",
+              "properties": {
+                "description": {
+                  "description": "The description.",
+                  "type": "string"
+                },
+                "external_id": {
+                  "description": "The external identifier.",
+                  "type": "string"
+                },
+                "name": {
+                  "description": "The name.",
+                  "type": "string"
+                },
+                "uuid": {
+                  "description": "The identifier.",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "uuid": {
+            "description": "The identifier.",
+            "type": "string"
+          },
+          "name": {
+            "description": "The theme name identifier.",
+            "type": "string"
+          },
+          "is_private": {
+            "description": "Flag to identify private themes.",
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "description": "Data about the response, including pagination and collection totals.",
+      "properties": {
+        "pagination": {
+          "type": "object",
+          "description": "Data about the response, including pagination and collection totals.",
+          "title": "Pagination",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "description": "Total number of items in the result set.\n",
+              "example": 36
+            },
+            "count": {
+              "type": "integer",
+              "description": "Total number of items in the collection response.\n",
+              "example": 36
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "The amount of items returned in the collection per page, controlled by the limit parameter.\n",
+              "example": 50
+            },
+            "current_page": {
+              "type": "integer",
+              "description": "The page you are currently on within the collection.\n",
+              "example": 1
+            },
+            "total_pages": {
+              "type": "integer",
+              "description": "The total number of pages in the collection.\n",
+              "example": 1
+            },
+            "links": {
+              "type": "object",
+              "description": "Pagination links for the previous and next parts of the whole collection.\n",
+              "properties": {
+                "previous": {
+                  "type": "string",
+                  "description": "Link to the previous page returned in the response.\n"
+                },
+                "current": {
+                  "type": "string",
+                  "description": "Link to the current page returned in the response.\n",
+                  "example": "?page=1&limit=50"
+                },
+                "next": {
+                  "type": "string",
+                  "description": "Link to the next page returned in the response.\n"
+                }
+              }
+            }
+          }
+        }
+      },
+      "title": "Collection Meta"
+    }
+  },
+  "x-internal": false
+}

@@ -1,0 +1,965 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Checkout",
+  "title": "Checkout",
+  "type": "object",
+  "x-internal": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "",
+      "format": "uuid",
+      "example": "497f6eca-6276-4993-bfeb-53cbbbba6f08"
+    },
+    "cart": {
+      "title": "Cart",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Cart ID, provided after creating a cart with a POST request.",
+          "format": "uuid",
+          "example": "497f6eca-6276-4993-bfeb-53cbbbba6f08"
+        },
+        "customer_id": {
+          "type": "integer",
+          "description": "ID of the customer to which the cart belongs.",
+          "example": 1
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the cart. This is the same email address that is used in the billing address.",
+          "example": "user@example.com"
+        },
+        "currency": {
+          "title": "Currency",
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "ISO-4217 currency code. (See: http://en.wikipedia.org/wiki/ISO_4217.)",
+              "example": "USD"
+            }
+          }
+        },
+        "base_amount": {
+          "type": "number",
+          "description": "Sum of cart line-item amounts before cart-level discounts, coupons, or taxes are applied.",
+          "format": "double",
+          "example": 5
+        },
+        "channel_id": {
+          "type": "number",
+          "description": "ID of channel"
+        },
+        "discount_amount": {
+          "type": "number",
+          "description": "The amount includes order-level automatic promotions plus manual discounts and excludes coupon and product-based discounts.",
+          "format": "double",
+          "example": 0.5
+        },
+        "cart_amount_inc_tax": {
+          "type": "number",
+          "description": "Sum of cart line-item amounts minus cart-level discounts and coupons including tax.",
+          "format": "double",
+          "example": 4.14
+        },
+        "cart_amount_ex_tax": {
+          "type": "number",
+          "description": "Sum of cart line-item amounts minus cart-level discounts and coupons excluding tax.",
+          "format": "double",
+          "example": 3.6
+        },
+        "coupons": {
+          "type": "array",
+          "description": "",
+          "items": {
+            "title": "Applied Coupon",
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "The coupon code.",
+                "example": "SHOPNOW"
+              },
+              "id": {
+                "type": "integer",
+                "description": "The coupon ID.",
+                "example": 1
+              },
+              "coupon_type": {
+                "type": "string",
+                "description": "Key name to identify the type of coupon.",
+                "example": "percentage_discount"
+              },
+              "discounted_amount": {
+                "type": "number",
+                "description": "The discounted amount applied within a given context.",
+                "format": "float",
+                "example": 0.9
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        },
+        "discounts": {
+          "type": "array",
+          "description": "",
+          "items": {
+            "title": "Applied Discount",
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "ID of the applied discount.",
+                "example": "5eba1f1e-0ec5-40f7-8058-f7b452c7237d"
+              },
+              "discounted_amount": {
+                "type": "number",
+                "description": "The discounted amount applied within a given context.",
+                "format": "double",
+                "example": 1.4
+              }
+            }
+          }
+        },
+        "line_items": {
+          "title": "Line Item",
+          "type": "object",
+          "properties": {
+            "physical_items": {
+              "type": "array",
+              "description": "",
+              "items": {
+                "title": "Item Physical",
+                "type": "object",
+                "properties": {
+                  "quantity": {
+                    "type": "number",
+                    "description": "",
+                    "format": "double"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "The line-item ID."
+                  },
+                  "variant_id": {
+                    "type": "number",
+                    "description": "",
+                    "format": "double"
+                  },
+                  "product_id": {
+                    "type": "number",
+                    "description": "",
+                    "format": "double"
+                  },
+                  "sku": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The product name of the item."
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "The product URL."
+                  },
+                  "is_taxable": {
+                    "type": "boolean",
+                    "description": ""
+                  },
+                  "image_url": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "discounts": {
+                    "type": "array",
+                    "description": "",
+                    "items": {
+                      "title": "Applied Discount",
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "ID of the applied discount."
+                        },
+                        "discounted_amount": {
+                          "type": "number",
+                          "description": "The discounted amount applied within a given context.",
+                          "format": "double"
+                        }
+                      }
+                    }
+                  },
+                  "discount_amount": {
+                    "type": "number",
+                    "description": "The total value of all discounts applied to this item.",
+                    "format": "double"
+                  },
+                  "coupon_amount": {
+                    "type": "number",
+                    "description": "The total value of all coupons applied to this item.",
+                    "format": "double"
+                  },
+                  "original_price": {
+                    "type": "number",
+                    "description": "An item\u2019s original price is the same as the default price of the product configured in the admin panel."
+                  },
+                  "list_price": {
+                    "type": "number",
+                    "description": "The net item price before discounts and coupons are applied. BigCommerce derives an item\u2019s list price from the product default price or, if applicable, the sale price configured in the admin panel.",
+                    "format": "double"
+                  },
+                  "sale_price": {
+                    "type": "number",
+                    "description": "Price of the item after all discounts are applied. (The final price before tax calculation.)",
+                    "format": "double"
+                  },
+                  "extended_list_price": {
+                    "type": "number",
+                    "description": "List price of the item multiplied by the quantity.",
+                    "format": "double"
+                  },
+                  "extended_sale_price": {
+                    "type": "number",
+                    "description": "Sale price of the item multiplied by the quantity.",
+                    "format": "double"
+                  },
+                  "is_require_shipping": {
+                    "type": "boolean",
+                    "description": ""
+                  },
+                  "is_mutable": {
+                    "type": "boolean",
+                    "description": ""
+                  },
+                  "parent_id": {
+                    "type": "number",
+                    "description": "",
+                    "nullable": true
+                  },
+                  "gift_wrapping": {
+                    "title": "Gift Wrapping",
+                    "type": "object",
+                    "nullable": true,
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": ""
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": ""
+                      },
+                      "amount": {
+                        "type": "number",
+                        "description": "",
+                        "format": "double"
+                      },
+                      "amount_as_integer": {
+                        "type": "number",
+                        "description": "",
+                        "format": "double"
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "quantity"
+                ]
+              }
+            },
+            "digital_items": {
+              "type": "array",
+              "description": "",
+              "items": {
+                "title": "Item Digital",
+                "type": "object",
+                "properties": {
+                  "quantity": {
+                    "type": "number",
+                    "description": "",
+                    "format": "double"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "The line-item ID."
+                  },
+                  "variant_id": {
+                    "type": "number",
+                    "description": "",
+                    "format": "double"
+                  },
+                  "parent_id": {
+                    "type": "number",
+                    "description": "",
+                    "nullable": true
+                  },
+                  "product_id": {
+                    "type": "number",
+                    "description": "",
+                    "format": "double"
+                  },
+                  "sku": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The product name of the item."
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "The product URL."
+                  },
+                  "is_mutable": {
+                    "type": "boolean",
+                    "description": ""
+                  },
+                  "is_require_shipping": {
+                    "type": "boolean",
+                    "description": ""
+                  },
+                  "is_taxable": {
+                    "type": "boolean",
+                    "description": ""
+                  },
+                  "image_url": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "discounts": {
+                    "type": "array",
+                    "description": "",
+                    "items": {
+                      "title": "Applied Discount",
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "ID of the applied discount.",
+                          "format": "double"
+                        },
+                        "discounted_amount": {
+                          "type": "number",
+                          "description": "The discounted amount applied within a given context.",
+                          "format": "double"
+                        }
+                      }
+                    }
+                  },
+                  "discount_amount": {
+                    "type": "number",
+                    "description": "The total value of all discounts applied to this item.",
+                    "format": "double"
+                  },
+                  "coupon_amount": {
+                    "type": "number",
+                    "description": "The total value of all coupons applied to this item.",
+                    "format": "double"
+                  },
+                  "original_price": {
+                    "type": "number",
+                    "description": "An item\u2019s original price is the same as the product default price in the admin panel."
+                  },
+                  "list_price": {
+                    "type": "number",
+                    "description": "The net item price before discounts and coupons are applied. BigCommerce derives an item\u2019s list price from the product default price or, if applicable, the sale price configured in the admin panel.",
+                    "format": "double"
+                  },
+                  "sale_price": {
+                    "type": "number",
+                    "description": "Price of the item after all discounts are applied. (The final price before tax calculation.)",
+                    "format": "double"
+                  },
+                  "extended_list_price": {
+                    "type": "number",
+                    "description": "List price of the item multiplied by the quantity.",
+                    "format": "double"
+                  },
+                  "extended_sale_price": {
+                    "type": "number",
+                    "description": "Sale price of the item multiplied by the quantity.",
+                    "format": "double"
+                  }
+                },
+                "required": [
+                  "quantity"
+                ]
+              }
+            },
+            "gift_certificates": {
+              "type": "array",
+              "description": "",
+              "items": {
+                "title": "Item Gift Certificate",
+                "type": "object",
+                "properties": {
+                  "theme": {
+                    "type": "string",
+                    "description": "Currently supports `Birthday`, `Boy`, `Celebration`, `Christmas`, `General`, and `Girl`."
+                  },
+                  "amount": {
+                    "type": "number",
+                    "description": "Value must be between 1.00 and 1,000.00 in the store\u2019s default currency.",
+                    "format": "double"
+                  },
+                  "sender": {
+                    "title": "Contact Entity",
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": ""
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": ""
+                      }
+                    }
+                  },
+                  "recipient": {
+                    "title": "Contact Entity",
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": ""
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": ""
+                      }
+                    }
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "GiftCertificate-provided name that will appear in the control panel."
+                  },
+                  "taxable": {
+                    "type": "boolean",
+                    "description": ""
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Limited to 200 characters."
+                  }
+                },
+                "required": [
+                  "theme",
+                  "amount",
+                  "sender",
+                  "recipient"
+                ]
+              }
+            },
+            "custom_items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "quantity": {
+                    "type": "number"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "extended_list_price": {
+                    "type": "number"
+                  },
+                  "list_price": {
+                    "type": "number"
+                  },
+                  "sku": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "image_url": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "quantity"
+                ]
+              }
+            }
+          },
+          "required": [
+            "physical_items",
+            "digital_items",
+            "gift_certificates"
+          ]
+        },
+        "created_time": {
+          "type": "string",
+          "description": "Time when the cart was created."
+        },
+        "updated_time": {
+          "type": "string",
+          "description": "Time when the cart was last updated."
+        }
+      }
+    },
+    "billing_address": {
+      "title": "Address Response",
+      "allOf": [
+        {
+          "title": "Address Properties",
+          "properties": {
+            "first_name": {
+              "type": "string",
+              "description": ""
+            },
+            "last_name": {
+              "type": "string",
+              "description": ""
+            },
+            "email": {
+              "type": "string",
+              "description": ""
+            },
+            "company": {
+              "type": "string",
+              "description": ""
+            },
+            "address1": {
+              "type": "string",
+              "description": ""
+            },
+            "address2": {
+              "type": "string",
+              "description": ""
+            },
+            "city": {
+              "type": "string",
+              "description": ""
+            },
+            "state_or_province": {
+              "type": "string",
+              "description": "Represents state or province."
+            },
+            "state_or_province_code": {
+              "type": "string",
+              "description": ""
+            },
+            "country_code": {
+              "type": "string",
+              "description": ""
+            },
+            "postal_code": {
+              "type": "string",
+              "description": ""
+            },
+            "phone": {
+              "pattern": "^\\+?[1-9]\\d{1,14}(x\\d{1-5})?$",
+              "type": "string",
+              "description": ""
+            },
+            "custom_fields": {
+              "type": "array",
+              "description": "",
+              "items": {
+                "title": "Custom Field",
+                "type": "object",
+                "properties": {
+                  "field_id": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "field_value": {
+                    "type": "string",
+                    "description": "This can also be an array for fields that need to support a list of values (e.g., a set of check boxes.)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": ""
+            }
+          }
+        }
+      ],
+      "type": "object"
+    },
+    "consignments": {
+      "type": "array",
+      "description": "",
+      "items": {
+        "title": "Consignment",
+        "type": "object",
+        "description": "This allows the use of multiple addresses. When there is only one address, this array will contain only one value, with all the items.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": ""
+          },
+          "shippingAddress": {
+            "type": "object",
+            "x-deprecated": true
+          },
+          "address": {
+            "title": "Address Response",
+            "allOf": [
+              {
+                "title": "Address Properties",
+                "properties": {
+                  "first_name": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "company": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "address1": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "address2": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "city": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "state_or_province": {
+                    "type": "string",
+                    "description": "Represents state or province."
+                  },
+                  "state_or_province_code": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "country_code": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "postal_code": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "phone": {
+                    "pattern": "^\\+?[1-9]\\d{1,14}(x\\d{1-5})?$",
+                    "type": "string",
+                    "description": ""
+                  },
+                  "custom_fields": {
+                    "type": "array",
+                    "description": "",
+                    "items": {
+                      "title": "Custom Field",
+                      "type": "object",
+                      "properties": {
+                        "field_id": {
+                          "type": "string",
+                          "description": ""
+                        },
+                        "field_value": {
+                          "type": "string",
+                          "description": "This can also be an array for fields that need to support a list of values (e.g., a set of check boxes.)"
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "email",
+                  "country_code"
+                ]
+              },
+              {
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": ""
+                  }
+                }
+              }
+            ],
+            "type": "object"
+          },
+          "available_shipping_options": {
+            "type": "array",
+            "description": "This is available only when \"include=consignments.available_shipping_options\" is presented in the URL.",
+            "items": {
+              "title": "Selected Shipping Option",
+              "type": "object",
+              "properties": {
+                "description": {
+                  "type": "string",
+                  "description": ""
+                },
+                "id": {
+                  "type": "string",
+                  "description": ""
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Specifies the type of shipping option, such as flat rate, UPS, etc."
+                },
+                "image_url": {
+                  "type": "string",
+                  "description": ""
+                },
+                "cost": {
+                  "type": "number",
+                  "description": "",
+                  "format": "double"
+                },
+                "transit_time": {
+                  "type": "string",
+                  "description": "An estimate of the arrival time."
+                },
+                "additional_description": {
+                  "type": "string",
+                  "readOnly": true,
+                  "description": "Read-only field that is used for the Shipping Provider API."
+                }
+              }
+            }
+          },
+          "selected_shipping_option": {
+            "title": "Selected Shipping Option",
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": ""
+              },
+              "id": {
+                "type": "string",
+                "description": ""
+              },
+              "type": {
+                "type": "string",
+                "description": "Specifies the type of shipping option, such as flat rate, UPS, etc."
+              },
+              "image_url": {
+                "type": "string",
+                "description": ""
+              },
+              "cost": {
+                "type": "number",
+                "description": ""
+              },
+              "transit_time": {
+                "type": "string",
+                "description": "An estimate of the arrival time."
+              },
+              "additional_description": {
+                "type": "string",
+                "readOnly": true,
+                "description": "Read-only field that is used for the Shipping Provider API."
+              }
+            }
+          },
+          "coupon_discounts": {
+            "type": "array",
+            "description": "List of consignment discounts applied through coupons.",
+            "items": {
+              "title": "Consignment Coupon Discount",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Coupon code through which this discount was applied."
+                },
+                "amount": {
+                  "type": "number",
+                  "description": "",
+                  "format": "double"
+                }
+              }
+            }
+          },
+          "discounts": {
+            "type": "array",
+            "description": "List of consignment discounts applied through cart-level discounts.",
+            "items": {
+              "title": "Consignment Discount",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Discount rule ID that applied this discount."
+                }
+              }
+            }
+          },
+          "shipping_cost_inc_tax": {
+            "type": "number",
+            "description": "The shipping cost for this consignment including tax.",
+            "format": "double"
+          },
+          "shipping_cost_ex_tax": {
+            "type": "number",
+            "description": "The shipping cost for this consignment excluding tax.",
+            "format": "double"
+          },
+          "handling_cost_inc_tax": {
+            "type": "number",
+            "description": "The handling cost of shipping for this consignment including tax.",
+            "format": "double"
+          },
+          "handling_cost_ex_tax": {
+            "type": "number",
+            "description": "The handling cost of shipping for this consignment excluding tax.",
+            "format": "double"
+          },
+          "line_item_ids": {
+            "type": "array",
+            "description": "Array lists only one line item. To display multiple `line_item_ids`, perform a `POST` request to add consignments to the checkout using the same address.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "selected_pickup_option": {
+            "$ref": "#/components/schemas/PickupOption"
+          }
+        }
+      }
+    },
+    "taxes": {
+      "type": "array",
+      "description": "",
+      "items": {
+        "title": "Tax",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the tax."
+          },
+          "amount": {
+            "type": "number",
+            "description": "",
+            "format": "double"
+          }
+        }
+      }
+    },
+    "coupons": {
+      "type": "array",
+      "description": "Coupons applied at checkout level.",
+      "items": {
+        "$ref": "#/components/schemas/AppliedCoupon"
+      }
+    },
+    "order_id": {
+      "type": "string",
+      "description": "",
+      "nullable": true
+    },
+    "shipping_cost_total_inc_tax": {
+      "type": "number",
+      "description": "Shipping cost before any discounts are applied including tax.",
+      "format": "double"
+    },
+    "shipping_cost_total_ex_tax": {
+      "type": "number",
+      "description": "Shipping cost before any discounts are applied excluding tax.",
+      "format": "double"
+    },
+    "handling_cost_total_inc_tax": {
+      "type": "number",
+      "description": "Handling cost for all consignments including tax.",
+      "format": "double"
+    },
+    "handling_cost_total_ex_tax": {
+      "type": "number",
+      "description": "Handling cost for all consignments excluding tax.",
+      "format": "double"
+    },
+    "tax_total": {
+      "type": "number",
+      "description": "",
+      "format": "double"
+    },
+    "subtotal_inc_tax": {
+      "type": "number",
+      "description": "Subtotal of the checkout before applying item-level discounts including tax.",
+      "format": "double"
+    },
+    "subtotal_ex_tax": {
+      "type": "number",
+      "description": "Subtotal of the checkout before applying item-level discounts excluding tax.",
+      "format": "double"
+    },
+    "grand_total": {
+      "type": "number",
+      "description": "The total payable amount, before applying any store credit or a gift certificate.",
+      "format": "double"
+    },
+    "created_time": {
+      "type": "string",
+      "description": "Time when the cart was created."
+    },
+    "updated_time": {
+      "type": "string",
+      "description": "Time when the cart was last updated."
+    },
+    "customer_message": {
+      "type": "string",
+      "description": "Shopper's message provided as details for the order to be created from this checkout."
+    },
+    "promotions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "banners": {
+            "title": "Banner",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "ID of the promotion."
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Type of the banner."
+                },
+                "page": {
+                  "type": "array",
+                  "description": "An array of the locations where the banner will display.",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "text": {
+                  "type": "string",
+                  "description": "Text of the banner."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

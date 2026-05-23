@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Page",
+  "title": "",
+  "allOf": [
+    {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Applicable when the page type is `contact_form`: contact email address that receives messages sent via the form. Must be unique.",
+          "maxLength": 255,
+          "default": ""
+        },
+        "meta_title": {
+          "type": "string",
+          "nullable": true
+        },
+        "body": {
+          "type": "string",
+          "description": "HTML or variable that populates this page\u2019s element, in default/desktop view. Required in a `POST` request if the page type is `raw`.\n",
+          "example": "<div>Hello World!</div>",
+          "nullable": true
+        },
+        "feed": {
+          "type": "string",
+          "description": "The URL of the RSS feed. Required in a `POST` request if the page type is `rss_feed`.\n"
+        },
+        "link": {
+          "type": "string",
+          "description": "Required in a `POST` request to create a link if the page type is `link`.\n"
+        },
+        "contact_fields": {
+          "type": "string",
+          "description": "Applicable when the page type is `contact_form`: comma-separated list of keywords representing the fields enabled in the control panel for storefront display. Possible fields include:\n\n|Field|Description|\n|-|-|\n|`fullname`|Full name of the customer submitting the form|\n|`phone`|Customer\u2019s phone number, as submitted on the form|\n|`companyname`|Customer\u2019s submitted company name|\n|`orderno`|Customer\u2019s submitted order number|\n|`rma`|Customer\u2019s submitted RMA (Return Merchandise Authorization) number|\n",
+          "example": "fullname,orderno,rma",
+          "default": ""
+        },
+        "meta_keywords": {
+          "description": "Comma-separated list of SEO-relevant keywords to include in the page\u2019s element.\n",
+          "default": "",
+          "type": "string",
+          "nullable": true
+        },
+        "meta_description": {
+          "type": "string",
+          "description": "Description contained within this page\u2019s element.\n",
+          "nullable": true
+        },
+        "search_keywords": {
+          "type": "string",
+          "description": "Comma-separated list of keywords that shoppers can use to locate this page when searching the store.\n",
+          "example": "trousers,pockets,luxury",
+          "nullable": true
+        },
+        "url": {
+          "type": "string",
+          "description": "Relative URL on the storefront for this page.\n",
+          "example": "/my-store-page"
+        },
+        "channel_id": {
+          "type": "integer",
+          "description": "The Id of the channel where this page should be shown.\n",
+          "example": 12,
+          "default": 1
+        }
+      }
+    },
+    {
+      "$ref": "#/components/schemas/PageBase"
+    }
+  ],
+  "description": ""
+}

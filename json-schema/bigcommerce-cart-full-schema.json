@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Cart_Full",
+  "title": "Cart_Full",
+  "description": "A cart contains a collection of items, prices, discounts, etc. It does not contain customer-related data.",
+  "type": "object",
+  "x-internal": false,
+  "properties": {
+    "id": {
+      "description": "Cart ID, provided after creating a cart with a POST request.",
+      "type": "string",
+      "format": "UUID"
+    },
+    "parent_id": {
+      "type": "string",
+      "description": "Bundled items will have the ID of their parent item."
+    },
+    "customer_id": {
+      "description": "ID of the customer to which the cart belongs.",
+      "type": "integer"
+    },
+    "email": {
+      "description": "The cart\u2019s email. This is the same email that is used in the billing address.",
+      "type": "string"
+    },
+    "currency": {
+      "type": "object",
+      "description": "The currency. This is the same for both the cart and its subsequent checkout.",
+      "title": "Currency",
+      "properties": {
+        "code": {
+          "type": "string",
+          "format": "ISO-4217",
+          "description": "The [transactional currency](/docs/rest-management/currencies#definitions) code for the cart, formatted as an [ISO-4217](https://www.iso.org/iso-4217-currency-codes.html) string.",
+          "example": "usd"
+        }
+      }
+    },
+    "tax_included": {
+      "type": "boolean"
+    },
+    "base_amount": {
+      "type": "number",
+      "description": "Sum of cart line-item amounts before cart-level discounts, coupons, or taxes."
+    },
+    "discount_amount": {
+      "type": "number",
+      "description": "Order-based discounted amount only - Excludes coupon discounts and product-based discounts."
+    },
+    "cart_amount": {
+      "type": "number",
+      "description": "Sum of cart line-item amounts minus cart-level discounts and coupons. This amount includes taxes (where applicable)."
+    },
+    "coupons": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/AppliedCoupon"
+      }
+    },
+    "discounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "title": "Applied Discount",
+        "description": "Example as part of a cart response:\n\n```\n  \"discounts\": [\n    {\n      \"id\": 2,\n      \"discounted_amount\": 2\n    },\n    {\n      \"id\": \"coupon\",\n      \"discounted_amount\": 0.42\n    }\n  ]\n```",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of the applied discount.",
+            "example": "coupon"
+          },
+          "discounted_amount": {
+            "type": "number",
+            "description": "The discounted amount."
+          }
+        }
+      }
+    },
+    "line_items": {
+      "$ref": "#/components/schemas/LineItemsGet"
+    },
+    "created_time": {
+      "type": "string",
+      "format": "ISO-8601",
+      "description": "Time when the cart was created."
+    },
+    "updated_time": {
+      "type": "string",
+      "format": "ISO-8601",
+      "description": "Time when the cart was last updated."
+    },
+    "channel_id": {
+      "type": "integer",
+      "description": "The channel ID. If no channel is specified, defaults to 1."
+    },
+    "locale": {
+      "type": "string",
+      "description": "Locale of the cart. Accepts strings of format `xx` or `xx-YY`. Uses the [ISO-639 standard](https://www.iso.org/iso-639-language-codes.html) format.",
+      "format": "ISO-639"
+    },
+    "promotions": {
+      "type": "object",
+      "description": "This is available only when \"include=promotions.banners\" is presented in the URL.",
+      "properties": {
+        "banners": {
+          "title": "Banner",
+          "type": "object",
+          "properties": {
+            "id": {
+              "description": "ID of the promotion.",
+              "type": "string"
+            },
+            "type": {
+              "description": "Type of the banner.",
+              "type": "string"
+            },
+            "page": {
+              "description": "An array of the locations where the banner will display.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "text": {
+              "description": "Text of the banner.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

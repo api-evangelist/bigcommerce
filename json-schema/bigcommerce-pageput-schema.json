@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PagePut",
+  "title": "PagePut",
+  "type": "object",
+  "description": "Properties of the page modification request body.",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the page. Must be unique.\n",
+      "minLength": 1,
+      "maxLength": 100,
+      "example": "My Store Page"
+    },
+    "is_visible": {
+      "type": "boolean",
+      "description": "Boolean value that specifies the visibility of the page in the storefront\u2019s navigation menu.\n"
+    },
+    "parent_id": {
+      "type": "integer",
+      "description": "ID of any parent Web page.\n",
+      "example": 0,
+      "default": 0
+    },
+    "sort_order": {
+      "type": "integer",
+      "description": "Specifies the order in which the page is displayed on the storefront. (Lower integers specify earlier display.)\n",
+      "example": 0,
+      "default": 0
+    },
+    "type": {
+      "type": "string",
+      "description": "Specifies the type of the page.\n\n|Value|Description|\n|-|-|\n| `blog` | blog page. Read-only; blog pages can only be created in the store control panel. |\n|`contact_form`|hosts the store's contact form|\n|`link`|link to another absolute URL|\n|`page`|user-defined plain-text page|\n|`raw`|page that contains markup, such as HTML.|\n|`rss_feed`|contains syndicated content from an RSS feed|",
+      "example": "page",
+      "enum": [
+        "page",
+        "raw",
+        "contact_form",
+        "feed",
+        "link",
+        "blog"
+      ]
+    },
+    "is_homepage": {
+      "type": "boolean",
+      "description": "Boolean value that specifies whether this page is the storefront\u2019s home page.\n"
+    },
+    "is_customers_only": {
+      "type": "boolean",
+      "description": "Boolean value. If this value is set to `true`, this page will not be visible when the user is logged in to the store control panel.\n"
+    },
+    "email": {
+      "type": "string",
+      "description": "Applicable when the page type is `contact_form`: contact email address that receives messages sent via the form. Must be unique.",
+      "maxLength": 255
+    },
+    "meta_title": {
+      "type": "string",
+      "nullable": true
+    },
+    "body": {
+      "type": "string",
+      "description": "HTML or variable that populates the elment of this page, in default/desktop view. Required in a `POST` request if the page type is `raw`.\n",
+      "example": "<div>Hello World!</div>",
+      "nullable": true
+    },
+    "feed": {
+      "type": "string",
+      "description": "The URL of the RSS feed. Required in a `POST` request if the page type is `rss_feed`.\n"
+    },
+    "link": {
+      "type": "string",
+      "description": "Required in a `POST` request to create a link if the page type is `link`.\n"
+    },
+    "contact_fields": {
+      "type": "string",
+      "description": "Applicable when the page type is `contact_form`: comma-separated list of keywords representing the fields enabled in the control panel for storefront display. Possible fields include:\n\n|Field|Description|\n|-|-|\n|`fullname`|Full name of the customer submitting the form|\n|`phone`|Customer\u2019s phone number, as submitted on the form|\n|`companyname`|Customer\u2019s submitted company name|\n|`orderno`|Customer\u2019s submitted order number|\n|`rma`|Customer\u2019s submitted RMA (Return Merchandise Authorization) number|\n",
+      "example": "fullname,companyname,phone,orderno,rma"
+    },
+    "meta_keywords": {
+      "default": "",
+      "type": "string",
+      "description": "Comma-separated list of SEO-relevant keywords to include in the element of this page.\n",
+      "nullable": true
+    },
+    "meta_description": {
+      "type": "string",
+      "description": "Description contained within the element of this page.\n",
+      "nullable": true
+    },
+    "search_keywords": {
+      "type": "string",
+      "description": "Comma-separated list of keywords that shoppers can use to locate this page when searching the store.\n",
+      "example": "trousers,pockets,luxury",
+      "nullable": true
+    },
+    "url": {
+      "type": "string",
+      "description": "Relative URL on the storefront for this page.\n",
+      "example": "/my-store-page"
+    },
+    "channel_id": {
+      "type": "integer",
+      "description": "The ID of the channel where this page should be shown.\n",
+      "example": 12,
+      "default": 0
+    }
+  },
+  "required": [
+    "id"
+  ]
+}

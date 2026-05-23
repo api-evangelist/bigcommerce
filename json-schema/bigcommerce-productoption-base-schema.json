@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/productOption_Base",
+  "title": "productOption_Base",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The unique numerical ID of the option, increments sequentially.\n",
+      "nullable": true,
+      "example": 55
+    },
+    "product_id": {
+      "type": "integer",
+      "description": "The unique numerical ID of the product to which the option belongs.\n",
+      "example": 4,
+      "x-required": [
+        "post",
+        "put"
+      ]
+    },
+    "display_name": {
+      "maxLength": 255,
+      "minLength": 1,
+      "type": "string",
+      "description": "The name of the option shown on the storefront.\n",
+      "example": "Add-a-$5-Donation1535042499-187",
+      "x-required": [
+        "post",
+        "put"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of option, which determines how it will display on the storefront. Acceptable values: `radio_buttons`, `rectangles`, `dropdown`, `product_list`, `product_list_with_images`, `swatch`. For reference, the former v2 API values are: RB = radio_buttons, RT = rectangles, S = dropdown, P = product_list, PI = product_list_with_images, CS = swatch.\n",
+      "enum": [
+        "radio_buttons",
+        "rectangles",
+        "dropdown",
+        "product_list",
+        "product_list_with_images",
+        "swatch"
+      ],
+      "x-required": [
+        "post",
+        "put"
+      ]
+    },
+    "config": {
+      "$ref": "#/components/schemas/productOptionConfig_Full"
+    },
+    "sort_order": {
+      "type": "integer",
+      "description": "Order in which the option is displayed on the storefront. ",
+      "example": 1
+    },
+    "option_values": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/productOptionOptionValue_Full"
+      }
+    }
+  },
+  "description": "Common Option properties.",
+  "x-internal": false
+}

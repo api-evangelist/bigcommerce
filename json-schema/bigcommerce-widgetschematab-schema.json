@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/widgetSchemaTab",
+  "title": "widgetSchemaTab",
+  "type": "object",
+  "description": "**Tab.** Use the **tab** settings type to create settings visible in Page Builder.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "The type of setting component to display.",
+      "enum": [
+        "tab"
+      ]
+    },
+    "label": {
+      "type": "string",
+      "example": "Content",
+      "description": "The user-friendly message to inform the user how this setting will be used."
+    },
+    "sections": {
+      "type": "array",
+      "description": "Groups of related settings.",
+      "items": {
+        "type": "object",
+        "title": "widgetSchemaTabSections",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "The user-friendly message to inform the user how this setting will be used.",
+            "example": "Product"
+          },
+          "settings": {
+            "type": "array",
+            "description": "For examples of schema settings, see [Widget UI Input Types](/docs/storefront/widgets/input-reference/settings).",
+            "items": {
+              "type": "object",
+              "title": "widgetSchemaSetting_Base",
+              "description": "For examples of each type of setting, see [Page Builder > Schema Settings](/docs/storefront/widgets/input-reference/settings#alignment) in Theme Docs.",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "The type of setting component to display. You can view the list of elements below to discover which are available to use.\n\nFor examples of each type of setting, see [Page Builder > Schema Settings](/docs/storefront/widgets/input-reference/settings#alignment) in Theme Docs.",
+                  "enum": [
+                    "alignment",
+                    "boolean",
+                    "boxModel",
+                    "code",
+                    "color",
+                    "imageManager",
+                    "input",
+                    "number",
+                    "productId",
+                    "productImage",
+                    "range",
+                    "regexInput",
+                    "select",
+                    "text",
+                    "toggle"
+                  ]
+                },
+                "label": {
+                  "type": "string",
+                  "description": "The user friendly message to inform the user how this setting will be used."
+                },
+                "id": {
+                  "type": "string",
+                  "description": "The variable name where the setting value will be available in the widget template."
+                },
+                "default": {
+                  "type": "string",
+                  "description": "The default value to use when rendering the widget for the first time. Make sure to set sensible defaults to make your widget easier to use."
+                },
+                "typeMeta": {
+                  "type": "object",
+                  "description": "Additional information needed based on the selected setting type.",
+                  "properties": {
+                    "selectOptions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "label": {
+                            "type": "string",
+                            "example": "Image"
+                          },
+                          "value": {
+                            "type": "string",
+                            "example": "image"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "conditional": {
+                  "type": "object",
+                  "title": "widgetSchemaConditional",
+                  "description": "An optional property that can be added to each setting to control whether it should be displayed to the user while editing in Page Builder. This does not clear the value in the setting, just controls the display of the setting.",
+                  "x-examples": {
+                    "Conditional attribute": {
+                      "key": "backgroundType",
+                      "operator": "IN",
+                      "value": [
+                        "color"
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "key": {
+                      "type": "string",
+                      "description": "The ID of the `setting` object the conditional attribute is related to.",
+                      "example": "backgroundType"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "description": "Specifies the operation used to determine whether to display the setting. The `IN` operator is currently the only supported operator. The setting will be displayed if the conditional\u2019s `value` property is equal to the selected value of the `selectOptions`. ",
+                      "example": "IN"
+                    },
+                    "value": {
+                      "type": "array",
+                      "description": "A single-object array containing a value from the `typeMeta`'s `selectOptions`.",
+                      "items": {}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-internal": false,
+  "x-examples": {}
+}

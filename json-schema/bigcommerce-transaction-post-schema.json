@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Transaction_Post",
+  "title": "Transaction_Post",
+  "type": "object",
+  "properties": {
+    "event": {
+      "type": "string",
+      "description": "Store event that created the transaction.\n",
+      "enum": [
+        "purchase",
+        "authorization",
+        "capture",
+        "refund",
+        "void",
+        "pending",
+        "settled"
+      ]
+    },
+    "method": {
+      "type": "string",
+      "description": "The payment method: `credit_card` - a credit-card transaction; `electronic_wallet` - an online wallet; `store_credit` - a transaction using store credit; `gift_certificate` - a transaction using a gift certificate; `custom` - manual payment methods; `token` - payment token; `nonce` - temporary payment token; `offsite` - online payment off the site (e.g., PayPal); `offline` - payment method that takes place offline.\n",
+      "enum": [
+        "credit_card",
+        "electronic_wallet",
+        "gift_certificate",
+        "store_credit",
+        "apple_pay_card",
+        "apple_pay_token",
+        "bigpay_token",
+        "token",
+        "custom",
+        "offsite",
+        "offline",
+        "nonce"
+      ]
+    },
+    "amount": {
+      "type": "number",
+      "format": "float",
+      "description": "Amount of money in the transaction.\n"
+    },
+    "currency": {
+      "type": "string",
+      "format": "ISO-4217",
+      "description": "Currency used for the transaction.\n"
+    },
+    "gateway": {
+      "type": "string",
+      "description": "The payment gateway, where applicable.\n",
+      "enum": [
+        "2checkout",
+        "adyen",
+        "amazon",
+        "authorizenet",
+        "bankdeposit",
+        "braintree",
+        "cheque",
+        "cod",
+        "custom",
+        "firstdatagge4",
+        "giftcertificate",
+        "hps",
+        "instore",
+        "klarna",
+        "migs",
+        "moneyorder",
+        "nmi",
+        "paypalexpress",
+        "paypalpaymentsprous",
+        "paypalpaymentsprouk",
+        "plugnpay",
+        "qbmsv2",
+        "securenet",
+        "square",
+        "storecredit",
+        "stripe",
+        "testgateway",
+        "usaepay"
+      ]
+    },
+    "gateway_transaction_id": {
+      "description": "The transaction ID returned by the payment gateway for this transaction item.\n",
+      "type": "string"
+    },
+    "date_created": {
+      "description": "The date/time of the transaction.\n",
+      "type": "string",
+      "format": "date-time"
+    },
+    "test": {
+      "type": "boolean",
+      "description": "True if the transaction performed was a test, or if the gateway is in test mode.\n"
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of the transaction.\n",
+      "enum": [
+        "ok",
+        "error"
+      ]
+    },
+    "fraud_review": {
+      "type": "boolean",
+      "description": "Result of gateway fraud review, if any. Default is `false`.\n"
+    },
+    "reference_transaction_id": {
+      "type": "integer",
+      "description": "Identifier for an existing transaction upon which this transaction acts.\n"
+    },
+    "offline": {
+      "$ref": "#/components/schemas/Offline"
+    },
+    "custom": {
+      "$ref": "#/components/schemas/Custom"
+    }
+  },
+  "required": [
+    "event",
+    "method",
+    "amount",
+    "currency",
+    "gateway"
+  ],
+  "x-internal": false
+}

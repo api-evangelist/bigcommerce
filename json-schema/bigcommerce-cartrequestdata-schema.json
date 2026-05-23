@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CartRequestData",
+  "title": "Cart Request Data",
+  "type": "object",
+  "properties": {
+    "line_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "title": "Line Item Request Data",
+        "properties": {
+          "quantity": {
+            "type": "number"
+          },
+          "product_id": {
+            "type": "number"
+          },
+          "variant_id": {
+            "type": "number",
+            "description": "The Variant ID. Required if the product has variants."
+          },
+          "list_price": {
+            "type": "number"
+          },
+          "option_selections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "title": "Product Option Selection",
+              "properties": {
+                "option_id": {
+                  "type": "number"
+                },
+                "option_value": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "quantity",
+          "product_id",
+          "variant_id"
+        ]
+      }
+    },
+    "gift_certificates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "title": "Line Item Gift Certificate Request Data",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Given name for gift certificate line item."
+          },
+          "theme": {
+            "type": "string",
+            "description": "The theme of the gift certificate.",
+            "enum": [
+              "birthday.html",
+              "boy.html",
+              "celebration.html",
+              "christmas.html",
+              "general.html",
+              "girl.html"
+            ]
+          },
+          "amount": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 1000
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sender": {
+            "title": "Contact Entity",
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            }
+          },
+          "recipient": {
+            "title": "Contact Entity",
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "maximum": 200,
+            "description": "Message shown to recipient, as provided by sender."
+          }
+        },
+        "required": [
+          "name",
+          "theme",
+          "amount",
+          "quantity",
+          "sender",
+          "recipient"
+        ]
+      }
+    },
+    "channel_id": {
+      "type": "integer",
+      "description": "The Channel ID. If no channel is specified, this defaults to 1."
+    }
+  },
+  "x-internal": false
+}

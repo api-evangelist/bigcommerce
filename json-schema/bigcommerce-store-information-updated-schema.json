@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/store_information_updated",
+  "title": "store/information/updated",
+  "description": "Fires when changes are made to store settings. \n\nChanges to the following fields trigger this event:\n* Store Name\n* Store Address\n* Store Country\n* Address Type\n* Email\n* Phone\n\n```json filename=\"Example callback object\" showLineNumbers\n{\n  \"created_at\": 1561482670,\n  \"store_id\": \"1025646\",\n  \"producer\": \"stores/{store_hash}\",\n  \"scope\": \"store/information/updated\",\n  \"hash\": \"352e4afc6dd3fc85ea26bfdf3f91852604d57528\",\n  \"data\": {\n    \"type\": \"store\"\n  }\n}\n```",
+  "x-examples": {},
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/webhook_callback_base"
+    },
+    {
+      "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "",
+              "example": "store"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "x-tags": [
+    "created"
+  ],
+  "type": "object",
+  "x-internal": false
+}

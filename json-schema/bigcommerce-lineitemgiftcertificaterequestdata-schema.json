@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/LineItemGiftCertificateRequestData",
+  "title": "Line Item Gift Certificate Request Data",
+  "type": "object",
+  "required": [
+    "sender",
+    "recipient",
+    "amount",
+    "theme",
+    "name",
+    "quantity"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Given name for gift certificate line item."
+    },
+    "theme": {
+      "type": "string",
+      "description": "The theme of the gift certificate.",
+      "enum": [
+        "birthday.html",
+        "boy.html",
+        "celebration.html",
+        "christmas.html",
+        "general.html",
+        "girl.html"
+      ]
+    },
+    "amount": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 1000
+    },
+    "quantity": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "sender": {
+      "title": "Contact Entity",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "recipient": {
+      "title": "Contact Entity",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "message": {
+      "type": "string",
+      "maximum": 200,
+      "description": "Message shown to recipient, as provided by sender."
+    }
+  },
+  "x-internal": false
+}

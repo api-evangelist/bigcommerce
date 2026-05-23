@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ChannelOrderSettings",
+  "title": "ChannelOrderSettings",
+  "type": "object",
+  "properties": {
+    "notifications": {
+      "type": "object",
+      "description": "Channel notification settings.",
+      "properties": {
+        "order_placed": {
+          "description": "Channel order notification settings.",
+          "type": "object",
+          "properties": {
+            "email_addresses": {
+              "description": "Email addresses channel order notifications will be sent to. If null will fall back to global value. Empty array disables order notifications for channel.",
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forward_invoice": {
+          "description": "Channel order invoice forward settings.",
+          "type": "object",
+          "properties": {
+            "email_addresses": {
+              "description": "Email addresses channel order invoices will be forwarded to. If null will fall back to global value. Empty array disables forwarding order invoices for channel.",
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-tags": [
+    "Models"
+  ]
+}

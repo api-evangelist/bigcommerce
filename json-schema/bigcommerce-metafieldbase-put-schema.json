@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MetafieldBase_Put",
+  "title": "MetafieldBase_Put",
+  "type": "object",
+  "description": "Common Metafield properties.\n",
+  "x-internal": false,
+  "properties": {
+    "permission_set": {
+      "type": "string",
+      "description": "Determines the visibility and writeability of the field by other API consumers.\n| Value | Description |\n| : | : |\n| `app_only` | Private to the app that owns the field. |\n| `read` | Visible to other API consumers. |\n| `write` | Open for reading and writing by other API consumers. |\n| `read_and_sf_access` | Visible to other API consumers, including on the storefront. |\n| `write_and_sf_access` | Open for reading and writing by other API consumers, including on the storefront. |\n",
+      "enum": [
+        "app_only",
+        "read",
+        "write",
+        "read_and_sf_access",
+        "write_and_sf_access"
+      ]
+    },
+    "namespace": {
+      "type": "string",
+      "description": "Namespace for the metafield, for organizational purposes.\n",
+      "example": "Sales Department",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "key": {
+      "type": "string",
+      "description": "The name of the field, for example: `location_id`, `color`.\n",
+      "minLength": 1,
+      "maxLength": 64,
+      "example": "Staff Name"
+    },
+    "value": {
+      "type": "string",
+      "description": "The value of the field, for example: `1`, `blue`.\n",
+      "minLength": 1,
+      "maxLength": 65535,
+      "example": "Ronaldo"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description for the metafields.\n",
+      "minLength": 0,
+      "maxLength": 255,
+      "example": "Name of Staff Member"
+    }
+  }
+}

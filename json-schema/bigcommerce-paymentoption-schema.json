@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PaymentOption",
+  "title": "Payment Option",
+  "type": "object",
+  "example": {
+    "provider_id": "checkout_paypalexpress",
+    "provider_description": "Paypal Express",
+    "amount": 9.99,
+    "offline": true,
+    "offline_provider": true,
+    "offline_reason": "Multiple online refunds are not available."
+  },
+  "properties": {
+    "provider_id": {
+      "type": "string",
+      "description": "Name of the payment method.",
+      "example": "checkout_paypalexpress"
+    },
+    "provider_description": {
+      "type": "string",
+      "description": "Description for payment provider.",
+      "example": "Paypal Express"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Amount to be refunded with this payment provider.",
+      "example": 9.99
+    },
+    "offline": {
+      "type": "boolean",
+      "description": "Indicates the payment must be done offline due to constraints of the payment provider, such as partial refunds not being supported, or it being offline only such as cash on delivery of bank deposit.",
+      "example": true
+    },
+    "offline_provider": {
+      "type": "boolean",
+      "description": "Indicates if the payment provider is a strictly offline provider, such as cash on delivery or bank deposit.",
+      "example": true
+    },
+    "offline_reason": {
+      "type": "string",
+      "description": "Reason the payment option is offline only, if applicable.",
+      "example": "Multiple online refunds are not available"
+    }
+  },
+  "x-internal": false
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/InstalledCertificateDetail",
+  "title": "CertificateInfo",
+  "description": "Details about the installed certificate, including the raw certificate data, without the private key.",
+  "type": "object",
+  "nullable": true,
+  "properties": {
+    "common_name": {
+      "type": "string",
+      "example": "store.com",
+      "description": "Common Name on the TLS certificate."
+    },
+    "subject_alternative_names": {
+      "type": "array",
+      "example": [
+        "store.com",
+        "www.store.com"
+      ],
+      "description": "Subject Alternative Names for which the certificate is also valid.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "validity_not_before": {
+      "type": "string",
+      "example": "2018-01-04T04:15:50.000Z",
+      "description": "When does the validity period of this certificate begin? RFC 3339."
+    },
+    "validity_not_after": {
+      "type": "string",
+      "example": "2018-01-04T04:15:50.000Z",
+      "description": "When does the validity period of this certificate end? If this date is in the past, the certificate has expired. RFC 3339."
+    },
+    "signing_algorithm": {
+      "type": "string",
+      "description": "Signing algorithm used to sign the certificate."
+    },
+    "issuer": {
+      "type": "string"
+    },
+    "certificate": {
+      "type": "string",
+      "description": "The primary certificate, as a string."
+    },
+    "intermediate_certificates": {
+      "type": "string",
+      "description": "The intermediate certificate(s), as a string."
+    }
+  },
+  "x-tags": [
+    "Models"
+  ]
+}

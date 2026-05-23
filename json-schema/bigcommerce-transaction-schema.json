@@ -1,0 +1,319 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Transaction",
+  "title": "",
+  "allOf": [
+    {
+      "title": "Transaction Base",
+      "properties": {
+        "event": {
+          "type": "string",
+          "description": "Store event that created the transaction.\n",
+          "enum": [
+            "purchase",
+            "authorization",
+            "capture",
+            "refund",
+            "void",
+            "pending",
+            "settled"
+          ]
+        },
+        "method": {
+          "type": "string",
+          "description": "The payment method: `credit_card` - a credit-card transaction; `electronic_wallet` - an online wallet; `store_credit` - a transaction using store credit; `gift_certificate` - a transaction using a gift certificate; `custom` - manual payment methods; `token` - payment token; `nonce` - temporary payment token; `offsite` - online payment off the site; `offline` - payment method that takes place offline.\n",
+          "enum": [
+            "credit_card",
+            "electronic_wallet",
+            "gift_certificate",
+            "store_credit",
+            "apple_pay_card",
+            "bigpay_token",
+            "apple_pay_token",
+            "token",
+            "custom",
+            "offsite",
+            "offline",
+            "nonce"
+          ]
+        },
+        "amount": {
+          "type": "number",
+          "format": "float",
+          "description": "Amount of money in the transaction.\n"
+        },
+        "currency": {
+          "type": "string",
+          "format": "ISO-4217",
+          "description": "Currency used for the transaction.\n"
+        },
+        "gateway": {
+          "type": "string",
+          "description": "The payment gateway, where applicable.\n",
+          "enum": [
+            "2checkout",
+            "adyen",
+            "amazon",
+            "authorizenet",
+            "bankdeposit",
+            "braintree",
+            "cheque",
+            "cod",
+            "custom",
+            "firstdatagge4",
+            "giftcertificate",
+            "hps",
+            "instore",
+            "klarna",
+            "migs",
+            "moneyorder",
+            "nmi",
+            "paypalexpress",
+            "paypalpaymentsprous",
+            "paypalpaymentsprouk",
+            "plugnpay",
+            "qbmsv2",
+            "securenet",
+            "square",
+            "storecredit",
+            "stripe",
+            "testgateway",
+            "usaepay"
+          ]
+        },
+        "gateway_transaction_id": {
+          "description": "The transaction ID returned by the payment gateway for this transaction item.\n",
+          "type": "string"
+        },
+        "date_created": {
+          "description": "The date/time of the transaction.\n",
+          "type": "string",
+          "format": "date-time"
+        },
+        "test": {
+          "type": "boolean",
+          "description": "True if the transaction performed was a test, or if the gateway is in test mode.\n"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the transaction.\n",
+          "enum": [
+            "ok",
+            "error"
+          ]
+        },
+        "fraud_review": {
+          "type": "boolean",
+          "description": "Result of gateway fraud review, if any. Default is `false`.\n"
+        },
+        "reference_transaction_id": {
+          "type": "integer",
+          "description": "Identifier for an existing transaction upon which this transaction acts.\n"
+        },
+        "offline": {
+          "type": "object",
+          "description": "Offline payment (e.g., check or purchase order).",
+          "title": "Offline",
+          "properties": {
+            "display_name": {
+              "description": "Display name for the offline payment.\n",
+              "type": "string"
+            }
+          }
+        },
+        "custom": {
+          "type": "object",
+          "description": "Custom payment from manual order.",
+          "title": "Custom",
+          "properties": {
+            "payment_method": {
+              "description": "Text entered for the payment method in the control panel.\n",
+              "type": "string"
+            }
+          }
+        },
+        "payment_method_id": {
+          "type": "string",
+          "description": "The payment method ID used for this transaction.\n"
+        }
+      },
+      "required": [
+        "event",
+        "method",
+        "amount",
+        "currency",
+        "gateway"
+      ]
+    },
+    {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique identifier for the transaction.\n"
+        },
+        "order_id": {
+          "type": "string",
+          "description": "Identifier for the BigCommerce Order with which this transaction is associated.\n"
+        },
+        "date_created": {
+          "description": "The date/time of the transaction.\n",
+          "type": "string",
+          "format": "date-time"
+        },
+        "payment_instrument_token": {
+          "type": "string",
+          "description": "This field contains internal BigPay token for stored card that is then mapped to the actual third-party token. We currently do not offer a way to get third party tokens.These tokens are read-only and do not return any information about the payment."
+        },
+        "avs_result": {
+          "description": "Address Verification Service (AVS) result from the payment gateway.",
+          "type": "object",
+          "title": "AVS Results",
+          "properties": {
+            "code": {
+              "description": "AVS code.",
+              "type": "string"
+            },
+            "message": {
+              "description": "AVS message.",
+              "type": "string"
+            },
+            "street_match": {
+              "description": "AVS Code for street matching result.",
+              "type": "string"
+            },
+            "postal_match": {
+              "description": "AVS Code for postal matching result.",
+              "type": "string"
+            }
+          }
+        },
+        "cvv_result": {
+          "description": "Card Verification Value result from the payment gateway.",
+          "type": "object",
+          "title": "CVV Result",
+          "properties": {
+            "code": {
+              "description": "CVV code.",
+              "type": "string"
+            },
+            "message": {
+              "description": "CVV message.",
+              "type": "string"
+            }
+          }
+        },
+        "credit_card": {
+          "$ref": "#/components/schemas/CreditCard"
+        },
+        "gift_certificate": {
+          "type": "object",
+          "description": "A gift-certificate model.",
+          "title": "Gift Certificate",
+          "properties": {
+            "code": {
+              "description": "The gift-certificate code.\n",
+              "type": "string",
+              "example": "MB345"
+            },
+            "original_balance": {
+              "type": "number",
+              "description": "The balance on a gift certificate when it was purchased.\n",
+              "format": "float",
+              "example": 100,
+              "minimum": 0,
+              "maximum": 21474836.47
+            },
+            "starting_balance": {
+              "description": "The balance on a gift certificate at the time of this purchase.\n",
+              "type": "number",
+              "format": "float",
+              "example": 100
+            },
+            "remaining_balance": {
+              "description": "The remaining balance on a gift certificate.\n",
+              "type": "number",
+              "format": "float",
+              "example": 35.42
+            },
+            "status": {
+              "description": "The status of a gift certificate: `active` - gift certificate is active; `pending` - gift certificate purchase is pending; `disabled` - gift certificate is disabled; `expired` - gift certificate is expired.\n",
+              "type": "string",
+              "enum": [
+                "active",
+                "pending",
+                "disabled",
+                "expired"
+              ]
+            }
+          }
+        },
+        "store_credit": {
+          "type": "object",
+          "description": "A store credit model.\n",
+          "properties": {
+            "remaining_balance": {
+              "description": "Remaining balance of shopper\u02bcs store credit.\n",
+              "type": "number",
+              "format": "float",
+              "example": 35.42
+            }
+          }
+        }
+      }
+    }
+  ],
+  "type": "object",
+  "x-examples": {
+    "Example 1": {
+      "event": "purchase",
+      "method": "credit_card",
+      "amount": 3.4,
+      "currency": "string",
+      "gateway": "2checkout",
+      "gateway_transaction_id": "string",
+      "date_created": "2019-08-24T14:15:22Z",
+      "test": true,
+      "status": "ok",
+      "fraud_review": true,
+      "reference_transaction_id": 0,
+      "offline": {
+        "display_name": "string"
+      },
+      "custom": {
+        "payment_method": "string"
+      },
+      "payment_method_id": "string",
+      "id": 0,
+      "order_id": "string",
+      "payment_instrument_token": "string",
+      "avs_result": {
+        "code": "string",
+        "message": "string",
+        "street_match": "string",
+        "postal_match": "string"
+      },
+      "cvv_result": {
+        "code": "string",
+        "message": "string"
+      },
+      "credit_card": {
+        "card_type": "alelo",
+        "card_iin": "string",
+        "card_last4": "string",
+        "card_expiry_month": 1,
+        "card_expiry_year": 0
+      },
+      "gift_certificate": {
+        "code": "MB345",
+        "original_balance": 100,
+        "starting_balance": 100,
+        "remaining_balance": 35.42,
+        "status": "active"
+      },
+      "store_credit": {
+        "remaining_balance": 35.42
+      }
+    }
+  },
+  "description": ""
+}

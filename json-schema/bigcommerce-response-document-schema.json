@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/response-document",
+  "title": "Document",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "A unique identifier for this consignment. Must match the ID of the corresponding Document Request."
+    },
+    "external_id": {
+      "type": "string",
+      "description": "An optional unique identifier for the document stored in the external provider\u2019s system. Currently not used in any end-to-end operation, but may be logged by BigCommerce and thus be helpful when resolving issues."
+    },
+    "items": {
+      "type": "array",
+      "description": "Collection of items contained within this consignment that have had tax liabilities calculated. An item may or may not have gift wrapping.",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/response-item"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "$ref": "#/components/schemas/item_type"
+              },
+              "wrapping": {
+                "type": "object",
+                "description": "Optional gift wrapping for items in the consignment.",
+                "nullable": true,
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/response-item"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "$ref": "#/components/schemas/wrapping_type"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ]
+                  }
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          }
+        ]
+      }
+    },
+    "shipping": {
+      "type": "object",
+      "description": "Shipping line item present in each document request.",
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/response-item"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "$ref": "#/components/schemas/shipping_type"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      ]
+    },
+    "handling": {
+      "type": "object",
+      "description": "Handling line item present in each document request.",
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/response-item"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "$ref": "#/components/schemas/handling_type"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "items",
+    "shipping",
+    "handling"
+  ],
+  "x-internal": false
+}

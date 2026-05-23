@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/LineItemsRequest",
+  "title": "requestLineItems",
+  "oneOf": [
+    {
+      "properties": {
+        "lineItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/requestCartPostLineItem"
+          }
+        }
+      },
+      "required": [
+        "lineItems"
+      ]
+    },
+    {
+      "properties": {
+        "giftCertificates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/requestLineItemGiftCertificate"
+          }
+        }
+      },
+      "required": [
+        "giftCertificates"
+      ]
+    },
+    {
+      "properties": {
+        "lineItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/requestCartPostLineItem"
+          }
+        },
+        "giftCertificates": {
+          "$ref": "#/components/schemas/requestLineItemGiftCertificate"
+        }
+      },
+      "required": [
+        "lineItems",
+        "giftCertificates"
+      ]
+    }
+  ],
+  "type": "object",
+  "description": "Cart object used in add items requests.",
+  "x-internal": false
+}

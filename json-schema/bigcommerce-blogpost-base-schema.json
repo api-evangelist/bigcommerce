@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/blogPost_Base",
+  "title": "blogPost_Base",
+  "type": "object",
+  "example": {
+    "title": "Welcome to BigCommerce",
+    "url": "/blog/welcome-bigcommerce/",
+    "preview_url": "/blog/welcome-bigcommerce/",
+    "body": "<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>",
+    "tags": [
+      "string"
+    ],
+    "summary": "<p>We power ecommerce websites for successful retailers all over the world</p>",
+    "is_published": true,
+    "published_date": {
+      "timezone_type": 1,
+      "date": "2018-05-18T08:26:42Z",
+      "timezone": "+00:00"
+    },
+    "published_date_iso8601": "5/18/2018 1:26:42 PM",
+    "meta_description": "Welcome Post",
+    "meta_keywords": "BigCommerce, welcome, ecommerce",
+    "author": "BigCommerce",
+    "thumbnail_path": "string"
+  },
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title of this blog post.",
+      "example": "Welcome to BigCommerce"
+    },
+    "url": {
+      "type": "string",
+      "description": "URL for the public blog post.",
+      "example": "/blog/welcome-bigcommerce/"
+    },
+    "preview_url": {
+      "type": "string",
+      "description": "URL to preview the blog post. READ-ONLY.",
+      "readOnly": true,
+      "example": "/blog/welcome-bigcommerce/"
+    },
+    "body": {
+      "type": "string",
+      "description": "Text body of the blog post.",
+      "example": "<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>"
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags to characterize the blog post.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "Summary of the blog post. READ-ONLY.",
+      "readOnly": true,
+      "example": "<p>We power ecommerce websites for successful retailers all over the world</p>"
+    },
+    "is_published": {
+      "type": "boolean",
+      "description": "Whether the blog post is published. If you want the post to be or remain published following the request, you must set the field explicitly to true, even if the blog post was already published prior to the request.",
+      "default": false,
+      "example": true
+    },
+    "published_date": {
+      "$ref": "#/components/schemas/publishedDate"
+    },
+    "published_date_iso8601": {
+      "type": "string",
+      "description": "Published date in `ISO 8601` format.",
+      "example": "5/18/2023 1:26:42 PM"
+    },
+    "meta_description": {
+      "type": "string",
+      "description": "Description text for this blog post\u2019s `<meta/>` element.",
+      "example": "Welcome Post"
+    },
+    "meta_keywords": {
+      "type": "string",
+      "description": "Keywords for this blog post\u2019s `<meta/>` element.",
+      "example": "BigCommerce, welcome, ecommerce"
+    },
+    "author": {
+      "type": "string",
+      "description": "Name of the blog post\u2019s author.",
+      "example": "BigCommerce"
+    },
+    "thumbnail_path": {
+      "type": "string",
+      "description": "Local path to a thumbnail uploaded to `/product_images/` using [WebDAV](https://support.bigcommerce.com/s/article/File-Access-WebDAV)."
+    }
+  },
+  "required": [
+    "title",
+    "body"
+  ]
+}

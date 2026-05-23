@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TokenizedCard",
+  "title": "Tokenized Card",
+  "type": "object",
+  "x-internal": false,
+  "x-examples": {
+    "example-1": {
+      "type": "tokenized_card",
+      "token": "K7KW-M9GX-6PQ3",
+      "iin": 4111111,
+      "last_four_digits": 1111,
+      "expiration_month": 12,
+      "expiration_year": 2030
+    }
+  },
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Type to classify this payment instrument (required).",
+      "enum": [
+        "tokenized_card"
+      ]
+    },
+    "token": {
+      "description": "Identifier representing the tokenized card (required).",
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "iin": {
+      "type": "string",
+      "description": "Issuer identification number."
+    },
+    "last_four_digits": {
+      "type": "string",
+      "description": "Last four numbers of this card."
+    },
+    "expiration_month": {
+      "type": "string",
+      "description": "Expiry month of this card."
+    },
+    "expiration_year": {
+      "type": "string",
+      "description": "Expiry year of this card."
+    }
+  },
+  "required": [
+    "type",
+    "token"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CartCoupon",
+  "title": "Cart Coupon",
+  "required": [
+    "code"
+  ],
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The coupon ID."
+    },
+    "code": {
+      "type": "string",
+      "description": "the coupon code"
+    },
+    "displayName": {
+      "type": "string",
+      "description": "The coupon title based on different types provided in control panel section."
+    },
+    "couponType": {
+      "type": "string",
+      "description": "Key name to identify the type of coupon.",
+      "enum": [
+        "per_item_discount",
+        "percentage_discount",
+        "per_total_discount",
+        "shipping_discount",
+        "free_shipping",
+        "promotion"
+      ]
+    },
+    "discountedAmount": {
+      "type": "number",
+      "description": "The discounted amount applied within a given context.",
+      "format": "double"
+    }
+  },
+  "x-internal": false
+}

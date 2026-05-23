@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/301RedirectRead",
+  "title": "301RedirectRead",
+  "type": "object",
+  "description": "Full detail of a Redirect, optionally including the full destination URL.",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "site_id": {
+      "type": "integer"
+    },
+    "from_path": {
+      "type": "string",
+      "example": "/old-url"
+    },
+    "to": {
+      "$ref": "#/components/schemas/RedirectTo"
+    },
+    "to_url": {
+      "type": "string",
+      "description": "Full destination URL for the redirect. Must be explicitly included via URL parameter.",
+      "format": "uri",
+      "example": "https://store-domain.com/new-url"
+    }
+  }
+}

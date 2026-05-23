@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/store_product_updated",
+  "title": "store/product/updated",
+  "description": "Fires when product details are edited. \n\nChanges to the following fields trigger this event:\n* Product Type\n* Search Keywords\n* Related Products\n* Warranty Information\n* Page Title\n* Meta Description\n* Gift Wrapping options\n* Bin Picking Number (BPN)\n* Fixed Shipping Price\n* Free Shipping\n* Open Graph Sharing Type\n* Availability Text\n* Purchasability\n* Release Date\n* Remove pre-order status on this date\n* Preorder Message\n* Inventory Stock\n* Inventory Low Stock\n* Track inventory\n* Product UPC/EAN\n* SKU\n* Cost\n* Tax Class\n* Weight\n* Width\n* Height\n* Depth\n* Condition\n* Show condition on storefront\n* Brand\n* Default Price\n* Sale Price\n* MSRP\n* Product Name\n* Description\n* Visible on Storefront\n* Sort Order\n* Categories\n* Product URL\n* Set as a Featured Product on my Storefront\n\nHowever, changes to the following fields don\u02bct trigger this event:\n\n* Manufacturer Part Number (MPN)\n* Global Trade Number (GTN)\n* Tax Provider Tax Code\n* Product Image\n* Product Image Description\n* Product Files\n* Customs Information\n\n```json filename=\"Example callback object\" showLineNumbers\n{\n  \"created_at\": 1561482670,\n  \"store_id\": \"1025646\",\n  \"producer\": \"stores/{store_hash}\",\n  \"scope\": \"store/product/updated\",\n  \"hash\": \"352e4afc6dd3fc85ea26bfdf3f91852604d57528\",\n  \"data\": {\n    \"type\": \"product\",\n    \"id\": 205\n  }\n}\n```",
+  "x-examples": {},
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/webhook_callback_base"
+    },
+    {
+      "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The type ill always be `product`.",
+              "default": "product",
+              "example": "product"
+            },
+            "id": {
+              "type": "integer",
+              "description": "ID of the product.",
+              "example": 205
+            }
+          }
+        }
+      }
+    }
+  ],
+  "x-tags": [
+    "created"
+  ],
+  "type": "object",
+  "x-internal": false
+}

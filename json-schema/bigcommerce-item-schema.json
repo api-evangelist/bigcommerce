@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Item",
+  "title": "Item",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "integer",
+      "description": "The (required) product ID of the item."
+    },
+    "variant_id": {
+      "type": "number",
+      "description": "The (optional) variant ID of the item."
+    },
+    "options": {
+      "type": "array",
+      "description": "The (optional) option configuration of the product. May be \"partially\" configured for estimates.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "option_id": {
+            "type": "integer",
+            "description": "The ID of the variant option or modifier option being configured for this product."
+          },
+          "value_id": {
+            "type": "integer",
+            "description": "The ID of the value matching the option being configured. \n\n**Note:** must be ID, not the value."
+          }
+        }
+      }
+    }
+  },
+  "description": "Details/configuration for the product to request a price for.",
+  "x-internal": false
+}

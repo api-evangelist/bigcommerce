@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Return_Full",
+  "title": "Return_Full",
+  "type": "object",
+  "description": "A view of a return.",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ReturnItem"
+      }
+    },
+    "total": {
+      "type": "string",
+      "format": "decimal",
+      "description": "The total price of the items being returned."
+    },
+    "currency": {
+      "type": "string",
+      "format": "iso-4217",
+      "description": "The transactional currency of the return and the associated order."
+    },
+    "customer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        }
+      }
+    },
+    "comment": {
+      "type": "string",
+      "description": "A comment provided to the merchant for review."
+    },
+    "status": {
+      "$ref": "#/components/schemas/Status_Full"
+    },
+    "date_modified": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "x-internal": false
+}

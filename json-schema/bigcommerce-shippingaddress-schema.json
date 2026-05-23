@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ShippingAddress",
+  "title": "Shipping Address",
+  "type": "object",
+  "description": "Object representing a destination or origin address for items.",
+  "properties": {
+    "street_1": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "street_2": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "zip": {
+      "type": "string",
+      "maxLength": 20,
+      "example": "94105"
+    },
+    "city": {
+      "type": "string",
+      "maxLength": 50,
+      "example": "San Francisco"
+    },
+    "state_iso2": {
+      "type": "string",
+      "description": "State in ISO_3166 2 format.",
+      "maxLength": 2
+    },
+    "country_iso2": {
+      "type": "string",
+      "description": "Country in ISO_3166 2 format.",
+      "maxLength": 2,
+      "example": "US"
+    },
+    "address_type": {
+      "description": "Optional. Defaults to `RESIDENTIAL`.",
+      "type": "string",
+      "enum": [
+        "RESIDENTIAL",
+        "COMMERCIAL"
+      ]
+    }
+  },
+  "required": [
+    "zip",
+    "country_iso2"
+  ],
+  "x-internal": false
+}

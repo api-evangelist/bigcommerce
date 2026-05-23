@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/anyTypePage",
+  "title": "anyTypePage",
+  "type": "object",
+  "description": "Properties of all Pages V3 pages.\n",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "nullable": false,
+      "readOnly": true
+    },
+    "channel_id": {
+      "type": "integer",
+      "readOnly": true
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the page. Must be unique.",
+      "minLength": 1,
+      "maxLength": 100,
+      "uniqueItems": true,
+      "example": "About Our Company",
+      "nullable": false,
+      "readOnly": false
+    },
+    "is_visible": {
+      "type": "boolean",
+      "example": true,
+      "default": true,
+      "description": "A boolean value that controls whether the page is available to users or visible in any navigation menus."
+    },
+    "parent_id": {
+      "type": "integer",
+      "description": "ID of the parent page, if any.",
+      "example": 0,
+      "default": 0
+    },
+    "sort_order": {
+      "type": "integer",
+      "description": "Determines the order in which the page is displayed in the parent page\u2019s menu. Pages with lower integers display earlier.",
+      "example": 0
+    },
+    "type": {
+      "type": "string",
+      "description": "Determines the type of page. See [Pages v3 page types](/docs/rest-content/pages#page-types) for more about the differences.",
+      "nullable": false,
+      "example": "page",
+      "enum": [
+        "page",
+        "raw",
+        "contact_form",
+        "feed",
+        "link",
+        "blog"
+      ]
+    },
+    "is_homepage": {
+      "type": "boolean",
+      "description": "Determines whether this page loads at the site\u02bcs root route. For example, at `https://example.com/`.",
+      "default": false
+    },
+    "is_customers_only": {
+      "type": "boolean",
+      "description": "When `true`, this page is not visible to merchant users who are signed in to the store control panel.",
+      "default": false
+    },
+    "url": {
+      "type": "string",
+      "description": "Relative URL on the storefront for this page.\n",
+      "example": "/my-store-page"
+    }
+  },
+  "required": [
+    "name",
+    "type"
+  ]
+}

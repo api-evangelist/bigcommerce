@@ -1,0 +1,66 @@
+{
+  "operationId": "createOrdersRefundQuotes",
+  "method": "POST",
+  "path": "/orders/payment_actions/refund_quotes",
+  "summary": "BigCommerce Create Refund Quotes - BATCH",
+  "requestExamples": [],
+  "responseExamples": [
+    {
+      "status": "422",
+      "contentType": "Example 1",
+      "name": "response",
+      "example": {
+        "data": [
+          {
+            "order_id": 1,
+            "total_refund_amount": 1.99,
+            "total_refund_tax_amount": 1.95,
+            "rounding": 1,
+            "adjustment": 0.05,
+            "tax_inclusive": true,
+            "refund_methods": [
+              ""
+            ]
+          }
+        ],
+        "errors": [
+          {
+            "order_id": 1,
+            "status": 422,
+            "error": "Refund amount is greater than remaining amount"
+          }
+        ],
+        "meta": {
+          "failure": 1,
+          "success": 1,
+          "total": 2
+        }
+      }
+    },
+    {
+      "status": "503",
+      "contentType": "application/json",
+      "name": "response",
+      "example": {
+        "data": [],
+        "errors": [
+          {
+            "order_id": 1,
+            "status": 503,
+            "error": "Tax service could not be contacted"
+          },
+          {
+            "order_id": 100,
+            "status": 422,
+            "error": "Refund amount exceeds remaining amount"
+          }
+        ],
+        "meta": {
+          "failure": 2,
+          "success": 0,
+          "total": 2
+        }
+      }
+    }
+  ]
+}

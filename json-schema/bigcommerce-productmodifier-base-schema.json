@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/productModifier_Base",
+  "title": "productModifier_Base",
+  "required": [
+    "required",
+    "type"
+  ],
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "BigCommerce API, which determines how it will display on the storefront. Acceptable values: `date`, `checkbox`, `file`, `text`, `multi_line_text`, `numbers_only_text`, `radio_buttons`, `rectangles`, `dropdown`, `product_list`, `product_list_with_images`, `swatch`. Required in a /POST.\n",
+      "enum": [
+        "date",
+        "checkbox",
+        "file",
+        "text",
+        "multi_line_text",
+        "numbers_only_text",
+        "radio_buttons",
+        "rectangles",
+        "dropdown",
+        "product_list",
+        "product_list_with_images",
+        "swatch"
+      ],
+      "x-required": [
+        "post"
+      ]
+    },
+    "required": {
+      "type": "boolean",
+      "description": "Whether or not this modifer is required or not at checkout. Required in a /POST.\n",
+      "x-required": [
+        "post"
+      ]
+    },
+    "sort_order": {
+      "type": "integer",
+      "description": "The order the modifiers display on the product detail page."
+    },
+    "config": {
+      "$ref": "#/components/schemas/config_Full"
+    },
+    "display_name": {
+      "type": "string",
+      "description": "The name of the option shown on the storefront."
+    }
+  },
+  "description": "Common Modifier properties.",
+  "x-internal": false
+}

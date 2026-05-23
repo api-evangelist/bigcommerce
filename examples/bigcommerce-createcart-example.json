@@ -1,0 +1,165 @@
+{
+  "operationId": "createCart",
+  "method": "POST",
+  "path": "/carts",
+  "summary": "BigCommerce Create a Cart",
+  "requestExamples": [
+    {
+      "contentType": "application/json",
+      "name": "Simple Product",
+      "example": {
+        "customer_id": 0,
+        "line_items": [
+          {
+            "quantity": 2,
+            "product_id": 126,
+            "list_price": 5,
+            "name": "calendar"
+          }
+        ],
+        "channel_id": 1,
+        "currency": {
+          "code": "USD"
+        },
+        "locale": "en-US"
+      }
+    },
+    {
+      "contentType": "application/json",
+      "name": "Cart with a variant",
+      "example": {
+        "customer_id": 0,
+        "line_items": [
+          {
+            "quantity": 2,
+            "product_id": 118,
+            "list_price": 25,
+            "variant_id": 140,
+            "name": "\u0642\u0645\u064a\u0635",
+            "option_selections": [
+              {
+                "option_id": 125,
+                "option_value": 127,
+                "name": "\u0628\u062d\u062c\u0645",
+                "value": "\u0635\u063a\u064a\u0631"
+              }
+            ]
+          }
+        ],
+        "channel_id": 1,
+        "currency": {
+          "code": "JOD"
+        },
+        "locale": "ar-JO"
+      }
+    },
+    {
+      "contentType": "application/json",
+      "name": "Cart with date option",
+      "example": {
+        "line_items": [
+          {
+            "quantity": 1,
+            "product_id": 128,
+            "variant_id": 144,
+            "option_selections": [
+              {
+                "option_id": 147,
+                "option_value": "{\u201cd\u00eda\u201d:\u201d01\u201d, \u201cmes\u201d:\u201d02\u201d, \u201ca\u00f1o\u201d:\u201d2020\u201d}",
+                "name": "calendario",
+                "value": 2023
+              }
+            ]
+          }
+        ],
+        "currency": {
+          "code": "MXN"
+        },
+        "locale": "es-MX"
+      }
+    },
+    {
+      "contentType": "application/json",
+      "name": "Cart with variant, a checkbox, and a pick list modifier",
+      "example": {
+        "customer_id": 0,
+        "line_items": [
+          {
+            "quantity": 1,
+            "variant_id": 141,
+            "product_id": 118,
+            "list_price": 30,
+            "name": "shirt",
+            "option_selections": [
+              {
+                "name": "Color",
+                "value": "Red",
+                "option_id": 133,
+                "option_value": 149
+              },
+              {
+                "name": "Add a $5 Donation",
+                "value": "No",
+                "option_id": 126,
+                "option_value": 129
+              }
+            ]
+          }
+        ],
+        "channel_id": 1,
+        "currency": {
+          "code": "AUD"
+        },
+        "locale": "en-AU"
+      }
+    },
+    {
+      "contentType": "application/json",
+      "name": "Custom item",
+      "example": {
+        "customer_id": 0,
+        "line_items": [],
+        "custom_items": [
+          {
+            "sku": "custom-item-sku",
+            "name": "table",
+            "quantity": 1,
+            "list_price": 30,
+            "gift_wrapping": {
+              "wrap_together": true,
+              "wrap_details": [
+                {
+                  "id": 0,
+                  "message": "Happy Birthday"
+                }
+              ]
+            }
+          }
+        ],
+        "gift_certificates": [
+          {
+            "name": "Tobi Day",
+            "theme": "birthday.html",
+            "amount": 1,
+            "quantity": 1,
+            "sender": {
+              "name": "Brandi Tyler",
+              "email": "Brandi.Tyler@mail.com"
+            },
+            "recipient": {
+              "name": "Tobi Day",
+              "email": "Tobi.Day@mail.com"
+            },
+            "message": "Happy Birthday"
+          }
+        ],
+        "channel_id": 1,
+        "currency": {
+          "code": "usd"
+        },
+        "locale": "en-US"
+      }
+    }
+  ],
+  "responseExamples": []
+}

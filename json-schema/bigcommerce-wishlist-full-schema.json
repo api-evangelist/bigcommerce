@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/wishlist_Full",
+  "title": "wishlist_Full",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Wishlist ID, provided after creating a wishlist with a POST.",
+      "format": "int32",
+      "example": 30
+    },
+    "customer_id": {
+      "type": "integer",
+      "description": "The ID the customer to which the wishlist belongs.",
+      "format": "int32",
+      "example": 12
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the wishlist.",
+      "example": "Christmas List"
+    },
+    "is_public": {
+      "type": "boolean",
+      "description": "Whether the wishlist is available to the public.",
+      "example": true
+    },
+    "token": {
+      "type": "string",
+      "description": "The token of the wishlist. This is created internally within BigCommerce. The wishlist ID is to be used for external apps. Read-Only.",
+      "format": "uuid",
+      "example": "02d55481-13eb-4d1e-9d79-9062b518570d"
+    },
+    "items": {
+      "type": "array",
+      "description": "Array of wishlist items.",
+      "items": {
+        "$ref": "#/components/schemas/wishlistItem_Full"
+      }
+    }
+  },
+  "x-internal": false
+}

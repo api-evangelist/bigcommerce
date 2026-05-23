@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/cart_PostModifier",
+  "title": "Item with modifier",
+  "type": "object",
+  "properties": {
+    "quantity": {
+      "type": "number"
+    },
+    "product_id": {
+      "type": "number"
+    },
+    "list_price": {
+      "type": "number",
+      "description": "Optional price override."
+    },
+    "name": {
+      "type": "string",
+      "description": "Optionally, provide a value to override the product name."
+    },
+    "option_selections": {
+      "type": "array",
+      "description": "Needed for Catalog V2.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "option_id": {
+            "type": "integer"
+          },
+          "option_value": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string",
+            "description": "Override for the selected option or modifier name."
+          },
+          "value": {
+            "type": "string",
+            "description": "Override for the selected option value."
+          },
+          "nameId": {
+            "type": "integer"
+          },
+          "valueId": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "quantity",
+    "product_id"
+  ],
+  "description": "Product with a modifier.",
+  "x-internal": false,
+  "x-examples": {
+    "example-1": [
+      {
+        "quantity": 0,
+        "product_id": 0,
+        "list_price": 0,
+        "name": "string",
+        "option_selections": [
+          {
+            "option_id": 0,
+            "option_value": 0,
+            "name": "string",
+            "value": "string",
+            "name_id": 0,
+            "value_id": 0
+          }
+        ]
+      }
+    ]
+  }
+}

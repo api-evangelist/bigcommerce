@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/widgetSchemaSetting_Base",
+  "title": "widgetSchemaSetting_Base",
+  "type": "object",
+  "description": "For examples of each type of setting, see [Page Builder > Schema Settings](/docs/storefront/widgets/input-reference/settings#alignment) in Theme Docs.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "The type of setting component to display. You can view the list of elements below to discover which are available to use.\n\nFor examples of each type of setting, see [Page Builder > Schema Settings](/docs/storefront/widgets/input-reference/settings#alignment) in Theme Docs.",
+      "enum": [
+        "alignment",
+        "boolean",
+        "boxModel",
+        "code",
+        "color",
+        "imageManager",
+        "input",
+        "number",
+        "productId",
+        "productImage",
+        "range",
+        "regexInput",
+        "select",
+        "text",
+        "toggle"
+      ]
+    },
+    "label": {
+      "type": "string",
+      "description": "The user friendly message to inform the user how this setting will be used."
+    },
+    "id": {
+      "type": "string",
+      "description": "The variable name where the setting value will be available in the widget template."
+    },
+    "default": {
+      "type": "string",
+      "description": "The default value to use when rendering the widget for the first time. Make sure to set sensible defaults to make your widget easier to use."
+    },
+    "typeMeta": {
+      "type": "object",
+      "description": "Additional information needed based on the selected setting type.",
+      "properties": {
+        "selectOptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string",
+                "example": "Image"
+              },
+              "value": {
+                "type": "string",
+                "example": "image"
+              }
+            }
+          }
+        }
+      }
+    },
+    "conditional": {
+      "$ref": "#/components/schemas/widgetSchemaConditional"
+    }
+  },
+  "x-internal": false
+}

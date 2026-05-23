@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/productVariant_Full",
+  "title": "productVariant_Full",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/productVariant_Base"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "product_id": {
+          "type": "integer"
+        },
+        "sku": {
+          "type": "string"
+        },
+        "sku_id": {
+          "type": "integer",
+          "description": "Read-only reference to v2 API\u02bcs SKU ID. Null if it is a base variant.",
+          "nullable": true
+        },
+        "option_values": {
+          "type": "array",
+          "description": "Array of option and option values IDs that make up this variant. Will be empty if the variant is the product\u02bcs base variant.",
+          "items": {
+            "$ref": "#/components/schemas/productVariantOptionValue_Full"
+          }
+        },
+        "calculated_price": {
+          "type": "number",
+          "description": "The price of the variant as seen on the storefront. This price takes into account `sale_price` and any price adjustment rules that are applicable to this variant.\n",
+          "format": "double"
+        },
+        "calculated_weight": {
+          "type": "number"
+        }
+      }
+    }
+  ],
+  "x-internal": false,
+  "description": "",
+  "x-examples": {
+    "example-1": {
+      "cost_price": 0,
+      "price": 0,
+      "sale_price": 0,
+      "retail_price": 0,
+      "weight": 0,
+      "width": 0,
+      "height": 0,
+      "depth": 0,
+      "is_free_shipping": true,
+      "fixed_cost_shipping_price": 0,
+      "purchasing_disabled": true,
+      "purchasing_disabled_message": "string",
+      "upc": "string",
+      "inventory_level": 0,
+      "inventory_warning_level": 0,
+      "bin_picking_number": "string",
+      "mpn": "string",
+      "gtin": "012345678905",
+      "id": 0,
+      "product_id": 0,
+      "sku": "string",
+      "sku_id": 0,
+      "option_values": [
+        {
+          "option_display_name": "Color",
+          "label": "Beige",
+          "id": 146,
+          "option_id": 151
+        }
+      ],
+      "calculated_price": 0,
+      "calculated_weight": 0
+    }
+  }
+}

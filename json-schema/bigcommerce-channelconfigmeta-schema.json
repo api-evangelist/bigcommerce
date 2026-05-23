@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ChannelConfigMeta",
+  "title": "ChannelConfigMeta",
+  "type": "object",
+  "description": "Optional channel configuration object.",
+  "x-internal": false,
+  "properties": {
+    "app": {
+      "type": "object",
+      "description": "A [channel app](/docs/integrations/channels#channel-apps) config object for optionally configuring the channel\u02bcs user interface in the control panel.",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The unique `id` given to an app registered in [DevTools](https://devtools.bigcommerce.com/); used to create links to the app in channel manager. `app.id` is optional; however, if you\u02bcre building an app that creates or manages a channel, we recommend including it to ensure the user interface in the control panel works properly. Select partners who are promoted in the Channel Manager must build an app, and include the app ID in the create channel request. [Learn how to find an App\u02bcs ID](/docs/integrations/apps/guide/id)."
+        },
+        "sections": {
+          "type": "array",
+          "description": "Sections are now deprecated under config_meta. The new /channel-menus endpoints should be used instead. If set, when the app is loaded within the control panel, the navigation `sections` will be directly embedded in the control panel navigation.",
+          "deprecated": true,
+          "items": {
+            "type": "object",
+            "deprecated": true,
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "The title of the navigation section.",
+                "example": "\"Settings\"",
+                "deprecated": true
+              },
+              "query_path": {
+                "type": "string",
+                "description": "The value that will be passed to the app\u02bcs iFrame in the URL and will allow the app to display the appropriate section within the app iFrame in the control panel.",
+                "deprecated": true
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-examples": {
+    "example-1": {
+      "app": {
+        "id": 0,
+        "sections": [
+          {
+            "title": "\"Settings\"",
+            "query_path": "string"
+          }
+        ]
+      }
+    }
+  }
+}

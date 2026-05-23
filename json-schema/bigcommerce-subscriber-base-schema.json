@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/subscriber_Base",
+  "title": "subscriber_Base",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "description": "The email of the subscriber. Must be unique.\n",
+      "x-required": [
+        "post"
+      ]
+    },
+    "first_name": {
+      "maxLength": 255,
+      "minLength": 0,
+      "type": "string",
+      "description": "The first name of the subscriber.\n"
+    },
+    "last_name": {
+      "maxLength": 255,
+      "minLength": 0,
+      "type": "string",
+      "description": "The last name of the subscriber.\n"
+    },
+    "source": {
+      "maxLength": 255,
+      "minLength": 0,
+      "type": "string",
+      "description": "The source of the subscriber. Values are: `storefront`, `order`, or `custom`.\n"
+    },
+    "order_id": {
+      "maximum": 2147483647,
+      "minimum": 1,
+      "type": "integer",
+      "description": "The ID of the source order, if source was an order.\n",
+      "nullable": true
+    },
+    "channel_id": {
+      "maximum": 2147483647,
+      "minimum": 1,
+      "type": "integer",
+      "description": "The channel ID where the subscriber was created."
+    }
+  },
+  "description": "Common Subscriber properties.",
+  "x-internal": false
+}

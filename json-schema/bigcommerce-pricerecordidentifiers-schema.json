@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PriceRecordIdentifiers",
+  "title": "PriceRecordIdentifiers",
+  "type": "object",
+  "description": "The `Price Record` object used in batch create or update.",
+  "allOf": [
+    {
+      "type": "object",
+      "properties": {
+        "price_list_id": {
+          "type": "integer",
+          "description": "The Price List with which this price record is associated."
+        },
+        "variant_id": {
+          "type": "integer",
+          "description": "The variant with which this price record is associated. Either `variant_id` or `sku` is required."
+        },
+        "sku": {
+          "type": "string",
+          "description": "The variant with which this price record is associated. Either `sku` or `variant_id` is required."
+        },
+        "currency": {
+          "type": "string",
+          "description": "The 3-letter currency code with which this price set is associated.",
+          "format": "ISO-4217"
+        }
+      }
+    }
+  ]
+}

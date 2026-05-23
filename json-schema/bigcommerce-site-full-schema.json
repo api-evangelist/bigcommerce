@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/site_Full",
+  "title": "site_Full",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "url": {
+      "type": "string",
+      "description": "The Fully Qualified URL (including host and scheme) where this site is hosted. All URLs generated for this site will be appended to this.",
+      "example": "http://kittens.mybigcommerce.com/"
+    },
+    "channel_id": {
+      "type": "integer",
+      "description": "The channel this site is attached to. Each site belongs to a single channel, and each channel can have either zero or one sites."
+    },
+    "created_at": {
+      "type": "string",
+      "description": "When was this site created? RFC 3339",
+      "example": "2018-01-04T04:15:50.000Z"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "When was this site defintion last updated? RFC 3339",
+      "example": "2018-01-04T04:15:50.000Z"
+    },
+    "routes": {
+      "type": "array",
+      "description": "(optional - if included) collection of routes defined for this site. Limited to 200 routes side loaded (query routes direction via `/routes` for bulk)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique ID for this route. Required when updating an existing route"
+          },
+          "type": {
+            "type": "string",
+            "description": "What type of resource are we routing to?",
+            "enum": [
+              "product",
+              "brand",
+              "category",
+              "page",
+              "blog",
+              "home",
+              "cart",
+              "checkout",
+              "search",
+              "account",
+              "login",
+              "returns",
+              "static"
+            ]
+          },
+          "matching": {
+            "type": "string",
+            "description": "(entity_id?) For the specified type, which resources should match this route? e.g For a route with the type: \"product\" and matching: \"5\" this route would be used for the product with the ID of 5.\n\nDepending on the type of resource, this may be an ID (matching a specific item), or a \"*\" wildcard matching all items of that type.",
+            "example": "5"
+          },
+          "route": {
+            "type": "string",
+            "description": "The route template that will be used to generate the URL for the requested resource.\n\nSupports several tokens:\n\n- {id} The ID of the requested item\n- {slug} The slug for the requested item (if available). Note: the `slug` value may contain `/` slash\n- {language} The language string that the client is using",
+            "example": "/my-amazing-product"
+          }
+        }
+      }
+    }
+  },
+  "x-internal": false
+}

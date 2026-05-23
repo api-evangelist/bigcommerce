@@ -1,0 +1,123 @@
+{
+  "operationId": "PaymentsPost",
+  "method": "POST",
+  "path": "/payments",
+  "summary": "BigCommerce Process Payments",
+  "requestExamples": [
+    {
+      "contentType": "application/json",
+      "name": "Card",
+      "example": {
+        "payment": {
+          "instrument": {
+            "type": "card",
+            "cardholder_name": "string",
+            "number": "string",
+            "expiry_month": 1,
+            "expiry_year": 0,
+            "verification_value": "stri",
+            "issue_month": 1,
+            "issue_year": 0,
+            "issue_number": 0
+          },
+          "payment_method_id": "string"
+        }
+      }
+    },
+    {
+      "contentType": "application/json",
+      "name": "Stored Card",
+      "example": {
+        "payment": {
+          "instrument": {
+            "type": "stored_card",
+            "token": "8cdf7b6ea1b27119463bf9e5106639618cc77a9adc49f0069ca8b756cc15caee",
+            "verification_value": "1142"
+          },
+          "payment_method_id": "adyenv2.scheme",
+          "save_instrument": true
+        }
+      }
+    },
+    {
+      "contentType": "application/json",
+      "name": "Stored PayPal Account",
+      "example": {
+        "payment": {
+          "instrument": {
+            "type": "stored_paypal_account",
+            "token": "2c129313bcffe4501ec5fa2764c8c16320e38c7ba9e8cdf95583b541bb05ad91"
+          },
+          "payment_method_id": "braintree.paypal"
+        }
+      }
+    },
+    {
+      "contentType": "application/json",
+      "name": "Stored Bank Account",
+      "example": {
+        "payment": {
+          "instrument": {
+            "type": "stored_bank_account",
+            "token": "2c129313bcffe4501ec5fa2764c8c16320e38c7ba9e8cdf95583b541bb05ad91"
+          },
+          "payment_method_id": "braintree.ach"
+        }
+      }
+    },
+    {
+      "contentType": "application/json",
+      "name": "Gift Certificate",
+      "example": {
+        "payment": {
+          "instrument": {
+            "type": "gift_certificate",
+            "gift_certificate_code": "ABC-DEF-GXX"
+          },
+          "payment_method_id": "bigcommerce.gift_certificate"
+        }
+      }
+    },
+    {
+      "contentType": "application/json",
+      "name": "Store Credit",
+      "example": {
+        "payment": {
+          "instrument": {
+            "type": "store_credit"
+          },
+          "payment_method_id": "bigcommerce.store_credit"
+        }
+      }
+    },
+    {
+      "contentType": "application/json",
+      "name": "Tokenized Card",
+      "example": {
+        "payment": {
+          "instrument": {
+            "type": "tokenized_card",
+            "token": "K7KW-M9GX-6PQ3",
+            "iin": 4111111,
+            "last_four_digits": 1111,
+            "expiration_month": 12,
+            "expiration_year": 2030
+          },
+          "payment_method_id": "bolt.card"
+        }
+      }
+    }
+  ],
+  "responseExamples": [
+    {
+      "status": "202",
+      "contentType": "application/json",
+      "name": "response",
+      "example": {
+        "id": "227d9e1e-94f8-408c-95a5-f97b30592eb7",
+        "transaction_type": "authorization",
+        "status": "pending"
+      }
+    }
+  ]
+}

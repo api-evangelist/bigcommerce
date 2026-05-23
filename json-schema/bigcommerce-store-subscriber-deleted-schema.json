@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/store_subscriber_deleted",
+  "title": "store/subscriber/deleted",
+  "description": "This webhook is triggered when a subscriber is deleted.\n\n```json filename=\"Example callback object\" showLineNumbers\n{\n  \"created_at\": 1561482670,\n  \"store_id\": \"1025646\",\n  \"producer\": \"stores/{store_hash}\",\n  \"scope\": \"store/subscriber/deleted\",\n  \"hash\": \"352e4afc6dd3fc85ea26bfdf3f91852604d57528\",\n  \"data\": {\n    \"type\": \"subscriber\",\n    \"id\": 5\n  }\n}\n```",
+  "x-examples": {},
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/webhook_callback_base"
+    },
+    {
+      "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The type will always be `subscriber`.",
+              "example": "subscriber"
+            },
+            "id": {
+              "type": "integer",
+              "description": "ID of the subscriber.",
+              "example": 5
+            }
+          }
+        }
+      }
+    }
+  ],
+  "x-tags": [
+    "created"
+  ],
+  "type": "object",
+  "x-internal": false
+}

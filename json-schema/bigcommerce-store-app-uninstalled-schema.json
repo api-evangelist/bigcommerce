@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/store_app_uninstalled",
+  "title": "store/app/uninstalled",
+  "description": "Fires when a client store is canceled and uninstalled from the platform.\n\n```json filename=\"Example callback object\" showLineNumbers\n{\n  \"created_at\": 1561482670,\n  \"store_id\": \"1025646\",\n  \"producer\": \"stores/{store_hash}\",\n  \"scope\": \"store/app/uninstalled\",\n  \"hash\": \"352e4afc6dd3fc85ea26bfdf3f91852604d57528\",\n  \"data\": {\n    \"type\": \"store\"\n  }\n}\n```",
+  "x-examples": {},
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/webhook_callback_base"
+    },
+    {
+      "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The type will always be `store`.",
+              "example": "store"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "x-tags": [
+    "created"
+  ],
+  "type": "object",
+  "x-internal": false
+}

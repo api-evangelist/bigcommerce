@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/address_Put",
+  "title": "address_Put",
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "description": "The first name of the customer address.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "last_name": {
+      "description": "The last name of the customer address.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "company": {
+      "description": "The company of the customer address.",
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 255
+    },
+    "address1": {
+      "description": "The address 1 line.",
+      "type": "string"
+    },
+    "address2": {
+      "description": "The address 2 line.",
+      "type": "string"
+    },
+    "city": {
+      "description": "The city of the customer address.",
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 100
+    },
+    "state_or_province": {
+      "description": "The state or province name.",
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 100,
+      "example": "California"
+    },
+    "postal_code": {
+      "description": "The postal code of the customer address.",
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 30
+    },
+    "country_code": {
+      "description": "The country code of the customer address.",
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 2,
+      "example": "US"
+    },
+    "phone": {
+      "description": "The phone number of the customer address.",
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 50
+    },
+    "address_type": {
+      "title": "Address Type",
+      "description": "The address type. Residential or Commercial.",
+      "example": "residential",
+      "type": "string",
+      "enum": [
+        "residential",
+        "commercial"
+      ]
+    },
+    "id": {
+      "description": "The unique numeric ID of the address.",
+      "type": "integer",
+      "format": "int32",
+      "example": 1
+    },
+    "form_fields": {
+      "type": "array",
+      "description": "Array of form fields. Controlled by formfields parameter.\n",
+      "items": {
+        "$ref": "#/components/schemas/formFieldValue"
+      }
+    }
+  },
+  "required": [
+    "id"
+  ],
+  "x-examples": {
+    "example-1": {
+      "value": [
+        {
+          "id": 18,
+          "first_name": "sam"
+        }
+      ]
+    }
+  },
+  "x-internal": false
+}

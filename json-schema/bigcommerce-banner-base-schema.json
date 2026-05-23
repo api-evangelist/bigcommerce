@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/banner_Base",
+  "title": "banner_Base",
+  "required": [
+    "content",
+    "date_type",
+    "location",
+    "name",
+    "page"
+  ],
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the banner.",
+      "example": "Sale Banner"
+    },
+    "content": {
+      "type": "string",
+      "description": "Contains the banner content. Returned as a string and includes HTML formatting.",
+      "example": "<p> Sale! Tuesday at 9am! </p>"
+    },
+    "page": {
+      "type": "string",
+      "description": "Page the Banner is located on.",
+      "enum": [
+        "home_page",
+        "category_page",
+        "brand_page",
+        "search_page"
+      ]
+    },
+    "location": {
+      "type": "string",
+      "description": "Location on the page.",
+      "example": "top",
+      "enum": [
+        "top",
+        "bottom"
+      ]
+    },
+    "date_type": {
+      "type": "string",
+      "description": "This specifies whether the banner should be visible during a specific date range.",
+      "enum": [
+        "always",
+        "custom"
+      ]
+    },
+    "date_from": {
+      "type": "string",
+      "description": "If the datetype is set as 'custom\u2019, this field specifies the date when the banner should become visible on the storefront.",
+      "example": "0"
+    },
+    "date_to": {
+      "type": "string",
+      "description": "If the datetype is set as 'custom\u2019, this field specifies the date when the banner should stop being visible on the storefront.",
+      "example": "0"
+    },
+    "visible": {
+      "type": "string",
+      "description": "Integer value denoting whether or not the banner is visible on the storefront: 1 = visible; 0 = not visible",
+      "example": "1"
+    },
+    "item_id": {
+      "type": "string",
+      "description": "If the banner is on a specific category or brand page, then the item_id will correspond the category or brand ID.",
+      "example": "35"
+    }
+  },
+  "x-internal": false
+}

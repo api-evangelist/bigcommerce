@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ConsentPreferences",
+  "title": "ConsentPreferences",
+  "type": "object",
+  "description": "List of allowed and denied consent categories. Must be populated with a complete set of allowed and denied categories.\n\nConfigurable categories are:\n\n2 - Functional\n3 - Analytics\n4 - Targeting; Advertising\n\nFor further definition of these categories, see [Scripts API](/docs/integrations/scripts).",
+  "properties": {
+    "allow": {
+      "type": "array",
+      "description": "Explicitly allowed consent categories. Allowed values are 2, 3, 4.",
+      "items": {
+        "type": "integer",
+        "enum": [
+          2,
+          3,
+          4
+        ],
+        "example": 3
+      }
+    },
+    "deny": {
+      "type": "array",
+      "description": "Denied consent categories. Allowed values are 2, 3, 4.",
+      "items": {
+        "type": "integer",
+        "enum": [
+          2,
+          3,
+          4
+        ],
+        "example": 4
+      }
+    }
+  },
+  "required": [
+    "allow",
+    "deny"
+  ],
+  "x-internal": false
+}

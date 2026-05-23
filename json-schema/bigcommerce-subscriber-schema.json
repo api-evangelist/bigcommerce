@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Subscriber",
+  "title": "Subscriber",
+  "allOf": [
+    {
+      "title": "Subscriber Base",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The unique numeric ID of the subscriber; increments sequentially.\n",
+          "x-required": [
+            "put"
+          ]
+        },
+        "email": {
+          "type": "string",
+          "description": "The email of the subscriber. Must be unique.\n",
+          "x-required": [
+            "post"
+          ]
+        },
+        "first_name": {
+          "maxLength": 255,
+          "minLength": 0,
+          "type": "string",
+          "description": "The first name of the subscriber.\n"
+        },
+        "last_name": {
+          "maxLength": 255,
+          "minLength": 0,
+          "type": "string",
+          "description": "The last name of the subscriber.\n"
+        },
+        "source": {
+          "maxLength": 255,
+          "minLength": 0,
+          "type": "string",
+          "description": "The source of the subscriber. Values are: `storefront`, `order`, or `custom`.\n"
+        },
+        "order_id": {
+          "maximum": 2147483647,
+          "minimum": 1,
+          "type": "integer",
+          "description": "The ID of the source order, if source was an order.\n",
+          "nullable": true
+        }
+      },
+      "description": "Common Subscriber properties."
+    },
+    {
+      "type": "object",
+      "properties": {
+        "date_modified": {
+          "type": "string",
+          "description": "The date on which the subscriber was modified.\n",
+          "format": "date-time"
+        },
+        "date_created": {
+          "type": "string",
+          "description": "The date of which the subscriber was created.\n",
+          "format": "date-time"
+        }
+      }
+    }
+  ],
+  "x-internal": false
+}

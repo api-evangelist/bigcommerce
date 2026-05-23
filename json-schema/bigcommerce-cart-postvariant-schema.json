@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/cart_PostVariant",
+  "title": "Item with variant",
+  "type": "object",
+  "x-internal": false,
+  "properties": {
+    "quantity": {
+      "type": "number"
+    },
+    "product_id": {
+      "type": "number"
+    },
+    "list_price": {
+      "type": "number",
+      "description": "Optional price override."
+    },
+    "variant_id": {
+      "type": "number",
+      "description": "Variant ID. Exists only in Catalog V3."
+    },
+    "name": {
+      "type": "string",
+      "description": "Optionally, provide a value to override the product name."
+    },
+    "gift_wrapping": {
+      "type": "object",
+      "properties": {
+        "wrap_together": {
+          "type": "boolean",
+          "description": "Boolean value that specifies whether items whether items should be wrapped together or wrapped individually.",
+          "example": true
+        },
+        "wrap_details": {
+          "type": "array",
+          "description": "Details for the gift wrapping option selected. This can be specified for each line item.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "description": "Identifier of the gift wrapping option selected.",
+                "example": 0
+              },
+              "message": {
+                "type": "string",
+                "description": "Custom gift message.",
+                "example": "Happy Birthday"
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "quantity",
+        "product_id"
+      ]
+    }
+  },
+  "description": "Product with a variant.",
+  "x-examples": {
+    "example-1": {
+      "quantity": 0,
+      "product_id": 0,
+      "list_price": 0,
+      "variant_id": 0,
+      "name": "string",
+      "gift_wrapping": {
+        "wrap_together": true,
+        "wrap_details": [
+          {
+            "id": 0,
+            "message": "Happy Birthday"
+          }
+        ]
+      }
+    }
+  }
+}

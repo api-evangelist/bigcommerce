@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/country_Full",
+  "title": "country_Full",
+  "example": {
+    "id": 13,
+    "country": "Australia",
+    "country_iso2": "AU",
+    "country_iso3": "AUS",
+    "states": {
+      "url": "https://api.bigcommerce.com/stores/{store_hash}/v2/countries/13/states",
+      "resource": "/countries/13/states"
+    }
+  },
+  "allOf": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Id of the country.",
+          "example": 13
+        }
+      }
+    },
+    {
+      "$ref": "#/components/schemas/country_Base"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "states": {
+          "$ref": "#/components/schemas/countriesStates_Full"
+        }
+      }
+    }
+  ],
+  "x-internal": false
+}

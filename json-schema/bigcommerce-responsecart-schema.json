@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/responseCart",
+  "title": "Cart Read",
+  "description": "Cart object used in REST Storefront API cart responses.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Cart ID, provided after creating a cart with a POST.",
+      "format": "UUID"
+    },
+    "customerId": {
+      "type": "integer",
+      "description": "ID of the customer to which the cart belongs."
+    },
+    "email": {
+      "type": "string",
+      "description": "The cart's email. This is the same email that is used in the billing address"
+    },
+    "currency": {
+      "$ref": "#/components/schemas/responseCartCurrency"
+    },
+    "isTaxIncluded": {
+      "type": "boolean",
+      "description": "Whether this item is taxable."
+    },
+    "baseAmount": {
+      "type": "number",
+      "description": "Cost of cart\u2019s contents, before applying discounts."
+    },
+    "discountAmount": {
+      "type": "number",
+      "description": "Order based discounted amount only - Coupon discounts and product based discounts are excluded.",
+      "format": "float"
+    },
+    "cartAmount": {
+      "type": "number",
+      "description": "Sum of line-items amounts, minus cart-level discounts and coupons. This amount includes taxes (where applicable)."
+    },
+    "coupons": {
+      "$ref": "#/components/schemas/responseCartCoupons"
+    },
+    "discounts": {
+      "$ref": "#/components/schemas/responseCartDiscounts"
+    },
+    "lineItems": {
+      "$ref": "#/components/schemas/responseCartLineItems"
+    },
+    "createdTime": {
+      "type": "string",
+      "description": "Time when the cart was created.",
+      "format": "ISO-8601"
+    },
+    "updatedTime": {
+      "type": "string",
+      "description": "Time when the cart was last updated.",
+      "format": "ISO-8601"
+    },
+    "locale": {
+      "type": "string",
+      "description": "Locale of the cart."
+    }
+  },
+  "x-internal": false
+}

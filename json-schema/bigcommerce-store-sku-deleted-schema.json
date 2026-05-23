@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/store_sku_deleted",
+  "title": "store/sku/deleted",
+  "description": "Fires when a SKU is deleted.\n\n```json filename=\"Example callback object\" showLineNumbers\n{\n  \"created_at\": 1561482670,\n  \"store_id\": \"1025646\",\n  \"producer\": \"stores/{store_hash}\",\n  \"scope\": \"store/sku/deleted\",\n  \"hash\": \"352e4afc6dd3fc85ea26bfdf3f91852604d57528\",\n  \"data\": {\n    \"type\": \"sku\",\n    \"id\": 461,\n    \"sku\": {\n      \"product_id\": 206,\n      \"variant_id\": 509\n    }\n  }\n}\n```",
+  "x-examples": {},
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/webhook_callback_base"
+    },
+    {
+      "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The type will always be `\"sku\"`.",
+              "example": "sku"
+            },
+            "id": {
+              "type": "integer",
+              "description": "ID of the SKU.",
+              "example": 461
+            },
+            "sku": {
+              "type": "object",
+              "properties": {
+                "product_id": {
+                  "type": "integer",
+                  "description": "ID of the product.",
+                  "example": 206
+                },
+                "variant_id": {
+                  "type": "integer",
+                  "description": "ID of the variant.",
+                  "example": 509
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "x-tags": [
+    "created"
+  ],
+  "type": "object",
+  "x-internal": false
+}

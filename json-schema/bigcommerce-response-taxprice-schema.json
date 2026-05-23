@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/response-taxprice",
+  "title": "TaxPrice",
+  "type": "object",
+  "properties": {
+    "amount_inclusive": {
+      "type": "number",
+      "description": "The price of this line item inclusive of tax. Must be equal to **amount_exclusive** + **total_tax**."
+    },
+    "amount_exclusive": {
+      "type": "number",
+      "description": "The price of this line item exclusive of tax. Must be equal to **amount_inclusive** - **total_tax**."
+    },
+    "total_tax": {
+      "type": "number",
+      "description": "The total amount of tax that applied to this line item. Must be equal to **amount_inclusive** - **amount_exclusive**."
+    },
+    "tax_rate": {
+      "type": "number",
+      "format": "double",
+      "description": "The total tax rate that applied to this item. This is the aggregated rate of the individual rates in **sales_tax_summary**."
+    },
+    "sales_tax_summary": {
+      "type": "array",
+      "description": "Breakdown of the sales taxes that applied to this item.",
+      "items": {
+        "$ref": "#/components/schemas/SalesTax"
+      }
+    }
+  },
+  "required": [
+    "amount_inclusive",
+    "amount_exclusive",
+    "total_tax",
+    "tax_rate",
+    "sales_tax_summary"
+  ],
+  "x-internal": false
+}

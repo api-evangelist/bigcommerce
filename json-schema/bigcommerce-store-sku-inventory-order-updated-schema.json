@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/store_sku_inventory_order_updated",
+  "title": "store/sku/inventory/order/updated",
+  "description": "Fires when the inventory is updated.\n\nChanges to the following fields trigger this event:\n* Quantity\n\n```json filename=\"Example callback object\" showLineNumbers\n{\n  \"created_at\": 1561482670,\n  \"store_id\": \"1025646\",\n  \"producer\": \"stores/{store_hash}\",\n  \"scope\": \"store/sku/inventory/order/updated\",\n  \"hash\": \"352e4afc6dd3fc85ea26bfdf3f91852604d57528\",\n  \"data\": {\n    \"type\": \"sku\",\n    \"id\": 461,\n    \"inventory\": {\n      \"product_id\": 167,\n      \"method\": \"absolute\",\n      \"value\": 2,\n      \"variant_id\": 509\n    }\n  }\n}\n```",
+  "x-examples": {},
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/webhook_callback_base"
+    },
+    {
+      "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The type will always be `sku`.",
+              "example": "sku"
+            },
+            "id": {
+              "type": "integer",
+              "description": "ID of the SKU.",
+              "example": 461
+            },
+            "inventory": {
+              "type": "object",
+              "properties": {
+                "product_id": {
+                  "type": "integer",
+                  "description": "ID of the product.",
+                  "example": 167
+                },
+                "method": {
+                  "type": "string",
+                  "description": "How the inventory was adjusted. Value will be one of the following:\n* `absolute` - inventory updated by an order.\n* `relative` - inventory updated using the API or the control panel.",
+                  "enum": [
+                    "absolute",
+                    "relative"
+                  ]
+                },
+                "value": {
+                  "type": "integer",
+                  "description": "The number of items that the inventory changed by. This can be negative if the inventory is decreased `-3` or positive if an item is returned to the inventory from an order, `2`.",
+                  "example": 2
+                },
+                "variant_id": {
+                  "type": "integer",
+                  "description": "ID of the variant.",
+                  "example": 509
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "x-tags": [
+    "created"
+  ],
+  "type": "object",
+  "x-internal": false
+}

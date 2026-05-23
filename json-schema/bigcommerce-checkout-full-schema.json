@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/checkout_Full",
+  "title": "checkout_Full",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "",
+      "format": "uuid"
+    },
+    "cart": {
+      "$ref": "#/components/schemas/checkoutCart"
+    },
+    "billingAddress": {
+      "$ref": "#/components/schemas/address_Base"
+    },
+    "consignments": {
+      "type": "array",
+      "description": "",
+      "items": {
+        "$ref": "#/components/schemas/consignment_Full"
+      }
+    },
+    "coupons": {
+      "type": "array",
+      "description": "Coupons applied at the checkout level.",
+      "items": {
+        "$ref": "#/components/schemas/CheckoutCoupon"
+      }
+    },
+    "orderId": {
+      "type": "string",
+      "description": "",
+      "nullable": true
+    },
+    "shippingCostTotal": {
+      "type": "number",
+      "description": "Shipping cost before any discounts are applied.",
+      "format": "float"
+    },
+    "giftWrappingCostTotal": {
+      "type": "number",
+      "description": "Gift wrapping cost for all items, including or excluding tax."
+    },
+    "handlingCostTotal": {
+      "type": "number",
+      "description": "Handling cost for all consignments including or excluding tax.",
+      "format": "float"
+    },
+    "taxTotal": {
+      "type": "number",
+      "description": "",
+      "format": "float"
+    },
+    "taxes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/checkoutTax"
+      }
+    },
+    "subtotal": {
+      "type": "number",
+      "description": "Subtotal of the checkout before applying item-level discounts. Tax inclusive based on the store settings.",
+      "format": "float"
+    },
+    "grandTotal": {
+      "type": "number",
+      "description": "The total payable amount, before applying any store credit or gift certificate.",
+      "format": "float"
+    },
+    "giftCertificates": {
+      "type": "array",
+      "description": "Applied gift certificate (as a payment method).",
+      "items": {
+        "$ref": "#/components/schemas/checkoutGiftCertificates"
+      }
+    },
+    "createdTime": {
+      "type": "string",
+      "description": "Time when the cart was created."
+    },
+    "updatedTime": {
+      "type": "string",
+      "description": "Time when the cart was last updated."
+    },
+    "customerMessage": {
+      "type": "string",
+      "description": "Shopper\u02bcs message provided as details for the order to be created from this cart"
+    },
+    "outstandingBalance": {
+      "type": "number",
+      "description": "`grandTotal` subtract the store-credit amount\n"
+    },
+    "isStoreCreditApplied": {
+      "type": "boolean",
+      "description": "`true` value indicates StoreCredit has been applied.\n"
+    }
+  },
+  "description": "",
+  "x-internal": false
+}

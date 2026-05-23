@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/InventorySettings",
+  "title": "InventorySettings",
+  "type": "object",
+  "properties": {
+    "product_out_of_stock_behavior": {
+      "type": "string",
+      "enum": [
+        "do_nothing",
+        "hide_product",
+        "hide_product_and_accessible",
+        "hide_product_and_redirect"
+      ],
+      "description": "Describes storefront behavior when product is out of stock."
+    },
+    "option_out_of_stock_behavior": {
+      "type": "string",
+      "enum": [
+        "do_nothing",
+        "hide_option",
+        "label_option"
+      ],
+      "description": "Describes storefront behavior when variant is out of stock."
+    },
+    "update_stock_behavior": {
+      "type": "string",
+      "enum": [
+        "order_placed",
+        "order_completed_or_shipped"
+      ],
+      "description": "Describes when stock levels are updated.\n\nGlobal settings apply when inventory changes through a [manual order](https://support.bigcommerce.com/s/article/Creating-a-Manual-Order?language=en_US). Settings for a channel apply when inventory changes through an order in a channel. These settings affect webhooks that trigger from order-related events, including [product](/docs/integrations/webhooks/events#products), [SKU](/docs/integrations/webhooks/events#skus), and [inventory](/docs/integrations/webhooks/events/inventory-location#inventory) webhooks.  "
+    },
+    "edit_order_stock_adjustment": {
+      "type": "boolean",
+      "description": "Describes whether stock levels automatically adjust when you edit an order.\n\nGlobal settings apply when inventory changes through a [manual order](https://support.bigcommerce.com/s/article/Creating-a-Manual-Order?language=en_US). Settings for a channel apply when inventory changes through an order in a channel. These settings affect webhooks that trigger from order-related events, including [product](/docs/integrations/webhooks/events#products), [SKU](/docs/integrations/webhooks/events#skus), and [inventory](/docs/integrations/webhooks/events/inventory-location#inventory) webhooks.  "
+    },
+    "refund_order_stock_adjustment": {
+      "type": "boolean",
+      "description": "Describes whether stock levels automatically adjust when you refund or cancel an order.\n\nGlobal settings apply when inventory changes through a [manual order](https://support.bigcommerce.com/s/article/Creating-a-Manual-Order?language=en_US). Settings for a channel apply when inventory changes through an order in a channel. These settings affect webhooks that trigger from order-related events, including [product](/docs/integrations/webhooks/events#products), [SKU](/docs/integrations/webhooks/events#skus), and [inventory](/docs/integrations/webhooks/events/inventory-location#inventory) webhooks.  "
+    },
+    "stock_level_display": {
+      "type": "string",
+      "enum": [
+        "dont_show",
+        "show",
+        "show_when_low"
+      ],
+      "description": "Describes whether a storefront displays stock levels."
+    },
+    "default_out_of_stock_message": {
+      "type": "string",
+      "example": "Currently out of stock",
+      "description": "Out of stock message displayed to shoppers."
+    },
+    "hide_in_product_filtering": {
+      "type": "boolean",
+      "description": "Describes whether an option is hidden in product filtering. Applies when `option_out_of_stock_behavior` is set to `label_option`. "
+    },
+    "show_pre_order_stock_levels": {
+      "type": "boolean",
+      "description": "Describes whether pre-order stock levels are shown.",
+      "default": false,
+      "example": true
+    },
+    "show_out_of_stock_message": {
+      "type": "boolean",
+      "description": "Describes whether out-of-stock messages are shown on product listing pages.",
+      "default": false,
+      "example": true
+    }
+  }
+}

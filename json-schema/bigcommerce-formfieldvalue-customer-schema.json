@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/formFieldValue_Customer",
+  "title": "Customer Form Field Value",
+  "type": "object",
+  "required": [
+    "customer_id",
+    "name",
+    "value"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The form field name.",
+      "example": "color"
+    },
+    "value": {
+      "oneOf": [
+        {
+          "type": "string",
+          "example": "blue"
+        },
+        {
+          "type": "number",
+          "format": "double",
+          "example": 12.345
+        },
+        {
+          "type": "array",
+          "example": [
+            "red",
+            "green",
+            "black"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "customer_id": {
+      "type": "integer"
+    }
+  }
+}

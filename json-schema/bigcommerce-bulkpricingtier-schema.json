@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BulkPricingTier",
+  "title": "BulkPricingTier",
+  "type": "object",
+  "properties": {
+    "quantity_min": {
+      "type": "integer",
+      "description": "The cart's minimum quantity of associated variants needed to qualify for this tier's pricing.",
+      "example": 1
+    },
+    "quantity_max": {
+      "type": "integer",
+      "description": "The cart's maximum allowed quantity of associated variants to qualify for this tier's pricing.",
+      "example": 10
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of adjustment that is made. \nAcceptable values: \n* price \u2013 the adjustment amount per product \n* percent \u2013 the adjustment as a percentage of the original price \n* fixed \u2013 the adjusted absolute price of the product",
+      "enum": [
+        "fixed",
+        "price",
+        "percent"
+      ],
+      "example": "fixed"
+    },
+    "amount": {
+      "type": "number",
+      "description": "The price adjustment amount. This value and the type will decide the price per variant for the pricing tier.",
+      "format": "double",
+      "example": 0
+    }
+  }
+}

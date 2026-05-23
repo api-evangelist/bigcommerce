@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/categoryAccessLevel",
+  "title": "categoryAccessLevel",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "+ `all` - Customers can access all categories\n+ `specific`  - Customers can access a specific list of categories\n+ `none` - Customers are prevented from viewing any of the categories in this group.",
+      "enum": [
+        "all",
+        "specific",
+        "none"
+      ]
+    },
+    "categories": {
+      "description": "A comma-separated list of category IDs. Should be supplied only if `type` is `specific`.",
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    }
+  },
+  "x-internal": false
+}

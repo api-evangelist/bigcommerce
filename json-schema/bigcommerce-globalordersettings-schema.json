@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GlobalOrderSettings",
+  "title": "GlobalOrderSettings",
+  "type": "object",
+  "properties": {
+    "notifications": {
+      "type": "object",
+      "description": "Global notification settings.",
+      "properties": {
+        "order_placed": {
+          "description": "Global order notification settings.",
+          "type": "object",
+          "properties": {
+            "email_addresses": {
+              "description": "Email addresses order notifications will be sent to. Empty array disables order notifications. Not nullable.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forward_invoice": {
+          "description": "Global order invoice forward settings.",
+          "type": "object",
+          "properties": {
+            "email_addresses": {
+              "description": "Email addresses order invoices will be forwarded to. Empty array disables forwarding order invoices. Not nullable.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "example": {
+    "$ref": "#/components/examples/EnableMultipleOrderNotifications/value"
+  },
+  "x-tags": [
+    "Models"
+  ],
+  "x-examples": {
+    "example-1": {
+      "$ref": "#/components/examples/EnableMultipleOrderNotifications/value"
+    }
+  }
+}

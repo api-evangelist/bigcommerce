@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RateRequestItem",
+  "title": "Rate Request Item",
+  "type": "object",
+  "description": "A cart item along with its shipping-specific attributes.",
+  "properties": {
+    "sku": {
+      "type": "string",
+      "description": "The variant SKU."
+    },
+    "variant_id": {
+      "type": "string"
+    },
+    "product_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "length": {
+      "description": "Value object for a length measurement.",
+      "type": "object",
+      "properties": {
+        "units": {
+          "type": "string",
+          "enum": [
+            "cm",
+            "in"
+          ]
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "units",
+        "value"
+      ],
+      "title": "Dimension Value"
+    },
+    "width": {
+      "description": "Value object for a width measurement.",
+      "type": "object",
+      "properties": {
+        "units": {
+          "type": "string",
+          "enum": [
+            "cm",
+            "in"
+          ]
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "units",
+        "value"
+      ],
+      "title": "Dimension Value"
+    },
+    "height": {
+      "description": "Value object for a height measurement.",
+      "type": "object",
+      "properties": {
+        "units": {
+          "type": "string",
+          "enum": [
+            "cm",
+            "in"
+          ]
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "units",
+        "value"
+      ],
+      "title": "Dimension Value"
+    },
+    "weight": {
+      "description": "Value object for a weight measurement.",
+      "type": "object",
+      "properties": {
+        "units": {
+          "type": "string",
+          "enum": [
+            "oz",
+            "g"
+          ]
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "units",
+        "value"
+      ],
+      "title": "Weight Value"
+    },
+    "discounted_price": {
+      "description": "Value object for a money amount.",
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3,3}$"
+        },
+        "amount": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "currency",
+        "amount"
+      ],
+      "title": "Money Value"
+    },
+    "declared_value": {
+      "description": "Value object for a money amount.",
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3,3}$"
+        },
+        "amount": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "currency",
+        "amount"
+      ],
+      "title": "Money Value"
+    },
+    "quantity": {
+      "type": "number",
+      "format": "int32"
+    },
+    "attributes": {
+      "type": "array",
+      "description": "A list of arbitrary properties stored as part of the product or product variant meta fields. These consist of any public fields specific to the carrier integration.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The key associated with the product or product variant meta field."
+          },
+          "value": {
+            "type": "string",
+            "description": "The value associated with the product or product variant meta field."
+          },
+          "namespace": {
+            "type": "string",
+            "description": "The namespace associated with metafields for [products](/docs/rest-catalog/products/metafields) and [product variants](/docs/rest-catalog/product-variants/metafields). Save the metafield namespace using the format `shipping_carrier_{yourCarrierId}`; otherwise, it will not be recognized as a valid attribute."
+          },
+          "resource_type": {
+            "type": "string",
+            "enum": [
+              "product",
+              "variant"
+            ],
+            "description": "Resource type associated with the product or product variant meta field. Currently, the only values available are 'product' or 'variant'."
+          },
+          "resource_id": {
+            "type": "string",
+            "description": "The resource ID of the product or product variant meta field."
+          },
+          "attribute_type": {
+            "type": "string",
+            "enum": [
+              "metafield"
+            ],
+            "description": "Attribute type associated with the product or product variant meta field. Currently, the only value for this is 'metafield'."
+          }
+        },
+        "title": "Attribute Value"
+      }
+    }
+  },
+  "x-internal": false
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/formFieldValue_Address",
+  "title": "Customer Address Form Field Value",
+  "type": "object",
+  "required": [
+    "address_id",
+    "name",
+    "value"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The form field name.",
+      "example": "color"
+    },
+    "value": {
+      "oneOf": [
+        {
+          "type": "string",
+          "example": "blue"
+        },
+        {
+          "type": "number",
+          "format": "double",
+          "example": 12.345
+        },
+        {
+          "type": "array",
+          "example": [
+            "red",
+            "green",
+            "black"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "address_id": {
+      "type": "integer",
+      "description": "The Customer Address ID.",
+      "example": 1
+    }
+  },
+  "x-internal": false
+}

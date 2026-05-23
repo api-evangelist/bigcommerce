@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/productVideo_Base",
+  "title": "productVideo_Base",
+  "type": "object",
+  "description": "The model for a POST to create a video on a product.\n",
+  "x-internal": false,
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 255,
+      "minLength": 0,
+      "description": "The title for the video. If left blank, this will be filled in according to data on a host site.\n",
+      "example": "Writing Great Documentation"
+    },
+    "description": {
+      "type": "string",
+      "description": "The description for the video. If left blank, this will be filled in according to data on a host site.\n",
+      "example": "A video about documenation"
+    },
+    "sort_order": {
+      "type": "integer",
+      "maximum": 2147483647,
+      "minimum": -2147483648,
+      "description": "The order in which the video will be displayed on the product page. Higher integers give the video a lower priority. When updating, if the video is given a lower priority, all videos with a `sort_order` the same as or greater than the video\u02bcs new `sort_order` value will have their `sort_order`s reordered.\n",
+      "example": 1
+    },
+    "type": {
+      "type": "string",
+      "description": "The video type (a short name of a host site).\n",
+      "enum": [
+        "youtube"
+      ]
+    },
+    "video_id": {
+      "type": "string",
+      "description": "The ID of the video on a host site.",
+      "example": "z3fRu9pkuXE"
+    }
+  }
+}

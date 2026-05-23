@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AttributeValue",
+  "title": "Attribute Value",
+  "description": "Value object for an attribute. This represents a product or product variant meta field.",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "The key associated with the product or product variant meta field."
+    },
+    "value": {
+      "type": "string",
+      "description": "The value associated with the product or product variant meta field."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "The namespace associated with metafields for [products](/docs/rest-catalog/products/metafields) and [product variants](/docs/rest-catalog/product-variants/metafields). Save the metafield namespace using the format `shipping_carrier_{yourCarrierId}`; otherwise, it will not be recognized as a valid attribute."
+    },
+    "resource_type": {
+      "type": "string",
+      "description": "Resource type associated with the product or product variant meta field. Currently, the only values available are 'product' or 'variant'.",
+      "enum": [
+        "product",
+        "variant"
+      ]
+    },
+    "resource_id": {
+      "type": "string",
+      "description": "The resource ID of the product or product variant meta field."
+    },
+    "attribute_type": {
+      "type": "string",
+      "description": "Attribute type associated with the product or product variant meta field. Currently, the only value for this is 'metafield'.",
+      "enum": [
+        "metafield"
+      ]
+    }
+  },
+  "x-internal": false
+}

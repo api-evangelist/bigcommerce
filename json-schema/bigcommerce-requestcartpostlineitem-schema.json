@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/requestCartPostLineItem",
+  "title": "Line Item Request Data",
+  "anyOf": [
+    {
+      "properties": {
+        "productId": {
+          "type": "number",
+          "description": "ID of the product."
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Quantity of this item."
+        },
+        "giftWrapping": {
+          "$ref": "#/components/schemas/requestPostOrPutGiftWrapping"
+        }
+      },
+      "required": [
+        "productId",
+        "quantity"
+      ],
+      "title": "Simple product"
+    },
+    {
+      "properties": {
+        "productId": {
+          "type": "number",
+          "description": "ID of the product."
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Quantity of this item."
+        },
+        "variantId": {
+          "type": "number",
+          "description": "ID of the variant."
+        },
+        "giftWrapping": {
+          "$ref": "#/components/schemas/requestPostOrPutGiftWrapping"
+        }
+      },
+      "required": [
+        "productId",
+        "quantity",
+        "variantId"
+      ],
+      "title": "Product with a variant"
+    }
+  ],
+  "x-examples": {
+    "example-1": {
+      "productId": 0,
+      "quantity": 0
+    }
+  },
+  "x-internal": false,
+  "type": "object"
+}

@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/page_Base_Res",
+  "title": "page_Base_Res",
+  "type": "object",
+  "x-internal": false,
+  "properties": {
+    "parent_id": {
+      "type": "integer",
+      "description": "ID of any parent Web page.",
+      "example": 5
+    },
+    "type": {
+      "type": "string",
+      "description": "`page`: free-text page\n`link`: link to another web address\n`rss_feed`: syndicated content from an RSS feed\n`contact_form`: When the store\u2019s contact form is used\n",
+      "enum": [
+        "page",
+        "rss_feed",
+        "contact_form",
+        "raw",
+        "link"
+      ]
+    },
+    "contact_fields": {
+      "type": "string",
+      "description": "Where the page\u2019s type is a contact form: object whose members are the fields enabled (in the control panel) for storefront display. Possible members are:`fullname`: full name of the customer submitting the form; `phone`: customer\u2019s phone number, as submitted on the form; `companyname`: customer\u2019s submitted company name; `orderno`: customer\u2019s submitted order number; `rma`: customer\u2019s submitted RMA (Return Merchandise Authorization) number.",
+      "example": "fullname,companyname,phone,orderno,rma"
+    },
+    "email": {
+      "type": "string",
+      "description": "Where the page\u2019s type is a contact form, the email address that receives messages sent using the form.",
+      "example": "janedoes@example.com"
+    },
+    "name": {
+      "type": "string",
+      "description": "Page name, as displayed on the storefront.",
+      "example": "Contact Form"
+    },
+    "url": {
+      "type": "string",
+      "description": "Relative URL on the storefront for this page.",
+      "example": "/contact-us/"
+    },
+    "meta_description": {
+      "type": "string",
+      "description": "Description contained within this page\u2019s `<meta/>` element."
+    },
+    "body": {
+      "type": "string",
+      "description": "HTML or variable that populates this page\u2019s `<body>` element, in default/desktop view. Required in POST if page type is `raw`.",
+      "example": "<p>We're happy to answer questions or help you with returns.<br />Please fill out the form below if you need assistance.</p>"
+    },
+    "mobile_body": {
+      "type": "string",
+      "description": "HTML to use for this page\u2019s body when viewed in the mobile template (deprecated).",
+      "example": "0"
+    },
+    "has_mobile_version": {
+      "type": "boolean",
+      "description": "If true, this page has a mobile version.",
+      "example": false
+    },
+    "is_visible": {
+      "type": "boolean",
+      "description": "If true, this page appears in the storefront\u2019s navigation menu.",
+      "example": true
+    },
+    "is_homepage": {
+      "type": "boolean",
+      "description": "If true, this page is the storefront\u2019s home page.",
+      "example": false
+    },
+    "meta_title": {
+      "type": "string",
+      "description": "Text specified for this page\u2019s `<title>` element. If empty, the value of the name property is used."
+    },
+    "layout_file": {
+      "type": "string",
+      "description": "Layout template for this page. This field is writable only for stores with a Blueprint theme applied.",
+      "example": "page.html"
+    },
+    "sort_order": {
+      "type": "integer",
+      "description": "Order in which this page should display on the storefront. (Lower integers specify earlier display.)",
+      "example": 3
+    },
+    "search_keywords": {
+      "type": "string",
+      "description": "Comma-separated list of keywords that shoppers can use to locate this page when searching the store."
+    },
+    "meta_keywords": {
+      "type": "string",
+      "description": "Comma-separated list of SEO-relevant keywords to include in the page\u2019s `<meta/>` element."
+    },
+    "feed": {
+      "type": "string",
+      "description": "If page type is `rss_feed` then this field is visible."
+    },
+    "link": {
+      "type": "string",
+      "description": "If page type is `link` this field is returned."
+    },
+    "content_type": {
+      "type": "string",
+      "example": "text/html",
+      "enum": [
+        "application/json",
+        "text/javascript",
+        "text/html"
+      ]
+    }
+  }
+}

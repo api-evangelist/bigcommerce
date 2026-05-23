@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/siteRoute_Base",
+  "title": "siteRoute_Base",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "The type of resource being routed to; [supported types](/docs/rest-management/sites#route-types).",
+      "enum": [
+        "product",
+        "brand",
+        "category",
+        "page",
+        "blog",
+        "home",
+        "cart",
+        "checkout",
+        "search",
+        "account",
+        "login",
+        "returns",
+        "static"
+      ]
+    },
+    "matching": {
+      "type": "string",
+      "description": "Depending on the resource type, this can be an ID (matching a specific item), or a \"*\" wildcard (matching all items of that type).\n\nFor example, a route with a type: \"product\" and matching: \"5\" will be used for the product with the ID of 5.",
+      "example": "5"
+    },
+    "route": {
+      "type": "string",
+      "description": "The route template that will be used to generate the URL for the requested resource.\n\nSupports several tokens:\n- `{id}` The **ID** of the requested item.\n- `{slug}` The **slug** for the requested item (if available). Note: the `slug` value may contain `/` slash.\n- `{language}` The **language** string that the client is using.",
+      "example": "/my-amazing-product"
+    }
+  },
+  "x-internal": false
+}

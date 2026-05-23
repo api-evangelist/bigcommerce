@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/store_product_inventory_updated",
+  "title": "store/product/inventory/updated",
+  "description": "This webhook is triggered when product inventory is updated. \n\nChanges to the following fields trigger this event: \n* Inventory Stock\n\nHowever, changes to the following fields don\u02bct trigger this event:\n* Track Inventory\n* Inventory Low Stock\n\n\n```json filename=\"Example callback object\" showLineNumbers\n{\n  \"created_at\": 1561482670,\n  \"store_id\": \"1025646\",\n  \"producer\": \"stores/{store_hash}\",\n  \"scope\": \"store/product/inventory/updated\",\n  \"hash\": \"352e4afc6dd3fc85ea26bfdf3f91852604d57528\",\n  \"data\": {\n    \"type\": \"product\",\n    \"id\": 167,\n    \"inventory\": {\n      \"product_id\": 167,\n      \"method\": \"absolute\",\n      \"value\": 2\n    }\n  }\n}\n```",
+  "x-examples": {},
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/webhook_callback_base"
+    },
+    {
+      "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The type will always be `product`.",
+              "example": "product"
+            },
+            "id": {
+              "type": "integer",
+              "description": "ID of the product.",
+              "example": 167
+            },
+            "inventory": {
+              "type": "object",
+              "properties": {
+                "product_id": {
+                  "type": "integer",
+                  "description": "ID of the product.",
+                  "example": 167
+                },
+                "method": {
+                  "type": "string",
+                  "description": "How the inventory was adjusted. Value will be one of the following:\n* `absolute` - inventory updated through the API or the control panel.\n* `relative` - inventory updated by an order.",
+                  "enum": [
+                    "absolute",
+                    "relative"
+                  ]
+                },
+                "value": {
+                  "type": "integer",
+                  "description": "This value is the difference between an item\u2019s inventory count before and after the inventory updates. This value is negative if an item\u2019s inventory count decreases. For example, reducing inventory by three returns a value of `-3`. This value is positive if an item\u2019s inventory count increases. For example, returning two items to the inventory returns a value of `2`.",
+                  "example": 2
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "x-tags": [
+    "created"
+  ],
+  "type": "object",
+  "x-internal": false
+}

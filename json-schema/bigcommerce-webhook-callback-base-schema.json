@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/webhook_callback_base",
+  "title": "",
+  "description": "",
+  "x-examples": {
+    "example-1": {
+      "created_at": 1561482670,
+      "store_id": "1025646",
+      "producer": "stores/{store_hash}",
+      "scope": "store/cart/created",
+      "hash": "352e4afc6dd3fc85ea26bfdf3f91852604d57528"
+    }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "created_at": {
+          "type": "integer",
+          "example": 1561488106,
+          "description": "The time the webhook was created, represented in UNIX epoch time.",
+          "readOnly": true
+        },
+        "store_id": {
+          "type": "string",
+          "minLength": 1,
+          "example": "1025646",
+          "description": "A numerical identifier that is unique to each store."
+        },
+        "producer": {
+          "type": "string",
+          "minLength": 1,
+          "example": "stores/{store_hash}",
+          "description": "Will always follow the pattern `stores/store_hash`. This is the store that created the webhook."
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1,
+          "example": "store/cart/created",
+          "description": "The event registered when the webhook was created."
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "example": "352e4afc6dd3fc85ea26bfdf3f91852604d57528",
+          "description": "The payload data encoded in JSON format and then passed through SH1 encryption."
+        }
+      }
+    }
+  ],
+  "type": "object",
+  "x-internal": false
+}

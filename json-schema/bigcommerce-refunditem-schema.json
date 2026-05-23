@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RefundItem",
+  "title": "Refund Item",
+  "type": "object",
+  "properties": {
+    "item_type": {
+      "type": "string",
+      "description": "Type of item that was refunded.",
+      "enum": [
+        "PRODUCT",
+        "GIFT_WRAPPING",
+        "SHIPPING",
+        "HANDLING",
+        "ORDER"
+      ]
+    },
+    "item_id": {
+      "type": "integer",
+      "description": "order_product.id corresponding to the item_types of PRODUCT, GIFT_WRAPPING. order_address.id corresponding to the item_types of SHIPPING, HANDLING. order.id corresponding to the item_type of ORDER."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for refunding an item."
+    },
+    "quantity": {
+      "type": "integer",
+      "description": "Quantity of item refunded. Note: this will only be populated for item_type PRODUCT"
+    },
+    "requested_amount": {
+      "$ref": "#/components/schemas/Amount"
+    }
+  },
+  "x-internal": false
+}

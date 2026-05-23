@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/NewUpdateConsignment",
+  "title": "Update Consignment Request",
+  "type": "object",
+  "properties": {
+    "shippingAddress": {
+      "type": "object",
+      "properties": {},
+      "x-deprecated": true
+    },
+    "address": {
+      "title": "Address Properties",
+      "required": [
+        "countryCode"
+      ],
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": ""
+        },
+        "lastName": {
+          "type": "string",
+          "description": ""
+        },
+        "email": {
+          "type": "string",
+          "description": ""
+        },
+        "company": {
+          "type": "string",
+          "description": ""
+        },
+        "address1": {
+          "type": "string",
+          "description": ""
+        },
+        "address2": {
+          "type": "string",
+          "description": ""
+        },
+        "city": {
+          "type": "string",
+          "description": ""
+        },
+        "stateOrProvince": {
+          "type": "string",
+          "description": "Represents state or province."
+        },
+        "stateOrProvinceCode": {
+          "type": "string",
+          "description": ""
+        },
+        "countryCode": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 country code. (See: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)"
+        },
+        "postalCode": {
+          "type": "string",
+          "description": ""
+        },
+        "phone": {
+          "pattern": "^\\+?[1-9]\\d{1,14}(x\\d{1-5})?$",
+          "type": "string",
+          "description": ""
+        },
+        "customFields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "fieldId": {
+                "type": "string"
+              },
+              "fieldValue": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "shouldSaveAddress": {
+          "type": "boolean",
+          "description": "Indicates whether we should add this address to the customer address book."
+        }
+      }
+    },
+    "lineItems": {
+      "type": "array",
+      "description": "",
+      "items": {
+        "title": "Consignment Line Item",
+        "required": [
+          "itemId",
+          "quantity"
+        ],
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "string",
+            "description": ""
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "",
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "shippingOptionId": {
+      "type": "string",
+      "description": ""
+    },
+    "pickupOption": {
+      "type": "object",
+      "properties": {
+        "pickupMethodId": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "description": "One or more of these three fields is mandatory. You can update address and line items in one request. You have to update shipping option ID or pickup option ID in a separate request since changing the address or line items can invalidate the previously available shipping options.",
+  "x-internal": false
+}

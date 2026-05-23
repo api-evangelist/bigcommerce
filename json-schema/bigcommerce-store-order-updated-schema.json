@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/store_order_updated",
+  "title": "store/order/updated",
+  "description": "Fires when a previously-created order is updated.  \n\nChanges to the following fields trigger this event: \n* Status\n* Coupon Code\n* Billing and Shipping Address\n* Product Type\n* Search Keywords\n* Related Products\n* Warranty Information\n* Page Title\n* Meta Description\n* Gift Wrapping options\n* Bin Picking Number (BPN)\n* Fixed Shipping Price\n* Free Shipping\n* Open Graph Sharing Type\n* Availability Text\n* Purchasability\n* Release Date\n* Remove pre-order status on this date\n\n```json filename=\"Example callback object\" showLineNumbers\n{\n  \"created_at\": 1561482670,\n  \"store_id\": \"1025646\",\n  \"producer\": \"stores/{store_hash}\",\n  \"scope\": \"store/order/updated\",\n  \"hash\": \"352e4afc6dd3fc85ea26bfdf3f91852604d57528\",\n  \"data\": {\n    \"type\": \"order\",\n    \"id\": 250\n  }\n}\n```",
+  "x-examples": {},
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/webhook_callback_base"
+    },
+    {
+      "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "A lightweight description of the event that triggered the webhook. Will vary depending on the event registered.",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The type will always be `order`.",
+              "default": "order",
+              "example": "order"
+            },
+            "id": {
+              "type": "integer",
+              "description": "ID of the order.",
+              "example": 250
+            }
+          }
+        }
+      }
+    }
+  ],
+  "x-tags": [
+    "created"
+  ],
+  "type": "object",
+  "x-internal": false
+}

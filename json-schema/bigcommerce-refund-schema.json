@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Refund",
+  "title": "Refund",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Refund resource ID.",
+      "readOnly": true
+    },
+    "order_id": {
+      "type": "integer",
+      "description": "Reference to order ID."
+    },
+    "user_id": {
+      "type": "integer",
+      "description": "Reference to the user\u02bcs ID who create this refund. This is automatically populated by BigCommerce.",
+      "readOnly": true
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of when this refund was created.",
+      "readOnly": true
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for refund."
+    },
+    "total_amount": {
+      "$ref": "#/components/schemas/Amount"
+    },
+    "total_tax": {
+      "type": "number",
+      "description": "Total tax amount refunded back to the shopper. Note: `order_level_amount` does not affect tax liability. This can be a negative amount indicating we have collected tax by refunding less to the customer."
+    },
+    "uses_merchant_override_values": {
+      "type": "boolean",
+      "description": "Whether refund amount and tax are provided explicitly by merchant override."
+    },
+    "items": {
+      "type": "array",
+      "description": "Array of items refunded.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/RefundItem"
+      }
+    },
+    "payments": {
+      "type": "array",
+      "description": "An array of refund payments made to payment providers.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/RefundPayment"
+      }
+    }
+  },
+  "x-internal": false
+}

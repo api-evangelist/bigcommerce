@@ -1,0 +1,71 @@
+{
+  "operationId": "updateCartLineItem",
+  "method": "PUT",
+  "path": "/carts/{cartId}/items/{itemId}",
+  "summary": "BigCommerce Update Cart Line Item",
+  "requestExamples": [
+    {
+      "contentType": "application/json",
+      "name": "Variant Item",
+      "example": {
+        "lineItem": {
+          "productId": 229,
+          "variantId": 191,
+          "quantity": 10
+        },
+        "locale": "en"
+      }
+    },
+    {
+      "contentType": "application/json",
+      "name": "Custom Item",
+      "example": {
+        "lineItem": {
+          "productId": 118,
+          "variantId": 140,
+          "quantity": 10,
+          "optionSelections": [
+            {
+              "optionId": 125,
+              "optionValue": 127
+            }
+          ]
+        },
+        "locale": "en"
+      }
+    },
+    {
+      "contentType": "application/json",
+      "name": "With Gift Wrapping",
+      "example": {
+        "lineItem": {
+          "quantity": 2,
+          "productId": 230,
+          "variantId": 124,
+          "giftWrapping": {
+            "wrapTogether": true,
+            "wrapDetails": [
+              {
+                "id": 1,
+                "message": "Happy Birthday"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "contentType": "application/json",
+      "name": "With null Gift Wrapping (will delete current gift wrapping)",
+      "example": {
+        "lineItem": {
+          "quantity": 2,
+          "productId": 230,
+          "variantId": 124,
+          "giftWrapping": null
+        }
+      }
+    }
+  ],
+  "responseExamples": []
+}

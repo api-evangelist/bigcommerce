@@ -1,0 +1,323 @@
+{
+  "operationId": "commitTaxQuote",
+  "method": "POST",
+  "path": "/commit",
+  "summary": "BigCommerce Commit Tax Quote",
+  "requestExamples": [
+    {
+      "contentType": "application/json",
+      "name": "example",
+      "example": {
+        "id": "113",
+        "currency_code": "USD",
+        "customer": {
+          "customer_id": "0",
+          "customer_group_id": "0",
+          "taxability_code": ""
+        },
+        "transaction_date": "2019-08-13T03:40:15+00:00",
+        "documents": [
+          {
+            "id": "shipping_14",
+            "billing_address": {
+              "line1": "402 S Vine St",
+              "line2": "",
+              "city": "Van Wert",
+              "region_name": "Ohio",
+              "region_code": "OH",
+              "country_name": "United States",
+              "country_code": "US",
+              "postal_code": "45891",
+              "company_name": "",
+              "type": "RESIDENTIAL"
+            },
+            "destination_address": {
+              "line1": "402 S Vine St",
+              "line2": "",
+              "city": "Van Wert",
+              "region_name": "Ohio",
+              "region_code": "OH",
+              "country_name": "United States",
+              "country_code": "US",
+              "postal_code": "45891",
+              "company_name": "",
+              "type": "RESIDENTIAL"
+            },
+            "origin_address": {
+              "line1": "2139 W ANDERSON LN",
+              "line2": "",
+              "city": "AUSTIN",
+              "region_name": "Texas",
+              "region_code": "TX",
+              "country_name": "United States",
+              "country_code": "US",
+              "postal_code": "78757",
+              "company_name": "",
+              "type": "COMMERCIAL"
+            },
+            "shipping": {
+              "id": "shipping_14",
+              "item_code": "Flat Rate",
+              "name": "Shipping to Van Wert, United States 45891",
+              "price": {
+                "amount": 10,
+                "tax_inclusive": false
+              },
+              "quantity": 1,
+              "tax_class": {
+                "code": "",
+                "class_id": "6",
+                "name": "Shipping"
+              },
+              "tax_exempt": false,
+              "type": "shipping"
+            },
+            "handling": {
+              "id": "handling_14",
+              "item_code": "Flat Rate",
+              "name": "Handling for Van Wert, United States 45891",
+              "price": {
+                "amount": 0,
+                "tax_inclusive": false
+              },
+              "quantity": 1,
+              "tax_class": {
+                "code": "",
+                "class_id": "6",
+                "name": "Handling"
+              },
+              "tax_exempt": false,
+              "type": "handling"
+            },
+            "items": [
+              {
+                "id": "product_13",
+                "item_code": "ABS",
+                "name": "[Sample] Able Brewing System",
+                "price": {
+                  "amount": 450,
+                  "tax_inclusive": false
+                },
+                "quantity": 2,
+                "tax_class": {
+                  "code": "",
+                  "class_id": "0",
+                  "name": "Default Tax Class"
+                },
+                "tax_exempt": false,
+                "type": "item",
+                "wrapping": {
+                  "id": "product_14",
+                  "item_code": "",
+                  "name": "Wrapping: Holiday",
+                  "price": {
+                    "amount": 5,
+                    "tax_inclusive": false
+                  },
+                  "quantity": 1,
+                  "tax_class": {
+                    "code": "",
+                    "class_id": "6",
+                    "name": "Wrapping"
+                  },
+                  "tax_exempt": false,
+                  "type": "wrapping"
+                }
+              },
+              {
+                "id": "product_14",
+                "item_code": "CLC",
+                "name": "[Sample] Canvas Laundry Cart",
+                "price": {
+                  "amount": 200,
+                  "tax_inclusive": false
+                },
+                "quantity": 1,
+                "tax_class": {
+                  "code": "",
+                  "class_id": "0",
+                  "name": "Default Tax Class"
+                },
+                "tax_exempt": false,
+                "type": "item",
+                "wrapping": {
+                  "id": "product_14",
+                  "item_code": "",
+                  "name": "Wrapping: Holiday",
+                  "price": {
+                    "amount": 5,
+                    "tax_inclusive": false
+                  },
+                  "quantity": 1,
+                  "tax_class": {
+                    "code": "",
+                    "class_id": "6",
+                    "name": "Wrapping"
+                  },
+                  "tax_exempt": false,
+                  "type": "wrapping"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "responseExamples": [
+    {
+      "status": "200",
+      "contentType": "application/json",
+      "name": "response",
+      "example": {
+        "documents": [
+          {
+            "external_id": "sample-doc-123456789",
+            "id": "shipping_14",
+            "items": [
+              {
+                "id": "product_13",
+                "price": {
+                  "amount_inclusive": 675,
+                  "amount_exclusive": 450,
+                  "total_tax": 225,
+                  "tax_rate": 0.5,
+                  "sales_tax_summary": [
+                    {
+                      "name": "Brutal Tax",
+                      "rate": 0.5,
+                      "amount": 225,
+                      "tax_class": {
+                        "class_id": "0",
+                        "name": "Brutal Tax",
+                        "code": "US"
+                      },
+                      "id": "Brutal Tax"
+                    }
+                  ]
+                },
+                "type": "item",
+                "wrapping": {
+                  "id": "product_14",
+                  "price": {
+                    "amount_exclusive": 5,
+                    "amount_inclusive": 7.5,
+                    "sales_tax_summary": [
+                      {
+                        "amount": 2.5,
+                        "id": "1",
+                        "name": "BRUTAL TAX",
+                        "rate": 0.5,
+                        "tax_class": {
+                          "class_id": "6",
+                          "code": "US",
+                          "name": "Wrapping"
+                        }
+                      }
+                    ],
+                    "tax_rate": 0.5,
+                    "total_tax": 2.5
+                  },
+                  "type": "wrapping"
+                }
+              },
+              {
+                "id": "product_14",
+                "price": {
+                  "amount_inclusive": 300,
+                  "amount_exclusive": 200,
+                  "total_tax": 100,
+                  "tax_rate": 0.5,
+                  "sales_tax_summary": [
+                    {
+                      "name": "Brutal Tax",
+                      "rate": 0.5,
+                      "amount": 100,
+                      "tax_class": {
+                        "class_id": "0",
+                        "name": "Brutal Tax",
+                        "code": "US"
+                      },
+                      "id": "Brutal Tax"
+                    }
+                  ]
+                },
+                "type": "item",
+                "wrapping": {
+                  "id": "product_14",
+                  "price": {
+                    "amount_exclusive": 5,
+                    "amount_inclusive": 7.5,
+                    "sales_tax_summary": [
+                      {
+                        "amount": 2.5,
+                        "id": "1",
+                        "name": "BRUTAL TAX",
+                        "rate": 0.5,
+                        "tax_class": {
+                          "class_id": "6",
+                          "code": "US",
+                          "name": "Wrapping"
+                        }
+                      }
+                    ],
+                    "tax_rate": 0.5,
+                    "total_tax": 2.5
+                  },
+                  "type": "wrapping"
+                }
+              }
+            ],
+            "shipping": {
+              "id": "shipping_14",
+              "price": {
+                "amount_inclusive": 15,
+                "amount_exclusive": 10,
+                "total_tax": 5,
+                "tax_rate": 0.5,
+                "sales_tax_summary": [
+                  {
+                    "name": "Brutal Tax",
+                    "rate": 0.5,
+                    "amount": 5,
+                    "tax_class": {
+                      "class_id": "0",
+                      "name": "Brutal Tax",
+                      "code": "US"
+                    },
+                    "id": "Brutal Tax"
+                  }
+                ]
+              },
+              "type": "shipping"
+            },
+            "handling": {
+              "id": "handling_14",
+              "price": {
+                "amount_inclusive": 0,
+                "amount_exclusive": 0,
+                "total_tax": 0,
+                "tax_rate": 0.5,
+                "sales_tax_summary": [
+                  {
+                    "name": "Brutal Tax",
+                    "rate": 0.5,
+                    "amount": 0,
+                    "tax_class": {
+                      "class_id": "0",
+                      "name": "Brutal Tax",
+                      "code": "US"
+                    },
+                    "id": "Brutal Tax"
+                  }
+                ]
+              },
+              "type": "handling"
+            }
+          }
+        ],
+        "id": "113"
+      }
+    }
+  ]
+}

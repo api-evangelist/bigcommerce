@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/paymentMethod_Full",
+  "title": "paymentMethod_Full",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Identifier for this payment method",
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "description": "Name of this payment method",
+      "type": "string",
+      "minLength": 1
+    },
+    "stored_instruments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/paymentMethodStoredInstrument"
+      }
+    },
+    "supported_instruments": {
+      "type": "array",
+      "items": {
+        "title": "Supported Card Instrument",
+        "type": "object",
+        "properties": {
+          "instrument_type": {
+            "title": "InstrumentType",
+            "description": "Type of this instrument",
+            "example": "VISA",
+            "type": "string",
+            "enum": [
+              "VISA",
+              "MASTERCARD",
+              "DISCOVER",
+              "AMEX",
+              "DINERS_CLUB",
+              "JCB",
+              "DANKORT",
+              "MAESTRO",
+              "STORED_CARD"
+            ]
+          },
+          "verification_value_required": {
+            "description": "Whether verification value is required for payment",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "instrument_type"
+        ]
+      }
+    },
+    "test_mode": {
+      "description": "Whether this payment method is on test mode",
+      "example": false,
+      "type": "boolean",
+      "default": false
+    },
+    "type": {
+      "description": "Type to classify this payment method",
+      "example": "card",
+      "type": "string",
+      "default": "card"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "supported_instruments",
+    "test_mode",
+    "type"
+  ],
+  "x-examples": {
+    "example-1": {
+      "id": "string",
+      "name": "string",
+      "stored_instruments": [
+        {
+          "brand": "string",
+          "expiry_month": 1,
+          "expiry_year": 0,
+          "issuer_identification_number": "string",
+          "last_4": "stri",
+          "token": "stringstringstringstringstringstringstringstringstringstringstri",
+          "is_default": false,
+          "type": "stored_card"
+        }
+      ],
+      "supported_instruments": [
+        {
+          "instrument_type": "VISA",
+          "verification_value_required": true
+        }
+      ],
+      "test_mode": false,
+      "type": "card"
+    }
+  },
+  "x-internal": false
+}

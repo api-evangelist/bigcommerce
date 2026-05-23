@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/complexRule_Base",
+  "title": "complexRule_Base",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The unique numeric ID of the rule; increments sequentially.\nRead-Only",
+      "example": 5
+    },
+    "product_id": {
+      "type": "integer",
+      "description": "The unique numeric ID of the product with which the rule is associated; increments sequentially.\n",
+      "nullable": true,
+      "example": 67,
+      "x-required": [
+        "post",
+        "put"
+      ]
+    },
+    "sort_order": {
+      "maximum": 2147483647,
+      "minimum": -2147483648,
+      "type": "integer",
+      "description": "The priority to give this rule when making adjustments to the product properties.\n",
+      "example": 0
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Flag for determining whether the rule is to be used when adjusting a product\u02bcs price, weight, image, or availabilty.\n",
+      "example": true
+    },
+    "stop": {
+      "type": "boolean",
+      "description": "Flag for determining whether other rules should not be applied after this rule has been applied.\n"
+    },
+    "purchasing_disabled": {
+      "type": "boolean",
+      "description": "Flag for determining whether the rule should disable purchasing of a product when the conditions are applied.\n"
+    },
+    "purchasing_disabled_message": {
+      "maxLength": 255,
+      "minLength": 0,
+      "type": "string",
+      "description": "Message displayed on the storefront when a rule disables the purchasing of a product.\n",
+      "example": "This product is not available at this time."
+    },
+    "purchasing_hidden": {
+      "type": "boolean",
+      "description": "Flag for determining whether the rule should hide purchasing of a product when the conditions are applied.\n"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "The URL for an image displayed on the storefront when the conditions are applied. Limit of 8MB per file.\n",
+      "example": "https://cdn8.bigcommerce.com/s-123456/product_images/d/fakeimage.png"
+    },
+    "price_adjuster": {
+      "$ref": "#/components/schemas/adjuster_Full"
+    },
+    "weight_adjuster": {
+      "$ref": "#/components/schemas/adjuster_Full"
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/complexRuleConditionBase"
+      }
+    }
+  },
+  "description": "Common ComplexRule properties.",
+  "x-internal": false
+}

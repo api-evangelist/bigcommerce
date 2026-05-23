@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OrderItemDigital",
+  "title": "Order Item Digital",
+  "required": [
+    "quantity"
+  ],
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The line-item ID."
+    },
+    "parentId": {
+      "type": "string",
+      "description": "Bundled items will have their parent\u02bcs item ID."
+    },
+    "variantId": {
+      "type": "number",
+      "description": "ID of the variant.",
+      "format": "double"
+    },
+    "productId": {
+      "type": "number",
+      "description": "ID of the product.",
+      "format": "double"
+    },
+    "sku": {
+      "type": "string",
+      "description": "SKU of the variant."
+    },
+    "name": {
+      "type": "string",
+      "description": "The item\u02bcs product name."
+    },
+    "url": {
+      "type": "string",
+      "description": "The product URL."
+    },
+    "quantity": {
+      "type": "number",
+      "description": "Quantity of this item.",
+      "format": "double"
+    },
+    "brand": {
+      "type": "string",
+      "description": "The item's brand."
+    },
+    "isTaxable": {
+      "type": "boolean",
+      "description": "Whether the item is taxable."
+    },
+    "imageUrl": {
+      "type": "string",
+      "description": "A publicly-accessible URL for an image of this item."
+    },
+    "discounts": {
+      "type": "array",
+      "description": "A list of discounts applied to this item, as an array of AppliedDiscount objects.",
+      "items": {
+        "$ref": "#/components/schemas/AppliedDiscount"
+      }
+    },
+    "discountAmount": {
+      "type": "number",
+      "description": "The total value of all discounts applied to this item (excluding coupon).",
+      "format": "double"
+    },
+    "couponAmount": {
+      "type": "number",
+      "description": "The total value of all coupons applied to this item.",
+      "format": "double"
+    },
+    "listPrice": {
+      "type": "number",
+      "description": "The item\u02bcs list price, as quoted by the manufacturer/distributor.",
+      "format": "double"
+    },
+    "salePrice": {
+      "type": "number",
+      "description": "The item\u02bcs price after all discounts are applied. (The final price before tax calculation.)",
+      "format": "double"
+    },
+    "extendedListPrice": {
+      "type": "number",
+      "description": "The item\u02bcs list price multiplied by the quantity.",
+      "format": "double"
+    },
+    "extendedSalePrice": {
+      "type": "number",
+      "description": "The item\u02bcs sale price multiplied by the quantity.",
+      "format": "double"
+    },
+    "type": {
+      "type": "string",
+      "description": "the product type - physical or digital"
+    },
+    "downloadFileUrls": {
+      "type": "array",
+      "description": "URLs to download all product files.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "downloadPageUrl": {
+      "type": "string",
+      "description": "The URL for the combined downloads page."
+    },
+    "downloadSize": {
+      "type": "string",
+      "description": "Specifies the combined download size in human-readable style; for example, `30MB`."
+    },
+    "categories": {
+      "type": "array",
+      "description": "Categories the item belongs to.",
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "x-internal": false
+}

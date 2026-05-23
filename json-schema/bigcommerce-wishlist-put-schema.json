@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/wishlist_Put",
+  "title": "wishlist_Put",
+  "required": [
+    "customer_id",
+    "items"
+  ],
+  "type": "object",
+  "properties": {
+    "customer_id": {
+      "type": "integer",
+      "description": "The customer ID. A read-only value.",
+      "format": "int32"
+    },
+    "is_public": {
+      "type": "boolean",
+      "description": "Whether the wishlist is available to the public."
+    },
+    "name": {
+      "type": "string",
+      "description": "The title of the wishlist."
+    },
+    "items": {
+      "type": "array",
+      "description": "Array of wishlist items.",
+      "items": {
+        "title": "Wishlist item",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the item.",
+            "format": "int32",
+            "example": 12
+          },
+          "product_id": {
+            "type": "integer",
+            "description": "The ID of the product.",
+            "format": "int32",
+            "example": 55
+          },
+          "variant_id": {
+            "type": "integer",
+            "description": "The variant ID of the product.",
+            "format": "int32",
+            "example": 22
+          }
+        }
+      }
+    }
+  },
+  "x-internal": false
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Template",
+  "title": "Template",
+  "type": "object",
+  "properties": {
+    "subject": {
+      "type": "string",
+      "example": "'Complete your purchase at {{ store.name }}'",
+      "maxLength": 255
+    },
+    "body": {
+      "type": "string",
+      "example": "'Complete your purchase <a href=\"{{ notification.checkout_link }}\">{{notification.checkout.link}}'"
+    },
+    "translations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/TranslationDefinition"
+      }
+    }
+  },
+  "required": [
+    "subject",
+    "body",
+    "translations"
+  ],
+  "x-internal": false
+}

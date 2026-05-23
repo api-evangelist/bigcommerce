@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RateResponsePayload",
+  "title": "Rate Response Payload",
+  "type": "object",
+  "properties": {
+    "quote_id": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "messages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "INFO",
+              "WARNING",
+              "ERROR"
+            ]
+          }
+        },
+        "required": [
+          "text",
+          "type"
+        ],
+        "title": "Message",
+        "description": "A simple string/type response for returning information."
+      }
+    },
+    "carrier_quotes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "A grouping of carrier rates and optionally, info about that carrier.",
+        "properties": {
+          "carrier_info": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "maxLength": 50
+              },
+              "display_name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              }
+            },
+            "required": [
+              "code",
+              "display_name"
+            ]
+          },
+          "quotes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "A code describing the service.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 50,
+                  "example": "GND"
+                },
+                "display_name": {
+                  "description": "A display name for the service.",
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "cost": {
+                  "description": "Value object for a money amount.",
+                  "type": "object",
+                  "properties": {
+                    "currency": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{3,3}$"
+                    },
+                    "amount": {
+                      "type": "number",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "currency",
+                    "amount"
+                  ],
+                  "title": "Money Value"
+                },
+                "messages": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "text": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "INFO",
+                          "WARNING",
+                          "ERROR"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "text",
+                      "type"
+                    ],
+                    "title": "Message",
+                    "description": "A simple string/type response for returning information."
+                  }
+                },
+                "description": {
+                  "type": "string",
+                  "maxLength": 500
+                },
+                "rate_id": {
+                  "type": "string",
+                  "maxLength": 50
+                },
+                "discounted_cost": {
+                  "description": "Value object for a money amount. Optional field; merchants may request features.",
+                  "type": "object",
+                  "properties": {
+                    "currency": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{3,3}$"
+                    },
+                    "amount": {
+                      "type": "number",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "currency",
+                    "amount"
+                  ],
+                  "title": "Money Value"
+                },
+                "dispatch_date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "Date at which carrier dispatches to the shipping destination. Optional field; merchants may request features."
+                },
+                "transit_time": {
+                  "type": "object",
+                  "properties": {
+                    "units": {
+                      "type": "string",
+                      "enum": [
+                        "BUSINESS_DAYS",
+                        "DAYS",
+                        "HOURS"
+                      ]
+                    },
+                    "duration": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 90
+                    }
+                  },
+                  "title": "Transit Time Object",
+                  "description": "Value object for the length of time in transit."
+                }
+              },
+              "required": [
+                "code",
+                "display_name",
+                "cost"
+              ],
+              "title": "Rate Quote Object",
+              "description": "A quote being returned as part of the rate request."
+            }
+          }
+        },
+        "required": [
+          "quotes"
+        ],
+        "title": "Carrier Quote Object"
+      }
+    }
+  },
+  "required": [
+    "quote_id",
+    "messages",
+    "carrier_quotes"
+  ],
+  "description": "The response from the Shipping Service. Contains zero or more quotes.",
+  "x-internal": false
+}

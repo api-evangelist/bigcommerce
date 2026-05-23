@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/typeContactForm",
+  "title": "typeContactForm",
+  "description": "",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/anyTypePage"
+    },
+    {
+      "$ref": "#/components/schemas/pageMeta"
+    },
+    {
+      "$ref": "#/components/schemas/searchKeywords"
+    },
+    {
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Applicable when the page type is `contact_form`: contact email address that receives messages sent via the form. Must be unique.",
+          "maxLength": 255
+        },
+        "contact_fields": {
+          "type": "string",
+          "description": "A comma-separated list of the contact field forms that are enabled in the store control panel for display on the subject storefront. Possible fields include:\n\n| Field | Description |\n|:|:|\n| `fullname` | The full name of the customer submitting the form. |\n| `phone` | The customer\u2019s phone number. |\n| `companyname` | The customer\u2019s company name. |\n| `orderno` | A field that lets customers specify a subject order number. |\n| `rma` | A customer\u2019s submitted RMA (Return Merchandise Authorization) number. |\n",
+          "example": "fullname,companyname,phone,orderno,rma"
+        }
+      }
+    }
+  ]
+}

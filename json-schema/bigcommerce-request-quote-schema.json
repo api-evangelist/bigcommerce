@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/request-quote",
+  "title": "QuoteRequest",
+  "type": "object",
+  "description": "Each **QuoteRequest** represents an order. In addition to transaction details, it contains a `documents` array of one or more **DocumentRequest** objects, which represent distinct combinations of origin and fulfillment addresses and the tax-relevant contents of those consignments. This is similar to an \"order\" in other BigCommerce APIs.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique ID of the taxable document (order, cart, quote, etc) this tax quote request is being generated for. Will remain consistent for the lifetime of the entity being estimated."
+    },
+    "currency_code": {
+      "type": "string",
+      "description": "ISO 4217 3 character currency code that all prices on this request are in."
+    },
+    "customer": {
+      "type": "object",
+      "description": "If the shopper is a registered customer in the merchant\u2019s store, basic details for that customer.",
+      "required": [
+        "customer_id",
+        "customer_group_id"
+      ],
+      "properties": {
+        "customer_id": {
+          "type": "string",
+          "description": "The ID of the shoppers customer account in BigCommerce. May be provided as a UUID."
+        },
+        "customer_group_id": {
+          "type": "string",
+          "description": "The BigCommerce customer group ID assigned to this customer. The default value will be provided if the customer has no group assigned. May be provided as a UUID.",
+          "default": "0"
+        },
+        "taxability_code": {
+          "type": "string",
+          "description": "If applicable, the tax exemption code of the shopper\u2019s customer account. A taxability code is intended to apply to multiple customers. This code should match the exemption codes provided by the third-party integration."
+        }
+      }
+    },
+    "transaction_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 formatted date the shopper placed this order. Dates will be provided in UTC."
+    },
+    "documents": {
+      "type": "array",
+      "description": "One or more consignments containing items being purchased by the shopper, including shipping and handling fees that are charged for each consignment. Most orders will contain a single consignment (to a single shipping address), however the BigCommerce platform also supports \"Multi-address orders\" which allow shoppers to place a single order with items shipped to different addresses.",
+      "items": {
+        "$ref": "#/components/schemas/request-document"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "currency_code",
+    "customer",
+    "transaction_date",
+    "documents"
+  ],
+  "x-internal": false
+}

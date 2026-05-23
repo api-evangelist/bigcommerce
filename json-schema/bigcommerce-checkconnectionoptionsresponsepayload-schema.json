@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CheckConnectionOptionsResponsePayload",
+  "title": "Check Connection Options Response Payload",
+  "type": "object",
+  "properties": {
+    "valid": {
+      "type": "boolean",
+      "description": "Indicates whether or not the connection options are valid."
+    },
+    "messages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "INFO",
+              "WARNING",
+              "ERROR"
+            ]
+          }
+        },
+        "required": [
+          "text",
+          "type"
+        ],
+        "title": "Message",
+        "description": "A simple string/type response for returning information."
+      }
+    }
+  },
+  "description": "The response received back from the Shipping Provider connection check. This allows the store to understand whether the connection was successful.",
+  "x-internal": false
+}

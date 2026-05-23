@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CartUpdateRequest",
+  "title": "Cart Update Request",
+  "type": "object",
+  "properties": {
+    "line_item": {
+      "type": "object",
+      "title": "Line Item Request Data",
+      "properties": {
+        "quantity": {
+          "type": "number"
+        },
+        "product_id": {
+          "type": "number"
+        },
+        "variant_id": {
+          "type": "number",
+          "description": "The variant ID. Required if the product has variants."
+        },
+        "list_price": {
+          "type": "number"
+        },
+        "option_selections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "option_id": {
+                "type": "number"
+              },
+              "option_value": {
+                "type": "string"
+              }
+            },
+            "title": "Product Option Selection"
+          }
+        }
+      },
+      "required": [
+        "quantity",
+        "product_id",
+        "variant_id"
+      ]
+    },
+    "gift_certificate": {
+      "type": "object",
+      "required": [
+        "sender",
+        "recipient",
+        "amount",
+        "theme",
+        "name",
+        "quantity"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Given name for the gift certificate line item."
+        },
+        "theme": {
+          "type": "string",
+          "description": "The theme of the gift certificate.",
+          "enum": [
+            "birthday.html",
+            "boy.html",
+            "celebration.html",
+            "christmas.html",
+            "general.html",
+            "girl.html"
+          ]
+        },
+        "amount": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sender": {
+          "title": "Contact Entity",
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
+          }
+        },
+        "recipient": {
+          "title": "Contact Entity",
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
+          }
+        },
+        "message": {
+          "type": "string",
+          "maximum": 200,
+          "description": "Message shown to recipient, as provided by sender."
+        }
+      },
+      "title": "Line Item Gift Certificate Request Data"
+    }
+  },
+  "x-internal": false
+}
