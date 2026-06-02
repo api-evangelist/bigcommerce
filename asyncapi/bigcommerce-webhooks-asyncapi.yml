@@ -1,0 +1,2477 @@
+asyncapi: 2.6.0
+info:
+  title: BigCommerce Webhooks
+  version: '1.0.0'
+  description: |-
+    AsyncAPI description of BigCommerce's outbound webhook surface. BigCommerce
+    delivers near real-time event notifications by issuing HTTP POST requests
+    with a JSON body to a customer-configured destination URL (port 443, HTTPS
+    only). Subscribers register a scope (event type) and a destination using
+    the Webhooks v3 Management API.
+
+    Every callback payload uses a common envelope identified by a `scope` field
+    that names the event class (e.g. `store/order/created`). The light data
+    object carried in the payload is intentionally small; consumers are
+    expected to call the relevant REST resource (e.g. Orders, Products) to
+    obtain the full record.
+
+    Wildcard scopes (e.g. `store/order/*`, `store/product/*`,
+    `store/customer/*`, `store/cart/*`, `store/category/*`,
+    `store/shipment/*`, `store/sku/*`, `store/subscriber/*`,
+    `store/cart/lineItem/*`) subscribe the listener to every event in that
+    resource family in a single subscription.
+
+    Source documentation:
+      - Events reference:        https://developer.bigcommerce.com/docs/integrations/webhooks/events
+      - Webhooks overview:       https://developer.bigcommerce.com/docs/integrations/webhooks
+      - Channel webhooks:        https://developer.bigcommerce.com/docs/integrations/webhooks/events/channels
+      - Inventory and Location:  https://developer.bigcommerce.com/docs/integrations/webhooks/events/inventory-location
+      - Webhooks v3 API:         https://developer.bigcommerce.com/docs/rest-management/webhooks
+
+    Notes on modeling:
+      - Only event scopes explicitly documented by BigCommerce are modeled.
+      - The data sub-object varies by scope; documented fields are included
+        verbatim, and undocumented fields are left as additionalProperties.
+      - Channel-scoped events use the pattern
+        `store/channel/{channel_id}/...`; one representative channel for
+        each documented family is modeled, with the channel_id captured as
+        a parameter on the channel address.
+  contact:
+    name: BigCommerce Developer Support
+    url: https://support.bigcommerce.com/s/
+  license:
+    name: BigCommerce Developer Terms
+    url: https://www.bigcommerce.com/terms/api-terms/
+
+defaultContentType: application/json
+
+servers:
+  subscriber:
+    url: '{webhookUrl}'
+    protocol: https
+    description: |-
+      Customer-hosted HTTPS endpoint that receives webhook POSTs from
+      BigCommerce. The full URL is registered per webhook subscription via
+      the Webhooks v3 API. Custom ports are not supported; port 443 is
+      required.
+    variables:
+      webhookUrl:
+        default: https://example.com/bigcommerce/webhook
+        description: Fully-qualified HTTPS URL of the subscriber endpoint.
+
+channels:
+  store/app/uninstalled:
+    description: Fires when an app is uninstalled from a BigCommerce store.
+    subscribe:
+      operationId: onAppUninstalled
+      summary: An app has been uninstalled from a store.
+      message:
+        $ref: '#/components/messages/AppUninstalled'
+
+  store/information/updated:
+    description: Fires when a store's profile information is updated.
+    subscribe:
+      operationId: onStoreInformationUpdated
+      summary: Store profile / information was updated.
+      message:
+        $ref: '#/components/messages/StoreInformationUpdated'
+
+  store/cart/created:
+    description: Fires when a new cart is created.
+    subscribe:
+      operationId: onCartCreated
+      summary: A cart was created.
+      message:
+        $ref: '#/components/messages/CartCreated'
+
+  store/cart/updated:
+    description: Fires when a cart is updated. Also fires on cart creation because new carts begin empty.
+    subscribe:
+      operationId: onCartUpdated
+      summary: A cart was updated.
+      message:
+        $ref: '#/components/messages/CartUpdated'
+
+  store/cart/deleted:
+    description: Fires when a cart is deleted.
+    subscribe:
+      operationId: onCartDeleted
+      summary: A cart was deleted.
+      message:
+        $ref: '#/components/messages/CartDeleted'
+
+  store/cart/couponApplied:
+    description: Fires when a coupon code is applied to a cart.
+    subscribe:
+      operationId: onCartCouponApplied
+      summary: A coupon was applied to a cart.
+      message:
+        $ref: '#/components/messages/CartCouponApplied'
+
+  store/cart/abandoned:
+    description: Fires when a cart is marked abandoned (no activity for the configured timeout).
+    subscribe:
+      operationId: onCartAbandoned
+      summary: A cart was abandoned.
+      message:
+        $ref: '#/components/messages/CartAbandoned'
+
+  store/cart/converted:
+    description: Fires when a cart is converted into an order.
+    subscribe:
+      operationId: onCartConverted
+      summary: A cart was converted to an order.
+      message:
+        $ref: '#/components/messages/CartConverted'
+
+  store/cart/lineItem/created:
+    description: Fires when a line item is added to a cart.
+    subscribe:
+      operationId: onCartLineItemCreated
+      summary: A line item was added to a cart.
+      message:
+        $ref: '#/components/messages/CartLineItemCreated'
+
+  store/cart/lineItem/updated:
+    description: Fires when a line item in a cart is updated.
+    subscribe:
+      operationId: onCartLineItemUpdated
+      summary: A line item in a cart was updated.
+      message:
+        $ref: '#/components/messages/CartLineItemUpdated'
+
+  store/cart/lineItem/deleted:
+    description: Fires when a line item is removed from a cart.
+    subscribe:
+      operationId: onCartLineItemDeleted
+      summary: A line item was removed from a cart.
+      message:
+        $ref: '#/components/messages/CartLineItemDeleted'
+
+  store/category/created:
+    description: Fires when a category is created.
+    subscribe:
+      operationId: onCategoryCreated
+      summary: A category was created.
+      message:
+        $ref: '#/components/messages/CategoryCreated'
+
+  store/category/updated:
+    description: Fires when a category is updated.
+    subscribe:
+      operationId: onCategoryUpdated
+      summary: A category was updated.
+      message:
+        $ref: '#/components/messages/CategoryUpdated'
+
+  store/category/deleted:
+    description: Fires when a category is deleted.
+    subscribe:
+      operationId: onCategoryDeleted
+      summary: A category was deleted.
+      message:
+        $ref: '#/components/messages/CategoryDeleted'
+
+  store/customer/created:
+    description: Fires when a customer is created.
+    subscribe:
+      operationId: onCustomerCreated
+      summary: A customer was created.
+      message:
+        $ref: '#/components/messages/CustomerCreated'
+
+  store/customer/updated:
+    description: Fires when a customer is updated.
+    subscribe:
+      operationId: onCustomerUpdated
+      summary: A customer was updated.
+      message:
+        $ref: '#/components/messages/CustomerUpdated'
+
+  store/customer/deleted:
+    description: Fires when a customer is deleted.
+    subscribe:
+      operationId: onCustomerDeleted
+      summary: A customer was deleted.
+      message:
+        $ref: '#/components/messages/CustomerDeleted'
+
+  store/customer/address/created:
+    description: Fires when a customer address is created.
+    subscribe:
+      operationId: onCustomerAddressCreated
+      summary: A customer address was created.
+      message:
+        $ref: '#/components/messages/CustomerAddressCreated'
+
+  store/customer/address/updated:
+    description: Fires when a customer address is updated.
+    subscribe:
+      operationId: onCustomerAddressUpdated
+      summary: A customer address was updated.
+      message:
+        $ref: '#/components/messages/CustomerAddressUpdated'
+
+  store/customer/address/deleted:
+    description: Fires when a customer address is deleted.
+    subscribe:
+      operationId: onCustomerAddressDeleted
+      summary: A customer address was deleted.
+      message:
+        $ref: '#/components/messages/CustomerAddressDeleted'
+
+  store/customer/payment/instrument/default/updated:
+    description: Fires when a customer's default stored payment instrument changes.
+    subscribe:
+      operationId: onCustomerDefaultPaymentInstrumentUpdated
+      summary: Customer default payment instrument was updated.
+      message:
+        $ref: '#/components/messages/CustomerDefaultPaymentInstrumentUpdated'
+
+  store/order/created:
+    description: Fires when an order is created.
+    subscribe:
+      operationId: onOrderCreated
+      summary: An order was created.
+      message:
+        $ref: '#/components/messages/OrderCreated'
+
+  store/order/updated:
+    description: Fires when an order is updated.
+    subscribe:
+      operationId: onOrderUpdated
+      summary: An order was updated.
+      message:
+        $ref: '#/components/messages/OrderUpdated'
+
+  store/order/archived:
+    description: Fires when an order is archived.
+    subscribe:
+      operationId: onOrderArchived
+      summary: An order was archived.
+      message:
+        $ref: '#/components/messages/OrderArchived'
+
+  store/order/statusUpdated:
+    description: Fires when an order's status changes.
+    subscribe:
+      operationId: onOrderStatusUpdated
+      summary: An order status was updated.
+      message:
+        $ref: '#/components/messages/OrderStatusUpdated'
+
+  store/order/message/created:
+    description: Fires when an order message is created.
+    subscribe:
+      operationId: onOrderMessageCreated
+      summary: An order message was created.
+      message:
+        $ref: '#/components/messages/OrderMessageCreated'
+
+  store/order/refund/created:
+    description: Fires when a refund is created for an order.
+    subscribe:
+      operationId: onOrderRefundCreated
+      summary: A refund was created for an order.
+      message:
+        $ref: '#/components/messages/OrderRefundCreated'
+
+  store/order/transaction/created:
+    description: Fires when an order transaction is created.
+    subscribe:
+      operationId: onOrderTransactionCreated
+      summary: An order transaction was created.
+      message:
+        $ref: '#/components/messages/OrderTransactionCreated'
+
+  store/order/transaction/updated:
+    description: Fires when an order transaction is updated.
+    subscribe:
+      operationId: onOrderTransactionUpdated
+      summary: An order transaction was updated.
+      message:
+        $ref: '#/components/messages/OrderTransactionUpdated'
+
+  store/product/created:
+    description: Fires when a product is created.
+    subscribe:
+      operationId: onProductCreated
+      summary: A product was created.
+      message:
+        $ref: '#/components/messages/ProductCreated'
+
+  store/product/updated:
+    description: Fires when a product is updated.
+    subscribe:
+      operationId: onProductUpdated
+      summary: A product was updated.
+      message:
+        $ref: '#/components/messages/ProductUpdated'
+
+  store/product/deleted:
+    description: Fires when a product is deleted.
+    subscribe:
+      operationId: onProductDeleted
+      summary: A product was deleted.
+      message:
+        $ref: '#/components/messages/ProductDeleted'
+
+  store/product/inventory/updated:
+    description: Fires when product inventory is updated via API or control panel (absolute change).
+    subscribe:
+      operationId: onProductInventoryUpdated
+      summary: Product inventory was updated.
+      message:
+        $ref: '#/components/messages/ProductInventoryUpdated'
+
+  store/product/inventory/order/updated:
+    description: Fires when product inventory changes as the result of an order (relative change).
+    subscribe:
+      operationId: onProductInventoryOrderUpdated
+      summary: Product inventory updated by an order.
+      message:
+        $ref: '#/components/messages/ProductInventoryOrderUpdated'
+
+  store/shipment/created:
+    description: Fires when a shipment is created for an order.
+    subscribe:
+      operationId: onShipmentCreated
+      summary: A shipment was created.
+      message:
+        $ref: '#/components/messages/ShipmentCreated'
+
+  store/shipment/updated:
+    description: Fires when a shipment is updated.
+    subscribe:
+      operationId: onShipmentUpdated
+      summary: A shipment was updated.
+      message:
+        $ref: '#/components/messages/ShipmentUpdated'
+
+  store/shipment/deleted:
+    description: Fires when a shipment is deleted.
+    subscribe:
+      operationId: onShipmentDeleted
+      summary: A shipment was deleted.
+      message:
+        $ref: '#/components/messages/ShipmentDeleted'
+
+  store/sku/created:
+    description: Fires when a SKU is created.
+    subscribe:
+      operationId: onSkuCreated
+      summary: A SKU was created.
+      message:
+        $ref: '#/components/messages/SkuCreated'
+
+  store/sku/updated:
+    description: Fires when a SKU is updated.
+    subscribe:
+      operationId: onSkuUpdated
+      summary: A SKU was updated.
+      message:
+        $ref: '#/components/messages/SkuUpdated'
+
+  store/sku/deleted:
+    description: Fires when a SKU is deleted.
+    subscribe:
+      operationId: onSkuDeleted
+      summary: A SKU was deleted.
+      message:
+        $ref: '#/components/messages/SkuDeleted'
+
+  store/sku/inventory/updated:
+    description: Fires when SKU-level inventory is updated via API or control panel (absolute change).
+    subscribe:
+      operationId: onSkuInventoryUpdated
+      summary: SKU inventory was updated.
+      message:
+        $ref: '#/components/messages/SkuInventoryUpdated'
+
+  store/sku/inventory/order/updated:
+    description: Fires when SKU-level inventory changes as the result of an order (relative change).
+    subscribe:
+      operationId: onSkuInventoryOrderUpdated
+      summary: SKU inventory updated by an order.
+      message:
+        $ref: '#/components/messages/SkuInventoryOrderUpdated'
+
+  store/subscriber/created:
+    description: Fires when a marketing subscriber is created.
+    subscribe:
+      operationId: onSubscriberCreated
+      summary: A subscriber was created.
+      message:
+        $ref: '#/components/messages/SubscriberCreated'
+
+  store/subscriber/updated:
+    description: Fires when a marketing subscriber is updated.
+    subscribe:
+      operationId: onSubscriberUpdated
+      summary: A subscriber was updated.
+      message:
+        $ref: '#/components/messages/SubscriberUpdated'
+
+  store/subscriber/deleted:
+    description: Fires when a marketing subscriber is deleted.
+    subscribe:
+      operationId: onSubscriberDeleted
+      summary: A subscriber was deleted.
+      message:
+        $ref: '#/components/messages/SubscriberDeleted'
+
+  store/channel/created:
+    description: Fires when a channel is created.
+    subscribe:
+      operationId: onChannelCreated
+      summary: A channel was created.
+      message:
+        $ref: '#/components/messages/ChannelCreated'
+
+  store/channel/updated:
+    description: Fires when a channel is updated.
+    subscribe:
+      operationId: onChannelUpdated
+      summary: A channel was updated.
+      message:
+        $ref: '#/components/messages/ChannelUpdated'
+
+  store/inventory/location/created:
+    description: Fires when an inventory location is created.
+    subscribe:
+      operationId: onInventoryLocationCreated
+      summary: An inventory location was created.
+      message:
+        $ref: '#/components/messages/InventoryLocationCreated'
+
+  store/inventory/location/updated:
+    description: Fires when an inventory location is updated.
+    subscribe:
+      operationId: onInventoryLocationUpdated
+      summary: An inventory location was updated.
+      message:
+        $ref: '#/components/messages/InventoryLocationUpdated'
+
+  store/metafield/created:
+    description: Fires when a store-level metafield is created.
+    subscribe:
+      operationId: onStoreMetafieldCreated
+      message:
+        $ref: '#/components/messages/StoreMetafieldCreated'
+
+  store/metafield/updated:
+    description: Fires when a store-level metafield is updated.
+    subscribe:
+      operationId: onStoreMetafieldUpdated
+      message:
+        $ref: '#/components/messages/StoreMetafieldUpdated'
+
+  store/metafield/deleted:
+    description: Fires when a store-level metafield is deleted.
+    subscribe:
+      operationId: onStoreMetafieldDeleted
+      message:
+        $ref: '#/components/messages/StoreMetafieldDeleted'
+
+  store/brand/metafield/created:
+    description: Fires when a brand metafield is created.
+    subscribe:
+      operationId: onBrandMetafieldCreated
+      message:
+        $ref: '#/components/messages/BrandMetafieldCreated'
+
+  store/brand/metafield/updated:
+    description: Fires when a brand metafield is updated.
+    subscribe:
+      operationId: onBrandMetafieldUpdated
+      message:
+        $ref: '#/components/messages/BrandMetafieldUpdated'
+
+  store/brand/metafield/deleted:
+    description: Fires when a brand metafield is deleted.
+    subscribe:
+      operationId: onBrandMetafieldDeleted
+      message:
+        $ref: '#/components/messages/BrandMetafieldDeleted'
+
+  store/cart/metafield/created:
+    description: Fires when a cart metafield is created.
+    subscribe:
+      operationId: onCartMetafieldCreated
+      message:
+        $ref: '#/components/messages/CartMetafieldCreated'
+
+  store/cart/metafield/updated:
+    description: Fires when a cart metafield is updated.
+    subscribe:
+      operationId: onCartMetafieldUpdated
+      message:
+        $ref: '#/components/messages/CartMetafieldUpdated'
+
+  store/cart/metafield/deleted:
+    description: Fires when a cart metafield is deleted.
+    subscribe:
+      operationId: onCartMetafieldDeleted
+      message:
+        $ref: '#/components/messages/CartMetafieldDeleted'
+
+  store/category/metafield/created:
+    description: Fires when a category metafield is created.
+    subscribe:
+      operationId: onCategoryMetafieldCreated
+      message:
+        $ref: '#/components/messages/CategoryMetafieldCreated'
+
+  store/category/metafield/updated:
+    description: Fires when a category metafield is updated.
+    subscribe:
+      operationId: onCategoryMetafieldUpdated
+      message:
+        $ref: '#/components/messages/CategoryMetafieldUpdated'
+
+  store/category/metafield/deleted:
+    description: Fires when a category metafield is deleted.
+    subscribe:
+      operationId: onCategoryMetafieldDeleted
+      message:
+        $ref: '#/components/messages/CategoryMetafieldDeleted'
+
+  store/channel/metafield/created:
+    description: Fires when a channel metafield is created.
+    subscribe:
+      operationId: onChannelMetafieldCreated
+      message:
+        $ref: '#/components/messages/ChannelMetafieldCreated'
+
+  store/channel/metafield/updated:
+    description: Fires when a channel metafield is updated.
+    subscribe:
+      operationId: onChannelMetafieldUpdated
+      message:
+        $ref: '#/components/messages/ChannelMetafieldUpdated'
+
+  store/channel/metafield/deleted:
+    description: Fires when a channel metafield is deleted.
+    subscribe:
+      operationId: onChannelMetafieldDeleted
+      message:
+        $ref: '#/components/messages/ChannelMetafieldDeleted'
+
+  store/order/metafield/created:
+    description: Fires when an order metafield is created.
+    subscribe:
+      operationId: onOrderMetafieldCreated
+      message:
+        $ref: '#/components/messages/OrderMetafieldCreated'
+
+  store/order/metafield/updated:
+    description: Fires when an order metafield is updated.
+    subscribe:
+      operationId: onOrderMetafieldUpdated
+      message:
+        $ref: '#/components/messages/OrderMetafieldUpdated'
+
+  store/order/metafield/deleted:
+    description: Fires when an order metafield is deleted.
+    subscribe:
+      operationId: onOrderMetafieldDeleted
+      message:
+        $ref: '#/components/messages/OrderMetafieldDeleted'
+
+  store/product/metafield/created:
+    description: Fires when a product metafield is created.
+    subscribe:
+      operationId: onProductMetafieldCreated
+      message:
+        $ref: '#/components/messages/ProductMetafieldCreated'
+
+  store/product/metafield/updated:
+    description: Fires when a product metafield is updated.
+    subscribe:
+      operationId: onProductMetafieldUpdated
+      message:
+        $ref: '#/components/messages/ProductMetafieldUpdated'
+
+  store/product/metafield/deleted:
+    description: Fires when a product metafield is deleted.
+    subscribe:
+      operationId: onProductMetafieldDeleted
+      message:
+        $ref: '#/components/messages/ProductMetafieldDeleted'
+
+  store/product/variant/metafield/created:
+    description: Fires when a product variant metafield is created.
+    subscribe:
+      operationId: onProductVariantMetafieldCreated
+      message:
+        $ref: '#/components/messages/ProductVariantMetafieldCreated'
+
+  store/product/variant/metafield/updated:
+    description: Fires when a product variant metafield is updated.
+    subscribe:
+      operationId: onProductVariantMetafieldUpdated
+      message:
+        $ref: '#/components/messages/ProductVariantMetafieldUpdated'
+
+  store/product/variant/metafield/deleted:
+    description: Fires when a product variant metafield is deleted.
+    subscribe:
+      operationId: onProductVariantMetafieldDeleted
+      message:
+        $ref: '#/components/messages/ProductVariantMetafieldDeleted'
+
+  store/inventory/location/metafield/created:
+    description: Fires when an inventory-location metafield is created.
+    subscribe:
+      operationId: onInventoryLocationMetafieldCreated
+      message:
+        $ref: '#/components/messages/InventoryLocationMetafieldCreated'
+
+  store/inventory/location/metafield/updated:
+    description: Fires when an inventory-location metafield is updated.
+    subscribe:
+      operationId: onInventoryLocationMetafieldUpdated
+      message:
+        $ref: '#/components/messages/InventoryLocationMetafieldUpdated'
+
+  store/inventory/location/metafield/deleted:
+    description: Fires when an inventory-location metafield is deleted.
+    subscribe:
+      operationId: onInventoryLocationMetafieldDeleted
+      message:
+        $ref: '#/components/messages/InventoryLocationMetafieldDeleted'
+
+  store/hook/deliveryException:
+    description: Fires when delivery of a previous webhook to the subscriber's endpoint failed.
+    subscribe:
+      operationId: onHookDeliveryException
+      summary: A webhook delivery exception occurred.
+      message:
+        $ref: '#/components/messages/HookDeliveryException'
+
+  store/modifier/updated:
+    description: Fires when a product modifier is updated.
+    subscribe:
+      operationId: onModifierUpdated
+      message:
+        $ref: '#/components/messages/ModifierUpdated'
+
+  store/option/updated:
+    description: Fires when a product option is updated.
+    subscribe:
+      operationId: onOptionUpdated
+      message:
+        $ref: '#/components/messages/OptionUpdated'
+
+  store/channel/{channel_id}/cart/created:
+    description: Channel-scoped cart created event.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelCartCreated
+      message:
+        $ref: '#/components/messages/ChannelCartCreated'
+
+  store/channel/{channel_id}/cart/lineItems/created:
+    description: Channel-scoped cart line item created event.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelCartLineItemsCreated
+      message:
+        $ref: '#/components/messages/ChannelCartLineItemsCreated'
+
+  store/channel/{channel_id}/category/created:
+    description: Channel-scoped category created event.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelCategoryCreated
+      message:
+        $ref: '#/components/messages/ChannelCategoryCreated'
+
+  store/channel/{channel_id}/categoryTree/updated:
+    description: Channel-scoped category tree updated event.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelCategoryTreeUpdated
+      message:
+        $ref: '#/components/messages/ChannelCategoryTreeUpdated'
+
+  store/channel/{channel_id}/notifications/abandonedCart/updated:
+    description: Channel-scoped abandoned-cart notification settings updated.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelAbandonedCartNotificationsUpdated
+      message:
+        $ref: '#/components/messages/ChannelAbandonedCartNotificationsUpdated'
+
+  store/channel/{channel_id}/order/updated:
+    description: Channel-scoped order updated event.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelOrderUpdated
+      message:
+        $ref: '#/components/messages/ChannelOrderUpdated'
+
+  store/channel/{channel_id}/page/created:
+    description: Channel-scoped page created event.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelPageCreated
+      message:
+        $ref: '#/components/messages/ChannelPageCreated'
+
+  store/channel/{channel_id}/product/assigned:
+    description: Channel-scoped product assignment event.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelProductAssigned
+      message:
+        $ref: '#/components/messages/ChannelProductAssigned'
+
+  store/channel/{channel_id}/script/created:
+    description: Channel-scoped script created event.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelScriptCreated
+      message:
+        $ref: '#/components/messages/ChannelScriptCreated'
+
+  store/channel/{channel_id}/settings/emailStatus/updated:
+    description: Channel-scoped email-status settings updated.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelEmailStatusUpdated
+      message:
+        $ref: '#/components/messages/ChannelEmailStatusUpdated'
+
+  store/channel/{channel_id}/settings/route/updated:
+    description: Channel-scoped routing settings updated.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelRouteUpdated
+      message:
+        $ref: '#/components/messages/ChannelRouteUpdated'
+
+  store/channel/{channel_id}/settings/searchContextFilters/updated:
+    description: Channel-scoped search-context filters updated.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelSearchContextFiltersUpdated
+      message:
+        $ref: '#/components/messages/ChannelSearchContextFiltersUpdated'
+
+  store/channel/{channel_id}/settings/site/updated:
+    description: Channel-scoped site settings updated.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelSiteSettingsUpdated
+      message:
+        $ref: '#/components/messages/ChannelSiteSettingsUpdated'
+
+  store/channel/{channel_id}/socialMediaLinks/updated:
+    description: Channel-scoped social media links updated.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelSocialMediaLinksUpdated
+      message:
+        $ref: '#/components/messages/ChannelSocialMediaLinksUpdated'
+
+  store/channel/{channel_id}/theme/configuration/created:
+    description: Channel-scoped theme configuration created event.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelThemeConfigurationCreated
+      message:
+        $ref: '#/components/messages/ChannelThemeConfigurationCreated'
+
+  store/channel/{channel_id}/inventory/product/low_stock_reached:
+    description: Channel-scoped product low-stock threshold reached.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelInventoryProductLowStockReached
+      message:
+        $ref: '#/components/messages/ChannelInventoryProductLowStockReached'
+
+  store/channel/{channel_id}/inventory/product/out_of_stock_reached:
+    description: Channel-scoped product reached out-of-stock.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelInventoryProductOutOfStockReached
+      message:
+        $ref: '#/components/messages/ChannelInventoryProductOutOfStockReached'
+
+  store/channel/{channel_id}/inventory/product/settings_changed:
+    description: Channel-scoped inventory settings changed for a product.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelInventoryProductSettingsChanged
+      message:
+        $ref: '#/components/messages/ChannelInventoryProductSettingsChanged'
+
+  store/channel/{channel_id}/inventory/product/stock_changed:
+    description: Channel-scoped product stock changed.
+    parameters:
+      channel_id:
+        $ref: '#/components/parameters/ChannelId'
+    subscribe:
+      operationId: onChannelInventoryProductStockChanged
+      message:
+        $ref: '#/components/messages/ChannelInventoryProductStockChanged'
+
+components:
+  parameters:
+    ChannelId:
+      description: Numeric channel identifier (e.g. `1` for the default storefront channel).
+      schema:
+        type: string
+        pattern: '^[0-9]+$'
+
+  schemas:
+    Envelope:
+      type: object
+      description: |-
+        Common envelope present on every BigCommerce webhook callback. Per the
+        Webhooks overview, every payload includes `scope`, `store_id`,
+        `producer`, `created_at`, `hash`, and `data`.
+      required:
+        - scope
+        - store_id
+        - data
+        - hash
+        - created_at
+        - producer
+      properties:
+        scope:
+          type: string
+          description: Event scope string (e.g. `store/order/created`).
+        store_id:
+          type: string
+          description: BigCommerce store identifier.
+        producer:
+          type: string
+          description: Producer of the event, formatted as `stores/{store_hash}`.
+          example: stores/abc123
+        created_at:
+          type: integer
+          format: int64
+          description: Unix epoch timestamp (seconds) when the event was generated.
+        hash:
+          type: string
+          description: SHA1-encoded representation of the payload.
+        data:
+          type: object
+          description: Event-specific data object; shape varies by scope.
+
+    ResourceRef:
+      type: object
+      description: Lightweight reference identifying the resource affected by the event.
+      required:
+        - type
+        - id
+      properties:
+        type:
+          type: string
+          description: Resource type name (e.g. `order`, `product`, `cart`).
+        id:
+          oneOf:
+            - type: integer
+            - type: string
+          description: Identifier of the affected resource.
+
+    CartData:
+      allOf:
+        - $ref: '#/components/schemas/ResourceRef'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [cart]
+
+    CartLineItemData:
+      allOf:
+        - $ref: '#/components/schemas/ResourceRef'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [cart_line_item]
+            cart_id:
+              type: string
+              description: Identifier of the parent cart.
+
+    CategoryData:
+      allOf:
+        - $ref: '#/components/schemas/ResourceRef'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [category]
+
+    CustomerData:
+      allOf:
+        - $ref: '#/components/schemas/ResourceRef'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [customer]
+
+    CustomerAddressData:
+      allOf:
+        - $ref: '#/components/schemas/ResourceRef'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [address]
+            address:
+              type: object
+              properties:
+                customer_id:
+                  type: integer
+
+    OrderData:
+      allOf:
+        - $ref: '#/components/schemas/ResourceRef'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [order]
+
+    OrderStatusData:
+      allOf:
+        - $ref: '#/components/schemas/ResourceRef'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [order]
+            status:
+              type: object
+              properties:
+                previous_status_id:
+                  type: integer
+                new_status_id:
+                  type: integer
+
+    ProductData:
+      allOf:
+        - $ref: '#/components/schemas/ResourceRef'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [product]
+
+    ProductInventoryData:
+      type: object
+      description: |-
+        Payload data for product-inventory events. The `inventory` object
+        includes the `product_id` and either an absolute or relative change.
+      properties:
+        type:
+          type: string
+          enum: [product]
+        inventory:
+          type: object
+          properties:
+            product_id:
+              type: integer
+            method:
+              type: string
+              enum: [absolute, relative]
+              description: '`absolute` for control panel/API updates; `relative` for order-driven changes.'
+            value:
+              type: integer
+              description: The number of items the inventory level changed by (signed for relative).
+
+    ShipmentData:
+      allOf:
+        - $ref: '#/components/schemas/ResourceRef'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [shipment]
+            order_id:
+              type: integer
+
+    SkuData:
+      type: object
+      description: SKU event payload data including product / variant linkage.
+      properties:
+        type:
+          type: string
+          enum: [sku]
+        id:
+          type: integer
+        sku:
+          type: object
+          properties:
+            product_id:
+              type: integer
+            variant_id:
+              type: integer
+
+    SkuInventoryData:
+      type: object
+      description: |-
+        Payload data for SKU-inventory events. The `inventory` object includes
+        the `product_id`, `variant_id`, and either an absolute or relative
+        change.
+      properties:
+        type:
+          type: string
+          enum: [sku]
+        inventory:
+          type: object
+          properties:
+            product_id:
+              type: integer
+            variant_id:
+              type: integer
+            method:
+              type: string
+              enum: [absolute, relative]
+            value:
+              type: integer
+
+    SubscriberData:
+      allOf:
+        - $ref: '#/components/schemas/ResourceRef'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [subscriber]
+
+    AppUninstalledData:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [store]
+
+    StoreInformationData:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [store]
+
+    MetafieldData:
+      type: object
+      description: Metafield-event payload data.
+      properties:
+        type:
+          type: string
+          enum: [metafield]
+        id:
+          type: integer
+
+    ChannelData:
+      allOf:
+        - $ref: '#/components/schemas/ResourceRef'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [channel]
+
+    InventoryLocationData:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [location]
+        id:
+          type: integer
+
+    HookDeliveryExceptionData:
+      type: object
+      description: Payload describing a webhook delivery exception (failure to deliver a prior callback).
+      properties:
+        type:
+          type: string
+        message:
+          type: object
+
+    ModifierData:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [modifier]
+        id:
+          type: integer
+        product_id:
+          type: integer
+
+    OptionData:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [option]
+        id:
+          type: integer
+        product_id:
+          type: integer
+
+    OrderMessageData:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [order_message]
+        id:
+          type: integer
+        order_id:
+          type: integer
+
+    OrderRefundData:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [order_refund]
+        id:
+          type: integer
+        order_id:
+          type: integer
+
+    OrderTransactionData:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [order_transaction]
+        id:
+          type: integer
+        order_id:
+          type: integer
+
+    CartCouponAppliedData:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [cart]
+        id:
+          type: string
+        couponCode:
+          type: string
+
+  messages:
+    AppUninstalled:
+      name: AppUninstalled
+      title: store/app/uninstalled
+      summary: An app has been uninstalled from the store.
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/app/uninstalled
+              data:
+                $ref: '#/components/schemas/AppUninstalledData'
+
+    StoreInformationUpdated:
+      name: StoreInformationUpdated
+      title: store/information/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/information/updated
+              data:
+                $ref: '#/components/schemas/StoreInformationData'
+
+    CartCreated:
+      name: CartCreated
+      title: store/cart/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/cart/created
+              data:
+                $ref: '#/components/schemas/CartData'
+
+    CartUpdated:
+      name: CartUpdated
+      title: store/cart/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/cart/updated
+              data:
+                $ref: '#/components/schemas/CartData'
+
+    CartDeleted:
+      name: CartDeleted
+      title: store/cart/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/cart/deleted
+              data:
+                $ref: '#/components/schemas/CartData'
+
+    CartCouponApplied:
+      name: CartCouponApplied
+      title: store/cart/couponApplied
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/cart/couponApplied
+              data:
+                $ref: '#/components/schemas/CartCouponAppliedData'
+
+    CartAbandoned:
+      name: CartAbandoned
+      title: store/cart/abandoned
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/cart/abandoned
+              data:
+                $ref: '#/components/schemas/CartData'
+
+    CartConverted:
+      name: CartConverted
+      title: store/cart/converted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/cart/converted
+              data:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum: [cart]
+                  cartId:
+                    type: string
+                  orderId:
+                    type: integer
+
+    CartLineItemCreated:
+      name: CartLineItemCreated
+      title: store/cart/lineItem/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/cart/lineItem/created
+              data:
+                $ref: '#/components/schemas/CartLineItemData'
+
+    CartLineItemUpdated:
+      name: CartLineItemUpdated
+      title: store/cart/lineItem/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/cart/lineItem/updated
+              data:
+                $ref: '#/components/schemas/CartLineItemData'
+
+    CartLineItemDeleted:
+      name: CartLineItemDeleted
+      title: store/cart/lineItem/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/cart/lineItem/deleted
+              data:
+                $ref: '#/components/schemas/CartLineItemData'
+
+    CategoryCreated:
+      name: CategoryCreated
+      title: store/category/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/category/created
+              data:
+                $ref: '#/components/schemas/CategoryData'
+
+    CategoryUpdated:
+      name: CategoryUpdated
+      title: store/category/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/category/updated
+              data:
+                $ref: '#/components/schemas/CategoryData'
+
+    CategoryDeleted:
+      name: CategoryDeleted
+      title: store/category/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/category/deleted
+              data:
+                $ref: '#/components/schemas/CategoryData'
+
+    CustomerCreated:
+      name: CustomerCreated
+      title: store/customer/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/customer/created
+              data:
+                $ref: '#/components/schemas/CustomerData'
+
+    CustomerUpdated:
+      name: CustomerUpdated
+      title: store/customer/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/customer/updated
+              data:
+                $ref: '#/components/schemas/CustomerData'
+
+    CustomerDeleted:
+      name: CustomerDeleted
+      title: store/customer/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/customer/deleted
+              data:
+                $ref: '#/components/schemas/CustomerData'
+
+    CustomerAddressCreated:
+      name: CustomerAddressCreated
+      title: store/customer/address/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/customer/address/created
+              data:
+                $ref: '#/components/schemas/CustomerAddressData'
+
+    CustomerAddressUpdated:
+      name: CustomerAddressUpdated
+      title: store/customer/address/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/customer/address/updated
+              data:
+                $ref: '#/components/schemas/CustomerAddressData'
+
+    CustomerAddressDeleted:
+      name: CustomerAddressDeleted
+      title: store/customer/address/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/customer/address/deleted
+              data:
+                $ref: '#/components/schemas/CustomerAddressData'
+
+    CustomerDefaultPaymentInstrumentUpdated:
+      name: CustomerDefaultPaymentInstrumentUpdated
+      title: store/customer/payment/instrument/default/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/customer/payment/instrument/default/updated
+              data:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum: [payment_instrument]
+                  customer_id:
+                    type: integer
+                  id:
+                    type: string
+
+    OrderCreated:
+      name: OrderCreated
+      title: store/order/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/order/created
+              data:
+                $ref: '#/components/schemas/OrderData'
+
+    OrderUpdated:
+      name: OrderUpdated
+      title: store/order/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/order/updated
+              data:
+                $ref: '#/components/schemas/OrderData'
+
+    OrderArchived:
+      name: OrderArchived
+      title: store/order/archived
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/order/archived
+              data:
+                $ref: '#/components/schemas/OrderData'
+
+    OrderStatusUpdated:
+      name: OrderStatusUpdated
+      title: store/order/statusUpdated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/order/statusUpdated
+              data:
+                $ref: '#/components/schemas/OrderStatusData'
+
+    OrderMessageCreated:
+      name: OrderMessageCreated
+      title: store/order/message/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/order/message/created
+              data:
+                $ref: '#/components/schemas/OrderMessageData'
+
+    OrderRefundCreated:
+      name: OrderRefundCreated
+      title: store/order/refund/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/order/refund/created
+              data:
+                $ref: '#/components/schemas/OrderRefundData'
+
+    OrderTransactionCreated:
+      name: OrderTransactionCreated
+      title: store/order/transaction/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/order/transaction/created
+              data:
+                $ref: '#/components/schemas/OrderTransactionData'
+
+    OrderTransactionUpdated:
+      name: OrderTransactionUpdated
+      title: store/order/transaction/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/order/transaction/updated
+              data:
+                $ref: '#/components/schemas/OrderTransactionData'
+
+    ProductCreated:
+      name: ProductCreated
+      title: store/product/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/product/created
+              data:
+                $ref: '#/components/schemas/ProductData'
+
+    ProductUpdated:
+      name: ProductUpdated
+      title: store/product/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/product/updated
+              data:
+                $ref: '#/components/schemas/ProductData'
+
+    ProductDeleted:
+      name: ProductDeleted
+      title: store/product/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/product/deleted
+              data:
+                $ref: '#/components/schemas/ProductData'
+
+    ProductInventoryUpdated:
+      name: ProductInventoryUpdated
+      title: store/product/inventory/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/product/inventory/updated
+              data:
+                $ref: '#/components/schemas/ProductInventoryData'
+
+    ProductInventoryOrderUpdated:
+      name: ProductInventoryOrderUpdated
+      title: store/product/inventory/order/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/product/inventory/order/updated
+              data:
+                $ref: '#/components/schemas/ProductInventoryData'
+
+    ShipmentCreated:
+      name: ShipmentCreated
+      title: store/shipment/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/shipment/created
+              data:
+                $ref: '#/components/schemas/ShipmentData'
+
+    ShipmentUpdated:
+      name: ShipmentUpdated
+      title: store/shipment/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/shipment/updated
+              data:
+                $ref: '#/components/schemas/ShipmentData'
+
+    ShipmentDeleted:
+      name: ShipmentDeleted
+      title: store/shipment/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/shipment/deleted
+              data:
+                $ref: '#/components/schemas/ShipmentData'
+
+    SkuCreated:
+      name: SkuCreated
+      title: store/sku/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/sku/created
+              data:
+                $ref: '#/components/schemas/SkuData'
+
+    SkuUpdated:
+      name: SkuUpdated
+      title: store/sku/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/sku/updated
+              data:
+                $ref: '#/components/schemas/SkuData'
+
+    SkuDeleted:
+      name: SkuDeleted
+      title: store/sku/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/sku/deleted
+              data:
+                $ref: '#/components/schemas/SkuData'
+
+    SkuInventoryUpdated:
+      name: SkuInventoryUpdated
+      title: store/sku/inventory/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/sku/inventory/updated
+              data:
+                $ref: '#/components/schemas/SkuInventoryData'
+
+    SkuInventoryOrderUpdated:
+      name: SkuInventoryOrderUpdated
+      title: store/sku/inventory/order/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/sku/inventory/order/updated
+              data:
+                $ref: '#/components/schemas/SkuInventoryData'
+
+    SubscriberCreated:
+      name: SubscriberCreated
+      title: store/subscriber/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/subscriber/created
+              data:
+                $ref: '#/components/schemas/SubscriberData'
+
+    SubscriberUpdated:
+      name: SubscriberUpdated
+      title: store/subscriber/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/subscriber/updated
+              data:
+                $ref: '#/components/schemas/SubscriberData'
+
+    SubscriberDeleted:
+      name: SubscriberDeleted
+      title: store/subscriber/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/subscriber/deleted
+              data:
+                $ref: '#/components/schemas/SubscriberData'
+
+    ChannelCreated:
+      name: ChannelCreated
+      title: store/channel/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/channel/created
+              data:
+                $ref: '#/components/schemas/ChannelData'
+
+    ChannelUpdated:
+      name: ChannelUpdated
+      title: store/channel/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/channel/updated
+              data:
+                $ref: '#/components/schemas/ChannelData'
+
+    InventoryLocationCreated:
+      name: InventoryLocationCreated
+      title: store/inventory/location/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/inventory/location/created
+              data:
+                $ref: '#/components/schemas/InventoryLocationData'
+
+    InventoryLocationUpdated:
+      name: InventoryLocationUpdated
+      title: store/inventory/location/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/inventory/location/updated
+              data:
+                $ref: '#/components/schemas/InventoryLocationData'
+
+    StoreMetafieldCreated:
+      name: StoreMetafieldCreated
+      title: store/metafield/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/metafield/created
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    StoreMetafieldUpdated:
+      name: StoreMetafieldUpdated
+      title: store/metafield/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/metafield/updated
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    StoreMetafieldDeleted:
+      name: StoreMetafieldDeleted
+      title: store/metafield/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/metafield/deleted
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    BrandMetafieldCreated:
+      name: BrandMetafieldCreated
+      title: store/brand/metafield/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/brand/metafield/created
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    BrandMetafieldUpdated:
+      name: BrandMetafieldUpdated
+      title: store/brand/metafield/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/brand/metafield/updated
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    BrandMetafieldDeleted:
+      name: BrandMetafieldDeleted
+      title: store/brand/metafield/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/brand/metafield/deleted
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    CartMetafieldCreated:
+      name: CartMetafieldCreated
+      title: store/cart/metafield/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/cart/metafield/created
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    CartMetafieldUpdated:
+      name: CartMetafieldUpdated
+      title: store/cart/metafield/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/cart/metafield/updated
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    CartMetafieldDeleted:
+      name: CartMetafieldDeleted
+      title: store/cart/metafield/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/cart/metafield/deleted
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    CategoryMetafieldCreated:
+      name: CategoryMetafieldCreated
+      title: store/category/metafield/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/category/metafield/created
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    CategoryMetafieldUpdated:
+      name: CategoryMetafieldUpdated
+      title: store/category/metafield/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/category/metafield/updated
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    CategoryMetafieldDeleted:
+      name: CategoryMetafieldDeleted
+      title: store/category/metafield/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/category/metafield/deleted
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    ChannelMetafieldCreated:
+      name: ChannelMetafieldCreated
+      title: store/channel/metafield/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/channel/metafield/created
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    ChannelMetafieldUpdated:
+      name: ChannelMetafieldUpdated
+      title: store/channel/metafield/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/channel/metafield/updated
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    ChannelMetafieldDeleted:
+      name: ChannelMetafieldDeleted
+      title: store/channel/metafield/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/channel/metafield/deleted
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    OrderMetafieldCreated:
+      name: OrderMetafieldCreated
+      title: store/order/metafield/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/order/metafield/created
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    OrderMetafieldUpdated:
+      name: OrderMetafieldUpdated
+      title: store/order/metafield/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/order/metafield/updated
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    OrderMetafieldDeleted:
+      name: OrderMetafieldDeleted
+      title: store/order/metafield/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/order/metafield/deleted
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    ProductMetafieldCreated:
+      name: ProductMetafieldCreated
+      title: store/product/metafield/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/product/metafield/created
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    ProductMetafieldUpdated:
+      name: ProductMetafieldUpdated
+      title: store/product/metafield/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/product/metafield/updated
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    ProductMetafieldDeleted:
+      name: ProductMetafieldDeleted
+      title: store/product/metafield/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/product/metafield/deleted
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    ProductVariantMetafieldCreated:
+      name: ProductVariantMetafieldCreated
+      title: store/product/variant/metafield/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/product/variant/metafield/created
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    ProductVariantMetafieldUpdated:
+      name: ProductVariantMetafieldUpdated
+      title: store/product/variant/metafield/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/product/variant/metafield/updated
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    ProductVariantMetafieldDeleted:
+      name: ProductVariantMetafieldDeleted
+      title: store/product/variant/metafield/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/product/variant/metafield/deleted
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    InventoryLocationMetafieldCreated:
+      name: InventoryLocationMetafieldCreated
+      title: store/inventory/location/metafield/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/inventory/location/metafield/created
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    InventoryLocationMetafieldUpdated:
+      name: InventoryLocationMetafieldUpdated
+      title: store/inventory/location/metafield/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/inventory/location/metafield/updated
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    InventoryLocationMetafieldDeleted:
+      name: InventoryLocationMetafieldDeleted
+      title: store/inventory/location/metafield/deleted
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/inventory/location/metafield/deleted
+              data:
+                $ref: '#/components/schemas/MetafieldData'
+
+    HookDeliveryException:
+      name: HookDeliveryException
+      title: store/hook/deliveryException
+      summary: |-
+        A previous webhook callback failed to deliver. Useful for observing
+        delivery health of other subscriptions.
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/hook/deliveryException
+              data:
+                $ref: '#/components/schemas/HookDeliveryExceptionData'
+
+    ModifierUpdated:
+      name: ModifierUpdated
+      title: store/modifier/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/modifier/updated
+              data:
+                $ref: '#/components/schemas/ModifierData'
+
+    OptionUpdated:
+      name: OptionUpdated
+      title: store/option/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              scope:
+                const: store/option/updated
+              data:
+                $ref: '#/components/schemas/OptionData'
+
+    ChannelCartCreated:
+      name: ChannelCartCreated
+      title: store/channel/{channel_id}/cart/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/CartData'
+
+    ChannelCartLineItemsCreated:
+      name: ChannelCartLineItemsCreated
+      title: store/channel/{channel_id}/cart/lineItems/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/CartLineItemData'
+
+    ChannelCategoryCreated:
+      name: ChannelCategoryCreated
+      title: store/channel/{channel_id}/category/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/CategoryData'
+
+    ChannelCategoryTreeUpdated:
+      name: ChannelCategoryTreeUpdated
+      title: store/channel/{channel_id}/categoryTree/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum: [categoryTree]
+
+    ChannelAbandonedCartNotificationsUpdated:
+      name: ChannelAbandonedCartNotificationsUpdated
+      title: store/channel/{channel_id}/notifications/abandonedCart/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                type: object
+
+    ChannelOrderUpdated:
+      name: ChannelOrderUpdated
+      title: store/channel/{channel_id}/order/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/OrderData'
+
+    ChannelPageCreated:
+      name: ChannelPageCreated
+      title: store/channel/{channel_id}/page/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum: [page]
+                  id:
+                    type: integer
+
+    ChannelProductAssigned:
+      name: ChannelProductAssigned
+      title: store/channel/{channel_id}/product/assigned
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/ProductData'
+
+    ChannelScriptCreated:
+      name: ChannelScriptCreated
+      title: store/channel/{channel_id}/script/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum: [script]
+                  id:
+                    type: string
+
+    ChannelEmailStatusUpdated:
+      name: ChannelEmailStatusUpdated
+      title: store/channel/{channel_id}/settings/emailStatus/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                type: object
+
+    ChannelRouteUpdated:
+      name: ChannelRouteUpdated
+      title: store/channel/{channel_id}/settings/route/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                type: object
+
+    ChannelSearchContextFiltersUpdated:
+      name: ChannelSearchContextFiltersUpdated
+      title: store/channel/{channel_id}/settings/searchContextFilters/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                type: object
+
+    ChannelSiteSettingsUpdated:
+      name: ChannelSiteSettingsUpdated
+      title: store/channel/{channel_id}/settings/site/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                type: object
+
+    ChannelSocialMediaLinksUpdated:
+      name: ChannelSocialMediaLinksUpdated
+      title: store/channel/{channel_id}/socialMediaLinks/updated
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                type: object
+
+    ChannelThemeConfigurationCreated:
+      name: ChannelThemeConfigurationCreated
+      title: store/channel/{channel_id}/theme/configuration/created
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum: [theme_configuration]
+
+    ChannelInventoryProductLowStockReached:
+      name: ChannelInventoryProductLowStockReached
+      title: store/channel/{channel_id}/inventory/product/low_stock_reached
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/ProductInventoryData'
+
+    ChannelInventoryProductOutOfStockReached:
+      name: ChannelInventoryProductOutOfStockReached
+      title: store/channel/{channel_id}/inventory/product/out_of_stock_reached
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/ProductInventoryData'
+
+    ChannelInventoryProductSettingsChanged:
+      name: ChannelInventoryProductSettingsChanged
+      title: store/channel/{channel_id}/inventory/product/settings_changed
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                type: object
+
+    ChannelInventoryProductStockChanged:
+      name: ChannelInventoryProductStockChanged
+      title: store/channel/{channel_id}/inventory/product/stock_changed
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/Envelope'
+          - type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/ProductInventoryData'
