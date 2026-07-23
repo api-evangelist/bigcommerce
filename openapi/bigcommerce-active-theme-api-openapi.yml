@@ -1,0 +1,192 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Active Theme API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Active Theme
+paths:
+  /channels/{channel_id}/active-theme:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/channel_id_path_param'
+    get:
+      tags:
+      - Active Theme
+      summary: BigCommerce Get a Channel Active Theme
+      operationId: getChannelActiveTheme
+      description: 'Returns details of the theme active on the specified channel.
+
+        Does not support active Blueprint (legacy) themes.'
+      responses:
+        '200':
+          $ref: '#/components/responses/channel_active_theme_resp'
+        '404':
+          $ref: '#/components/responses/active_theme_not_found_resp'
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    channel_id_path_param:
+      name: channel_id
+      description: The ID of a channel.
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+  schemas:
+    ErrorDetail:
+      type: object
+      description: 'Error detail response payload for the BigCommerce API.
+
+        '
+      example:
+        '1': Unauthorized to delete
+        '2': Metafield does not exist
+    EmptyMeta:
+      type: object
+      title: Empty meta response.
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    ActiveTheme:
+      type: object
+      description: Details about the Channelʼs relationship to Themes.
+      properties:
+        active_theme_uuid:
+          type: string
+          description: The UUID of the currently active Theme on the Channel.
+        active_theme_configuration_uuid:
+          type: string
+          description: The UUID of the currently active Theme Configuration on the Channel.
+        active_theme_version_uuid:
+          type: string
+          description: The UUID of the currently active Theme Version on the Channel. Needed to look up the available Custom Templates for the Theme.
+        saved_theme_configuration_uuid:
+          type: string
+          description: The UUID of the most recently saved Theme Configuration. If this is different from the active Theme Configuration UUID, this indicates that some changes have been saved in the control panel Theme Editor that have not yet been published.
+      x-internal: false
+    Error:
+      type: object
+      description: 'Error response payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: 'The HTTP status code for the error.
+
+            '
+          example: 422
+        title:
+          type: string
+          description: 'The error title describing the particular error.
+
+            '
+          example: Bulk operation has failed
+        type:
+          type: string
+          description: 'The error type.
+
+            '
+          example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+        errors:
+          $ref: '#/components/schemas/ErrorDetail'
+  responses:
+    channel_active_theme_resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/ActiveTheme'
+              meta:
+                $ref: '#/components/schemas/EmptyMeta'
+          examples:
+            response:
+              $ref: '#/components/examples/single_active_theme_resp_example'
+    active_theme_not_found_resp:
+      description: Active Theme of the *Channel* was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Active Theme Not Found:
+              $ref: '#/components/examples/error_404_active_theme_not_found_resp_example'
+  examples:
+    single_active_theme_resp_example:
+      value:
+        data:
+          active_theme_uuid: e3d82ce0-9bae-0133-0de7-525400970412
+          active_theme_configuration_uuid: 1c0962a0-9172-0139-70bc-2a81c0049363
+          active_theme_version_uuid: b9911770-8a43-0139-f84a-7e39a3a0bc55
+          saved_theme_configuration_uuid: 1c0962a0-9172-0139-70bc-2a81c0049363
+        meta: {}
+    error_404_active_theme_not_found_resp_example:
+      value:
+        status: 404
+        title: 'No active theme found with channel_id: 123456789'
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

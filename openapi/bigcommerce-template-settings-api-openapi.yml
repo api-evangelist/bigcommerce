@@ -1,0 +1,140 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Template Settings API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Template Settings
+paths:
+  /marketing/abandoned-cart-emails/settings:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      summary: BigCommerce Get email template settings
+      tags:
+      - Template Settings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AbandonedCartSettings'
+      operationId: getAbandonedCartEmailTemplateSettings
+      description: Read Abandoned Cart Email Template settings.
+      parameters:
+      - $ref: '#/components/parameters/ChannelIdRequired'
+    put:
+      summary: BigCommerce Update email template settings
+      operationId: updateAbandonedCartEmailTemplateSettings
+      tags:
+      - Template Settings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AbandonedCartSettings'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AbandonedCartSettings'
+      description: Update Abandoned Cart Email template settings.
+      parameters:
+      - $ref: '#/components/parameters/ChannelIdOptional'
+      - $ref: '#/components/parameters/ContentType'
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdOptional:
+      in: query
+      name: channel_id
+      description: Channel ID to use for channel-level data.
+      schema:
+        type: integer
+    ChannelIdRequired:
+      name: channel_id
+      in: query
+      required: true
+      schema:
+        type: integer
+      description: Channel ID to use for channel-specific setting.
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    AbandonedCartSettings:
+      title: AbandonedCartSettings
+      type: object
+      properties:
+        use_global:
+          type: boolean
+          description: Boolean value that specifies the inheritance state.
+      required:
+      - use_global
+      x-internal: false
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

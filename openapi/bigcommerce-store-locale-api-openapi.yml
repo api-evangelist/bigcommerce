@@ -1,0 +1,223 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Store Locale API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Store Locale
+paths:
+  /settings/store/locale:
+    get:
+      summary: BigCommerce Get Locale Settings
+      operationId: getSettingsLocale
+      description: Returns global locale settings.
+      parameters:
+      - $ref: '#/components/parameters/Accept'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              examples:
+                Example:
+                  value:
+                    data:
+                      default_shopper_language: en
+                      shopper_language_selection_method: default_shopper_language
+                      store_country: United States
+                    meta: {}
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Locale'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+      tags:
+      - Store Locale
+    put:
+      summary: BigCommerce Update Locale Settings
+      operationId: updateSettingsLocale
+      description: Updates global locale settings.
+      parameters:
+      - $ref: '#/components/parameters/Accept'
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Example:
+                value:
+                  default_shopper_language: en
+                  shopper_language_selection_method: default_shopper_language
+                  store_country: United States
+            schema:
+              $ref: '#/components/schemas/Locale'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              examples:
+                Example:
+                  value:
+                    data:
+                      default_shopper_language: en
+                      shopper_language_selection_method: default_shopper_language
+                      store_country: United States
+                    meta: {}
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Locale'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+        '422':
+          description: Provided settings could not be applied for some reason - detailed errors in the response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+      - Store Locale
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    BaseError:
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      type: object
+      properties:
+        instance:
+          type: string
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+      x-internal: false
+    Locale:
+      description: The basic locale settings for a store, used to give shopper information about languages, countries, etc.
+      type: object
+      properties:
+        default_shopper_language:
+          type: string
+          example: en, en-us
+          default: en
+        shopper_language_selection_method:
+          description: 'Determines whether to display the storefront content in the shopperʼs browser language or the shopperʼs selected default language.
+
+
+            Available values:
+
+            * `browser` - language updates automatically based on the shopper browser language. Multiple languages are supported.
+
+            * `default_shopper_language` - content is displayed in a single language based on the set `default_shopper_language`. Only the selected language is supported.'
+          type: string
+          example: default_shopper_language
+          default: default_shopper_language
+          enum:
+          - browser
+          - default_shopper_language
+        store_country:
+          type: string
+          default: United States
+      required:
+      - default_shopper_language
+      x-internal: false
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      title: Detailed Errors
+      x-internal: false
+    ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - properties:
+          errors:
+            $ref: '#/components/schemas/DetailedErrors'
+        type: object
+      x-internal: false
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

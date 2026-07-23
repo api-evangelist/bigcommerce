@@ -1,0 +1,252 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Site Checkout URL API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Site Checkout URL
+paths:
+  /channels/{channel_id}/site/checkout-url:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/channel_id_path_param'
+    put:
+      summary: BigCommerce Upsert a Siteʼs Checkout URL
+      tags:
+      - Site Checkout URL
+      description: Creates or updates (upserts) a siteʼs checkout URL
+      operationId: updateCheckoutUrl
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutCheckoutUrl'
+        description: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Site'
+            Example 1:
+              examples:
+                response:
+                  value:
+                    id: 1
+                    url: https://kittens.mybigcommerce.com/
+                    channel_id: 1
+                    created_at: '2018-01-04T04:15:50.000Z'
+                    updated_at: '2018-01-04T04:15:50.000Z'
+                    urls:
+                    - url: https://kittens.mybigcommerce.com
+                      type: primary
+                      created_at: '2022-03-22T13:08:59Z'
+                      updated_at: '2022-03-22T13:08:59Z'
+                    - url: https://store-abc.store.bcdev
+                      type: canonical
+                      created_at: '2022-03-22T13:08:59Z'
+                      updated_at: '2022-03-22T13:08:59Z'
+                    - url: https://checkout.kittens.mybigcommerce.com
+                      type: checkout
+                      created_at: '2022-03-23T10:21:11Z'
+                      updated_at: '2022-03-29T13:44:22Z'
+                    is_checkout_url_customized: true
+        '422':
+          description: Unprocessable Entity. Your checkout and storefront must be within the same main domain like `example.com` and `subdomain.example.com`
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  example-1:
+                    status: 422
+                    title: Incorrect checkout url https://bc.kittykat.me. Your checkout and storefront must be within the same main domain like “main.com” and “subdomain.main.com”
+                    type: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+                    errors: {}
+                properties:
+                  status:
+                    type: integer
+                    default: 422
+                  title:
+                    type: string
+                    example: Incorrect checkout url https://checkout.example.com. Your checkout and storefront must be within the same main domain like “main.com” and “subdomain.main.com
+                  type:
+                    type: string
+                    default: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+                  errors:
+                    type: object
+    delete:
+      summary: BigCommerce Delete a Siteʼs Checkout URL
+      operationId: deleteCheckoutUrl
+      description: Deletes a siteʼs checkout URL. After deletion, a shared checkout URL is used.
+      tags:
+      - Site Checkout URL
+      responses:
+        '200':
+          description: OK. `data` and `meta` are empty objects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties: {}
+                  meta:
+                    $ref: '#/components/schemas/EmptyMeta'
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    channel_id_path_param:
+      name: channel_id
+      description: The ID of a channel.
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+  schemas:
+    Url:
+      type: object
+      properties:
+        url:
+          type: string
+          description: URL of site
+        type:
+          type: string
+          description: URL type
+          enum:
+          - primary
+          - canonical
+          - checkout
+        created_at:
+          type: string
+          example: '2018-01-04T04:15:50.000Z'
+          format: date-time
+          description: The date-time that this URL was created, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
+        updated_at:
+          type: string
+          description: The date-time that this URL was last updated, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
+          example: '2018-01-04T04:15:50.000Z'
+          format: date-time
+    EmptyMeta:
+      type: object
+      title: Empty meta response.
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    Site:
+      type: object
+      properties:
+        id:
+          description: The ID of the site.
+          type: integer
+        url:
+          type: string
+          description: The fully qualified URL (including host and scheme) where this site is hosted. All URLs generated for this site will be appended to this.
+          example: http://kittens.mybigcommerce.com/
+        channel_id:
+          type: integer
+          description: The channel to which this site is attached. Each site belongs to a single channel, and each channel can have either zero or more sites.
+        created_at:
+          type: string
+          description: The date-time that this site was created, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
+          example: '2018-01-04T04:15:50.000Z'
+          format: date-time
+        updated_at:
+          type: string
+          description: The date-time that this site was last updated, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
+          example: '2018-01-04T04:15:50.000Z'
+          format: date-time
+        ssl_status:
+          type: string
+          enum:
+          - dedicated
+          - shared
+          description: Indicates if a private/dedicated SSL is installed on this site, or if itʼs using shared SSL.
+        urls:
+          type: array
+          description: All URLs that belong to the site, including `primary`, `canonical`, and `checkout` URLs.
+          items:
+            $ref: '#/components/schemas/Url'
+        is_checkout_url_customized:
+          type: boolean
+          description: Indicates whether the channel uses a custom checkout domain. When `false`, the checkout domain falls back to the default channel’s primary URL.
+    PutCheckoutUrl:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Unique site checkout URL. Must be valid and a sub-domain of primary channel URL.
+          format: uri
+          example: https://checkout.kittens.mybigcommerce.com
+      title: ''
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

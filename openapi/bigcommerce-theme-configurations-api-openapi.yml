@@ -1,0 +1,354 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Theme Configurations API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Theme Configurations
+paths:
+  /themes/{uuid}/configurations:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - in: query
+      name: site_id:in
+      description: Filter configurations by a list of site_ids
+      required: true
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: integer
+    - in: query
+      name: uuid:in
+      description: Filter configurations by a list of configuration UUIDs
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+    - in: query
+      name: variation_uuid
+      description: Filter configurations by a variation_uuid
+      schema:
+        type: string
+    - name: page
+      description: 'Specifies the page number in a limited (paginated) list.
+
+        '
+      required: false
+      in: query
+      schema:
+        type: integer
+    - name: limit
+      description: 'Controls the number of items per page in a limited (paginated) list of products.
+
+        '
+      required: false
+      in: query
+      schema:
+        type: integer
+    get:
+      responses:
+        '200':
+          $ref: '#/components/responses/themesConfigurations_RespCollection'
+      tags:
+      - Theme Configurations
+      operationId: getThemeConfiguration
+      summary: BigCommerce Get Theme Configuration
+      description: 'Returns a list of theme''s configurations.
+
+
+        **Usage Notes**:
+
+        * At least one filter must be provided.'
+      parameters:
+      - $ref: '#/components/parameters/ThemeIdParam'
+      - schema:
+          type: array
+          items:
+            type: string
+        in: query
+        name: uuid:in
+        description: Filter configurations by a list of configuration UUIDs.
+      - schema:
+          type: array
+          items:
+            type: integer
+        in: query
+        name: channel_id:in
+        description: Filter configurations by a list of channel_ids.
+      - $ref: '#/components/parameters/PageParam'
+      - $ref: '#/components/parameters/LimitParam'
+      - schema:
+          type: string
+        in: query
+        name: variation_uuid
+        description: Filter configurations by a variation_uuid.
+  /themes/{uuid}/configurations/validate:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/ThemeIdParam'
+    post:
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      responses:
+        '200':
+          description: Theme passes validation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '422':
+          description: Theme failed validation, detailed errors in response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      summary: BigCommerce Validate Theme Configuration
+      operationId: validateThemeConfiguration
+      tags:
+      - Theme Configurations
+      description: Validates a theme configuration against the theme's schema without creating it. Useful for testing schemas before creation.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/themeConfiguration_Write'
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    PageParam:
+      name: page
+      description: 'Specifies the page number in a limited (paginated) list.
+
+        '
+      required: false
+      in: query
+      schema:
+        type: integer
+    LimitParam:
+      name: limit
+      description: 'Controls the number of items per page in a limited (paginated) list of products.
+
+        '
+      required: false
+      in: query
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    ThemeIdParam:
+      name: uuid
+      description: The theme identifier.
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    themeConfiguration_Write:
+      description: A theme.
+      type: object
+      properties:
+        variation_id:
+          type: string
+          description: The Variation to which the Configuration belongs.
+        settings:
+          type: object
+          description: The content of the configuration, which is a JSON object which will vary in structure from theme to theme.
+      title: themeConfiguration_Write
+      x-internal: false
+    themeConfiguration_Full:
+      description: A theme.
+      type: object
+      properties:
+        uuid:
+          type: string
+        theme_uuid:
+          type: string
+          description: The Theme to which the Configuration belongs.
+        variation_id:
+          type: string
+          description: The Variation to which the Configuration belongs.
+        settings:
+          type: object
+          description: The content of the configuration, which is a JSON object which will vary in structure from theme to theme.
+        date_created:
+          type: string
+        site_id:
+          type: integer
+          description: Site ID to which this configuration belongs. Will be 0 for the original configuration for a Theme.
+      title: themeConfiguration_Full
+      x-internal: false
+    ThemesCollectionMeta:
+      type: object
+      description: Data about the response, including pagination and collection totals.
+      properties:
+        pagination:
+          type: object
+          description: Data about the response, including pagination and collection totals.
+          title: Pagination
+          properties:
+            total:
+              type: integer
+              description: 'Total number of items in the result set.
+
+                '
+              example: 36
+            count:
+              type: integer
+              description: 'Total number of items in the collection response.
+
+                '
+              example: 36
+            per_page:
+              type: integer
+              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+                '
+              example: 50
+            current_page:
+              type: integer
+              description: 'The page you are currently on within the collection.
+
+                '
+              example: 1
+            total_pages:
+              type: integer
+              description: 'The total number of pages in the collection.
+
+                '
+              example: 1
+      title: Themes Collection Meta
+      x-internal: false
+    ErrorResponse:
+      allOf:
+      - type: object
+        description: 'Error payload for the BigCommerce API.
+
+          '
+        properties:
+          status:
+            description: 'The HTTP status code.
+
+              '
+            type: integer
+          title:
+            description: 'The error title describing the particular error.
+
+              '
+            type: string
+          type:
+            type: string
+          instance:
+            type: string
+        title: Base Error
+      - type: object
+        properties:
+          errors:
+            type: object
+            properties: {}
+            additionalProperties: true
+            title: Detailed Errors
+      title: Error Response
+      x-internal: false
+  responses:
+    themesConfigurations_RespCollection:
+      description: ''
+      content:
+        application/json:
+          schema:
+            description: 'Response payload for the BigCommerce API.
+
+              '
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/themeConfiguration_Full'
+              meta:
+                $ref: '#/components/schemas/ThemesCollectionMeta'
+          examples:
+            response:
+              value:
+                data:
+                - uuid: in
+                  theme_uuid: amet Ut
+                  variation_id: ut
+                  settings: {}
+                  date_created: ei
+                  site_id: 52736226
+                meta:
+                  pagination:
+                    total: 36
+                    count: 36
+                    per_page: 50
+                    current_page: 1
+                    total_pages: 1
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

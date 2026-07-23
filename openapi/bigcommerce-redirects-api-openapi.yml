@@ -1,0 +1,609 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Redirects API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Redirects
+paths:
+  /redirects:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      deprecated: true
+      tags:
+      - Redirects
+      summary: BigCommerce Get All Redirects
+      description: "Returns a list all *Redirect URLs*. \n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To get redirect URLs, use Redirects V3ʼs [Get redirects](/docs/rest-management/redirects#get-redirects) endpoint."
+      operationId: getRedirects
+      parameters:
+      - name: page
+        in: query
+        description: Filter param.
+        schema:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          type: integer
+      - name: limit
+        in: query
+        description: Filter param.
+        schema:
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/redirect'
+            Response Schema:
+              example: ''
+    post:
+      tags:
+      - Redirects
+      summary: BigCommerce Create a Redirect
+      description: 'Creates a *Redirect URL*.
+
+
+        **Required Fields**
+
+        *   path
+
+        *   forward
+
+
+        **Read Only**
+
+        *   url
+
+
+
+        > #### Warning
+
+        > **Deprecated**
+
+        > * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.
+
+        > * To upsert new redirect data, use Redirects V3ʼs [Upsert redirects](/docs/rest-management/redirects#upsert-redirects) endpoint.'
+      operationId: createRedirect
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/redirect'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/redirect'
+              example:
+                id: 3
+                path: /mens_clothing
+                forward:
+                  type: category
+                  ref: 3
+                url: http://store.example.com/mens
+    delete:
+      deprecated: true
+      tags:
+      - Redirects
+      summary: BigCommerce Delete All Redirects
+      description: "By default, it deletes all *Redirect URLs* in a store. \n\n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To delete redirect URLs, use Redirects V3ʼs [Delete redirects](/docs/rest-management/redirects#delete-redirects) endpoint."
+      operationId: deleteRedirects
+      responses:
+        '204':
+          description: ''
+          content: {}
+  /redirects/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - name: id
+      in: path
+      description: ID of the redirect URL.
+      required: true
+      schema:
+        exclusiveMaximum: false
+        exclusiveMinimum: false
+        type: integer
+    get:
+      deprecated: true
+      tags:
+      - Redirects
+      summary: BigCommerce Get a Redirect
+      description: "Returns a single *Redirect URL*.\n\n> #### Warning\n> **Deprecated** \n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To get a redirect URL, use Redirects V3ʼs [Get redirects](/docs/rest-management/redirects#get-redirects) endpoint."
+      operationId: getRedirect
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/redirect'
+              example:
+                id: 1
+                path: /smith-journal-13/
+                forward:
+                  type: product
+                  ref: 111
+                url: http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/
+    put:
+      tags:
+      - Redirects
+      summary: BigCommerce Update a Redirect
+      description: 'Updates a *Redirect URL*.
+
+
+        **Required Fields**
+
+        *   path
+
+        *   forward
+
+
+        **Read Only Fields**
+
+        *   url
+
+
+
+        > #### Warning
+
+        > **Deprecated**
+
+        > * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.
+
+        > * To update redirect data, use Redirects V3ʼs [Upsert redirects](/docs/rest-management/redirects#upsert-redirects) endpoint.'
+      operationId: updateRedirect
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Redirect
+              required:
+              - forward
+              - path
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: Numeric ID of the redirect.
+                  example: 1
+                path:
+                  type: string
+                  description: The path from which to redirect.
+                  example: /smith-journal-13/
+                forward:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      description: 'The type of redirect. If it is a manual redirect then type will always be manual. Dynamic redirects will have the type of the page. Such as product or category.
+
+                        '
+                      example: product
+                    ref:
+                      type: string
+                      description: Reference of the redirect. Dynamic redirects will have the category or product number. Manual redirects will have the url that is being directed to.
+                      example: '111'
+                url:
+                  type: string
+                  description: URL of the redirect. READ-ONLY.
+                  readOnly: true
+                  example: http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/
+              example:
+                id: 1
+                path: /smith-journal-13/
+                forward:
+                  type: product
+                  ref: '111'
+                url: http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/redirect'
+              example:
+                id: 1
+                path: /smith-journal-13/
+                forward:
+                  type: product
+                  ref: 111
+                url: http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/
+    delete:
+      tags:
+      - Redirects
+      summary: BigCommerce Delete a Redirect
+      description: "Deletes a *Redirect URL*.\n\n> #### Warning\n> **Deprecated** \n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To delete a redirect URL, use Redirects V3ʼs [Delete redirects](/docs/rest-management/redirects#delete-redirects) endpoint."
+      operationId: deleteRedirect
+      responses:
+        '204':
+          description: ''
+          content: {}
+  /redirects/count:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      deprecated: true
+      tags:
+      - Redirects
+      summary: BigCommerce Get a Count of Redirects
+      description: 'Gets a count of *Redirect URLs* in a store.
+
+
+        > #### Warning
+
+        > **Deprecated**
+
+        > * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.
+
+        > * To get a count of redirects, use the `meta` object data returned with the Redirects V3ʼs [Get redirects](/docs/rest-management/redirects#get-redirects) endpoint.'
+      operationId: getRedirectsCount
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/count_Response'
+              example:
+                count: 27
+  /storefront/redirects:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      tags:
+      - Redirects
+      summary: BigCommerce Get Redirects
+      description: Returns a collection of the store's 301 redirects across all sites.
+      operationId: getRedirects
+      parameters:
+      - name: site_id
+        in: query
+        description: Filters items by `site_id`.
+        schema:
+          type: integer
+      - name: id:in
+        in: query
+        description: Filters items by redirect `id`. Also accepts comma-separated values to filter for multiple redirects.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: limit
+        in: query
+        description: Controls the number of items to return per page.
+        schema:
+          type: integer
+      - name: page
+        in: query
+        description: Specifies the page number in a limited (paginated) list of items. Used to paginate large collections.
+        schema:
+          type: integer
+      - name: sort
+        in: query
+        description: 'Field name to sort by. Note: Since redirect `id` increments when new redirects are added, you can use that field to sort by redirect create date.
+
+          '
+        schema:
+          type: string
+          enum:
+          - from_path
+          - type
+          - site_id
+          - id
+      - name: direction
+        in: query
+        description: Sort direction. Acceptable values are `asc`, `desc`.
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: include
+        in: query
+        description: Indicates whether to include redirect sub-resources. Only `to_url` is supported.
+        schema:
+          type: string
+          enum:
+          - to_url
+      - name: keyword
+        in: query
+        description: Filters redirects by the specified keyword. Will only search from the beginning of a URL path. For example, `blue` will match `/blue` and `/blue-shirt` ,  **not** `/royal-blue-shirt`.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/301RedirectRead'
+                  meta:
+                    $ref: '#/components/schemas/MetaPaginationObject'
+    put:
+      tags:
+      - Redirects
+      summary: BigCommerce Upsert Redirects
+      description: Upserts new redirect data across all storefronts.
+      operationId: upsertRedirects
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/301RedirectUpsert'
+        required: false
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/301RedirectRead'
+                  meta:
+                    $ref: '#/components/schemas/MetaPaginationObject'
+    delete:
+      tags:
+      - Redirects
+      summary: BigCommerce Delete Redirects
+      description: Deletes redirects.
+      operationId: deleteRedirects
+      parameters:
+      - name: id:in
+        in: query
+        description: List of Redirect IDs to delete explicitly.
+        required: true
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: site_id
+        in: query
+        description: Site ID provided to delete all redirects for a given Site.
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: No Content
+          content: {}
+components:
+  schemas:
+    RedirectTo:
+      title: RedirectTo
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - product
+          - brand
+          - category
+          - page
+          - post
+          - url
+        entity_id:
+          type: integer
+        url:
+          maxLength: 2048
+          type: string
+          example: /new-url/
+    count_Response:
+      title: count_Response
+      type: object
+      properties:
+        count:
+          type: number
+          description: ''
+          example: 27
+      example:
+        count: 27
+      x-internal: false
+    forward:
+      title: forward
+      type: object
+      x-internal: false
+      properties:
+        type:
+          type: string
+          description: The type of redirect. If it is a `manual` redirect then type will always be manual. Dynamic redirects will have the type of the page. Such as product or category.
+          example: product
+        ref:
+          type: integer
+          description: Reference of the redirect. Dynamic redirects will have the category or product number. Manual redirects will have the url that is being directed to.
+          example: 111
+    MetaPaginationObject:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            total:
+              minimum: 0
+              type: integer
+              example: 246
+            count:
+              minimum: 0
+              type: integer
+              example: 5
+            per_page:
+              minimum: 0
+              type: integer
+              example: 5
+            current_page:
+              minimum: 1
+              type: integer
+              example: 1
+            total_pages:
+              minimum: 0
+              type: integer
+              example: 50
+            links:
+              type: object
+              properties:
+                next:
+                  type: string
+                  example: ?limit=5&page=2
+                current:
+                  type: string
+                  example: ?limit=5&page=1
+    redirect:
+      title: redirect
+      required:
+      - forward
+      - path
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Numeric ID of the redirect.
+          example: 1
+        path:
+          type: string
+          description: The path from which to redirect.
+          example: /smith-journal-13/
+        forward:
+          $ref: '#/components/schemas/forward'
+        url:
+          type: string
+          description: URL of the redirect. READ-ONLY.
+          readOnly: true
+          example: http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/
+      example:
+        id: 1
+        path: /smith-journal-13/
+        forward:
+          type: product
+          ref: 111
+        url: http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/
+      x-internal: false
+    301RedirectUpsert:
+      required:
+      - from_path
+      - site_id
+      type: object
+      properties:
+        from_path:
+          type: string
+          example: /old-url/
+        site_id:
+          type: integer
+        to:
+          $ref: '#/components/schemas/RedirectTo'
+      description: Data necessary to create or update a redirect. If there’s a conflict on the from_path and site_id, the redirect will be overwritten with new data.
+    301RedirectRead:
+      type: object
+      description: Full detail of a Redirect, optionally including the full destination URL.
+      properties:
+        id:
+          type: integer
+        site_id:
+          type: integer
+        from_path:
+          type: string
+          example: /old-url
+        to:
+          $ref: '#/components/schemas/RedirectTo'
+        to_url:
+          type: string
+          description: Full destination URL for the redirect. Must be explicitly included via URL parameter.
+          format: uri
+          example: https://store-domain.com/new-url
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

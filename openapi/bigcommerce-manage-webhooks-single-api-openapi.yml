@@ -1,0 +1,340 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Manage Webhooks (Single) API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Manage Webhooks (Single)
+paths:
+  /hooks/{webhook_id}:
+    parameters:
+    - $ref: '#/components/parameters/WebhookId'
+    get:
+      responses:
+        '200':
+          $ref: '#/components/responses/webhook_Resp'
+        '400':
+          $ref: '#/components/responses/400_BadRequest'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '404':
+          $ref: '#/components/responses/404_NotFound'
+      description: Return a webhook by ID.
+      operationId: getWebhook
+      summary: BigCommerce Get a Webhook
+      tags:
+      - Manage Webhooks (Single)
+      parameters:
+      - $ref: '#/components/parameters/Accept'
+      - $ref: '#/components/parameters/Content-Type'
+    put:
+      responses:
+        '200':
+          $ref: '#/components/responses/webhook_Resp'
+      summary: BigCommerce Update a Webhook
+      description: Updates a webhook. Custom headers can be added.
+      operationId: updateWebhook
+      parameters:
+      - $ref: '#/components/parameters/Accept'
+      - $ref: '#/components/parameters/Content-Type'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/webhook_Put'
+        x-examples:
+          application/json:
+            scope: store/cart/lineItem/*
+            destination: https://myapp.herokuapp.com/
+            is_active: true
+            headers:
+              User-Name: Hello
+              Password: Goodbye
+      tags:
+      - Manage Webhooks (Single)
+    delete:
+      responses:
+        '200':
+          $ref: '#/components/responses/webhook_Resp'
+      summary: BigCommerce Delete a Webhook
+      description: Deletes a webhook. Only one webhook at a time can be deleted. When a webhook is deleted, it is returned in the response as a 200 OK.
+      operationId: deleteWebhook
+      tags:
+      - Manage Webhooks (Single)
+      parameters:
+      - $ref: '#/components/parameters/Accept'
+      - $ref: '#/components/parameters/Content-Type'
+components:
+  parameters:
+    Accept:
+      in: header
+      name: Accept
+      schema:
+        type: string
+        default: application/json
+    WebhookId:
+      name: webhook_id
+      in: path
+      description: The ID of a Webhook.
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+        example: 22561593
+    Content-Type:
+      name: Content-Type
+      in: header
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    webhook_Put:
+      type: object
+      title: webhook_Put
+      x-internal: false
+      properties:
+        scope:
+          type: string
+          example: store/order/*
+          description: Event you subscribe to.
+        destination:
+          type: string
+          example: https://665b65a6.ngrok.io/webhooks
+          description: URL must be active, return a 200 response, and be served on port 443. Custom ports arenʼt currently supported.
+        is_active:
+          type: boolean
+          example: true
+          description: Boolean value that indicates whether the webhook is active or not.
+        events_history_enabled:
+          type: boolean
+          example: true
+          description: Boolean value that identifies whether events are stored that could not be received.
+        headers:
+          type: object
+          description: Headers used to validate that webhooks are active. You can pass in any number of custom headers to validate webhooks are being returned.
+          nullable: true
+          properties: {}
+          additionalProperties:
+            type: string
+    Pagination:
+      type: object
+      description: 'Data about the response, including pagination and collection totals.
+
+        '
+      properties:
+        total:
+          type: integer
+          description: Total number of returned items across all pages.
+        count:
+          type: integer
+          description: Number of items on current page.
+        per_page:
+          type: integer
+          description: Maximum number of items per page.
+        current_page:
+          type: integer
+          description: Current page number.
+        total_pages:
+          type: integer
+          description: Total number of pages.
+        links:
+          type: object
+          properties:
+            previous:
+              type: string
+              description: Link to the previous page returned in the response.
+            current:
+              type: string
+              description: Link to the current page returned in the response.
+            next:
+              type: string
+              description: Link to the next page returned in the response.
+      x-internal: false
+    error_Full:
+      type: object
+      title: error_Full
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          description: This value is typically a link to BigCommerce API Status codes.
+          type: string
+      x-internal: false
+  responses:
+    webhook_Resp:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                data:
+                  id: 22041448
+                  client_id: hm6ttr1z8fzu2utb7d1p9qile9jtugv
+                  store_hash: 29iql3rwa6
+                  scope: store/order/*
+                  destination: https://665b65a6.ngrok.io/webhooks
+                  headers: null
+                  is_active: false
+                  created_at: 1626812212
+                  updated_at: 1627588222
+                meta: {}
+            properties:
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  client_id:
+                    type: string
+                    minLength: 1
+                  store_hash:
+                    type: string
+                    minLength: 1
+                  scope:
+                    type: string
+                    minLength: 1
+                  destination:
+                    type: string
+                    minLength: 1
+                  headers:
+                    type: object
+                    properties: {}
+                    nullable: true
+                    additionalProperties:
+                      type: string
+                  is_active:
+                    type: boolean
+                  created_at:
+                    type: integer
+                    description: The time the webhook was created, represented in UNIX epoch time.
+                  updated_at:
+                    type: integer
+                    description: The time the webhook was most recently updated, represented in UNIX epoch time.
+              meta:
+                type: object
+                properties:
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+          examples:
+            application/json:
+              value:
+                data:
+                  id: 18048287
+                  client_id: m9r6keqmo7h7f23btnpwernbez1kglkl
+                  store_hash: sftg45fsd
+                  created_at: 1561488106
+                  updated_at: 1561488106
+                  scope: store/order/*
+                  destination: https://665b65a6.ngrok.io/webhooks
+                  is_active: true
+                  headers:
+                    custom-key: developer-defined value
+                meta:
+                  pagination:
+                    count: 5
+                    current_page: 1
+                    links:
+                      current: ?limit=100&page=1
+                      next: ?limit=100&page=1
+                      previous: ?limit=100&page=1
+                    per_page: 100
+                    total: 5
+                    total_pages: 1
+    404_NotFound:
+      description: If the requested webhook is not found, return a 404 Not Found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 404
+                title: Webhook with id [{webhook_id}] not found
+                type: /api-docs/getting-started/api-status-codes
+    400_BadRequest:
+      description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 400
+                title: Input is invalid.
+                type: /api-docs/getting-started/api-status-codes
+    401_Unauthorized:
+      description: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 401
+                title: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
+                type: /api-docs/getting-started/api-status-codes
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

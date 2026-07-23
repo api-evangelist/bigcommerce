@@ -1,0 +1,601 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Blog Posts API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Blog Posts
+paths:
+  /blog/posts:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      tags:
+      - Blog Posts
+      summary: BigCommerce Get All Blog Posts
+      description: Returns all *Blog Posts*. Default sorting is by published_date, beginning with the most recent post.
+      operationId: getBlogPosts
+      parameters:
+      - name: is_published
+        in: query
+        description: Filter param.
+        schema:
+          type: boolean
+      - name: url
+        in: query
+        description: Filter param. Value must be URL encoded.
+        schema:
+          type: string
+      - name: tag
+        in: query
+        description: Filter param.
+        schema:
+          type: string
+      - name: published_date
+        in: query
+        description: Filter param.
+        schema:
+          type: string
+          format: date-time
+      - name: page
+        in: query
+        description: Filter param.
+        schema:
+          maximum: 50
+          exclusiveMinimum: false
+          type: integer
+      - name: limit
+        in: query
+        description: Filter param.
+        schema:
+          maximum: 250
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/blogPost_Full'
+              example:
+              - id: 3
+                title: Hello Again
+                url: /blog/hello-again/
+                preview_url: /blog/hello-again/
+                body: <p>Jelly beans muffin marzipan gingerbread donut dessert. Cheesecake cheesecake sugar plum cookie cake tart. Soufflé sesame snaps jelly beans brownie chocolate tart. Marshmallow jujubes candy pie. Gummies lemon drops tart soufflé pastry pie. Caramels wafer biscuit gummi bears. Liquorice toffee wafer bear claw marzipan jelly-o. Dessert bear claw topping icing croissant. Pie bonbon chocolate bar chocolate bar tiramisu chocolate lemon drops candy.</p><p>Marshmallow cupcake sweet roll candy marshmallow caramels cotton candy pie icing. Powder jelly beans chupa chups lollipop liquorice marzipan dessert soufflé sesame snaps. Macaroon chupa chups gummies cheesecake ice cream caramels sesame snaps cotton candy gingerbread. Chocolate cake fruitcake tart bear claw lemon drops tart dragée tart apple pie. Halvah chupa chups soufflé jelly soufflé marshmallow. Croissant tart tart. Gingerbread apple pie biscuit.</p><p>Wafer lemon drops tart pastry brownie chocolate bar jelly. Dragée muffin cupcake liquorice caramels marzipan gingerbread marzipan. Apple pie pudding jelly sweet roll croissant bonbon wafer. Cookie chocolate bar sesame snaps bonbon macaroon candy canes donut sugar plum. Bear claw bonbon tootsie roll bonbon. Apple pie gummies donut sweet. Marzipan bear claw cotton candy topping dragée bonbon danish powder.</p>
+                tags:
+                - sugar
+                - sweet
+                - spice
+                - everything
+                - nice
+                summary: Jelly beans muffin marzipan gingerbread donut dessert. Cheesecake cheesecake sugar plum cookie cake tart. Soufflé sesame snaps jelly beans brownie chocolate tart. Marshmallow jujubes candy pie. Gummies lemon drops tart soufflé pastry pie. Caramels wafer biscuit gummi bears. Liquorice toffee wafer bear claw marzipan jelly-o. Dessert bear claw topping icing croissant. Pie bonbon chocolate bar [...]
+                is_published: true
+                published_date:
+                  date: '2018-05-18 08:26:42.000000'
+                  timezone_type: 1
+                  timezone: +00:00
+                published_date_iso8601: 2018-05-18T13:26:42+0000
+                meta_description: Cupcakes post 2
+                meta_keywords: sugar,sweet,spice,everything,nice
+                author: ''
+                thumbnail_path: ''
+              - id: 2
+                title: Hello
+                url: /blog/hello/
+                preview_url: /blog/hello/
+                body: <p>Jelly beans muffin marzipan gingerbread donut dessert. Cheesecake cheesecake sugar plum cookie cake tart. Soufflé sesame snaps jelly beans brownie chocolate tart. Marshmallow jujubes candy pie. Gummies lemon drops tart soufflé pastry pie. Caramels wafer biscuit gummi bears. Liquorice toffee wafer bear claw marzipan jelly-o. Dessert bear claw topping icing croissant. Pie bonbon chocolate bar chocolate bar tiramisu chocolate lemon drops candy.</p><p>Marshmallow cupcake sweet roll candy marshmallow caramels cotton candy pie icing. Powder jelly beans chupa chups lollipop liquorice marzipan dessert soufflé sesame snaps. Macaroon chupa chups gummies cheesecake ice cream caramels sesame snaps cotton candy gingerbread. Chocolate cake fruitcake tart bear claw lemon drops tart dragée tart apple pie. Halvah chupa chups soufflé jelly soufflé marshmallow. Croissant tart tart. Gingerbread apple pie biscuit.</p><p>Wafer lemon drops tart pastry brownie chocolate bar jelly. Dragée muffin cupcake liquorice caramels marzipan gingerbread marzipan. Apple pie pudding jelly sweet roll croissant bonbon wafer. Cookie chocolate bar sesame snaps bonbon macaroon candy canes donut sugar plum. Bear claw bonbon tootsie roll bonbon. Apple pie gummies donut sweet. Marzipan bear claw cotton candy topping dragée bonbon danish powder.</p>
+                tags:
+                - cupcakes
+                - sugar
+                - sweet
+                summary: Jelly beans muffin marzipan gingerbread donut dessert. Cheesecake cheesecake sugar plum cookie cake tart. Soufflé sesame snaps jelly beans brownie chocolate tart. Marshmallow jujubes candy pie. Gummies lemon drops tart soufflé pastry pie. Caramels wafer biscuit gummi bears. Liquorice toffee wafer bear claw marzipan jelly-o. Dessert bear claw topping icing croissant. Pie bonbon chocolate bar [...]
+                is_published: true
+                published_date:
+                  date: '2018-05-18 08:26:00.000000'
+                  timezone_type: 1
+                  timezone: +00:00
+                published_date_iso8601: 2018-05-18T13:26:00+0000
+                meta_description: cupcake blog post
+                meta_keywords: cupcakes,sugar,sweet
+                author: ''
+                thumbnail_path: ''
+              - id: 1
+                title: Your first blog post!
+                url: /your-first-blog-post/
+                preview_url: /your-first-blog-post/
+                body: <p><strong>Welcome to your blog!</strong><br> A blog is a great place to share details on your products, business and whatever else you think your shoppers might like to hear from you. You can include photos in your blog posts and even videos. For ideas and inspiration on how to structure your blog, take a look at the BigCommerce <a href='http://blog.bigcommerce.com/' target='_blank' rel='nofollow'>ecommerce blog</a>.</p><p><strong>How can I delete this post?</strong><br>To delete this post and add your own, login to your <a href='/admin' target='_blank'>admin area</a> and go to Storefront > Blog in the left hand menu.</p><p><strong>Powered by BigCommerce</strong><br>Your website, online store and blog are powered by BigCommerce <a href='http://www.bigcommerce.com/' target='_blank' rel='nofollow'>ecommerce software</a>. It includes everything you need to run a beautiful online store including <a href='http://www.bigcommerce.com/templates/' target='_blank' rel='nofollow'>ecommerce website templates</a>, <a href='http://www.bigcommerce.com/features/hosting/' target='_blank' rel='nofollow'>ecommerce hosting</a>, an <a href='http://www.bigcommerce.com/features/setup/' target='_blank' rel='nofollow'>online shopping cart</a> and more.</p>
+                tags:
+                - Blog
+                - SEO
+                summary: ' Welcome to your blog! A blog is a great place to share details on your products, business and whatever else you think your shoppers might like to hear from you. You can include photos in your blog posts and even videos. For ideas and inspiration on how to structure your blog, take a look [...]'
+                is_published: true
+                published_date:
+                  date: '2014-02-15 14:46:34.000000'
+                  timezone_type: 1
+                  timezone: +00:00
+                published_date_iso8601: 2014-02-15T19:46:34+0000
+                meta_description: ''
+                meta_keywords: Blog,SEO
+                author: ''
+                thumbnail_path: ''
+    post:
+      tags:
+      - Blog Posts
+      summary: BigCommerce Create a Blog Post
+      description: 'Creates a *Blog Post*.
+
+
+        **Required Fields**
+
+        *   `title`
+
+        *   `body`
+
+
+        **Notes**
+
+
+        * When including `published_date` in a request, supply it as a flat date string (not an object) in valid <a href="http://tools.ietf.org/html/rfc2822#section-3.3" target="_blank">RFC 2822</a>. The following example request includes a `published_date` in RFC 2822 format.
+
+        * Blog posts default to draft status. To publish blog posts to the storefront, set the `is_published` property to `true`.
+
+        * If a custom URL is not provided, the post’s URL will be generated based on the value of `title`.'
+      operationId: createBlogPosts
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/blogPost_Base_Post'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blogPost_Base_Res'
+              example:
+                id: 3
+                title: Welcome to BigCommerce
+                url: /blog/welcome-bigcommerce/
+                preview_url: /blog/welcome-bigcommerce/
+                body: '<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>'
+                tags:
+                - BigCommerce
+                - welcome
+                - ecommerce
+                summary: <p>We power ecommerce websites for successful retailers all over the world</p>
+                is_published: true
+                published_date:
+                  date: '2018-05-18T08:26:42.000Z'
+                  timezone_type: 1
+                  timezone: +00:00
+                published_date_iso8601: '2018-05-18T13:26:42.000Z'
+                meta_description: Welcome Post
+                meta_keywords: BigCommerce, welcome, ecommerce
+                author: BigCommerce
+                thumbnail_path: ''
+        '207':
+          description: Multiple operations have taken place and the status for each operation can be viewed in the body of the response. Typically indicates that a partial failure has occured, such as when a `POST` or `PUT` request is successful, but saving the URL has failed.
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags:
+      - Blog Posts
+      summary: BigCommerce Delete Blog Posts
+      description: Deletes a page of `Blog Posts`.
+      operationId: deleteBlogPosts
+      parameters:
+      - name: page
+        in: query
+        description: Filter param.
+        schema:
+          maximum: 250
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          type: integer
+      - name: limit
+        in: query
+        description: Filter param.
+        schema:
+          maximum: 50
+          exclusiveMaximum: false
+          exclusiveMinimum: false
+          type: integer
+      responses:
+        '204':
+          description: ''
+          content: {}
+  /blog/posts/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - name: id
+      in: path
+      description: ID of the blog post.
+      required: true
+      schema:
+        exclusiveMaximum: false
+        exclusiveMinimum: false
+        type: integer
+    get:
+      tags:
+      - Blog Posts
+      summary: BigCommerce Get a Blog Post
+      description: Returns a single *Blog Post*.
+      operationId: getBlogPost
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blogPost_Full'
+              example:
+                id: 3
+                title: Welcome to BigCommerce
+                url: /blog/welcome-bigcommerce/
+                preview_url: /blog/welcome-bigcommerce/
+                body: '<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>'
+                tags:
+                - BigCommerce
+                - welcome
+                - ecommerce
+                summary: <p>We power ecommerce websites for successful retailers all over the world</p>
+                is_published: true
+                published_date:
+                  date: '2018-05-18T08:26:42.000Z'
+                  timezone_type: 1
+                  timezone: +00:00
+                published_date_iso8601: '2018-05-18T13:26:42.000Z'
+                meta_description: Welcome Post
+                meta_keywords: BigCommerce, welcome, ecommerce
+                author: BigCommerce
+                thumbnail_path: ''
+    put:
+      tags:
+      - Blog Posts
+      summary: BigCommerce Update a Blog Post
+      description: 'Updates a *Blog Post*.
+
+
+        **Notes**
+
+
+        * To include `published_date` in a request, provide a flat date string (not an object) in valid <a href="http://tools.ietf.org/html/rfc2822#section-3.3" target="_blank">RFC 2822</a>. The following example request includes a `published_date` in RFC 2822 format.
+
+
+        * Blog posts default to draft status. To publish blog posts to the storefront, set the `is_published` property to `true`.'
+      operationId: updateBlogPost
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/blogPost_Base_Post'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/blogPost_Base_Res'
+              example:
+                id: 3
+                title: Welcome to BigCommerce
+                url: /blog/welcome-bigcommerce/
+                preview_url: /blog/welcome-bigcommerce/
+                body: '<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>'
+                tags:
+                - BigCommerce
+                - welcome
+                - ecommerce
+                summary: <p>We power ecommerce websites for successful retailers all over the world</p>
+                is_published: true
+                published_date:
+                  date: '2018-05-18T08:26:42.000Z'
+                  timezone_type: 1
+                  timezone: +00:00
+                published_date_iso8601: '2018-05-18T13:26:42.000Z'
+                meta_description: Welcome Post
+                meta_keywords: BigCommerce, welcome, ecommerce
+                author: BigCommerce
+                thumbnail_path: ''
+        '207':
+          description: Multiple operations have taken place and the status for each operation can be viewed in the body of the response. Typically indicates that a partial failure has occurred, such as when a `POST` or `PUT` request is successful, but saving the URL has failed.
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags:
+      - Blog Posts
+      summary: BigCommerce Delete a Blog Post
+      description: Deletes a *Blog Post*.
+      operationId: deleteBlogPost
+      responses:
+        '204':
+          description: ''
+          content: {}
+  /blog/posts/count:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      tags:
+      - Blog Posts
+      summary: BigCommerce Get A Count of All Blog Posts
+      description: Returns a count of all *Blog Posts*.
+      operationId: getBlogPostsCount
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/count_Response'
+              example:
+                count: 27
+components:
+  schemas:
+    count_Response:
+      title: count_Response
+      type: object
+      properties:
+        count:
+          type: number
+          description: ''
+          example: 27
+      example:
+        count: 27
+      x-internal: false
+    blogPost_Base_Res:
+      title: blogPost_Base_Res
+      type: object
+      x-internal: false
+      x-examples: {}
+      description: blog post base response
+      properties:
+        title:
+          type: string
+          description: Title of this blog post.
+          example: Welcome to BigCommerce
+        url:
+          type: string
+          description: URL for the public blog post.
+          example: /blog/welcome-bigcommerce/
+        preview_url:
+          type: string
+          description: URL to preview the blog post. READ-ONLY.
+          readOnly: true
+          example: /blog/welcome-bigcommerce/
+        body:
+          type: string
+          description: Text body of the blog post.
+          example: '<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>'
+        tags:
+          type: array
+          description: Tags to characterize the blog post.
+          items:
+            type: string
+        summary:
+          type: string
+          description: Summary of the blog post. READ-ONLY.
+          readOnly: true
+          example: <p>We power ecommerce websites for successful retailers all over the world</p>
+        is_published:
+          type: boolean
+          description: Whether the blog post is published. If you want the post to be or remain published following the request, you must set the field explicitly to true, even if the blog post was already published prior to the request.
+          default: false
+          example: true
+        published_date:
+          $ref: '#/components/schemas/publishedDate'
+        published_date_iso8601:
+          type: string
+          description: Published date in `ISO 8601` format.
+          example: 5/18/2023 1:26:42 PM
+        meta_description:
+          type: string
+          description: Description text for this blog post’s `<meta/>` element.
+          example: Welcome Post
+          nullable: true
+        meta_keywords:
+          type: string
+          description: Keywords for this blog post’s `<meta/>` element.
+          example: BigCommerce, welcome, ecommerce
+          nullable: true
+        author:
+          type: string
+          description: Name of the blog post’s author.
+          example: BigCommerce
+          nullable: true
+        thumbnail_path:
+          type: string
+          description: Local path to a thumbnail uploaded to `/product_images/` using [WebDAV](https://support.bigcommerce.com/s/article/File-Access-WebDAV).
+          nullable: true
+    blogPost_Base_Post:
+      title: blogPost_Base_Post
+      type: object
+      example:
+        title: Welcome to BigCommerce
+        url: /blog/welcome-bigcommerce/
+        preview_url: /blog/welcome-bigcommerce/
+        body: '<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>'
+        tags:
+        - string
+        summary: <p>We power ecommerce websites for successful retailers all over the world</p>
+        is_published: true
+        published_date: Thu, 18 May 2023 13:26:42 -0000
+        published_date_iso8601: 5/18/2023 1:26:42 PM
+        meta_description: Welcome Post
+        meta_keywords: BigCommerce, welcome, ecommerce
+        author: BigCommerce
+        thumbnail_path: string
+      description: blogPost base for POST requests
+      properties:
+        title:
+          type: string
+          description: Title of this blog post.
+          example: Welcome to BigCommerce
+        url:
+          type: string
+          description: URL for the public blog post.
+          example: /blog/welcome-bigcommerce/
+        body:
+          type: string
+          description: Text body of the blog post.
+          example: '<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>'
+        tags:
+          type: array
+          description: Tags to characterize the blog post.
+          items:
+            type: string
+        is_published:
+          type: boolean
+          description: Whether the blog post is published. If you want the post to be or remain published following the request, you must set the field explicitly to true, even if the blog post was already published prior to the request.
+          default: false
+          example: true
+        meta_description:
+          type: string
+          description: Description text for this blog post’s `<meta/>` element.
+          example: Welcome Post
+        meta_keywords:
+          type: string
+          description: Keywords for this blog post’s `<meta/>` element.
+          example: BigCommerce, welcome, ecommerce
+        author:
+          type: string
+          description: Name of the blog post’s author.
+          example: BigCommerce
+        thumbnail_path:
+          type: string
+          description: Local path to a thumbnail uploaded to `/product_images/` using [WebDAV](https://support.bigcommerce.com/s/article/File-Access-WebDAV).
+        published_date:
+          type: string
+          example: Wed, 10 Aug 2022 15:39:15 -0500
+      required:
+      - title
+      - body
+    publishedDate:
+      type: object
+      x-internal: false
+      properties:
+        timezone_type:
+          type: integer
+          example: 1
+        date:
+          type: string
+          format: date-time
+          example: '2022-08-10 14:39:15.000000'
+        timezone:
+          type: string
+          example: +00:00
+    blogPost_Full:
+      title: blogPost_Full
+      allOf:
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: ID of this blog post. READ-ONLY.
+            readOnly: true
+            example: 3
+      - $ref: '#/components/schemas/blogPost_Base_Res'
+      x-internal: false
+      x-examples:
+        example-1:
+          id: 3
+          title: Welcome to BigCommerce
+          url: /blog/welcome-bigcommerce/
+          preview_url: /blog/welcome-bigcommerce/
+          body: '<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>'
+          tags:
+          - string
+          summary: <p>We power ecommerce websites for successful retailers all over the world</p>
+          is_published: true
+          published_date:
+            timezone_type: 1
+            date: '2018-05-18T08:26:42Z'
+            timezone: +00:00
+          published_date_iso8601: 5/18/2018 1:26:42 PM
+          meta_description: Welcome Post
+          meta_keywords: BigCommerce, welcome, ecommerce
+          author: BigCommerce
+          thumbnail_path: string
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

@@ -1,0 +1,974 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Channels API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Channels
+paths:
+  /channels:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      tags:
+      - Channels
+      summary: BigCommerce Get All Channels
+      operationId: getChannels
+      description: 'Returns a list of *Channels*.
+
+
+        Will always return the default BigCommerce storefront with an ID of `1`. This storefront is created by default when you provision a BigCommerce store.'
+      parameters:
+      - $ref: '#/components/parameters/include'
+      - $ref: '#/components/parameters/available'
+      - $ref: '#/components/parameters/status_in'
+      - $ref: '#/components/parameters/type_in'
+      - $ref: '#/components/parameters/platform_in'
+      - $ref: '#/components/parameters/date_created'
+      - $ref: '#/components/parameters/date_created_min'
+      - $ref: '#/components/parameters/date_created_max'
+      - $ref: '#/components/parameters/date_modified'
+      - $ref: '#/components/parameters/date_modified_min'
+      - $ref: '#/components/parameters/date_modified_max'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          $ref: '#/components/responses/multiple_channels_without_currencies_resp'
+        '422':
+          $ref: '#/components/responses/invalid_filter_value_resp'
+    post:
+      tags:
+      - Channels
+      summary: BigCommerce Create a Channel
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      operationId: createChannel
+      description: Creates a *Channel*.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateChannelReq'
+            examples:
+              Create eBay Channel:
+                $ref: '#/components/examples/create_channel_req_example'
+        required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/single_channel_without_currencies_resp'
+        '422':
+          $ref: '#/components/responses/missing_or_invalid_channel_data_resp'
+  /channels/{channel_id}:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/channel_id_path_param'
+    get:
+      tags:
+      - Channels
+      summary: BigCommerce Get a Channel
+      operationId: getChannel
+      description: Returns a *Channel*. Channel ID `1` returns the default BigCommerce storefront.
+      parameters:
+      - $ref: '#/components/parameters/include'
+      responses:
+        '200':
+          $ref: '#/components/responses/single_channel_with_currencies_resp'
+        '404':
+          $ref: '#/components/responses/channel_not_found_resp'
+    put:
+      tags:
+      - Channels
+      summary: BigCommerce Update a Channel
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      operationId: updateChannel
+      description: 'Updates a *Channel*.
+
+
+        ## Updatable Fields
+
+
+        The following fields can be updated.
+
+        * `name`
+
+        * `external_id`
+
+        * `status`
+
+        * `is_listable_from_ui`
+
+        * `is_visible`
+
+        * `config_meta`
+
+
+
+        > #### Note
+
+        > * Partial updates are supported. In most cases, if a field that *cannot* be updated is passed in, the API **will not** respond with an error. It returns a 200 response with the object, in which you will see the field(s) were not updated.
+
+        > * `platform` and `type` cannot be updated after a channel is created.
+
+        > * A channel with status `deleted` or `terminated` cannot be updated.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateChannelReq'
+            examples:
+              Update a Facebook by Meta Channel:
+                $ref: '#/components/examples/update_channel_req_example'
+        required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/single_channel_without_currencies_resp'
+        '404':
+          $ref: '#/components/responses/channel_entity_not_found_resp'
+        '409':
+          $ref: '#/components/responses/duplicate_channel_resp'
+        '422':
+          $ref: '#/components/responses/invalid_channel_update_field_resp'
+components:
+  schemas:
+    ChannelType:
+      type: string
+      description: The type of channel; channel `platform` and `type` must be a [valid combination](/docs/rest-management/channels#status).
+      enum:
+      - pos
+      - marketplace
+      - storefront
+      - marketing
+      x-internal: false
+    ErrorDetail:
+      type: object
+      description: 'Error detail response payload for the BigCommerce API.
+
+        '
+      example:
+        '1': Unauthorized to delete
+        '2': Metafield does not exist
+    CreateChannelReq:
+      type: object
+      properties:
+        config_meta:
+          $ref: '#/components/schemas/ChannelConfigMeta'
+        external_id:
+          $ref: '#/components/schemas/ExternalId'
+        is_listable_from_ui:
+          $ref: '#/components/schemas/IsListableFromUI'
+        is_visible:
+          $ref: '#/components/schemas/IsVisible'
+        status:
+          $ref: '#/components/schemas/ChannelStatus'
+        name:
+          $ref: '#/components/schemas/ChannelName'
+        type:
+          $ref: '#/components/schemas/ChannelType'
+        platform:
+          $ref: '#/components/schemas/ChannelPlatform'
+      required:
+      - name
+      - type
+      - platform
+      x-internal: false
+      x-examples:
+        example-1:
+          config_meta:
+            app:
+              id: 0
+              sections:
+              - title: '"Settings"'
+                query_path: string
+          external_id: string
+          is_listable_from_ui: true
+          is_visible: true
+          status: active
+          name: string
+          type: pos
+          platform: string
+    DefaultCurrency:
+      type: string
+      description: Default currency for the channel in [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) three character alphabetic format. Will be used on storefront when other currencies cannot.
+      x-internal: false
+    ExternalId:
+      type: string
+      description: Associated ID within a system / platform outside of BC.
+      x-internal: false
+    EmptyMeta:
+      type: object
+      title: Empty meta response.
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    Error:
+      type: object
+      description: 'Error response payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: 'The HTTP status code for the error.
+
+            '
+          example: 422
+        title:
+          type: string
+          description: 'The error title describing the particular error.
+
+            '
+          example: Bulk operation has failed
+        type:
+          type: string
+          description: 'The error type.
+
+            '
+          example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+        errors:
+          $ref: '#/components/schemas/ErrorDetail'
+    IsVisible:
+      type: boolean
+      description: Indicates if a channel is visible within the BigCommerce merchant admin UI (control panel). If `false`, the channel will not show in Channel Manager nor in any channels dropdown throughout the UI. Default value for this field is `true` if not specified on create.
+      x-internal: false
+    CurrencyNotRequiredWithChannelId:
+      type: object
+      description: Details about currency assignments for a specific channel.
+      properties:
+        channel_id:
+          $ref: '#/components/schemas/ChannelId'
+        enabled_currencies:
+          $ref: '#/components/schemas/EnabledCurrencies'
+        default_currency:
+          $ref: '#/components/schemas/DefaultCurrency'
+      x-internal: false
+    ChannelDateModified:
+      type: string
+      format: date-time
+      description: Date on which the channel was most recently changed.
+      x-internal: false
+    pagination_Full:
+      type: object
+      description: 'Data about the pagination.
+
+        '
+      properties:
+        per_page:
+          type: integer
+          description: 'The maximum number of items per page.
+
+            '
+        total:
+          type: integer
+          description: 'Total number of items in the result set.
+
+            '
+        count:
+          type: integer
+          description: 'Total number of items in the collection response.
+
+            '
+        total_pages:
+          type: integer
+          description: 'The total number of pages in the collection.
+
+            '
+        current_page:
+          type: integer
+          description: The current page number.
+        links:
+          type: object
+          description: 'Pagination links for the previous, current, or next parts of the whole collection.
+
+            '
+          properties:
+            previous:
+              type: string
+              description: 'Link to the previous page returned in the response.
+
+                '
+            current:
+              type: string
+              description: 'Link to the current page returned in the response.
+
+                '
+            next:
+              type: string
+              description: 'Link to the next page returned in the response.
+
+                '
+      x-internal: false
+    ChannelWithoutCurrencies:
+      type: object
+      properties:
+        config_meta:
+          $ref: '#/components/schemas/ChannelConfigMeta'
+        id:
+          $ref: '#/components/schemas/ChannelId'
+        external_id:
+          $ref: '#/components/schemas/ExternalId'
+        is_listable_from_ui:
+          $ref: '#/components/schemas/IsListableFromUI'
+        is_visible:
+          $ref: '#/components/schemas/IsVisible'
+        status:
+          $ref: '#/components/schemas/ChannelStatus'
+        name:
+          $ref: '#/components/schemas/ChannelName'
+        type:
+          $ref: '#/components/schemas/ChannelType'
+        platform:
+          $ref: '#/components/schemas/ChannelPlatform'
+        date_created:
+          $ref: '#/components/schemas/ChannelDateCreated'
+        date_modified:
+          $ref: '#/components/schemas/ChannelDateModified'
+        icon_url:
+          $ref: '#/components/schemas/IconUrl'
+      required:
+      - id
+      - name
+      x-internal: false
+    IsListableFromUI:
+      type: boolean
+      description: Indicates if a channel can create listings from the BigCommerce UI. Default value for this field is based on the channel type and platform combination if not specified on create.
+      x-internal: false
+      x-examples:
+        example-1: true
+    MetaWithFullPagination:
+      type: object
+      description: Data about the response, including pagination.
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      x-internal: false
+    ChannelWithCurrencies:
+      type: object
+      properties:
+        config_meta:
+          $ref: '#/components/schemas/ChannelConfigMeta'
+        id:
+          $ref: '#/components/schemas/ChannelId'
+        external_id:
+          $ref: '#/components/schemas/ExternalId'
+        is_listable_from_ui:
+          $ref: '#/components/schemas/IsListableFromUI'
+        is_visible:
+          $ref: '#/components/schemas/IsVisible'
+        status:
+          $ref: '#/components/schemas/ChannelStatus'
+        name:
+          $ref: '#/components/schemas/ChannelName'
+        type:
+          $ref: '#/components/schemas/ChannelType'
+        platform:
+          $ref: '#/components/schemas/ChannelPlatform'
+        date_created:
+          $ref: '#/components/schemas/ChannelDateCreated'
+        date_modified:
+          $ref: '#/components/schemas/ChannelDateModified'
+        icon_url:
+          $ref: '#/components/schemas/IconUrl'
+        currencies:
+          $ref: '#/components/schemas/CurrencyNotRequiredWithChannelId'
+      x-internal: false
+    ChannelId:
+      type: integer
+      format: int64
+      description: The ID of the channel.
+      x-internal: false
+    ChannelDateCreated:
+      type: string
+      format: date-time
+      description: Date on which the channel was first created.
+      x-internal: false
+    IconUrl:
+      type: string
+      format: url
+      description: Link to the platform icon.
+      x-internal: false
+    UpdateChannelReq:
+      type: object
+      properties:
+        config_meta:
+          $ref: '#/components/schemas/ChannelConfigMeta'
+        external_id:
+          $ref: '#/components/schemas/ExternalId'
+        is_listable_from_ui:
+          $ref: '#/components/schemas/IsListableFromUI'
+        is_visible:
+          $ref: '#/components/schemas/IsVisible'
+        name:
+          $ref: '#/components/schemas/ChannelName'
+        status:
+          $ref: '#/components/schemas/ChannelStatus'
+      x-internal: false
+    ChannelName:
+      type: string
+      description: Name of the channel as it will appear in the store control panel. The only characters it can include are Latin alphabet letters, Arabic numerals, dashes, and underscores.
+      x-internal: false
+      x-examples:
+        example-1: string
+    ChannelPlatform:
+      type: string
+      description: The name of the platform for the channel; channel `platform` and `type` must be a [valid combination](/docs/rest-management/channels#status).
+      x-internal: false
+    ChannelStatus:
+      type: string
+      description: The status of the channel; channel `type`, `platform`, and `status` must be a [valid combination](/docs/rest-management/channels#status). `terminated` is not valid for `PUT` or `POST` requests. `deleted` is not valid for `POST` requests.
+      enum:
+      - active
+      - prelaunch
+      - inactive
+      - connected
+      - disconnected
+      - archived
+      - deleted
+      - terminated
+      title: ''
+      x-internal: false
+      x-examples:
+        example-1: active
+    ChannelConfigMeta:
+      type: object
+      description: Optional channel configuration object.
+      x-internal: false
+      properties:
+        app:
+          type: object
+          description: A [channel app](/docs/integrations/channels#channel-apps) config object for optionally configuring the channelʼs user interface in the control panel.
+          properties:
+            id:
+              type: integer
+              description: The unique `id` given to an app registered in [DevTools](https://devtools.bigcommerce.com/); used to create links to the app in channel manager. `app.id` is optional; however, if youʼre building an app that creates or manages a channel, we recommend including it to ensure the user interface in the control panel works properly. Select partners who are promoted in the Channel Manager must build an app, and include the app ID in the create channel request. [Learn how to find an Appʼs ID](/docs/integrations/apps/guide/id).
+            sections:
+              type: array
+              description: Sections are now deprecated under config_meta. The new /channel-menus endpoints should be used instead. If set, when the app is loaded within the control panel, the navigation `sections` will be directly embedded in the control panel navigation.
+              deprecated: true
+              items:
+                type: object
+                deprecated: true
+                properties:
+                  title:
+                    type: string
+                    description: The title of the navigation section.
+                    example: '"Settings"'
+                    deprecated: true
+                  query_path:
+                    type: string
+                    description: The value that will be passed to the appʼs iFrame in the URL and will allow the app to display the appropriate section within the app iFrame in the control panel.
+                    deprecated: true
+      x-examples:
+        example-1:
+          app:
+            id: 0
+            sections:
+            - title: '"Settings"'
+              query_path: string
+    EnabledCurrencies:
+      type: array
+      description: Currencies that are enabled for the specified channel in [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) three character alphabetic format.
+      items:
+        type: string
+      x-internal: false
+  responses:
+    missing_or_invalid_channel_data_resp:
+      description: The request is missing one or more required fields or invalid data is submitted. Commonly, an invalid combination of `type` and `platform` was provided.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Missing Required Field and Invalid Data:
+              $ref: '#/components/examples/error_422_channel_resp_example'
+            Invalid Type and Platform Combination:
+              $ref: '#/components/examples/error_422_invalid_type_platform_combination_resp_example'
+            Invalid Channel Name:
+              $ref: '#/components/examples/error_422_invalid_channel_name_resp_example'
+    channel_not_found_resp:
+      description: A *Channel* with the provided ID was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Channel Not Found:
+              $ref: '#/components/examples/error_404_resp_example'
+    single_channel_without_currencies_resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/ChannelWithoutCurrencies'
+              meta:
+                $ref: '#/components/schemas/EmptyMeta'
+          examples:
+            response:
+              $ref: '#/components/examples/single_channel_without_currencies_resp_example'
+    invalid_channel_update_field_resp:
+      description: When an invalid value or invalid field is submitted, a 422 response will be sent. Note that attempt to update a deleted or terminated channel will also result in 422 response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Update Type and Platform Error:
+              $ref: '#/components/examples/error_422_prevent_update_type_and_platform_resp_example'
+            Update Deleted Channel Error:
+              $ref: '#/components/examples/error_422_prevent_update_deleted_channel_resp_example'
+            Update Channel Name Error:
+              $ref: '#/components/examples/error_422_invalid_channel_name_resp_example'
+    invalid_filter_value_resp:
+      description: Invalid value is provided to the query parameter(s).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Invalid Filter Value:
+              $ref: '#/components/examples/error_422_invalid_filter_value_resp_example'
+    channel_entity_not_found_resp:
+      description: A *Channel* with the provided ID was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Channel Not Found:
+              $ref: '#/components/examples/error_404_entity_not_found_resp_example'
+    single_channel_with_currencies_resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/ChannelWithCurrencies'
+              meta:
+                $ref: '#/components/schemas/EmptyMeta'
+          examples:
+            response:
+              $ref: '#/components/examples/single_channel_with_currencies_resp_example'
+    multiple_channels_without_currencies_resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChannelWithoutCurrencies'
+              meta:
+                $ref: '#/components/schemas/MetaWithFullPagination'
+            required:
+            - data
+            - meta
+          examples:
+            response:
+              $ref: '#/components/examples/multiple_channels_without_currencies_resp_example'
+    duplicate_channel_resp:
+      description: A *Channel* with the same combination of `name`, `platform`, and `type` already exists.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Duplicate Channel:
+              $ref: '#/components/examples/error_409_resp_example'
+  parameters:
+    date_created_min:
+      name: date_created:min
+      description: Filter items by minimum date_created. For example, `date_created:min=2019-09-04T00:00:00`, `date_created:min=2019-09-04`, or `date_created:min=1567573200`
+      in: query
+      required: false
+      schema:
+        type: string
+    date_modified:
+      name: date_modified
+      description: Filter items by date_modified. For example, `date_modified=2019-09-04T00:00:00`, `date_modified=2019-09-04`, or `date_modified=1567573200`
+      in: query
+      required: false
+      schema:
+        type: string
+    available:
+      name: available
+      description: Filter items based on whether the channel is currently available for integration. Setting this query parameter to `true` will return channels with the status of `prelaunch`, `active` , `inactive`, and `connected`. Setting this query parameter to `false` will return channels with the status of `disconnected`, `archived`, `deleted`, and `terminated`.
+      in: query
+      required: false
+      schema:
+        type: boolean
+    type_in:
+      name: type:in
+      description: Filter items by a comma-separated list of types.
+      in: query
+      required: false
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+          - marketplace
+          - marketing
+          - pos
+          - storefront
+    date_modified_max:
+      name: date_modified:max
+      description: Filter items by maximum date_modified. For example, `date_modified:max=2019-09-04T00:00:00`, `date_modified:max=2019-09-04`, or `date_modified:max=1567573200`
+      in: query
+      required: false
+      schema:
+        type: string
+    date_created:
+      name: date_created
+      description: Filter items by date_created. For example, `date_created=2019-09-04T00:00:00`, `date_created=2019-09-04`, or `date_created=1567573200`
+      in: query
+      required: false
+      schema:
+        type: string
+    date_modified_min:
+      name: date_modified:min
+      description: Filter items by minimum date_modified. For example, `date_modified:min=2019-09-04T00:00:00`, `date_modified:min=2019-09-04`, or `date_modified:min=1567573200`
+      in: query
+      required: false
+      schema:
+        type: string
+    platform_in:
+      name: platform:in
+      description: Filter items by a comma-separated list of platforms. For a list of supported platforms, see [Platform](/docs/rest-management/channels#platform).
+      in: query
+      required: false
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+        example:
+        - facebook by meta,amazon
+    page:
+      name: page
+      description: Specifies the page number for a paginated response.
+      in: query
+      required: false
+      schema:
+        type: integer
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    include:
+      name: include
+      description: Channels subresources that can be included in the response.
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+        - currencies
+    status_in:
+      name: status:in
+      description: Filter items by a comma-separated list of statuses.
+      in: query
+      required: false
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+          - prelaunch
+          - active
+          - inactive
+          - connected
+          - disconnected
+          - archived
+          - deleted
+          - terminated
+    limit:
+      name: limit
+      description: Controls the number of items per page for paginated responses.
+      in: query
+      required: false
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    channel_id_path_param:
+      name: channel_id
+      description: The ID of a channel.
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    date_created_max:
+      name: date_created:max
+      description: Filter items by maximum date_created. For example, `date_created:max=2019-09-04T00:00:00`, `date_created:max=2019-09-04`, or `date_created:max=1567573200`
+      in: query
+      required: false
+      schema:
+        type: string
+  examples:
+    single_channel_without_currencies_resp_example:
+      value:
+        data:
+          id: 667159
+          icon_url: https://storage.googleapis.com/bigcommerce-production-dev-center/images/ebay_icon.png
+          is_listable_from_ui: false
+          is_visible: true
+          date_created: '2021-05-13T15:41:39Z'
+          external_id: ''
+          config_meta:
+            app:
+              id: 123
+              sections:
+              - title: Overview
+                query_path: overview
+              - title: Settings
+                query_path: settings
+          type: marketplace
+          platform: ebay
+          date_modified: '2021-05-13T15:41:39Z'
+          name: ebay
+          status: connected
+        meta: {}
+    error_422_invalid_filter_value_resp_example:
+      value:
+        status: 422
+        title: 'Query parameter "limit" value must be integer. For input string: "a".'
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+    error_409_resp_example:
+      value:
+        status: 409
+        title: 'Channel already exists with name: "Facebook by Meta", platform: "facebook by meta", and type: "marketplace"'
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+    error_404_resp_example:
+      value:
+        status: 404
+        title: Not found
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+    multiple_channels_without_currencies_resp_example:
+      value:
+        data:
+        - id: 1
+          icon_url: https://storage.googleapis.com/bigcommerce-production-dev-center/images/bigcommerce_icon.svg
+          is_listable_from_ui: true
+          is_visible: true
+          date_created: '2021-05-07T14:54:51Z'
+          external_id: ''
+          type: storefront
+          platform: bigcommerce
+          date_modified: '2021-05-07T14:54:51Z'
+          name: Test Store
+          status: prelaunch
+        - id: 664179
+          icon_url: https://storage.googleapis.com/bigcommerce-production-dev-center/images/amazon_icon.svg
+          is_listable_from_ui: true
+          is_visible: true
+          date_created: '2021-05-10T20:32:40Z'
+          external_id: ''
+          type: marketplace
+          platform: amazon
+          date_modified: '2021-05-13T14:25:54Z'
+          name: Amazon
+          status: connected
+        - id: 667159
+          icon_url: https://storage.googleapis.com/bigcommerce-production-dev-center/images/facebook_icon.svg
+          is_listable_from_ui: false
+          is_visible: true
+          date_created: '2021-05-13T15:41:39Z'
+          external_id: ''
+          config_meta:
+            app:
+              id: 123
+              sections:
+              - title: Overview
+                query_path: overview
+              - title: Settings
+                query_path: settings
+          type: marketplace
+          platform: facebook by meta
+          date_modified: '2021-05-13T15:41:39Z'
+          name: Facebook by Meta
+          status: connected
+        meta:
+          pagination:
+            per_page: 2
+            total: 8
+            count: 2
+            links:
+              previous: ?page=1&limit=2
+              current: ?page=2&limit=2
+              next: ?page=3&limit=2
+            total_pages: 4
+            current_page: 2
+    error_422_channel_resp_example:
+      value:
+        status: 422
+        title: JSON data is missing or invalid
+        type: /api-docs/getting-started/api-status-codes
+        errors:
+          platform: error.path.missing
+          name: error.expected.jsstring
+    error_422_invalid_channel_name_resp_example:
+      value:
+        status: 422
+        title: Only latin alphabet letters, arabic numerals, dash and underscore are allowed to be used as channel name.
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+    create_channel_req_example:
+      value:
+        name: eBay
+        platform: ebay
+        type: marketplace
+        status: connected
+        config_meta:
+          app:
+            id: 123
+            sections:
+            - title: Overview
+              query_path: overview
+            - title: Settings
+              query_path: settings
+    error_422_prevent_update_deleted_channel_resp_example:
+      value:
+        status: 422
+        title: A deleted channel cannot be updated. Channel can be restored within 90 days after deleting by contacting BigCommerce support team
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+    error_422_prevent_update_type_and_platform_resp_example:
+      value:
+        status: 422
+        title: 'The following fields are invalid: type, platform'
+        type: /api-docs/getting-started/api-status-codes
+        errors:
+          type: The field 'type' can not be updated after channel is created.
+          platform: The field 'platform' can not be updated after channel is created.
+    single_channel_with_currencies_resp_example:
+      value:
+        data:
+          id: 667159
+          icon_url: https://storage.googleapis.com/bigcommerce-production-dev-center/images/facebook_icon.svg
+          is_listable_from_ui: false
+          is_visible: true
+          date_created: '2021-05-13T15:41:39Z'
+          external_id: ''
+          config_meta:
+            app:
+              id: 123
+              sections:
+              - title: Overview
+                query_path: overview
+              - title: Settings
+                query_path: settings
+          type: marketplace
+          platform: facebook by meta
+          date_modified: '2021-05-13T15:41:39Z'
+          name: Facebook by Meta
+          status: connected
+          currencies:
+            channel_id: 667159
+            enabled_currencies:
+            - USD
+            default_currency: USD
+        meta: {}
+    error_404_entity_not_found_resp_example:
+      value:
+        status: 404
+        title: The requested entity was not found.
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+    error_422_invalid_type_platform_combination_resp_example:
+      value:
+        status: 422
+        title: Input channel type [marketplace] with platform [bigcommerce] is not supported
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+    update_channel_req_example:
+      value:
+        name: Facebook by Meta
+        status: connected
+        is_listable_from_ui: false
+        config_meta:
+          app:
+            id: 123
+            sections:
+            - title: Overview
+              query_path: overview
+            - title: Settings
+              query_path: settings
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

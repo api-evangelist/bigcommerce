@@ -1,0 +1,760 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Videos API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Videos
+paths:
+  /catalog/products/{product_id}/videos:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/ProductIdParam'
+    get:
+      tags:
+      - Videos
+      summary: BigCommerce Get All Product Videos
+      description: Returns a list of *Product Videos*. Optional parameters can be passed in.
+      operationId: getProductVideos
+      parameters:
+      - name: include_fields
+        in: query
+        description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        schema:
+          type: string
+      - name: exclude_fields
+        in: query
+        description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded.
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Specifies the page number in a limited (paginated) list of products.
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Controls the number of items per page in a limited (paginated) list of products.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Product Video Collection Response
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/productVideo_Full'
+                  meta:
+                    $ref: '#/components/schemas/metaCollection_Full'
+              example:
+                data:
+                - id: 6
+                  type: youtube
+                  video_id: PqBTp23RLhI
+                  product_id: 192
+                  sort_order: 1
+                  title: Creating and Editing Banners | BigCommerce Tutorials
+                  description: Learn how to create and edit marketing banners. Marketing banners are a great way to advertise sales, display coupon codes, and add design elements. Let’s take a look at how you can leverage banners to convert your store’s visitors into paying customers.
+                  length: 01:54
+                - id: 7
+                  type: youtube
+                  video_id: EhYBjzqd-nI
+                  product_id: 192
+                  sort_order: 2
+                  title: BigCommerce Company Values
+                  description: 'These are the core principles upon which BigCommerce was built, guiding what we do and how we do it. Each employee learns them, loves them and lives them. Our merchants benefit from them every time they use our product or get help from our support team.
+
+
+                    Join the BigCommerce team and help us build software that changes lives!
+
+
+                    https://www.bigcommerce.com/careers/'
+                  length: 03:30
+                - id: 8
+                  type: youtube
+                  video_id: vAUdo4kRjrU
+                  product_id: 192
+                  sort_order: 3
+                  title: TOP WORKPLACES 2016 - Austin American Statesman + BigCommerce
+                  description: 'We''ve been named one of Austin American-Statesmanʼs Top WorkPlaces for the 5th year in a row! Hereʼs what some employees have to say:
+
+
+                    “I am given the freedom and trust to make a difference.”
+
+
+                    “Everyone believes in the product and growing the company.”
+
+
+                    “I''m appreciated for the work I do and there is room to grown within the company.”
+
+
+                    Work With Us!
+
+                    http://www.bigcommerce.com/careers.php'
+                  length: 01:37
+                meta:
+                  pagination:
+                    total: 3
+                    count: 3
+                    per_page: 50
+                    current_page: 1
+                    total_pages: 1
+                    links:
+                      current: ?page=1&limit=50
+    post:
+      tags:
+      - Videos
+      summary: BigCommerce Create a Product Video
+      description: 'Creates a *Product Video*.
+
+
+        **Required Fields**
+
+        * video_id
+
+
+        **Read-Only Fields**
+
+        * id
+
+
+        Publicly accessible URLs are valid parameters.
+
+        Videos must be loaded through YouTube at this time.'
+      operationId: createProductVideo
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Product Video Post
+              description: 'The model for a POST to create a video on a product.
+
+                '
+              allOf:
+              - title: Product Video Base
+                description: Common Product Video properties.
+                properties:
+                  title:
+                    maxLength: 255
+                    minLength: 0
+                    type: string
+                    example: Writing Great Documentation
+                    description: 'The title for the video. If left blank, this will be filled in according to data on a host site.
+
+                      '
+                  description:
+                    type: string
+                    example: A video about documenation
+                    description: 'The description for the video. If left blank, this will be filled in according to data on a host site.
+
+                      '
+                  sort_order:
+                    maximum: 2147483647
+                    minimum: -2147483648
+                    example: 1
+                    type: integer
+                    description: 'The order in which the video will be displayed on the product page. Higher integers give the video a lower priority. When updating, if the video is given a lower priority, all videos with a `sort_order` the same as or greater than the videoʼs new `sort_order` value will have their `sort_order`s reordered.
+
+                      '
+                  type:
+                    type: string
+                    description: 'The video type (a short name of a host site).
+
+                      '
+                    enum:
+                    - youtube
+              - properties:
+                  video_id:
+                    type: string
+                    maxLength: 25
+                    minLength: 0
+                    description: 'The ID of the video on a host site.
+
+                      '
+                    x-required:
+                    - post
+                    example: z3fRu9pkuXE
+              type: object
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Product Video Response
+                type: object
+                properties:
+                  data:
+                    title: Product Video
+                    type: object
+                    description: 'A product video model.
+
+                      '
+                    allOf:
+                    - title: Product Video Base
+                      type: object
+                      properties:
+                        title:
+                          maxLength: 255
+                          minLength: 0
+                          type: string
+                          description: 'The title for the video. If left blank, this will be filled in according to data on a host site.
+
+                            '
+                        description:
+                          type: string
+                          description: 'The description for the video. If left blank, this will be filled in according to data on a host site.
+
+                            '
+                        sort_order:
+                          maximum: 2147483647
+                          minimum: -2147483648
+                          type: integer
+                          description: 'The order in which the video will be displayed on the product page. Higher integers give the video a lower priority. When updating, if the video is given a lower priority, all videos with a `sort_order` the same as or greater than the videoʼs new `sort_order` value will have their `sort_order`s reordered.
+
+                            '
+                        type:
+                          type: string
+                          description: 'The video type (a short name of a host site).
+
+                            '
+                          enum:
+                          - youtube
+                      description: Common Product Video properties.
+                    - type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: 'The unique numeric ID of the product video; increments sequentially.
+
+                            '
+                        video_id:
+                          type: string
+                          description: 'The ID of the video on a host site.
+
+                            '
+                        product_id:
+                          type: integer
+                          description: 'The unique numeric identifier for the product with which the image is associated.
+
+                            '
+                        length:
+                          type: string
+                          description: 'Length of the video. This will be filled in according to data on a host site.
+
+                            '
+                  meta:
+                    $ref: '#/components/schemas/metaEmpty_Full'
+                description: 'Response payload for the BigCommerce API.
+
+                  '
+              example:
+                title: Your Video
+                description: Company Values
+                sort_order: 1
+                type: youtube
+                video_id: 123345AA
+        '404':
+          description: 'The resource was not found.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Not Found
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: '404 HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: The error title describing the particular error.
+                  type:
+                    type: string
+                  instance:
+                    type: string
+                description: Error payload for the BigCommerce API.
+      x-codegen-request-body-name: productVideo
+  /catalog/products/{product_id}/videos/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/ProductIdParam'
+    - $ref: '#/components/parameters/VideoIdParam'
+    get:
+      tags:
+      - Videos
+      summary: BigCommerce Get a Product Video
+      description: Returns a single *Product Video*. Optional parameters can be passed in.
+      operationId: getProductVideo
+      parameters:
+      - name: include_fields
+        in: query
+        description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        schema:
+          type: string
+      - name: exclude_fields
+        in: query
+        description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Product Video Response
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/productVideo_Full'
+                  meta:
+                    $ref: '#/components/schemas/metaEmpty_Full'
+                description: 'Response payload for the BigCommerce API.
+
+                  '
+              example:
+                title: Your Video
+                description: Company Values
+                sort_order: 1
+                type: youtube
+                video_id: 123345AA
+        '404':
+          description: 'The resource was not found.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Not Found
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: '404 HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: The error title describing the particular error.
+                  type:
+                    type: string
+                  instance:
+                    type: string
+                description: Error payload for the BigCommerce API.
+    put:
+      tags:
+      - Videos
+      summary: BigCommerce Update a Product Video
+      description: 'Updates a *Product Video.
+
+
+        **Required Fields**
+
+        * none
+
+
+        **Read-Only Fields**
+
+        * id'
+      operationId: updateProductVideo
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Product Video Put
+              description: 'The model for a PUT to update a video on a product.
+
+                '
+              allOf:
+              - title: Product Video Base
+                type: object
+                properties:
+                  title:
+                    maxLength: 255
+                    minLength: 0
+                    type: string
+                    description: 'The title for the video. If left blank, this will be filled in according to data on a host site.
+
+                      '
+                  description:
+                    type: string
+                    description: 'The description for the video. If left blank, this will be filled in according to data on a host site.
+
+                      '
+                  sort_order:
+                    maximum: 2147483647
+                    minimum: -2147483648
+                    type: integer
+                    description: 'The order in which the video will be displayed on the product page. Higher integers give the video a lower priority. When updating, if the video is given a lower priority, all videos with a `sort_order` the same as or greater than the videoʼs new `sort_order` value will have their `sort_order`s reordered.
+
+                      '
+                  type:
+                    type: string
+                    description: 'The video type (a short name of a host site).
+
+                      '
+                    enum:
+                    - youtube
+                description: Common Product Video properties.
+              - type: object
+                properties:
+                  id:
+                    type: integer
+                    description: 'The unique numeric ID of the product video; increments sequentially.
+
+                      '
+                    x-required:
+                    - put
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Product Video Response
+                type: object
+                properties:
+                  data:
+                    title: Product Video
+                    type: object
+                    description: 'A product video model.
+
+                      '
+                    allOf:
+                    - title: Product Video Base
+                      type: object
+                      properties:
+                        title:
+                          maxLength: 255
+                          minLength: 0
+                          type: string
+                          description: 'The title for the video. If left blank, this will be filled in according to data on a host site.
+
+                            '
+                        description:
+                          type: string
+                          description: 'The description for the video. If left blank, this will be filled in according to data on a host site.
+
+                            '
+                        sort_order:
+                          maximum: 2147483647
+                          minimum: -2147483648
+                          type: integer
+                          description: 'The order in which the video will be displayed on the product page. Higher integers give the video a lower priority. When updating, if the video is given a lower priority, all videos with a `sort_order` the same as or greater than the videoʼs new `sort_order` value will have their `sort_order`s reordered.
+
+                            '
+                        type:
+                          type: string
+                          description: 'The video type (a short name of a host site).
+
+                            '
+                          enum:
+                          - youtube
+                      description: Common Product Video properties.
+                    - type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: 'The unique numeric ID of the product video; increments sequentially.
+
+                            '
+                        video_id:
+                          type: string
+                          description: 'The ID of the video on a host site.
+
+                            '
+                        product_id:
+                          type: integer
+                          description: 'The unique numeric identifier for the product with which the image is associated.
+
+                            '
+                        length:
+                          type: string
+                          description: 'Length of the video. This will be filled in according to data on a host site.
+
+                            '
+                  meta:
+                    $ref: '#/components/schemas/metaEmpty_Full'
+                description: 'Response payload for the BigCommerce API.
+
+                  '
+              example:
+                title: Your Video
+                description: Company Values
+                sort_order: 1
+                type: youtube
+                video_id: 123345AA
+        '404':
+          description: 'The resource was not found.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Not Found
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: '404 HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: The error title describing the particular error.
+                  type:
+                    type: string
+                  instance:
+                    type: string
+                description: Error payload for the BigCommerce API.
+      x-codegen-request-body-name: productVideo
+    delete:
+      tags:
+      - Videos
+      summary: BigCommerce Delete a Product Video
+      description: Deletes a *Product Video*.
+      operationId: deleteProductVideo
+      responses:
+        '204':
+          description: ''
+          content: {}
+components:
+  schemas:
+    productVideo_Full:
+      title: productVideo_Full
+      description: 'A product video model.
+
+        '
+      allOf:
+      - $ref: '#/components/schemas/productVideo_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: 'The unique numeric ID of the product video; increments sequentially.
+
+              '
+          product_id:
+            type: integer
+            description: 'The unique numeric identifier for the product with which the image is associated.
+
+              '
+          length:
+            type: string
+            description: 'Length of the video. This will be filled in according to data on a host site.
+
+              '
+      x-internal: false
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    pagination_Full:
+      title: pagination_Full
+      type: object
+      properties:
+        total:
+          type: integer
+          description: 'Total number of items in the result set.
+
+            '
+          example: 36
+        count:
+          type: integer
+          description: 'Total number of items in the collection response.
+
+            '
+          example: 36
+        per_page:
+          type: integer
+          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+            '
+          example: 50
+        current_page:
+          type: integer
+          description: 'The page you are currently on within the collection.
+
+            '
+          example: 1
+        total_pages:
+          type: integer
+          description: 'The total number of pages in the collection.
+
+            '
+          example: 1
+        links:
+          type: object
+          properties:
+            previous:
+              type: string
+              description: 'Link to the previous page returned in the response.
+
+                '
+            current:
+              type: string
+              description: 'Link to the current page returned in the response.
+
+                '
+              example: ?page=1&limit=50
+            next:
+              type: string
+              description: 'Link to the next page returned in the response.
+
+                '
+          description: 'Pagination links for the previous and next parts of the whole collection.
+
+            '
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    productVideo_Base:
+      title: productVideo_Base
+      type: object
+      description: 'The model for a POST to create a video on a product.
+
+        '
+      x-internal: false
+      properties:
+        title:
+          type: string
+          maxLength: 255
+          minLength: 0
+          description: 'The title for the video. If left blank, this will be filled in according to data on a host site.
+
+            '
+          example: Writing Great Documentation
+        description:
+          type: string
+          description: 'The description for the video. If left blank, this will be filled in according to data on a host site.
+
+            '
+          example: A video about documenation
+        sort_order:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: 'The order in which the video will be displayed on the product page. Higher integers give the video a lower priority. When updating, if the video is given a lower priority, all videos with a `sort_order` the same as or greater than the videoʼs new `sort_order` value will have their `sort_order`s reordered.
+
+            '
+          example: 1
+        type:
+          type: string
+          description: 'The video type (a short name of a host site).
+
+            '
+          enum:
+          - youtube
+        video_id:
+          type: string
+          description: The ID of the video on a host site.
+          example: z3fRu9pkuXE
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs.
+
+        '
+      required: true
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    VideoIdParam:
+      name: id
+      description: The BigCommerce ID of the `Video`
+      required: true
+      in: path
+      schema:
+        type: integer
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

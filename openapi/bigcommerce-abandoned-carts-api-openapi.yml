@@ -1,0 +1,241 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Abandoned Carts API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Abandoned Carts
+paths:
+  /abandoned-carts/{token}:
+    parameters:
+    - name: token
+      in: path
+      required: true
+      description: 'Unique cart `UUID`.
+
+
+        Unique cart `UUID` token that is generated for abandoned cart emails.'
+      schema:
+        type: string
+    - $ref: '#/components/parameters/Accept'
+    get:
+      responses:
+        '200':
+          $ref: '#/components/responses/abandonedCart_Resp'
+        '400':
+          $ref: '#/components/responses/400_BadRequest'
+        '404':
+          $ref: '#/components/responses/404_NotFound'
+        '422':
+          $ref: '#/components/responses/422_UnprocessableEntity'
+        '502':
+          $ref: '#/components/responses/502_GatewayError'
+        '503':
+          $ref: '#/components/responses/503_ServiceUnavailable'
+        '504':
+          $ref: '#/components/responses/504_GatewayTimeout'
+        default:
+          description: ''
+      summary: BigCommerce Get an Abandoned Cart
+      description: 'Returns the `cart_id` corresponding to the abandoned cart `{token}` passed in.
+
+
+        **Usage Notes**:
+
+        * `{token}` is the token in the query string of the abandoned cart link found in abandoned cart email notifications to shoppers'
+      operationId: getAbandonedCarts
+      tags:
+      - Abandoned Carts
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    errorDetailed_Full:
+      type: object
+      properties:
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+          title: DetailedErrors
+      title: errorDetailed_Full
+      x-internal: false
+    metaEmpty_Full:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    error_Full:
+      type: object
+      title: error_Full
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+      x-internal: false
+    abandonedCartInfo_Full:
+      type: object
+      title: abandonedCartInfo_Full
+      properties:
+        cart_id:
+          type: string
+          description: The `cart_id` of the abandoned cart. Can be used to display the abandoned cart to the customer using storefront cart or server-to-server cart APIs.
+      x-internal: false
+  responses:
+    404_NotFound:
+      description: If the requested account resource is not found for the franchise, return a 404 Not Found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 404
+                title: Account with {id} not found
+                type: /api-docs/getting-started/api-status-codes
+    422_UnprocessableEntity:
+      description: This occurs when missing or unacceptable data is passed for one or more fields. Please correct the values for the fields listed in the errors object.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDetailed_Full'
+          examples:
+            response:
+              value:
+                status: 422
+                title: JSON data is missing or invalid
+                type: /api-docs/getting-started/api-status-codes
+                errors:
+                  name: error.expected.jsstring
+                  primary_contact.district: error.expected.jsstring.
+    502_GatewayError:
+      description: If something happens during the request that causes it to fail, a 502 response will be returned. A new request should be made; however, it could fail.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 502
+                title: A login URL could not be generated. Please try another request.
+                type: /api-docs/getting-started/api-status-codes
+    abandonedCart_Resp:
+      description: Returned on `GET` requests to `/abandoned_carts`.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/abandonedCartInfo_Full'
+              meta:
+                $ref: '#/components/schemas/metaEmpty_Full'
+    400_BadRequest:
+      description: 'Malformed request syntax. Typically need to fix the JSON
+
+        Body to resend successfully.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 400
+                title: Input is invalid.
+                type: /api-docs/getting-started/api-status-codes
+    504_GatewayTimeout:
+      description: If this occurs, you should retry the request. Typically retrying the request several times will result in a successful request; However, if you are unable to successfully make a request, please check the BigCommerce system status [here](https://status.bigcommerce.com/). A service is likely down and the request will need to be made again when it is back up (in several hours usually)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDetailed_Full'
+          examples:
+            response:
+              value:
+                status: 504
+                title: Gateway Timeout
+                type: /api-docs/getting-started/api-status-codes
+                errors: {}
+    503_ServiceUnavailable:
+      description: If this occurs, you should retry the request. If you are unable to successfully make a request, please check the BigCommerce system status [here](https://status.bigcommerce.com/). A service is likely down and the request will need to be made again when it is back up (in several hours usually)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 503
+                title: Service Unavailable
+                type: /api-docs/getting-started/api-status-codes
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

@@ -1,0 +1,132 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Theme Custom Templates API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Theme Custom Templates
+paths:
+  /themes/custom-templates/{version_uuid}:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - schema:
+        type: string
+      name: version_uuid
+      in: path
+      required: true
+    get:
+      summary: BigCommerce Get Custom Templates
+      tags:
+      - Theme Custom Templates
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      product:
+                        type: array
+                        items:
+                          type: string
+                      category:
+                        type: array
+                        items:
+                          type: string
+                      brand:
+                        type: array
+                        items:
+                          type: string
+                      page:
+                        type: array
+                        items:
+                          type: string
+                  meta:
+                    $ref: '#/components/schemas/OpenMeta'
+              examples:
+                example-1:
+                  value:
+                    data:
+                      product:
+                      - custom-product-1.html
+                      category: []
+                      brand:
+                      - custom-brand-1.html
+                      page:
+                      - custom-page-1.html
+                      - holiday-page.html
+                    meta: {}
+      operationId: getThemeCustomTemplates
+      description: Enumerate available custom templates for in the theme files in a specific theme version for each supported entity type.
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    OpenMeta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

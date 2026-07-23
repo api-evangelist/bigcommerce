@@ -1,0 +1,892 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Placement API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Placement
+  description: BigCommerce Placements API Definition.
+paths:
+  /content/placements:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    post:
+      tags:
+      - Placement
+      summary: BigCommerce Create a Placement
+      operationId: createPlacement
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/placement_Post'
+        required: true
+        x-examples:
+          application/json:
+            widget_uuid: a8940709-5655-4401-a341-62c44e3180b2
+            entity_id: '21'
+            template_file: pages/category
+            status: active
+            sort_order: 1
+            region: category_header_banner
+      responses:
+        '200':
+          $ref: '#/components/responses/Placement_Resp'
+        '422':
+          $ref: '#/components/responses/Error422_Resp'
+      description: 'Creates a **Placement**.
+
+
+        **Template Files**
+
+
+        To view the list of values accepted by the `template_file` property, including **custom** templates, see [Placements](/docs/storefront/widgets#placements).'
+    get:
+      tags:
+      - Placement
+      summary: BigCommerce Get All Placements
+      operationId: getPlacements
+      parameters:
+      - name: page
+        description: 'Specifies the page number in a limited (paginated) list of products.
+
+          '
+        required: false
+        in: query
+        schema:
+          type: integer
+      - name: limit
+        description: 'Controls the number of items per page in a limited (paginated) list of products.
+
+          '
+        required: false
+        in: query
+        schema:
+          type: integer
+      - in: query
+        name: widget_template_kind
+        description: The kind of widget template.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: template_file
+        description: 'The template file, for example: `pages/home`.'
+        required: false
+        schema:
+          type: string
+      - name: widget_uuid
+        description: The identifier for a specific widget.
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: widget_template_uuid
+        description: The identifier for a specific widget template.
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/ChannelIDInParam'
+      - $ref: '#/components/parameters/SiteIDInParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/PlacementsCollection_Resp'
+        '422':
+          $ref: '#/components/responses/Error422_Resp'
+      description: Returns a list of **Placements**.
+  /content/placements/{uuid}:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/PlacementUUID'
+    get:
+      tags:
+      - Placement
+      summary: BigCommerce Get a Placement
+      operationId: getPlacement
+      responses:
+        '200':
+          $ref: '#/components/responses/Placement_Resp'
+        '404':
+          $ref: '#/components/responses/Error404_Resp'
+        '422':
+          $ref: '#/components/responses/Error422_Resp'
+      description: Returns a single **Placement**.
+    put:
+      tags:
+      - Placement
+      summary: BigCommerce Update a Placement
+      operationId: updatePlacement
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/placement_Put'
+        required: true
+        x-examples:
+          application/json:
+            sort_order: 1
+            region: home_header_image
+            template_file: pages/home
+            status: active
+      responses:
+        '200':
+          $ref: '#/components/responses/Placement_Resp'
+        '404':
+          $ref: '#/components/responses/Error404_Resp'
+        '422':
+          $ref: '#/components/responses/Error422_Resp'
+      description: Updates a **Placement**.
+    delete:
+      tags:
+      - Placement
+      summary: BigCommerce Delete a Placement
+      operationId: deletePlacement
+      responses:
+        '204':
+          description: An empty response.
+        '404':
+          $ref: '#/components/responses/Error404_Resp'
+        '422':
+          $ref: '#/components/responses/Error422_Resp'
+      description: Deletes a **Placement**.
+components:
+  responses:
+    PlacementsCollection_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/placement_Full'
+              meta:
+                $ref: '#/components/schemas/metaCollection'
+          examples:
+            response:
+              value:
+                data:
+                - channel_id: 1
+                  date_created: '2020-12-21T20:43:16.796Z'
+                  date_modified: '2020-12-21T20:43:16.796Z'
+                  entity_id: '21'
+                  region: category_header_banner
+                  sort_order: 1
+                  status: active
+                  template_file: pages/category
+                  uuid: 89eac5b3-91d7-48e5-92e7-ff53ecf07f8c
+                  widget:
+                    channel_id: 1
+                    date_created: '2020-12-21T19:54:16.406Z'
+                    date_modified: '2020-12-21T20:40:45.173Z'
+                    description: ''
+                    name: Header Images
+                    storefront_api_query_params: {}
+                    uuid: 1f05183e-dfa4-4583-af28-250b47e177b2
+                    version_uuid: c863f77b-e5b4-4462-a9ed-2aff9005140e
+                    widget_configuration:
+                      _:
+                        id: 1f05183e-dfa4-4583-af28-250b47e177b2
+                      images:
+                      - image_source: https://cdn11.bigcommerce.com/s-n0i50vy/images/stencil/1280x1280/products/109/361/kinfolkessentialissue_1024x1024__22507.1456436715.jpg?c=2&imbypass=on
+                      - image_source: https://cdn11.bigcommerce.com/s-n0i50vy/images/stencil/500x659/products/85/282/livingwithplants_grande__26452.1456436666.jpg?c=2&imbypass=on
+                      - image_source: https://cdn11.bigcommerce.com/s-n0i50vy/images/stencil/1280x1280/products/109/361/kinfolkessentialissue_1024x1024__22507.1456436715.jpg?c=2&imbypass=on
+                    widget_template:
+                      channel_id: 1
+                      client_rerender: false
+                      current_version_uuid: c863f77b-e5b4-4462-a9ed-2aff9005140e
+                      date_created: '2020-12-21T19:49:29.110Z'
+                      date_modified: '2020-12-21T19:49:29.110Z'
+                      icon_name: default
+                      kind: custom
+                      name: Header Images
+                      schema: []
+                      storefront_api_query: ''
+                      template: '{{#each images}}{{/each}}'
+                      template_engine: handlebars_v3
+                      uuid: f8459145-da8f-4d98-93e4-83aa47da61c6
+                meta:
+                  pagination:
+                    count: 1
+                    current_page: 1
+                    per_page: 50
+                    total: 1
+                    total_pages: 1
+    Placement_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/placement_Full'
+              meta:
+                $ref: '#/components/schemas/Meta'
+          examples:
+            response:
+              value:
+                data:
+                  channel_id: 1
+                  date_created: '2020-12-21T20:43:16.796Z'
+                  date_modified: '2020-12-21T20:43:16.796Z'
+                  entity_id: '21'
+                  region: category_header_banner
+                  sort_order: 1
+                  status: active
+                  template_file: pages/category
+                  uuid: 89eac5b3-91d7-48e5-92e7-ff53ecf07f8c
+                  widget:
+                    channel_id: 1
+                    date_created: '2020-12-21T19:54:16.406Z'
+                    date_modified: '2020-12-21T20:40:45.173Z'
+                    description: ''
+                    name: Header Images
+                    storefront_api_query_params: {}
+                    uuid: 1f05183e-dfa4-4583-af28-250b47e177b2
+                    version_uuid: c863f77b-e5b4-4462-a9ed-2aff9005140e
+                    widget_configuration:
+                      _:
+                        id: 1f05183e-dfa4-4583-af28-250b47e177b2
+                      images:
+                      - image_source: https://cdn11.bigcommerce.com/s-n0i50vy/images/stencil/1280x1280/products/109/361/kinfolkessentialissue_1024x1024__22507.1456436715.jpg?c=2&imbypass=on
+                      - image_source: https://cdn11.bigcommerce.com/s-n0i50vy/images/stencil/500x659/products/85/282/livingwithplants_grande__26452.1456436666.jpg?c=2&imbypass=on
+                      - image_source: https://cdn11.bigcommerce.com/s-n0i50vy/images/stencil/1280x1280/products/109/361/kinfolkessentialissue_1024x1024__22507.1456436715.jpg?c=2&imbypass=on
+                    widget_template:
+                      channel_id: 1
+                      client_rerender: false
+                      current_version_uuid: c863f77b-e5b4-4462-a9ed-2aff9005140e
+                      date_created: '2020-12-21T19:49:29.110Z'
+                      date_modified: '2020-12-21T19:49:29.110Z'
+                      icon_name: default
+                      kind: custom
+                      name: Header Images
+                      schema: []
+                      storefront_api_query: ''
+                      template: '{{#each images}}{{/each}}'
+                      template_engine: handlebars_v3
+                      uuid: f8459145-da8f-4d98-93e4-83aa47da61c6
+                meta: {}
+    Error422_Resp:
+      description: 'This is the result of missing required fields, or of invalid data. See the response for more details.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Base'
+    Error404_Resp:
+      description: The resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Base'
+          examples:
+            example-1:
+              value:
+                status: 0
+                title: string
+                type: string
+                instance: string
+                errors: {}
+  schemas:
+    placement_Post:
+      title: placement_Post
+      allOf:
+      - type: object
+        properties:
+          widget_uuid:
+            type: string
+            description: A widget identifier.
+          template_file:
+            type: string
+            description: The template file that you would like to target.
+          channel_id:
+            type: integer
+            description: The id of the channel on which to create this placement. Defaults to the first channel created on the store.
+            example: 1
+        required:
+        - widget_uuid
+        - template_file
+      - $ref: '#/components/schemas/placement_Base'
+      x-internal: false
+    metaCollection:
+      type: object
+      description: Data about the response, including pagination and collection totals.
+      title: metaCollection
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination'
+      x-internal: false
+    placement_Base:
+      type: object
+      title: placement_Base
+      properties:
+        entity_id:
+          type: string
+          description: The identifier of a page you would like to target. For product pages, choose product ID. For category pages, choose category ID. Home page does not support `entity_id`.
+        sort_order:
+          type: integer
+          description: The sort order to control the position of a content widget in a region.
+        region:
+          type: string
+          description: The name of the region in which to insert content widgets.
+        status:
+          type: string
+          enum:
+          - inactive
+          - active
+          description: Sets the placement as either inactive or active.
+          default: inactive
+      x-internal: false
+    widgetSchema:
+      type: array
+      description: 'The schema for the widget’s merchant-facing UI. For more information on the available schema settings, see [Widget UI Schema](/docs/storefront/widgets/input-reference/schema). '
+      title: ''
+      items:
+        anyOf:
+        - $ref: '#/components/schemas/widgetSchemaTab'
+        - $ref: '#/components/schemas/widgetSchemaArray'
+        - $ref: '#/components/schemas/widgetSchemaHidden'
+      x-internal: false
+    placement_Full:
+      title: placement_Full
+      allOf:
+      - type: object
+        properties:
+          uuid:
+            type: string
+            format: uuid
+            description: The primary identifier.
+          template_file:
+            type: string
+            description: The template file that you would like to target.
+          date_created:
+            type: string
+            format: date-time
+            description: The date on which this object was initially created.
+          date_modified:
+            type: string
+            format: date-time
+            description: The date on which this object was last updated.
+          channel_id:
+            type: integer
+            description: The ID of the channel on which this placement exists.
+      - $ref: '#/components/schemas/placement_Base'
+      - type: object
+        properties:
+          widget:
+            $ref: '#/components/schemas/widget_Full'
+      x-internal: false
+    widget_Full:
+      title: widget_Full
+      allOf:
+      - $ref: '#/components/schemas/widget_Base'
+      - type: object
+        properties:
+          uuid:
+            type: string
+            format: uuid
+            description: The primary identifier.
+          widget_template:
+            $ref: '#/components/schemas/widgetTemplate_Full'
+          date_created:
+            type: string
+            format: date-time
+            description: The date on which this object was initially created.
+          date_modified:
+            type: string
+            format: date-time
+            description: The date on which this object was last updated.
+          version_uuid:
+            type: string
+            description: The identifier of the widget template version associated with this widget.
+          channel_id:
+            type: integer
+            description: The ID of the channel on which this widget exists.
+      x-internal: false
+    Meta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    widgetSchemaHidden:
+      type: object
+      title: widgetSchemaHidden
+      description: '**Hidden.** Use the **hidden** settings type to create controls that have no user interface drawn in Page Builder. Hidden settings are not grouped into any other tabs or arrays.'
+      x-internal: false
+      properties:
+        type:
+          type: string
+          enum:
+          - hidden
+          example: hidden
+        settings:
+          type: array
+          items:
+            type: object
+            title: widgetSchemaSetting_Base
+            description: For examples of each type of setting, see [Page Builder > Schema Settings](/docs/storefront/widgets/input-reference/settings#alignment) in Theme Docs.
+            properties:
+              type:
+                type: string
+                description: 'The type of setting component to display. You can view the list of elements below to discover which are available to use.
+
+
+                  For examples of each type of setting, see [Page Builder > Schema Settings](/docs/storefront/widgets/input-reference/settings#alignment) in Theme Docs.'
+                enum:
+                - alignment
+                - boolean
+                - boxModel
+                - code
+                - color
+                - imageManager
+                - input
+                - number
+                - productId
+                - productImage
+                - range
+                - regexInput
+                - select
+                - text
+                - toggle
+              label:
+                type: string
+                description: The user friendly message to inform the user how this setting will be used.
+              id:
+                type: string
+                description: The variable name where the setting value will be available in the widget template.
+              default:
+                type: string
+                description: The default value to use when rendering the widget for the first time. Make sure to set sensible defaults to make your widget easier to use.
+              typeMeta:
+                type: object
+                description: Additional information needed based on the selected setting type.
+                properties:
+                  selectOptions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        label:
+                          type: string
+                          example: Image
+                        value:
+                          type: string
+                          example: image
+              conditional:
+                type: object
+                title: widgetSchemaConditional
+                description: An optional property that can be added to each setting to control whether it should be displayed to the user while editing in Page Builder. This does not clear the value in the setting, just controls the display of the setting.
+                x-examples:
+                  Conditional attribute:
+                    key: backgroundType
+                    operator: IN
+                    value:
+                    - color
+                properties:
+                  key:
+                    type: string
+                    description: The ID of the `setting` object the conditional attribute is related to.
+                    example: backgroundType
+                  operator:
+                    type: string
+                    description: 'Specifies the operation used to determine whether to display the setting. The `IN` operator is currently the only supported operator. The setting will be displayed if the conditional’s `value` property is equal to the selected value of the `selectOptions`. '
+                    example: IN
+                  value:
+                    type: array
+                    description: A single-object array containing a value from the `typeMeta`'s `selectOptions`.
+                    items: {}
+    widget_Base:
+      type: object
+      title: widget_Base
+      properties:
+        name:
+          type: string
+          description: The user-friendly name.
+        description:
+          type: string
+          description: The user-friendly description.
+        widget_configuration:
+          type: object
+          format: json
+          description: The JSON data that populates the template.
+      x-internal: false
+      x-examples: {}
+    widgetSchemaArray:
+      type: object
+      title: widgetSchemaArray
+      description: '**Array.** Use the **array** settings type to build collections of elements within the widget. Each element in the array can contain tabs, sections, and an entire schema.'
+      properties:
+        type:
+          type: string
+          enum:
+          - array
+        label:
+          type: string
+        id:
+          type: string
+        defaultCount:
+          type: integer
+          description: number of elements in the list to display by default.
+        entryLabel:
+          type: string
+          description: name for each element in the list
+        thumbnail:
+          type: object
+          description: used to display an image stored at the specified attribute name
+          properties:
+            type:
+              type: string
+              example: image
+            valueKey:
+              type: string
+              example: imageUrl.src
+        schema:
+          description: The schema used for each element in the array.
+          type: array
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/widgetSchemaHidden'
+            - $ref: '#/components/schemas/widgetSchemaTab'
+      x-internal: false
+    widgetTemplate_Base:
+      type: object
+      title: widgetTemplate_Base
+      properties:
+        name:
+          type: string
+          description: The user-friendly name.
+        schema:
+          $ref: '#/components/schemas/widgetSchema'
+        template:
+          type: string
+          format: html
+          description: The widget template HTML. Supports Handlebars and Paper helpers.
+        storefront_api_query:
+          type: string
+          description: The GraphQL Storefront API query that provides widget data.
+      description: ''
+      x-internal: false
+    widgetTemplate_Full:
+      allOf:
+      - $ref: '#/components/schemas/widgetTemplate_Base'
+      - type: object
+        properties:
+          uuid:
+            type: string
+            format: uuid
+            description: The primary identifier.
+          kind:
+            type: string
+            description: The kind of widget template.
+          date_created:
+            type: string
+            format: date-time
+            description: The date on which this object was initially created.
+          date_modified:
+            type: string
+            format: date-time
+            description: The date on which this object was last updated.
+          current_version_uuid:
+            type: string
+            description: The identifier to the current version of this widget template.
+          icon_name:
+            type: string
+            default: default
+            description: A read-only value. Do not attempt to set or modify this value in a POST or PUT operation.
+      title: widgetTemplate_Full
+      description: ''
+      x-internal: false
+    placement_Put:
+      title: placement_Put
+      allOf:
+      - type: object
+        properties:
+          template_file:
+            type: string
+            description: The template file that you would like to target.
+          widget_uuid:
+            type: string
+            description: A widget identifier.
+          channel_id:
+            type: integer
+            description: The ID of the channel on which this placement exists.
+      - $ref: '#/components/schemas/placement_Base'
+      x-internal: false
+    widgetSchemaTab:
+      type: object
+      title: widgetSchemaTab
+      description: '**Tab.** Use the **tab** settings type to create settings visible in Page Builder.'
+      properties:
+        type:
+          type: string
+          description: The type of setting component to display.
+          enum:
+          - tab
+        label:
+          type: string
+          example: Content
+          description: The user-friendly message to inform the user how this setting will be used.
+        sections:
+          type: array
+          description: Groups of related settings.
+          items:
+            type: object
+            title: widgetSchemaTabSections
+            properties:
+              label:
+                type: string
+                description: The user-friendly message to inform the user how this setting will be used.
+                example: Product
+              settings:
+                type: array
+                description: For examples of schema settings, see [Widget UI Input Types](/docs/storefront/widgets/input-reference/settings).
+                items:
+                  type: object
+                  title: widgetSchemaSetting_Base
+                  description: For examples of each type of setting, see [Page Builder > Schema Settings](/docs/storefront/widgets/input-reference/settings#alignment) in Theme Docs.
+                  properties:
+                    type:
+                      type: string
+                      description: 'The type of setting component to display. You can view the list of elements below to discover which are available to use.
+
+
+                        For examples of each type of setting, see [Page Builder > Schema Settings](/docs/storefront/widgets/input-reference/settings#alignment) in Theme Docs.'
+                      enum:
+                      - alignment
+                      - boolean
+                      - boxModel
+                      - code
+                      - color
+                      - imageManager
+                      - input
+                      - number
+                      - productId
+                      - productImage
+                      - range
+                      - regexInput
+                      - select
+                      - text
+                      - toggle
+                    label:
+                      type: string
+                      description: The user friendly message to inform the user how this setting will be used.
+                    id:
+                      type: string
+                      description: The variable name where the setting value will be available in the widget template.
+                    default:
+                      type: string
+                      description: The default value to use when rendering the widget for the first time. Make sure to set sensible defaults to make your widget easier to use.
+                    typeMeta:
+                      type: object
+                      description: Additional information needed based on the selected setting type.
+                      properties:
+                        selectOptions:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              label:
+                                type: string
+                                example: Image
+                              value:
+                                type: string
+                                example: image
+                    conditional:
+                      type: object
+                      title: widgetSchemaConditional
+                      description: An optional property that can be added to each setting to control whether it should be displayed to the user while editing in Page Builder. This does not clear the value in the setting, just controls the display of the setting.
+                      x-examples:
+                        Conditional attribute:
+                          key: backgroundType
+                          operator: IN
+                          value:
+                          - color
+                      properties:
+                        key:
+                          type: string
+                          description: The ID of the `setting` object the conditional attribute is related to.
+                          example: backgroundType
+                        operator:
+                          type: string
+                          description: 'Specifies the operation used to determine whether to display the setting. The `IN` operator is currently the only supported operator. The setting will be displayed if the conditional’s `value` property is equal to the selected value of the `selectOptions`. '
+                          example: IN
+                        value:
+                          type: array
+                          description: A single-object array containing a value from the `typeMeta`'s `selectOptions`.
+                          items: {}
+      x-internal: false
+      x-examples: {}
+    pagination:
+      type: object
+      description: 'Data about the response, including pagination and collection totals.
+
+        '
+      properties:
+        total:
+          type: integer
+          description: 'Total number of items in the result set.
+
+            '
+        count:
+          type: integer
+          description: 'Total number of items in the collection response.
+
+            '
+        per_page:
+          type: integer
+          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+            '
+        current_page:
+          type: integer
+          description: 'The page you are currently on within the collection.
+
+            '
+        total_pages:
+          type: integer
+          description: 'The total number of pages in the collection.
+
+            '
+        links:
+          type: object
+          description: 'Pagination links for the previous and next parts of the whole collection.
+
+            '
+          properties:
+            previous:
+              type: string
+              description: 'Link to the previous page returned in the response.
+
+                '
+            current:
+              type: string
+              description: 'Link to the current page returned in the response.
+
+                '
+            next:
+              type: string
+              description: 'Link to the next page returned in the response.
+
+                '
+      title: pagination
+      x-internal: false
+    error_Base:
+      type: object
+      description: Error payload for the BigCommerce API.
+      properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+        title:
+          description: The error title describing the particular error.
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+      x-internal: false
+      title: error_Base
+  parameters:
+    PlacementUUID:
+      name: uuid
+      description: The identifier for a specific placement.
+      required: true
+      in: path
+      schema:
+        type: string
+        format: uuid
+    ChannelIDInParam:
+      name: channel_id:in
+      in: query
+      required: false
+      schema:
+        type: string
+      description: A comma-separated list of channel ids to filter the results by.
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    SiteIDInParam:
+      name: site_id:in
+      in: query
+      required: false
+      schema:
+        type: string
+      description: A comma-separated list of site IDs to filter the results by.
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

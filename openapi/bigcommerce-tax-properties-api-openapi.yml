@@ -1,0 +1,275 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Tax Properties API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Tax Properties
+paths:
+  /tax/properties:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      tags:
+      - Tax Properties
+      summary: BigCommerce Get Tax Properties
+      description: Retrieve all tax properties defined in this store.
+      operationId: getTaxProperties
+      parameters:
+      - $ref: '#/components/parameters/idin'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Property'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+        '400':
+          description: Request parameters invalid
+    put:
+      tags:
+      - Tax Properties
+      summary: BigCommerce Update Tax Properties
+      description: Update one or more tax properties. Only fields specified will be adjusted.
+      operationId: updateTaxProperties
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PropertyPUT'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Property'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+        '422':
+          description: The request body does not meet specifications.
+    post:
+      tags:
+      - Tax Properties
+      summary: BigCommerce Create Tax Properties
+      description: Create one or more tax properties. A **code** and a **display name** must be included when creating tax properties.
+      operationId: createTaxProperties
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PropertyPOST'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Property'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+        '422':
+          description: The request body does not meet specifications.
+    delete:
+      tags:
+      - Tax Properties
+      summary: BigCommerce Delete Tax Properties
+      description: Delete one or multiple tax properties. A tax property must have zero usages within product tax properties before you can delete it.
+      operationId: deleteTaxProperties
+      parameters:
+      - $ref: '#/components/parameters/idin_required'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Request parameters invalid
+        '409':
+          description: Tax Property is in use and cannot be deleted.
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    idin:
+      name: id:in
+      in: query
+      required: false
+      description: ID of tax property. To target multiple tax properties, provide a comma-separated list of IDs such as `12,34,56`
+      schema:
+        type: string
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    idin_required:
+      name: id:in
+      in: query
+      required: true
+      description: ID of tax property. To target multiple tax properties, provide a comma-separated list of IDs such as `12,34,56`
+      schema:
+        type: string
+  schemas:
+    PropertyPUT:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: An internal identifier used by other operations.
+          example: 1
+        code:
+          type: string
+          description: The unique string programmatically references this unique tax property by the tax provider. Merchants should liaise with their tax provider to explore supported values and functions.
+          example: A-123456789
+        display_name:
+          type: string
+          description: The human-readable name for this property. This string will be displayed on the Products screen as a field label.
+          example: Example Tax Property 1
+        description:
+          type: string
+          description: Optional. Additional detail about this tax property may help guide merchants. This string will be displayed on the Products screen as a tooltip associated with the relevant field.
+          example: Food Industry
+      required:
+      - id
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    PropertyPOST:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The unique string programmatically references this unique tax property by the tax provider. Merchants should liaise with their tax provider to explore supported values and functions.
+          example: A-123456789
+        display_name:
+          type: string
+          description: The human-readable name for this property. This string will be displayed on the Products screen as a field label.
+          example: Example Tax Property 1
+        description:
+          type: string
+          description: Additional detail about this tax property may help guide merchants. This string will be displayed on the Products screen as a tooltip associated with the relevant field.
+          example: Food Industry
+      required:
+      - code
+      - display_name
+    Property:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: An internal identifier used by other operations.
+          example: 1
+          readOnly: true
+        code:
+          type: string
+          description: The unique string programmatically references this unique tax property by the tax provider. Merchants should liaise with their tax provider to explore supported values and functions.
+          example: A-123456789
+        display_name:
+          type: string
+          description: The human-readable name for this property. This string will be displayed on the Products screen as a field label.
+          example: Example Tax Property 1
+        description:
+          type: string
+          description: Optional. Additional detail about this tax property may help guide merchants. This string will be displayed on the Products screen as a tooltip associated with the relevant field.
+          example: Food Industry
+        created_at:
+          type: string
+          description: Datetime.
+          format: date-time
+          example: 2022-07-21 19:33:57+00:00
+          readOnly: true
+        updated_at:
+          type: string
+          description: Datetime.
+          format: date-time
+          example: 2022-07-21 19:33:57+00:00
+          readOnly: true
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

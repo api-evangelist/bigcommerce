@@ -1,0 +1,274 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Countries API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Countries
+paths:
+  /countries:
+    get:
+      description: Get a list of all countries available. A country or territory, identifiable by an ISO 3166 country code.
+      summary: BigCommerce Get All Countries
+      operationId: getCountries
+      parameters:
+      - name: Accept
+        in: header
+        required: true
+        description: ''
+        schema:
+          type: string
+          default: application/json
+      - name: Content-Type
+        in: header
+        required: true
+        description: ''
+        schema:
+          type: string
+          default: application/json
+      - name: page
+        in: query
+        required: false
+        description: Number of pages
+        schema:
+          type: number
+          exclusiveMinimum: false
+          exclusiveMaximum: false
+      - name: limit
+        in: query
+        required: false
+        description: Count per page
+        schema:
+          type: number
+          exclusiveMinimum: false
+          exclusiveMaximum: false
+      - in: query
+        name: country
+        schema:
+          type: string
+      - in: query
+        name: country_iso2
+        schema:
+          type: string
+      - in: query
+        name: country_iso3
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/countryCollection_Resp'
+      tags:
+      - Countries
+  /countries/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      description: Returns a single *Country*.  Gets a country. A country or territory, identifiable by an ISO 3166 country code.
+      summary: BigCommerce Get a Country
+      operationId: getCountry
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The ID of the country.
+        schema:
+          type: integer
+          exclusiveMinimum: false
+          exclusiveMaximum: false
+      - name: Accept
+        in: header
+        required: true
+        description: ''
+        schema:
+          type: string
+          default: application/json
+      - name: Content-Type
+        in: header
+        required: true
+        description: ''
+        schema:
+          type: string
+          default: application/json
+      responses:
+        '200':
+          $ref: '#/components/responses/countriesResponse'
+      tags:
+      - Countries
+  /countries/count:
+    get:
+      responses:
+        '200':
+          $ref: '#/components/responses/countResponse'
+      summary: BigCommerce Get a Count of All Countries
+      tags:
+      - Countries
+      operationId: getCountriesCount
+      description: Returns a count of all countries.
+components:
+  schemas:
+    countriesStates_Full:
+      title: countriesStates_Full
+      type: object
+      properties:
+        url:
+          description: ''
+          example: https://api.bigcommerce.com/stores/{store_hash}/v2/countries/13/states
+          type: string
+        resource:
+          description: ''
+          example: /countries/13/states
+          type: string
+      description: Refers to the `states` object return in `GET` countries requests.
+      x-internal: false
+    country_Full:
+      title: country_Full
+      example:
+        id: 13
+        country: Australia
+        country_iso2: AU
+        country_iso3: AUS
+        states:
+          url: https://api.bigcommerce.com/stores/{store_hash}/v2/countries/13/states
+          resource: /countries/13/states
+      allOf:
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: Id of the country.
+            example: 13
+      - $ref: '#/components/schemas/country_Base'
+      - type: object
+        properties:
+          states:
+            $ref: '#/components/schemas/countriesStates_Full'
+      x-internal: false
+    country_Base:
+      type: object
+      title: country_Base
+      properties:
+        country:
+          type: string
+          example: Australia
+          description: Country name.
+        country_iso2:
+          type: string
+          description: 2-letter country code.
+          example: AU
+        country_iso3:
+          type: string
+          description: 3-letter country code.
+          example: AUS
+      x-internal: false
+    count_Full:
+      type: object
+      properties:
+        count:
+          type: integer
+          minimum: 1
+      x-internal: false
+  responses:
+    countriesResponse:
+      description: ''
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/country_Full'
+          examples:
+            response:
+              value:
+                id: 1
+                country: Afghanistan
+                country_iso2: AF
+                country_iso3: AFG
+                states:
+                  url: https://api.bigcommerce.com/stores/h10wocxy6s/v2/countries/1/states
+                  resource: /countries/1/states
+    countryCollection_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/country_Full'
+          example:
+          - id: 1
+            country: Afghanistan
+            country_iso2: AF
+            country_iso3: AFG
+            states:
+              url: https://api.bigcommerce.com/stores/store_hash/v2/countries/1/states
+              resource: /countries/1/states
+          - id: 2
+            country: Albania
+            country_iso2: AL
+            country_iso3: ALB
+            states:
+              url: https://api.bigcommerce.com/stores/store_hash/v2/countries/2/states
+              resource: /countries/2/states
+    countResponse:
+      description: ''
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/count_Full'
+          examples:
+            response:
+              value:
+                count: 241
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

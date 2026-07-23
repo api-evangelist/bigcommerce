@@ -1,0 +1,489 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Currency Assignments API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Currency Assignments
+paths:
+  /channels/currency-assignments:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      tags:
+      - Currency Assignments
+      summary: BigCommerce Get All Channels Currency Assignments
+      operationId: getAllCurrencyAssignments
+      description: Returns a list of currency assignments for all channels.
+      responses:
+        '200':
+          $ref: '#/components/responses/multiple_channels_currency_assignments_resp'
+    post:
+      tags:
+      - Currency Assignments
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      summary: BigCommerce Create Multiple Channels Currency Assignments
+      operationId: createMultipleChannelsCurrencyAssignments
+      description: Sets enabled currencies and default currency for multiple channels. Note that currencies must be added first in the **Settings > Setup > Currencies** settings from an active MSF-enabled BigCommerce store control panel before the currencies can be assigned to a channel.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertMultipleChannelsCurrencyAssignmentsReq'
+            examples:
+              Create Currency Assignments for Multiple Channels:
+                $ref: '#/components/examples/multiple_channels_currency_assignments_req_example'
+        required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/multiple_channels_currency_assignments_resp'
+        '422':
+          $ref: '#/components/responses/missing_or_invalid_multiple_channels_currency_assignments_data_resp'
+    put:
+      tags:
+      - Currency Assignments
+      summary: BigCommerce Update Multiple Channels Currency Assignments
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      operationId: updateMultipleChannelsCurrencyAssignments
+      description: Updates enabled currencies and default currency for multiple channels. Note that currencies must be added first in the **Settings > Setup > Currencies** settings from an active MSF-enabled BigCommerce store control panel before the currencies can be assigned to a channel.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertMultipleChannelsCurrencyAssignmentsReq'
+            examples:
+              Update Currency Assignments for Multiple Channels:
+                $ref: '#/components/examples/multiple_channels_currency_assignments_req_example'
+        required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/multiple_channels_currency_assignments_resp'
+        '422':
+          $ref: '#/components/responses/missing_or_invalid_multiple_channels_currency_assignments_data_resp'
+  /channels/{channel_id}/currency-assignments:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/channel_id_path_param'
+    get:
+      tags:
+      - Currency Assignments
+      summary: BigCommerce Get Channel Currency Assignments
+      operationId: getSingleChannelCurrencyAssignments
+      description: Returns a list of currency assignments for a specific channel.
+      responses:
+        '200':
+          $ref: '#/components/responses/single_channel_currency_assignments_resp'
+        '404':
+          $ref: '#/components/responses/channel_not_found_resp'
+    post:
+      tags:
+      - Currency Assignments
+      summary: BigCommerce Create Channel Currency Assignments
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      operationId: createSingleChannelCurrencyAssignments
+      description: Sets enabled currencies and default currency for a specific channel. Note that currencies must be added first in the **Settings > Setup > Currencies** settings from an active MSF-enabled BigCommerce store control panel before the currencies can be assigned to a channel.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CurrencyRequiredWithoutChannelId'
+            examples:
+              Create Currency Assignments for a Channel:
+                $ref: '#/components/examples/single_channel_currency_assignments_req_example'
+        required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/single_channel_currency_assignments_resp'
+        '422':
+          $ref: '#/components/responses/missing_or_invalid_single_channel_currency_assignments_data_resp'
+    put:
+      tags:
+      - Currency Assignments
+      summary: BigCommerce Update Channel Currency Assignments
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      operationId: updateSingleChannelCurrencyAssignments
+      description: Updates enabled currencies and default currency for a specific channel. Note that currencies must be added first in the **Settings > Setup > Currencies** settings from an active MSF-enabled BigCommerce store control panel before the currencies can be assigned to a channel.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CurrencyRequiredWithoutChannelId'
+            examples:
+              Update Currency Assignments for a Channel:
+                $ref: '#/components/examples/single_channel_currency_assignments_req_example'
+        required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/single_channel_currency_assignments_resp'
+        '422':
+          $ref: '#/components/responses/missing_or_invalid_single_channel_currency_assignments_data_resp'
+    delete:
+      tags:
+      - Currency Assignments
+      summary: BigCommerce Delete Channel Currency Assignments
+      operationId: deleteSingleChannelCurrencyAssignments
+      description: Deletes currency assignments for a specific channel. Once done, this channel will inherit the store’s currency settings.
+      responses:
+        '200':
+          $ref: '#/components/responses/delete_currency_assignments_resp'
+        '404':
+          $ref: '#/components/responses/channel_not_found_resp'
+components:
+  responses:
+    missing_or_invalid_multiple_channels_currency_assignments_data_resp:
+      description: The request is missing one or more required fields or invalid data is submitted.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Missing Required Fields and Invalid Data:
+              $ref: '#/components/examples/error_422_multiple_channels_currency_assignments_resp_example'
+            Currency Not Yet Enabled:
+              $ref: '#/components/examples/error_422_invalid_enabled_currencies_resp_example'
+    multiple_channels_currency_assignments_resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CurrencyNotRequiredWithChannelId'
+              meta:
+                $ref: '#/components/schemas/EmptyMeta'
+          examples:
+            response:
+              $ref: '#/components/examples/multiple_channels_currency_assignments_resp_example'
+    channel_not_found_resp:
+      description: A *Channel* with the provided ID was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Channel Not Found:
+              $ref: '#/components/examples/error_404_resp_example'
+    single_channel_currency_assignments_resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/CurrencyNotRequiredWithChannelId'
+              meta:
+                $ref: '#/components/schemas/EmptyMeta'
+          examples:
+            response:
+              $ref: '#/components/examples/single_channel_currency_assignments_resp_example'
+    missing_or_invalid_single_channel_currency_assignments_data_resp:
+      description: The request is missing one or more required fields or invalid data is submitted.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Missing Required Fields:
+              $ref: '#/components/examples/error_422_single_channel_currency_assignments_resp_example'
+            Currency Not Yet Enabled:
+              $ref: '#/components/examples/error_422_invalid_enabled_currencies_resp_example'
+            Invalid Channel ID:
+              $ref: '#/components/examples/error_422_invalid_channel_id_resp_example'
+    delete_currency_assignments_resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/ChannelId'
+              meta:
+                $ref: '#/components/schemas/EmptyMeta'
+          examples:
+            response:
+              $ref: '#/components/examples/delete_currency_assignments_resp_example'
+  schemas:
+    ErrorDetail:
+      type: object
+      description: 'Error detail response payload for the BigCommerce API.
+
+        '
+      example:
+        '1': Unauthorized to delete
+        '2': Metafield does not exist
+    DefaultCurrency:
+      type: string
+      description: Default currency for the channel in [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) three character alphabetic format. Will be used on storefront when other currencies cannot.
+      x-internal: false
+    EmptyMeta:
+      type: object
+      title: Empty meta response.
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    CurrencyNotRequiredWithChannelId:
+      type: object
+      description: Details about currency assignments for a specific channel.
+      properties:
+        channel_id:
+          $ref: '#/components/schemas/ChannelId'
+        enabled_currencies:
+          $ref: '#/components/schemas/EnabledCurrencies'
+        default_currency:
+          $ref: '#/components/schemas/DefaultCurrency'
+      x-internal: false
+    Error:
+      type: object
+      description: 'Error response payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: 'The HTTP status code for the error.
+
+            '
+          example: 422
+        title:
+          type: string
+          description: 'The error title describing the particular error.
+
+            '
+          example: Bulk operation has failed
+        type:
+          type: string
+          description: 'The error type.
+
+            '
+          example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+        errors:
+          $ref: '#/components/schemas/ErrorDetail'
+    CurrencyRequiredWithoutChannelId:
+      type: object
+      description: Details about currency assignments for a specific channel.
+      properties:
+        enabled_currencies:
+          $ref: '#/components/schemas/EnabledCurrencies'
+        default_currency:
+          $ref: '#/components/schemas/DefaultCurrency'
+      required:
+      - enabled_currencies
+      - default_currency
+      x-internal: false
+    UpsertMultipleChannelsCurrencyAssignmentsReq:
+      type: array
+      items:
+        $ref: '#/components/schemas/CurrencyRequiredWithChannelId'
+      x-internal: false
+    ChannelId:
+      type: integer
+      format: int64
+      description: The ID of the channel.
+      x-internal: false
+    CurrencyRequiredWithChannelId:
+      type: object
+      description: Details about currency assignments for a specific channel.
+      properties:
+        channel_id:
+          $ref: '#/components/schemas/ChannelId'
+        enabled_currencies:
+          $ref: '#/components/schemas/EnabledCurrencies'
+        default_currency:
+          $ref: '#/components/schemas/DefaultCurrency'
+      required:
+      - channel_id
+      - enabled_currencies
+      - default_currency
+      x-internal: false
+    EnabledCurrencies:
+      type: array
+      description: Currencies that are enabled for the specified channel in [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) three character alphabetic format.
+      items:
+        type: string
+      x-internal: false
+  examples:
+    error_422_single_channel_currency_assignments_resp_example:
+      value:
+        status: 422
+        title: JSON data is missing or invalid
+        type: /api-docs/getting-started/api-status-codes
+        errors:
+          enabled_currencies: error.path.missing
+          default_currency: error.path.missing
+    error_404_resp_example:
+      value:
+        status: 404
+        title: Not found
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+    single_channel_currency_assignments_req_example:
+      value:
+        enabled_currencies:
+        - USD
+        - GBP
+        - AUD
+        default_currency: USD
+    multiple_channels_currency_assignments_resp_example:
+      value:
+        data:
+        - channel_id: 1
+          enabled_currencies:
+          - USD
+          default_currency: USD
+        - channel_id: 664177
+          enabled_currencies:
+          - USD
+          - GBP
+          default_currency: USD
+        - channel_id: 664179
+          enabled_currencies:
+          - USD
+          - AUD
+          default_currency: USD
+        - channel_id: 667159
+          enabled_currencies:
+          - USD
+          default_currency: USD
+        meta: {}
+    error_422_invalid_enabled_currencies_resp_example:
+      value:
+        status: 422
+        title: 'The following fields are invalid: `enabled_currencies`'
+        type: /api-docs/getting-started/api-status-codes
+        errors:
+          enabled_currencies: The field `enabled_currencies` contains the following currencies that have not been enabled [AWG]
+    multiple_channels_currency_assignments_req_example:
+      value:
+      - channel_id: 1
+        enabled_currencies:
+        - USD
+        default_currency: USD
+      - channel_id: 664177
+        enabled_currencies:
+        - USD
+        - GBP
+        default_currency: USD
+      - channel_id: 664179
+        enabled_currencies:
+        - USD
+        - AUD
+        default_currency: USD
+      - channel_id: 667159
+        enabled_currencies:
+        - USD
+        default_currency: USD
+    error_422_invalid_channel_id_resp_example:
+      value:
+        status: 422
+        title: The following `channel_id`s [123456789] are not valid for store 1000000000.
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+    delete_currency_assignments_resp_example:
+      value:
+        data: 1
+        meta: {}
+    single_channel_currency_assignments_resp_example:
+      value:
+        data:
+          channel_id: 1
+          enabled_currencies:
+          - USD
+          - GBP
+          - AUD
+          default_currency: USD
+        meta: {}
+    error_422_multiple_channels_currency_assignments_resp_example:
+      value:
+        status: 422
+        title: JSON data is missing or invalid
+        type: /api-docs/getting-started/api-status-codes
+        errors:
+          0.channel_id: error.expected.jsnumber
+          0.enabled_currencies: error.path.missing
+          0.default_currency: error.path.missing
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    channel_id_path_param:
+      name: channel_id
+      description: The ID of a channel.
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

@@ -1,0 +1,571 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Themes API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Themes
+paths:
+  /themes:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      tags:
+      - Themes
+      operationId: getStoreThemes
+      summary: BigCommerce Get all Themes
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThemesCollectionResponse'
+              examples:
+                response:
+                  value:
+                    data:
+                    - uuid: 872b3e20-731f-0136-9d2f-633ff0d6ced1
+                      variations:
+                      - uuid: 877427a0-731f-0136-9d2f-633ff0d6ced1
+                        name: Light
+                        description: Ideal for a wide range of businesses and brands, this design is fully responsive, simple, and ready for you to add your branding, logo, and products. It comes ready to build a clean looking and beautiful store with features such as homepage carousel, social media icons, featured and top selling products, and faceted search (which is available on select BigCommerce plans). Fully express your brand by using our Theme Editor to quickly and easily style your site’s fonts and colors, all without the need to write code.
+                        external_id: light
+                      - uuid: 87be3180-731f-0136-9d2f-633ff0d6ced1
+                        name: Bold
+                        description: Ideal for a wide range of businesses and brands, this design is fully responsive, simple, and ready for you to add your branding, logo, and products. It comes ready to build a clean looking and beautiful store with features such as homepage carousel, social media icons, featured and top selling products, and faceted search (which is available on select BigCommerce plans). Fully express your brand by using our Theme Editor to quickly and easily style your site’s fonts and colors, all without the need to write code.
+                        external_id: bold
+                      - uuid: 87d48e90-731f-0136-9d2f-633ff0d6ced1
+                        name: Warm
+                        description: Ideal for a wide range of businesses and brands, this design is fully responsive, simple, and ready for you to add your branding, logo, and products. It comes ready to build a clean looking and beautiful store with features such as homepage carousel, social media icons, featured and top selling products, and faceted search (which is available on select BigCommerce plans). Fully express your brand by using our Theme Editor to quickly and easily style your site’s fonts and colors, all without the need to write code.
+                        external_id: warm
+                      name: Cornerstone-blog
+                      is_private: true
+                      is_active: false
+                    - uuid: e3d82ce0-9bae-0133-0de7-525400970412
+                      variations:
+                      - uuid: b16c3fe0-7bcb-0136-b5fc-07fe54a9e639
+                        name: Light
+                        description: Ideal for a wide range of businesses and brands, this design is fully responsive, simple, and ready for you to add your branding, logo, and products. It comes ready to build a clean looking and beautiful store with features such as homepage carousel, social media icons, featured and top selling products, and faceted search (which is available on select BigCommerce plans). Fully express your brand by using our Theme Editor to quickly and easily style your site’s fonts and colors, all without the need to write code.
+                        external_id: light
+                      - uuid: b17d57e0-7bcb-0136-b5fc-07fe54a9e639
+                        name: Bold
+                        description: Ideal for a wide range of businesses and brands, this design is fully responsive, simple, and ready for you to add your branding, logo, and products. It comes ready to build a clean looking and beautiful store with features such as homepage carousel, social media icons, featured and top selling products, and faceted search (which is available on select BigCommerce plans). Fully express your brand by using our Theme Editor to quickly and easily style your site’s fonts and colors, all without the need to write code.
+                        external_id: bold
+                      - uuid: b18ad610-7bcb-0136-b5fc-07fe54a9e639
+                        name: Warm
+                        description: Ideal for a wide range of businesses and brands, this design is fully responsive, simple, and ready for you to add your branding, logo, and products. It comes ready to build a clean looking and beautiful store with features such as homepage carousel, social media icons, featured and top selling products, and faceted search (which is available on select BigCommerce plans). Fully express your brand by using our Theme Editor to quickly and easily style your site’s fonts and colors, all without the need to write code.
+                        external_id: warm
+                      name: Cornerstone
+                      is_private: false
+                      is_active: true
+                    - uuid: 1242c920-a5a6-0133-a20e-525400970412
+                      variations:
+                      - uuid: fec9fe60-7ede-0136-effe-0cbd49ed50aa
+                        name: Minimal
+                        description: Fortune is a standout theme for cutting-edge online stores. Customers will be transfixed by its striking hero area, which puts your imagery on full display, along with its sleek navigation and unique product grid. Ideal for small-to-medium-sized catalogs, Fortune has everything you need to command and convert shoppers.
+                        external_id: minimal
+                      - uuid: fee26530-7ede-0136-effe-0cbd49ed50aa
+                        name: Bright
+                        description: Fortune is a standout theme for cutting-edge online stores. Customers will be transfixed by its striking hero area, which puts your imagery on full display, along with its sleek navigation and unique product grid. Ideal for small-to-medium-sized catalogs, Fortune has everything you need to command and convert shoppers.
+                        external_id: bright
+                      - uuid: fef38820-7ede-0136-effe-0cbd49ed50aa
+                        name: Contrast
+                        description: Fortune is a standout theme for cutting-edge online stores. Customers will be transfixed by its striking hero area, which puts your imagery on full display, along with its sleek navigation and unique product grid. Ideal for small-to-medium-sized catalogs, Fortune has everything you need to command and convert shoppers.
+                        external_id: contrast
+                      - uuid: ff085ab0-7ede-0136-effe-0cbd49ed50aa
+                        name: Highlight
+                        description: Fortune is a standout theme for cutting-edge online stores. Customers will be transfixed by its striking hero area, which puts your imagery on full display, along with its sleek navigation and unique product grid. Ideal for small-to-medium-sized catalogs, Fortune has everything you need to command and convert shoppers.
+                        external_id: highlight
+                      name: Fortune
+                      is_private: false
+                      is_active: false
+                    meta: {}
+      description: Returns a list of store *Themes*.
+    post:
+      tags:
+      - Themes
+      operationId: uploadStoreTheme
+      summary: BigCommerce Upload a Theme
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  description: The file.
+                  type: string
+                  format: binary
+              required:
+              - file
+        required: true
+      responses:
+        '201':
+          description: Job ID for the background job processing the theme upload.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobId'
+              examples:
+                response:
+                  value:
+                    job_id: ceea1917b1518f5ae491da6ad8a56336
+        default:
+          description: Error message.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  description: 'Error payload for the BigCommerce API.
+
+                    '
+                  properties:
+                    status:
+                      description: 'The HTTP status code.
+
+                        '
+                      type: integer
+                    title:
+                      description: 'The error title describing the particular error.
+
+                        '
+                      type: string
+                    type:
+                      type: string
+                    instance:
+                      type: string
+                  title: Base Error
+                - type: object
+                  properties:
+                    errors:
+                      type: object
+                      properties: {}
+                      additionalProperties: true
+                      title: DetailedErrors
+                title: Error Response
+      description: 'Uploads a new *Theme* to your BigCommerce store.
+
+
+        **Required Fields**
+
+        * file'
+  /themes/{uuid}:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/ThemeIdParam'
+    get:
+      tags:
+      - Themes
+      operationId: getStoreTheme
+      summary: BigCommerce Get a Theme
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThemeResponse'
+              examples:
+                response:
+                  value:
+                    data:
+                      uuid: e3d82ce0-9bae-0133-0de7-525400970412
+                      variations:
+                      - uuid: b16c3fe0-7bcb-0136-b5fc-07fe54a9e639
+                        name: Light
+                        description: Ideal for a wide range of businesses and brands, this design is fully responsive, simple, and ready for you to add your branding, logo, and products. It comes ready to build a clean looking and beautiful store with features such as homepage carousel, social media icons, featured and top selling products, and faceted search (which is available on select BigCommerce plans). Fully express your brand by using our Theme Editor to quickly and easily style your site’s fonts and colors, all without the need to write code.
+                        external_id: light
+                      - uuid: b17d57e0-7bcb-0136-b5fc-07fe54a9e639
+                        name: Bold
+                        description: Ideal for a wide range of businesses and brands, this design is fully responsive, simple, and ready for you to add your branding, logo, and products. It comes ready to build a clean looking and beautiful store with features such as homepage carousel, social media icons, featured and top selling products, and faceted search (which is available on select BigCommerce plans). Fully express your brand by using our Theme Editor to quickly and easily style your site’s fonts and colors, all without the need to write code.
+                        external_id: bold
+                      - uuid: b18ad610-7bcb-0136-b5fc-07fe54a9e639
+                        name: Warm
+                        description: Ideal for a wide range of businesses and brands, this design is fully responsive, simple, and ready for you to add your branding, logo, and products. It comes ready to build a clean looking and beautiful store with features such as homepage carousel, social media icons, featured and top selling products, and faceted search (which is available on select BigCommerce plans). Fully express your brand by using our Theme Editor to quickly and easily style your site’s fonts and colors, all without the need to write code.
+                        external_id: warm
+                      name: Cornerstone
+                      is_private: false
+                      is_active: false
+                    meta: {}
+        default:
+          description: Error message.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  description: 'Error payload for the BigCommerce API.
+
+                    '
+                  properties:
+                    status:
+                      description: 'The HTTP status code.
+
+                        '
+                      type: integer
+                    title:
+                      description: 'The error title describing the particular error.
+
+                        '
+                      type: string
+                    type:
+                      type: string
+                    instance:
+                      type: string
+                  title: Base Error
+                - type: object
+                  properties:
+                    errors:
+                      type: object
+                      properties: {}
+                      additionalProperties: true
+                      title: Detailed Errors
+                title: Error Response
+      description: Returns a store *Theme*. The theme variation is not available at this endpoint.
+    delete:
+      tags:
+      - Themes
+      operationId: deleteStoreTheme
+      summary: BigCommerce Delete a Theme
+      responses:
+        '204':
+          description: ''
+        default:
+          description: Error message.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - type: object
+                  description: 'Error payload for the BigCommerce API.
+
+                    '
+                  properties:
+                    status:
+                      description: 'The HTTP status code.
+
+                        '
+                      type: integer
+                    title:
+                      description: 'The error title describing the particular error.
+
+                        '
+                      type: string
+                    type:
+                      type: string
+                    instance:
+                      type: string
+                  title: Base Error
+                - type: object
+                  properties:
+                    errors:
+                      type: object
+                      properties: {}
+                      additionalProperties: true
+                      title: DetailedErrors
+                title: Error Response
+      description: 'Deletes a store *Theme*.
+
+        Theme variations can not be deleted using this endpoint. This will delete the theme and all variations.'
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ThemeIdParam:
+      name: uuid
+      description: The theme identifier.
+      in: path
+      required: true
+      schema:
+        type: string
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    ThemeResponse:
+      description: 'Response payload for the BigCommerce API.
+
+        '
+      type: object
+      title: Theme Response
+      properties:
+        data:
+          $ref: '#/components/schemas/Theme'
+        meta:
+          $ref: '#/components/schemas/CollectionMeta'
+      x-internal: false
+    CollectionMeta:
+      type: object
+      description: Data about the response, including pagination and collection totals.
+      properties:
+        pagination:
+          type: object
+          description: Data about the response, including pagination and collection totals.
+          title: Pagination
+          properties:
+            total:
+              type: integer
+              description: 'Total number of items in the result set.
+
+                '
+              example: 36
+            count:
+              type: integer
+              description: 'Total number of items in the collection response.
+
+                '
+              example: 36
+            per_page:
+              type: integer
+              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+                '
+              example: 50
+            current_page:
+              type: integer
+              description: 'The page you are currently on within the collection.
+
+                '
+              example: 1
+            total_pages:
+              type: integer
+              description: 'The total number of pages in the collection.
+
+                '
+              example: 1
+            links:
+              type: object
+              description: 'Pagination links for the previous and next parts of the whole collection.
+
+                '
+              properties:
+                previous:
+                  type: string
+                  description: 'Link to the previous page returned in the response.
+
+                    '
+                current:
+                  type: string
+                  description: 'Link to the current page returned in the response.
+
+                    '
+                  example: ?page=1&limit=50
+                next:
+                  type: string
+                  description: 'Link to the next page returned in the response.
+
+                    '
+      title: Collection Meta
+      x-internal: false
+    JobId:
+      description: The job identifier for theme upload or download.
+      type: object
+      properties:
+        job_id:
+          description: The job identifier.
+          type: string
+      title: Job Id
+      x-internal: false
+    Theme:
+      description: A theme.
+      type: object
+      properties:
+        variations:
+          description: The variations.
+          type: array
+          items:
+            description: A variation.
+            type: object
+            properties:
+              description:
+                description: The description.
+                type: string
+              external_id:
+                description: The external identifier.
+                type: string
+              name:
+                description: The name.
+                type: string
+              uuid:
+                description: The identifier.
+                type: string
+        uuid:
+          description: The identifier.
+          type: string
+        name:
+          description: The theme name identifier.
+          type: string
+        is_private:
+          description: Flag to identify private themes.
+          type: boolean
+      x-internal: false
+    ThemesCollectionResponse:
+      description: 'Response payload for the BigCommerce API.
+
+        '
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            description: A theme.
+            type: object
+            properties:
+              variations:
+                description: The variations.
+                type: array
+                items:
+                  description: A variation.
+                  type: object
+                  properties:
+                    description:
+                      description: The description.
+                      type: string
+                    external_id:
+                      description: The external identifier.
+                      type: string
+                    name:
+                      description: The name.
+                      type: string
+                    uuid:
+                      description: The identifier.
+                      type: string
+              uuid:
+                description: The identifier.
+                type: string
+              name:
+                description: The theme name identifier.
+                type: string
+              is_private:
+                description: Flag to identify private themes.
+                type: boolean
+        meta:
+          type: object
+          description: Data about the response, including pagination and collection totals.
+          properties:
+            pagination:
+              type: object
+              description: Data about the response, including pagination and collection totals.
+              title: Pagination
+              properties:
+                total:
+                  type: integer
+                  description: 'Total number of items in the result set.
+
+                    '
+                  example: 36
+                count:
+                  type: integer
+                  description: 'Total number of items in the collection response.
+
+                    '
+                  example: 36
+                per_page:
+                  type: integer
+                  description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+                    '
+                  example: 50
+                current_page:
+                  type: integer
+                  description: 'The page you are currently on within the collection.
+
+                    '
+                  example: 1
+                total_pages:
+                  type: integer
+                  description: 'The total number of pages in the collection.
+
+                    '
+                  example: 1
+                links:
+                  type: object
+                  description: 'Pagination links for the previous and next parts of the whole collection.
+
+                    '
+                  properties:
+                    previous:
+                      type: string
+                      description: 'Link to the previous page returned in the response.
+
+                        '
+                    current:
+                      type: string
+                      description: 'Link to the current page returned in the response.
+
+                        '
+                      example: ?page=1&limit=50
+                    next:
+                      type: string
+                      description: 'Link to the next page returned in the response.
+
+                        '
+          title: Collection Meta
+      title: Themes Collection Response
+      x-internal: false
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

@@ -1,0 +1,836 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Price Lists API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Price Lists
+paths:
+  /pricelists:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      tags:
+      - Price Lists
+      summary: BigCommerce Get All Price Lists
+      description: Returns a list of *Price Lists*. Optional parameters can be passed in.
+      operationId: getPriceLists
+      parameters:
+      - name: id
+        in: query
+        description: 'Filter items by ID.
+
+          '
+        schema:
+          type: integer
+      - name: name
+        in: query
+        description: 'Filter items by name.
+
+          '
+        schema:
+          type: string
+      - name: date_created
+        in: query
+        description: 'Filter items by date_created.
+
+          '
+        schema:
+          type: string
+          format: date-time
+      - name: date_modified
+        in: query
+        description: Filter items by date_modified. For example `v3/catalog/products?date_last_imported:min=2018-06-15`
+        schema:
+          type: string
+          format: date-time
+      - name: page
+        in: query
+        description: Specifies the page number in a limited (paginated) list of products.
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Controls the number of items per page in a limited (paginated) list of products.
+        schema:
+          type: integer
+      - name: id:in
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: name:like
+        in: query
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: date_created:max
+        in: query
+        schema:
+          type: string
+      - name: date_created:min
+        in: query
+        schema:
+          type: string
+      - name: date_modified:max
+        in: query
+        schema:
+          type: string
+      - name: date_modified:min
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: PriceList Collection Response
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      title: Price List
+                      type: object
+                      allOf:
+                      - type: object
+                        properties:
+                          id:
+                            type: integer
+                            description: 'The unique numeric ID of the `Price List`; this number increments sequentially.
+
+                              '
+                            example: 3
+                          date_created:
+                            type: string
+                            description: 'The date on which the `Price List` was created.
+
+                              '
+                            format: date-time
+                            example: '2018-04-05T16:05:12Z'
+                          date_modified:
+                            type: string
+                            description: 'The date on which the `Price List` was created.
+
+                              '
+                            format: date-time
+                            example: '2018-04-05T16:05:12Z'
+                      - title: PriceList Base
+                        required:
+                        - name
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            description: The unique name of the Price List. Required in a POST request.
+                            example: Wholesale
+                            x-required:
+                            - post
+                          active:
+                            type: boolean
+                            description: 'Boolean value that specifies whether this `Price List` and its prices are active or not. Defaults to `true`.
+
+                              '
+                            example: true
+                        description: Specifies the Common Price List properties.
+                  meta:
+                    title: Collection Meta
+                    type: object
+                    properties:
+                      pagination:
+                        title: Pagination
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                            description: 'Total number of items in the result set.
+
+                              '
+                            example: 36
+                          count:
+                            type: integer
+                            description: 'Total number of items in the collection response.
+
+                              '
+                            example: 36
+                          per_page:
+                            type: integer
+                            description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+                              '
+                            example: 50
+                          current_page:
+                            type: integer
+                            description: 'The page you are currently on within the collection.
+
+                              '
+                            example: 1
+                          total_pages:
+                            type: integer
+                            description: 'The total number of pages in the collection.
+
+                              '
+                            example: 1
+                          links:
+                            type: object
+                            properties:
+                              previous:
+                                type: string
+                                description: 'Link to the previous page returned in the response.
+
+                                  '
+                              current:
+                                type: string
+                                description: 'Link to the current page returned in the response.
+
+                                  '
+                                example: ?page=1&limit=50
+                              next:
+                                type: string
+                                description: 'Link to the next page returned in the response.
+
+                                  '
+                            description: 'Pagination links for the previous and next parts of the whole collection.
+
+                              '
+                        description: Data related to the response, including pagination and collection totals.
+                    description: Data related to the response, including pagination and collection totals.
+                description: Get All PriceLists.
+              example:
+                data:
+                - id: 1
+                  name: Warehouse
+                  date_created: '2022-02-26T17:33:11Z'
+                  date_modified: '2022-05-08T14:05:27Z'
+                  active: true
+                - id: 2
+                  name: B2B
+                  date_created: '2022-02-26T17:37:01Z'
+                  date_modified: '2022-02-26T17:37:01Z'
+                  active: true
+                - id: 3
+                  name: Wholesale
+                  date_created: '2022-04-05T16:05:12Z'
+                  date_modified: '2022-04-05T16:05:12Z'
+                  active: true
+                meta:
+                  pagination:
+                    total: 3
+                    count: 3
+                    per_page: 50
+                    current_page: 1
+                    total_pages: 1
+    post:
+      tags:
+      - Price Lists
+      summary: BigCommerce Create a Price List
+      description: 'Creates a *Price List*.
+
+
+        **Required Fields**
+
+        * name'
+      operationId: createPriceList
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: PriceList Post
+              description: 'Creates a Price List. '
+              allOf:
+              - title: PriceList Base
+                required:
+                - name
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The unique name of the Price List. Required in a POST request.
+                    example: Wholesale
+                    x-required:
+                    - post
+                  active:
+                    type: boolean
+                    description: 'Boolean value that specifies whether this `Price List` and its prices are active or not. Defaults to `true`.
+
+                      '
+                    example: true
+                description: Specifies the Common Price List properties.
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Price List Response
+                type: object
+                properties:
+                  data:
+                    title: Price List
+                    type: object
+                    allOf:
+                    - type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: 'The unique numeric ID of the `Price List`; this number increments sequentially.
+
+                            '
+                          example: 3
+                        date_created:
+                          type: string
+                          description: 'The date on which the `Price List` was created.
+
+                            '
+                          format: date-time
+                          example: '2022-04-05T16:05:12Z'
+                        date_modified:
+                          type: string
+                          description: 'The date on which the `Price List` was created.
+
+                            '
+                          format: date-time
+                          example: '2022-04-05T16:05:12Z'
+                    - title: PriceList Base
+                      required:
+                      - name
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The unique name of the Price List. Required in a POST request.
+                          example: Wholesale
+                          x-required:
+                          - post
+                        active:
+                          type: boolean
+                          description: 'Boolean value that specifies whether this `Price List` and its prices are active or not. Defaults to `true`.
+
+                            '
+                          example: true
+                      description: Specifies the Common Price List properties.
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                description: 'PriceList Response returns for:
+
+
+                  * Create a PriceList
+
+                  * Get a PriceList
+
+                  * Update a PriceList'
+              example:
+                data:
+                  id: 4
+                  name: Wholesale Group - Trade Show
+                  date_created: '2022-09-17T18:41:59Z'
+                  date_modified: '2022-09-17T18:41:59Z'
+                  active: false
+                meta: {}
+        '409':
+          description: '`Price List` conflicts with another Price List. This is the result of duplicate unique values, such as `name`.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Error Response
+                type: object
+                properties:
+                  errors:
+                    title: Detailed Errors
+                    type: object
+                    properties: {}
+                    additionalProperties: true
+                  instance:
+                    type: string
+                  status:
+                    type: integer
+                    description: 'The HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: 'The error title describing the particular error.
+
+                      '
+                  type:
+                    type: string
+        '422':
+          description: '`Price List` is not valid. This is the result of missing required fields, or of invalid data. See the response for more details.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Error Response
+                type: object
+                properties:
+                  errors:
+                    title: Detailed Errors
+                    type: object
+                    properties: {}
+                    additionalProperties: true
+                  instance:
+                    type: string
+                  status:
+                    type: integer
+                    description: 'The HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: 'The error title describing the particular error.
+
+                      '
+                  type:
+                    type: string
+    delete:
+      tags:
+      - Price Lists
+      summary: BigCommerce Delete All Price Lists
+      description: Deletes a *Price List*. All associated price records are also removed. Optional parameters can be passed in.
+      operationId: deletePriceLists
+      parameters:
+      - name: id:in
+        in: query
+        description: 'Filter by `id`. Accepts multiple comma-separated values.
+
+          '
+        schema:
+          type: integer
+      - name: name
+        in: query
+        description: 'Filter items by name.
+
+          '
+        schema:
+          type: string
+      responses:
+        '204':
+          description: '`204 No Content`. The action has been performed and no further information will be supplied. `null` is returned.'
+          content:
+            application/json:
+              schema:
+                title: Delete Price Lists Response
+                type: object
+                nullable: true
+  /pricelists/{price_list_id}:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      tags:
+      - Price Lists
+      summary: BigCommerce Get a Price List
+      description: ' Returns a single *Price List*.'
+      operationId: getPriceList
+      parameters:
+      - name: price_list_id
+        in: path
+        description: 'The ID of the `Price List` requested.
+
+          '
+        required: true
+        schema:
+          type: integer
+      - name: id
+        in: query
+        description: Filter items by ID.
+        schema:
+          type: integer
+      - name: name
+        in: query
+        description: Filter items by name.
+        schema:
+          type: string
+      - name: date_created
+        in: query
+        description: Filter items by date_created.
+        schema:
+          type: string
+          format: date-time
+      - name: date_modified
+        in: query
+        description: Filter items by date_modified. For example `v3/catalog/products?date_last_imported:min=2022-06-15`
+        schema:
+          type: string
+          format: date-time
+      - name: page
+        in: query
+        description: Specifies the page number in a limited (paginated) list of products.
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Specifies the number of items per page in a limited (paginated) list of products.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Price List Response
+                type: object
+                properties:
+                  data:
+                    title: Price List
+                    required:
+                    - name
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: 'The unique numeric ID of the `Price List`; this number increments sequentially.
+
+                          '
+                        example: 3
+                      date_created:
+                        type: string
+                        description: 'The date on which the `Price List` was created.
+
+                          '
+                        format: date-time
+                        example: '2022-04-05T16:05:12Z'
+                      date_modified:
+                        type: string
+                        description: 'The date on which the `Price List` was created.
+
+                          '
+                        format: date-time
+                        example: '2022-04-05T16:05:12Z'
+                      name:
+                        type: string
+                        description: The unique name of the Price List. Required in a POST request.
+                        example: Wholesale
+                        x-required:
+                        - post
+                      active:
+                        type: boolean
+                        description: 'Boolean value that specifies whether this `Price List` and its prices are active or not. Defaults to `true`.
+
+                          '
+                        example: true
+                    description: Specifies the Common Price List properties.
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                description: 'PriceList Response returns for:
+
+
+                  * Create a PriceList
+
+                  * Get a PriceList
+
+                  * Update a PriceList'
+              example:
+                data:
+                  id: 2
+                  name: B2B
+                  date_created: '2022-02-26T17:37:01Z'
+                  date_modified: '2022-09-17T18:34:36Z'
+                  active: true
+                meta: {}
+    put:
+      tags:
+      - Price Lists
+      summary: BigCommerce Update a Price List
+      description: Updates a *Price List*.
+      operationId: updatePriceList
+      parameters:
+      - name: price_list_id
+        in: path
+        description: 'The ID of the `Price List` requested.
+
+          '
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: PriceList Put
+              description: Update a PriceList
+              allOf:
+              - title: PriceList Base
+                required:
+                - name
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The unique name of the Price List. Required in a POST request.
+                    example: Wholesale
+                    x-required:
+                    - post
+                  active:
+                    type: boolean
+                    description: 'Whether or not this `Price List` and its prices are active. Defaults to `true`.
+
+                      '
+                    example: true
+                description: Common Price List properties.
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Price List Response
+                type: object
+                properties:
+                  data:
+                    title: Price List
+                    type: object
+                    allOf:
+                    - type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: 'The unique numeric ID of the `Price List`; this number increments sequentially.
+
+                            '
+                          example: 3
+                        date_created:
+                          type: string
+                          description: 'The date on which the `Price List` was created.
+
+                            '
+                          format: date-time
+                          example: '2022-04-05T16:05:12Z'
+                        date_modified:
+                          type: string
+                          description: 'The date on which the `Price List` was created.
+
+                            '
+                          format: date-time
+                          example: '2022-04-05T16:05:12Z'
+                    - title: PriceList Base
+                      required:
+                      - name
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The unique name of the Price List. Required in /POST.
+                          example: Wholesale
+                          x-required:
+                          - post
+                        active:
+                          type: boolean
+                          description: 'Whether or not this `Price List` and its prices are active.  Defaults to `true`.
+
+                            '
+                          example: true
+                      description: Common Price List properties.
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+                description: 'PriceList Response returns for:
+
+
+                  * Create a PriceList
+
+                  * Get a PriceList
+
+                  * Update a PriceList'
+              example:
+                data:
+                  id: 2
+                  name: BigCommerce
+                  date_created: '2022-02-26T17:37:01Z'
+                  date_modified: '2022-09-17T18:45:17Z'
+                  active: false
+                meta: {}
+        '404':
+          description: 'The resource was not found.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Not Found
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: '404 HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: The error title describing the particular error.
+                  type:
+                    type: string
+                  instance:
+                    type: string
+                description: Error payload for the BigCommerce API.
+        '409':
+          description: '`Price List` was in conflict with another Price List. This is the result of duplicate unique values, such as `name`.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Error Response
+                type: object
+                properties:
+                  errors:
+                    title: Detailed Errors
+                    type: object
+                    properties: {}
+                    additionalProperties: true
+                  instance:
+                    type: string
+                  status:
+                    type: integer
+                    description: 'The HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: 'The error title describing the particular error.
+
+                      '
+                  type:
+                    type: string
+        '422':
+          description: '`Price List` was not valid. This is the result of missing required fields, or of invalid data. See the response for more details.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Error Response
+                type: object
+                properties:
+                  errors:
+                    title: Detailed Errors
+                    type: object
+                    properties: {}
+                    additionalProperties: true
+                  instance:
+                    type: string
+                  status:
+                    type: integer
+                    description: 'The HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: 'The error title describing the particular error.
+
+                      '
+                  type:
+                    type: string
+    delete:
+      tags:
+      - Price Lists
+      summary: BigCommerce Delete a Price List
+      description: 'Deletes a *Price List*. All associated price records are also removed.
+
+        **Limits**
+
+        * Limit of 1 concurrent request.'
+      operationId: deletePriceList
+      parameters:
+      - name: price_list_id
+        in: path
+        description: 'The ID of the `Price List` requested.
+
+          '
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Action has been enacted and no further information is to be supplied. `null` is returned.
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    Meta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

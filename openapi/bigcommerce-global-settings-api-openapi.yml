@@ -1,0 +1,160 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Global Settings API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Global Settings
+paths:
+  /customers/settings:
+    get:
+      tags:
+      - Global Settings
+      description: Returns the global-level customer settings.
+      summary: BigCommerce Get Customer Settings
+      operationId: getCustomersSettings
+      responses:
+        '200':
+          description: Returns customer settings values for global level.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerSettingsObject'
+              examples:
+                data:
+                  value:
+                    privacy_settings:
+                      ask_shopper_for_tracking_consent: true
+                      policy_url: https://bigcommmerce.com/policy
+                    customer_group_settings:
+                      guest_customer_group_id: 1
+                      default_customer_group_id: 1
+    put:
+      tags:
+      - Global Settings
+      description: Updates the customer settings on the global level.
+      summary: BigCommerce Update Customer Settings
+      operationId: updateCustomersSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerSettingsObject'
+            examples:
+              example-1:
+                value:
+                  privacy_settings:
+                    ask_shopper_for_tracking_consent: true
+                    policy_url: https://bigcommmerce.com/policy
+                  customer_group_settings:
+                    guest_customer_group_id: 0
+                    default_customer_group_id: 0
+        required: true
+      responses:
+        '200':
+          description: Customer settings are returned on a global level.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerSettingsObject'
+              examples:
+                data:
+                  value:
+                    privacy_settings:
+                      ask_shopper_for_tracking_consent: true
+                      policy_url: https://bigcommerce.com/policy
+                      ask_shopper_for_tracking_consent_on_checkout: false
+                    customer_group_settings:
+                      guest_customer_group_id: 0
+                      default_customer_group_id: 0
+components:
+  schemas:
+    CustomerSettingsObject:
+      title: CustomerSettingsObject
+      type: object
+      description: Customer Settings.
+      properties:
+        privacy_settings:
+          type: object
+          description: Controls the privacy settings.
+          properties:
+            ask_shopper_for_tracking_consent:
+              type: boolean
+              description: Determines if a customer requires consent for tracking privacy.
+            policy_url:
+              type: string
+              example: https://bigcommmerce.com/policy
+              description: The URL for a websiteʼs privacy policy.
+        customer_group_settings:
+          type: object
+          description: The settings for a collection of customers.
+          properties:
+            guest_customer_group_id:
+              type: integer
+              example: 0
+              description: The ID for a guest customer group.
+            default_customer_group_id:
+              type: integer
+              example: 0
+              description: The ID for a default customer group.
+      x-examples:
+        example-1:
+          value:
+            privacy_settings:
+              ask_shopper_for_tracking_consent: true
+              policy_url: https://bigcommmerce.com/policy
+            customer_group_settings:
+              guest_customer_group_id: 0
+              default_customer_group_id: 0
+      x-internal: false
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

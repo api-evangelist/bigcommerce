@@ -1,0 +1,207 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Storefront Search API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Storefront Search
+paths:
+  /settings/storefront/search:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      operationId: getSettingsStorefrontSearch
+      summary: BigCommerce Get Storefront Search Settings
+      description: "Returns search settings.\n\n - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level."
+      parameters:
+      - $ref: '#/components/parameters/ChannelIdParam'
+      responses:
+        '200':
+          description: OK, null indicates that a particular field has not been overridden on a channel level when channel level settings are requested
+          content:
+            application/json:
+              examples:
+                example-1:
+                  value:
+                    data:
+                      content_product_sort: relevance
+                      default_product_sort: bestselling
+                      product_filtering_enabled: true
+                      search_suggest: true
+                    meta: {}
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/StorefrontSearchSettings'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+      tags:
+      - Storefront Search
+    put:
+      summary: BigCommerce Update Storefront Search Settings
+      operationId: updateSettingsStorefrontSearch
+      description: "Updates search settings.\n\n - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel."
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      - $ref: '#/components/parameters/ChannelIdParam'
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example-1:
+                value:
+                  content_product_sort: relevance
+                  default_product_sort: featured
+                  product_filtering_enabled: true
+                  search_suggest: true
+            schema:
+              $ref: '#/components/schemas/StorefrontSearchSettings'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                example-1:
+                  value:
+                    data:
+                      content_product_sort: relevance
+                      default_product_sort: featured
+                      product_filtering_enabled: true
+                      search_suggest: true
+                    meta: {}
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/StorefrontSearchSettings'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+      tags:
+      - Storefront Search
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
+  schemas:
+    ProductSortEnumValues:
+      description: The available sorts for PLP pages.
+      type: string
+      default: bestselling
+      enum:
+      - featured
+      - bestselling
+      - newest
+      - alphaasc
+      - alphadesc
+      - pricedesc
+      - priceasc
+      - avgcustomerreview
+      - relevance
+      title: ProductSortEnumValues
+      x-internal: false
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    StorefrontSearchSettings:
+      type: object
+      properties:
+        content_product_sort:
+          $ref: '#/components/schemas/ContentSortEnumValues'
+        default_product_sort:
+          $ref: '#/components/schemas/ProductSortEnumValues'
+        product_filtering_enabled:
+          description: Controls whether Product Filtering feature is active on the storefront. Only supports manipulation on a global level.
+          type: boolean
+        search_suggest:
+          type: boolean
+      required:
+      - content_product_sort
+      - default_product_sort
+      - product_filtering_enabled
+      - search_suggest
+      x-internal: false
+    ContentSortEnumValues:
+      type: string
+      default: relevance
+      enum:
+      - relevance
+      - alphaasc
+      - alphadesc
+      title: ContentSortEnumValues
+      x-internal: false
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

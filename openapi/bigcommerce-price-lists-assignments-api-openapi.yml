@@ -1,0 +1,483 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Price Lists Assignments API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Price Lists Assignments
+paths:
+  /pricelists/assignments:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      tags:
+      - Price Lists Assignments
+      summary: BigCommerce Get Price List Assignments
+      description: Fetches an array of `Price List Assignments` matching a particular Customer Group and Price List and Channel.
+      operationId: getListOfPriceListAssignments
+      parameters:
+      - name: id
+        in: query
+        description: The ID of the `Price List Assignment`.
+        schema:
+          type: integer
+      - name: price_list_id
+        in: query
+        description: The ID of the `Price List`.
+        schema:
+          type: integer
+      - name: customer_group_id
+        in: query
+        description: The ID of the `Customer Group`.
+        schema:
+          type: integer
+      - name: channel_id
+        in: query
+        description: The ID of the `Channel`.
+        schema:
+          type: integer
+      - name: id:in
+        in: query
+        description: Filter items by a comma-separated list of `id`s.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: customer_group_id:in
+        in: query
+        description: Filter items by a comma-separated list of `customer_group_id`s.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: price_list_id:in
+        in: query
+        description: Filter items by a comma-separated list of `price_list_id`s.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: channel_id:in
+        in: query
+        description: Filter items by a comma-separated list of `channel_id`s.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: page
+        in: query
+        description: Specifies the page number in a limited (paginated) list of products.
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Controls the number of items per page in a limited (paginated) list of products.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: An array of price list assignments and metadata.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignmentsForGetResponse'
+    post:
+      tags:
+      - Price Lists Assignments
+      description: "Creates a batch of `Price List Assignments`. \n**Note:** The batch limit for `Price List Assignments` is 25."
+      summary: BigCommerce Create Price List Assignments
+      operationId: createPriceListAssignments
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBatchPriceListAssignmentsRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessBatchResponse'
+        '422':
+          description: Error response. Includes the errors for each reference ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceListAssignmentsBatchErrorResponse'
+    delete:
+      tags:
+      - Price Lists Assignments
+      summary: BigCommerce Delete Price List Assignments
+      description: 'Deletes one or more `Price List Assignments` objects from BigCommerce using a query parameter. You must use at least one query parameter. '
+      operationId: deletePriceListAssignments
+      parameters:
+      - $ref: '#/components/parameters/FilterAssignmentIdParam'
+      - $ref: '#/components/parameters/FilterPriceListIdParam'
+      - $ref: '#/components/parameters/FilterCustomerGroupIdParam'
+      - $ref: '#/components/parameters/FilterChannelIdParam'
+      - $ref: '#/components/parameters/ChannelIdInParam'
+      responses:
+        '204':
+          description: No Content.
+  /pricelists/{price_list_id}/assignments:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    put:
+      tags:
+      - Price Lists Assignments
+      description: 'Upsert a single `Price List Assignment` for a `Price List`.
+
+        **Note:**
+
+        * Supports up to 25 simultaneous PUT requests. Running more than the allowed number of requests concurrently on the same store will result in a `429` status error and your additional requests will fail.        '
+      summary: BigCommerce Upsert Price List Assignment
+      operationId: upsertPriceListAssignment
+      parameters:
+      - $ref: '#/components/parameters/PriceListIdParam'
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignmentForPutRequest'
+        required: true
+      responses:
+        '200':
+          description: A price list assignment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignmentForPutResponse'
+        '404':
+          description: A matching customer group or channel wasnʼt found, so no assignment is created or returned.
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    FilterAssignmentIdParam:
+      description: The ID of the `Price List Assignment`.
+      required: false
+      in: query
+      schema:
+        type: integer
+      name: id
+    FilterChannelIdParam:
+      name: channel_id
+      description: The ID of the `Channel`.
+      required: false
+      in: query
+      schema:
+        type: integer
+    PriceListIdParam:
+      schema:
+        type: integer
+      name: price_list_id
+      in: path
+      description: 'The ID of the `Price List` requested.
+
+        '
+      required: true
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    FilterPriceListIdParam:
+      name: price_list_id
+      description: The ID of the `Price List`.
+      required: false
+      in: query
+      schema:
+        type: integer
+    FilterCustomerGroupIdParam:
+      name: customer_group_id
+      description: The ID of the `Customer Group`.
+      required: false
+      in: query
+      schema:
+        type: integer
+    ChannelIdInParam:
+      in: query
+      name: channel_id:in
+      description: Filter results by a comma-separated list of `channel_id`s.
+      schema:
+        type: string
+  schemas:
+    AssignmentsForRequest:
+      type: object
+      description: '`Price List Assignments` object used in a batch create request.'
+      x-internal: false
+      properties:
+        price_list_id:
+          type: integer
+          format: int32
+          description: Price list ID for assignment.
+          example: 1
+        customer_group_id:
+          type: integer
+          format: int32
+          description: Customer group ID for assignment.
+          example: 2
+        channel_id:
+          type: integer
+          format: int32
+          description: Channel ID for assignment
+          example: 1
+      required:
+      - price_list_id
+    CollectionMeta:
+      type: object
+      description: Data related the response, including pagination and collection totals.
+      properties:
+        pagination:
+          type: object
+          description: Data related to the response, including pagination and collection totals.
+          title: Pagination
+          properties:
+            total:
+              type: integer
+              description: 'Total number of items in the result set.
+
+                '
+              example: 36
+            count:
+              type: integer
+              description: 'Total number of items in the collection response.
+
+                '
+              example: 36
+            per_page:
+              type: integer
+              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+                '
+              example: 50
+            current_page:
+              type: integer
+              description: 'The page you are currently on within the collection.
+
+                '
+              example: 1
+            total_pages:
+              type: integer
+              description: 'The total number of pages in the collection.
+
+                '
+              example: 1
+            links:
+              type: object
+              description: 'Pagination links for the previous and next parts of the whole collection.
+
+                '
+              properties:
+                previous:
+                  type: string
+                  description: 'Link to the previous page returned in the response.
+
+                    '
+                current:
+                  type: string
+                  description: 'Link to the current page returned in the response.
+
+                    '
+                  example: ?page=1&limit=50
+                next:
+                  type: string
+                  description: 'Link to the next page returned in the response.
+
+                    '
+      title: Collection Meta
+      x-internal: false
+    PriceListAssignmentsBatchErrorResponse:
+      type: object
+      x-internal: false
+      properties:
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+        errors:
+          type: object
+          properties: {}
+          additionalProperties: true
+          title: Detailed Errors
+        meta:
+          type: object
+          properties:
+            saved_records:
+              type: integer
+    AssignmentForPutResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int32
+              description: Unique identifier for this price list assignment.
+              example: 1
+            price_list_id:
+              type: integer
+              format: int32
+              description: Price list ID for assignment.
+              example: 1
+            customer_group_id:
+              type: integer
+              format: int32
+              description: Customer group ID for assignment.
+              example: 2
+            channel_id:
+              type: integer
+              format: int32
+              description: Channel ID for assignment.
+              example: 2
+        meta:
+          $ref: '#/components/schemas/Meta'
+    SuccessBatchResponse:
+      type: object
+      description: Empty object for Success case for Batch API.
+      properties:
+        data:
+          type: object
+          example: {}
+        meta:
+          type: object
+          example: {}
+    AssignmentForPutRequest:
+      type: object
+      properties:
+        customer_group_id:
+          type: integer
+          format: int32
+          description: Customer group ID for assignment.
+          example: 2
+        channel_id:
+          type: integer
+          format: int32
+          description: Channel ID for assignment
+          example: 1
+      required:
+      - customer_group_id
+      - channel_id
+    Meta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    CreateBatchPriceListAssignmentsRequest:
+      type: array
+      description: Batch of price list assignments.
+      items:
+        $ref: '#/components/schemas/AssignmentsForRequest'
+      x-internal: false
+    AssignmentForGetResponse:
+      type: object
+      x-internal: false
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: Unique identifier for this price list assignment.
+          example: 1
+        price_list_id:
+          type: integer
+          format: int32
+          description: Pricelist ID for assignment.
+          example: 1
+        customer_group_id:
+          type: integer
+          format: int32
+          description: Customer group ID for assignment.
+          example: 2
+        channel_id:
+          type: integer
+          format: int32
+          description: Channel ID for assignment.
+          example: 2
+    AssignmentsForGetResponse:
+      description: Array of the price list assignments matching the filter. The response is paginated.
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssignmentForGetResponse'
+        meta:
+          $ref: '#/components/schemas/CollectionMeta'
+      x-internal: false
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

@@ -1,0 +1,852 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Reviews API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Reviews
+paths:
+  /catalog/products/{product_id}/reviews:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/ProductIdParam'
+    get:
+      tags:
+      - Reviews
+      summary: BigCommerce Get Product Reviews
+      description: Returns a list of all *Product Reviews*. Optional parameters can be passed in.
+      operationId: getProductReviews
+      parameters:
+      - name: include_fields
+        in: query
+        description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        schema:
+          type: string
+      - name: exclude_fields
+        in: query
+        description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded.
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Specifies the page number in a limited (paginated) list of products.
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Controls the number of items per page in a limited (paginated) list of products.
+        schema:
+          type: integer
+      - name: status
+        in: query
+        description: Filter items by status. `1` for approved, `0` for pending.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Product Review Collection Response
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      title: Product Review
+                      type: object
+                      description: 'A product review model.
+
+                        '
+                      allOf:
+                      - title: Product Review Base
+                        required:
+                        - date_reviewed
+                        - title
+                        type: object
+                        properties:
+                          title:
+                            maxLength: 255
+                            minLength: 0
+                            type: string
+                            description: 'The title for the product review.
+
+                              Required in /POST.'
+                          text:
+                            type: string
+                            description: 'The text for the product review.
+
+                              '
+                          status:
+                            type: string
+                            description: 'The status of the product review. Must be one of `approved`, `disapproved` or `pending`.
+
+                              '
+                          rating:
+                            type: integer
+                            description: The rating of the product review. Must be one of 0, 1, 2, 3, 4, 5.
+                          email:
+                            type: string
+                            description: The email of the reviewer. Must be a valid email, or an empty string.
+                          name:
+                            maxLength: 255
+                            minLength: 0
+                            type: string
+                            description: The name of the reviewer.
+                          date_reviewed:
+                            type: string
+                            description: 'Date the product was reviewed. Required in /POST.
+
+                              '
+                            format: date-time
+                      - type: object
+                        properties:
+                          id:
+                            type: integer
+                            description: 'The unique numeric ID of the product review; increments sequentially.
+
+                              '
+                          product_id:
+                            type: integer
+                            description: 'The unique numeric identifier for the product with which the review is associated.
+
+                              '
+                          date_created:
+                            type: string
+                            description: 'Date the product review was created.
+
+                              '
+                            format: date-time
+                          date_modified:
+                            type: string
+                            description: 'Date the product review was modified.
+
+                              '
+                            format: date-time
+                  meta:
+                    $ref: '#/components/schemas/metaCollection_Full'
+        '204':
+          description: 'There are no reviews on this product.
+
+            '
+          content: {}
+        '404':
+          description: 'The product ID does not exist.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Not Found
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: '404 HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: The error title describing the particular error.
+                  type:
+                    type: string
+                  instance:
+                    type: string
+                description: Error payload for the BigCommerce API.
+    post:
+      tags:
+      - Reviews
+      summary: BigCommerce Create a Product Review
+      description: 'Creates a *Product Review*.
+
+
+        **Required Fields**
+
+        - title
+
+        - date_reviewed
+
+
+        **Read-Only Fields**
+
+        * id'
+      operationId: createProductReview
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Product Review Post
+              description: 'The model for a POST to create a product review.
+
+                '
+              allOf:
+              - title: Product Review Base
+                required:
+                - date_reviewed
+                - title
+                type: object
+                properties:
+                  title:
+                    maxLength: 255
+                    minLength: 0
+                    type: string
+                    description: 'The title for the product review.
+
+                      Required in /POST.'
+                  text:
+                    type: string
+                    description: 'The text for the product review.
+
+                      '
+                  status:
+                    type: string
+                    description: 'The status of the product review. Must be one of `approved`, `disapproved` or `pending`.
+
+                      '
+                  rating:
+                    type: integer
+                    description: The rating of the product review. Must be one of 0, 1, 2, 3, 4, 5.
+                  email:
+                    type: string
+                    description: The email of the reviewer. Must be a valid email, or an empty string.
+                  name:
+                    maxLength: 255
+                    minLength: 0
+                    type: string
+                    description: The name of the reviewer.
+                  date_reviewed:
+                    type: string
+                    description: 'Date the product was reviewed. Required in /POST.
+
+                      '
+                    format: date-time
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Product Review Response
+                type: object
+                properties:
+                  data:
+                    title: Product Review
+                    type: object
+                    description: 'A product review model.
+
+                      '
+                    allOf:
+                    - title: Product Review Base
+                      required:
+                      - date_reviewed
+                      - title
+                      type: object
+                      properties:
+                        title:
+                          maxLength: 255
+                          minLength: 0
+                          type: string
+                          description: 'The title for the product review.
+
+                            Required in /POST.'
+                        text:
+                          type: string
+                          description: 'The text for the product review.
+
+                            '
+                        status:
+                          type: string
+                          description: 'The status of the product review. Must be one of `approved`, `disapproved` or `pending`.
+
+                            '
+                        rating:
+                          type: integer
+                          description: The rating of the product review. Must be one of 0, 1, 2, 3, 4, 5.
+                        email:
+                          type: string
+                          description: The email of the reviewer. Must be a valid email, or an empty string.
+                        name:
+                          maxLength: 255
+                          minLength: 0
+                          type: string
+                          description: The name of the reviewer.
+                        date_reviewed:
+                          type: string
+                          description: 'Date the product was reviewed. Required in /POST.
+
+                            '
+                          format: date-time
+                    - type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: 'The unique numeric ID of the product review; increments sequentially.
+
+                            '
+                        product_id:
+                          type: integer
+                          description: 'The unique numeric identifier for the product with which the review is associated.
+
+                            '
+                        date_created:
+                          type: string
+                          description: 'Date the product review was created.
+
+                            '
+                          format: date-time
+                        date_modified:
+                          type: string
+                          description: 'Date the product review was modified.
+
+                            '
+                          format: date-time
+                  meta:
+                    $ref: '#/components/schemas/metaEmpty_Full'
+                description: 'Response payload for the BigCommerce API.
+
+                  '
+              example:
+                data:
+                  title: irur
+                  text: anim aute
+                  status: Lorem ad sed voluptate
+                  rating: 3
+                  email: esse Lorem laborum aute
+                  name: 'ut in '
+                  date_reviewed: '2011-12-31T13:40:42.971Z'
+                  id: 82495037
+                  product_id: 22609026
+                  date_created: '1985-01-17T07:37:20.439Z'
+                  date_modified: '2004-09-28T14:38:21.973Z'
+                meta: {}
+        '404':
+          description: 'The product ID does not exist.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Not Found
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: '404 HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: The error title describing the particular error.
+                  type:
+                    type: string
+                  instance:
+                    type: string
+                description: Error payload for the BigCommerce API.
+      x-codegen-request-body-name: productReview
+  /catalog/products/{product_id}/reviews/{review_id}:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/ProductIdParam'
+    - $ref: '#/components/parameters/ReviewIdParam'
+    get:
+      tags:
+      - Reviews
+      summary: BigCommerce Get a Product Review
+      description: Returns a single *Product Review*. Optional parameters maybe passed in.
+      operationId: getProductReview
+      parameters:
+      - name: include_fields
+        in: query
+        description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        schema:
+          type: string
+      - name: exclude_fields
+        in: query
+        description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Product Review Response
+                type: object
+                properties:
+                  data:
+                    title: Product Review
+                    type: object
+                    description: 'A product review model.
+
+                      '
+                    allOf:
+                    - title: Product Review Base
+                      required:
+                      - date_reviewed
+                      - title
+                      type: object
+                      properties:
+                        title:
+                          maxLength: 255
+                          minLength: 0
+                          type: string
+                          description: 'The title for the product review.
+
+                            Required in /POST.'
+                        text:
+                          type: string
+                          description: 'The text for the product review.
+
+                            '
+                        status:
+                          type: string
+                          description: 'The status of the product review. Must be one of `approved`, `disapproved` or `pending`.
+
+                            '
+                        rating:
+                          type: integer
+                          description: The rating of the product review. Must be one of 0, 1, 2, 3, 4, 5.
+                        email:
+                          type: string
+                          description: The email of the reviewer. Must be a valid email, or an empty string.
+                        name:
+                          maxLength: 255
+                          minLength: 0
+                          type: string
+                          description: The name of the reviewer.
+                        date_reviewed:
+                          type: string
+                          description: 'Date the product was reviewed. Required in /POST.
+
+                            '
+                          format: date-time
+                    - type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: 'The unique numeric ID of the product review; increments sequentially.
+
+                            '
+                        date_created:
+                          type: string
+                          description: 'Date the product review was created.
+
+                            '
+                          format: date-time
+                        date_modified:
+                          type: string
+                          description: 'Date the product review was modified.
+
+                            '
+                          format: date-time
+                  meta:
+                    $ref: '#/components/schemas/metaEmpty_Full'
+                description: 'Response payload for the BigCommerce API.
+
+                  '
+              example:
+                data:
+                  title: irur
+                  text: anim aute
+                  status: Lorem ad sed voluptate
+                  rating: 3
+                  email: esse Lorem laborum aute
+                  name: 'ut in '
+                  date_reviewed: '2011-12-31T13:40:42.971Z'
+                  id: 82495037
+                  product_id: 22609026
+                  date_created: '1985-01-17T07:37:20.439Z'
+                  date_modified: '2004-09-28T14:38:21.973Z'
+                meta: {}
+        '404':
+          description: 'The resource was not found.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Not Found
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: '404 HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: The error title describing the particular error.
+                  type:
+                    type: string
+                  instance:
+                    type: string
+                description: Error payload for the BigCommerce API.
+    put:
+      tags:
+      - Reviews
+      summary: BigCommerce Update a Product Review
+      description: 'Updates a *Product Review*.
+
+
+        **Required Fields**
+
+        * none
+
+
+        **Read-Only Fields**
+
+        * id'
+      operationId: updateProductReview
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        description: 'A BigCommerce `ProductReview` object.
+
+          '
+        content:
+          application/json:
+            schema:
+              title: Product Review Put
+              description: 'The model for a PUT to update a product review.
+
+                '
+              allOf:
+              - title: Product Review Base
+                required:
+                - date_reviewed
+                - title
+                type: object
+                properties:
+                  title:
+                    maxLength: 255
+                    minLength: 0
+                    type: string
+                    description: 'The title for the product review.
+
+                      Required in /POST.'
+                  text:
+                    type: string
+                    description: 'The text for the product review.
+
+                      '
+                  status:
+                    type: string
+                    description: 'The status of the product review. Must be one of `approved`, `disapproved` or `pending`.
+
+                      '
+                  rating:
+                    type: integer
+                    description: The rating of the product review. Must be one of 0, 1, 2, 3, 4, 5.
+                  email:
+                    type: string
+                    description: The email of the reviewer. Must be a valid email, or an empty string.
+                  name:
+                    maxLength: 255
+                    minLength: 0
+                    type: string
+                    description: The name of the reviewer.
+                  date_reviewed:
+                    type: string
+                    description: 'Date the product was reviewed. Required in /POST.
+
+                      '
+                    format: date-time
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Product Review Response
+                type: object
+                properties:
+                  data:
+                    title: Product Review
+                    type: object
+                    description: 'A product review model.
+
+                      '
+                    allOf:
+                    - title: Product Review Base
+                      required:
+                      - date_reviewed
+                      - title
+                      type: object
+                      properties:
+                        title:
+                          maxLength: 255
+                          minLength: 0
+                          type: string
+                          description: 'The title for the product review.
+
+                            Required in /POST.'
+                        text:
+                          type: string
+                          description: 'The text for the product review.
+
+                            '
+                        status:
+                          type: string
+                          description: 'The status of the product review. Must be one of `approved`, `disapproved` or `pending`.
+
+                            '
+                        rating:
+                          type: integer
+                          description: The rating of the product review. Must be one of 0, 1, 2, 3, 4, 5.
+                        email:
+                          type: string
+                          description: The email of the reviewer. Must be a valid email, or an empty string.
+                        name:
+                          maxLength: 255
+                          minLength: 0
+                          type: string
+                          description: The name of the reviewer.
+                        date_reviewed:
+                          type: string
+                          description: 'Date the product was reviewed. Required in /POST.
+
+                            '
+                          format: date-time
+                    - type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: 'The unique numeric ID of the product review; increments sequentially.
+
+                            '
+                        product_id:
+                          type: integer
+                          description: 'The unique numeric identifier for the product with which the review is associated.
+
+                            '
+                        date_created:
+                          type: string
+                          description: 'Date the product review was created.
+
+                            '
+                          format: date-time
+                        date_modified:
+                          type: string
+                          description: 'Date the product review was modified.
+
+                            '
+                          format: date-time
+                  meta:
+                    $ref: '#/components/schemas/metaEmpty_Full'
+                description: 'Response payload for the BigCommerce API.
+
+                  '
+              example:
+                data:
+                  title: irur
+                  text: anim aute
+                  status: Lorem ad sed voluptate
+                  rating: 3
+                  email: esse Lorem laborum aute
+                  name: 'ut in '
+                  date_reviewed: '2011-12-31T13:40:42.971Z'
+                  id: 82495037
+                  product_id: 22609026
+                  date_created: '1985-01-17T07:37:20.439Z'
+                  date_modified: '2004-09-28T14:38:21.973Z'
+                meta: {}
+        '404':
+          description: 'The resource was not found.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Not Found
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: '404 HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: The error title describing the particular error.
+                  type:
+                    type: string
+                  instance:
+                    type: string
+                description: Error payload for the BigCommerce API.
+      x-codegen-request-body-name: productReview
+    delete:
+      tags:
+      - Reviews
+      summary: BigCommerce Delete a Product Review
+      description: Deletes a *Product Review*.
+      operationId: deleteProductReview
+      responses:
+        '204':
+          description: ''
+          content: {}
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs.
+
+        '
+      required: true
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    ReviewIdParam:
+      name: review_id
+      description: 'The ID of the `review` that is being operated on.
+
+        '
+      required: true
+      in: path
+      schema:
+        type: integer
+  schemas:
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    pagination_Full:
+      title: pagination_Full
+      type: object
+      properties:
+        total:
+          type: integer
+          description: 'Total number of items in the result set.
+
+            '
+          example: 36
+        count:
+          type: integer
+          description: 'Total number of items in the collection response.
+
+            '
+          example: 36
+        per_page:
+          type: integer
+          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+            '
+          example: 50
+        current_page:
+          type: integer
+          description: 'The page you are currently on within the collection.
+
+            '
+          example: 1
+        total_pages:
+          type: integer
+          description: 'The total number of pages in the collection.
+
+            '
+          example: 1
+        links:
+          type: object
+          properties:
+            previous:
+              type: string
+              description: 'Link to the previous page returned in the response.
+
+                '
+            current:
+              type: string
+              description: 'Link to the current page returned in the response.
+
+                '
+              example: ?page=1&limit=50
+            next:
+              type: string
+              description: 'Link to the next page returned in the response.
+
+                '
+          description: 'Pagination links for the previous and next parts of the whole collection.
+
+            '
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

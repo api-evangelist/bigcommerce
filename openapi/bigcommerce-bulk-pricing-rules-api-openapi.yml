@@ -1,0 +1,445 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Bulk Pricing Rules API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Bulk Pricing Rules
+paths:
+  /catalog/products/{product_id}/bulk-pricing-rules/{bulk_pricing_rule_id}:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/ProductIdParam'
+    - $ref: '#/components/parameters/BulkPricingRuleIdParam'
+    get:
+      tags:
+      - Bulk Pricing Rules
+      summary: BigCommerce Get a Bulk Pricing Rule
+      description: Returns a single *Bulk Pricing Rule*. Optional parameters can be passed in.
+      operationId: getBulkPricingRule
+      parameters:
+      - name: include_fields
+        in: query
+        description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        schema:
+          type: string
+      - name: exclude_fields
+        in: query
+        description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Get Bulk Pricing Rule Response
+                type: object
+                properties:
+                  data:
+                    allOf:
+                    - type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: Unique ID of the *Bulk Pricing Rule*. Read-Only.
+                          readOnly: true
+                      required:
+                      - id
+                    - $ref: '#/components/schemas/bulkPricingRule_Full'
+                  meta:
+                    $ref: '#/components/schemas/metaEmpty_Full'
+              example:
+                data:
+                  id: 83
+                  quantity_min: 1
+                  quantity_max: 3
+                  type: price
+                  amount: 1
+                meta: {}
+        '404':
+          description: 'The resource or parent resource was not found.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Not Found
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: '404 HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: The error title describing the particular error.
+                  type:
+                    type: string
+                  instance:
+                    type: string
+                description: Error payload for the BigCommerce API.
+    put:
+      tags:
+      - Bulk Pricing Rules
+      summary: BigCommerce Update a Bulk Pricing Rule
+      description: 'Updates a *Bulk Pricing Rule*.
+
+
+        **Required Fields**
+
+        * none
+
+
+        **Read-Only Fields**
+
+        - id'
+      operationId: updateBulkPricingRule
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Unique ID of the *Bulk Pricing Rule*. Read-Only.
+                    readOnly: true
+                required:
+                - id
+              - $ref: '#/components/schemas/bulkPricingRule_Full'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Update Bulk Pricing Rule Response
+                type: object
+                properties:
+                  data:
+                    title: Bulk Pricing Rule
+                    required:
+                    - amount
+                    - quantity_max
+                    - quantity_min
+                    - type
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: Unique ID of the *Bulk Pricing Rule*. Read-Only.
+                        readOnly: true
+                      quantity_min:
+                        minimum: 0
+                        type: integer
+                        description: 'The minimum inclusive quantity of a product to satisfy this rule. Must be greater than or equal to zero.
+
+                          Required in /POST.
+
+                          '
+                        example: 10
+                        x-required:
+                        - post
+                      quantity_max:
+                        minimum: 0
+                        type: integer
+                        description: 'The maximum inclusive quantity of a product to satisfy this rule. Must be greater than the `quantity_min` value – unless this field has a value of 0 (zero), in which case there will be no maximum bound for this rule.
+
+                          Required in /POST.'
+                        example: 50
+                        x-required:
+                        - post
+                      type:
+                        type: string
+                        description: 'The type of adjustment that is made. Values: `price` - the adjustment amount per product; `percent` - the adjustment as a percentage of the original price; `fixed` - the adjusted absolute price of the product.
+
+                          Required in /POST.'
+                        example: price
+                        enum:
+                        - price
+                        - percent
+                        - fixed
+                        x-required:
+                        - post
+                      amount:
+                        type: integer
+                        description: 'The discount can be a fixed dollar amount or a percentage. For a fixed dollar amount enter it as an integer and the response will return as an integer. For percentage enter the amount as the percentage divided by 100 using string format. For example 10% percent would be “.10”. The response will return as an integer.
+
+                          Required in /POST.'
+                    description: Common BulkPricingRule properties
+                  meta:
+                    $ref: '#/components/schemas/metaEmpty_Full'
+              example:
+                data:
+                  id: 83
+                  quantity_min: 1
+                  quantity_max: 3
+                  type: price
+                  amount: 1
+                meta: {}
+        '404':
+          description: 'The resource or parent resource was not found.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Not Found
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: '404 HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: The error title describing the particular error.
+                  type:
+                    type: string
+                  instance:
+                    type: string
+                description: Error payload for the BigCommerce API.
+        '409':
+          description: 'The `BulkPricingRule` was in conflict with another bulk pricing rule. This is the result of quantity range overlapping with existing bulk pricing rules.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Error Response
+                type: object
+                properties:
+                  errors:
+                    title: Detailed Errors
+                    type: object
+                    properties: {}
+                    additionalProperties: true
+                  instance:
+                    type: string
+                  status:
+                    type: integer
+                    description: 'The HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: 'The error title describing the particular error.
+
+                      '
+                  type:
+                    type: string
+        '422':
+          description: 'The `BulkPricingRule` was not valid. This is the result of missing required fields, or of invalid data. See the response for more details.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Error Response
+                type: object
+                properties:
+                  errors:
+                    title: Detailed Errors
+                    type: object
+                    properties: {}
+                    additionalProperties: true
+                  instance:
+                    type: string
+                  status:
+                    type: integer
+                    description: 'The HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: 'The error title describing the particular error.
+
+                      '
+                  type:
+                    type: string
+      x-codegen-request-body-name: BulkPricingRule
+    delete:
+      tags:
+      - Bulk Pricing Rules
+      summary: BigCommerce Delete a Bulk Pricing Rule
+      description: Deletes a *Bulk Pricing Rule*.
+      operationId: deleteBulkPricingRule
+      responses:
+        '204':
+          description: ''
+          content: {}
+        '404':
+          description: 'The resource or parent resource was not found.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Not Found
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: '404 HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: The error title describing the particular error.
+                  type:
+                    type: string
+                  instance:
+                    type: string
+                description: Error payload for the BigCommerce API.
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    BulkPricingRuleIdParam:
+      name: bulk_pricing_rule_id
+      description: 'The ID of the `BulkPricingRule`.
+
+        '
+      required: true
+      in: path
+      schema:
+        type: integer
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs.
+
+        '
+      required: true
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    bulkPricingRule_Full:
+      title: bulkPricingRule_Full
+      type: object
+      description: Common Bulk Pricing Rule properties
+      x-internal: false
+      properties:
+        quantity_min:
+          minimum: 0
+          type: integer
+          description: 'The minimum inclusive quantity of a product to satisfy this rule. Must be greater than or equal to zero. For `fixed` rules, the minimum quantity canʼt be less than two.
+
+            Required in /POST.
+
+            '
+          example: 10
+          x-required:
+          - post
+        quantity_max:
+          minimum: 0
+          type: integer
+          description: 'The maximum inclusive quantity of a product to satisfy this rule. Must be greater than the `quantity_min` value – unless this field has a value of 0 (zero), in which case there will be no maximum bound for this rule.
+
+            Required in /POST.'
+          example: 50
+          x-required:
+          - post
+        type:
+          type: string
+          description: 'The type of adjustment that is made. Values: `price` - the adjustment amount per product; `percent` - the adjustment as a percentage of the original price; `fixed` - the adjusted absolute price of the product.
+
+            Required in /POST.'
+          example: price
+          enum:
+          - price
+          - percent
+          - fixed
+          x-required:
+          - post
+        amount:
+          oneOf:
+          - type: number
+            example: 10
+          - type: string
+            example: '.10'
+          description: "You can express the adjustment type as either a fixed dollar amount or a percentage. Send a number; the response will return a number for `price` and `fixed` adjustments.\nDivide the adjustment percentage by 100 and send the result in string format. For example, represent 10% as “.10”. The response will return a float value for both `price` and `percentage` adjustments. \nRequired in /POST."
+      required:
+      - quantity_min
+      - quantity_max
+      - type
+      - amount
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

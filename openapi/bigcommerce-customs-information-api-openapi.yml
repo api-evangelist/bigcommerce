@@ -1,0 +1,340 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Customs Information API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Customs Information
+paths:
+  /shipping/products/customs-information:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      operationId: getCustomsInformation
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customsInformation'
+                  meta:
+                    $ref: '#/components/schemas/metaCollection'
+      description: 'Get customs information for products.
+
+
+        This list can be filtered to return customs information objects specific to a list of requested product_ids. This is achieved by appending the query string `?product_id:in=4,5,6` to the resource `/shipping/products/customs-information`.
+
+
+        ```http
+
+        GET /shipping/products/customs-information?product_id:in=4,5,6
+
+        ```'
+      tags:
+      - Customs Information
+      summary: BigCommerce Get Customs Information
+      parameters:
+      - in: query
+        name: product_id:in
+        description: A comma-separated list of product IDs. For more information, see [Filtering](/docs/start/about/common-query-params).
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - in: query
+        name: page
+        schema:
+          type: integer
+      - in: query
+        name: limit
+        schema:
+          type: integer
+    delete:
+      operationId: deleteCustomsInformation
+      responses:
+        '204':
+          description: No Content
+      summary: BigCommerce Delete Customs Information
+      description: 'Deletes customs information objects for a product.
+
+
+        ## Example
+
+
+        This is a batch operation. The `product_id:in` query parameter is required.
+
+
+        ```http
+
+        DELETE /shipping/products/customs-information?product_id:in=4,5,6
+
+        ```'
+      tags:
+      - Customs Information
+      parameters:
+      - in: query
+        name: product_id:in
+        required: true
+        schema:
+          type: string
+          items:
+            type: integer
+    put:
+      operationId: updateCustomsInformation
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/customsInformation'
+              examples: {}
+      summary: BigCommerce Upsert Customs Information
+      description: 'Creates and updates product customs information.
+
+
+        This is a batch operation where the creation of multiple customs information objects can be done with one `PUT` request.
+
+
+        **Limits**
+
+        * Limit of 50 customs information objects per `PUT` request.'
+      tags:
+      - Customs Information
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/customsInformation_request'
+            examples:
+              Example:
+                value:
+                - product_id: 77
+                  country_of_origin: US
+                  commodity_description: Baseball caps
+                  international_shipping: true
+                  hs_codes:
+                    CA: '508313'
+                    AU: '817355'
+                    ALL: '501000'
+components:
+  schemas:
+    customsInformation_request:
+      title: customsInformationRequest
+      description: Data about the customs information object.
+      type: object
+      x-internal: false
+      properties:
+        product_id:
+          description: The product ID to which the customs information data applies.
+          type: integer
+          format: int32
+          example: 77
+        country_of_origin:
+          type: string
+          description: The country of manufacture, production, or growth represented in ISO 3166-1 alpha-2 format.
+          example: US
+        commodity_description:
+          description: Description that provides information for customs to identify and verify the shapes, physical characteristics, and packaging of each shipment.
+          type: string
+          minLength: 0
+          maxLength: 100
+          example: Baseball caps
+        international_shipping:
+          description: Flag to determine whether this product will be shipped internationally.
+          type: boolean
+          enum:
+          - true
+          - false
+          example: true
+        hs_codes:
+          $ref: '#/components/schemas/harmonizedSystemCodes'
+      required:
+      - product_id
+      - country_of_origin
+      - commodity_description
+      - international_shipping
+      - hs_codes
+    metaCollection:
+      title: metaCollection
+      description: Meta data relating to pagination.
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            total:
+              type: integer
+              description: Total number of items returned.
+              example: 3
+            count:
+              type: integer
+              description: Number of items returned on per page.
+              example: 1
+            per_page:
+              type: integer
+              description: Number of items to be displayed per page.
+              example: 1
+            current_page:
+              type: integer
+              description: Current page number.
+              example: 2
+            total_page:
+              type: integer
+              description: Total number of pages.
+              example: 3
+            links:
+              type: object
+              properties:
+                previous:
+                  type: string
+                  description: Query string appended to the resource to return to the previous page.
+                  example: ?limit=1&page=1
+                next:
+                  type: string
+                  description: Query string appended to the resource to proceed to the next page.
+                  example: ?limit=1&page=3
+                current:
+                  type: string
+                  description: Query string appended to the resource to show the current page.
+                  example: ?limit=1&page=2
+      x-internal: false
+    harmonizedSystemCodes:
+      title: harmonizedSystemCodes
+      description: "Key-value pairs that are commonly used in the following form:  \n\n`countryISO2: '/^[0-9A-Za-z]{6,14}$/'`\n\nThis key-value pair represents a country and the associated `hs_code` that applies to that country. \n\nYou can also use the `ALL` key in place of an ISO2 key to specify that the `hs_code` applies to all countries. The `ALL` key can be combined with other countries in the `hs_code` object."
+      type: object
+      properties: {}
+      additionalProperties: true
+      example:
+        ALL: '501000'
+        CA: '508313'
+        US: '641000'
+        AU: '817355'
+      x-internal: false
+    customsInformation:
+      title: customsInformation
+      description: Data about the customs information object.
+      type: object
+      x-internal: false
+      properties:
+        product_id:
+          description: The ID of the product which the customs information data will apply to.
+          type: integer
+          format: int32
+          example: 77
+        country_of_origin:
+          type: string
+          description: The country of manufacture, production, or growth represented in ISO 3166-1 alpha-2 format.
+          example: US
+        commodity_description:
+          description: Description that provides information for customs to identify and verify shapes physical characteristics and packaging of each shipment.
+          type: string
+          minLength: 0
+          maxLength: 100
+          example: Baseball caps
+        international_shipping:
+          description: Flag to determine whether this product will be shipped internationally.
+          type: boolean
+          enum:
+          - true
+          - false
+          example: true
+        hs_codes:
+          $ref: '#/components/schemas/harmonizedSystemCodes'
+        created_at:
+          type: string
+          description: Date and time when the customs information was created.
+          readOnly: true
+          format: date-time
+          example: 2022-09-21 14:15:00+00:00
+        updated_at:
+          type: string
+          description: Date and time when the customs information was last updated.
+          readOnly: true
+          format: date-time
+          example: 2022-09-21 14:15:00+00:00
+  parameters:
+    Accept:
+      in: header
+      name: Accept
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      in: header
+      name: Content-Type
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

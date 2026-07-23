@@ -1,0 +1,157 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Logo API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Logo
+paths:
+  /settings/logo:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      operationId: getSettingsLogo
+      summary: BigCommerce Get Store Logo Settings
+      description: "Returns store logo settings.\n\n - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level."
+      parameters:
+      - $ref: '#/components/parameters/ChannelIdParam'
+      responses:
+        '200':
+          description: OK, null indicates that a particular field has not been overridden on a channel level when channel level settings are requested
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/LogoSettings'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+      tags:
+      - Logo
+    put:
+      operationId: updateSettingsLogo
+      summary: BigCommerce Update Store Logo Settings
+      description: "Updates the logo type and logo text for a textual logo. To upload new images, use the dedicated image POST endpoints.\n\n - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel."
+      parameters:
+      - $ref: '#/components/parameters/ChannelIdParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogoSettingsUpdate'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/LogoSettings'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+      tags:
+      - Logo
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
+  schemas:
+    LogoSettings:
+      type: object
+      properties:
+        favicon_url:
+          type: string
+        logo_image_url:
+          type: string
+        logo_text:
+          type: string
+        type:
+          type: string
+          enum:
+          - image
+          - text
+      x-internal: false
+    LogoSettingsUpdate:
+      type: object
+      properties:
+        logo_text:
+          type: string
+        type:
+          type: string
+          enum:
+          - image
+          - text
+      x-tags:
+      - Models
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

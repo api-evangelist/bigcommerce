@@ -1,0 +1,157 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Redirects - Cart Redirect URLs API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Redirects - Cart Redirect URLs
+paths:
+  /carts/{cartId}/redirect_urls:
+    parameters:
+    - $ref: '#/components/parameters/cartId'
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/ContentType'
+    post:
+      description: "Creates a **Cart** redirect URL for redirecting a shopper to an already created cart using the `cartId`.\n\n**Usage Notes**\n\n* Redirect URLs can also be created with **Create a Cart** requests by appending `include=redirect_urls`.\n* A **Carts** redirect URL may only be used once.\n* Redirect URLs point to either a shared checkout domain or a channel-specific domain, depending on the storefront configuration.\n* Once a redirect URL has been visited, it will be invalidated and cannot be used again. \n* If your application requires URLs to be visited more than once, consider generating a fresh one each time you need to restore a cart, and redirecting to the URL from your own application.\n* Redirect URLs can be generated only from carts that were created using the **REST Management API**. \n* To restore a cart that was created on the storefront, either by a shopper or a Storefront API, first recreate the cart using the **REST Management API**.\n* When redirecting the shopper, you can add a set of `query_params` to the URL. The `query_params` feature allows passing additional information to the redirect URL."
+      tags:
+      - Redirects - Cart Redirect URLs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Redirect_urls_Post'
+      responses:
+        '201':
+          $ref: '#/components/responses/CartRedirectResponse'
+      summary: BigCommerce Create Cart Redirect URL
+      operationId: createCartRedirectURL
+components:
+  responses:
+    CartRedirectResponse:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  cart_url:
+                    type: string
+                    format: url
+                    example: https://store.mybigcommerce.com/cart.php?action=load&id=0aa00afa-a000-00a0-00aae-aa0000f000a0&token=00aaaaa0aa0000000000a000a000f0aa0000afa00aa00afa0a000000000aa0a0
+                  checkout_url:
+                    type: string
+                    example: https://store.mybigcommerce.com/cart.php?action=loadInCheckout&id=1ea11efe-b111-11d1-11ee-cd1110f111b1&token=00aaaaa0aa0000000000a000a000f0aa0000afa00aa00afa0a000000000aa0a0
+                    format: Url
+                  embedded_checkout_url:
+                    type: string
+                    example: https://store.mybigcommerce.com/cart.php?embedded=1&action=loadInCheckout&id=0aa00afa-a000-00a0-00aae-aa0000f000a0&token=00aaaaa0aa0000000000a000a000f0aa0000afa00aa00afa0a000000000aa0a0
+                    format: url
+              meta:
+                $ref: '#/components/schemas/metaCollection_open'
+          examples:
+            example-1:
+              value:
+                data:
+                  cart_url: https://store.mybigcommerce.com/cart.php?action=load&id=0aa00afa-a000-00a0-00aae-aa0000f000a0&token=00aaaaa0aa0000000000a000a000f0aa0000afa00aa00afa0a000000000aa0a0
+                  checkout_url: https://store.mybigcommerce.com/cart.php?action=loadInCheckout&id=1ea11efe-b111-11d1-11ee-cd1110f111b1&token=00aaaaa0aa0000000000a000a000f0aa0000afa00aa00afa0a000000000aa0a0
+                  embedded_checkout_url: https://store.mybigcommerce.com/cart.php?embedded=1&action=loadInCheckout&id=0aa00afa-a000-00a0-00aae-aa0000f000a0&token=00aaaaa0aa0000000000a000a000f0aa0000afa00aa00afa0a000000000aa0a0
+                meta:
+                  $ref: '#/components/schemas/metaCollection_open'
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
+    cartId:
+      name: cartId
+      in: path
+      description: The identifier of a specific cart.
+      required: true
+      schema:
+        type: string
+        format: UUID
+  schemas:
+    metaCollection_open:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    Redirect_urls_Post:
+      type: object
+      title: Redirect_urls_Post
+      properties:
+        query_params:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

@@ -1,0 +1,144 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Subscription API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Subscription
+paths:
+  /subscriptions:
+    post:
+      tags:
+      - Subscription
+      summary: BigCommerce Create a Subscription
+      operationId: createSubscription
+      description: "Creates or updates an email subscription.\n\nBy default, customers receive abandoned cart emails as soon as they provide their email address in the checkout flow. They can opt out using this endpoint.\n\nHowever, if **Store Settings > Miscellaneous > Require Consent** is enabled, Abandoned Cart Emails are not sent by default, and the customer should opt-in.\n\n> #### Note\n> * Substitute your storefront domain for `yourstore.example.com`. \n> * The Send a Test Request feature is not currently supported for this endpoint."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionRequest'
+        required: false
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+components:
+  schemas:
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 'The unique numeric ID of the subscriber; increments sequentially.
+
+            '
+        email:
+          type: string
+          description: 'The email of the subscriber. Must be unique.
+
+            '
+        firstName:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: 'The first name of the subscriber.
+
+            '
+        lastName:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: 'The last name of the subscriber.
+
+            '
+        source:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: 'The source of the subscriber. Values are: `storefront`, `order`, or `custom`.
+
+            '
+        orderId:
+          maximum: 2147483647
+          minimum: 1
+          type: integer
+          description: 'The ID of the source order, if source was an order.
+
+            '
+          nullable: true
+        consents:
+          type: array
+          items: {}
+          description: 'The collection of consents the shopper is subscribing to.
+
+            '
+      description: Subscription properties.
+      x-internal: false
+    SubscriptionRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email of subscriber
+        acceptsMarketingNewsletter:
+          type: boolean
+          description: Describes whether subscriber has consented to receive Marketing emails.
+        acceptsAbandonedCartEmails:
+          type: boolean
+          description: Describes whether subscriber has consented to receive Abandoned Cart emails.
+      x-internal: false
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

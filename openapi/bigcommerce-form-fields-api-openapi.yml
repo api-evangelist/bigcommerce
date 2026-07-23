@@ -1,0 +1,172 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Form Fields API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Form Fields
+paths:
+  /form-fields:
+    get:
+      tags:
+      - Form Fields
+      summary: BigCommerce Get Form Fields
+      operationId: getFormFields
+      description: "Gets form fields.\n\n> #### Note\n> * Substitute your storefront domain for `yourstore.example.com`. \n> * The Send a Test Request feature is not currently supported for this endpoint."
+      parameters:
+      - name: filter
+        in: query
+        schema:
+          type: string
+          enum:
+          - customerAccount
+          - shippingAddress
+          - billingAddress
+      responses:
+        '200':
+          description: Returns an object with form fields groups.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormFieldGroups'
+components:
+  schemas:
+    FormField:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Field unique ID
+        name:
+          type: string
+          description: Field name
+        custom:
+          type: boolean
+          description: Whether this is a custom field or system built-in field.
+        label:
+          type: string
+          description: User-friendly label
+        required:
+          type: boolean
+          description: Whether this field is required or not
+        default:
+          type: string
+          description: The field unique ID
+        type:
+          type: string
+          description: Type of the value hold by the field
+          enum:
+          - integer
+          - string
+          - array
+          - date
+        fieldType:
+          type: string
+          description: Type of the field
+          enum:
+          - checkbox
+          - text
+          - date
+          - multiline
+          - radio
+          - dropdown
+        min:
+          type: string
+          description: The minimun valid value for the field (integer and date type only)
+        max:
+          type: string
+          description: The minimun valid value for the field (integer and date type only)
+        maxLength:
+          type: integer
+          description: The maximum length for the value (string type only)
+        secret:
+          type: boolean
+          description: Whether the field represents a password field
+        options:
+          type: object
+          properties:
+            helperLabel:
+              type: string
+              description: Placeholder text for dropdown field type.
+            items:
+              type: array
+              description: List of possible values for this field.
+              items:
+                type: object
+                properties:
+                  label:
+                    type: string
+                  value:
+                    type: string
+          description: Extra data for radio, dropdown and checkbox field types.
+      description: Form Field
+      x-internal: false
+    FormFields:
+      type: array
+      description: List of form fields for the group
+      items:
+        $ref: '#/components/schemas/FormField'
+      x-internal: false
+    FormFieldGroups:
+      type: object
+      description: Group of form field groups
+      x-internal: false
+      x-examples: {}
+      properties:
+        customerAccount:
+          $ref: '#/components/schemas/FormFields'
+        shippingAddress:
+          $ref: '#/components/schemas/FormFields'
+        billingAddress:
+          $ref: '#/components/schemas/FormFields'
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

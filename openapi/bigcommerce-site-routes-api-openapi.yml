@@ -1,0 +1,565 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Site Routes API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Site Routes
+paths:
+  /sites/{site_id}/routes:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - name: site_id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: BigCommerce Get a Site’s Routes
+      operationId: getSiteRoutes
+      parameters:
+      - name: type
+        in: query
+        description: Filter routes by a specified resource type.
+        schema:
+          type: string
+      - in: query
+        name: page
+        description: Specifies the page number in a limited (paginated) list of items.
+        schema:
+          type: integer
+      - in: query
+        name: limit
+        description: Controls the number of items per page in a limited (paginated) list of items.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/siteRoute_Full'
+                  meta:
+                    $ref: '#/components/schemas/_metaCollection'
+              examples:
+                response:
+                  value:
+                    data:
+                    - id: 1
+                      type: product
+                      matching: '5'
+                      route: /products?id={id}
+                    - id: 2
+                      type: category
+                      matching: '44'
+                      route: /category/{slug}
+                    meta:
+                      pagination:
+                        total: 1
+                        count: 1
+                        per_page: 50
+                        current_page: 1
+                        total_pages: 1
+      tags:
+      - Site Routes
+      description: Get a site’s routes.
+    post:
+      summary: BigCommerce Create a Site Route
+      operationId: createSiteRoute
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/siteRoute_Base'
+        required: true
+        x-examples:
+          application/json:
+            type: returns
+            matching: '5'
+            route: /my-amazing-product
+      responses:
+        '201':
+          $ref: '#/components/responses/siteRoute_Resp'
+        '422':
+          $ref: '#/components/responses/ErrorResponse'
+        '502':
+          $ref: '#/components/responses/502_GatewayError'
+      tags:
+      - Site Routes
+      description: 'Create routes that tell BigCommerce how to link to pages on a [headless storefront](/docs/storefront/headless).
+
+
+        ## Usage Notes
+
+        * For a list of supported route types, see [Route types](/docs/rest-management/sites#route-types).'
+    put:
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/siteRoute_Full'
+                  meta:
+                    $ref: '#/components/schemas/_metaCollection'
+              examples:
+                response:
+                  value:
+                    data:
+                    - id: 123
+                      type: brand
+                      matching: '5'
+                      route: /my-amazing-product
+                    - id: 345
+                      type: blog
+                      matching: '5'
+                      route: /my-amazing-product
+                    - id: 234
+                      type: returns
+                      matching: '5'
+                      route: /my-amazing-product
+                    meta:
+                      pagination:
+                        total: 80
+                        count: 50
+                        per_page: 50
+                        current_page: 50
+                        total_pages: 2
+                        links:
+                          current: ?page=1&limit=50
+                          next: ?page=2&limit=50
+        '422':
+          $ref: '#/components/responses/BulkErrorResponse'
+      description: 'Upsert routes for site with ID `{site_id}`.
+
+
+        ## Usage Notes
+
+        * `id` is required when updating an existing route.'
+      summary: BigCommerce Update a Site’s Routes
+      operationId: updateSiteRoutes
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/siteRoute_Full'
+        x-examples:
+          application/json:
+          - id: 1
+            type: product
+            matching: '*'
+            route: /products/{id}
+          - id: 2
+            type: product
+            matching: '10'
+            route: /products?id={id}
+      tags:
+      - Site Routes
+  /sites/{site_id}/routes/{route_id}:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - name: site_id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: route_id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: BigCommerce Get a Site Route
+      operationId: getSiteRoute
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/siteRoute_Full'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+              examples:
+                response:
+                  value:
+                    data:
+                      id: 60474753
+                      type: checkout
+                      matching: '5'
+                      route: /my-amazing-product
+                    meta: {}
+      tags:
+      - Site Routes
+      description: Get a site’s route.
+    put:
+      summary: BigCommerce Update a Site Route
+      operationId: updateSiteRoute
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/siteRoutes_Route_Base'
+        required: true
+        x-examples:
+          application/json:
+            type: product
+            matching: '*'
+            route: /products/{id}
+      responses:
+        '201':
+          $ref: '#/components/responses/siteRoute_Resp'
+      tags:
+      - Site Routes
+      description: 'Update a site’s route.
+
+        '
+    delete:
+      summary: BigCommerce Delete a Site Route
+      operationId: deleteSiteRoute
+      responses:
+        '204':
+          description: ''
+      tags:
+      - Site Routes
+      description: Delete a site’s route.
+components:
+  schemas:
+    siteRoute_Full:
+      title: siteRoute_Full
+      description: Route object used in responses.
+      allOf:
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: Unique ID for this route. Required when updating an existing route.
+      - $ref: '#/components/schemas/siteRoute_Base'
+      x-internal: false
+    _metaCollection:
+      title: metaCollection
+      description: Meta data relating to pagination.
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            total:
+              type: integer
+              description: Total number of items returned.
+              example: 3
+            count:
+              type: integer
+              description: Number of items returned on per page.
+              example: 1
+            per_page:
+              type: integer
+              description: Number of items to be displayed per page.
+              example: 1
+            current_page:
+              type: integer
+              description: Current page number.
+              example: 2
+            total_page:
+              type: integer
+              description: Total number of pages.
+              example: 3
+            links:
+              type: object
+              properties:
+                previous:
+                  type: string
+                  description: Query string appended to the resource to return to the previous page.
+                  example: ?limit=1&page=1
+                next:
+                  type: string
+                  description: Query string appended to the resource to proceed to the next page.
+                  example: ?limit=1&page=3
+                current:
+                  type: string
+                  description: Query string appended to the resource to show the current page.
+                  example: ?limit=1&page=2
+      x-internal: false
+    _errors:
+      type: object
+      description: The keys and values in an errors object will vary depending on the error received.
+      title: _errors
+      x-internal: false
+    siteRoute_Base:
+      type: object
+      title: siteRoute_Base
+      properties:
+        type:
+          type: string
+          description: The type of resource being routed to; [supported types](/docs/rest-management/sites#route-types).
+          enum:
+          - product
+          - brand
+          - category
+          - page
+          - blog
+          - home
+          - cart
+          - checkout
+          - search
+          - account
+          - login
+          - returns
+          - static
+        matching:
+          type: string
+          description: 'Depending on the resource type, this can be an ID (matching a specific item), or a "*" wildcard (matching all items of that type).
+
+
+            For example, a route with a type: "product" and matching: "5" will be used for the product with the ID of 5.'
+          example: '5'
+        route:
+          type: string
+          description: 'The route template that will be used to generate the URL for the requested resource.
+
+
+            Supports several tokens:
+
+            - `{id}` The **ID** of the requested item.
+
+            - `{slug}` The **slug** for the requested item (if available). Note: the `slug` value may contain `/` slash.
+
+            - `{language}` The **language** string that the client is using.'
+          example: /my-amazing-product
+      x-internal: false
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    _metaEmpty:
+      type: object
+      properties: {}
+      description: Empty meta object; may be used later.
+      title: _metaEmpty
+      x-internal: false
+    siteRoutes_Route_Base:
+      title: siteRoutes_Route_Base
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of resource being routed to; [supported types](/docs/rest-management/sites#route-types).
+          enum:
+          - product
+          - brand
+          - category
+          - page
+          - blog
+          - home
+          - cart
+          - checkout
+          - search
+          - account
+          - login
+          - returns
+          - static
+        matching:
+          type: string
+          example: '5'
+          description: 'Depending on the resource type, this can be an ID (matching a specific item), or a "*" wildcard (matching all items of that type).
+
+
+            For example, a route with a type: "product" and matching: "5" will be used for the product with the ID of 5.'
+        route:
+          type: string
+          example: /my-amazing-product
+          description: 'The route template that will be used to generate the URL for the requested resource.
+
+
+            Supports several tokens:
+
+            - `{id}` The **ID** of the requested item.
+
+            - `{slug}` The **slug** for the requested item (if available). Note: the `slug` value may contain `/` slash.
+
+            - `{language}` The **language** string that the client is using.'
+      required:
+      - type
+      - matching
+      - route
+      x-internal: false
+    error_Full:
+      type: object
+      title: error_Full
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+      x-internal: false
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  responses:
+    ErrorResponse:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: General error message
+              status:
+                type: string
+                description: HTTP status code
+              errors:
+                $ref: '#/components/schemas/_errors'
+              type:
+                type: string
+    502_GatewayError:
+      description: If something happens during the request that causes it to fail, a 502 response will be returned. A new request should be made; however, it could fail.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+    siteRoute_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/siteRoute_Full'
+              meta:
+                $ref: '#/components/schemas/MetaOpen'
+          examples:
+            response:
+              value:
+                data:
+                  id: 123
+                  type: checkout
+                  matching: '5'
+                  route: /my-amazing-product
+                meta: {}
+    BulkErrorResponse:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                description: The HTTP status code.
+              title:
+                type: string
+              errors:
+                $ref: '#/components/schemas/_errors'
+              meta:
+                $ref: '#/components/schemas/_metaEmpty'
+              type:
+                type: string
+          examples:
+            response:
+              value:
+                meta:
+                  saved_records: 0
+                title: Bulk operation has failed
+                type: /api-docs/getting-started/api-status-codes
+                errors:
+                  0.matching.type: Route already exists for site 1 matching 5 for type product
+                  1.matching.type: Route already exists for site 1 matching * for type home
+                status: 422
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

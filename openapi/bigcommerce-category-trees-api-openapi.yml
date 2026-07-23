@@ -1,0 +1,388 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Category Trees API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Category Trees
+paths:
+  /catalog/trees:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      summary: BigCommerce Get All Category Trees
+      description: Returns a list of *Category Trees*.
+      operationId: getCategoryTrees
+      parameters:
+      - name: id:in
+        in: query
+        schema:
+          type: string
+      - name: channel_id:in
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of category trees.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryTreeList'
+              example:
+                data:
+                - id: 0
+                  name: string
+                  channels:
+                  - 0
+                meta:
+                  pagination:
+                    total: 246
+                    count: 5
+                    per_page: 5
+                    current_page: 1
+                    total_pages: 50
+                    links:
+                      next: ?limit=5&page=2
+                      current: ?limit=5&page=1
+      tags:
+      - Category Trees
+    put:
+      summary: BigCommerce Upsert Category Trees
+      description: "Upserts *Category Trees*. \n\nThis single endpoint updates and creates category trees. If a tree object contains an ID, it is processed as an update operation using that ID. If you do not provide an ID, a new tree is created. The category tree `name` field is required to create trees, but is not required on the update.\n\n**Usage Notes**\n* `channel_id` is required to create a *Category Tree*. You can assign one `channel_id` to one category tree.\n"
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      operationId: upsertCategoryTrees
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryTreeListRequest'
+      responses:
+        '200':
+          description: Created a category tree.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryTree'
+              example:
+                data:
+                - id: 0
+                  name: string
+                  channels:
+                  - 0
+                meta: {}
+        '422':
+          description: The Channel was not valid. See the response for more details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/beta4ErrorResponse'
+              example:
+                status: 0
+                title: string
+                type: string
+                instance: string
+                errors:
+                  additionalProp1: string
+                  additionalProp2: string
+                  additionalProp3: string
+      tags:
+      - Category Trees
+    delete:
+      summary: BigCommerce Delete Category Trees
+      description: Deletes *Category Trees*. A filter must be supplied with the endpoint.
+      operationId: deleteCategoryTrees
+      parameters:
+      - name: id:in
+        in: query
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Deleted
+      tags:
+      - Category Trees
+  /catalog/trees/{tree_id}/categories:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - schema:
+        type: string
+      name: tree_id
+      description: The ID of the Category Tree.
+      in: path
+      required: true
+    get:
+      summary: BigCommerce Get a Category Tree
+      description: Returns a *Category Tree*.
+      operationId: getCategoryTree
+      parameters:
+      - name: depth
+        description: Max depth for a tree of categories.
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Categories tree
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryNodeTree'
+              example:
+                data:
+                - id: 0
+                  parent_id: 0
+                  depth: 0
+                  path:
+                  - 0
+                  name: string
+                  is_visible: true
+                  children:
+                  - string
+                meta:
+                  type: object
+                  properties: {}
+                  description: Empty meta object; reserved for use later.
+        '404':
+          description: The tree was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/beta4ErrorResponse'
+              example:
+                status: 0
+                title: string
+                type: string
+                instance: string
+                errors:
+                  additionalProp1: string
+                  additionalProp2: string
+                  additionalProp3: string
+      tags:
+      - Category Trees
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    CategoryNode:
+      type: object
+      properties:
+        id:
+          type: integer
+        parent_id:
+          type: integer
+        depth:
+          type: integer
+        path:
+          type: array
+          items:
+            type: integer
+        name:
+          type: string
+        is_visible:
+          type: boolean
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryNode'
+      x-tags:
+      - Models
+    beta4DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      x-tags:
+      - Models
+    BaseError:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+      x-tags:
+      - Models
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    Tree:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        channels:
+          type: array
+          items:
+            type: integer
+      x-tags:
+      - Models
+    CategoryTreeList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tree'
+        meta:
+          $ref: '#/components/schemas/MetaPaginationObject'
+    CategoryTreeListRequest:
+      type: array
+      items:
+        $ref: '#/components/schemas/Tree'
+      example:
+      - id: 0
+        name: string
+        channels:
+        - 0
+    CategoryTree:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tree'
+        meta:
+          $ref: '#/components/schemas/metaEmpty_Full'
+    beta4ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - type: object
+        properties:
+          errors:
+            $ref: '#/components/schemas/beta4DetailedErrors'
+      x-tags:
+      - Models
+    MetaPaginationObject:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: 246
+              minimum: 0
+            count:
+              type: integer
+              example: 5
+              minimum: 0
+            per_page:
+              type: integer
+              example: 5
+              minimum: 0
+            current_page:
+              type: integer
+              example: 1
+              minimum: 1
+            total_pages:
+              type: integer
+              example: 50
+              minimum: 0
+            links:
+              type: object
+              properties:
+                next:
+                  type: string
+                  example: ?limit=5&page=2
+                current:
+                  type: string
+                  example: ?limit=5&page=1
+      x-tags:
+      - Models
+    CategoryNodeTree:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryNode'
+        meta:
+          $ref: '#/components/schemas/metaEmpty_Full'
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

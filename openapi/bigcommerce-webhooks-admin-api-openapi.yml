@@ -1,0 +1,333 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Webhooks Admin API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Webhooks Admin
+paths:
+  /hooks/admin:
+    get:
+      operationId: getHooksAdmin
+      summary: BigCommerce Get Admin Info
+      description: List all notification emails, webhooks, and denylisted domains associated with the API account.
+      parameters:
+      - $ref: '#/components/parameters/IsActive'
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      emails:
+                        description: Email addresses to be sent notifications.
+                        type: array
+                        items:
+                          type: string
+                          format: email
+                          example: webhooks@example.com
+                      hooks_list:
+                        description: List of all the webhooks associated with the provider API account, filtered by the `active` parameter.
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: ID of the webhook
+                            client_id:
+                              type: string
+                              minLength: 1
+                              description: Client ID, unique to the store or app.
+                            store_hash:
+                              minLength: 1
+                              type: string
+                              description: Permanent ID of the BigCommerce store.
+                            scope:
+                              type: string
+                              minLength: 1
+                              description: Event you subscribe to
+                              example: store/order/*
+                            destination:
+                              type: string
+                              minLength: 1
+                              description: URL must be active, return a 200 response, and be served on port 443. Custom ports arenʼt currently supported.
+                            headers:
+                              type: object
+                              description: You can pass in any number of custom headers to validate webhooks being returned.
+                              properties: {}
+                              nullable: true
+                              additionalProperties:
+                                type: string
+                            is_active:
+                              type: boolean
+                              description: If the webhook is active or not. A webhook subscription becomes deactivated after 90 days of inactivity.
+                              default: true
+                            created_at:
+                              type: integer
+                              example: 1561488106
+                              description: The time the webhook was created, represented in UNIX epoch time.
+                            updated_at:
+                              type: integer
+                              example: 1561488106
+                              description: The time the webhook was most recently updated, represented in UNIX epoch time.
+                            status:
+                              type: string
+                              description: The webhook status.
+                              enum:
+                              - inactive
+                              - active
+                              - deactivated
+                      blocked_domains:
+                        description: List of domains (destinations) that are currently on the denylist and are not being sent webhooks.
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            destination:
+                              description: Domain URL to which webhooks are sent.
+                              type: string
+                              format: url
+                            time_left:
+                              description: Remaining time in seconds that the domain is on the denylist.
+                              type: integer
+                            reasons:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  failure_description:
+                                    type: string
+                                  count:
+                                    type: integer
+                                  timestamp:
+                                    type: integer
+                                    format: int64
+                                    description: UTC timestamp in seconds that the events was created
+                  meta:
+                    type: object
+                    properties:
+                      pagination:
+                        $ref: '#/components/schemas/Pagination'
+              examples: {}
+        '400':
+          $ref: '#/components/responses/400_BadRequest'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+      tags:
+      - Webhooks Admin
+    put:
+      operationId: updateHooksAdmin
+      summary: BigCommerce Upsert Email Notifications
+      description: 'Update email addresses that are sent notification emails when any domain associated with the API account is denylisted or when a webhook is deactivated. Supports `upsert` functionality in the case that no email address exists yet.
+
+        '
+      requestBody:
+        description: List of notification emails.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                emails:
+                  type: array
+                  items:
+                    type: string
+                    format: email
+                    example: webhooks@example.com
+            examples:
+              Example:
+                value:
+                  emails:
+                  - user@example.com
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400_BadRequest'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '422':
+          $ref: '#/components/responses/422_UnprocessableEntity'
+      tags:
+      - Webhooks Admin
+components:
+  schemas:
+    errorDetailed_Full:
+      type: object
+      title: errorDetailed_Full
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          description: Typically a link to BigCommerce API Status codes
+          type: string
+        errors:
+          type: object
+      x-internal: false
+    Pagination:
+      type: object
+      description: 'Data about the response, including pagination and collection totals.
+
+        '
+      properties:
+        total:
+          type: integer
+          description: Total number of returned items across all pages.
+        count:
+          type: integer
+          description: Number of items on current page.
+        per_page:
+          type: integer
+          description: Maximum number of items per page.
+        current_page:
+          type: integer
+          description: Current page number.
+        total_pages:
+          type: integer
+          description: Total number of pages.
+        links:
+          type: object
+          properties:
+            previous:
+              type: string
+              description: Link to the previous page returned in the response.
+            current:
+              type: string
+              description: Link to the current page returned in the response.
+            next:
+              type: string
+              description: Link to the next page returned in the response.
+      x-internal: false
+    error_Full:
+      type: object
+      title: error_Full
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          description: This value is typically a link to BigCommerce API Status codes.
+          type: string
+      x-internal: false
+  responses:
+    422_UnprocessableEntity:
+      description: This occurs when missing or unacceptable data is passed for one or more fields. Please correct the values for the fields listed in the errors object.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDetailed_Full'
+          examples:
+            response:
+              value:
+                status: 422
+                title: JSON data is missing or invalid
+                type: /api-docs/getting-started/api-status-codes
+                errors:
+                  destination: error.path.missing.
+    400_BadRequest:
+      description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 400
+                title: Input is invalid.
+                type: /api-docs/getting-started/api-status-codes
+    401_Unauthorized:
+      description: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 401
+                title: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
+                type: /api-docs/getting-started/api-status-codes
+  parameters:
+    IsActive:
+      name: is_active
+      in: query
+      description: 'Enables user to filter for webhooks that are active or not. A webhook subscription becomes deactivated after 90 days of inactivity.
+
+        '
+      schema:
+        type: boolean
+        example: true
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

@@ -1,0 +1,250 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Category Assignments API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Category Assignments
+paths:
+  /catalog/products/category-assignments:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      summary: BigCommerce Get Products Category Assignments
+      description: Returns a list of products category assignments.
+      operationId: getProductsCategoryAssignments
+      tags:
+      - Category Assignments
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        schema:
+          type: integer
+      - name: product_id:in
+        in: query
+        schema:
+          type: string
+      - name: category_id:in
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Collection of category assignments.
+          content:
+            application/json:
+              schema:
+                title: Get Products Category Assignments Response
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductCategoryAssignment'
+                  meta:
+                    $ref: '#/components/schemas/MetaPaginationObject'
+    put:
+      summary: BigCommerce Create Products Category Assignments.
+      description: Creates products category assignments.
+      operationId: createProductsCategoryAssignments
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      tags:
+      - Category Assignments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductCategoryAssignment'
+      responses:
+        '204':
+          description: Updated
+        '422':
+          description: Error response for batch PUT of Category Assignments. Includes the errors for each reference id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/beta5ErrorResponse'
+    delete:
+      summary: BigCommerce Delete Products Category Assignments
+      description: Deletes products category assignments. A filter must be supplied.
+      operationId: deleteProductsCategoryAssignments
+      tags:
+      - Category Assignments
+      parameters:
+      - name: product_id:in
+        in: query
+        schema:
+          type: string
+      - name: category_id:in
+        in: query
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Deleted
+        '422':
+          description: At least one filter must be provided in order to delete category assignments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/beta5ErrorResponse'
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    ProductCategoryAssignment:
+      properties:
+        product_id:
+          type: integer
+        category_id:
+          type: integer
+      x-tags:
+      - Models
+    BaseError:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+      x-tags:
+      - Models
+    beta5DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      x-tags:
+      - Models
+    MetaPaginationObject:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: 246
+              minimum: 0
+            count:
+              type: integer
+              example: 5
+              minimum: 0
+            per_page:
+              type: integer
+              example: 5
+              minimum: 0
+            current_page:
+              type: integer
+              example: 1
+              minimum: 1
+            total_pages:
+              type: integer
+              example: 50
+              minimum: 0
+            links:
+              type: object
+              properties:
+                next:
+                  type: string
+                  example: ?limit=5&page=2
+                current:
+                  type: string
+                  example: ?limit=5&page=1
+      x-tags:
+      - Models
+    beta5ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - type: object
+        properties:
+          errors:
+            $ref: '#/components/schemas/beta5DetailedErrors'
+      x-tags:
+      - Models
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

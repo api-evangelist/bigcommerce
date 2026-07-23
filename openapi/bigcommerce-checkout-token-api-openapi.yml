@@ -1,0 +1,188 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Checkout Token API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Checkout Token
+paths:
+  /checkouts/{checkoutId}/token:
+    parameters:
+    - $ref: '#/components/parameters/checkoutId'
+    - $ref: '#/components/parameters/Accept'
+    post:
+      tags:
+      - Checkout Token
+      summary: BigCommerce Create Checkout Token
+      operationId: createCheckoutToken
+      parameters:
+      - $ref: '#/components/parameters/Content-Type'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  checkoutToken:
+                    type: string
+                    example: beb3590088be88f59ba980d54a68df655cd8a1052a3e9caf535f3f820146c226
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+              examples:
+                example-1:
+                  value:
+                    data:
+                      checkoutToken: beb3590088be88f59ba980d54a68df655cd8a1052a3e9caf535f3f820146c226
+                      meta: {}
+        '401':
+          description: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code.
+                    example: 401
+                  title:
+                    type: string
+                    description: The error title describing the particular error.
+                    example: Unauthorized
+                  type:
+                    type: string
+                    description: 'A link to a list of BigCommerce API status codes.
+
+                      '
+                    example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+                  errors:
+                    type: object
+        '422':
+          description: Invalid JSON request body - missing or invalid data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: '422'
+                    description: The HTTP status code.
+                    format: int32
+                  title:
+                    type: string
+                    example: Invalid input
+                    description: The error title describing the particular error.
+                  type:
+                    type: string
+                    example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+                    description: A link to a list of BigCommerce API status codes.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                maxUses:
+                  type: number
+                  example: 1
+                ttl:
+                  type: number
+                  example: 86400
+                  description: Time-to-live (TTL) is the number of seconds the token is set to exist before being discarded.
+                  minimum: 1
+                  maximum: 2592000
+            examples:
+              example-1:
+                value:
+                  maxUses: 1
+                  ttl: 2
+      description: 'Use the checkout token to display a confirmation page for a guest shopper.
+
+        **Usage Notes** * The response from performing this POST request is a checkout token. * The checkout token is a single-use token that is not order-dependent. You cannot create this token after finalizing an order. * After completing the order, you can redirect the shopper to /order-confirmation/{orderId}?t={checkoutToken}. * After token validation, the /order-confirmation/{orderId} page displays. * The `ORDER_TOKEN` should match the order or the logged-in customer can access the order.'
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    checkoutId:
+      name: checkoutId
+      in: path
+      description: ID of the checkout; the same as the cart ID.
+      required: true
+      schema:
+        type: string
+    Content-Type:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

@@ -1,0 +1,199 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Sort Order API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Sort Order
+paths:
+  /catalog/categories/{category_id}/products/sort-order:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/CategoryIdParam'
+    get:
+      tags:
+      - Sort Order
+      summary: BigCommerce Get Product Sort Order
+      description: "Returns a list of products and their sort order for a specific category.\n\n**Usage Notes**\n* Data pairs are displayed in ascending order based on products' `sort_order` values.\n* `null` values are allowed for products without specified `sort_order` values.\n* Products with `sort_order` value of `null` will be displayed after products with valid numerical values.\n* The priorities for determining product sort order on a storefront are the following:\n  - Priority 1: Manually specified sort order on Category Level (API).\n  - Priority 2: Manually specified sort order on Product (Global) Level (UI/API).\n  - Priority 3: Default sorting by Product ID (newly added products go first) (UI/API)."
+      operationId: getCategorySortOrders
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Product Sort Order Response
+                type: array
+                items:
+                  $ref: '#/components/schemas/productSortOrder'
+        '404':
+          description: The requested category was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_Base'
+    put:
+      tags:
+      - Sort Order
+      summary: BigCommerce Update Product Sort Order
+      description: Updates sort order of products within a specific category.
+      operationId: updateCategorySortOrders
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Product Sort Order Request
+              type: array
+              items:
+                $ref: '#/components/schemas/productSortOrder'
+        required: false
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Product Sort Order Response
+                type: array
+                items:
+                  $ref: '#/components/schemas/productSortOrder'
+        '404':
+          description: The requested category was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_Base'
+        '422':
+          description: 'Unprocessable entity.
+
+
+            Please verify if all requested products are assigned to the category.
+
+
+            Please verify if all required fields are present in the request body and are filled with values correctly.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_Base'
+      x-codegen-request-body-name: body
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    CategoryIdParam:
+      name: category_id
+      in: path
+      description: 'The ID of the `Category` to which the resource belongs.
+
+        '
+      required: true
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    productSortOrder:
+      title: productSortOrder
+      required:
+      - product_id
+      - sort_order
+      type: object
+      properties:
+        product_id:
+          minimum: 1
+          type: integer
+          description: The ID of the associated product.
+          example: 99
+        sort_order:
+          minimum: 0
+          type: integer
+          example: 4
+      description: The relative priority of the product among other products inside the category.
+      x-internal: false
+    error_Base:
+      title: error_Base
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 'The HTTP status code.
+
+            '
+        title:
+          type: string
+          description: 'The error title describing the particular error.
+
+            '
+        type:
+          type: string
+        instance:
+          type: string
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      x-internal: false
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

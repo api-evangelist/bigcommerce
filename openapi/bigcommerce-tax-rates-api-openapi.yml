@@ -1,0 +1,410 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Tax Rates API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Tax Rates
+paths:
+  /tax/rates:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      tags:
+      - Tax Rates
+      summary: BigCommerce Get Tax Rates
+      description: Retrieve a list of tax rates.
+      operationId: getTaxRates
+      parameters:
+      - $ref: '#/components/parameters/rateIdIn'
+      - $ref: '#/components/parameters/taxZoneIdIn'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tax_Rate'
+                  meta:
+                    $ref: '#/components/schemas/Meta'
+              examples: {}
+    put:
+      parameters:
+      - $ref: '#/components/parameters/Content-Type'
+      tags:
+      - Tax Rates
+      summary: BigCommerce Update Tax Rates
+      description: Update one or more tax rates. Only the tax rate `id` field is required. Fields unspecified by the request will retain their current state.
+      operationId: updateTaxRates
+      requestBody:
+        $ref: '#/components/requestBodies/Tax_RateArray'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tax_Rate'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+              examples:
+                Example 1:
+                  value:
+                    data:
+                    - id: 3
+                      tax_zone_id: 2
+                      name: Sales Tax
+                      enabled: true
+                      priority: 1
+                      class_rates:
+                      - rate: 10
+                        tax_class_id: 0
+                    meta: {}
+    post:
+      parameters:
+      - $ref: '#/components/parameters/Content-Type'
+      tags:
+      - Tax Rates
+      summary: BigCommerce Create Tax Rates
+      description: Create one or more tax rates. Tax rates must be associated with a `tax_zone_id`.
+      operationId: createTaxRates
+      requestBody:
+        $ref: '#/components/requestBodies/Tax_RateArrayPOST'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tax_Rate'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+              examples:
+                Example 1:
+                  value:
+                    data:
+                    - id: 3
+                      tax_zone_id: 2
+                      name: Sales Tax
+                      enabled: true
+                      priority: 1
+                      class_rates:
+                      - rate: 5
+                        tax_class_id: 0
+                    meta: {}
+    delete:
+      parameters:
+      - $ref: '#/components/parameters/rateIdIn'
+      tags:
+      - Tax Rates
+      summary: BigCommerce Delete Tax Rates
+      description: 'Delete one or more tax rates.
+
+
+        > You must specify which rate(s) to delete using the `id:in` query parameter.'
+      operationId: deleteTaxRates
+      responses:
+        '204':
+          description: No Content
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    rateIdIn:
+      name: id:in
+      in: query
+      schema:
+        type: array
+        items:
+          type: integer
+        minItems: 1
+      style: form
+      explode: false
+      description: Filter by tax rate `id`. Use a comma-separated CSV string of IDs for multiple tax rates. For example, `5` or `12,34,56`.
+      required: false
+    taxZoneIdIn:
+      name: tax_zone_id:in
+      in: query
+      schema:
+        type: array
+        items:
+          type: integer
+        minItems: 1
+      style: form
+      explode: false
+      description: Filter by tax zone `id`. Use a comma-separated CSV string of IDs for multiple tax zones. For example, `5` or `12,34,56`.
+      required: false
+    Content-Type:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  requestBodies:
+    Tax_RateArrayPOST:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Tax_RatePOST'
+          examples:
+            Example 1:
+              value:
+              - tax_zone_id: 2
+                name: Sales Tax
+                enabled: true
+                priority: 1
+                class_rates:
+                - rate: 5
+                  tax_class_id: 0
+      required: true
+    Tax_RateArray:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Tax_RatePUT'
+          examples:
+            Example 1:
+              value:
+              - id: 3
+                tax_zone_id: 2
+                name: Sales Tax
+                enabled: true
+                priority: 1
+                class_rates:
+                - rate: 10
+                  tax_class_id: 0
+      required: true
+  schemas:
+    Tax_RatePUT:
+      type: object
+      properties:
+        class_rates:
+          type: array
+          description: Tax rates for tax classes. You must assign at least one tax rate for each tax class defined on a store.
+          items:
+            type: object
+            properties:
+              rate:
+                type: number
+                description: The tax rate that you apply to the items in a tax class.
+                example: 5
+              tax_class_id:
+                type: integer
+                description: ID of a tax class. You must associate a tax rate with a tax class. The rate will apply to all the items in this tax class.
+                example: 1
+        enabled:
+          type: boolean
+          description: Indicates whether a tax rate is enabled. Tax operations are only for enabled zones.
+          default: true
+        id:
+          type: integer
+          description: Tax Rate ID. Internal identifier to update and delete a specific tax rate.
+          example: 3
+        name:
+          type: string
+          description: The human-readable name for this tax zone. The name appears in the store control panel and may be visible to shoppers, depending on store tax settings.
+          example: Sales Tax
+        priority:
+          type: integer
+          description: Allows for compounding tax rates, common in certain jurisdictions.
+          default: 1
+        tax_zone_id:
+          type: integer
+          description: ID of an associated tax zone. You must associate a tax rate with a tax zone.
+          example: 2
+      required:
+      - id
+    Tax_Rate:
+      type: object
+      properties:
+        class_rates:
+          type: array
+          description: Tax rates for tax classes. You must assign at least one tax rate for each tax class defined on a store.
+          items:
+            type: object
+            properties:
+              rate:
+                type: number
+                description: The tax rate that you apply to the items in a tax class.
+                example: 5
+              tax_class_id:
+                type: integer
+                description: ID of a tax class. You must associate a tax rate with a tax class. The rate will apply to all the items in this tax class.
+                example: 1
+        enabled:
+          type: boolean
+          description: Indicates whether a tax rate is enabled. Tax operations are only for enabled zones.
+          default: true
+        id:
+          type: integer
+          description: Tax Rate ID. Internal identifier to update and delete a specific tax rate.
+          example: 3
+        name:
+          type: string
+          description: The human-readable name for this tax zone. The name appears in the store control panel and may be visible to shoppers, depending on store tax settings.
+          example: Sales Tax
+        priority:
+          type: integer
+          description: Allows for compounding tax rates, common in certain jurisdictions.
+          default: 1
+        tax_zone_id:
+          type: integer
+          description: ID of an associated tax zone. You must associate a tax rate with a tax zone.
+          example: 2
+      x-examples: {}
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    Meta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            total:
+              type: integer
+            count:
+              type: integer
+            per_page:
+              type: integer
+            current_page:
+              type: integer
+            total_pages:
+              type: integer
+            links:
+              type: object
+              properties:
+                current:
+                  type: string
+      x-examples:
+        Example 1:
+          pagination:
+            total: 1
+            count: 1
+            per_page: 50
+            current_page: 1
+            total_pages: 1
+            links:
+              current: ?tax_zone_id%3Ain=1&page=1&limit=50
+      title: Meta
+    Tax_RatePOST:
+      type: object
+      properties:
+        class_rates:
+          type: array
+          description: Tax rates for tax classes. You must assign at least one tax rate for each tax class defined on a store.
+          items:
+            type: object
+            properties:
+              rate:
+                type: number
+                description: The tax rate that you apply to the items in a tax class.
+                example: 5
+              tax_class_id:
+                type: integer
+                description: ID of a tax class. You must associate a tax rate with a tax class. The rate will apply to all items in this tax class.
+                example: 1
+            required:
+            - rate
+            - tax_class_id
+        enabled:
+          type: boolean
+          description: Indicates whether a tax rate is enabled. Tax operations are only for enabled zones.
+          default: true
+        name:
+          type: string
+          description: The human-readable name for this tax zone. The name appears in the store control panel and may be visible to shoppers, depending on store tax settings.
+          example: Sales Tax
+        priority:
+          type: integer
+          description: Allows for compounding tax rates, common in certain jurisdictions.
+          default: 1
+        tax_zone_id:
+          type: integer
+          description: ID of an associated tax zone. You must associate a tax rate with a tax zone.
+          example: 2
+      required:
+      - class_rates
+      - name
+      - tax_zone_id
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

@@ -1,0 +1,1385 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Complex Rules API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Complex Rules
+paths:
+  /catalog/products/{product_id}/complex-rules:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/ProductIdParam'
+    get:
+      tags:
+      - Complex Rules
+      summary: BigCommerce Get Complex Rules
+      description: Returns a list of all product *Complex Rules*. Optional parameters may be passed in.
+      operationId: getProductComplexRules
+      parameters:
+      - name: include_fields
+        in: query
+        description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        schema:
+          type: string
+      - name: exclude_fields
+        in: query
+        description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded.
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Specifies the page number in a limited (paginated) list of products.
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Controls the number of items per page in a limited (paginated) list of products.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Complex Rule Collection Response
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/complexRule_Base'
+                  meta:
+                    $ref: '#/components/schemas/metaCollection_Full'
+                description: Complex Rule Response
+              example:
+                data:
+                - id: 82
+                  product_id: 195
+                  sort_order: 0
+                  enabled: true
+                  stop: false
+                  price_adjuster:
+                    adjuster: relative
+                    adjuster_value: 8
+                  weight_adjuster: {}
+                  purchasing_disabled: false
+                  purchasing_disabled_message: ''
+                  purchasing_hidden: false
+                  image_url: ''
+                  conditions:
+                  - rule_id: 82
+                    modifier_id: 221
+                    modifier_value_id: 175
+                    variant_id: 1
+                    combination_id: 0
+                - id: 83
+                  product_id: 195
+                  sort_order: 1
+                  enabled: true
+                  stop: false
+                  price_adjuster: {}
+                  weight_adjuster:
+                    adjuster: relative
+                    adjuster_value: 3
+                  purchasing_disabled: false
+                  purchasing_disabled_message: ''
+                  purchasing_hidden: false
+                  image_url: ''
+                  conditions:
+                  - rule_id: 83
+                    modifier_id: 221
+                    modifier_value_id: 174
+                    variant_id: 1
+                    combination_id: 0
+                meta:
+                  pagination:
+                    total: 2
+                    count: 2
+                    per_page: 50
+                    current_page: 1
+                    total_pages: 1
+                    links:
+                      current: ?page=1&limit=50
+    post:
+      tags:
+      - Complex Rules
+      summary: BigCommerce Create a Complex Rule
+      description: 'Creates a product *Complex Rule*.
+
+
+        **Required Fields**
+
+        - modifier_id
+
+        - modifier_value_id
+
+        - variant_id
+
+
+        **Read-Only Fields**
+
+        - complex_rule_id
+
+        - conditions_id
+
+        - rule_id
+
+        - combination_id
+
+        - id'
+      operationId: createProductComplexRule
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Complex Rule
+              type: object
+              properties:
+                product_id:
+                  type: integer
+                  description: 'The unique numeric ID of the product with which the rule is associated; increments sequentially.
+
+                    '
+                  nullable: true
+                  example: 67
+                  x-required:
+                  - post
+                  - put
+                sort_order:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                  description: 'The priority to give this rule when making adjustments to the product properties.
+
+                    '
+                  example: 0
+                enabled:
+                  type: boolean
+                  description: 'Flag for determining whether the rule is to be used when adjusting a productʼs price, weight, image, or availabilty.
+
+                    '
+                  example: true
+                stop:
+                  type: boolean
+                  description: 'Flag for determining whether other rules should not be applied after this rule has been applied.
+
+                    '
+                purchasing_disabled:
+                  type: boolean
+                  description: 'Flag for determining whether the rule should disable purchasing of a product when the conditions are applied.
+
+                    '
+                purchasing_disabled_message:
+                  maxLength: 255
+                  minLength: 0
+                  type: string
+                  description: 'Message displayed on the storefront when a rule disables the purchasing of a product.
+
+                    '
+                  example: This product is not available at this time.
+                purchasing_hidden:
+                  type: boolean
+                  description: 'Flag for determining whether the rule should hide purchasing of a product when the conditions are applied.
+
+                    '
+                image_url:
+                  type: string
+                  description: 'The URL for an image displayed on the storefront when the conditions are applied. Limit of 8MB per file.
+
+                    '
+                  example: https://cdn8.bigcommerce.com/s-123456/product_images/d/fakeimage.png
+                price_adjuster:
+                  title: Adjuster
+                  type: object
+                  properties:
+                    adjuster:
+                      type: string
+                      description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                        '
+                      nullable: true
+                      enum:
+                      - relative
+                      - percentage
+                    adjuster_value:
+                      type: number
+                      description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                        '
+                      example: 5
+                  description: Adjuster for Complex Rules.
+                weight_adjuster:
+                  title: Adjuster
+                  type: object
+                  properties:
+                    adjuster:
+                      type: string
+                      description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                        '
+                      nullable: true
+                      enum:
+                      - relative
+                      - percentage
+                    adjuster_value:
+                      type: number
+                      description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                        '
+                      example: 5
+                  description: Adjuster for Complex Rules.
+                conditions:
+                  type: array
+                  items:
+                    title: Complex Rule Condition
+                    required:
+                    - modifier_id
+                    - modifier_value_id
+                    - variant_id
+                    type: object
+                    properties:
+                      modifier_id:
+                        type: integer
+                        description: 'The unique numeric ID of the modifier with which the rule condition is associated.
+
+                          Required in /POST.'
+                        nullable: true
+                        example: 55
+                      modifier_value_id:
+                        type: integer
+                        description: 'The unique numeric ID of the modifier value with which the rule condition is associated.
+
+                          Required in /POST.'
+                        nullable: true
+                        example: 256
+                      variant_id:
+                        type: integer
+                        description: 'The unique numeric ID of the variant with which the rule condition is associated.
+
+                          Required in /POST.'
+                        nullable: true
+                        example: 1
+              description: Common ComplexRule properties.
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Complex Rule Create Response
+                type: object
+                properties:
+                  data:
+                    title: Complex Rule
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: 'The unique numeric ID of the rule; increments sequentially.
+
+                          Read-Only'
+                        example: 5
+                      product_id:
+                        type: integer
+                        description: 'The unique numeric ID of the product with which the rule is associated; increments sequentially.
+
+                          '
+                        nullable: true
+                        example: 67
+                        x-required:
+                        - post
+                        - put
+                      sort_order:
+                        maximum: 2147483647
+                        minimum: -2147483648
+                        type: integer
+                        description: 'The priority to give this rule when making adjustments to the product properties.
+
+                          '
+                        example: 0
+                      enabled:
+                        type: boolean
+                        description: 'Flag for determining whether the rule is to be used when adjusting a productʼs price, weight, image, or availabilty.
+
+                          '
+                        example: true
+                      stop:
+                        type: boolean
+                        description: 'Flag for determining whether other rules should not be applied after this rule has been applied.
+
+                          '
+                      purchasing_disabled:
+                        type: boolean
+                        description: 'Flag for determining whether the rule should disable purchasing of a product when the conditions are applied.
+
+                          '
+                      purchasing_disabled_message:
+                        maxLength: 255
+                        minLength: 0
+                        type: string
+                        description: 'Message displayed on the storefront when a rule disables the purchasing of a product.
+
+                          '
+                        example: This product is not available at this time.
+                      purchasing_hidden:
+                        type: boolean
+                        description: 'Flag for determining whether the rule should hide purchasing of a product when the conditions are applied.
+
+                          '
+                      image_url:
+                        type: string
+                        description: 'The URL for an image displayed on the storefront when the conditions are applied. Limit of 8MB per file.
+
+                          '
+                        example: https://cdn8.bigcommerce.com/s-123456/product_images/d/fakeimage.png
+                      price_adjuster:
+                        title: Adjuster
+                        type: object
+                        properties:
+                          adjuster:
+                            type: string
+                            description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                              '
+                            nullable: true
+                            enum:
+                            - relative
+                            - percentage
+                          adjuster_value:
+                            type: number
+                            description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                              '
+                            example: 5
+                        description: Adjuster for Complex Rules.
+                      weight_adjuster:
+                        title: Adjuster
+                        type: object
+                        properties:
+                          adjuster:
+                            type: string
+                            description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                              '
+                            nullable: true
+                            enum:
+                            - relative
+                            - percentage
+                          adjuster_value:
+                            type: number
+                            description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                              '
+                            example: 5
+                        description: Adjuster for Complex Rules.
+                      conditions:
+                        type: array
+                        items:
+                          title: Complex Rule Condition
+                          required:
+                          - modifier_id
+                          - modifier_value_id
+                          - variant_id
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: 'The unique numeric ID of the rule condition; increments sequentially. Read-Only
+
+                                '
+                              nullable: true
+                              example: 3
+                            rule_id:
+                              type: integer
+                              description: 'The unique numeric ID of the rule with which the condition is associated.
+
+                                Read-Only'
+                              nullable: true
+                              example: 4
+                            modifier_id:
+                              type: integer
+                              description: 'The unique numeric ID of the modifier with which the rule condition is associated.
+
+                                Required in /POST.'
+                              nullable: true
+                              example: 55
+                            modifier_value_id:
+                              type: integer
+                              description: 'The unique numeric ID of the modifier value with which the rule condition is associated.
+
+                                Required in /POST.'
+                              nullable: true
+                              example: 256
+                            variant_id:
+                              type: integer
+                              description: 'The unique numeric ID of the variant with which the rule condition is associated.
+
+                                Required in /POST.'
+                              nullable: true
+                              example: 1
+                            combination_id:
+                              type: integer
+                              description: '(READ-ONLY:) The unique numeric ID of the SKU (v2 API), or Combination, with which the rule condition is associated. This is to maintain cross-compatibility between v2 and v3.
+
+                                '
+                          description: Complex rules may return with conditions that apply to one or more variants, or with a single modifier value (if the rules were created using the v2 API or the control panel). Complex rules created or updated in the v3 API must have conditions that either reference multiple `modifier_value_id`’s, or else reference a `modifier_value_id` and a `variant_id`.
+                    description: Common ComplexRule properties.
+                  meta:
+                    $ref: '#/components/schemas/metaEmpty_Full'
+        '409':
+          description: 'The `ComplexRule` was in conflict with another `ComplexRule`. This is the result of duplicate conditions.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Error Response
+                type: object
+                properties:
+                  errors:
+                    title: Detailed Errors
+                    type: object
+                    properties: {}
+                    additionalProperties: true
+                  instance:
+                    type: string
+                  status:
+                    type: integer
+                    description: 'The HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: 'The error title describing the particular error.
+
+                      '
+                  type:
+                    type: string
+        '422':
+          description: 'The `ComplexRule` was not valid. This is the result of missing required fields, or of invalid data. See the response for more details.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Error Response
+                type: object
+                properties:
+                  errors:
+                    title: Detailed Errors
+                    type: object
+                    properties: {}
+                    additionalProperties: true
+                  instance:
+                    type: string
+                  status:
+                    type: integer
+                    description: 'The HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: 'The error title describing the particular error.
+
+                      '
+                  type:
+                    type: string
+      x-codegen-request-body-name: ComplexRule
+  /catalog/products/{product_id}/complex-rules/{complex_rule_id}:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - $ref: '#/components/parameters/ProductIdParam'
+    - $ref: '#/components/parameters/ComplexRuleIdParam'
+    get:
+      tags:
+      - Complex Rules
+      summary: BigCommerce Get a Product Complex Rule
+      description: Returns a single *Complex Rule*. Optional parameters can be passed in.
+      operationId: getProductComplexRule
+      parameters:
+      - name: include_fields
+        in: query
+        description: Fields to include, in a comma-separated list. The ID and the specified fields will be returned.
+        schema:
+          type: string
+      - name: exclude_fields
+        in: query
+        description: Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Product Complex Rule Response
+                type: object
+                properties:
+                  data:
+                    title: Complex Rule
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: 'The unique numeric ID of the rule; increments sequentially.
+
+                          Read-Only'
+                        example: 5
+                      product_id:
+                        type: integer
+                        description: 'The unique numeric ID of the product with which the rule is associated; increments sequentially.
+
+                          '
+                        example: 67
+                        x-required:
+                        - post
+                        - put
+                      sort_order:
+                        maximum: 2147483647
+                        minimum: -2147483648
+                        type: integer
+                        description: 'The priority to give this rule when making adjustments to the product properties.
+
+                          '
+                        example: 0
+                      enabled:
+                        type: boolean
+                        description: 'Flag for determining whether the rule is to be used when adjusting a productʼs price, weight, image, or availabilty.
+
+                          '
+                        example: true
+                      stop:
+                        type: boolean
+                        description: 'Flag for determining whether other rules should not be applied after this rule has been applied.
+
+                          '
+                      purchasing_disabled:
+                        type: boolean
+                        description: 'Flag for determining whether the rule should disable purchasing of a product when the conditions are applied.
+
+                          '
+                      purchasing_disabled_message:
+                        maxLength: 255
+                        minLength: 0
+                        type: string
+                        description: 'Message displayed on the storefront when a rule disables the purchasing of a product.
+
+                          '
+                        example: This product is not available at this time.
+                      purchasing_hidden:
+                        type: boolean
+                        description: 'Flag for determining whether the rule should hide purchasing of a product when the conditions are applied.
+
+                          '
+                      image_url:
+                        type: string
+                        description: 'The URL for an image displayed on the storefront when the conditions are applied. Limit of 8MB per file.
+
+                          '
+                        example: https://cdn8.bigcommerce.com/s-123456/product_images/d/fakeimage.png
+                      price_adjuster:
+                        title: Adjuster
+                        type: object
+                        properties:
+                          adjuster:
+                            type: string
+                            description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                              '
+                            enum:
+                            - relative
+                            - percentage
+                          adjuster_value:
+                            type: number
+                            description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                              '
+                            example: 5
+                        description: Adjuster for Complex Rules.
+                      weight_adjuster:
+                        title: Adjuster
+                        type: object
+                        properties:
+                          adjuster:
+                            type: string
+                            description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                              '
+                            enum:
+                            - relative
+                            - percentage
+                          adjuster_value:
+                            type: number
+                            description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                              '
+                            example: 5
+                        description: Adjuster for Complex Rules.
+                      conditions:
+                        type: array
+                        items:
+                          title: Complex Rule Condition
+                          required:
+                          - modifier_id
+                          - modifier_value_id
+                          - variant_id
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: 'The unique numeric ID of the rule condition; increments sequentially. Read-Only
+
+                                '
+                              example: 3
+                            rule_id:
+                              type: integer
+                              description: 'The unique numeric ID of the rule with which the condition is associated.
+
+                                Read-Only'
+                              example: 4
+                            modifier_id:
+                              type: integer
+                              description: 'The unique numeric ID of the modifier with which the rule condition is associated.
+
+                                Required in /POST.'
+                              example: 55
+                            modifier_value_id:
+                              type: integer
+                              description: 'The unique numeric ID of the modifier value with which the rule condition is associated.
+
+                                Required in /POST.'
+                              example: 256
+                            variant_id:
+                              type: integer
+                              description: 'The unique numeric ID of the variant with which the rule condition is associated.
+
+                                Required in /POST.'
+                              example: 1
+                            combination_id:
+                              type: integer
+                              description: '(READ-ONLY:) The unique numeric ID of the SKU (v2 API), or Combination, with which the rule condition is associated. This is to maintain cross-compatibility between v2 and v3.
+
+                                '
+                          description: Complex rules may return with conditions that apply to one or more variants, or with a single modifier value (if the rules were created using the v2 API or the control panel). Complex rules created or updated in the v3 API must have conditions that either reference multiple `modifier_value_id`’s, or else reference a `modifier_value_id` and a `variant_id`.
+                    description: Common ComplexRule properties.
+                  meta:
+                    $ref: '#/components/schemas/metaEmpty_Full'
+        '404':
+          description: 'The resource was not found.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Not Found
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    description: '404 HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: The error title describing the particular error.
+                  type:
+                    type: string
+                  instance:
+                    type: string
+                description: Error payload for the BigCommerce API.
+    put:
+      tags:
+      - Complex Rules
+      summary: BigCommerce Update a Product Complex Rule
+      description: 'Updates a *Complex Rule*.
+
+
+        **Required Fields**:
+
+        - none
+
+
+        **Read-Only Fields**:
+
+        - complex_rule_id
+
+        - conditions_id
+
+        - rule_id
+
+        - combination_id
+
+        - id'
+      operationId: updateProductComplexRule
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Complex Rule
+              type: object
+              properties:
+                product_id:
+                  type: integer
+                  description: 'The unique numeric ID of the product with which the rule is associated; increments sequentially.
+
+                    '
+                  nullable: true
+                  example: 67
+                  x-required:
+                  - post
+                  - put
+                sort_order:
+                  maximum: 2147483647
+                  minimum: -2147483648
+                  type: integer
+                  description: 'The priority to give this rule when making adjustments to the product properties.
+
+                    '
+                  example: 0
+                enabled:
+                  type: boolean
+                  description: 'Flag for determining whether the rule is to be used when adjusting a productʼs price, weight, image, or availabilty.
+
+                    '
+                  example: true
+                stop:
+                  type: boolean
+                  description: 'Flag for determining whether other rules should not be applied after this rule has been applied.
+
+                    '
+                purchasing_disabled:
+                  type: boolean
+                  description: 'Flag for determining whether the rule should disable purchasing of a product when the conditions are applied.
+
+                    '
+                purchasing_disabled_message:
+                  maxLength: 255
+                  minLength: 0
+                  type: string
+                  description: 'Message displayed on the storefront when a rule disables the purchasing of a product.
+
+                    '
+                  example: This product is not available at this time.
+                purchasing_hidden:
+                  type: boolean
+                  description: 'Flag for determining whether the rule should hide purchasing of a product when the conditions are applied.
+
+                    '
+                image_url:
+                  type: string
+                  description: 'The URL for an image displayed on the storefront when the conditions are applied. Limit of 8MB per file.
+
+                    '
+                  example: https://cdn8.bigcommerce.com/s-123456/product_images/d/fakeimage.png
+                price_adjuster:
+                  title: Adjuster
+                  type: object
+                  properties:
+                    adjuster:
+                      type: string
+                      description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                        '
+                      nullable: true
+                      enum:
+                      - relative
+                      - percentage
+                    adjuster_value:
+                      type: number
+                      description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                        '
+                      example: 5
+                  description: Adjuster for Complex Rules.
+                weight_adjuster:
+                  title: Adjuster
+                  type: object
+                  properties:
+                    adjuster:
+                      type: string
+                      description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                        '
+                      nullable: true
+                      enum:
+                      - relative
+                      - percentage
+                    adjuster_value:
+                      type: number
+                      description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                        '
+                      example: 5
+                  description: Adjuster for Complex Rules.
+                conditions:
+                  type: array
+                  items:
+                    title: Complex Rule Condition
+                    required:
+                    - modifier_id
+                    - modifier_value_id
+                    - variant_id
+                    type: object
+                    properties:
+                      modifier_id:
+                        type: integer
+                        description: 'The unique numeric ID of the modifier with which the rule condition is associated.
+
+                          Required in /POST.'
+                        nullable: true
+                        example: 55
+                      modifier_value_id:
+                        type: integer
+                        description: 'The unique numeric ID of the modifier value with which the rule condition is associated.
+
+                          Required in /POST.'
+                        nullable: true
+                        example: 256
+                      variant_id:
+                        type: integer
+                        description: 'The unique numeric ID of the variant with which the rule condition is associated.
+
+                          Required in /POST.'
+                        nullable: true
+                        example: 1
+              description: Common ComplexRule properties.
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: Update Product Complex Rule Response
+                type: object
+                properties:
+                  data:
+                    title: Complex Rule
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: 'The unique numeric ID of the rule; increments sequentially.
+
+                          Read-Only'
+                        example: 5
+                      product_id:
+                        type: integer
+                        description: 'The unique numeric ID of the product with which the rule is associated; increments sequentially.
+
+                          '
+                        example: 67
+                        x-required:
+                        - post
+                        - put
+                      sort_order:
+                        maximum: 2147483647
+                        minimum: -2147483648
+                        type: integer
+                        description: 'The priority to give this rule when making adjustments to the product properties.
+
+                          '
+                        example: 0
+                      enabled:
+                        type: boolean
+                        description: 'Flag for determining whether the rule is to be used when adjusting a productʼs price, weight, image, or availabilty.
+
+                          '
+                        example: true
+                      stop:
+                        type: boolean
+                        description: 'Flag for determining whether other rules should not be applied after this rule has been applied.
+
+                          '
+                      purchasing_disabled:
+                        type: boolean
+                        description: 'Flag for determining whether the rule should disable purchasing of a product when the conditions are applied.
+
+                          '
+                      purchasing_disabled_message:
+                        maxLength: 255
+                        minLength: 0
+                        type: string
+                        description: 'Message displayed on the storefront when a rule disables the purchasing of a product.
+
+                          '
+                        example: This product is not available at this time.
+                      purchasing_hidden:
+                        type: boolean
+                        description: 'Flag for determining whether the rule should hide purchasing of a product when the conditions are applied.
+
+                          '
+                      image_url:
+                        type: string
+                        description: 'The URL for an image displayed on the storefront when the conditions are applied. Limit of 8MB per file.
+
+                          '
+                        example: https://cdn8.bigcommerce.com/s-123456/product_images/d/fakeimage.png
+                      price_adjuster:
+                        title: Adjuster
+                        type: object
+                        properties:
+                          adjuster:
+                            type: string
+                            description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                              '
+                            enum:
+                            - relative
+                            - percentage
+                          adjuster_value:
+                            type: number
+                            description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                              '
+                            example: 5
+                        description: Adjuster for Complex Rules.
+                      weight_adjuster:
+                        title: Adjuster
+                        type: object
+                        properties:
+                          adjuster:
+                            type: string
+                            description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                              '
+                            enum:
+                            - relative
+                            - percentage
+                          adjuster_value:
+                            type: number
+                            description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+                              '
+                            example: 5
+                        description: Adjuster for Complex Rules.
+                      conditions:
+                        type: array
+                        items:
+                          title: Complex Rule Condition
+                          required:
+                          - modifier_id
+                          - modifier_value_id
+                          - variant_id
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: 'The unique numeric ID of the rule condition; increments sequentially. Read-Only
+
+                                '
+                              example: 3
+                            rule_id:
+                              type: integer
+                              description: 'The unique numeric ID of the rule with which the condition is associated.
+
+                                Read-Only'
+                              example: 4
+                            modifier_id:
+                              type: integer
+                              description: 'The unique numeric ID of the modifier with which the rule condition is associated.
+
+                                Required in /POST.'
+                              example: 55
+                            modifier_value_id:
+                              type: integer
+                              description: 'The unique numeric ID of the modifier value with which the rule condition is associated.
+
+                                Required in /POST.'
+                              example: 256
+                            variant_id:
+                              type: integer
+                              description: 'The unique numeric ID of the variant with which the rule condition is associated.
+
+                                Required in /POST.'
+                              example: 1
+                            combination_id:
+                              type: integer
+                              description: '(READ-ONLY:) The unique numeric ID of the SKU (v2 API), or Combination, with which the rule condition is associated. This is to maintain cross-compatibility between v2 and v3.
+
+                                '
+                          description: Complex rules may return with conditions that apply to one or more variants, or with a single modifier value (if the rules were created using the v2 API or the control panel). Complex rules created or updated in the v3 API must have conditions that either reference multiple `modifier_value_id`’s, or else reference a `modifier_value_id` and a `variant_id`.
+                    description: Common ComplexRule properties.
+                  meta:
+                    $ref: '#/components/schemas/metaEmpty_Full'
+        '409':
+          description: 'The `ComplexRule` was in conflict with another `ComplexRule`. This is the result of duplicate conditions.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Error Response
+                type: object
+                properties:
+                  errors:
+                    title: Detailed Errors
+                    type: object
+                    properties: {}
+                    additionalProperties: true
+                  instance:
+                    type: string
+                  status:
+                    type: integer
+                    description: 'The HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: 'The error title describing the particular error.
+
+                      '
+                  type:
+                    type: string
+        '422':
+          description: 'The `ComplexRule` was not valid. This is the result of missing required fields, or of invalid data. See the response for more details.
+
+            '
+          content:
+            application/json:
+              schema:
+                title: Error Response
+                type: object
+                properties:
+                  errors:
+                    title: Detailed Errors
+                    type: object
+                    properties: {}
+                    additionalProperties: true
+                  instance:
+                    type: string
+                  status:
+                    type: integer
+                    description: 'The HTTP status code.
+
+                      '
+                  title:
+                    type: string
+                    description: 'The error title describing the particular error.
+
+                      '
+                  type:
+                    type: string
+      x-codegen-request-body-name: ComplexRule
+    delete:
+      tags:
+      - Complex Rules
+      summary: BigCommerce Delete a Product Complex Rule
+      description: Deletes a product *Complex Rule*.
+      operationId: deleteProductComplexRule
+      responses:
+        '204':
+          description: ''
+          content: {}
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ComplexRuleIdParam:
+      name: complex_rule_id
+      description: 'The ID of the `ComplexRule`.
+
+        '
+      required: true
+      in: path
+      schema:
+        type: integer
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs.
+
+        '
+      required: true
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    adjuster_Full:
+      title: adjuster_Full
+      type: object
+      properties:
+        adjuster:
+          type: string
+          description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+            '
+          nullable: true
+          enum:
+          - relative
+          - percentage
+        adjuster_value:
+          type: number
+          description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+            '
+          example: 5
+      description: Adjuster for Complex Rules.
+      x-internal: false
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    complexRuleConditionBase:
+      title: complexRuleConditionBase
+      required:
+      - modifier_id
+      - modifier_value_id
+      - variant_id
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 'The unique numeric ID of the rule condition; increments sequentially. Read-Only
+
+            '
+          nullable: true
+          example: 3
+        rule_id:
+          type: integer
+          description: 'The unique numeric ID of the rule with which the condition is associated.
+
+            Read-Only'
+          nullable: true
+          example: 4
+        modifier_id:
+          type: integer
+          description: 'The unique numeric ID of the modifier with which the rule condition is associated.
+
+            Required in /POST.'
+          nullable: true
+          example: 55
+        modifier_value_id:
+          type: integer
+          description: 'The unique numeric ID of the modifier value with which the rule condition is associated.
+
+            Required in /POST.'
+          nullable: true
+          example: 256
+        variant_id:
+          type: integer
+          description: 'The unique numeric ID of the variant with which the rule condition is associated.
+
+            Required in /POST.'
+          nullable: true
+          example: 1
+        combination_id:
+          type: integer
+          description: '(READ-ONLY:) The unique numeric ID of the SKU (v2 API), or Combination, with which the rule condition is associated. This is to maintain cross-compatibility between v2 and v3.
+
+            '
+      description: Complex rules may return with conditions that apply to one or more variants, or with a single modifier value (if the rules were created using the v2 API or the control panel). Complex rules created or updated in the v3 API must have conditions that either reference multiple `modifier_value_id`’s, or else reference a `modifier_value_id` and a `variant_id`.
+      x-internal: false
+    complexRule_Base:
+      title: complexRule_Base
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 'The unique numeric ID of the rule; increments sequentially.
+
+            Read-Only'
+          example: 5
+        product_id:
+          type: integer
+          description: 'The unique numeric ID of the product with which the rule is associated; increments sequentially.
+
+            '
+          nullable: true
+          example: 67
+          x-required:
+          - post
+          - put
+        sort_order:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: 'The priority to give this rule when making adjustments to the product properties.
+
+            '
+          example: 0
+        enabled:
+          type: boolean
+          description: 'Flag for determining whether the rule is to be used when adjusting a productʼs price, weight, image, or availabilty.
+
+            '
+          example: true
+        stop:
+          type: boolean
+          description: 'Flag for determining whether other rules should not be applied after this rule has been applied.
+
+            '
+        purchasing_disabled:
+          type: boolean
+          description: 'Flag for determining whether the rule should disable purchasing of a product when the conditions are applied.
+
+            '
+        purchasing_disabled_message:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: 'Message displayed on the storefront when a rule disables the purchasing of a product.
+
+            '
+          example: This product is not available at this time.
+        purchasing_hidden:
+          type: boolean
+          description: 'Flag for determining whether the rule should hide purchasing of a product when the conditions are applied.
+
+            '
+        image_url:
+          type: string
+          description: 'The URL for an image displayed on the storefront when the conditions are applied. Limit of 8MB per file.
+
+            '
+          example: https://cdn8.bigcommerce.com/s-123456/product_images/d/fakeimage.png
+        price_adjuster:
+          $ref: '#/components/schemas/adjuster_Full'
+        weight_adjuster:
+          $ref: '#/components/schemas/adjuster_Full'
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/complexRuleConditionBase'
+      description: Common ComplexRule properties.
+      x-internal: false
+    pagination_Full:
+      title: pagination_Full
+      type: object
+      properties:
+        total:
+          type: integer
+          description: 'Total number of items in the result set.
+
+            '
+          example: 36
+        count:
+          type: integer
+          description: 'Total number of items in the collection response.
+
+            '
+          example: 36
+        per_page:
+          type: integer
+          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+            '
+          example: 50
+        current_page:
+          type: integer
+          description: 'The page you are currently on within the collection.
+
+            '
+          example: 1
+        total_pages:
+          type: integer
+          description: 'The total number of pages in the collection.
+
+            '
+          example: 1
+        links:
+          type: object
+          properties:
+            previous:
+              type: string
+              description: 'Link to the previous page returned in the response.
+
+                '
+            current:
+              type: string
+              description: 'Link to the current page returned in the response.
+
+                '
+              example: ?page=1&limit=50
+            next:
+              type: string
+              description: 'Link to the next page returned in the response.
+
+                '
+          description: 'Pagination links for the previous and next parts of the whole collection.
+
+            '
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

@@ -1,0 +1,212 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Email Statuses API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Email Statuses
+paths:
+  /settings/email-statuses:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      operationId: getSettingsEmailStatuses
+      summary: BigCommerce Get Transactional Email Settings
+      description: Get global transactional email settings or channel specific overrides by `channel_id`.
+      parameters:
+      - $ref: '#/components/parameters/ChannelIdParam'
+      responses:
+        '200':
+          description: OK, null indicates that a particular field has not been overridden on a channel level when channel level settings are requested
+          content:
+            application/json:
+              examples:
+                Example:
+                  value:
+                    data:
+                      abandoned_cart_email: true
+                      account_details_changed_email: true
+                      combined_order_status_email: true
+                      createaccount_email: true
+                      createguestaccount_email: true
+                      giftcertificate_email: true
+                      invoice_email: true
+                      ordermessage_notification: true
+                      product_review_email: false
+                      return_confirmation_email: true
+                      return_statuschange_email: true
+                    meta: {}
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/EnabledTransactionalEmails'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+      tags:
+      - Email Statuses
+    put:
+      operationId: updateSettingsEmailStatuses
+      summary: BigCommerce Update Transactional Email Settings
+      description: Update global transactional email settings or create channel specific overrides by `channel_id`.
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      - $ref: '#/components/parameters/ChannelIdParam'
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Example:
+                value:
+                  abandoned_cart_email: true
+                  account_details_changed_email: true
+                  combined_order_status_email: true
+                  createaccount_email: true
+                  createguestaccount_email: true
+                  giftcertificate_email: true
+                  invoice_email: true
+                  ordermessage_notification: true
+                  product_review_email: false
+                  return_confirmation_email: true
+                  return_statuschange_email: true
+            schema:
+              $ref: '#/components/schemas/EnabledTransactionalEmails'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                Example:
+                  value:
+                    data:
+                      abandoned_cart_email: true
+                      account_details_changed_email: true
+                      combined_order_status_email: true
+                      createaccount_email: true
+                      createguestaccount_email: true
+                      giftcertificate_email: true
+                      invoice_email: true
+                      ordermessage_notification: true
+                      product_review_email: false
+                      return_confirmation_email: true
+                      return_statuschange_email: true
+                    meta: {}
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/EnabledTransactionalEmails'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+      tags:
+      - Email Statuses
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
+  schemas:
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    EnabledTransactionalEmails:
+      type: object
+      properties:
+        abandoned_cart_email:
+          type: boolean
+        account_details_changed_email:
+          type: boolean
+        combined_order_status_email:
+          type: boolean
+        create_account_email:
+          type: boolean
+        create_guest_account_email:
+          type: boolean
+        gift_certificate_email:
+          type: boolean
+        invoice_email:
+          type: boolean
+        order_message_notification_email:
+          type: boolean
+        product_review_email:
+          type: boolean
+        return_confirmation_email:
+          type: boolean
+        return_statuschange_email:
+          type: boolean
+      title: ''
+      x-internal: false
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

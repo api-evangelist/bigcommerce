@@ -1,0 +1,588 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Gift Certificates API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Gift Certificates
+paths:
+  /gift_certificates/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    - name: id
+      in: path
+      description: ID of the gift certificate.
+      required: true
+      schema:
+        exclusiveMaximum: false
+        exclusiveMinimum: false
+        type: integer
+    get:
+      tags:
+      - Gift Certificates
+      summary: BigCommerce Get a Gift Certificate
+      description: Returns a single *Gift Certificate*.
+      operationId: getGiftCertificate
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/giftCertificate_Full'
+              example:
+                id: 1
+                customer_id: 5
+                order_id: 116
+                code: FFZ-5N4-C7M-S78
+                to_name: John Doe
+                to_email: johndoe@example.com
+                from_name: Jane Doe
+                from_email: janedoe@example.com
+                amount: '10'
+                balance: '0'
+                status: active
+                template: birthday.html
+                message: Happy Birthday!
+                purchase_date: Tue, 20 Jan 1970 08:45:38 CST
+                expiry_date: Mon, 2 Jan 2023 08:45:38 CST
+    put:
+      tags:
+      - Gift Certificates
+      summary: BigCommerce Update a Gift Certificate
+      description: 'Updates a *Gift Certificate*.
+
+
+        **Read Only Fields**
+
+        * id
+
+        * order_id'
+      operationId: updateGiftCertificate
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/giftCertificate_Put'
+        required: false
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/giftCertificate_Full'
+              example:
+                id: 1
+                customer_id: 5
+                order_id: 116
+                code: FFZ-5N4-C7M-S78
+                to_name: John Doe
+                to_email: johndoe@example.com
+                from_name: Jane Doe
+                from_email: janedoe@example.com
+                amount: '10'
+                balance: '0'
+                status: active
+                template: birthday.html
+                message: Happy Birthday!
+                purchase_date: Tue, 20 Jan 1970 08:45:38 CST
+                expiry_date: Mon, 2 Jan 2023 08:45:38 CST
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - Gift Certificates
+      summary: BigCommerce Delete a Gift Certificate
+      description: Deletes a *Gift Certificate*.
+      operationId: deleteGiftCertificate
+      responses:
+        '204':
+          description: ''
+          content: {}
+  /gift_certificates:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      tags:
+      - Gift Certificates
+      summary: BigCommerce Get All Gift Certificates
+      description: 'Returns a list of *Gift Certificates*. Optional filter parameters can be passed in.
+
+
+        Default sorting is by gift-certificate id, from lowest to highest.
+
+
+        The maximum limit is 250. If a limit isn’t provided, up to 50 gift_certificates are returned by default.'
+      operationId: getGiftCertificates
+      parameters:
+      - name: min_id
+        in: query
+        schema:
+          type: integer
+      - name: max_id
+        in: query
+        schema:
+          type: integer
+      - name: code
+        in: query
+        schema:
+          type: string
+      - name: order_id
+        in: query
+        schema:
+          type: integer
+      - name: to_name
+        in: query
+        schema:
+          type: string
+      - name: to_email
+        in: query
+        schema:
+          type: string
+      - name: from_name
+        in: query
+        schema:
+          type: string
+      - name: from_email
+        in: query
+        schema:
+          type: string
+      - name: page
+        in: query
+        schema:
+          type: number
+      - name: limit
+        in: query
+        schema:
+          type: number
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/giftCertificate_Full'
+              example:
+              - id: 24
+                code: 10R-5E2-BO4-RWT
+                amount: '1000.0000'
+                status: active
+                balance: '500.0000'
+                to_name: Alyss
+                order_id: 1281
+                template: celebration.html
+                message: Celebrate
+                to_email: test@test.com
+                from_name: Noland
+                from_email: test1@test.com
+                customer_id: 0
+                expiry_date: Mon, 2 Jan 2023 08:45:38 CST
+                purchase_date: Tue, 20 Jan 1970 08:45:38 CST
+                currency_code: USD
+              - id: 25
+                code: 10R-6E3-AO4-RST
+                amount: '700.0000'
+                status: active
+                balance: '700.0000'
+                to_name: Alyss
+                order_id: 0
+                template: general.html
+                message: Test
+                to_email: test@test.com
+                from_name: Noland
+                from_email: test1@test.com
+                customer_id: 0
+                expiry_date: Mon, 2 Jan 2023 08:45:38 CST
+                purchase_date: Tue, 20 Jan 1970 08:45:38 CST
+                currency_code: USD
+              - id: 27
+                code: 15R-6E3-AO4-RST
+                amount: '50.0000'
+                status: active
+                balance: '50.0000'
+                to_name: Lyss
+                order_id: 0
+                template: celebration.html
+                message: Celebrate
+                to_email: test5@test.com
+                from_name: Somethingelse
+                from_email: test15@test.com
+                customer_id: 0
+                expiry_date: Mon, 2 Jan 2023 08:45:38 CST
+                purchase_date: Tue, 20 Jan 1970 08:45:38 CST
+                currency_code: USD
+    post:
+      tags:
+      - Gift Certificates
+      summary: BigCommerce Create a Gift Certificate
+      description: 'Creates a *Gift Certificate*.
+
+
+
+        **Required Fields**
+
+        * to_name
+
+        * to_email
+
+        * from_name
+
+        * from_email
+
+        * amount
+
+
+        **Read Only Fields**
+
+        * id
+
+        * order_id
+
+
+        **Notes**
+
+
+        When a gift certificate is created through the API, no email notification is triggered to the specified recipient.'
+      operationId: createGiftCertificate
+      parameters:
+      - $ref: '#/components/parameters/ContentType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/giftCertificate_Post'
+        required: false
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/giftCertificate_Full'
+              example:
+                id: 1
+                customer_id: 5
+                order_id: 116
+                code: FFZ-5N4-C7M-S78
+                to_name: John Doe
+                to_email: johndoe@example.com
+                from_name: Jane Doe
+                from_email: janedoe@example.com
+                amount: '10'
+                balance: '0'
+                status: active
+                template: birthday.html
+                message: Happy Birthday!
+                purchase_date: Tue, 20 Jan 1970 08:45:38 CST
+                expiry_date: Mon, 2 Jan 2023 08:45:38 CST
+                currency_code: USD
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - Gift Certificates
+      summary: BigCommerce Delete All Gift Certificates
+      description: By default, it deletes all *Gift Certificates*.
+      operationId: deleteGiftCertificates
+      responses:
+        '204':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    giftCertificate_Put:
+      title: giftCertificate_Put
+      allOf:
+      - $ref: '#/components/schemas/giftCertificate_Base'
+      - type: object
+        properties:
+          balance:
+            type: string
+            description: The remaining value of the gift certificate. If not set, will default to the amount.
+            example: '0'
+          purchase_date:
+            type: string
+            description: Date the gift certificate was purchased. If not assigned, this will be set to today’s date. Enter date in RFC-2822 format.
+            example: Mon, 19 Jan 1970 07:21:46 CST
+          expiry_date:
+            type: string
+            description: Date on which the gift certificate is set to expire.
+            example: Mon, 02 Jan 2023 08:45:38 CST
+          customer_id:
+            type: integer
+            description: The ID of the customer placing the order.
+            example: 5
+          template:
+            type: string
+            description: The email theme to use in the message sent to the recipient.
+            example: celebration.html
+            enum:
+            - birthday.html
+            - boy.html
+            - girl.html
+            - celebration.html
+            - christmas.html
+            - general.html
+          message:
+            type: string
+            description: Text that will be sent to the recipient, such as “Congratulations.”
+            example: Congratulations!
+          code:
+            maxLength: 255
+            type: string
+            description: 'A unique string that a customer can input to redeem a gift certificate. Values greater than 20 characters will be trimmed down to the first 20 characters and returned in the response.
+
+              If this field is not set, a value will be autogenerated.'
+            example: FFZ-5N4-C7M-S78
+          status:
+            type: string
+            example: active
+            enum:
+            - active
+            - pending
+            - expired
+            - disabled
+          currency_code:
+            type: string
+            description: 'A currency code, following the ISO 4217 standard. The currency has to exist in the store first.
+
+
+              Gift Certificates can only be used if the transactional currency of the cart is the same as the one defined in the gift certificate. If this value is not provided, the gift certificate is created using the store''s default transactional currency.'
+            example: USD
+      x-internal: false
+    giftCertificate_Full:
+      title: giftCertificate_Full
+      description: ''
+      allOf:
+      - $ref: '#/components/schemas/giftCertificate_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: The ID of the gift certificate. This is a READ-ONLY field; do not set or modify its value in a POST or PUT request.
+            example: 1
+          customer_id:
+            type: integer
+            description: The ID of the customer placing the order.
+            example: 5
+          order_id:
+            type: integer
+            description: The ID of the order.
+            example: 116
+          balance:
+            type: string
+            description: Remaining value of the gift certificate. If not set, will default to the amount.
+            example: '0'
+          purchase_date:
+            type: string
+            description: Date the gift certificate was purchased. If not assigned, this will be set to today’s date. Date displays in the [RFC 2822](https://www.rfc-editor.org/rfc/rfc2822#section-3.3) timestamp format.
+            example: Tue, 20 Jan 1970 08:45:38 CST
+          expiry_date:
+            type: string
+            description: Date on which the gift certificate is set to expire. Date displays in the [RFC 2822](https://www.rfc-editor.org/rfc/rfc2822#section-3.3) timestamp format.
+            example: Mon, 2 Jan 2023 08:45:38 CST
+          template:
+            type: string
+            description: The email theme to use in the message sent to the recipient.
+            example: celebration.html
+            enum:
+            - birthday.html
+            - girl.html
+            - boy.html
+            - celebration.html
+            - christmas.html
+            - general.html
+          message:
+            type: string
+            description: Text that will be sent to the recipient, such as “Congratulations.”
+            example: Congratulations!
+          code:
+            maxLength: 255
+            type: string
+            description: 'A unique string that a customer can input to redeem a gift certificate. Values greater than 20 characters will be trimmed down to the first 20 characters and returned in the response.
+
+              If this field is not set, a value will be autogenerated.'
+            example: FFZ-5N4-C7M-S78
+          status:
+            type: string
+            example: active
+            enum:
+            - active
+            - pending
+            - disabled
+            - expired
+          currency_code:
+            type: string
+            description: 'A currency code, following the ISO 4217 standard. The currency has to exist in the store first.
+
+
+              Gift Certificates can only be used if the transactional currency of the cart is the same as the one defined in the gift certificate. If this value is not provided, the gift certificate is created using the store''s default transactional currency.'
+            example: USD
+      x-internal: false
+    giftCertificate_Post:
+      title: giftCertificate_Post
+      description: ''
+      allOf:
+      - $ref: '#/components/schemas/giftCertificate_Base'
+      - type: object
+        properties:
+          balance:
+            type: string
+            description: Remaining value of the gift certificate. If not set, will default to the amount.
+            example: '0'
+          purchase_date:
+            type: string
+            description: Date the gift certificate was purchased. If not assigned, this will be set to today’s date. Enter date in RFC-2822 format.
+            example: Mon, 19 Jan 1970 07:21:46 CST
+          expiry_date:
+            type: string
+            description: Date on which the gift certificate is set to expire. The date must be in [RFC 2822](https://www.rfc-editor.org/rfc/rfc2822#section-3.3) format.
+            example: Tue, 20 Jan 1970 08:45:38 CST
+          customer_id:
+            type: integer
+            description: The ID of the customer placing the order.
+            example: 5
+          template:
+            type: string
+            description: The email theme to use in the message sent to the recipient.
+            example: celebration.html
+            enum:
+            - birthday.html
+            - boy.html
+            - girl.html
+            - celebration.html
+            - christmas.html
+            - general.html
+          message:
+            maxLength: 250
+            type: string
+            description: Text that will be sent to the recipient, such as “Congratulations.”
+            example: Congratulations!
+          code:
+            maxLength: 255
+            type: string
+            description: 'A unique string that a customer can input to redeem a gift certificate. Values greater than 20 characters will be trimmed down to the first 20 characters and returned in the response.
+
+              If this field is not set, a value will be autogenerated.'
+            example: FFZ-5N4-C7M-S78
+          status:
+            type: string
+            example: active
+            enum:
+            - active
+            - pending
+            - expired
+            - disabled
+          currency_code:
+            type: string
+            description: 'A currency code, following the ISO 4217 standard. The currency has to exist in the store first.
+
+
+              Gift Certificates can only be used if the transactional currency of the cart is the same as the one defined in the gift certificate. If this value is not provided, the gift certificate is created using the store''s default transactional currency.'
+            example: USD
+      x-internal: false
+    giftCertificate_Base:
+      title: giftCertificate_Base
+      required:
+      - amount
+      - from_email
+      - from_name
+      - to_email
+      - to_name
+      type: object
+      properties:
+        to_name:
+          type: string
+          description: Name of the recipient.
+          example: John Doe
+        to_email:
+          type: string
+          description: Email of the recipient.
+          example: johndoe@example.com
+        from_name:
+          type: string
+          description: Name of the customer who purchased the gift certificate.
+          example: Jane Doe
+        from_email:
+          type: string
+          description: Email of the customer who purchased the gift certificate.
+          example: janedoe@example.com
+        amount:
+          type: string
+          description: Value of the gift certificate.
+          example: '10'
+      x-internal: false
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header

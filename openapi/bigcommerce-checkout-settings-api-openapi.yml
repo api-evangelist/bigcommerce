@@ -1,0 +1,188 @@
+openapi: 3.0.0
+info:
+  title: BigCommerce Abandoned Cart Emails Checkout Settings API
+  version: 3.0.0
+  termsOfService: https://www.bigcommerce.com/terms
+  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  contact:
+    name: BigCommerce
+    url: https://www.bigcommerce.com
+    email: support@bigcommerce.com
+servers:
+- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+  variables:
+    store_hash:
+      default: store_hash
+      description: Permanent ID of the BigCommerce store.
+  description: BigCommerce API Gateway
+security:
+- X-Auth-Token: []
+tags:
+- name: Checkout Settings
+paths:
+  /checkouts/settings:
+    parameters:
+    - $ref: '#/components/parameters/Accept'
+    get:
+      tags:
+      - Checkout Settings
+      summary: BigCommerce Get Checkout Settings
+      description: Get checkout settings
+      operationId: getCheckoutSettings
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/CheckoutsSettings'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+              example:
+                data:
+                  custom_checkout_script_url: https://example.com/custom-checkout-script.js
+                  order_confirmation_use_custom_checkout_script: false
+                  custom_order_confirmation_script_url: https://example.com/custom-order-confirmation-script.js
+                  custom_checkout_supports_uco_settings: false
+                meta: {}
+            WebDAV protocol:
+              example:
+                data:
+                  custom_checkout_script_url: webdav:vtz-checkout/dist/auto-loader.js
+                  order_confirmation_use_custom_checkout_script: false
+                  custom_order_confirmation_script_url: webdav:vtz-order-confirmation/dist/auto-loader.js
+                meta: {}
+    put:
+      tags:
+      - Checkout Settings
+      summary: BigCommerce Update Checkout Settings
+      description: Update checkout settings
+      operationId: updateCheckoutSettings
+      parameters:
+      - $ref: '#/components/parameters/Content-Type'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutsSettingsRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/CheckoutsSettings'
+                  meta:
+                    $ref: '#/components/schemas/MetaOpen'
+              example:
+                data:
+                  custom_checkout_script_url: https://example.com/custom-checkout-script.js
+                  order_confirmation_use_custom_checkout_script: false
+                  custom_order_confirmation_script_url: https://example.com/custom-order-confirmation-script.js
+                  custom_checkout_supports_uco_settings: false
+                meta: {}
+            WebDAV protocol:
+              example:
+                data:
+                  custom_checkout_script_url: webdav:vtz-checkout/dist/auto-loader.js
+                  order_confirmation_use_custom_checkout_script: false
+                  custom_order_confirmation_script_url: webdav:vtz-order-confirmation/dist/auto-loader.js
+                meta: {}
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    Content-Type:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    CheckoutsSettings:
+      title: Checkouts Settings
+      type: object
+      properties:
+        custom_checkout_script_url:
+          type: string
+        order_confirmation_use_custom_checkout_script:
+          type: boolean
+        custom_order_confirmation_script_url:
+          type: string
+        custom_checkout_supports_uco_settings:
+          type: boolean
+    CheckoutsSettingsRequest:
+      title: Checkouts settings request
+      type: object
+      properties:
+        custom_checkout_script_url:
+          type: string
+          description: Custom checkout script URL to replace our default checkout. To reset a store to optimized one-page checkout, pass an empty string for `custom_checkout_script_url` and `custom_order_confirmation_script_url`.
+        order_confirmation_use_custom_checkout_script:
+          type: boolean
+          description: When order_confirmation_use_custom_checkout_script=true, the default custom_order_confirmation_script_url defaults to an empty string.
+        custom_order_confirmation_script_url:
+          type: string
+          description: Custom order confirmation script URL to replace the default order confirmation. To reset a store to optimized one-page checkout, pass an empty string for `custom_checkout_script_url` and `custom_order_confirmation_script_url`.
+        custom_checkout_supports_uco_settings:
+          type: boolean
+          description: Boolean value that specifies whether this checkout supports Optimized One-Page Checkout settings.
+      description: ''
+  securitySchemes:
+    X-Auth-Token:
+      name: X-Auth-Token
+      description: '### OAuth scopes
+
+
+        | UI Name | Permission | Parameter |
+
+        |:--|:--|:-|
+
+        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+
+        | Information & Settings  | modify     | `store_v2_information`          |
+
+
+        ### Authentication header
+
+
+        | Header | Argument | Description |
+
+        |:-|:|:|
+
+        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
+
+
+        ### Further reading
+
+
+        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
+
+
+        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
+
+
+        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
+      type: apiKey
+      in: header
