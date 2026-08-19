@@ -1,0 +1,267 @@
+{
+  "item": [
+    {
+      "id": "660f175b-cf8b-47a5-9cc4-027ee15d2527",
+      "name": "Global Settings",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e4397eca-cf60-49df-8a59-f5b28a134d40",
+          "name": "BigCommerce Get Customer Settings",
+          "request": {
+            "name": "BigCommerce Get Customer Settings",
+            "description": {
+              "content": "Returns the global-level customer settings.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "customers",
+                "settings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5588aae4-3446-4921-8809-65c84cf2530f",
+              "name": "Returns customer settings values for global level.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customers",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"privacy_settings\": {\n    \"ask_shopper_for_tracking_consent\": true,\n    \"policy_url\": \"https://bigcommmerce.com/policy\"\n  },\n  \"customer_group_settings\": {\n    \"guest_customer_group_id\": 1,\n    \"default_customer_group_id\": 1\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1cad431e-9678-4c0b-a45f-d9c8c62c5264",
+          "name": "BigCommerce Update Customer Settings",
+          "request": {
+            "name": "BigCommerce Update Customer Settings",
+            "description": {
+              "content": "Updates the customer settings on the global level.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "customers",
+                "settings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"privacy_settings\": {\n    \"ask_shopper_for_tracking_consent\": \"<boolean>\",\n    \"policy_url\": \"<string>\"\n  },\n  \"customer_group_settings\": {\n    \"guest_customer_group_id\": \"<integer>\",\n    \"default_customer_group_id\": \"<integer>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2dc63a7d-ee1f-44db-81b9-4299d085f17c",
+              "name": "Customer settings are returned on a global level.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customers",
+                    "settings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"privacy_settings\": {\n    \"ask_shopper_for_tracking_consent\": true,\n    \"policy_url\": \"https://bigcommmerce.com/policy\"\n  },\n  \"customer_group_settings\": {\n    \"guest_customer_group_id\": 0,\n    \"default_customer_group_id\": 0\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"privacy_settings\": {\n    \"ask_shopper_for_tracking_consent\": true,\n    \"policy_url\": \"https://bigcommerce.com/policy\",\n    \"ask_shopper_for_tracking_consent_on_checkout\": false\n  },\n  \"customer_group_settings\": {\n    \"guest_customer_group_id\": 0,\n    \"default_customer_group_id\": 0\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "73151fba-05b7-4955-bdb7-725acc742043",
+    "name": "BigCommerce Abandoned Cart Emails Global Settings API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

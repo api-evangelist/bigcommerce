@@ -1,0 +1,99 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Currencies (Bulk) API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Currencies (Bulk)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Currencies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/currencies",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of currencies.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of currencies.\n"
+              }
+            ]
+          },
+          "docs": "Returns a list of all store *Currency*."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Currency",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/currencies",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates *Currency*.\n\n**Required Fields** \n\n* name\n* currency_code\n* currency_exchange_rate\n* token_location\n* token\n* decimal_token\n* thousands_token\n* decimal_places\n\n**Read-Only Fields**\n* id\n* date_created\n* date_modified\n\n\nThe `is_default` property can only be set to true. The value of `is_default` cannot be unset, only overridden. To change the storeʼs default currency in the BigCommerce control panel, please see [Managing Currencies (Help Center)](https://support.bigcommerce.com/s/article/"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete All Currencies",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/currencies",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Deletes all non-default store currencies."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

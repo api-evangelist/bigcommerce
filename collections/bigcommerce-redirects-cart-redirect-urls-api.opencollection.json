@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Redirects - Cart Redirect URLs API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Redirects - Cart Redirect URLs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Create Cart Redirect URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/carts/:cartId/redirect_urls",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "cartId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of a specific cart."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a **Cart** redirect URL for redirecting a shopper to an already created cart using the `cartId`.\n\n**Usage Notes**\n\n* Redirect URLs can also be created with **Create a Cart** requests by appending `include=redirect_urls`.\n* A **Carts** redirect URL may only be used once.\n* Redirect URLs point to either a shared checkout domain or a channel-specific domain, depending on the storefront configuration.\n* Once a redirect URL has been visited, it will be invalidated and cannot be used again. \n*"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

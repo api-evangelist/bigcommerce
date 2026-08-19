@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Inventory Notifications API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Inventory Notifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Inventory Notifications Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/settings/inventory/notifications",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+              }
+            ]
+          },
+          "docs": "Returns inventory notification settings. \n* `channel_id` can be used as a query parameter to get inventory notification settings per channel. If omitted, you will interact with the global setting only."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Inventory Notifications Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/settings/inventory/notifications",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates inventory notification settings. \n* `channel_id` can be used as a query parameter to get inventory notification settings per channel. If omitted, you will interact with the global setting only. \n* Supplying `null` settings values per channel will delete overrides per given channel and values will be inherited from global level. \n* Partial updates are not supported within the given endpoint. In order to delete overrides per channel, `null` should be supplied for all the settings within th"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

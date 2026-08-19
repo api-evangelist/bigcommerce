@@ -1,0 +1,194 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Attributes API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Attributes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Customer Attributes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/attributes",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number. `page=1`"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items count per page. `limit=50`"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by customer attribute name. `name=Date+Joined`"
+              },
+              {
+                "name": "name:like",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by substring in customer attribute name. `name:like=join`"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of the customer attribute."
+              },
+              {
+                "name": "date_created",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by `date_created`. `date_created=2021-01-07T20:28:16Z`"
+              },
+              {
+                "name": "date_created:max",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by maximum `date_created`. ISO 8601 full-date is required, ISO 8601 full-time is not required. UNIX timestamp also accepted. `date_created=2021-01-07` or `date_created=1610051296000`"
+              },
+              {
+                "name": "date_created:min",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by minimum `date_created`. ISO 8601 full-date is required, ISO 8601 full-time is not required. UNIX timestamp also accepted. `date_created=2021-01-07` or `date_created=1610051296000`"
+              },
+              {
+                "name": "date_modified",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by `date_modified`."
+              },
+              {
+                "name": "date_modified:max",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by maximum `date_modified`. ISO 8601 full-date is required, ISO 8601 full-time is not required. UNIX timestamp also accepted. `date_created=2021-01-07` or `date_created=1610051296000`"
+              },
+              {
+                "name": "date_modified:min",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by minimum `date_modified`. ISO 8601 full-date is required, ISO 8601 full-time is not required. UNIX timestamp also accepted. `date_created=2021-01-07` or `date_created=1610051296000`"
+              }
+            ]
+          },
+          "docs": "Returns a list of Customer Attributes. You can pass in optional filter parameters."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Customer Attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/attributes",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a Customer Attribute. Multiple customer attributes can be created in one call.\n\n**Required Fields**\n* name\n* type\n\n**Limits**\n* Limit of 3 concurrent requests.\n\n**Notes**\n\nOnce the data type is set, it cannot be changed. The attribute will need to be deleted then created again with the new data type. This will also delete it from the customer.\n\nCustomer attributes are created separately from the customer. After the name and type are created, then the attributes can be added to the custom"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Customer Attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/attributes",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a Customer Attribute. Multiple customer attributes can be updated in one call.\n\n**Required Fields**\n* id -- ID of the *Customer Attribute*\n\nOnce the data type is set, it can not be changed. The attribute will need to be deleted then created again with the new data type. This will also delete it from the customer.\n\n**Limits**\n* Limit of 3 concurrent requests."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Customer Attributes",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/attributes",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by ID."
+              }
+            ]
+          },
+          "docs": "Deletes Customer Attributes from the store.\n\n**Required Query**\n* id:in -- ID of the *Customer Attribute*"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

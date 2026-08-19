@@ -1,0 +1,183 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Custom Fields API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Custom Fields",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Product Custom Fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/custom-fields",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "include_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to include in a comma-separated list; returned fields are the ID and specified fields."
+              },
+              {
+                "name": "exclude_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to exclude in a comma-separated list; responses do not include specified fields, and you can not exclude the ID."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of products."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of products."
+              }
+            ]
+          },
+          "docs": "Returns a list of product *Custom Fields*. You can pass in optional parameters.\n\n**Note:**\nThe default rate limit for this endpoint is 40 concurrent requests."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Product Custom Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/custom-fields",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a *Custom Field*.\n\n**Required Fields:**\n- name\n- value\n\n**Name-Value Pair Uniqueness**\n- Every name-value pair must be unique inside a product.\n\n**Read-Only:**\n- id\n\n**Limits**\n- 200 custom fields per product limit.\n- 250 characters per custom field limit.\n\n**Note:**\nThe default rate limit for this endpoint is 40 concurrent requests."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Product Custom Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/custom-fields/:custom_field_id",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "custom_field_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `CustomField`.\n"
+              },
+              {
+                "name": "include_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to include in a comma-separated list; returned fields are the ID and specified fields."
+              },
+              {
+                "name": "exclude_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to exclude in a comma-separated list; responses do not include specified fields, and you can not exclude the ID."
+              }
+            ]
+          },
+          "docs": "Returns a *Custom Field*.\n\n**Note:**\nThe default rate limit for this endpoint is 40 concurrent requests.\n"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Product Custom Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/custom-fields/:custom_field_id",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "custom_field_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `CustomField`.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a *Custom Field*.\n\n**Required Fields**\n- none\n\n**Name-Value Pair Uniqueness**\n- Every name-value pair must be unique inside a product.\n\n**Read-Only**\n- id\n\n **Limits**\n- 200 custom fields per product limit.\n- 250 characters per custom field limit.\n- 40 concurrent requests default rate limit."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Product Custom Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/custom-fields/:custom_field_id",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "custom_field_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `CustomField`.\n"
+              }
+            ]
+          },
+          "docs": "Deletes a product *Custom Field*.\n\n**Note:**\nThe default rate limit for this endpoint is 40 concurrent requests."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

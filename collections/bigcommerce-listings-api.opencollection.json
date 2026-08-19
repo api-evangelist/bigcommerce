@@ -1,0 +1,202 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Listings API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Listings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Channel Listings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/channels/:channel_id/listings",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of a channel."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page for paginated responses."
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the prior listing ID in a limited (paginated) list of listings."
+              },
+              {
+                "name": "product_id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by a comma-separated list of product IDs."
+              },
+              {
+                "name": "date_created",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by date_created. For example, `date_created=2019-09-04T00:00:00`, `date_created=2019-09-04`, or `date_created=1567573200`"
+              },
+              {
+                "name": "date_created:min",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by minimum date_created. For example, `date_created:min=2019-09-04T00:00:00`, `date_created:min=2019-09-04`, or `date_created:min=1567573200`"
+              },
+              {
+                "name": "date_created:max",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by maximum date_created. For example, `date_created:max=2019-09-04T00:00:00`, `date_created:max=2019-09-04`, or `date_created:max=1567573200`"
+              },
+              {
+                "name": "date_modified",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by date_modified. For example, `date_modified=2019-09-04T00:00:00`, `date_modified=2019-09-04`, or `date_modified=1567573200`"
+              },
+              {
+                "name": "date_modified:min",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by minimum date_modified. For example, `date_modified:min=2019-09-04T00:00:00`, `date_modified:min=2019-09-04`, or `date_modified:min=1567573200`"
+              },
+              {
+                "name": "date_modified:max",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by maximum date_modified. For example, `date_modified:max=2019-09-04T00:00:00`, `date_modified:max=2019-09-04`, or `date_modified:max=1567573200`"
+              }
+            ]
+          },
+          "docs": "Returns a list of all *Channel Listings* for a specific channel. Note that if the *Channel* is not found or there is no listing associated to the *Channel*, it will return a 200 response with empty data."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create Channel Listings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/channels/:channel_id/listings",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of a channel."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates one or more *Channel Listings* for a specific channel."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Channel Listings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/channels/:channel_id/listings",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of a channel."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates one or more *Channel Listings* for a specific channel.\n\n> #### Note\n> * Partial updates are supported. In most cases, if a field that *cannot* be updated is passed in, the API **will not** respond with an error. It returns a 200 response with the object, in which you will see the field(s) were not updated.\n> * If a new variant is provided, the API will append the variant to the list. If a variant already exists, the API will update the existing variant. Other variants that are not provid"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Channel Listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/channels/:channel_id/listings/:listing_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of a channel."
+              },
+              {
+                "name": "listing_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of a channel listing."
+              }
+            ]
+          },
+          "docs": "Returns a *Channel Listing* for a specific channel."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

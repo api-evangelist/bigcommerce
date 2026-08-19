@@ -1,0 +1,366 @@
+{
+  "item": [
+    {
+      "id": "d9b58b4f-d21d-4f1f-b8b7-a08963b25104",
+      "name": "Checkout Cart Items",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "562f1e45-007e-47ed-8052-81f8086cc688",
+          "name": "BigCommerce Update a Line Item",
+          "request": {
+            "name": "BigCommerce Update a Line Item",
+            "description": {
+              "content": "Updates a *Checkout Line Item*. Updates an existing, single line item in the cart.\n\nIf a variant needs to be changed or updated, the product will need to be removed and re-added to the cart with the correct variants using the [Add Cart Line Items](/docs/rest-storefront/carts/cart-items#add-cart-line-items) endpoint or the [GraphQL Storefront API](/docs/storefront/cart-checkout/guide/graphql-storefront).\n\n> #### Notes\n> * Substitute your storefront domain for `yourstore.example.com`. \n> * The Send a Test Request feature is not currently supported for this endpoint.  \n> * Please note that this API endpoint is not concurrent safe, meaning multiple simultaneous requests could result in unexpected and inconsistent results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "checkouts",
+                ":checkoutId",
+                "carts",
+                ":cartId",
+                "items",
+                ":itemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "checkoutId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "cartId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "itemId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lineItem\": {\n    \"quantity\": \"<double>\",\n    \"productId\": \"<double>\",\n    \"variantId\": \"<double>\",\n    \"giftWrapping\": {\n      \"wrapTogether\": \"<boolean>\",\n      \"wrapDetails\": [\n        {\n          \"id\": \"<integer>\",\n          \"message\": \"<string>\"\n        },\n        {\n          \"id\": \"<integer>\",\n          \"message\": \"<string>\"\n        }\n      ]\n    }\n  },\n  \"giftCertificate\": {\n    \"amount\": \"<double>\",\n    \"quantity\": \"<double>\",\n    \"recipient\": {\n      \"name\": \"<string>\",\n      \"email\": \"<string>\"\n    },\n    \"sender\": {\n      \"name\": \"<string>\",\n      \"email\": \"<string>\"\n    },\n    \"theme\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "44828ffe-856e-42fe-8b33-0ca9cafdac19",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "checkouts",
+                    ":checkoutId",
+                    "carts",
+                    ":cartId",
+                    "items",
+                    ":itemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "checkoutId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "cartId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "itemId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"lineItem\": {\n    \"quantity\": \"<double>\",\n    \"productId\": \"<double>\",\n    \"variantId\": \"<double>\",\n    \"giftWrapping\": {\n      \"wrapTogether\": true,\n      \"wrapDetails\": [\n        {\n          \"id\": 0,\n          \"message\": \"Happy Birthday\"\n        },\n        {\n          \"id\": 0,\n          \"message\": \"Happy Birthday\"\n        }\n      ]\n    }\n  },\n  \"giftCertificate\": {\n    \"amount\": \"<double>\",\n    \"quantity\": \"<double>\",\n    \"recipient\": {\n      \"name\": \"<string>\",\n      \"email\": \"<string>\"\n    },\n    \"sender\": {\n      \"name\": \"<string>\",\n      \"email\": \"<string>\"\n    },\n    \"theme\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"29eb9b44-8f33-4e4a-9429-d0e8e24641ed\",\n  \"cart\": {\n    \"id\": \"29eb9b44-8f33-4e4a-9429-d0e8e24641ed\",\n    \"customerId\": 18,\n    \"email\": \"dwaynecole@testing.com\",\n    \"currency\": {\n      \"name\": \"US Dollars\",\n      \"code\": \"USD\",\n      \"symbol\": \"$\",\n      \"decimalPlaces\": 2\n    },\n    \"isTaxIncluded\": true,\n    \"baseAmount\": 7.95,\n    \"discountAmount\": 0,\n    \"cartAmount\": 7.95,\n    \"coupons\": [],\n    \"discounts\": [\n      {\n        \"id\": \"243c9ca2-22b4-417a-8b09-b3fc05778b52\",\n        \"discountedAmount\": 0\n      }\n    ],\n    \"lineItems\": {\n      \"physicalItems\": [\n        {\n          \"id\": \"243c9ca2-22b4-417a-8b09-b3fc05778b52\",\n          \"parentId\": {},\n          \"variantId\": 345,\n          \"productId\": 174,\n          \"sku\": \"\",\n          \"name\": \"1L Le Parfait Jar\",\n          \"url\": \"https://{store_domain}/all/1l-le-parfait-jar/\",\n          \"quantity\": 1,\n          \"brand\": \"OFS\",\n          \"isTaxable\": true,\n          \"imageUrl\": \"https://cdn11.bigcommerce.com/s-{store_hash}/products/174/images/425/leparfaitmedium3_1024x1024_1024x1024__37756__81924.1534344526.330.500.jpg?c=2\",\n          \"discounts\": [],\n          \"discountAmount\": 0,\n          \"couponAmount\": 0,\n          \"originalPrice\": 7.95,\n          \"listPrice\": 7.95,\n          \"salePrice\": 7.95,\n          \"extendedListPrice\": 7.95,\n          \"extendedSalePrice\": 7.95,\n          \"isShippingRequired\": true,\n          \"giftWrapping\": {},\n          \"addedByPromotion\": false\n        }\n      ],\n      \"digitalItems\": [],\n      \"giftCertificates\": [],\n      \"customItems\": []\n    },\n    \"createdTime\": \"2019-01-10T17:18:00+00:00\",\n    \"updatedTime\": \"2019-01-10T17:19:47+00:00\"\n  },\n  \"billingAddress\": {\n    \"id\": \"5c377ead301c2\",\n    \"firstName\": \"Dwayne\",\n    \"lastName\": \"Cole\",\n    \"email\": \"dwaynecole@testing.com\",\n    \"company\": \"\",\n    \"address1\": \"Mauna Kea Access Rd\",\n    \"address2\": \"\",\n    \"city\": \"Hilo\",\n    \"stateOrProvince\": \"Hawaii\",\n    \"stateOrProvinceCode\": \"HI\",\n    \"country\": \"United States\",\n    \"countryCode\": \"US\",\n    \"postalCode\": \"96720\",\n    \"phone\": \"8081234567\",\n    \"customFields\": []\n  },\n  \"consignments\": [\n    {\n      \"id\": \"5c377ead30ac1\",\n      \"shippingCost\": 8,\n      \"handlingCost\": 0,\n      \"couponDiscounts\": [],\n      \"discounts\": [],\n      \"lineItemIds\": [\n        \"243c9ca2-22b4-417a-8b09-b3fc05778b52\"\n      ],\n      \"selectedShippingOption\": {\n        \"id\": \"d09e05c0-3788-44df-a1bb-b6d3afdf6841\",\n        \"type\": \"shipping_byweight\",\n        \"description\": \"Ship by Weight\",\n        \"imageUrl\": \"\",\n        \"cost\": 8,\n        \"transitTime\": \"\"\n      },\n      \"address\": {\n        \"firstName\": \"Dwayne\",\n        \"lastName\": \"Cole\",\n        \"email\": \"dwaynecole@testing.com\",\n        \"company\": \"\",\n        \"address1\": \"Mauna Kea Access Rd\",\n        \"address2\": \"\",\n        \"city\": \"Hilo\",\n        \"stateOrProvince\": \"Hawaii\",\n        \"stateOrProvinceCode\": \"HI\",\n        \"country\": \"United States\",\n        \"countryCode\": \"US\",\n        \"postalCode\": \"96720\",\n        \"phone\": \"8081234567\",\n        \"customFields\": []\n      }\n    }\n  ],\n  \"orderId\": null,\n  \"shippingCostTotal\": 8,\n  \"shippingCostBeforeDiscount\": 8,\n  \"handlingCostTotal\": 0,\n  \"taxTotal\": 1.22,\n  \"coupons\": [],\n  \"taxes\": [\n    {\n      \"name\": \"Tax\",\n      \"amount\": 1.22\n    }\n  ],\n  \"subtotal\": 7.95,\n  \"grandTotal\": 15.95,\n  \"giftCertificates\": [],\n  \"createdTime\": \"2019-01-10T17:18:00+00:00\",\n  \"updatedTime\": \"2019-01-10T17:19:47+00:00\",\n  \"customerMessage\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "089c4971-5826-41d7-9a8e-2b41465b1c87",
+          "name": "BigCommerce Delete a Line Item",
+          "request": {
+            "name": "BigCommerce Delete a Line Item",
+            "description": {
+              "content": "Deletes a *Line Item* from the *Cart*.\n\n> #### Note\n> * Substitute your storefront domain for `yourstore.example.com`. \n> * The Send a Test Request feature is not currently supported for this endpoint.  ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "checkouts",
+                ":checkoutId",
+                "carts",
+                ":cartId",
+                "items",
+                ":itemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "checkoutId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "cartId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "itemId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "acf17eef-40b8-4f3c-a4fe-f8a6b23e85e8",
+              "name": "NOTE: Discounted line items are re-evaluated on cart actions and may be automatically added back to your cart with a new line item ID to satisfy promotional requirements.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "checkouts",
+                    ":checkoutId",
+                    "carts",
+                    ":cartId",
+                    "items",
+                    ":itemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "checkoutId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "cartId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "itemId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"b6fbd994-61a8-4f25-9167-6ec10489c448\",\n  \"cart\": {\n    \"id\": \"b6fbd994-61a8-4f25-9167-6ec10489c448\",\n    \"customerId\": 11,\n    \"email\": \"janedoe@example.com\",\n    \"currency\": {\n      \"name\": \"US Dollars\",\n      \"code\": \"USD\",\n      \"symbol\": \"$\",\n      \"decimalPlaces\": 2\n    },\n    \"isTaxIncluded\": false,\n    \"baseAmount\": 119.93,\n    \"discountAmount\": 0,\n    \"cartAmount\": 112.93,\n    \"coupons\": [\n      {\n        \"id\": 1,\n        \"code\": \"S2549JM0Y\",\n        \"displayName\": \"$5.00 off the order total\",\n        \"couponType\": \"per_total_discount\",\n        \"discountedAmount\": 5\n      }\n    ],\n    \"discounts\": [\n      {\n        \"id\": \"69791a88-85c9-4c19-8042-e537621e8a55\",\n        \"discountedAmount\": 2.59\n      },\n      {\n        \"id\": \"ba2c619d-e6b4-48c2-8809-d88e424ed450\",\n        \"discountedAmount\": 1.06\n      },\n      {\n        \"id\": \"c72d6651-978d-45e5-881b-c2bb5f7ff1d5\",\n        \"discountedAmount\": 2.12\n      },\n      {\n        \"id\": \"6477a4a1-02cf-4287-8bf2-fd043bdd5234\",\n        \"discountedAmount\": 0.8\n      },\n      {\n        \"id\": \"871f1f56-4c88-43c3-a6e5-0a647d83d6ac\",\n        \"discountedAmount\": 0.43\n      }\n    ],\n    \"lineItems\": {\n      \"physicalItems\": [\n        {\n          \"id\": \"69791a88-85c9-4c19-8042-e537621e8a55\",\n          \"parentId\": {},\n          \"variantId\": 364,\n          \"productId\": 184,\n          \"sku\": \"SMA-RED\",\n          \"name\": \"Canvas Laundry Cart\",\n          \"url\": \"https://{store_domain}/all/canvas-laundry-cart/\",\n          \"quantity\": 1,\n          \"isTaxable\": true,\n          \"imageUrl\": \"https://cdn8.bigcommerce.com/s-id30h7ohwf/products/184/images/445/naturalcanvascart2_1024x1024__92347__29648.1534344533.330.500.jpg?c=2\",\n          \"discounts\": [\n            {\n              \"id\": \"total-coupon\",\n              \"discountedAmount\": 0.59\n            },\n            {\n              \"id\": 2,\n              \"discountedAmount\": 2\n            }\n          ],\n          \"discountAmount\": 2,\n          \"couponAmount\": 0,\n          \"originalPrice\": 17.99,\n          \"listPrice\": 15.99,\n          \"salePrice\": 13.99,\n          \"extendedListPrice\": 15.99,\n          \"extendedSalePrice\": 13.99,\n          \"isShippingRequired\": true,\n          \"giftWrapping\": {},\n          \"addedByPromotion\": false\n        },\n        {\n          \"id\": \"ba2c619d-e6b4-48c2-8809-d88e424ed450\",\n          \"parentId\": {},\n          \"variantId\": 341,\n          \"productId\": 170,\n          \"sku\": \"\",\n          \"name\": \"Ceramic Measuring Spoons\",\n          \"url\": \"https://{store_domain}/all/ceramic-measuring-spoons/\",\n          \"quantity\": 1,\n          \"isTaxable\": true,\n          \"imageUrl\": \"https://cdn8.bigcommerce.com/s-id30h7ohwf/products/170/images/411/measuringsquares2_1024x1024__07108__95421.1534344522.330.500.jpg?c=2\",\n          \"discounts\": [\n            {\n              \"id\": \"total-coupon\",\n              \"discountedAmount\": 1.06\n            }\n          ],\n          \"discountAmount\": 0,\n          \"couponAmount\": 0,\n          \"originalPrice\": 25,\n          \"listPrice\": 25,\n          \"salePrice\": 25,\n          \"extendedListPrice\": 25,\n          \"extendedSalePrice\": 25,\n          \"isShippingRequired\": true,\n          \"giftWrapping\": {},\n          \"addedByPromotion\": false\n        },\n        {\n          \"id\": \"c72d6651-978d-45e5-881b-c2bb5f7ff1d5\",\n          \"parentId\": {},\n          \"variantId\": 376,\n          \"productId\": 158,\n          \"sku\": \"SKU-A0C8A203\",\n          \"name\": \"Chambray Towel\",\n          \"url\": \"https://{store_domain}/all/chambray-towel/\",\n          \"quantity\": 1,\n          \"isTaxable\": true,\n          \"imageUrl\": \"https://cdn8.bigcommerce.com/s-id30h7ohwf/products/158/images/382/foglinenbeigestripetowel1b_1024x1024__83011__60806.1534344511.330.500.jpg?c=2\",\n          \"discounts\": [\n            {\n              \"id\": \"total-coupon\",\n              \"discountedAmount\": 2.12\n            }\n          ],\n          \"discountAmount\": 0,\n          \"couponAmount\": 0,\n          \"originalPrice\": 49.99,\n          \"listPrice\": 49.99,\n          \"salePrice\": 49.99,\n          \"extendedListPrice\": 49.99,\n          \"extendedSalePrice\": 49.99,\n          \"isShippingRequired\": true,\n          \"giftWrapping\": {},\n          \"addedByPromotion\": false\n        }\n      ],\n      \"digitalItems\": [\n        {\n          \"id\": \"6477a4a1-02cf-4287-8bf2-fd043bdd5234\",\n          \"parentId\": {},\n          \"variantId\": 360,\n          \"productId\": 189,\n          \"name\": \"Gather Journal Issue 7 - Digital\",\n          \"url\": \"https://{store_domain}/all/gather-journal-issue-7/\",\n          \"quantity\": 1,\n          \"isTaxable\": true,\n          \"imageUrl\": \"https://cdn8.bigcommerce.com/s-id30h7ohwf/products/189/images/465/gather_1024x1024__17195__82620.1534344540.330.500.jpg?c=2\",\n          \"discounts\": [\n            {\n              \"id\": \"total-coupon\",\n              \"discountedAmount\": 0.8\n            }\n          ],\n          \"discountAmount\": 0,\n          \"couponAmount\": 0,\n          \"originalPrice\": 18.95,\n          \"listPrice\": 18.95,\n          \"salePrice\": 18.95,\n          \"extendedListPrice\": 18.95,\n          \"extendedSalePrice\": 18.95,\n          \"isShippingRequired\": false,\n          \"type\": \"digital\"\n        }\n      ],\n      \"giftCertificates\": [\n        {\n          \"id\": \"871f1f56-4c88-43c3-a6e5-0a647d83d6ac\",\n          \"name\": \"$10.00 Gift Certificate\",\n          \"theme\": \"Celebration\",\n          \"amount\": 10,\n          \"taxable\": false,\n          \"sender\": {\n            \"name\": \"Jane Doe\",\n            \"email\": \"janedoe@example.com\"\n          },\n          \"recipient\": {\n            \"name\": \"John Doe\",\n            \"email\": \"johndoe@example.com\"\n          },\n          \"message\": \"Thank you!\",\n          \"type\": \"giftCertificate\"\n        }\n      ]\n    },\n    \"createdTime\": \"2018-09-18T15:48:26+00:00\",\n    \"updatedTime\": \"2018-09-18T16:59:45+00:00\"\n  },\n  \"billingAddress\": {\n    \"id\": \"5ba11e4a10fb5\",\n    \"firstName\": \"Jane\",\n    \"lastName\": \"Doe\",\n    \"email\": \"janedoe@example.com\",\n    \"company\": \"\",\n    \"address1\": \"123 Main Street\",\n    \"address2\": \"\",\n    \"city\": \"Austin\",\n    \"stateOrProvince\": \"Texas\",\n    \"stateOrProvinceCode\": \"TX\",\n    \"country\": \"United States\",\n    \"countryCode\": \"US\",\n    \"postalCode\": \"78751\",\n    \"phone\": \"1234567890\",\n    \"customFields\": [\n      {\n        \"fieldId\": \"field_25\",\n        \"fieldValue\": \"Leave in backyard\"\n      }\n    ]\n  },\n  \"consignments\": [\n    {\n      \"id\": \"5ba121929619b\",\n      \"shippingCost\": 69.94,\n      \"handlingCost\": 0,\n      \"couponDiscounts\": [],\n      \"discounts\": [],\n      \"lineItemIds\": [\n        \"69791a88-85c9-4c19-8042-e537621e8a55\",\n        \"ba2c619d-e6b4-48c2-8809-d88e424ed450\",\n        \"c72d6651-978d-45e5-881b-c2bb5f7ff1d5\"\n      ],\n      \"selectedShippingOption\": {\n        \"id\": \"bb3c818f-17ce-46fe-9475-65933095da0d\",\n        \"type\": \"shipping_upsready\",\n        \"description\": \"UPS® (UPS Next Day Air®)\",\n        \"imageUrl\": \"\",\n        \"cost\": 69.94,\n        \"transitTime\": \"1 business day\"\n      },\n      \"address\": {\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Doe\",\n        \"email\": \"janedoe@example.com\",\n        \"company\": \"\",\n        \"address1\": \"123 Main Street\",\n        \"address2\": \"\",\n        \"city\": \"Austin\",\n        \"stateOrProvince\": \"Texas\",\n        \"stateOrProvinceCode\": \"TX\",\n        \"country\": \"United States\",\n        \"countryCode\": \"US\",\n        \"postalCode\": \"78751\",\n        \"phone\": \"1234567890\",\n        \"customFields\": [\n          {\n            \"fieldId\": \"field_25\",\n            \"fieldValue\": \"Leave in backyard\"\n          }\n        ]\n      }\n    }\n  ],\n  \"orderId\": null,\n  \"shippingCostTotal\": 69.94,\n  \"shippingCostBeforeDiscount\": 69.94,\n  \"handlingCostTotal\": 0,\n  \"taxTotal\": 28.62,\n  \"coupons\": [\n    {\n      \"id\": 1,\n      \"code\": \"S2549JM0Y\",\n      \"displayName\": \"$5.00 off the order total\",\n      \"couponType\": 2,\n      \"discountedAmount\": 5\n    }\n  ],\n  \"taxes\": [\n    {\n      \"name\": \"Store Tax\",\n      \"amount\": 28.62\n    }\n  ],\n  \"subtotal\": 117.93,\n  \"grandTotal\": 211.49,\n  \"giftCertificates\": [],\n  \"createdTime\": \"2018-09-18T15:48:26+00:00\",\n  \"updatedTime\": \"2018-09-18T16:59:45+00:00\",\n  \"customerMessage\": \"Thank you, BigCommerce\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ea416b26-d661-4c3b-925d-e6aa4b461d7b",
+    "name": "BigCommerce Abandoned Cart Emails Checkout Cart Items API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

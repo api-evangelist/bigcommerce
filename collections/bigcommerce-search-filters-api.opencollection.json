@@ -1,0 +1,149 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Search Filters API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search Filters",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Enabled Filters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/settings/search/filters"
+          },
+          "docs": "Returns a list of enabled default [Product Filtering](https://support.bigcommerce.com/s/article/Product-Filtering-Settings) filters. These filters will be used if a store does not have contextual overrides."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Enabled Filters",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/settings/search/filters",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates enabled default [Product Filtering](https://support.bigcommerce.com/s/article/Product-Filtering-Settings) filters."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get Available Filters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/settings/search/filters/available",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Narrows the list of available filters based on channel ID. Only products currently assigned to the given Channel will be considered."
+              },
+              {
+                "name": "category_id",
+                "value": "",
+                "type": "query",
+                "description": "Narrows the list of available filters based on category ID. You can display settings to show products from the provided category, subcategories only, or both the category and its child categories."
+              }
+            ]
+          },
+          "docs": "Returns a list of filters available to power [Product Filtering](https://support.bigcommerce.com/s/article/Product-Filtering-Settings)."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get Contextual Filters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/settings/search/filters/contexts",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Only return contextual overrides related to a particular Channel."
+              },
+              {
+                "name": "category_id",
+                "value": "",
+                "type": "query",
+                "description": "Only return contextual overrides related to a particular Category."
+              }
+            ]
+          },
+          "docs": "Returns a list of contextual filters enabled for a particular channel or category.\n\n**Usage Notes**\n\nContextual filters allow you to configure the enabled filters per channel or category, so that shoppers can filter by the most relevant criteria.\n\nThe order of the returned filters will match the sort order of the filters on the storefront."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Upsert Contextual Filters",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/settings/search/filters/contexts",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Upserts contextual filters for a particular channel or category.\n\n**Usage Notes**\n\nContextual filters allow you to configure the enabled filters per channel or category, so that shoppers can filter by the most relevant criteria.\n\nYou can change the order of the filters on the live site by changing the order of the filters you send."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,89 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Consent API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Consent",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Customer Consent",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/:customerId/consent",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the customer."
+              }
+            ]
+          },
+          "docs": "Gets the status of a customerʼs consent to allow data collection by cookies and scripts while shopping on a storefront."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Customer Consent",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/:customerId/consent",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the customer."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the status of a customerʼs consent to allow data collection by cookies and scripts while shopping on a storefront."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Set Cookie Consent Preferences",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/consent",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets the status of a customer's consent to allow data collection by cookies and scripts according to the following consent categories:\n\n\n  2. Analytics — These cookies provide statistical information on site usage so the store owner can improve the website over time.  \n  3. Functional — These cookies enable enhanced functionality, such as videos and live chat. If a shopper does not allow these, then some or all of these functions may not work properly. \n  4. Targeting; Advertising — These cookie"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

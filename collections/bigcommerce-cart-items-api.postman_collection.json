@@ -1,0 +1,496 @@
+{
+  "item": [
+    {
+      "id": "5c7e51d1-e7e6-49b2-9261-a7744883f664",
+      "name": "Cart Items",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2134fa9e-82c8-4a5f-a16f-cba811650a23",
+          "name": "BigCommerce Add Cart Line Items",
+          "request": {
+            "name": "BigCommerce Add Cart Line Items",
+            "description": {
+              "content": "Adds a line items to the *Cart*.\n\n> #### Notes\n> * Substitute your storefront domain for `yourstore.example.com`. \n> * The Send a Test Request feature is not currently supported for this endpoint.  \n> * Please note that this API endpoint is not concurrent safe, meaning multiple simultaneous requests could result in unexpected and inconsistent results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "carts",
+                ":cartId",
+                "items"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "lineItems.digitalItems.options,lineItems.physicalItems.options",
+                  "description": "To return product options add one of the following include:\n\n`lineItems.physicalItems.options`: The Cart returns an abbreviated result. Use this to return physical items product options. Can also be used in a /POST to have the extended Cart object return.\n\n`lineItems.digitalItems.options`:  The Cart returns an abbreviated result. Use this to return digital items product options.  Can also be used in a /POST to have the extended Cart object return.\n\n`lineItems.digitalItems.options,lineItems.physicalItems.options`:  The Cart returns an abbreviated result. Use this to return digital and physical options. Can also be used in a /POST to have the extended Cart object return."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<UUID>",
+                  "key": "cartId",
+                  "description": "(Required) This cart's unique ID."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lineItems\": [\n    {\n      \"productId\": \"<number>\",\n      \"quantity\": \"<number>\",\n      \"giftWrapping\": {\n        \"wrapTogether\": \"<boolean>\",\n        \"wrapDetails\": [\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"message\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"message\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      }\n    },\n    {\n      \"productId\": \"<number>\",\n      \"quantity\": \"<number>\",\n      \"giftWrapping\": {\n        \"wrapTogether\": \"<boolean>\",\n        \"wrapDetails\": [\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"message\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"message\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "64e86ebe-2cbd-4db8-9250-5b39ee0dbd2e",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carts",
+                    ":cartId",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "lineItems.digitalItems.options,lineItems.physicalItems.options"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<UUID>",
+                      "key": "cartId",
+                      "description": "(Required) This cart's unique ID."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"lineItems\": [\n    {\n      \"quantity\": 2,\n      \"productId\": 230,\n      \"variantId\": 124,\n      \"optionSelections\": [\n        {\n          \"optionId\": 10,\n          \"optionValue\": 117\n        },\n        {\n          \"optionId\": 11,\n          \"optionValue\": 125\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"customerId\": 0,\n  \"email\": \"string\",\n  \"currency\": {\n    \"code\": \"string\"\n  },\n  \"isTaxIncluded\": true,\n  \"baseAmount\": 0,\n  \"discountAmount\": 0,\n  \"cartAmount\": 0,\n  \"coupons\": [\n    {\n      \"code\": \"string\",\n      \"couponType\": 0,\n      \"discountedAmount\": 0,\n      \"id\": \"string\"\n    }\n  ],\n  \"discounts\": [\n    {\n      \"discountedAmount\": 0,\n      \"id\": \"string\"\n    }\n  ],\n  \"lineItems\": {\n    \"customItems\": [],\n    \"digitalItems\": [\n      {\n        \"options\": [\n          {\n            \"name\": \"string\",\n            \"nameId\": 0,\n            \"value\": \"string\",\n            \"valueId\": 0\n          }\n        ],\n        \"brand\": \"string\",\n        \"couponAmount\": 0,\n        \"discountAmount\": 0,\n        \"discounts\": [\n          {\n            \"discountedAmount\": 0,\n            \"id\": 0\n          }\n        ],\n        \"extendedListPrice\": 0,\n        \"extendedSalePrice\": 0,\n        \"id\": \"4\",\n        \"imageUrl\": \"http://example.com\",\n        \"isTaxable\": true,\n        \"listPrice\": 0,\n        \"originalPrice\": 0,\n        \"name\": \"string\",\n        \"parentId\": \"6\",\n        \"productId\": 0,\n        \"quantity\": 0,\n        \"salePrice\": 0,\n        \"sku\": \"string\",\n        \"url\": \"http://example.com\",\n        \"variantId\": 7\n      }\n    ],\n    \"giftCertificates\": [\n      {\n        \"amount\": 0,\n        \"id\": \"string\",\n        \"isTaxable\": true,\n        \"message\": \"string\",\n        \"name\": \"string\",\n        \"recipient\": {\n          \"email\": \"user@example.com\",\n          \"name\": \"string\"\n        },\n        \"sender\": {\n          \"email\": \"user@example.com\",\n          \"name\": \"string\"\n        },\n        \"theme\": \"string\"\n      }\n    ],\n    \"physicalItems\": [\n      {\n        \"options\": [\n          {\n            \"name\": \"string\",\n            \"nameId\": 0,\n            \"value\": \"string\",\n            \"valueId\": 0\n          }\n        ],\n        \"brand\": \"string\",\n        \"couponAmount\": 0,\n        \"discountAmount\": 0,\n        \"discounts\": [\n          {\n            \"discountedAmount\": 0,\n            \"id\": \"string\"\n          }\n        ],\n        \"extendedListPrice\": 0,\n        \"extendedSalePrice\": 0,\n        \"id\": \"4\",\n        \"imageUrl\": \"http://example.com\",\n        \"isTaxable\": true,\n        \"listPrice\": 0,\n        \"originalPrice\": 0,\n        \"name\": \"string\",\n        \"parentId\": 6,\n        \"productId\": 0,\n        \"quantity\": 0,\n        \"salePrice\": 0,\n        \"sku\": \"string\",\n        \"url\": \"http://example.com\",\n        \"variantId\": 7,\n        \"giftWrapping\": {\n          \"amount\": 0,\n          \"message\": \"string\",\n          \"name\": \"string\"\n        },\n        \"isShippingRequired\": true\n      }\n    ]\n  },\n  \"createdTime\": \"string\",\n  \"updatedTime\": \"string\",\n  \"locale\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6a5c841d-7d71-4f8c-8513-6dda2b5c55c0",
+          "name": "BigCommerce Update Cart Line Item",
+          "request": {
+            "name": "BigCommerce Update Cart Line Item",
+            "description": {
+              "content": "Updates a *Cart* line item. Updates an existing, single line item quantity and the price of custom items in a cart.\n\nIf a modified product or variant needs to be changed or updated, you can remove and re-add the product to the cart with the correct variants using the [Delete Cart Line Item](/docs/rest-storefront/carts/cart-items#delete-cart-line-item) and the [Add Cart Line Items](/docs/rest-storefront/carts/cart-items#add-cart-line-items) endpoints. You can also use carts mutations that are part of the [GraphQL Storefront API](/docs/storefront/cart-checkout/guide/graphql-storefront).\n\n\n> #### Notes\n> * Substitute your storefront domain for `yourstore.example.com`. \n> * The Send a Test Request feature is not currently supported for this endpoint. \n> * Please note that this API endpoint is not concurrent safe, meaning multiple simultaneous requests could result in unexpected and inconsistent results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "carts",
+                ":cartId",
+                "items",
+                ":itemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "lineItems.digitalItems.options,lineItems.physicalItems.options",
+                  "description": "To return product options add one of the following include:\n\n`lineItems.physicalItems.options`: The Cart returns an abbreviated result. Use this to return physical items product options. Can also be used in a /POST to have the extended Cart object return.\n\n`lineItems.digitalItems.options`:  The Cart returns an abbreviated result. Use this to return digital items product options.  Can also be used in a /POST to have the extended Cart object return.\n\n`lineItems.digitalItems.options,lineItems.physicalItems.options`:  The Cart returns an abbreviated result. Use this to return digital and physical options. Can also be used in a /POST to have the extended Cart object return."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<UUID>",
+                  "key": "cartId",
+                  "description": "(Required) This cart's unique ID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "itemId",
+                  "description": "(Required) This item's ID."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lineItem\": {\n    \"productId\": \"<number>\",\n    \"quantity\": \"<number>\",\n    \"giftWrapping\": {\n      \"wrapTogether\": \"<boolean>\",\n      \"wrapDetails\": [\n        {\n          \"id\": \"<integer>\",\n          \"message\": \"<string>\"\n        },\n        {\n          \"id\": \"<integer>\",\n          \"message\": \"<string>\"\n        }\n      ]\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d79cfc7f-5e81-490d-9da9-d1385a8e2538",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carts",
+                    ":cartId",
+                    "items",
+                    ":itemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "lineItems.digitalItems.options,lineItems.physicalItems.options"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<UUID>",
+                      "key": "cartId",
+                      "description": "(Required) This cart's unique ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "itemId",
+                      "description": "(Required) This item's ID."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"lineItem\": {\n    \"productId\": 229,\n    \"variantId\": 191,\n    \"quantity\": 10\n  },\n  \"locale\": \"en\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"customerId\": 0,\n  \"email\": \"string\",\n  \"currency\": {\n    \"code\": \"string\"\n  },\n  \"isTaxIncluded\": true,\n  \"baseAmount\": 0,\n  \"discountAmount\": 0,\n  \"cartAmount\": 0,\n  \"coupons\": [\n    {\n      \"code\": \"string\",\n      \"couponType\": 0,\n      \"discountedAmount\": 0,\n      \"id\": \"string\"\n    }\n  ],\n  \"discounts\": [\n    {\n      \"discountedAmount\": 0,\n      \"id\": \"string\"\n    }\n  ],\n  \"lineItems\": {\n    \"customItems\": [],\n    \"digitalItems\": [\n      {\n        \"options\": [\n          {\n            \"name\": \"string\",\n            \"nameId\": 0,\n            \"value\": \"string\",\n            \"valueId\": 0\n          }\n        ],\n        \"brand\": \"string\",\n        \"couponAmount\": 0,\n        \"discountAmount\": 0,\n        \"discounts\": [\n          {\n            \"discountedAmount\": 0,\n            \"id\": 0\n          }\n        ],\n        \"extendedListPrice\": 0,\n        \"extendedSalePrice\": 0,\n        \"id\": \"4\",\n        \"imageUrl\": \"http://example.com\",\n        \"isTaxable\": true,\n        \"originalPrice\": 0,\n        \"listPrice\": 0,\n        \"name\": \"string\",\n        \"parentId\": \"6\",\n        \"productId\": 0,\n        \"quantity\": 0,\n        \"salePrice\": 0,\n        \"sku\": \"string\",\n        \"url\": \"http://example.com\",\n        \"variantId\": 7\n      }\n    ],\n    \"giftCertificates\": [\n      {\n        \"amount\": 0,\n        \"id\": \"string\",\n        \"isTaxable\": true,\n        \"message\": \"string\",\n        \"name\": \"string\",\n        \"recipient\": {\n          \"email\": \"user@example.com\",\n          \"name\": \"string\"\n        },\n        \"sender\": {\n          \"email\": \"user@example.com\",\n          \"name\": \"string\"\n        },\n        \"theme\": \"string\"\n      }\n    ],\n    \"physicalItems\": [\n      {\n        \"options\": [\n          {\n            \"name\": \"string\",\n            \"nameId\": 0,\n            \"value\": \"string\",\n            \"valueId\": 0\n          }\n        ],\n        \"brand\": \"string\",\n        \"couponAmount\": 0,\n        \"discountAmount\": 0,\n        \"discounts\": [\n          {\n            \"discountedAmount\": 0,\n            \"id\": \"string\"\n          }\n        ],\n        \"extendedListPrice\": 0,\n        \"extendedSalePrice\": 0,\n        \"id\": \"4\",\n        \"imageUrl\": \"http://example.com\",\n        \"isTaxable\": true,\n        \"originalPrice\": 0,\n        \"listPrice\": 0,\n        \"name\": \"string\",\n        \"parentId\": 6,\n        \"productId\": 0,\n        \"quantity\": 0,\n        \"salePrice\": 0,\n        \"sku\": \"string\",\n        \"url\": \"http://example.com\",\n        \"variantId\": 7,\n        \"giftWrapping\": {\n          \"amount\": 0,\n          \"message\": \"string\",\n          \"name\": \"string\"\n        },\n        \"isShippingRequired\": true\n      }\n    ]\n  },\n  \"createdTime\": \"string\",\n  \"updatedTime\": \"string\",\n  \"locale\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "02f854a3-e68f-4cbc-b795-a129990d9803",
+          "name": "BigCommerce Delete Cart Line Item",
+          "request": {
+            "name": "BigCommerce Delete Cart Line Item",
+            "description": {
+              "content": "Deletes a *Cart* line item.\n\nRemoving the last `line_item` in the *Cart* deletes the *Cart*.\n\n> #### Note\n> * Substitute your storefront domain for `yourstore.example.com`. \n> * The Send a Test Request feature is not currently supported for this endpoint.  ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "carts",
+                ":cartId",
+                "items",
+                ":itemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "lineItems.digitalItems.options,lineItems.physicalItems.options",
+                  "description": "To return product options add one of the following include:\n\n`lineItems.physicalItems.options`: The Cart returns an abbreviated result. Use this to return physical items product options. Can also be used in a /POST to have the extended Cart object return.\n\n`lineItems.digitalItems.options`:  The Cart returns an abbreviated result. Use this to return digital items product options.  Can also be used in a /POST to have the extended Cart object return.\n\n`lineItems.digitalItems.options,lineItems.physicalItems.options`:  The Cart returns an abbreviated result. Use this to return digital and physical options. Can also be used in a /POST to have the extended Cart object return."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<UUID>",
+                  "key": "cartId",
+                  "description": "(Required) This cart's unique ID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "itemId",
+                  "description": "(Required) The ID of the item to delete."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "494323fc-a3f3-4635-b8ca-df247b383f23",
+              "name": "NOTE: Discounted line items are re-evaluated on cart actions and may be automatically added back to your cart with a new line item ID to satisfy promotional requirements.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carts",
+                    ":cartId",
+                    "items",
+                    ":itemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "lineItems.digitalItems.options,lineItems.physicalItems.options"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<UUID>",
+                      "key": "cartId",
+                      "description": "(Required) This cart's unique ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "itemId",
+                      "description": "(Required) The ID of the item to delete."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"customerId\": 0,\n  \"email\": \"string\",\n  \"currency\": {\n    \"code\": \"string\"\n  },\n  \"isTaxIncluded\": true,\n  \"baseAmount\": 0,\n  \"discountAmount\": 0,\n  \"cartAmount\": 0,\n  \"coupons\": [\n    {\n      \"code\": \"string\",\n      \"couponType\": 0,\n      \"discountedAmount\": 0,\n      \"id\": \"string\"\n    }\n  ],\n  \"discounts\": [\n    {\n      \"discountedAmount\": 0,\n      \"id\": \"string\"\n    }\n  ],\n  \"lineItems\": {\n    \"customItems\": [],\n    \"digitalItems\": [\n      {\n        \"options\": [\n          {\n            \"name\": \"string\",\n            \"nameId\": 0,\n            \"value\": \"string\",\n            \"valueId\": 0\n          }\n        ],\n        \"brand\": \"string\",\n        \"couponAmount\": 0,\n        \"discountAmount\": 0,\n        \"discounts\": [\n          {\n            \"discountedAmount\": 0,\n            \"id\": 0\n          }\n        ],\n        \"extendedListPrice\": 0,\n        \"extendedSalePrice\": 0,\n        \"id\": \"4\",\n        \"imageUrl\": \"http://example.com\",\n        \"isTaxable\": true,\n        \"originalPrice\": 0,\n        \"listPrice\": 0,\n        \"name\": \"string\",\n        \"parentId\": \"6\",\n        \"productId\": 0,\n        \"quantity\": 0,\n        \"salePrice\": 0,\n        \"sku\": \"string\",\n        \"url\": \"http://example.com\",\n        \"variantId\": 7\n      }\n    ],\n    \"giftCertificates\": [\n      {\n        \"amount\": 0,\n        \"id\": \"string\",\n        \"isTaxable\": true,\n        \"message\": \"string\",\n        \"name\": \"string\",\n        \"recipient\": {\n          \"email\": \"user@example.com\",\n          \"name\": \"string\"\n        },\n        \"sender\": {\n          \"email\": \"user@example.com\",\n          \"name\": \"string\"\n        },\n        \"theme\": \"string\"\n      }\n    ],\n    \"physicalItems\": [\n      {\n        \"options\": [\n          {\n            \"name\": \"string\",\n            \"nameId\": 0,\n            \"value\": \"string\",\n            \"valueId\": 0\n          }\n        ],\n        \"brand\": \"string\",\n        \"couponAmount\": 0,\n        \"discountAmount\": 0,\n        \"discounts\": [\n          {\n            \"discountedAmount\": 0,\n            \"id\": \"string\"\n          }\n        ],\n        \"extendedListPrice\": 0,\n        \"extendedSalePrice\": 0,\n        \"id\": \"4\",\n        \"imageUrl\": \"http://example.com\",\n        \"isTaxable\": true,\n        \"originalPrice\": 0,\n        \"listPrice\": 0,\n        \"name\": \"string\",\n        \"parentId\": 6,\n        \"productId\": 0,\n        \"quantity\": 0,\n        \"salePrice\": 0,\n        \"sku\": \"string\",\n        \"url\": \"http://example.com\",\n        \"variantId\": 7,\n        \"giftWrapping\": null,\n        \"isShippingRequired\": true\n      }\n    ]\n  },\n  \"createdTime\": \"string\",\n  \"updatedTime\": \"string\",\n  \"locale\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f4832cdd-ec1e-4cc5-8bf3-9dd96fbb6b6c",
+    "name": "BigCommerce Abandoned Cart Emails Cart Items API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

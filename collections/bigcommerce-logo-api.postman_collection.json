@@ -1,0 +1,303 @@
+{
+  "item": [
+    {
+      "id": "861d2bfb-09c1-4069-9f42-e82707832d57",
+      "name": "Logo",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f0ab7dc1-bdd0-45c4-b238-2f25fadf4f6b",
+          "name": "BigCommerce Get Store Logo Settings",
+          "request": {
+            "name": "BigCommerce Get Store Logo Settings",
+            "description": {
+              "content": "Returns store logo settings.\n\n - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "settings",
+                "logo"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "channel_id",
+                  "value": "<integer>",
+                  "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fa8d2268-ad95-45d3-99e2-00ce1ea3b045",
+              "name": "OK, null indicates that a particular field has not been overridden on a channel level when channel level settings are requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "settings",
+                    "logo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"favicon_url\": \"string\",\n    \"logo_image_url\": \"string\",\n    \"logo_text\": \"string\",\n    \"type\": \"text\"\n  },\n  \"meta\": {\n    \"key_0\": 7825,\n    \"key_1\": \"string\",\n    \"key_2\": \"string\",\n    \"key_3\": 6603.425374369342\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "80885844-3df2-4c59-bd38-900ce3f708a3",
+          "name": "BigCommerce Update Store Logo Settings",
+          "request": {
+            "name": "BigCommerce Update Store Logo Settings",
+            "description": {
+              "content": "Updates the logo type and logo text for a textual logo. To upload new images, use the dedicated image POST endpoints.\n\n - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "settings",
+                "logo"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "channel_id",
+                  "value": "<integer>",
+                  "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"logo_text\": \"<string>\",\n  \"type\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "98836421-328f-4d3d-96c6-14468cb59847",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "settings",
+                    "logo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"logo_text\": \"<string>\",\n  \"type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"favicon_url\": \"string\",\n    \"logo_image_url\": \"string\",\n    \"logo_text\": \"string\",\n    \"type\": \"text\"\n  },\n  \"meta\": {\n    \"key_0\": 7825,\n    \"key_1\": \"string\",\n    \"key_2\": \"string\",\n    \"key_3\": 6603.425374369342\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bf10542e-8ea7-4d29-8b0f-484c67f69d16",
+    "name": "BigCommerce Abandoned Cart Emails Logo API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

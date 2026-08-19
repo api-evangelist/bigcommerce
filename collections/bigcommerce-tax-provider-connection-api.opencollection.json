@@ -1,0 +1,109 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Tax Provider Connection API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tax Provider Connection",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Connection Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax/providers/:provider_id/connection",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "provider_id",
+                "value": "",
+                "type": "path",
+                "description": "The Tax Providerʼs `provider_id` provided by BigCommerce after the provider [shares their provider details](/docs/integrations/tax#sharing-provider-details-with-bigcommerce)."
+              }
+            ]
+          },
+          "docs": "Retrieve the connection status of the specified tax provider in the context of a store.\n\n> #### Note\n> * Requires **read** permissions on the **Information and Settings** scope.\n"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax/providers/:provider_id/connection",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "provider_id",
+                "value": "",
+                "type": "path",
+                "description": "The Tax Providerʼs `provider_id` provided by BigCommerce after the provider [shares their provider details](/docs/integrations/tax#sharing-provider-details-with-bigcommerce)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set authentication information associated with a merchant's account on the tax provider's infrastructure:\n- [HTTP Basic Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) (developer.mozilla.org) credentials\n- (optional) Tax provider profile used in customized endpoint urls for tax provider calls. This is only available for tax providers that support this feature.\n\nThe configured `username`, `password`, and `profile` (if available) is used to authenticate each API r"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax/providers/:provider_id/connection",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "provider_id",
+                "value": "",
+                "type": "path",
+                "description": "The Tax Providerʼs `provider_id` provided by BigCommerce after the provider [shares their provider details](/docs/integrations/tax#sharing-provider-details-with-bigcommerce)."
+              }
+            ]
+          },
+          "docs": "Remove any previously set basic connection credentials for the specified provider. If the specified provider is the active tax provider on the store, the store's active tax provider will be reset to BigCommerce Manual Tax. It is suggested to call this endpoint during a single-click app [uninstall callback](/docs/integrations/apps/guide/callbacks#uninstall-callback).\n\n> #### Note\n> * This operation will be logged in [Store Logs](https://support.bigcommerce.com/s/article/Using-Store-Logs) under **"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,600 @@
+{
+  "item": [
+    {
+      "id": "7b259a83-6f78-4989-8406-c6ed8f45420a",
+      "name": "Items",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6cadb79d-cd18-4279-b366-67c77d71fafc",
+          "name": "BigCommerce Add Cart Line Items",
+          "request": {
+            "name": "BigCommerce Add Cart Line Items",
+            "description": {
+              "content": "Adds line item to the *Cart*.\n\n**Usage Notes**\n\nTo add a custom item use `custom_items`. \n\nOverriding a product’s `list_price` will make that item ineligible for V3 product level promotions.\n\nIf a product has modifiers, omit the `variant_id` and instead use the `option_selections` array to describe both the **variant** and the **modifier** selections.\n\nPlease note that this API endpoint is not concurrent safe, meaning multiple simultaneous requests could result in unexpected and inconsistent results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "carts",
+                ":cartId",
+                "items"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "* `redirect_urls`: Create a direct link to a cart. This can be used for the /POST request for carts.\n* `line_items.physical_items.options`: The cart returns an abbreviated result. Use this to return physical items product options. To return the extended cart object, use in a /POST request.\n* `line_items.digital_items.options`: The cart returns an abbreviated result. Use this to return digital items product options. To return the extended cart object, use in a /POST request.\n* `promotions.banners`: Returns a list of eligible banners."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<UUID>",
+                  "key": "cartId",
+                  "description": "(Required) The identifier of a specific cart."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"line_items\": {},\n  \"gift_certificates\": [\n    {\n      \"name\": \"<string>\",\n      \"theme\": \"<string>\",\n      \"amount\": \"<number>\",\n      \"quantity\": \"<integer>\",\n      \"sender\": {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"recipient\": {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"message\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"theme\": \"<string>\",\n      \"amount\": \"<number>\",\n      \"quantity\": \"<integer>\",\n      \"sender\": {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"recipient\": {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"message\": \"<string>\"\n    }\n  ],\n  \"custom_items\": [\n    {\n      \"sku\": \"<string>\",\n      \"name\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"list_price\": \"<number>\"\n    },\n    {\n      \"sku\": \"<string>\",\n      \"name\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"list_price\": \"<number>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ed29fded-af3c-4994-9310-9930772e6cd6",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carts",
+                    ":cartId",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<UUID>",
+                      "key": "cartId",
+                      "description": "(Required) The identifier of a specific cart."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"line_items\": [\n    {\n      \"quantity\": 2,\n      \"product_id\": 77,\n      \"list_price\": 12.5,\n      \"option_selections\": [\n        {\n          \"option_id\": 8,\n          \"option_value\": \"Yes\"\n        }\n      ]\n    }\n  ],\n  \"gift_certificates\": [\n    {\n      \"name\": \"Happy Birthday\",\n      \"theme\": \"birthday.html\",\n      \"amount\": 50,\n      \"quantity\": 1,\n      \"sender\": {\n        \"name\": \"Jane Does\",\n        \"email\": \"janedoe@example.com\"\n      },\n      \"recipient\": {\n        \"name\": \"Jane Does\",\n        \"email\": \"janedoe@example.com\"\n      },\n      \"message\": \"Happy Birthday Jane!\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"parent_id\": \"string\",\n  \"customer_id\": 634,\n  \"email\": \"string\",\n  \"currency\": {\n    \"code\": \"usd\"\n  },\n  \"tax_included\": false,\n  \"base_amount\": 1749.320859807073,\n  \"discount_amount\": 8559.087492872646,\n  \"cart_amount\": 2348.1432080439413,\n  \"coupons\": [\n    {\n      \"code\": \"string\",\n      \"id\": \"string\",\n      \"coupon_type\": \"5\",\n      \"discounted_amount\": 1817.4612551312675\n    },\n    {\n      \"code\": \"string\",\n      \"id\": \"string\",\n      \"coupon_type\": \"1\",\n      \"discounted_amount\": 875.8751834008006\n    }\n  ],\n  \"discounts\": [\n    {\n      \"id\": \"coupon\",\n      \"discounted_amount\": 5402.953497245588\n    },\n    {\n      \"id\": \"coupon\",\n      \"discounted_amount\": 3563.0067936335317\n    }\n  ],\n  \"line_items\": {\n    \"physical_items\": [\n      {\n        \"variant_id\": 358,\n        \"product_id\": 12,\n        \"quantity\": 5,\n        \"id\": \"6e193ce6-f327-4dcc-b75e-72cf6738525e\",\n        \"sku\": \"SMGREEN\",\n        \"name\": \"T-Shirt\",\n        \"weight\": 1.2,\n        \"dimensions\": {\n          \"height\": 2,\n          \"width\": 2.1,\n          \"depth\": 2.2\n        },\n        \"url\": \"http://your-store-url.mybigcommerce.com/your-product/\",\n        \"is_taxable\": false,\n        \"image_url\": \"https://pathtoproductimage/ProductDefault.png\",\n        \"discounts\": [\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 4418.933634314105\n          },\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 9225.16637109504\n          }\n        ],\n        \"coupons\": 7603.697426002955,\n        \"discount_amount\": 4,\n        \"coupon_amount\": 1960.70166333013,\n        \"original_price\": 145.29364153983983,\n        \"list_price\": 1888.172521858057,\n        \"sale_price\": 5282.626059413994,\n        \"extended_list_price\": 807.742713155366,\n        \"extended_sale_price\": 7197.014182772107,\n        \"options\": [\n          {\n            \"name\": \"string\",\n            \"nameId\": 151,\n            \"value\": \"string\",\n            \"valueId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": \"string\",\n            \"nameId\": 151,\n            \"value\": \"string\",\n            \"valueId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"gift_wrapping\": {\n          \"name\": \"Gift Wrap 1\",\n          \"message\": \"Happy Birthday!\",\n          \"amount\": 1.99\n        }\n      },\n      {\n        \"variant_id\": 358,\n        \"product_id\": 12,\n        \"quantity\": 5,\n        \"id\": \"6e193ce6-f327-4dcc-b75e-72cf6738525e\",\n        \"sku\": \"SMGREEN\",\n        \"name\": \"T-Shirt\",\n        \"weight\": 1.2,\n        \"dimensions\": {\n          \"height\": 2,\n          \"width\": 2.1,\n          \"depth\": 2.2\n        },\n        \"url\": \"http://your-store-url.mybigcommerce.com/your-product/\",\n        \"is_taxable\": false,\n        \"image_url\": \"https://pathtoproductimage/ProductDefault.png\",\n        \"discounts\": [\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 7725.243489885411\n          },\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 9128.061034825987\n          }\n        ],\n        \"coupons\": 3580.956243827951,\n        \"discount_amount\": 4,\n        \"coupon_amount\": 7723.724569125585,\n        \"original_price\": 3993.8848666864237,\n        \"list_price\": 5224.9166316401715,\n        \"sale_price\": 245.62804715460794,\n        \"extended_list_price\": 7613.86585953804,\n        \"extended_sale_price\": 6230.793207585435,\n        \"options\": [\n          {\n            \"name\": \"string\",\n            \"nameId\": 151,\n            \"value\": \"string\",\n            \"valueId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": \"string\",\n            \"nameId\": 151,\n            \"value\": \"string\",\n            \"valueId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"gift_wrapping\": {\n          \"name\": \"Gift Wrap 1\",\n          \"message\": \"Happy Birthday!\",\n          \"amount\": 1.99\n        }\n      }\n    ],\n    \"digital_items\": [\n      {\n        \"id\": \"6e193ce6-f327-4dcc-b75e-72cf6738525e\",\n        \"variant_id\": 358,\n        \"product_id\": 12,\n        \"sku\": \"SMGREEN\",\n        \"name\": \"T-Shirt\",\n        \"url\": \"http://your-store-url.mybigcommerce.com/your-product/\",\n        \"quantity\": 5,\n        \"is_taxable\": false,\n        \"image_url\": \"https://pathtoproductimage/ProductDefault.png\",\n        \"discounts\": [\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 3519.281780747611\n          },\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 8085.216241229506\n          }\n        ],\n        \"coupons\": 6808.941496370124,\n        \"discount_amount\": 4,\n        \"coupon_amount\": 1000.9190097837584,\n        \"original_price\": 379.12847347283173,\n        \"list_price\": 7863.498581543095,\n        \"sale_price\": 5209.3303727381835,\n        \"extended_list_price\": 773.8018888190624,\n        \"extended_sale_price\": 8522.170918349097,\n        \"options\": [\n          {\n            \"name\": \"string\",\n            \"nameId\": 8507.394806753515,\n            \"value\": \"string\",\n            \"valueId\": 128\n          },\n          {\n            \"name\": \"string\",\n            \"nameId\": 2407.987827799555,\n            \"value\": \"string\",\n            \"valueId\": 128\n          }\n        ],\n        \"download_file_urls\": [\n          \"string\",\n          \"string\"\n        ],\n        \"download_page_url\": \"string\",\n        \"download_size\": \"string\"\n      },\n      {\n        \"id\": \"6e193ce6-f327-4dcc-b75e-72cf6738525e\",\n        \"variant_id\": 358,\n        \"product_id\": 12,\n        \"sku\": \"SMGREEN\",\n        \"name\": \"T-Shirt\",\n        \"url\": \"http://your-store-url.mybigcommerce.com/your-product/\",\n        \"quantity\": 5,\n        \"is_taxable\": false,\n        \"image_url\": \"https://pathtoproductimage/ProductDefault.png\",\n        \"discounts\": [\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 7647.027153376228\n          },\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 3877.685173203169\n          }\n        ],\n        \"coupons\": 9723.768404861588,\n        \"discount_amount\": 4,\n        \"coupon_amount\": 1046.6985217919046,\n        \"original_price\": 2394.3038980055267,\n        \"list_price\": 7309.854800573707,\n        \"sale_price\": 277.24856621734517,\n        \"extended_list_price\": 4191.478586790136,\n        \"extended_sale_price\": 5002.966068714645,\n        \"options\": [\n          {\n            \"name\": \"string\",\n            \"nameId\": 8798.788595731216,\n            \"value\": \"string\",\n            \"valueId\": 128\n          },\n          {\n            \"name\": \"string\",\n            \"nameId\": 501.1796078956343,\n            \"value\": \"string\",\n            \"valueId\": 128\n          }\n        ],\n        \"download_file_urls\": [\n          \"string\",\n          \"string\"\n        ],\n        \"download_page_url\": \"string\",\n        \"download_size\": \"string\"\n      }\n    ],\n    \"gift_certificates\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"theme\": \"string\",\n        \"amount\": 9446.128199485862,\n        \"is_taxable\": true,\n        \"sender\": {\n          \"name\": \"string\",\n          \"email\": \"string\"\n        },\n        \"recipient\": {\n          \"name\": \"string\",\n          \"email\": \"string\"\n        },\n        \"message\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"theme\": \"string\",\n        \"amount\": 8092.70008958491,\n        \"is_taxable\": false,\n        \"sender\": {\n          \"name\": \"string\",\n          \"email\": \"string\"\n        },\n        \"recipient\": {\n          \"name\": \"string\",\n          \"email\": \"string\"\n        },\n        \"message\": \"string\"\n      }\n    ],\n    \"custom_items\": [\n      {\n        \"id\": \"string\",\n        \"sku\": \"string\",\n        \"name\": \"string\",\n        \"quantity\": \"string\",\n        \"list_price\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"sku\": \"string\",\n        \"name\": \"string\",\n        \"quantity\": \"string\",\n        \"list_price\": \"string\"\n      }\n    ]\n  },\n  \"created_time\": \"string\",\n  \"updated_time\": \"string\",\n  \"channel_id\": 9776,\n  \"locale\": \"string\",\n  \"promotions\": {\n    \"banners\": {\n      \"id\": \"string\",\n      \"type\": \"string\",\n      \"page\": [\n        \"string\",\n        \"string\"\n      ],\n      \"text\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2788673b-5bed-4f87-8cdb-b5e9bad6394a",
+          "name": "BigCommerce Update Cart Line Item",
+          "request": {
+            "name": "BigCommerce Update Cart Line Item",
+            "description": {
+              "content": "Updates an existing, single line item in the *Cart*. \n\n**Notes**\n\nCurrently, only updating `list_price` and `quantity` are supported. Updating a product’s `list_price` will make that item ineligible for V3 product-level promotions. \n\nIf the product has modifiers, omit the `variant_id` and instead use the `option_selections` array to describe both the **variant** and the **modifier** selections.\n\nIf a variant needs to be changed or updated, the product will need to be removed and re-added to the cart with the correct variants using the **Add Cart Line Items** endpoint.\n\n`custom_items` cannot be updated via the API at this time. To update your cart, add a new updated custom item and delete the outdated one. If your cart contains only one line item, perform the add operation before the delete operation.\n\nDeleting all line items from the cart will invalidate the cart. \n\nPlease note that this API endpoint is not concurrent safe, meaning multiple simultaneous requests could result in unexpected and inconsistent results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "carts",
+                ":cartId",
+                "items",
+                ":itemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "* `redirect_urls`: Create a direct link to a cart. This can be used for the /POST request for carts.\n* `line_items.physical_items.options`: The cart returns an abbreviated result. Use this to return physical items product options. To return the extended cart object, use in a /POST request.\n* `line_items.digital_items.options`: The cart returns an abbreviated result. Use this to return digital items product options. To return the extended cart object, use in a /POST request.\n* `promotions.banners`: Returns a list of eligible banners."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<UUID>",
+                  "key": "cartId",
+                  "description": "(Required) The identifier of a specific cart."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "itemId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"line_item\": {\n    \"quantity\": \"<number>\",\n    \"product_id\": \"<number>\",\n    \"list_price\": \"<number>\",\n    \"variant_id\": \"<number>\",\n    \"name\": \"<string>\",\n    \"gift_wrapping\": {\n      \"wrap_together\": \"<boolean>\",\n      \"wrap_details\": [\n        {\n          \"id\": \"<number>\",\n          \"message\": \"<string>\"\n        },\n        {\n          \"id\": \"<number>\",\n          \"message\": \"<string>\"\n        }\n      ]\n    }\n  },\n  \"gift_certificates\": [\n    {\n      \"name\": \"<string>\",\n      \"theme\": \"<string>\",\n      \"amount\": \"<number>\",\n      \"quantity\": \"<integer>\",\n      \"sender\": {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"recipient\": {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"message\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"theme\": \"<string>\",\n      \"amount\": \"<number>\",\n      \"quantity\": \"<integer>\",\n      \"sender\": {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"recipient\": {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"message\": \"<string>\"\n    }\n  ],\n  \"custom_items\": [\n    {\n      \"sku\": \"<string>\",\n      \"name\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"list_price\": \"<number>\"\n    },\n    {\n      \"sku\": \"<string>\",\n      \"name\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"list_price\": \"<number>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d53455a9-4843-40ff-9a3b-6f53ee0dfa80",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carts",
+                    ":cartId",
+                    "items",
+                    ":itemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<UUID>",
+                      "key": "cartId",
+                      "description": "(Required) The identifier of a specific cart."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "itemId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"line_item\": {\n    \"quantity\": \"<number>\",\n    \"product_id\": \"<number>\",\n    \"list_price\": \"<number>\",\n    \"variant_id\": \"<number>\",\n    \"name\": \"<string>\",\n    \"gift_wrapping\": {\n      \"wrap_together\": true,\n      \"wrap_details\": [\n        {\n          \"id\": 0,\n          \"message\": \"Happy Birthday\"\n        },\n        {\n          \"id\": 0,\n          \"message\": \"Happy Birthday\"\n        }\n      ]\n    }\n  },\n  \"gift_certificates\": [\n    {\n      \"name\": \"<string>\",\n      \"theme\": \"<string>\",\n      \"amount\": \"<number>\",\n      \"quantity\": \"<integer>\",\n      \"sender\": {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"recipient\": {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"message\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"theme\": \"<string>\",\n      \"amount\": \"<number>\",\n      \"quantity\": \"<integer>\",\n      \"sender\": {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"recipient\": {\n        \"name\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"message\": \"<string>\"\n    }\n  ],\n  \"custom_items\": [\n    {\n      \"sku\": \"<string>\",\n      \"name\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"list_price\": \"<number>\"\n    },\n    {\n      \"sku\": \"<string>\",\n      \"name\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"list_price\": \"<number>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"parent_id\": \"string\",\n  \"customer_id\": 2922,\n  \"email\": \"string\",\n  \"currency\": {\n    \"code\": \"usd\"\n  },\n  \"tax_included\": true,\n  \"base_amount\": 7796.605495892152,\n  \"discount_amount\": 4758.702860065842,\n  \"cart_amount\": 5062.721267866429,\n  \"coupons\": [\n    {\n      \"code\": \"string\",\n      \"id\": \"string\",\n      \"coupon_type\": \"4\",\n      \"discounted_amount\": 3926.4873124247256\n    },\n    {\n      \"code\": \"string\",\n      \"id\": \"string\",\n      \"coupon_type\": \"4\",\n      \"discounted_amount\": 727.1225469452525\n    }\n  ],\n  \"discounts\": [\n    {\n      \"id\": \"coupon\",\n      \"discounted_amount\": 2866.7018350078965\n    },\n    {\n      \"id\": \"coupon\",\n      \"discounted_amount\": 9711.732121519597\n    }\n  ],\n  \"line_items\": {\n    \"physical_items\": [\n      {\n        \"variant_id\": 358,\n        \"product_id\": 12,\n        \"quantity\": 5,\n        \"id\": \"6e193ce6-f327-4dcc-b75e-72cf6738525e\",\n        \"sku\": \"SMGREEN\",\n        \"name\": \"T-Shirt\",\n        \"weight\": 1.2,\n        \"dimensions\": {\n          \"height\": 2,\n          \"width\": 2.1,\n          \"depth\": 2.2\n        },\n        \"url\": \"http://your-store-url.mybigcommerce.com/your-product/\",\n        \"is_taxable\": false,\n        \"image_url\": \"https://pathtoproductimage/ProductDefault.png\",\n        \"discounts\": [\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 9.261609774723345\n          },\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 4141.620604042968\n          }\n        ],\n        \"coupons\": 6568.435061636423,\n        \"discount_amount\": 4,\n        \"coupon_amount\": 731.1131176416286,\n        \"original_price\": 786.2481518000275,\n        \"list_price\": 4517.08835240251,\n        \"sale_price\": 2675.9852849824083,\n        \"extended_list_price\": 9124.319415417707,\n        \"extended_sale_price\": 5949.572428600578,\n        \"options\": [\n          {\n            \"name\": \"string\",\n            \"nameId\": 151,\n            \"value\": \"string\",\n            \"valueId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": \"string\",\n            \"nameId\": 151,\n            \"value\": \"string\",\n            \"valueId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"gift_wrapping\": {\n          \"name\": \"Gift Wrap 1\",\n          \"message\": \"Happy Birthday!\",\n          \"amount\": 1.99\n        }\n      },\n      {\n        \"variant_id\": 358,\n        \"product_id\": 12,\n        \"quantity\": 5,\n        \"id\": \"6e193ce6-f327-4dcc-b75e-72cf6738525e\",\n        \"sku\": \"SMGREEN\",\n        \"name\": \"T-Shirt\",\n        \"weight\": 1.2,\n        \"dimensions\": {\n          \"height\": 2,\n          \"width\": 2.1,\n          \"depth\": 2.2\n        },\n        \"url\": \"http://your-store-url.mybigcommerce.com/your-product/\",\n        \"is_taxable\": false,\n        \"image_url\": \"https://pathtoproductimage/ProductDefault.png\",\n        \"discounts\": [\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 7699.287461625601\n          },\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 8140.148600113584\n          }\n        ],\n        \"coupons\": 8099.960262541433,\n        \"discount_amount\": 4,\n        \"coupon_amount\": 2227.4602901922613,\n        \"original_price\": 5711.597760994103,\n        \"list_price\": 7724.372260721289,\n        \"sale_price\": 3569.4059101577745,\n        \"extended_list_price\": 742.8370059905776,\n        \"extended_sale_price\": 5242.0417845387165,\n        \"options\": [\n          {\n            \"name\": \"string\",\n            \"nameId\": 151,\n            \"value\": \"string\",\n            \"valueId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": \"string\",\n            \"nameId\": 151,\n            \"value\": \"string\",\n            \"valueId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"gift_wrapping\": {\n          \"name\": \"Gift Wrap 1\",\n          \"message\": \"Happy Birthday!\",\n          \"amount\": 1.99\n        }\n      }\n    ],\n    \"digital_items\": [\n      {\n        \"id\": \"6e193ce6-f327-4dcc-b75e-72cf6738525e\",\n        \"variant_id\": 358,\n        \"product_id\": 12,\n        \"sku\": \"SMGREEN\",\n        \"name\": \"T-Shirt\",\n        \"url\": \"http://your-store-url.mybigcommerce.com/your-product/\",\n        \"quantity\": 5,\n        \"is_taxable\": false,\n        \"image_url\": \"https://pathtoproductimage/ProductDefault.png\",\n        \"discounts\": [\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 3241.686549210393\n          },\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 6303.694980486737\n          }\n        ],\n        \"coupons\": 4078.042087934031,\n        \"discount_amount\": 4,\n        \"coupon_amount\": 8061.028880975741,\n        \"original_price\": 4671.863284168107,\n        \"list_price\": 9931.188985789286,\n        \"sale_price\": 5693.385267656966,\n        \"extended_list_price\": 6436.085609099527,\n        \"extended_sale_price\": 5601.741421752134,\n        \"options\": [\n          {\n            \"name\": \"string\",\n            \"nameId\": 4725.801703864814,\n            \"value\": \"string\",\n            \"valueId\": 128\n          },\n          {\n            \"name\": \"string\",\n            \"nameId\": 5450.926758248562,\n            \"value\": \"string\",\n            \"valueId\": 128\n          }\n        ],\n        \"download_file_urls\": [\n          \"string\",\n          \"string\"\n        ],\n        \"download_page_url\": \"string\",\n        \"download_size\": \"string\"\n      },\n      {\n        \"id\": \"6e193ce6-f327-4dcc-b75e-72cf6738525e\",\n        \"variant_id\": 358,\n        \"product_id\": 12,\n        \"sku\": \"SMGREEN\",\n        \"name\": \"T-Shirt\",\n        \"url\": \"http://your-store-url.mybigcommerce.com/your-product/\",\n        \"quantity\": 5,\n        \"is_taxable\": false,\n        \"image_url\": \"https://pathtoproductimage/ProductDefault.png\",\n        \"discounts\": [\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 5334.369692395242\n          },\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"discounted_amount\": 7754.17692481326\n          }\n        ],\n        \"coupons\": 8871.945925715796,\n        \"discount_amount\": 4,\n        \"coupon_amount\": 4862.783377500428,\n        \"original_price\": 8512.536436520857,\n        \"list_price\": 8455.242972708404,\n        \"sale_price\": 4747.475180649291,\n        \"extended_list_price\": 97.72223777399502,\n        \"extended_sale_price\": 2084.0481833789627,\n        \"options\": [\n          {\n            \"name\": \"string\",\n            \"nameId\": 4393.645611059153,\n            \"value\": \"string\",\n            \"valueId\": 128\n          },\n          {\n            \"name\": \"string\",\n            \"nameId\": 5854.175455071986,\n            \"value\": \"string\",\n            \"valueId\": 128\n          }\n        ],\n        \"download_file_urls\": [\n          \"string\",\n          \"string\"\n        ],\n        \"download_page_url\": \"string\",\n        \"download_size\": \"string\"\n      }\n    ],\n    \"gift_certificates\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"theme\": \"string\",\n        \"amount\": 1035.808515758928,\n        \"is_taxable\": true,\n        \"sender\": {\n          \"name\": \"string\",\n          \"email\": \"string\"\n        },\n        \"recipient\": {\n          \"name\": \"string\",\n          \"email\": \"string\"\n        },\n        \"message\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"theme\": \"string\",\n        \"amount\": 4982.715702753341,\n        \"is_taxable\": true,\n        \"sender\": {\n          \"name\": \"string\",\n          \"email\": \"string\"\n        },\n        \"recipient\": {\n          \"name\": \"string\",\n          \"email\": \"string\"\n        },\n        \"message\": \"string\"\n      }\n    ],\n    \"custom_items\": [\n      {\n        \"id\": \"string\",\n        \"sku\": \"string\",\n        \"name\": \"string\",\n        \"quantity\": \"string\",\n        \"list_price\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"sku\": \"string\",\n        \"name\": \"string\",\n        \"quantity\": \"string\",\n        \"list_price\": \"string\"\n      }\n    ]\n  },\n  \"created_time\": \"string\",\n  \"updated_time\": \"string\",\n  \"channel_id\": 4111,\n  \"locale\": \"string\",\n  \"promotions\": {\n    \"banners\": {\n      \"id\": \"string\",\n      \"type\": \"string\",\n      \"page\": [\n        \"string\",\n        \"string\"\n      ],\n      \"text\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2b1a1558-e3f2-45f0-95a2-610826b6391d",
+          "name": "BigCommerce Delete Cart Line Item",
+          "request": {
+            "name": "BigCommerce Delete Cart Line Item",
+            "description": {
+              "content": "Deletes a *Cart* line item. \n\n**Notes**\n\nRemoving the last `line_item` in the *Cart* deletes the *Cart*.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "carts",
+                ":cartId",
+                "items",
+                ":itemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "* `redirect_urls`: Create a direct link to a cart. This can be used for the /POST request for carts.\n* `line_items.physical_items.options`: The cart returns an abbreviated result. Use this to return physical items product options. To return the extended cart object, use in a /POST request.\n* `line_items.digital_items.options`: The cart returns an abbreviated result. Use this to return digital items product options. To return the extended cart object, use in a /POST request.\n* `promotions.banners`: Returns a list of eligible banners."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<UUID>",
+                  "key": "cartId",
+                  "description": "(Required) The identifier of a specific cart."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "itemId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f30cf323-f1d8-4af1-893b-adfcf67f6e5d",
+              "name": "NOTE: Discounted line items are re-evaluated on cart actions and may be automatically added back to your cart with a new line item ID to satisfy promotional requirements.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carts",
+                    ":cartId",
+                    "items",
+                    ":itemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<UUID>",
+                      "key": "cartId",
+                      "description": "(Required) The identifier of a specific cart."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "itemId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"bc218c65-7a32-4ab7-8082-68730c074d02\",\n    \"customer_id\": 11,\n    \"email\": \"\",\n    \"currency\": {\n      \"code\": \"USD\"\n    },\n    \"tax_included\": false,\n    \"base_amount\": 189.75,\n    \"discount_amount\": 0,\n    \"cart_amount\": 212.81,\n    \"coupons\": [],\n    \"line_items\": {\n      \"physical_items\": [\n        {\n          \"id\": \"6e193ce6-f327-4dcc-b75e-72cf6738525e\",\n          \"parent_id\": {},\n          \"variant_id\": 362,\n          \"product_id\": 191,\n          \"sku\": \"\",\n          \"name\": \"Openhouse No. 3\",\n          \"url\": \"http://id30h7ohwf.mybigcommerce.com/all/openhouse-no-3/\",\n          \"quantity\": 5,\n          \"taxable\": true,\n          \"image_url\": \"https://cdn8.bigcommerce.com/s-id30h7ohwf/products/191/images/475/openhousevol3_1024x1024__59692__16355.1534344544.330.500.jpg?c=2\",\n          \"discounts\": [],\n          \"coupons\": [],\n          \"discount_amount\": 0,\n          \"coupon_amount\": 0,\n          \"original_price\": 27.95,\n          \"list_price\": 27.95,\n          \"sale_price\": 27.95,\n          \"extended_list_price\": 139.75,\n          \"extended_sale_price\": 139.75,\n          \"is_require_shipping\": true,\n          \"options\": [\n            {\n              \"name\": \"Add a $5 Donation\",\n              \"nameId\": 82,\n              \"value\": \"No\",\n              \"valueId\": 186\n            }\n          ]\n        }\n      ],\n      \"digital_items\": [],\n      \"custom_items\": [\n        {\n          \"extended_list_price\": 5.99,\n          \"id\": \"78239b69-1952-4c35-9d58-ea30158b4e39\",\n          \"list_price\": 5.99,\n          \"name\": \"Rope Toy\",\n          \"quantity\": 1,\n          \"sku\": \"ROPE-TOY\"\n        }\n      ],\n      \"gift_certificates\": [\n        {\n          \"id\": \"6e38bbc2-8873-472c-a452-8bd4aaea5d3a\",\n          \"name\": \"Happy Birthday\",\n          \"theme\": \"birthday.html\",\n          \"amount\": 50,\n          \"quantity\": 1,\n          \"taxable\": false,\n          \"sender\": {\n            \"name\": \"Jane Does\",\n            \"email\": \"janedoe@example.com\"\n          },\n          \"recipient\": {\n            \"name\": \"Jane Does\",\n            \"email\": \"janedoe@example.com\"\n          },\n          \"message\": \"Happy Birthday Jane!\"\n        }\n      ]\n    },\n    \"created_time\": \"2018-09-17T14:27:39.000Z\",\n    \"updated_time\": \"2018-09-17T14:53:40.000Z\",\n    \"meta\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9507bf14-0307-4ee9-b7d7-d522d926f8fc",
+              "name": "If the action’s result is an empty cart, the cart is automatically deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carts",
+                    ":cartId",
+                    "items",
+                    ":itemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<UUID>",
+                      "key": "cartId",
+                      "description": "(Required) The identifier of a specific cart."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "itemId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0584fb60-fc5c-46e8-a2e2-cdf44be1c680",
+    "name": "BigCommerce Abandoned Cart Emails Items API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

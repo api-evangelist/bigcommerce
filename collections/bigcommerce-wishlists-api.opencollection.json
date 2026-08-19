@@ -1,0 +1,171 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Wishlists API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Wishlists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Wishlists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/wishlists",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "query",
+                "description": "All wishlists relating to the customer."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number of results per page. 1 is the default and starts from record 0."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The numbers of items to return per page. Default is 50 and maximum is 250."
+              }
+            ]
+          },
+          "docs": "Returns a list of wishlists. Optional filter parameters can be passed in."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Wishlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/wishlists",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a wishlist and wishlist item. More than one item can be added in the POST.\n\n**Required Fields**\n* name\n* customer_id"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Wishlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/wishlists/:wishlist_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "wishlist_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Wishlist."
+              }
+            ]
+          },
+          "docs": "Returns a single wishlist."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Wishlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/wishlists/:wishlist_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "wishlist_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Wishlist."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a wishlist.\n\nUse this endpoint to update existing wishlist items, change the wishlistʼs name and whether the wishlist is available publicly. To add or delete a wishlist item, see [Wishlist Items](/docs/rest-management/wishlists/wishlists-items)."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Wishlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/wishlists/:wishlist_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "wishlist_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Wishlist."
+              }
+            ]
+          },
+          "docs": "Deletes a wishlist."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

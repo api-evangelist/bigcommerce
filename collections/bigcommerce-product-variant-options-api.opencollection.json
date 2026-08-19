@@ -1,0 +1,221 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Product Variant Options API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Product Variant Options",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Product Variant Options",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/options",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of products."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of products."
+              },
+              {
+                "name": "include_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to include, in a comma-separated list. The ID and the specified fields will be returned."
+              },
+              {
+                "name": "exclude_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded."
+              }
+            ]
+          },
+          "docs": "Returns a list of product *Variant Options*. Optional parameters can be passed in. "
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Product Variant Option",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/options",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a *Variant Option*.\n\n**Required Fields**\n* display_name\n* type\n* option_values\n\n**Read-Only Fields**\n* id\n\n**Limits**\n* 255 characters option name length.\n\n**Notes**\n\n* Only one variant option at a time can be created; individual variant options will contain an array of multiple values.\n* There are several examples listed below that create options, but the SKUs are not updated and they are not a variant on the product. Variant SKUs must be created with a separate request.\n* Variant optio"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Product Variant Option",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/options/:option_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "option_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Option`.\n"
+              },
+              {
+                "name": "include_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to include, in a comma-separated list. The ID and the specified fields will be returned."
+              },
+              {
+                "name": "exclude_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded."
+              }
+            ]
+          },
+          "docs": "Returns a single *Variant Option*. Optional parameters can be passed in."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Product Variant Option",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/options/:option_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "option_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Option`.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a *Variant Option*.\n\n**Read-Only Fields**\n* id"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Product Variant Option",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/options/:option_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "option_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Option`.\n"
+              }
+            ]
+          },
+          "docs": "Deletes a *Variant Option*."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

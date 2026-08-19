@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Tax Properties API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tax Properties",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Tax Properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax/properties",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query",
+                "description": "ID of tax property. To target multiple tax properties, provide a comma-separated list of IDs such as `12,34,56`"
+              }
+            ]
+          },
+          "docs": "Retrieve all tax properties defined in this store."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create Tax Properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax/properties",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create one or more tax properties. A **code** and a **display name** must be included when creating tax properties."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Tax Properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax/properties",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update one or more tax properties. Only fields specified will be adjusted."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Tax Properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax/properties",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query",
+                "description": "ID of tax property. To target multiple tax properties, provide a comma-separated list of IDs such as `12,34,56`"
+              }
+            ]
+          },
+          "docs": "Delete one or multiple tax properties. A tax property must have zero usages within product tax properties before you can delete it."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

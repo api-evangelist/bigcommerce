@@ -1,0 +1,510 @@
+{
+  "item": [
+    {
+      "id": "9f60d621-2bc6-4717-8c13-64318eea7e2a",
+      "name": "Tax Zones",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "479dda3a-6fdb-4a94-b560-140c0d754be2",
+          "name": "BigCommerce Get Tax Zones",
+          "request": {
+            "name": "BigCommerce Get Tax Zones",
+            "description": {
+              "content": "Retrieve a selection of tax zones when you provide a list of tax zone IDs. Otherwise, retrieve all tax zones defined on the store.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tax",
+                "zones"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id:in",
+                  "value": "<integer>",
+                  "description": "Filter by tax zone `id`. Use a comma-separated CSV string of IDs for multiple tax zones. For example, `5` or `12,34,56`."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1d8b6088-0ae6-4734-89ea-bde71ca5d78f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tax",
+                    "zones"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id:in",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 2,\n      \"name\": \"example zone\",\n      \"enabled\": false,\n      \"price_display_settings\": {\n        \"show_inclusive\": false,\n        \"show_both_on_detail_view\": false,\n        \"show_both_on_list_view\": false\n      },\n      \"shopper_target_settings\": {\n        \"locations\": [\n          {\n            \"country_code\": \"AR\",\n            \"subdivision_codes\": [\n              \"T\",\n              \"V\"\n            ],\n            \"postal_codes\": []\n          },\n          {\n            \"country_code\": \"AU\",\n            \"subdivision_codes\": [\n              \"WA\",\n              \"VIC\"\n            ],\n            \"postal_codes\": []\n          }\n        ],\n        \"customer_groups\": [\n          2\n        ]\n      }\n    }\n  ],\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fc165e78-9b94-4fa2-ac76-95e9cd8c5d60",
+          "name": "BigCommerce Update Tax Zones",
+          "request": {
+            "name": "BigCommerce Update Tax Zones",
+            "description": {
+              "content": "Update one or more tax zones. Only the tax zone `id` field is required. Fields unspecified by the request will retain their current state.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tax",
+                "zones"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"id\": \"<integer>\",\n    \"name\": \"<string>\",\n    \"enabled\": true,\n    \"price_display_settings\": {\n      \"show_inclusive\": \"<boolean>\",\n      \"show_both_on_detail_view\": \"<boolean>\",\n      \"show_both_on_list_view\": \"<boolean>\"\n    },\n    \"shopper_target_settings\": {\n      \"locations\": [\n        {\n          \"country_code\": \"<string>\",\n          \"subdivision_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"postal_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        {\n          \"country_code\": \"<string>\",\n          \"subdivision_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"postal_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      ],\n      \"customer_groups\": [\n        \"<integer>\",\n        \"<integer>\"\n      ]\n    }\n  },\n  {\n    \"id\": \"<integer>\",\n    \"name\": \"<string>\",\n    \"enabled\": true,\n    \"price_display_settings\": {\n      \"show_inclusive\": \"<boolean>\",\n      \"show_both_on_detail_view\": \"<boolean>\",\n      \"show_both_on_list_view\": \"<boolean>\"\n    },\n    \"shopper_target_settings\": {\n      \"locations\": [\n        {\n          \"country_code\": \"<string>\",\n          \"subdivision_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"postal_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        {\n          \"country_code\": \"<string>\",\n          \"subdivision_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"postal_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      ],\n      \"customer_groups\": [\n        \"<integer>\",\n        \"<integer>\"\n      ]\n    }\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b60da778-5d21-4539-a708-cc005a89715f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tax",
+                    "zones"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 23,\n      \"name\": \"Australia\",\n      \"enabled\": false,\n      \"price_display_settings\": {\n        \"show_inclusive\": false,\n        \"show_both_on_detail_view\": false,\n        \"show_both_on_list_view\": false\n      },\n      \"shopper_target_settings\": {\n        \"locations\": [\n          {\n            \"country_code\": \"AU\",\n            \"subdivision_codes\": [],\n            \"postal_codes\": [\n              \"2238\",\n              \"2173\"\n            ]\n          }\n        ],\n        \"customer_groups\": [\n          2\n        ]\n      }\n    }\n  ],\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a01e49ae-3514-4052-b3aa-94d36b085921",
+          "name": "BigCommerce Create Tax Zones",
+          "request": {
+            "name": "BigCommerce Create Tax Zones",
+            "description": {
+              "content": "Create one or more tax zones.\n\n> #### Note\n> You cannot create a default tax zone.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tax",
+                "zones"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"name\": \"<string>\",\n    \"enabled\": true,\n    \"price_display_settings\": {\n      \"show_inclusive\": \"<boolean>\",\n      \"show_both_on_detail_view\": false,\n      \"show_both_on_list_view\": false\n    },\n    \"shopper_target_settings\": {\n      \"locations\": [\n        {\n          \"country_code\": \"<string>\",\n          \"subdivision_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"postal_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        {\n          \"country_code\": \"<string>\",\n          \"subdivision_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"postal_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      ],\n      \"customer_groups\": [\n        \"<integer>\",\n        \"<integer>\"\n      ]\n    }\n  },\n  {\n    \"name\": \"<string>\",\n    \"enabled\": true,\n    \"price_display_settings\": {\n      \"show_inclusive\": \"<boolean>\",\n      \"show_both_on_detail_view\": false,\n      \"show_both_on_list_view\": false\n    },\n    \"shopper_target_settings\": {\n      \"locations\": [\n        {\n          \"country_code\": \"<string>\",\n          \"subdivision_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"postal_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        {\n          \"country_code\": \"<string>\",\n          \"subdivision_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"postal_codes\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      ],\n      \"customer_groups\": [\n        \"<integer>\",\n        \"<integer>\"\n      ]\n    }\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "90031653-255c-4410-bba9-086de79ba3b8",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tax",
+                    "zones"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 2,\n      \"name\": \"example zone\",\n      \"enabled\": true,\n      \"price_display_settings\": {\n        \"show_inclusive\": true,\n        \"show_both_on_detail_view\": true,\n        \"show_both_on_list_view\": true\n      },\n      \"shopper_target_settings\": {\n        \"locations\": [\n          {\n            \"country_code\": \"AR\",\n            \"subdivision_codes\": [\n              \"T\",\n              \"V\"\n            ],\n            \"postal_codes\": []\n          },\n          {\n            \"country_code\": \"AU\",\n            \"subdivision_codes\": [\n              \"WA\",\n              \"VIC\"\n            ],\n            \"postal_codes\": []\n          }\n        ],\n        \"customer_groups\": [\n          0\n        ]\n      }\n    }\n  ],\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "200076e2-ceb3-4318-9a78-14702ae9956e",
+          "name": "BigCommerce Delete Tax Zones",
+          "request": {
+            "name": "BigCommerce Delete Tax Zones",
+            "description": {
+              "content": "Delete one or more tax zones. Deleting a tax zone removes all associated tax rates.\n\n> You must specify which zone(s) to delete using the `id:in` query parameter.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tax",
+                "zones"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id:in",
+                  "value": "<integer>",
+                  "description": "Filter by tax zone `id`. Use a comma-separated CSV string of IDs for multiple tax zones. For example, `5` or `12,34,56`."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bf7663a0-6177-40fc-9684-82178d30923a",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tax",
+                    "zones"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id:in",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d495297f-1095-45b4-af76-e44aa56187ca",
+    "name": "BigCommerce Abandoned Cart Emails Tax Zones API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

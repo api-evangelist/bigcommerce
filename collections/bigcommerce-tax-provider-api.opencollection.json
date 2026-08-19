@@ -1,0 +1,122 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Tax Provider API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tax Provider",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Estimate Taxes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/estimate",
+            "headers": [
+              {
+                "name": "X-BC-Store-Hash",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit the quote request to retrieve an estimate from the enabled third-party tax provider. Estimates are not expected to be persisted by the tax provider.\n\n> Server URL\n> - For supporting tax providers, the server URL contains the tax provider's profile field; for example, `your_profile.example.com`.\n> - The Try it feature is not currently supported for this endpoint.\n\nThe following actions can trigger tax estimate requests multiple times during a standard checkout on a BigCommerce storefront, "
+        },
+        {
+          "info": {
+            "name": "BigCommerce Void Tax Quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/void",
+            "headers": [
+              {
+                "name": "X-BC-Store-Hash",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Unique ID identifying the existing, persisted Tax Quote that will be voided."
+              }
+            ]
+          },
+          "docs": "Invalidate the persisted tax quote as identified by the given unique ID. Relevant to order cancellations, full refunds, or moving an order from a paid status to an unpaid status.\n\n> Server URL\n> - For supporting tax providers, the server URL contains the tax provider's profile field; for example, `your_profile.example.com`.\n> - The Try it feature is not currently supported for this endpoint."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Commit Tax Quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/commit",
+            "headers": [
+              {
+                "name": "X-BC-Store-Hash",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit the quote request to be persisted by the enabled third-party tax provider. A commit operation is intended to be submitted once only, when the Order has been confirmed and paid.\n\n> Server URL\n> - For supporting tax providers, the server URL contains the tax provider's profile field; for example, `your_profile.example.com`.\n> - The Try it feature is not currently supported for this endpoint."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Adjust Tax Quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/adjust",
+            "headers": [
+              {
+                "name": "X-BC-Store-Hash",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Unique ID identifying the existing, persisted Tax Quote that will be adjusted."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replace the persisted tax quote (identified by the given unique ID) with the provided quote request (represented by the **AdjustRequest**).\n\nRelevant for returns, partial refunds, and other Order modifications where there have been changes to the tax liabilities.\n\nThe returned **Tax Quote** response is expected to be the same to a response returned by an equivalent response to **estimate** or **commit** methods.\n\n> Server URL\n> - For supporting tax providers, the server URL contains the tax prov"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

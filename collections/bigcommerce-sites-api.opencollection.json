@@ -1,0 +1,174 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Sites API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sites",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Sites",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/sites",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of items."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of items."
+              },
+              {
+                "name": "channel_id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filters returned sites by channel ID."
+              },
+              {
+                "name": "url_type:in",
+                "value": "",
+                "type": "query",
+                "description": "Filters sites returned in the `data.urls` array by their URL type."
+              }
+            ]
+          },
+          "docs": "Get sites linked to a [headless storefront](/docs/storefront/headless) sales channels."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Site",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/sites",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a site that links a [headless storefront](/docs/storefront/headless) to a sales [channel](/docs/rest-management/channels)."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Site",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/sites/:site_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "site_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a site with site ID `{site_id}`."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Site",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/sites/:site_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "site_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a site with site ID `{site_id}`."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Site",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/sites/:site_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "site_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a site with site ID `{site_id}`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

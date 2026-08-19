@@ -1,0 +1,331 @@
+{
+  "item": [
+    {
+      "id": "760909cd-c61c-4286-9906-79a86f88cb6d",
+      "name": "Checkout Coupons",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "82f38f1f-a26e-4fdd-844d-873fe66ee5f8",
+          "name": "BigCommerce Add Coupon to Checkout",
+          "request": {
+            "name": "BigCommerce Add Coupon to Checkout",
+            "description": {
+              "content": "Adds a coupon code to a checkout.\n\n**Required Fields**\n* coupon_code\n\n**Limits**\n* Coupon codes have a 50-character limit. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "checkouts",
+                ":checkoutId",
+                "coupons"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "checkoutId",
+                  "description": "(Required) ID of the checkout; the same as the cart ID."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"coupon_code\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2b4353e1-9c5b-4a85-9940-21ff053ca949",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "checkouts",
+                    ":checkoutId",
+                    "coupons"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "checkoutId",
+                      "description": "(Required) ID of the checkout; the same as the cart ID."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"coupon_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"497f6eca-6276-4993-bfeb-53cbbbba6f08\",\n    \"cart\": {\n      \"id\": \"497f6eca-6276-4993-bfeb-53cbbbba6f08\",\n      \"customer_id\": 1,\n      \"email\": \"user@example.com\",\n      \"currency\": {\n        \"code\": \"USD\"\n      },\n      \"base_amount\": 5,\n      \"channel_id\": 8050.827083812591,\n      \"discount_amount\": 0.5,\n      \"cart_amount_inc_tax\": 4.14,\n      \"cart_amount_ex_tax\": 3.6,\n      \"coupons\": [\n        {\n          \"code\": \"SHOPNOW\",\n          \"id\": 1,\n          \"coupon_type\": \"percentage_discount\",\n          \"discounted_amount\": 0.9\n        },\n        {\n          \"code\": \"SHOPNOW\",\n          \"id\": 1,\n          \"coupon_type\": \"percentage_discount\",\n          \"discounted_amount\": 0.9\n        }\n      ],\n      \"discounts\": [\n        {\n          \"id\": \"5eba1f1e-0ec5-40f7-8058-f7b452c7237d\",\n          \"discounted_amount\": 1.4\n        },\n        {\n          \"id\": \"5eba1f1e-0ec5-40f7-8058-f7b452c7237d\",\n          \"discounted_amount\": 1.4\n        }\n      ],\n      \"line_items\": {\n        \"physical_items\": [\n          {\n            \"quantity\": 9427.599525574184,\n            \"id\": \"string\",\n            \"variant_id\": 9454.269386421998,\n            \"product_id\": 6058.814218673384,\n            \"sku\": \"string\",\n            \"name\": \"string\",\n            \"url\": \"string\",\n            \"is_taxable\": false,\n            \"image_url\": \"string\",\n            \"discounts\": [\n              {\n                \"id\": 8205,\n                \"discounted_amount\": 9060.113423244462\n              },\n              {\n                \"id\": 6757,\n                \"discounted_amount\": 9703.206952518018\n              }\n            ],\n            \"discount_amount\": 9907.323889177487,\n            \"coupon_amount\": 1395.9613263275883,\n            \"original_price\": 3917.0664748042773,\n            \"list_price\": 5827.976821383144,\n            \"sale_price\": 199.28872190524748,\n            \"extended_list_price\": 6992.185117507092,\n            \"extended_sale_price\": 2501.0207976012953,\n            \"is_require_shipping\": false,\n            \"is_mutable\": false,\n            \"parent_id\": 4719.980029871359,\n            \"gift_wrapping\": {\n              \"name\": \"string\",\n              \"message\": \"string\",\n              \"amount\": 203.48947242678662,\n              \"amount_as_integer\": 8470.716634833683\n            }\n          },\n          {\n            \"quantity\": 5053.58322646137,\n            \"id\": \"string\",\n            \"variant_id\": 2724.072821512884,\n            \"product_id\": 4401.945037672296,\n            \"sku\": \"string\",\n            \"name\": \"string\",\n            \"url\": \"string\",\n            \"is_taxable\": false,\n            \"image_url\": \"string\",\n            \"discounts\": [\n              {\n                \"id\": 7131,\n                \"discounted_amount\": 3182.530417667434\n              },\n              {\n                \"id\": 4703,\n                \"discounted_amount\": 1846.3481509593228\n              }\n            ],\n            \"discount_amount\": 8122.5783065164915,\n            \"coupon_amount\": 48.03469877600386,\n            \"original_price\": 2366.2341402248567,\n            \"list_price\": 3282.1995983377906,\n            \"sale_price\": 3237.8063400372316,\n            \"extended_list_price\": 7762.972159710867,\n            \"extended_sale_price\": 3795.2633796567957,\n            \"is_require_shipping\": false,\n            \"is_mutable\": false,\n            \"parent_id\": 5864.300180675591,\n            \"gift_wrapping\": {\n              \"name\": \"string\",\n              \"message\": \"string\",\n              \"amount\": 4868.6092075938195,\n              \"amount_as_integer\": 2720.726668698469\n            }\n          }\n        ],\n        \"digital_items\": [\n          {\n            \"quantity\": 485.31798732274757,\n            \"id\": \"string\",\n            \"variant_id\": 3552.4898063540923,\n            \"parent_id\": 2838.0390305175706,\n            \"product_id\": 389.1051524592548,\n            \"sku\": \"string\",\n            \"name\": \"string\",\n            \"url\": \"string\",\n            \"is_mutable\": false,\n            \"is_require_shipping\": true,\n            \"is_taxable\": false,\n            \"image_url\": \"string\",\n            \"discounts\": [\n              {\n                \"id\": \"string\",\n                \"discounted_amount\": 3944.076056814133\n              },\n              {\n                \"id\": \"string\",\n                \"discounted_amount\": 7571.6809538657135\n              }\n            ],\n            \"discount_amount\": 8737.884656418237,\n            \"coupon_amount\": 2850.253977669197,\n            \"original_price\": 1350.4340851144957,\n            \"list_price\": 2422.7329778815356,\n            \"sale_price\": 5461.101067376778,\n            \"extended_list_price\": 308.3479600684791,\n            \"extended_sale_price\": 6862.204853589816\n          },\n          {\n            \"quantity\": 3726.6731944008657,\n            \"id\": \"string\",\n            \"variant_id\": 8537.699303961632,\n            \"parent_id\": 1108.2599883584921,\n            \"product_id\": 1349.7445227318483,\n            \"sku\": \"string\",\n            \"name\": \"string\",\n            \"url\": \"string\",\n            \"is_mutable\": false,\n            \"is_require_shipping\": true,\n            \"is_taxable\": false,\n            \"image_url\": \"string\",\n            \"discounts\": [\n              {\n                \"id\": \"string\",\n                \"discounted_amount\": 4384.715993123097\n              },\n              {\n                \"id\": \"string\",\n                \"discounted_amount\": 1572.0357044498057\n              }\n            ],\n            \"discount_amount\": 2575.6644734396273,\n            \"coupon_amount\": 7882.888188004074,\n            \"original_price\": 7308.252769671253,\n            \"list_price\": 4423.149700342047,\n            \"sale_price\": 4810.422657882268,\n            \"extended_list_price\": 1732.7977355963087,\n            \"extended_sale_price\": 1106.3563527872843\n          }\n        ],\n        \"gift_certificates\": [\n          {\n            \"theme\": \"string\",\n            \"amount\": 5433.3421224239055,\n            \"sender\": {\n              \"name\": \"string\",\n              \"email\": \"string\"\n            },\n            \"recipient\": {\n              \"name\": \"string\",\n              \"email\": \"string\"\n            },\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"taxable\": true,\n            \"message\": \"string\"\n          },\n          {\n            \"theme\": \"string\",\n            \"amount\": 5978.084187011084,\n            \"sender\": {\n              \"name\": \"string\",\n              \"email\": \"string\"\n            },\n            \"recipient\": {\n              \"name\": \"string\",\n              \"email\": \"string\"\n            },\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"taxable\": true,\n            \"message\": \"string\"\n          }\n        ],\n        \"custom_items\": [\n          {\n            \"quantity\": 4188.857656463093,\n            \"id\": \"string\",\n            \"extended_list_price\": 4812.141244350536,\n            \"list_price\": 9757.764625048234,\n            \"sku\": \"string\",\n            \"name\": \"string\",\n            \"image_url\": \"string\"\n          },\n          {\n            \"quantity\": 1685.8061323425866,\n            \"id\": \"string\",\n            \"extended_list_price\": 9425.139524224925,\n            \"list_price\": 3777.314794505975,\n            \"sku\": \"string\",\n            \"name\": \"string\",\n            \"image_url\": \"string\"\n          }\n        ]\n      },\n      \"created_time\": \"string\",\n      \"updated_time\": \"string\"\n    },\n    \"billing_address\": {\n      \"first_name\": \"string\",\n      \"last_name\": \"string\",\n      \"email\": \"string\",\n      \"company\": \"string\",\n      \"address1\": \"string\",\n      \"address2\": \"string\",\n      \"city\": \"string\",\n      \"state_or_province\": \"string\",\n      \"state_or_province_code\": \"string\",\n      \"country_code\": \"string\",\n      \"postal_code\": \"string\",\n      \"phone\": \"5841x2{1-5}\",\n      \"custom_fields\": [\n        {\n          \"field_id\": \"string\",\n          \"field_value\": \"string\"\n        },\n        {\n          \"field_id\": \"string\",\n          \"field_value\": \"string\"\n        }\n      ],\n      \"id\": \"string\"\n    },\n    \"consignments\": [\n      {\n        \"id\": \"string\",\n        \"shippingAddress\": {},\n        \"address\": {\n          \"email\": \"string\",\n          \"country_code\": \"string\",\n          \"first_name\": \"string\",\n          \"last_name\": \"string\",\n          \"company\": \"string\",\n          \"address1\": \"string\",\n          \"address2\": \"string\",\n          \"city\": \"string\",\n          \"state_or_province\": \"string\",\n          \"state_or_province_code\": \"string\",\n          \"postal_code\": \"string\",\n          \"phone\": \"33298440182\",\n          \"custom_fields\": [\n            {\n              \"field_id\": \"string\",\n              \"field_value\": \"string\"\n            },\n            {\n              \"field_id\": \"string\",\n              \"field_value\": \"string\"\n            }\n          ],\n          \"id\": \"string\"\n        },\n        \"available_shipping_options\": [\n          {\n            \"description\": \"string\",\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"image_url\": \"string\",\n            \"cost\": 2394.049027607551,\n            \"transit_time\": \"string\",\n            \"additional_description\": \"string\"\n          },\n          {\n            \"description\": \"string\",\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"image_url\": \"string\",\n            \"cost\": 9518.226356205592,\n            \"transit_time\": \"string\",\n            \"additional_description\": \"string\"\n          }\n        ],\n        \"selected_shipping_option\": {\n          \"description\": \"string\",\n          \"id\": \"string\",\n          \"type\": \"string\",\n          \"image_url\": \"string\",\n          \"cost\": 2361.5610805238675,\n          \"transit_time\": \"string\",\n          \"additional_description\": \"string\"\n        },\n        \"coupon_discounts\": [\n          {\n            \"code\": \"string\",\n            \"amount\": 2247.2063321174405\n          },\n          {\n            \"code\": \"string\",\n            \"amount\": 7290.332263702837\n          }\n        ],\n        \"discounts\": [\n          {\n            \"id\": 6491\n          },\n          {\n            \"id\": 7606\n          }\n        ],\n        \"shipping_cost_inc_tax\": 1470.6458452125771,\n        \"shipping_cost_ex_tax\": 4253.659034440622,\n        \"handling_cost_inc_tax\": 1631.3000993261862,\n        \"handling_cost_ex_tax\": 8165.990377257346,\n        \"line_item_ids\": [\n          \"string\",\n          \"string\"\n        ],\n        \"selected_pickup_option\": {\n          \"pickup_method_id\": 3877\n        }\n      },\n      {\n        \"id\": \"string\",\n        \"shippingAddress\": {},\n        \"address\": {\n          \"email\": \"string\",\n          \"country_code\": \"string\",\n          \"first_name\": \"string\",\n          \"last_name\": \"string\",\n          \"company\": \"string\",\n          \"address1\": \"string\",\n          \"address2\": \"string\",\n          \"city\": \"string\",\n          \"state_or_province\": \"string\",\n          \"state_or_province_code\": \"string\",\n          \"postal_code\": \"string\",\n          \"phone\": \"9062x2{1-5}\",\n          \"custom_fields\": [\n            {\n              \"field_id\": \"string\",\n              \"field_value\": \"string\"\n            },\n            {\n              \"field_id\": \"string\",\n              \"field_value\": \"string\"\n            }\n          ],\n          \"id\": \"string\"\n        },\n        \"available_shipping_options\": [\n          {\n            \"description\": \"string\",\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"image_url\": \"string\",\n            \"cost\": 1920.9044912526974,\n            \"transit_time\": \"string\",\n            \"additional_description\": \"string\"\n          },\n          {\n            \"description\": \"string\",\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"image_url\": \"string\",\n            \"cost\": 7176.518853616993,\n            \"transit_time\": \"string\",\n            \"additional_description\": \"string\"\n          }\n        ],\n        \"selected_shipping_option\": {\n          \"description\": \"string\",\n          \"id\": \"string\",\n          \"type\": \"string\",\n          \"image_url\": \"string\",\n          \"cost\": 8657.759919460104,\n          \"transit_time\": \"string\",\n          \"additional_description\": \"string\"\n        },\n        \"coupon_discounts\": [\n          {\n            \"code\": \"string\",\n            \"amount\": 8202.286809876314\n          },\n          {\n            \"code\": \"string\",\n            \"amount\": 3399.4090021317324\n          }\n        ],\n        \"discounts\": [\n          {\n            \"id\": 6759\n          },\n          {\n            \"id\": 7901\n          }\n        ],\n        \"shipping_cost_inc_tax\": 7297.133393434513,\n        \"shipping_cost_ex_tax\": 5125.017938471125,\n        \"handling_cost_inc_tax\": 8085.873978658204,\n        \"handling_cost_ex_tax\": 9507.26960646365,\n        \"line_item_ids\": [\n          \"string\",\n          \"string\"\n        ],\n        \"selected_pickup_option\": {\n          \"pickup_method_id\": 1051\n        }\n      }\n    ],\n    \"taxes\": [\n      {\n        \"name\": \"string\",\n        \"amount\": 401.38465704044336\n      },\n      {\n        \"name\": \"string\",\n        \"amount\": 6125.32922998827\n      }\n    ],\n    \"coupons\": [\n      {\n        \"code\": \"SHOPNOW\",\n        \"id\": 1,\n        \"coupon_type\": \"percentage_discount\",\n        \"discounted_amount\": 0.9\n      },\n      {\n        \"code\": \"SHOPNOW\",\n        \"id\": 1,\n        \"coupon_type\": \"percentage_discount\",\n        \"discounted_amount\": 0.9\n      }\n    ],\n    \"order_id\": \"string\",\n    \"shipping_cost_total_inc_tax\": 5128.491741915161,\n    \"shipping_cost_total_ex_tax\": 8000.8186846201925,\n    \"handling_cost_total_inc_tax\": 1262.4152430260306,\n    \"handling_cost_total_ex_tax\": 2002.7933366903837,\n    \"tax_total\": 3613.5139863753207,\n    \"subtotal_inc_tax\": 1363.786102863721,\n    \"subtotal_ex_tax\": 1098.682360035842,\n    \"grand_total\": 3530.645532667516,\n    \"created_time\": \"string\",\n    \"updated_time\": \"string\",\n    \"customer_message\": \"string\",\n    \"promotions\": [\n      {\n        \"banners\": [\n          {\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"page\": [\n              \"string\",\n              \"string\"\n            ],\n            \"text\": \"string\"\n          },\n          {\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"page\": [\n              \"string\",\n              \"string\"\n            ],\n            \"text\": \"string\"\n          }\n        ]\n      },\n      {\n        \"banners\": [\n          {\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"page\": [\n              \"string\",\n              \"string\"\n            ],\n            \"text\": \"string\"\n          },\n          {\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"page\": [\n              \"string\",\n              \"string\"\n            ],\n            \"text\": \"string\"\n          }\n        ]\n      }\n    ]\n  },\n  \"meta\": {\n    \"key_0\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a7c8eb41-6e4b-44e0-9332-5afddce14d55",
+          "name": "BigCommerce Delete Checkout Coupon",
+          "request": {
+            "name": "BigCommerce Delete Checkout Coupon",
+            "description": {
+              "content": "Deletes a coupon code from a checkout.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "checkouts",
+                ":checkoutId",
+                "coupons",
+                ":couponCode"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "checkoutId",
+                  "description": "(Required) ID of the checkout; the same as the cart ID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "couponCode",
+                  "description": "(Required) The actual coupon code value, not the coupon ID."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c7d6738a-4b37-4290-a216-4afb52526cbd",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "checkouts",
+                    ":checkoutId",
+                    "coupons",
+                    ":couponCode"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "checkoutId",
+                      "description": "(Required) ID of the checkout; the same as the cart ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "couponCode",
+                      "description": "(Required) The actual coupon code value, not the coupon ID."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"497f6eca-6276-4993-bfeb-53cbbbba6f08\",\n    \"cart\": {\n      \"id\": \"497f6eca-6276-4993-bfeb-53cbbbba6f08\",\n      \"customer_id\": 1,\n      \"email\": \"user@example.com\",\n      \"currency\": {\n        \"code\": \"USD\"\n      },\n      \"base_amount\": 5,\n      \"channel_id\": 2.4330136401862212,\n      \"discount_amount\": 0.5,\n      \"cart_amount_inc_tax\": 4.14,\n      \"cart_amount_ex_tax\": 3.6,\n      \"coupons\": [\n        {\n          \"code\": \"SHOPNOW\",\n          \"id\": 1,\n          \"coupon_type\": \"percentage_discount\",\n          \"discounted_amount\": 0.9\n        },\n        {\n          \"code\": \"SHOPNOW\",\n          \"id\": 1,\n          \"coupon_type\": \"percentage_discount\",\n          \"discounted_amount\": 0.9\n        }\n      ],\n      \"discounts\": [\n        {\n          \"id\": \"5eba1f1e-0ec5-40f7-8058-f7b452c7237d\",\n          \"discounted_amount\": 1.4\n        },\n        {\n          \"id\": \"5eba1f1e-0ec5-40f7-8058-f7b452c7237d\",\n          \"discounted_amount\": 1.4\n        }\n      ],\n      \"line_items\": {\n        \"physical_items\": [\n          {\n            \"quantity\": 3280.722392329932,\n            \"id\": \"string\",\n            \"variant_id\": 2538.9326001630784,\n            \"product_id\": 2020.684302783734,\n            \"sku\": \"string\",\n            \"name\": \"string\",\n            \"url\": \"string\",\n            \"is_taxable\": true,\n            \"image_url\": \"string\",\n            \"discounts\": [\n              {\n                \"id\": 3768,\n                \"discounted_amount\": 1169.0736740309194\n              },\n              {\n                \"id\": 6606,\n                \"discounted_amount\": 6899.09617378412\n              }\n            ],\n            \"discount_amount\": 3301.178022024215,\n            \"coupon_amount\": 846.3523212070056,\n            \"original_price\": 6062.507276853922,\n            \"list_price\": 6734.624984553876,\n            \"sale_price\": 8595.817822707173,\n            \"extended_list_price\": 300.86883278939825,\n            \"extended_sale_price\": 4477.797249314124,\n            \"is_require_shipping\": false,\n            \"is_mutable\": true,\n            \"parent_id\": 2006.9599380479065,\n            \"gift_wrapping\": {\n              \"name\": \"string\",\n              \"message\": \"string\",\n              \"amount\": 374.57082645946826,\n              \"amount_as_integer\": 4131.936658018779\n            }\n          },\n          {\n            \"quantity\": 8816.20988756097,\n            \"id\": \"string\",\n            \"variant_id\": 7619.422428820178,\n            \"product_id\": 7187.677416747463,\n            \"sku\": \"string\",\n            \"name\": \"string\",\n            \"url\": \"string\",\n            \"is_taxable\": false,\n            \"image_url\": \"string\",\n            \"discounts\": [\n              {\n                \"id\": 1423,\n                \"discounted_amount\": 4299.29553360329\n              },\n              {\n                \"id\": 5943,\n                \"discounted_amount\": 1702.8532290552157\n              }\n            ],\n            \"discount_amount\": 5253.488117621947,\n            \"coupon_amount\": 4429.100868691155,\n            \"original_price\": 8205.643507702118,\n            \"list_price\": 5926.398911191493,\n            \"sale_price\": 8053.02932683503,\n            \"extended_list_price\": 5496.924498654054,\n            \"extended_sale_price\": 5098.468935991432,\n            \"is_require_shipping\": true,\n            \"is_mutable\": false,\n            \"parent_id\": 5595.181270136171,\n            \"gift_wrapping\": {\n              \"name\": \"string\",\n              \"message\": \"string\",\n              \"amount\": 483.75003648448376,\n              \"amount_as_integer\": 8804.569110007244\n            }\n          }\n        ],\n        \"digital_items\": [\n          {\n            \"quantity\": 3781.7528623010453,\n            \"id\": \"string\",\n            \"variant_id\": 48.65226508750431,\n            \"parent_id\": 6414.325303819024,\n            \"product_id\": 977.7696161206184,\n            \"sku\": \"string\",\n            \"name\": \"string\",\n            \"url\": \"string\",\n            \"is_mutable\": false,\n            \"is_require_shipping\": true,\n            \"is_taxable\": true,\n            \"image_url\": \"string\",\n            \"discounts\": [\n              {\n                \"id\": \"string\",\n                \"discounted_amount\": 1538.3205243826858\n              },\n              {\n                \"id\": \"string\",\n                \"discounted_amount\": 9929.047279783092\n              }\n            ],\n            \"discount_amount\": 7089.482462779306,\n            \"coupon_amount\": 9187.287392577915,\n            \"original_price\": 8780.617750055837,\n            \"list_price\": 6802.734051949713,\n            \"sale_price\": 5955.290802191747,\n            \"extended_list_price\": 691.8640943297238,\n            \"extended_sale_price\": 1763.8848945919628\n          },\n          {\n            \"quantity\": 6870.053611780468,\n            \"id\": \"string\",\n            \"variant_id\": 4222.134954169648,\n            \"parent_id\": 4903.157453520464,\n            \"product_id\": 7457.2302240771905,\n            \"sku\": \"string\",\n            \"name\": \"string\",\n            \"url\": \"string\",\n            \"is_mutable\": true,\n            \"is_require_shipping\": true,\n            \"is_taxable\": false,\n            \"image_url\": \"string\",\n            \"discounts\": [\n              {\n                \"id\": \"string\",\n                \"discounted_amount\": 1857.9204405257344\n              },\n              {\n                \"id\": \"string\",\n                \"discounted_amount\": 6516.495759128341\n              }\n            ],\n            \"discount_amount\": 3306.9677860802294,\n            \"coupon_amount\": 658.1334477884182,\n            \"original_price\": 830.7100096159636,\n            \"list_price\": 4972.189774935644,\n            \"sale_price\": 1064.5247285976634,\n            \"extended_list_price\": 9086.29687222705,\n            \"extended_sale_price\": 8636.233354101505\n          }\n        ],\n        \"gift_certificates\": [\n          {\n            \"theme\": \"string\",\n            \"amount\": 5289.252501937139,\n            \"sender\": {\n              \"name\": \"string\",\n              \"email\": \"string\"\n            },\n            \"recipient\": {\n              \"name\": \"string\",\n              \"email\": \"string\"\n            },\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"taxable\": false,\n            \"message\": \"string\"\n          },\n          {\n            \"theme\": \"string\",\n            \"amount\": 1354.1102656387582,\n            \"sender\": {\n              \"name\": \"string\",\n              \"email\": \"string\"\n            },\n            \"recipient\": {\n              \"name\": \"string\",\n              \"email\": \"string\"\n            },\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"taxable\": true,\n            \"message\": \"string\"\n          }\n        ],\n        \"custom_items\": [\n          {\n            \"quantity\": 3594.4165275750483,\n            \"id\": \"string\",\n            \"extended_list_price\": 7360.369575563143,\n            \"list_price\": 271.8678339900471,\n            \"sku\": \"string\",\n            \"name\": \"string\",\n            \"image_url\": \"string\"\n          },\n          {\n            \"quantity\": 9536.762638653345,\n            \"id\": \"string\",\n            \"extended_list_price\": 8822.326140225967,\n            \"list_price\": 5669.52449457498,\n            \"sku\": \"string\",\n            \"name\": \"string\",\n            \"image_url\": \"string\"\n          }\n        ]\n      },\n      \"created_time\": \"string\",\n      \"updated_time\": \"string\"\n    },\n    \"billing_address\": {\n      \"first_name\": \"string\",\n      \"last_name\": \"string\",\n      \"email\": \"string\",\n      \"company\": \"string\",\n      \"address1\": \"string\",\n      \"address2\": \"string\",\n      \"city\": \"string\",\n      \"state_or_province\": \"string\",\n      \"state_or_province_code\": \"string\",\n      \"country_code\": \"string\",\n      \"postal_code\": \"string\",\n      \"phone\": \"207824098917x2{1-5}\",\n      \"custom_fields\": [\n        {\n          \"field_id\": \"string\",\n          \"field_value\": \"string\"\n        },\n        {\n          \"field_id\": \"string\",\n          \"field_value\": \"string\"\n        }\n      ],\n      \"id\": \"string\"\n    },\n    \"consignments\": [\n      {\n        \"id\": \"string\",\n        \"shippingAddress\": {},\n        \"address\": {\n          \"email\": \"string\",\n          \"country_code\": \"string\",\n          \"first_name\": \"string\",\n          \"last_name\": \"string\",\n          \"company\": \"string\",\n          \"address1\": \"string\",\n          \"address2\": \"string\",\n          \"city\": \"string\",\n          \"state_or_province\": \"string\",\n          \"state_or_province_code\": \"string\",\n          \"postal_code\": \"string\",\n          \"phone\": \"+962691\",\n          \"custom_fields\": [\n            {\n              \"field_id\": \"string\",\n              \"field_value\": \"string\"\n            },\n            {\n              \"field_id\": \"string\",\n              \"field_value\": \"string\"\n            }\n          ],\n          \"id\": \"string\"\n        },\n        \"available_shipping_options\": [\n          {\n            \"description\": \"string\",\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"image_url\": \"string\",\n            \"cost\": 4023.5120262147193,\n            \"transit_time\": \"string\",\n            \"additional_description\": \"string\"\n          },\n          {\n            \"description\": \"string\",\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"image_url\": \"string\",\n            \"cost\": 6572.854393532085,\n            \"transit_time\": \"string\",\n            \"additional_description\": \"string\"\n          }\n        ],\n        \"selected_shipping_option\": {\n          \"description\": \"string\",\n          \"id\": \"string\",\n          \"type\": \"string\",\n          \"image_url\": \"string\",\n          \"cost\": 796.1798542216314,\n          \"transit_time\": \"string\",\n          \"additional_description\": \"string\"\n        },\n        \"coupon_discounts\": [\n          {\n            \"code\": \"string\",\n            \"amount\": 6539.094448265045\n          },\n          {\n            \"code\": \"string\",\n            \"amount\": 3378.0781698579344\n          }\n        ],\n        \"discounts\": [\n          {\n            \"id\": 4700\n          },\n          {\n            \"id\": 2302\n          }\n        ],\n        \"shipping_cost_inc_tax\": 4425.600804701686,\n        \"shipping_cost_ex_tax\": 3046.757911105642,\n        \"handling_cost_inc_tax\": 8284.634147083509,\n        \"handling_cost_ex_tax\": 2348.264467286346,\n        \"line_item_ids\": [\n          \"string\",\n          \"string\"\n        ],\n        \"selected_pickup_option\": {\n          \"pickup_method_id\": 7481\n        }\n      },\n      {\n        \"id\": \"string\",\n        \"shippingAddress\": {},\n        \"address\": {\n          \"email\": \"string\",\n          \"country_code\": \"string\",\n          \"first_name\": \"string\",\n          \"last_name\": \"string\",\n          \"company\": \"string\",\n          \"address1\": \"string\",\n          \"address2\": \"string\",\n          \"city\": \"string\",\n          \"state_or_province\": \"string\",\n          \"state_or_province_code\": \"string\",\n          \"postal_code\": \"string\",\n          \"phone\": \"+786227340128883\",\n          \"custom_fields\": [\n            {\n              \"field_id\": \"string\",\n              \"field_value\": \"string\"\n            },\n            {\n              \"field_id\": \"string\",\n              \"field_value\": \"string\"\n            }\n          ],\n          \"id\": \"string\"\n        },\n        \"available_shipping_options\": [\n          {\n            \"description\": \"string\",\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"image_url\": \"string\",\n            \"cost\": 2923.629880651869,\n            \"transit_time\": \"string\",\n            \"additional_description\": \"string\"\n          },\n          {\n            \"description\": \"string\",\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"image_url\": \"string\",\n            \"cost\": 4855.708379021676,\n            \"transit_time\": \"string\",\n            \"additional_description\": \"string\"\n          }\n        ],\n        \"selected_shipping_option\": {\n          \"description\": \"string\",\n          \"id\": \"string\",\n          \"type\": \"string\",\n          \"image_url\": \"string\",\n          \"cost\": 8333.714807207662,\n          \"transit_time\": \"string\",\n          \"additional_description\": \"string\"\n        },\n        \"coupon_discounts\": [\n          {\n            \"code\": \"string\",\n            \"amount\": 275.6293014239852\n          },\n          {\n            \"code\": \"string\",\n            \"amount\": 9269.916359692274\n          }\n        ],\n        \"discounts\": [\n          {\n            \"id\": 5876\n          },\n          {\n            \"id\": 5563\n          }\n        ],\n        \"shipping_cost_inc_tax\": 9245.4379461538,\n        \"shipping_cost_ex_tax\": 4304.302893346722,\n        \"handling_cost_inc_tax\": 295.6226486174507,\n        \"handling_cost_ex_tax\": 7074.139637881899,\n        \"line_item_ids\": [\n          \"string\",\n          \"string\"\n        ],\n        \"selected_pickup_option\": {\n          \"pickup_method_id\": 3692\n        }\n      }\n    ],\n    \"taxes\": [\n      {\n        \"name\": \"string\",\n        \"amount\": 4513.809712732743\n      },\n      {\n        \"name\": \"string\",\n        \"amount\": 2847.6083480935545\n      }\n    ],\n    \"coupons\": [\n      {\n        \"code\": \"SHOPNOW\",\n        \"id\": 1,\n        \"coupon_type\": \"percentage_discount\",\n        \"discounted_amount\": 0.9\n      },\n      {\n        \"code\": \"SHOPNOW\",\n        \"id\": 1,\n        \"coupon_type\": \"percentage_discount\",\n        \"discounted_amount\": 0.9\n      }\n    ],\n    \"order_id\": \"string\",\n    \"shipping_cost_total_inc_tax\": 2719.4639476471507,\n    \"shipping_cost_total_ex_tax\": 5239.496724165785,\n    \"handling_cost_total_inc_tax\": 7179.876143630789,\n    \"handling_cost_total_ex_tax\": 8135.237756550799,\n    \"tax_total\": 4999.43570288897,\n    \"subtotal_inc_tax\": 1223.7425723149697,\n    \"subtotal_ex_tax\": 9282.668053328123,\n    \"grand_total\": 6608.643406902289,\n    \"created_time\": \"string\",\n    \"updated_time\": \"string\",\n    \"customer_message\": \"string\",\n    \"promotions\": [\n      {\n        \"banners\": [\n          {\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"page\": [\n              \"string\",\n              \"string\"\n            ],\n            \"text\": \"string\"\n          },\n          {\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"page\": [\n              \"string\",\n              \"string\"\n            ],\n            \"text\": \"string\"\n          }\n        ]\n      },\n      {\n        \"banners\": [\n          {\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"page\": [\n              \"string\",\n              \"string\"\n            ],\n            \"text\": \"string\"\n          },\n          {\n            \"id\": \"string\",\n            \"type\": \"string\",\n            \"page\": [\n              \"string\",\n              \"string\"\n            ],\n            \"text\": \"string\"\n          }\n        ]\n      }\n    ]\n  },\n  \"meta\": {\n    \"key_0\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "98006045-e075-4b36-bfb9-28dfdca0b8ca",
+    "name": "BigCommerce Abandoned Cart Emails Checkout Coupons API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

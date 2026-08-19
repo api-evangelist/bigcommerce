@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Current Customers API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Current Customers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Current Customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customer/current.jwt",
+            "params": [
+              {
+                "name": "app_client_id",
+                "value": "",
+                "type": "query",
+                "description": "This is your applicationʼs client ID, which is obtained during application registration in the Developer Portal."
+              }
+            ]
+          },
+          "docs": "Identify logged-in customers securely via JavaScript.\n\n> #### Note\n> The Send a Test Request feature is not currently supported for this endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

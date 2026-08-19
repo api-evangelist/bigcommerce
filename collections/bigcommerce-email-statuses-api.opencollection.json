@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Email Statuses API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Email Statuses",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Transactional Email Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/settings/email-statuses",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+              }
+            ]
+          },
+          "docs": "Get global transactional email settings or channel specific overrides by `channel_id`."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Transactional Email Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/settings/email-statuses",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update global transactional email settings or create channel specific overrides by `channel_id`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

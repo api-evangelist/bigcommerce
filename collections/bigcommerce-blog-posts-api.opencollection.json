@@ -1,0 +1,237 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Blog Posts API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Blog Posts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Blog Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/blog/posts",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "is_published",
+                "value": "",
+                "type": "query",
+                "description": "Filter param."
+              },
+              {
+                "name": "url",
+                "value": "",
+                "type": "query",
+                "description": "Filter param. Value must be URL encoded."
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query",
+                "description": "Filter param."
+              },
+              {
+                "name": "published_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter param."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Filter param."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Filter param."
+              }
+            ]
+          },
+          "docs": "Returns all *Blog Posts*. Default sorting is by published_date, beginning with the most recent post."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Blog Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/blog/posts",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a *Blog Post*.\n\n**Required Fields**\n*   `title`\n*   `body`\n\n**Notes**\n\n* When including `published_date` in a request, supply it as a flat date string (not an object) in valid <a href=\"http://tools.ietf.org/html/rfc2822#section-3.3\" target=\"_blank\">RFC 2822</a>. The following example request includes a `published_date` in RFC 2822 format.\n* Blog posts default to draft status. To publish blog posts to the storefront, set the `is_published` property to `true`.\n* If a custom URL is not prov"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Blog Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/blog/posts",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Filter param."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Filter param."
+              }
+            ]
+          },
+          "docs": "Deletes a page of `Blog Posts`."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Blog Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/blog/posts/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the blog post."
+              }
+            ]
+          },
+          "docs": "Returns a single *Blog Post*."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Blog Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/blog/posts/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the blog post."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a *Blog Post*.\n\n**Notes**\n\n* To include `published_date` in a request, provide a flat date string (not an object) in valid <a href=\"http://tools.ietf.org/html/rfc2822#section-3.3\" target=\"_blank\">RFC 2822</a>. The following example request includes a `published_date` in RFC 2822 format.\n\n* Blog posts default to draft status. To publish blog posts to the storefront, set the `is_published` property to `true`."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Blog Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/blog/posts/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the blog post."
+              }
+            ]
+          },
+          "docs": "Deletes a *Blog Post*."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get A Count of All Blog Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/blog/posts/count",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Returns a count of all *Blog Posts*."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

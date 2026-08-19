@@ -1,0 +1,303 @@
+{
+  "item": [
+    {
+      "id": "fbb05c39-6029-4b3e-9cc0-141b98d58464",
+      "name": "Channel Settings",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "84d35a30-08a8-4d83-9085-f0fd54bb8890",
+          "name": "BigCommerce Get Customer Settings per Channel",
+          "request": {
+            "name": "BigCommerce Get Customer Settings per Channel",
+            "description": {
+              "content": "Returns the customer settings per channel.\n\n**Notes**\n\n * `null` indicates that there is no override per given channel and values are inherited from the global level.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "customers",
+                "settings",
+                "channels",
+                ":channel_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "channel_id",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "37490448-5c26-4b10-a21d-e314ff4612bd",
+              "name": "Customer settings for this channel are returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customers",
+                    "settings",
+                    "channels",
+                    ":channel_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "channel_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"privacy_settings\": {\n    \"ask_shopper_for_tracking_consent\": true,\n    \"policy_url\": \"https://bigcommmerce.com/policy\"\n  },\n  \"customer_group_settings\": {\n    \"guest_customer_group_id\": 1,\n    \"allow_global_logins\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "58f18cc4-98c1-4f6c-960e-4d1d5c8df24e",
+          "name": "BigCommerce Update Customer Settings per Channel",
+          "request": {
+            "name": "BigCommerce Update Customer Settings per Channel",
+            "description": {
+              "content": "Update the customer settings per channel\n\n**Required Fields**\n\n* `channel_id`: Provide a `channel_id` array containing one or more channel IDs. Customers will have access to these channels and no others. This array cannot be empty.\n\n**Notes**\n\n* Setting `null` will delete override per given channel, and values will be inherited from the global level. Make sure the channel has `allow_global_logins` enabled.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "customers",
+                "settings",
+                "channels",
+                ":channel_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "channel_id",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"privacy_settings\": {\n    \"ask_shopper_for_tracking_consent\": \"<boolean>\",\n    \"policy_url\": \"<string>\"\n  },\n  \"customer_group_settings\": {\n    \"guest_customer_group_id\": \"<integer>\",\n    \"default_customer_group_id\": \"<integer>\"\n  },\n  \"allow_global_logins\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a7675945-3553-4d17-93d2-8a1a415768ef",
+              "name": "Customer settings are returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customers",
+                    "settings",
+                    "channels",
+                    ":channel_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "channel_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"privacy_settings\": {\n    \"ask_shopper_for_tracking_consent\": true,\n    \"policy_url\": \"https://bigcommmerce.com/policy\"\n  },\n  \"customer_group_settings\": {\n    \"guest_customer_group_id\": 0,\n    \"default_customer_group_id\": 0\n  },\n  \"allow_global_logins\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"privacy_settings\": {\n    \"ask_shopper_for_tracking_consent\": true,\n    \"policy_url\": \"https://bigcommmerce.com/policy\",\n    \"ask_shopper_for_tracking_consent_on_checkout\": null\n  },\n  \"customer_group_settings\": {\n    \"guest_customer_group_id\": 0,\n    \"default_customer_group_id\": 0\n  },\n  \"allow_global_logins\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9ff77a18-c7b3-480e-85e3-8c4bd2bc3cea",
+    "name": "BigCommerce Abandoned Cart Emails Channel Settings API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

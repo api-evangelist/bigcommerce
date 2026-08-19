@@ -1,0 +1,107 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Site Certificate API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Site Certificate",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get a Site’s SSL/TLS Certificate Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/sites/:site_id/certificate",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "site_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Obtain information about a site’s SSL/TLS certificate."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Upsert a Site’s SSL/TLS Certificate Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/sites/:site_id/certificate",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "site_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "- If a value for `url` is not supplied, the saved certificate is associated with the specified site’s `primary` URL.\n- Use caution. Because this endpoint upserts, supplying an SSL certificate for a domain that already has a certificate connected overwrites the domain’s extant certificate.'"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get Site Certificates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/sites/certificates",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "urls:in",
+                "value": "",
+                "type": "query",
+                "description": "Query certificates by one or more URLs"
+              }
+            ]
+          },
+          "docs": "Return all SSL certificates connected to domains within a store."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

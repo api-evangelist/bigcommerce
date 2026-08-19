@@ -1,0 +1,509 @@
+{
+  "item": [
+    {
+      "id": "b5587a5f-d1ea-4d27-9410-d4ba8c4ac311",
+      "name": "Methods",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e574b47f-305b-4902-97b2-11e38169f4f1",
+          "name": "BigCommerce Get Accepted Payment Methods",
+          "request": {
+            "name": "BigCommerce Get Accepted Payment Methods",
+            "description": {
+              "content": "Returns a list of accepted payment methods based on the `order_id` or `checkout_id`.\n\n**Notes**\n* Use the [Create an Order](/docs/rest-management/orders#create-an-order) endpoint to generate the `order_id`.\n* Orders created will be set to incomplete order status.\n* The cart ID and checkout ID are the same.\n\n**Required Fields**\n* `order_id` or `checkout_id`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments",
+                "methods"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "order_id",
+                  "value": "<integer>",
+                  "description": "Identifier for the order"
+                },
+                {
+                  "disabled": false,
+                  "key": "checkout_id",
+                  "value": "<string>",
+                  "description": "Identifier for the checkout (same as the cart ID)"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "549cba50-0247-441f-b946-cb5a6790c4ac",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "methods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "order_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "checkout_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"bigcommerce.gift_certificate\",\n      \"name\": \"Gift Certificate\",\n      \"test_mode\": false,\n      \"type\": \"gift_certificate\",\n      \"supported_instruments\": [],\n      \"stored_instruments\": []\n    },\n    {\n      \"id\": \"bigcommerce.store_credit\",\n      \"name\": \"Store Credit\",\n      \"test_mode\": false,\n      \"type\": \"store_credit\",\n      \"supported_instruments\": [],\n      \"stored_instruments\": []\n    },\n    {\n      \"id\": \"stripe.card\",\n      \"name\": \"Stripe\",\n      \"test_mode\": true,\n      \"type\": \"card\",\n      \"supported_instruments\": [\n        {\n          \"instrument_type\": \"VISA\",\n          \"verification_value_required\": true\n        },\n        {\n          \"instrument_type\": \"MASTERCARD\",\n          \"verification_value_required\": true\n        },\n        {\n          \"instrument_type\": \"AMEX\",\n          \"verification_value_required\": true\n        },\n        {\n          \"instrument_type\": \"DISCOVER\",\n          \"verification_value_required\": true\n        },\n        {\n          \"instrument_type\": \"JCB\",\n          \"verification_value_required\": true\n        },\n        {\n          \"instrument_type\": \"DINERS_CLUB\",\n          \"verification_value_required\": true\n        },\n        {\n          \"instrument_type\": \"STORED_CARD\",\n          \"verification_value_required\": true\n        }\n      ],\n      \"stored_instruments\": [\n        {\n          \"type\": \"stored_card\",\n          \"brand\": \"VISA\",\n          \"expiry_month\": 9,\n          \"expiry_year\": 2020,\n          \"issuer_identification_number\": \"424242\",\n          \"last_4\": \"4242\",\n          \"token\": \"050a1e5c982e5905288ec5ec33f292772762033a0704f46fccb16bf1940b51ef\",\n          \"is_default\": true\n        }\n      ]\n    }\n  ],\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0c2dde61-90db-428b-88f0-bac5a0085f19",
+              "name": "Request has been rejected",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "methods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "order_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "checkout_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 4207,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"detail\": \"string\",\n  \"code\": 9758,\n  \"errors\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a2cffcee-83ea-4491-b8eb-031fd0f6b06c",
+              "name": "Valid authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "methods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "order_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "checkout_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 4207,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"detail\": \"string\",\n  \"code\": 9758,\n  \"errors\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "62e89488-ee7c-4873-8342-b6259c3ee9f8",
+              "name": "Request has been rejected due to resource not being found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "methods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "order_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "checkout_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 4207,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"detail\": \"string\",\n  \"code\": 9758,\n  \"errors\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8471165-05cb-4c2b-be22-fdc816277a11",
+              "name": "Request has been rejected due to missing or invalid data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "methods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "order_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "checkout_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 4207,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"detail\": \"string\",\n  \"code\": 9758,\n  \"errors\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "70761471-d9c2-4064-90d1-ab010dbf40b9",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "methods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "order_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "checkout_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 4207,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"detail\": \"string\",\n  \"code\": 9758,\n  \"errors\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ae380dbe-12b4-4840-847f-4c550a3544ff",
+    "name": "BigCommerce Abandoned Cart Emails Methods API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

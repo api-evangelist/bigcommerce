@@ -1,0 +1,165 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Pages API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Pages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Pages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pages",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Filter param."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Filter param."
+              }
+            ]
+          },
+          "docs": "Returns a list of *Pages*. Default sorting is by auto-generated ID from oldest to newest.\n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To get one or more pages, use Pages V3ʼs [Get pages](/docs/rest-content/pages#get-pages) endpoint. To get a single page, use Pages V3ʼs [Get a page](/docs/rest-content/pages#get-a-page) endpoint.\n"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Page",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pages",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a *Page*. The request payload limit is 1MB.\n\n**Required Fields**\n*   `type`\n*   `name`\n*   `link` (for a page of `type: link`)\n*   `feed` (for a page of `type: rss_feed`)\n*   `body` (for a page of `type: raw`)\n\n**Read Only Fields**\n*   `id`\n\n## Content Type\n\nThe default value for `content_type` is `text/html`; however, if `page_type` is set to `raw`, `content_type` can be changed to `text/javascript` or `application/json`. Updating this field allows you to place a JavaScript or a JSON fi"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get A Page",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pages/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the page."
+              }
+            ]
+          },
+          "docs": "Returns a *Page*. \n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To get a single page, use Pages V3ʼs [Get a page](/docs/rest-content/pages#get-a-page) endpoint.\n"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Page",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pages/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the page."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a *Page*. The request payload limit is 1MB.\n\n**Read Only Fields**\n* id\n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To update multiple pages, use Pages V3ʼs [Update pages](/docs/rest-content/pages#update-pages) endpoint. To update a single page, use Pages V3ʼs [Update a page](/docs/rest-content/pages#update-a-page) endpoint."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Page",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pages/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the page."
+              }
+            ]
+          },
+          "docs": "Deletes a *Page*.\n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To delete multiple pages, use Pages V3ʼs [Delete pages](/docs/rest-content/pages#delete-pages) endpoint. To delete a single page, use Pages V3ʼs [Delete a page](/docs/rest-content/pages#delete-a-page) endpoint. \n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

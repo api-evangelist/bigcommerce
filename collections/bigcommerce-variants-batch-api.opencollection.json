@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Variants (Batch) API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Variants (Batch)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Variants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/variants",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by ID."
+              },
+              {
+                "name": "sku",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by SKU."
+              },
+              {
+                "name": "upc",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by UPC."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of products."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of products."
+              },
+              {
+                "name": "include_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to include, in a comma-separated list. The ID and the specified fields will be returned."
+              },
+              {
+                "name": "exclude_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded."
+              },
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of IDs of products whose variants were requested. For example:`?product_id:in=77,80,81`"
+              }
+            ]
+          },
+          "docs": "Returns a list of all variants in your catalog. Optional parameters can be passed in."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Variants (Batch)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/variants",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a batch of `variant` objects. Currently the limit is 50 variants however this is subject to change.\n\n**Required Fields**\n\nTo update an existing variant:\n* id (variant ID)\n\nTo create a new variant:\n* product_id\n* sku\n* option_values\n  - id (option_value ID - Example: 146)\n  - option_id (Option ID - Example: 151)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

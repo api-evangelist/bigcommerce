@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Checkout Discounts API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Checkout Discounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Add Discount to Checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/checkouts/:checkoutId/discounts",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "checkoutId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the checkout; the same as the cart ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a discount to an existing *checkout*.\n\nThis discount only applies to `line_items`. When you call this API, you clear out all existing discounts applied to line items, including product and order-based discounts.\n\nThis endpoint splits the discount between line items based on the item value.\n\nRequired Fields\n* discounted_amount"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

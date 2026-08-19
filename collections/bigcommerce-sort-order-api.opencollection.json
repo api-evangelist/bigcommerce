@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Sort Order API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sort Order",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Product Sort Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/categories/:category_id/products/sort-order",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "category_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Category` to which the resource belongs.\n"
+              }
+            ]
+          },
+          "docs": "Returns a list of products and their sort order for a specific category.\n\n**Usage Notes**\n* Data pairs are displayed in ascending order based on products' `sort_order` values.\n* `null` values are allowed for products without specified `sort_order` values.\n* Products with `sort_order` value of `null` will be displayed after products with valid numerical values.\n* The priorities for determining product sort order on a storefront are the following:\n  - Priority 1: Manually specified sort order on C"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Product Sort Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/categories/:category_id/products/sort-order",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "category_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Category` to which the resource belongs.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates sort order of products within a specific category."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

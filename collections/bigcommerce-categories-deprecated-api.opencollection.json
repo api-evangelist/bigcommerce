@@ -1,0 +1,416 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Categories (Deprecated) API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Categories (Deprecated)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/categories",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by ID.\n"
+              },
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id:not_in",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id:min",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id:max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id:greater",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id:less",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by name.\n"
+              },
+              {
+                "name": "name:like",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by parent_id. If the category is a child or sub category it can be filtered with the parent_id. "
+              },
+              {
+                "name": "parent_id:in",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id:min",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id:max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id:greater",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id:less",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page_title",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by page_title.\n"
+              },
+              {
+                "name": "page_title:like",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by keywords. eg. new, towel, bath"
+              },
+              {
+                "name": "is_visible",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by if visible on the storefront. "
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of products."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of products."
+              },
+              {
+                "name": "include_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to include, in a comma-separated list. The ID and the specified fields will be returned."
+              },
+              {
+                "name": "exclude_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Controls the sort order of the response, for example, `sort=name`.\n\nAllowed values: \n- `name`: sort categories in alphabetical order by category name.\n- `id`: sort in ascending order by category ID.\n- `parent_id`: sort in ascending order by the ID of the parent category.\n- `sort_order`: sort in ascending order by sort order value."
+              }
+            ]
+          },
+          "docs": "When possible, use the [Catalog Trees - Get all categories](/docs/rest-catalog/category-trees/categories#get-all-categories) endpoint instead.\n\nReturns a list of *Categories*. Optional filter parameters can be passed in.\n\n**Note:**\nThe default rate limit for this endpoint is 40 concurrent requests."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Category",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/categories",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "When possible, use the [Category Trees - Create categories](/docs/rest-catalog/category-trees/categories#create-categories) endpoint instead.\n\nCreates a *Category*.\n\nUse this endpoint when an API only works with categories of a default BigCommerce storefront (`channel_id=1`). \n\nUse the [Create categories](/docs/rest-catalog/category-trees/categories#create-categories) endpoint when an API works with categories across different category trees that belong to different storefront channels.\n\n**Requi"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/categories",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by ID."
+              },
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id:not_in",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id:min",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id:max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id:greater",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id:less",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by name.\n"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by parent_id. If the category is a child or sub category it can be filtered with the parent_id. "
+              },
+              {
+                "name": "page_title",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by page_title.\n"
+              },
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by keywords. eg. new, towel, bath"
+              },
+              {
+                "name": "is_visible",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by if visible on the storefront. "
+              },
+              {
+                "name": "name:like",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id:in",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id:min",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id:max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id:greater",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parent_id:less",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page_title:like",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "When possible, use the [Category Trees - Delete categories](/docs/rest-catalog/category-trees/categories#delete-categories) endpoint instead.\n\nDeletes *Category* objects. At least one filter parameter is required to perform the `DELETE` operation.\n\n**Usage Notes**\n\n- Sending a `DELETE`request without specifying a filter parameter will result in a `422` error. \n- Sending a `DELETE` request for a category that contains products will result in a `422` error. Move products to a new category by sendi"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Category",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/categories/:category_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "category_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Category` to which the resource belongs.\n"
+              },
+              {
+                "name": "include_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to include, in a comma-separated list. The ID and the specified fields will be returned."
+              },
+              {
+                "name": "exclude_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded."
+              }
+            ]
+          },
+          "docs": "When possible, use the [Catalog Trees - Get all categories](/docs/rest-catalog/category-trees/categories#get-all-categories) endpoint instead. You can provide a category identifier using query parameters to retrieve a single category.\n\nReturns a single *Category*. Optional parameters can be passed in.\n\n**Note:**\nThe default rate limit for this endpoint is 40 concurrent requests."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Category",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/categories/:category_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "category_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Category` to which the resource belongs.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "When possible, use the [Catalog Trees - Update categories](/docs/rest-catalog/category-trees/categories#update-categories) endpoint instead.\n\nUpdates a *Category*.\n\n**Required Fields**\n* none\n\n**Read-Only Fields**\n- id\n\n**Note:** \nThe default rate limit for this endpoint is 40 concurrent requests."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Category",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/categories/:category_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "category_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Category` to which the resource belongs.\n"
+              }
+            ]
+          },
+          "docs": "When possible, use the [Category Trees - Delete categories](/docs/rest-catalog/category-trees/categories#delete-categories) endpoint instead. You can provide a category identifier using query parameters to delete a single category.\n\nDeletes a *Category*.\n\n**Note:**\nThe default rate limit for this endpoint is 40 concurrent requests."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

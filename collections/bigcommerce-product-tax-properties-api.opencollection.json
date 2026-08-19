@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Product Tax Properties API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Product Tax Properties",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Product Tax Properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax/products/properties",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id:in",
+                "value": "",
+                "type": "query",
+                "description": "ID of product. To target multiple products, provide a comma-separated list of IDs such as `12,34,56`"
+              }
+            ]
+          },
+          "docs": "Retrieve the tax properties that are associated with one or more products."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Product Tax Properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax/products/properties",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the tax properties associated with one or more products. This operation will be additive to any tax property values already associated with the product, overwriting any existing tax property values."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Product Tax Properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax/products/properties",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id:in",
+                "value": "",
+                "type": "query",
+                "description": "ID of product. To target multiple products, provide a comma-separated list of IDs such as `12,34,56`"
+              }
+            ]
+          },
+          "docs": "Delete tax properties that are associated with one or more products."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

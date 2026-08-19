@@ -1,0 +1,304 @@
+{
+  "item": [
+    {
+      "id": "760f81e7-db6d-4c71-bd97-0878963ffea5",
+      "name": "Transactions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c4d92dec-e87e-4b68-91e4-2a7820a23545",
+          "name": "BigCommerce Get Transactions",
+          "request": {
+            "name": "BigCommerce Get Transactions",
+            "description": {
+              "content": "Returns an **orderʼs** transactions.\n\n**Usage Notes**\n* Depending on the payment method, different information will be available (not all payment gateways return full card or fraud detail).\n\n\nRequires at least one of the following scopes:\n* `store_v2_transactions_read_only`\n* `store_v2_transactions`",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orders",
+                ":order_id",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "order_id",
+                  "description": "(Required) The ID of the `Order` to which the transactions belong.\n"
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "98af4569-6897-4f5f-b0ea-c7d0aa3622c2",
+              "name": "Response payload for the BigCommerce Order Transactions API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":order_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "order_id",
+                      "description": "(Required) The ID of the `Order` to which the transactions belong.\n"
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"event\": \"pending\",\n      \"method\": \"offline\",\n      \"amount\": 76.07737615335175,\n      \"currency\": \"string\",\n      \"gateway\": \"nmi\",\n      \"gateway_transaction_id\": \"string\",\n      \"date_created\": \"2009-01-13T06:17:08.587Z\",\n      \"test\": false,\n      \"status\": \"ok\",\n      \"fraud_review\": false,\n      \"reference_transaction_id\": 6064,\n      \"offline\": {\n        \"display_name\": \"string\"\n      },\n      \"custom\": {\n        \"payment_method\": \"string\"\n      },\n      \"payment_method_id\": \"string\",\n      \"id\": 8382,\n      \"order_id\": \"string\",\n      \"payment_instrument_token\": \"string\",\n      \"avs_result\": {\n        \"code\": \"string\",\n        \"message\": \"string\",\n        \"street_match\": \"string\",\n        \"postal_match\": \"string\"\n      },\n      \"cvv_result\": {\n        \"code\": \"string\",\n        \"message\": \"string\"\n      },\n      \"credit_card\": {\n        \"card_type\": \"alia\",\n        \"card_iin\": \"string\",\n        \"card_last4\": \"string\",\n        \"card_expiry_month\": 11,\n        \"card_expiry_year\": 3642\n      },\n      \"gift_certificate\": {\n        \"code\": \"MB345\",\n        \"original_balance\": 100,\n        \"starting_balance\": 100,\n        \"remaining_balance\": 35.42,\n        \"status\": \"expired\"\n      },\n      \"store_credit\": {\n        \"remaining_balance\": 35.42\n      }\n    },\n    {\n      \"event\": \"capture\",\n      \"method\": \"gift_certificate\",\n      \"amount\": 3406.1906189153824,\n      \"currency\": \"string\",\n      \"gateway\": \"qbmsv2\",\n      \"gateway_transaction_id\": \"string\",\n      \"date_created\": \"2002-01-21T14:06:18.580Z\",\n      \"test\": true,\n      \"status\": \"ok\",\n      \"fraud_review\": true,\n      \"reference_transaction_id\": 951,\n      \"offline\": {\n        \"display_name\": \"string\"\n      },\n      \"custom\": {\n        \"payment_method\": \"string\"\n      },\n      \"payment_method_id\": \"string\",\n      \"id\": 5118,\n      \"order_id\": \"string\",\n      \"payment_instrument_token\": \"string\",\n      \"avs_result\": {\n        \"code\": \"string\",\n        \"message\": \"string\",\n        \"street_match\": \"string\",\n        \"postal_match\": \"string\"\n      },\n      \"cvv_result\": {\n        \"code\": \"string\",\n        \"message\": \"string\"\n      },\n      \"credit_card\": {\n        \"card_type\": \"maestro\",\n        \"card_iin\": \"string\",\n        \"card_last4\": \"string\",\n        \"card_expiry_month\": 3,\n        \"card_expiry_year\": 4309\n      },\n      \"gift_certificate\": {\n        \"code\": \"MB345\",\n        \"original_balance\": 100,\n        \"starting_balance\": 100,\n        \"remaining_balance\": 35.42,\n        \"status\": \"active\"\n      },\n      \"store_credit\": {\n        \"remaining_balance\": 35.42\n      }\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"total\": 3234,\n      \"count\": 6089,\n      \"per_page\": 9784,\n      \"current_page\": 9973,\n      \"total_pages\": 7805,\n      \"links\": {\n        \"previous\": \"string\",\n        \"current\": \"?page=1&limit=50\",\n        \"next\": \"string\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ca8ebde1-8234-4ee1-9e26-0ee6d0c7b029",
+              "name": "No content found to fulfill request.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":order_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "order_id",
+                      "description": "(Required) The ID of the `Order` to which the transactions belong.\n"
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 760,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"instance\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee0e8940-d44e-438a-9ebe-c076c41444e9",
+              "name": "The resource was not found.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":order_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "order_id",
+                      "description": "(Required) The ID of the `Order` to which the transactions belong.\n"
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 217,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"instance\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8dc920f2-6215-41cc-8b08-a6df1bdb0d78",
+    "name": "BigCommerce Abandoned Cart Emails Transactions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

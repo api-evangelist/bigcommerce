@@ -1,0 +1,520 @@
+{
+  "item": [
+    {
+      "id": "9313b6bf-fe3b-4edf-a91e-d9aa57873261",
+      "name": "Tax Rates",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cc76b908-cef4-43d4-9be4-67a11bfa6e81",
+          "name": "BigCommerce Get Tax Rates",
+          "request": {
+            "name": "BigCommerce Get Tax Rates",
+            "description": {
+              "content": "Retrieve a list of tax rates.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tax",
+                "rates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id:in",
+                  "value": "<integer>",
+                  "description": "Filter by tax rate `id`. Use a comma-separated CSV string of IDs for multiple tax rates. For example, `5` or `12,34,56`."
+                },
+                {
+                  "disabled": false,
+                  "key": "tax_zone_id:in",
+                  "value": "<integer>",
+                  "description": "Filter by tax zone `id`. Use a comma-separated CSV string of IDs for multiple tax zones. For example, `5` or `12,34,56`."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "13e2c03b-2fb6-45f4-badc-8650e3fece03",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tax",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id:in",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "tax_zone_id:in",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"class_rates\": [\n        {\n          \"rate\": 5,\n          \"tax_class_id\": 1\n        },\n        {\n          \"rate\": 5,\n          \"tax_class_id\": 1\n        }\n      ],\n      \"enabled\": true,\n      \"id\": 3,\n      \"name\": \"Sales Tax\",\n      \"priority\": 1,\n      \"tax_zone_id\": 2\n    },\n    {\n      \"class_rates\": [\n        {\n          \"rate\": 5,\n          \"tax_class_id\": 1\n        },\n        {\n          \"rate\": 5,\n          \"tax_class_id\": 1\n        }\n      ],\n      \"enabled\": true,\n      \"id\": 3,\n      \"name\": \"Sales Tax\",\n      \"priority\": 1,\n      \"tax_zone_id\": 2\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"total\": 6106,\n      \"count\": 6216,\n      \"per_page\": 189,\n      \"current_page\": 3869,\n      \"total_pages\": 4076,\n      \"links\": {\n        \"current\": \"string\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "06e55230-02e2-4b68-9b04-056d12cab370",
+          "name": "BigCommerce Update Tax Rates",
+          "request": {
+            "name": "BigCommerce Update Tax Rates",
+            "description": {
+              "content": "Update one or more tax rates. Only the tax rate `id` field is required. Fields unspecified by the request will retain their current state.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tax",
+                "rates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"id\": \"<integer>\",\n    \"class_rates\": [\n      {\n        \"rate\": \"<number>\",\n        \"tax_class_id\": \"<integer>\"\n      },\n      {\n        \"rate\": \"<number>\",\n        \"tax_class_id\": \"<integer>\"\n      }\n    ],\n    \"enabled\": true,\n    \"name\": \"<string>\",\n    \"priority\": 1,\n    \"tax_zone_id\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"class_rates\": [\n      {\n        \"rate\": \"<number>\",\n        \"tax_class_id\": \"<integer>\"\n      },\n      {\n        \"rate\": \"<number>\",\n        \"tax_class_id\": \"<integer>\"\n      }\n    ],\n    \"enabled\": true,\n    \"name\": \"<string>\",\n    \"priority\": 1,\n    \"tax_zone_id\": \"<integer>\"\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b52578f7-7e6b-4ad8-b0f3-0eeee2b08528",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tax",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 3,\n      \"tax_zone_id\": 2,\n      \"name\": \"Sales Tax\",\n      \"enabled\": true,\n      \"priority\": 1,\n      \"class_rates\": [\n        {\n          \"rate\": 10,\n          \"tax_class_id\": 0\n        }\n      ]\n    }\n  ],\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7cb36c2b-5bd6-47c1-815b-805826bf60f8",
+          "name": "BigCommerce Create Tax Rates",
+          "request": {
+            "name": "BigCommerce Create Tax Rates",
+            "description": {
+              "content": "Create one or more tax rates. Tax rates must be associated with a `tax_zone_id`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tax",
+                "rates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"class_rates\": [\n      {\n        \"rate\": \"<number>\",\n        \"tax_class_id\": \"<integer>\"\n      },\n      {\n        \"rate\": \"<number>\",\n        \"tax_class_id\": \"<integer>\"\n      }\n    ],\n    \"name\": \"<string>\",\n    \"tax_zone_id\": \"<integer>\",\n    \"enabled\": true,\n    \"priority\": 1\n  },\n  {\n    \"class_rates\": [\n      {\n        \"rate\": \"<number>\",\n        \"tax_class_id\": \"<integer>\"\n      },\n      {\n        \"rate\": \"<number>\",\n        \"tax_class_id\": \"<integer>\"\n      }\n    ],\n    \"name\": \"<string>\",\n    \"tax_zone_id\": \"<integer>\",\n    \"enabled\": true,\n    \"priority\": 1\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "eda3aec6-89ac-462b-9c5d-a00f1c9f0fcf",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tax",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 3,\n      \"tax_zone_id\": 2,\n      \"name\": \"Sales Tax\",\n      \"enabled\": true,\n      \"priority\": 1,\n      \"class_rates\": [\n        {\n          \"rate\": 5,\n          \"tax_class_id\": 0\n        }\n      ]\n    }\n  ],\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "04d4c1a7-b0f1-4bda-8b2f-6d9bae0fb78d",
+          "name": "BigCommerce Delete Tax Rates",
+          "request": {
+            "name": "BigCommerce Delete Tax Rates",
+            "description": {
+              "content": "Delete one or more tax rates.\n\n> You must specify which rate(s) to delete using the `id:in` query parameter.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tax",
+                "rates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id:in",
+                  "value": "<integer>",
+                  "description": "Filter by tax rate `id`. Use a comma-separated CSV string of IDs for multiple tax rates. For example, `5` or `12,34,56`."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "59285f0a-2f53-4868-b367-07ddf3bc9da4",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tax",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id:in",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9cec7410-1c2a-42ec-b975-dbb47ba462ad",
+    "name": "BigCommerce Abandoned Cart Emails Tax Rates API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Widget API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Widget",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Widgets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/widgets",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of products.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of products.\n"
+              },
+              {
+                "name": "widget_template_kind",
+                "value": "",
+                "type": "query",
+                "description": "The kind of widget template."
+              },
+              {
+                "name": "widget_template_uuid",
+                "value": "",
+                "type": "query",
+                "description": "The identifier for a specific widget template."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "The URL encoded name of the widget."
+              },
+              {
+                "name": "name:in",
+                "value": "",
+                "type": "query",
+                "description": "Use to pass in comma-separated list of widget names. Example: `/widgets?name:in=test-widget-name,header%20images`"
+              },
+              {
+                "name": "channel_id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by channel_id."
+              },
+              {
+                "name": "site_id:in",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of site ids to filter the results by."
+              }
+            ]
+          },
+          "docs": "Returns a list of **Widgets**. Optional parameters can be passed in."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Widget",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/widgets",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a **Widget**.\n\n**Note:** There is a limit of 100,000 widgets per store and 150 widgets per page. For more information, see [Store Limits](https://support.bigcommerce.com/s/article/Platform-Limits#storelimits)."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Widget",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/widgets/:uuid",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for a specific widget."
+              }
+            ]
+          },
+          "docs": "Returns a single **Widget**."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Widget",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/widgets/:uuid",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for a specific widget."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a **Widget**."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Widget",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/widgets/:uuid",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for a specific widget."
+              }
+            ]
+          },
+          "docs": "Deletes a **Widget**."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

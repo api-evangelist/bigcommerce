@@ -1,0 +1,154 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Carts (Single) API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Carts (Single)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Create a Cart",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/carts",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "* `redirect_urls`: Create a direct link to a cart. This can be used for the /POST request for carts.\n* `line_items.physical_items.options`: The cart returns an abbreviated result. Use this to return physical items product options. To return the extended cart object, use in a /POST request.\n* `line_items.digital_items.options`: The cart returns an abbreviated result. Use this to return digital items product options. To return the extended cart object, use in a /POST request.\n* `promotions.banners`: Returns a list of eligible banners."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a **Cart**. \n\n**Required Fields**\n\n|Field|Details|\n|-|-|\n|`line_item`|Specifies a line item.| \n|`custom_items`|Specifies a custom item. Only required if adding a custom item to the cart.|\n|`gift_certificates`|Specifies a gift certificate. Only required if adding a gift certificate to the cart.|\n\n**Usage Notes**\n\n* A **cart** `id` (UUID) is returned in the response.\n* A **cart** `id` is the same as a **checkout** `id`.\n* A cart can be created by adding an existing **catalog item** or a **"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Cart",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/carts/:cartId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "cartId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of a specific cart."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "* `redirect_urls`: Create a direct link to a cart. This can be used for the /POST request for carts.\n* `line_items.physical_items.options`: The cart returns an abbreviated result. Use this to return physical items product options. To return the extended cart object, use in a /POST request.\n* `line_items.digital_items.options`: The cart returns an abbreviated result. Use this to return digital items product options. To return the extended cart object, use in a /POST request.\n* `promotions.banners`: Returns a list of eligible banners."
+              }
+            ]
+          },
+          "docs": "Returns a storeʼs *Cart*."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Customer ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/carts/:cartId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "cartId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of a specific cart."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "* `redirect_urls`: Create a direct link to a cart. This can be used for the /POST request for carts.\n* `line_items.physical_items.options`: The cart returns an abbreviated result. Use this to return physical items product options. To return the extended cart object, use in a /POST request.\n* `line_items.digital_items.options`: The cart returns an abbreviated result. Use this to return digital items product options. To return the extended cart object, use in a /POST request.\n* `promotions.banners`: Returns a list of eligible banners."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a *Cartʼs* `customer_id`.\n\n**Notes**\n\nChanging the *Cart* `customer_id` will remove any promotions or shipping calculations on the *Cart*. These are tied to the customer depending on cart conditions and any customer groups. "
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Cart",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/carts/:cartId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "cartId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of a specific cart."
+              }
+            ]
+          },
+          "docs": "Deletes a *Cart*. Once a *Cart* has been deleted it can’t be recovered."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

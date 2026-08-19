@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Checkout Orders API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Checkout Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Create an Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/checkouts/:checkoutId/orders",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "checkoutId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the checkout; the same as the cart ID."
+              }
+            ]
+          },
+          "docs": "Creates an order.\n\n## Usage notes\n* Orders created will be set to incomplete order status.\n* You can create as many orders from the same order (cart) as you want.\n* Order duplication copies the existing order, assigns a new order number, and sets the new order status to `incomplete`.\n* Once the order is paid, the cart is deleted.\n* Cart deletion occurs if you are using BigCommerce to accept payments on orders."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

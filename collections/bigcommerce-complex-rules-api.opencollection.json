@@ -1,0 +1,221 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Complex Rules API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Complex Rules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Complex Rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/complex-rules",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "include_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to include, in a comma-separated list. The ID and the specified fields will be returned."
+              },
+              {
+                "name": "exclude_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of products."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of products."
+              }
+            ]
+          },
+          "docs": "Returns a list of all product *Complex Rules*. Optional parameters may be passed in."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Complex Rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/complex-rules",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a product *Complex Rule*.\n\n**Required Fields**\n- modifier_id\n- modifier_value_id\n- variant_id\n\n**Read-Only Fields**\n- complex_rule_id\n- conditions_id\n- rule_id\n- combination_id\n- id"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Product Complex Rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/complex-rules/:complex_rule_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "complex_rule_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `ComplexRule`.\n"
+              },
+              {
+                "name": "include_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to include, in a comma-separated list. The ID and the specified fields will be returned."
+              },
+              {
+                "name": "exclude_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded."
+              }
+            ]
+          },
+          "docs": "Returns a single *Complex Rule*. Optional parameters can be passed in."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Product Complex Rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/complex-rules/:complex_rule_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "complex_rule_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `ComplexRule`.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a *Complex Rule*.\n\n**Required Fields**:\n- none\n\n**Read-Only Fields**:\n- complex_rule_id\n- conditions_id\n- rule_id\n- combination_id\n- id"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Product Complex Rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/complex-rules/:complex_rule_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "complex_rule_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `ComplexRule`.\n"
+              }
+            ]
+          },
+          "docs": "Deletes a product *Complex Rule*."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

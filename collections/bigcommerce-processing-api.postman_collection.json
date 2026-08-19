@@ -1,0 +1,463 @@
+{
+  "item": [
+    {
+      "id": "c25396b0-98e3-417f-8bbf-1cfb150bdc82",
+      "name": "Processing",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d27791cb-1945-4257-8aa8-1ae3b2e8815a",
+          "name": "BigCommerce Process Payments",
+          "request": {
+            "name": "BigCommerce Process Payments",
+            "description": {
+              "content": "Process payments for an order. See [Payment Processing](/docs/store-operations/payments) for more information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payment\": {\n    \"instrument\": {\n      \"type\": \"card\",\n      \"cardholder_name\": \"<string>\",\n      \"number\": \"<string>\",\n      \"expiry_month\": \"<integer>\",\n      \"expiry_year\": \"<integer>\",\n      \"verification_value\": \"<string>\",\n      \"issue_month\": \"<integer>\",\n      \"issue_year\": \"<integer>\",\n      \"issue_number\": \"<integer>\"\n    },\n    \"payment_method_id\": \"<string>\",\n    \"save_instrument\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9d18e53a-daba-42a0-ab9f-84fa537669a1",
+              "name": "Payment has been successfully processed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This required value must be `application/vnd.bc.v1+json`.",
+                    "key": "Accept",
+                    "value": "application/vnd.bc.v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payment\": {\n    \"instrument\": {\n      \"type\": \"card\",\n      \"cardholder_name\": \"string\",\n      \"number\": \"string\",\n      \"expiry_month\": 1,\n      \"expiry_year\": 0,\n      \"verification_value\": \"stri\",\n      \"issue_month\": 1,\n      \"issue_year\": 0,\n      \"issue_number\": 0\n    },\n    \"payment_method_id\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"227d9e1e-94f8-408c-95a5-f97b30592eb7\",\n  \"transaction_type\": \"authorization\",\n  \"status\": \"pending\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b4f2f81-a17a-4e2a-bc61-4f9ea683ce9e",
+              "name": "Payment request has been rejected due to malformed request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This required value must be `application/vnd.bc.v1+json`.",
+                    "key": "Accept",
+                    "value": "application/vnd.bc.v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payment\": {\n    \"instrument\": {\n      \"type\": \"card\",\n      \"cardholder_name\": \"string\",\n      \"number\": \"string\",\n      \"expiry_month\": 1,\n      \"expiry_year\": 0,\n      \"verification_value\": \"stri\",\n      \"issue_month\": 1,\n      \"issue_year\": 0,\n      \"issue_number\": 0\n    },\n    \"payment_method_id\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 4884,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"detail\": \"string\",\n  \"code\": 2856,\n  \"errors\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f0297687-1472-4ae3-8f75-88783c521abf",
+              "name": "Valid authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This required value must be `application/vnd.bc.v1+json`.",
+                    "key": "Accept",
+                    "value": "application/vnd.bc.v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payment\": {\n    \"instrument\": {\n      \"type\": \"card\",\n      \"cardholder_name\": \"string\",\n      \"number\": \"string\",\n      \"expiry_month\": 1,\n      \"expiry_year\": 0,\n      \"verification_value\": \"stri\",\n      \"issue_month\": 1,\n      \"issue_year\": 0,\n      \"issue_number\": 0\n    },\n    \"payment_method_id\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 4884,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"detail\": \"string\",\n  \"code\": 2856,\n  \"errors\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f45c3716-0aa2-4084-91b4-ecd47eea6904",
+              "name": "Payment request has been rejected due to missing, invalid data or declined by payment provider",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This required value must be `application/vnd.bc.v1+json`.",
+                    "key": "Accept",
+                    "value": "application/vnd.bc.v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payment\": {\n    \"instrument\": {\n      \"type\": \"card\",\n      \"cardholder_name\": \"string\",\n      \"number\": \"string\",\n      \"expiry_month\": 1,\n      \"expiry_year\": 0,\n      \"verification_value\": \"stri\",\n      \"issue_month\": 1,\n      \"issue_year\": 0,\n      \"issue_number\": 0\n    },\n    \"payment_method_id\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 4884,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"detail\": \"string\",\n  \"code\": 2856,\n  \"errors\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "90a817cd-e533-46c4-8ea7-761307c8cc1a",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) This required value must be `application/vnd.bc.v1+json`.",
+                    "key": "Accept",
+                    "value": "application/vnd.bc.v1+json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payment\": {\n    \"instrument\": {\n      \"type\": \"card\",\n      \"cardholder_name\": \"string\",\n      \"number\": \"string\",\n      \"expiry_month\": 1,\n      \"expiry_year\": 0,\n      \"verification_value\": \"stri\",\n      \"issue_month\": 1,\n      \"issue_year\": 0,\n      \"issue_number\": 0\n    },\n    \"payment_method_id\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 4884,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"detail\": \"string\",\n  \"code\": 2856,\n  \"errors\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bd7dc933-096b-4fe8-ba50-ad9b983dcae0",
+    "name": "BigCommerce Abandoned Cart Emails Processing API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

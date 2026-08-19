@@ -1,0 +1,169 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Attribute Values API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Attribute Values",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Customer Attribute Values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/attribute-values",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number. `page=1`"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items count per page. `limit=50`"
+              },
+              {
+                "name": "customer_id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by the customer ID. `customer_id:in=23,24,55`"
+              },
+              {
+                "name": "attribute_id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by the attribute ID. `attribute_id:in=1,2`"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by the attribute name. `name=age`"
+              },
+              {
+                "name": "date_created",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by `date_created`. `date_created=2018-09-05T13:43:54`"
+              },
+              {
+                "name": "date_created:max",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by maximum `date_created`. ISO 8601 full-date is required, ISO 8601 full-time is not required. UNIX timestamp also accepted. `date_created=2021-01-07` or `date_created=1610051296000`"
+              },
+              {
+                "name": "date_created:min",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by minimum `date_created`. ISO 8601 full-date is required, ISO 8601 full-time is not required. UNIX timestamp also accepted. `date_created=2021-01-07` or `date_created=1610051296000`"
+              },
+              {
+                "name": "date_modified",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by `date_modified`. `date_modified=2018-09-05T13:45:03`"
+              },
+              {
+                "name": "date_modified:max",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by maximum `date_modified`. ISO 8601 full-date is required, ISO 8601 full-time is not required. UNIX timestamp also accepted. `date_created=2021-01-07` or `date_created=1610051296000`"
+              },
+              {
+                "name": "date_modified:min",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by minimum `date_modified`. ISO 8601 full-date is required, ISO 8601 full-time is not required. UNIX timestamp also accepted. `date_created=2021-01-07` or `date_created=1610051296000`"
+              }
+            ]
+          },
+          "docs": "Returns a list of Customer Attribute Values. Optional filter parameters can be passed in."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Upsert Customer Attribute Values",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/attribute-values",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Upserts Customer Attribute Values. Updates the attribute values on the Customer. Multiple customer attribute values can be updated in one call.\n\nUpsert checks for an existing record. If there is none, it creates the record, if there is a matching record, it updates that record.\n\n**Limits**\n* 10 per call limit."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Customer Attribute Values",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/attribute-values",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by ID.\n`id:in=4,5,6`"
+              }
+            ]
+          },
+          "docs": "Deletes Customer Attribute Values. Deletes the attribute value from the customer.\n\n**Required Query**\n* id:in - ID of the *Customer Attribute Value*"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

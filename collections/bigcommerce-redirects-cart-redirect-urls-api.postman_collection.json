@@ -1,0 +1,200 @@
+{
+  "item": [
+    {
+      "id": "757d903f-53a0-4edc-a124-3e4e7b61b62d",
+      "name": "Redirects - Cart Redirect URLs",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bb3522af-b118-47c4-9066-25247f647d7b",
+          "name": "BigCommerce Create Cart Redirect URL",
+          "request": {
+            "name": "BigCommerce Create Cart Redirect URL",
+            "description": {
+              "content": "Creates a **Cart** redirect URL for redirecting a shopper to an already created cart using the `cartId`.\n\n**Usage Notes**\n\n* Redirect URLs can also be created with **Create a Cart** requests by appending `include=redirect_urls`.\n* A **Carts** redirect URL may only be used once.\n* Redirect URLs point to either a shared checkout domain or a channel-specific domain, depending on the storefront configuration.\n* Once a redirect URL has been visited, it will be invalidated and cannot be used again. \n* If your application requires URLs to be visited more than once, consider generating a fresh one each time you need to restore a cart, and redirecting to the URL from your own application.\n* Redirect URLs can be generated only from carts that were created using the **REST Management API**. \n* To restore a cart that was created on the storefront, either by a shopper or a Storefront API, first recreate the cart using the **REST Management API**.\n* When redirecting the shopper, you can add a set of `query_params` to the URL. The `query_params` feature allows passing additional information to the redirect URL.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "carts",
+                ":cartId",
+                "redirect_urls"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<UUID>",
+                  "key": "cartId",
+                  "description": "(Required) The identifier of a specific cart."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query_params\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "90d2c2dd-e377-45cb-92d8-a879d1115320",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carts",
+                    ":cartId",
+                    "redirect_urls"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<UUID>",
+                      "key": "cartId",
+                      "description": "(Required) The identifier of a specific cart."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query_params\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"cart_url\": \"https://store.mybigcommerce.com/cart.php?action=load&id=0aa00afa-a000-00a0-00aae-aa0000f000a0&token=00aaaaa0aa0000000000a000a000f0aa0000afa00aa00afa0a000000000aa0a0\",\n    \"checkout_url\": \"https://store.mybigcommerce.com/cart.php?action=loadInCheckout&id=1ea11efe-b111-11d1-11ee-cd1110f111b1&token=00aaaaa0aa0000000000a000a000f0aa0000afa00aa00afa0a000000000aa0a0\",\n    \"embedded_checkout_url\": \"https://store.mybigcommerce.com/cart.php?embedded=1&action=loadInCheckout&id=0aa00afa-a000-00a0-00aae-aa0000f000a0&token=00aaaaa0aa0000000000a000a000f0aa0000afa00aa00afa0a000000000aa0a0\"\n  },\n  \"meta\": {\n    \"$ref\": \"#/components/schemas/metaCollection_open\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7bfdd91c-41d1-47b0-a43f-5a6e1fa78fb8",
+    "name": "BigCommerce Abandoned Cart Emails Redirects - Cart Redirect URLs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

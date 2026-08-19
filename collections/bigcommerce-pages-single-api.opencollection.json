@@ -1,0 +1,121 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Pages (Single) API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Pages (Single)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get a Page",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/pages/:pageId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "pageId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the page to be operated on."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content."
+              }
+            ]
+          },
+          "docs": "Returns one content page.\n\n> #### Warning\n> **Pay attention to query parameters**\n> This endpoint recognizes the same query parameters as [Get Multiple Pages](/docs/rest-content/pages#get-pages). If the requested page does not meet the query parameters you specify, you will receive a 404 response even if the requested `pageId` does exist."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Page",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/pages/:pageId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "pageId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the page to be operated on."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates one content page."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Page",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/pages/:pageId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "pageId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the page to be operated on."
+              }
+            ]
+          },
+          "docs": "Deletes one content page.\n\n> #### Warning\n> **Query parameters not recognized**\n> This endpoint does not recognize query parameters."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

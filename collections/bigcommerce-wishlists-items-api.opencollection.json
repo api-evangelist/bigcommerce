@@ -1,0 +1,89 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Wishlists Items API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Wishlists Items",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Delete Wishlist Item",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/wishlists/:wishlist_id/items/:item_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "wishlist_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Wishlist."
+              },
+              {
+                "name": "item_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a wishlist item."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Add Wishlist Item",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/wishlists/:wishlist_id/items",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "wishlist_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Wishlist."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a wishlist item. More than one item can be added at a time."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

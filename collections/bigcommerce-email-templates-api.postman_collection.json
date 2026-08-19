@@ -1,0 +1,655 @@
+{
+  "item": [
+    {
+      "id": "c13a29d6-f172-4597-a744-e9ad86c68f16",
+      "name": "Email Templates",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "510997be-8724-495c-b1bd-b09ecb6c1c18",
+          "name": "BigCommerce Get Email Templates",
+          "request": {
+            "name": "BigCommerce Get Email Templates",
+            "description": {
+              "content": "Get a list of email templates.\n\n> #### Note\n> The `/marketing/email-templates` endpoints only work after opting into the new email management experience from your storeʼs control panel. You can opt-in by visiting Email Templates. If you have already opted in, visiting the Email Templates page will return a `404` error, and you will be able to access the new Transactional Emails page.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "marketing",
+                "email-templates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "channel_id",
+                  "value": "<integer>",
+                  "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0e521928-2ca1-48a8-9492-5dbf16436f2e",
+              "name": "An array of email templates on the store\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "marketing",
+                    "email-templates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"type_id\": \"account_reset_password_email\",\n      \"body\": \"<!DOCTYPE html> <html lang=\\\"en\\\"> <head>     <meta charset=\\\"UTF-8\\\">     <title>Title</title> </head> <body> <p>     {{lang \\\"reset_password\\\" name=store.name}} </p> <br/> <br/> <a href=\\\"{{account.reset_password_link}}\\\">     {{account.reset_password_link}} </a>  </body> </html>\",\n      \"translations\": [\n        {\n          \"locale\": \"en\",\n          \"keys\": {\n            \"reset_password\": \"To change your customer account password at {{name}} please click this link or copy and paste it into your browser:\"\n          }\n        }\n      ],\n      \"subject\": \"Reset your password at {{store.name}}\"\n    }\n  ],\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ea932165-b862-4822-b3ba-9cf42c66d917",
+          "name": "BigCommerce Get an Email Template",
+          "request": {
+            "name": "BigCommerce Get an Email Template",
+            "description": {
+              "content": "Get a single global email template or a channel-specific email template override.\n\n> #### Note\n> The `/marketing/email-templates` endpoints only work after opting into the new email management experience from your storeʼs control panel. You can opt-in by visiting [Email Templates](https://login.bigcommerce.com/deep-links/manage/marketing/email-templates). If you have already opted in, visiting the [Email Templates](https://login.bigcommerce.com/deep-links/manage/marketing/email-templates) page will return a `404` error, and you will be able to access the new [Transactional Emails](https://login.bigcommerce.com/deep-links/manage/transactional-emails) page.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "marketing",
+                "email-templates",
+                ":template-name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "channel_id",
+                  "value": "<integer>",
+                  "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "template-name",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "83f222e0-869d-4a0f-be5d-dac1f13161ee",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "marketing",
+                    "email-templates",
+                    ":template-name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "template-name",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type_id\": \"account_reset_password_email\",\n    \"body\": \"<!DOCTYPE html> <html lang=\\\"en\\\"> <head>     <meta charset=\\\"UTF-8\\\">     <title>Title</title> </head> <body> <p>     {{lang \\\"reset_password\\\" name=store.name}} </p> <br/> <br/> <a href=\\\"{{account.reset_password_link}}\\\">     {{account.reset_password_link}} </a>  </body> </html>\",\n    \"translations\": [\n      {\n        \"locale\": \"en\",\n        \"keys\": {\n          \"reset_password\": \"To change your customer account password at {{name}} please click this link or copy and paste it into your browser:\"\n        }\n      }\n    ],\n    \"subject\": \"Reset your password at {{store.name}}\"\n  },\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ea7e1c13-d09e-4cce-9188-cbd23e4157c8",
+          "name": "BigCommerce Update a Template",
+          "request": {
+            "name": "BigCommerce Update a Template",
+            "description": {
+              "content": "Update a global template or create a channel-specific email template override.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "marketing",
+                "email-templates",
+                ":template-name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "channel_id",
+                  "value": "<integer>",
+                  "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "template-name",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type_id\": \"<string>\",\n  \"body\": \"<string>\",\n  \"translations\": [\n    {\n      \"locale\": \"<string>\",\n      \"keys\": \"<object>\"\n    },\n    {\n      \"locale\": \"<string>\",\n      \"keys\": \"<object>\"\n    }\n  ],\n  \"subject\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2543b935-b699-45d7-a924-e93af730e038",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "marketing",
+                    "email-templates",
+                    ":template-name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "template-name",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type_id\": \"account_reset_password_email\",\n  \"body\": \"<!DOCTYPE html> <html lang=\\\"en\\\"> <head>     <meta charset=\\\"UTF-8\\\">     <title>Title</title> </head> <body> <p>     {{lang \\\"reset_password\\\" name=store.name}} </p> <br/> <br/> <a href=\\\"{{account.reset_password_link}}\\\">     {{account.reset_password_link}} </a>  </body> </html>\",\n  \"translations\": [\n    {\n      \"locale\": \"en\",\n      \"keys\": {\n        \"reset_password\": \"To change your customer account password at {{name}} please click this link or copy and paste it into your browser:\"\n      }\n    }\n  ],\n  \"subject\": \"Reset your password at {{store.name}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type_id\": \"account_reset_password_email\",\n    \"body\": \"<!DOCTYPE html> <html lang=\\\"en\\\"> <head>     <meta charset=\\\"UTF-8\\\">     <title>Title</title> </head> <body> <p>     {{lang \\\"reset_password\\\" name=store.name}} </p> <br/> <br/> <a href=\\\"{{account.reset_password_link}}\\\">     {{account.reset_password_link}} </a>  </body> </html>\",\n    \"translations\": [\n      {\n        \"locale\": \"en\",\n        \"keys\": {\n          \"reset_password\": \"To change your customer account password at {{name}} please click this link or copy and paste it into your browser:\"\n        }\n      }\n    ],\n    \"subject\": \"Reset your password at {{store.name}}\"\n  },\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "90b7d225-97c1-4eda-adcc-5e6f33228f9d",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "marketing",
+                    "email-templates",
+                    ":template-name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "template-name",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type_id\": \"account_reset_password_email\",\n  \"body\": \"<!DOCTYPE html> <html lang=\\\"en\\\"> <head>     <meta charset=\\\"UTF-8\\\">     <title>Title</title> </head> <body> <p>     {{lang \\\"reset_password\\\" name=store.name}} </p> <br/> <br/> <a href=\\\"{{account.reset_password_link}}\\\">     {{account.reset_password_link}} </a>  </body> </html>\",\n  \"translations\": [\n    {\n      \"locale\": \"en\",\n      \"keys\": {\n        \"reset_password\": \"To change your customer account password at {{name}} please click this link or copy and paste it into your browser:\"\n      }\n    }\n  ],\n  \"subject\": \"Reset your password at {{store.name}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 4784,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"instance\": \"string\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "936405bf-aa56-4253-99a7-6541b0f824f1",
+          "name": "BigCommerce Delete Email Template Override",
+          "request": {
+            "name": "BigCommerce Delete Email Template Override",
+            "description": {
+              "content": "Removes a channel-specific email template override.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "marketing",
+                "email-templates",
+                ":template-name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "channel_id",
+                  "value": "<integer>",
+                  "description": "(Required) Required Channel ID. This delete operation will delete overridden settings for this channel, thus restoring them to the global defaults."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "template-name",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1f727453-f0a5-42a7-a4a1-68ae8f7367f9",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "marketing",
+                    "email-templates",
+                    ":template-name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "template-name",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f615fe55-a163-4f7f-ac94-167a9217326d",
+    "name": "BigCommerce Abandoned Cart Emails Email Templates API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

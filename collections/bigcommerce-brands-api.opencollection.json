@@ -1,0 +1,260 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Brands API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Brands",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Brands",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/brands",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by ID.\n"
+              },
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id:not_in",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by name.\n"
+              },
+              {
+                "name": "name:like",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by part of a name. For example, `name:like=new` returns brands with names that include `new`."
+              },
+              {
+                "name": "page_title",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by page_title.\n"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of products."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of products."
+              },
+              {
+                "name": "include_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to include, in a comma-separated list. The ID and the specified fields will be returned."
+              },
+              {
+                "name": "exclude_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field name to sort by."
+              }
+            ]
+          },
+          "docs": "Returns a list of *Brands*. Optional filter parameters can be passed in."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Brand",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/brands",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a *Brand*.\n\n**Required Fields**\n- name\n\n**Read-Only Fields**\n- id\n\n**Limits**\n- 30,000 brands per store limit"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Brands",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/brands",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by name.\n"
+              },
+              {
+                "name": "page_title",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by page_title.\n"
+              }
+            ]
+          },
+          "docs": "To delete brand objects, you must include a filter.\n\n**Required Fields**\n - name"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Brand",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/brands/:brand_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "brand_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Brand` to which the resource belongs.\n"
+              },
+              {
+                "name": "include_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to include, in a comma-separated list. The ID and the specified fields will be returned."
+              },
+              {
+                "name": "exclude_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded."
+              }
+            ]
+          },
+          "docs": "Returns a single *Brand*. Optional filter parameters can be passed in."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Brand",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/brands/:brand_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "brand_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Brand` to which the resource belongs.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a *Brand*.\n\n**Required Fields**\n- None\n\n**Read-Only Fields**\n- id\n\nTo update a *Brand Image*, send a request with an `image_url`."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Brand",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/brands/:brand_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "brand_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Brand` to which the resource belongs.\n"
+              }
+            ]
+          },
+          "docs": "Deletes a *Brand*."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

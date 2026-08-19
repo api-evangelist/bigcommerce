@@ -1,0 +1,736 @@
+{
+  "item": [
+    {
+      "id": "5c381903-5542-42e8-9d51-b0ea542d936d",
+      "name": "Addresses",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0c75d458-0a21-497b-aa4f-f1cdf6e132c6",
+          "name": "BigCommerce Get All Customer Addresses",
+          "request": {
+            "name": "BigCommerce Get All Customer Addresses",
+            "description": {
+              "content": "Returns a list of Customer Addresses. Optional filter parameters can be passed in.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "customers",
+                "addresses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number. `page=1`"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<number>",
+                  "description": "Items count per page. `limit=50`"
+                },
+                {
+                  "disabled": false,
+                  "key": "company:in",
+                  "value": "<string>,<string>",
+                  "description": "Filter items by company. `company:in=bigcommerce,commongood`"
+                },
+                {
+                  "disabled": false,
+                  "key": "name:in",
+                  "value": "<string>,<string>",
+                  "description": "Filter items by first_name and last_name. `name:in=James+Moriarty`"
+                },
+                {
+                  "disabled": false,
+                  "key": "customer_id:in",
+                  "value": "<integer>,<integer>",
+                  "description": "Filter by the ID of the customer. Also accepts comma-separated IDs to filter for multiple customers. `customer_id:in=23,24,55`"
+                },
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "Indicates whether to include customer address sub-resources:\n* `formfields` - address form fields\n`include=formfields`"
+                },
+                {
+                  "disabled": false,
+                  "key": "id:in",
+                  "value": "<integer>,<integer>",
+                  "description": "Filter items by ID.\n`id:in=4,5,6`"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1b4db752-2357-496e-9b79-62e7bdd0c529",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customers",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "company:in",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "name:in",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "customer_id:in",
+                      "value": "<integer>,<integer>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "id:in",
+                      "value": "<integer>,<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"address1\": \"123 Example Street\",\n      \"address2\": \"Building 4\",\n      \"address_type\": \"residential\",\n      \"city\": \"Austin\",\n      \"company\": \"BigCommerce\",\n      \"country\": \"United States\",\n      \"country_code\": \"US\",\n      \"customer_id\": 1,\n      \"first_name\": \"John\",\n      \"id\": 18,\n      \"last_name\": \"Doe\",\n      \"phone\": \"15551234567\",\n      \"postal_code\": \"78759\",\n      \"state_or_province\": \"Texas\"\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"total\": 1,\n      \"count\": 1,\n      \"per_page\": 50,\n      \"current_page\": 1,\n      \"total_pages\": 1\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bd0017ec-542a-48b5-b9b6-bb3d17669ee5",
+          "name": "BigCommerce Create a Customer Address",
+          "request": {
+            "name": "BigCommerce Create a Customer Address",
+            "description": {
+              "content": "Creates a Customer Address. Multiple customer addresses can be created in one call.\n\n**Required Fields**\n* **customer_id**\n* **first_name**\n* **last_name**\n* **city**\n* **country_code**\n* **address1**\n\n**Notes**\n* A unique customer address is a combination of the following core address fields:\n  * **customer_id**\n  * **first_name**\n  * **last_name**\n  * **company**\n  * **phone**\n  * **address_type**\n  * **address1**\n  * **address2**\n  * **city**\n  * **country_code**\n  * **state_or_province**\n  * **postal_code**\n* An attempt to create an address that already exists will result in no change to the address or custom form field values, an HTTP 200 return code, and the address will be absent from the response body.\n* The default rate limit for this endpoint is 10 concurrent requests.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "customers",
+                "addresses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"address1\": \"<string>\",\n    \"city\": \"<string>\",\n    \"country_code\": \"<string>\",\n    \"customer_id\": \"<integer>\",\n    \"company\": \"<string>\",\n    \"address2\": \"<string>\",\n    \"state_or_province\": \"<string>\",\n    \"postal_code\": \"<string>\",\n    \"phone\": \"<string>\",\n    \"address_type\": \"<string>\",\n    \"form_fields\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ]\n  },\n  {\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"address1\": \"<string>\",\n    \"city\": \"<string>\",\n    \"country_code\": \"<string>\",\n    \"customer_id\": \"<integer>\",\n    \"company\": \"<string>\",\n    \"address2\": \"<string>\",\n    \"state_or_province\": \"<string>\",\n    \"postal_code\": \"<string>\",\n    \"phone\": \"<string>\",\n    \"address_type\": \"<string>\",\n    \"form_fields\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ]\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8f127fb3-0bf2-4283-9e6d-51b270fce181",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customers",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"address1\": \"111 E West Street\",\n    \"address2\": \"654\",\n    \"city\": \"Akron\",\n    \"state_or_province\": \"Ohio\",\n    \"postal_code\": \"44325\",\n    \"country_code\": \"US\",\n    \"phone\": \"1234567890\",\n    \"address_type\": \"residential\",\n    \"customer_id\": 11,\n    \"form_fields\": [\n      {\n        \"name\": \"test\",\n        \"value\": \"test\"\n      }\n    ]\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"address1\": \"123 Example Street\",\n  \"address2\": \"Building 4\",\n  \"address_type\": \"residential\",\n  \"city\": \"Austin\",\n  \"company\": \"BigCommerce\",\n  \"country\": \"United States\",\n  \"country_code\": \"US\",\n  \"customer_id\": 1,\n  \"first_name\": \"John\",\n  \"id\": 18,\n  \"last_name\": \"Doe\",\n  \"phone\": \"15551234567\",\n  \"postal_code\": \"78759\",\n  \"state_or_province\": \"Texas\",\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7a2f2f58-f560-495a-8ed1-fe05a0217030",
+              "name": "The `Address` was not valid. This is the result of missing required fields, or of invalid data. See the response for more details.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customers",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"address1\": \"111 E West Street\",\n    \"address2\": \"654\",\n    \"city\": \"Akron\",\n    \"state_or_province\": \"Ohio\",\n    \"postal_code\": \"44325\",\n    \"country_code\": \"US\",\n    \"phone\": \"1234567890\",\n    \"address_type\": \"residential\",\n    \"customer_id\": 11,\n    \"form_fields\": [\n      {\n        \"name\": \"test\",\n        \"value\": \"test\"\n      }\n    ]\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 8622,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"instance\": \"string\",\n  \"errors\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1ff7ca44-ba72-4dd4-bd93-c54c8d0d5cb1",
+          "name": "BigCommerce Update a Customer Address",
+          "request": {
+            "name": "BigCommerce Update a Customer Address",
+            "description": {
+              "content": "Updates a Customer Address. Multiple customer addresses can be updated in one call.\n\n**Required Fields**\n* **id** -- ID of the *Customer Address*\n\n**Limits**\n* Limit of **3** concurrent requests.\n\n**Notes**\n* A unique customer address is a combination of the following core address fields:\n  * **first_name**\n  * **last_name**\n  * **company**\n  * **phone**\n  * **address_type**\n  * **address1**\n  * **address2**\n  * **city**\n  * **country_code**\n  * **state_or_province**\n  * **postal_code**\n* An attempt to update an address such that it becomes identical to another address that already exists will result in no change to the target address or custom form field values. The response will have an HTTP 200 return code, and the address will be absent from the response body.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "customers",
+                "addresses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"id\": \"<integer>\",\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"company\": \"<string>\",\n    \"address1\": \"<string>\",\n    \"address2\": \"<string>\",\n    \"city\": \"<string>\",\n    \"state_or_province\": \"<string>\",\n    \"postal_code\": \"<string>\",\n    \"country_code\": \"<string>\",\n    \"phone\": \"<string>\",\n    \"address_type\": \"<string>\",\n    \"form_fields\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ]\n  },\n  {\n    \"id\": \"<integer>\",\n    \"first_name\": \"<string>\",\n    \"last_name\": \"<string>\",\n    \"company\": \"<string>\",\n    \"address1\": \"<string>\",\n    \"address2\": \"<string>\",\n    \"city\": \"<string>\",\n    \"state_or_province\": \"<string>\",\n    \"postal_code\": \"<string>\",\n    \"country_code\": \"<string>\",\n    \"phone\": \"<string>\",\n    \"address_type\": \"<string>\",\n    \"form_fields\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ]\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c5fe57ed-8952-4e8d-9835-a520c20980ee",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customers",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"id\": 11,\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"address1\": \"111 E West Street\",\n    \"address2\": \"654\",\n    \"city\": \"Akron\",\n    \"state_or_province\": \"Ohio\",\n    \"postal_code\": \"44325\",\n    \"country_code\": \"US\",\n    \"phone\": \"1234567890\",\n    \"address_type\": \"residential\",\n    \"form_fields\": [\n      {\n        \"name\": \"test\",\n        \"value\": \"test\"\n      }\n    ]\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"address1\": \"123 Example Street\",\n  \"address2\": \"Building 4\",\n  \"address_type\": \"residential\",\n  \"city\": \"Austin\",\n  \"company\": \"BigCommerce\",\n  \"country\": \"United States\",\n  \"country_code\": \"US\",\n  \"customer_id\": 1,\n  \"first_name\": \"John\",\n  \"id\": 18,\n  \"last_name\": \"Doe\",\n  \"phone\": \"15551234567\",\n  \"postal_code\": \"78759\",\n  \"state_or_province\": \"Texas\",\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4723856d-558c-464d-b5d8-ab079cf9de0c",
+              "name": "The `Address` was not valid. This is the result of missing required fields, or of invalid data. See the response for more details.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customers",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"id\": 11,\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"address1\": \"111 E West Street\",\n    \"address2\": \"654\",\n    \"city\": \"Akron\",\n    \"state_or_province\": \"Ohio\",\n    \"postal_code\": \"44325\",\n    \"country_code\": \"US\",\n    \"phone\": \"1234567890\",\n    \"address_type\": \"residential\",\n    \"form_fields\": [\n      {\n        \"name\": \"test\",\n        \"value\": \"test\"\n      }\n    ]\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 8622,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"instance\": \"string\",\n  \"errors\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "251f5e08-51ef-4a2c-8b7b-74af12890cb5",
+          "name": "BigCommerce Delete a Customer Address",
+          "request": {
+            "name": "BigCommerce Delete a Customer Address",
+            "description": {
+              "content": "Deletes a Customer Address.\n\n**Required Query**\n* id:in -- ID of the *Customer Address*",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "customers",
+                "addresses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id:in",
+                  "value": "<integer>,<integer>",
+                  "description": "(Required) Filter items by ID.\n`id:in=4,5,6`"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9188593e-302f-4c12-a2cd-e44485059535",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customers",
+                    "addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id:in",
+                      "value": "<integer>,<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Accept",
+                    "value": "application/json",
+                    "description": ""
+                  },
+                  {
+                    "disabled": false,
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "description": ""
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4248cf71-c08d-4114-b51d-ba05fcdc5699",
+    "name": "BigCommerce Abandoned Cart Emails Addresses API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

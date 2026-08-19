@@ -1,0 +1,121 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Analytics API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Web Analytics Providers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/settings/analytics",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+              }
+            ]
+          },
+          "docs": "Returns a list of web analytics providers."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Web Analytics Provider",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/settings/analytics/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Web Analytics Provider ID."
+              },
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+              }
+            ]
+          },
+          "docs": "Returns a single web analytics provider data for a default channel."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Web Analytics Provider",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/settings/analytics/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Web Analytics Provider ID."
+              },
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a single web analytics provider data for a default channel."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

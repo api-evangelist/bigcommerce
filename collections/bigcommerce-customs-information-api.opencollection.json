@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Customs Information API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customs Information",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Customs Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/shipping/products/customs-information",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id:in",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of product IDs. For more information, see [Filtering](/docs/start/about/common-query-params)."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get customs information for products.\n\nThis list can be filtered to return customs information objects specific to a list of requested product_ids. This is achieved by appending the query string `?product_id:in=4,5,6` to the resource `/shipping/products/customs-information`.\n\n```http\nGET /shipping/products/customs-information?product_id:in=4,5,6\n```"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Upsert Customs Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/shipping/products/customs-information",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates and updates product customs information.\n\nThis is a batch operation where the creation of multiple customs information objects can be done with one `PUT` request.\n\n**Limits**\n* Limit of 50 customs information objects per `PUT` request."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Customs Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/shipping/products/customs-information",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id:in",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Deletes customs information objects for a product.\n\n## Example\n\nThis is a batch operation. The `product_id:in` query parameter is required.\n\n```http\nDELETE /shipping/products/customs-information?product_id:in=4,5,6\n```"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

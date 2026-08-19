@@ -1,0 +1,550 @@
+{
+  "item": [
+    {
+      "id": "d34d6e21-a03e-4a29-8298-7d3d65a4fc68",
+      "name": "Custom Template Associations",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8a14b8ed-2aac-4d47-a484-ba2ad8de4779",
+          "name": "BigCommerce Get Custom Template Associations",
+          "request": {
+            "name": "BigCommerce Get Custom Template Associations",
+            "description": {
+              "content": "Get a collection of the storeʼs custom template associations across all storefronts",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "storefront",
+                "custom-template-associations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "channel_id",
+                  "value": "<integer>",
+                  "description": "Channel ID to return only custom template associations for a given Channel"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity_id:in",
+                  "value": "<string>",
+                  "description": "Filter by a list of entity IDs. Must be used together with \"type\" filter."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of results to return per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Which page number to return, based on the page size. Used to paginate large collections."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Filter associations by type"
+                },
+                {
+                  "disabled": false,
+                  "key": "is_valid",
+                  "value": "<boolean>",
+                  "description": "Optional toggle to filter for exclusively valid or invalid associations entries. An invalid entry is one where its file name does not match up to an existing custom layout file in the currently active theme for the channel."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "63d70d6b-f818-49b9-b53c-720fece933f3",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "storefront",
+                    "custom-template-associations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "entity_id:in",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "is_valid",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"channel_id\": 1,\n      \"entity_type\": \"product\",\n      \"entity_id\": 123,\n      \"file_name\": \"custom-product-1.html\"\n    },\n    {\n      \"id\": 2,\n      \"channel_id\": 12345,\n      \"entity_type\": \"page\",\n      \"entity_id\": 123,\n      \"file_name\": \"custom-page.html\"\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"total\": 246,\n      \"count\": 5,\n      \"per_page\": 5,\n      \"current_page\": 1,\n      \"total_pages\": 50,\n      \"links\": {\n        \"next\": \"?limit=5&page=2\",\n        \"current\": \"?limit=5&page=1\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "17fec203-66bf-4e53-a07d-c116966f4587",
+          "name": "BigCommerce Upsert Custom Template Associations",
+          "request": {
+            "name": "BigCommerce Upsert Custom Template Associations",
+            "description": {
+              "content": "Upsert new custom template associations data across all storefronts. If an existing record is found for the combination of channel ID, entity ID, and type, the existing record will be overwritten with the new template.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "storefront",
+                "custom-template-associations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"channel_id\": \"<integer>\",\n    \"entity_type\": \"<string>\",\n    \"entity_id\": \"<integer>\",\n    \"file_name\": \"<string>\"\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b2e9aa58-e72a-4cdb-aa3c-59c170087ea7",
+              "name": "Success response for batch upsert of custom template associations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "storefront",
+                    "custom-template-associations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"id\": 1,\n    \"channel_id\": 1,\n    \"entity_type\": \"product\",\n    \"entity_id\": 123,\n    \"file_name\": \"custom-product-1.html\"\n  },\n  {\n    \"id\": 2,\n    \"channel_id\": 12345,\n    \"entity_type\": \"page\",\n    \"entity_id\": 123,\n    \"file_name\": \"custom-page.html\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d3f28e51-3293-454a-93b5-e081bf75d35f",
+              "name": "Error response for batch PUT of Custom template associations. Includes the errors for each reference ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "storefront",
+                    "custom-template-associations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"id\": 1,\n    \"channel_id\": 1,\n    \"entity_type\": \"product\",\n    \"entity_id\": 123,\n    \"file_name\": \"custom-product-1.html\"\n  },\n  {\n    \"id\": 2,\n    \"channel_id\": 12345,\n    \"entity_type\": \"page\",\n    \"entity_id\": 123,\n    \"file_name\": \"custom-page.html\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 9343,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"instance\": \"string\",\n  \"errors\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a47b5137-b14b-490f-9946-fc16ed233017",
+          "name": "BigCommerce Delete Custom Template Associations",
+          "request": {
+            "name": "BigCommerce Delete Custom Template Associations",
+            "description": {
+              "content": "Delete custom template associations. At least one query parameter must be used.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "storefront",
+                "custom-template-associations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id:in",
+                  "value": "<integer>",
+                  "description": "List of Association IDs to delete explicitly."
+                },
+                {
+                  "disabled": false,
+                  "key": "entity_id:in",
+                  "value": "<integer>",
+                  "description": "List of Entity IDs to delete explicitly. Must be used together with \"type\""
+                },
+                {
+                  "disabled": false,
+                  "key": "channel_id",
+                  "value": "<integer>",
+                  "description": "Channel ID provided to delete all custom template associations for a given Channel"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Filter associations by type"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6b580b08-c2cd-4b6f-bc38-8a3315327c6d",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "storefront",
+                    "custom-template-associations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id:in",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "entity_id:in",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d8cb7a71-9134-43e6-831a-0185b461bcaf",
+    "name": "BigCommerce Abandoned Cart Emails Custom Template Associations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

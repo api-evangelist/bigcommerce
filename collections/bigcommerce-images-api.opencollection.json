@@ -1,0 +1,439 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Images API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Images",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Create a Brand Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/brands/:brand_id/image",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "brand_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Brand` to which the resource belongs.\n"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "image_file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Creates a *Brand Image*.\n\n**Required Fields**\n- image_file: Form posts are the only accepted upload option.\n\n**Read-Only Fields**\n- id\n\nOnly one image at a time can be created. To update a *Brand Image*, use the [Update a brand](/docs/rest-catalog/brands#update-a-brand) endpoint and an `image_url`."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Brand Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/brands/:brand_id/image",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "brand_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Brand` to which the resource belongs.\n"
+              }
+            ]
+          },
+          "docs": "Deletes a *Brand Image*."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Category Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/categories/:category_id/image",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "category_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Category` to which the resource belongs.\n"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "image_file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Create a *Category Image*.\n\n **Required Fields**\n- image_file: Form posts are the only accepted upload option.\n\nOnly one image at a time can be created.\nLimit image size to 1MB.\nTo update a *Category Image*, use the [Update categories](/docs/rest-catalog/category-trees/categories#update-categories) endpoint and an `image_url`."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Category Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/categories/:category_id/image",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "category_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Category` to which the resource belongs.\n"
+              }
+            ]
+          },
+          "docs": "Deletes a *Category Image*."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create Product Modifier Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/modifiers/:modifier_id/values/:value_id/image",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "modifier_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Modifier`.\n"
+              },
+              {
+                "name": "value_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Modifier/Option Value`.\n"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "image_file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Creates a *Modifier Image*.\n\nThe image will show on the storefront when the value is selected.\n\n **Required Fields**\n- image_file: Form posts are the only accepted upload option."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Product Variant Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/variants/:variant_id/image",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs. Product variant metafield endpoints that have the `product_id` in the request path are successful as long as the parameter is not empty. The `product_id` segment is there only for path consistency.\n"
+              },
+              {
+                "name": "variant_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the variant on a product, or on an associated Price List Record.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a *Variant Image*.\n\nOnly one image can be explicitly associated with a Variant. If the Variant already has an associated image, overwrites the existing Variant Image.\n\nThe image displays on the storefront when the Variant is selected.\n\n **Required Fields**\n- image_file: Form posts. Files larger than 1 MB are not accepted\n- image_url: Any publicly available URL"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get All Product Images",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/images",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of products."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of products."
+              },
+              {
+                "name": "include_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to include, in a comma-separated list. The ID and the specified fields will be returned."
+              },
+              {
+                "name": "exclude_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded."
+              }
+            ]
+          },
+          "docs": "Returns a list of *Product Images*. Optional parameters can be passed in."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Product Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/images",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a *Product Image*.\n\n **Required Fields**\n- `image_file`, or\n- `image_url`\n\n**Usage Notes**\n- `image_url` - `255` character limit\n- For file uploads, use the `multipart/form-data` media type.\n- You can create only one image at a time. A product can have up to 1000 images.\n- Supported image file types are BMP, GIF, JPEG, PNG, WBMP, XBM, and WEBP.\n- Each image file or image uploaded by URL can be up to 8 MB."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Product Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/images/:image_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "image_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Image` that is being operated on.\n"
+              },
+              {
+                "name": "include_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to include, in a comma-separated list. The ID and the specified fields will be returned."
+              },
+              {
+                "name": "exclude_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to exclude, in a comma-separated list. The specified fields will be excluded from a response. The ID cannot be excluded."
+              }
+            ]
+          },
+          "docs": "Returns a single *Product Image*. Optional parameters can be passed in."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Product Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/images/:image_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "image_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Image` that is being operated on.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a *Product Image*.\n\n**Usage Notes**\n- `image_url` - `255` character limit\n- Each image file or image uploaded by URL can be up to 8 MB.\n- For file uploads, send a POST request using the `multipart/form-data` media type"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Product Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/products/:product_id/images/:image_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Product` to which the resource belongs.\n"
+              },
+              {
+                "name": "image_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Image` that is being operated on.\n"
+              }
+            ]
+          },
+          "docs": "Deletes a *Product Image*."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

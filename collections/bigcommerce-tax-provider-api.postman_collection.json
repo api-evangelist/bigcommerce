@@ -1,0 +1,1283 @@
+{
+  "item": [
+    {
+      "id": "651db727-2e5f-442d-81de-33a522eae4c5",
+      "name": "Tax Provider",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b35134f8-d469-426a-aeec-9bae07304e40",
+          "name": "BigCommerce Estimate Taxes",
+          "request": {
+            "name": "BigCommerce Estimate Taxes",
+            "description": {
+              "content": "Submit the quote request to retrieve an estimate from the enabled third-party tax provider. Estimates are not expected to be persisted by the tax provider.\n\n> Server URL\n> - For supporting tax providers, the server URL contains the tax provider's profile field; for example, `your_profile.example.com`.\n> - The Try it feature is not currently supported for this endpoint.\n\nThe following actions can trigger tax estimate requests multiple times during a standard checkout on a BigCommerce storefront, depending on the BigCommerce merchant’s settings.\n\n- After selecting a Shipping Method during the “Estimate Shipping & Tax” facility on the Cart page.\n- After specifying a Shipping Address during a Checkout.\n- After selecting a Shipping Method during a Checkout.\n- After specifying a Billing Address during a Checkout.\n\nThe following actions are not expected to trigger estimate requests.\n\n- While anonymously browsing a store’s product catalog.\n- On the Cart page prior to a Shopper selecting a Shipping Method via “Estimate Shipping & Tax”.\n- On the Checkout page prior to specifying a Shipping Address.\n- On the Checkout page, when toggling any option related to using the shopper’s Shipping Address as their Billing Address.\n\nThe following control panel actions can also trigger tax estimate requests.\n\n- Order refund.\n- Edit order.\n- Test connection feature in Tax Settings.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "estimate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                "key": "X-BC-Store-Hash",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"currency_code\": \"<string>\",\n  \"customer\": {\n    \"customer_id\": \"<string>\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"<string>\"\n  },\n  \"transaction_date\": \"<dateTime>\",\n  \"documents\": [\n    {\n      \"id\": \"<string>\",\n      \"destination_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"origin_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"shipping\": \"<object>\",\n      \"handling\": \"<object>\",\n      \"items\": [\n        {\n          \"id\": \"<string>\",\n          \"price\": {\n            \"amount\": \"<double>\",\n            \"tax_inclusive\": false\n          },\n          \"quantity\": \"<integer>\",\n          \"type\": \"<string>\",\n          \"item_code\": \"<string>\",\n          \"item_reference\": \"<string>\",\n          \"name\": \"<string>\",\n          \"tax_class\": {\n            \"code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"class_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"tax_exempt\": false,\n          \"tax_properties\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"wrapping\": \"<object>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"price\": {\n            \"amount\": \"<double>\",\n            \"tax_inclusive\": false\n          },\n          \"quantity\": \"<integer>\",\n          \"type\": \"<string>\",\n          \"item_code\": \"<string>\",\n          \"item_reference\": \"<string>\",\n          \"name\": \"<string>\",\n          \"tax_class\": {\n            \"code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"class_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"tax_exempt\": false,\n          \"tax_properties\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"wrapping\": \"<object>\"\n        }\n      ],\n      \"billing_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"destination_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"origin_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"shipping\": \"<object>\",\n      \"handling\": \"<object>\",\n      \"items\": [\n        {\n          \"id\": \"<string>\",\n          \"price\": {\n            \"amount\": \"<double>\",\n            \"tax_inclusive\": false\n          },\n          \"quantity\": \"<integer>\",\n          \"type\": \"<string>\",\n          \"item_code\": \"<string>\",\n          \"item_reference\": \"<string>\",\n          \"name\": \"<string>\",\n          \"tax_class\": {\n            \"code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"class_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"tax_exempt\": false,\n          \"tax_properties\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"wrapping\": \"<object>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"price\": {\n            \"amount\": \"<double>\",\n            \"tax_inclusive\": false\n          },\n          \"quantity\": \"<integer>\",\n          \"type\": \"<string>\",\n          \"item_code\": \"<string>\",\n          \"item_reference\": \"<string>\",\n          \"name\": \"<string>\",\n          \"tax_class\": {\n            \"code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"class_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"tax_exempt\": false,\n          \"tax_properties\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"wrapping\": \"<object>\"\n        }\n      ],\n      \"billing_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dc8ea82b-545d-42d6-9f48-d5b4f4a2b21e",
+              "name": "Noteworthy is that the estimate response does not contain an **external ID** since there is no expectation that an estimate will result in any persisted tax documents by the tax provider.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "estimate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"3f0c857e-2c55-443e-a89b-c3c4d8a29605\",\n  \"currency_code\": \"USD\",\n  \"customer\": {\n    \"customer_id\": \"0\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"\"\n  },\n  \"transaction_date\": \"2019-08-13T03:17:37+00:00\",\n  \"documents\": [\n    {\n      \"id\": \"5d522b889d3d9\",\n      \"billing_address\": {\n        \"line1\": \"\",\n        \"line2\": \"\",\n        \"city\": \"\",\n        \"region_name\": \"\",\n        \"region_code\": \"\",\n        \"country_name\": \"\",\n        \"country_code\": \"\",\n        \"postal_code\": \"\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"destination_address\": {\n        \"line1\": \"\",\n        \"line2\": \"\",\n        \"city\": \"Van Wert\",\n        \"region_name\": \"Ohio\",\n        \"region_code\": \"OH\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"45892\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"origin_address\": {\n        \"line1\": \"2139 W ANDERSON LN\",\n        \"line2\": \"\",\n        \"city\": \"AUSTIN\",\n        \"region_name\": \"Texas\",\n        \"region_code\": \"TX\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"78757\",\n        \"company_name\": \"\",\n        \"type\": \"COMMERCIAL\"\n      },\n      \"shipping\": {\n        \"id\": \"5d522b889d3d9\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Shipping to Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 10,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Shipping\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"shipping\"\n      },\n      \"handling\": {\n        \"id\": \"5d522b889d3d9\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Handling for Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 0,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Handling\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"handling\"\n      },\n      \"items\": [\n        {\n          \"id\": \"088c7465-e5b8-4624-a220-0d9faa82e7cb\",\n          \"item_code\": \"ABS\",\n          \"name\": \"[Sample] Able Brewing System\",\n          \"price\": {\n            \"amount\": 450,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 2,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: [Sample] Canvas Laundry Cart\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        },\n        {\n          \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n          \"item_code\": \"CLC\",\n          \"name\": \"[Sample] Canvas Laundry Cart\",\n          \"price\": {\n            \"amount\": 200,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 1,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: [Sample] Canvas Laundry Cart\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"documents\": [\n    {\n      \"id\": \"5d522b889d3d9\",\n      \"items\": [\n        {\n          \"id\": \"088c7465-e5b8-4624-a220-0d9faa82e7cb\",\n          \"price\": {\n            \"amount_inclusive\": 675,\n            \"amount_exclusive\": 450,\n            \"total_tax\": 225,\n            \"tax_rate\": 0.5,\n            \"sales_tax_summary\": [\n              {\n                \"name\": \"Brutal Tax\",\n                \"rate\": 0.5,\n                \"amount\": 225,\n                \"tax_class\": {\n                  \"class_id\": \"0\",\n                  \"name\": \"Brutal Tax\",\n                  \"code\": \"US\"\n                },\n                \"id\": \"Brutal Tax\"\n              }\n            ]\n          },\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n            \"price\": {\n              \"amount_exclusive\": 5,\n              \"amount_inclusive\": 7.5,\n              \"sales_tax_summary\": [\n                {\n                  \"amount\": 2.5,\n                  \"id\": \"1\",\n                  \"name\": \"BRUTAL TAX\",\n                  \"rate\": 0.5,\n                  \"tax_class\": {\n                    \"class_id\": \"6\",\n                    \"code\": \"US\",\n                    \"name\": \"Wrapping\"\n                  }\n                }\n              ],\n              \"tax_rate\": 0.5,\n              \"total_tax\": 2.5\n            },\n            \"type\": \"wrapping\"\n          }\n        },\n        {\n          \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n          \"price\": {\n            \"amount_inclusive\": 300,\n            \"amount_exclusive\": 200,\n            \"total_tax\": 100,\n            \"tax_rate\": 0.5,\n            \"sales_tax_summary\": [\n              {\n                \"name\": \"Brutal Tax\",\n                \"rate\": 0.5,\n                \"amount\": 100,\n                \"tax_class\": {\n                  \"class_id\": \"0\",\n                  \"name\": \"Brutal Tax\",\n                  \"code\": \"US\"\n                },\n                \"id\": \"Brutal Tax\"\n              }\n            ]\n          },\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n            \"price\": {\n              \"amount_exclusive\": 5,\n              \"amount_inclusive\": 7.5,\n              \"sales_tax_summary\": [\n                {\n                  \"amount\": 2.5,\n                  \"id\": \"1\",\n                  \"name\": \"BRUTAL TAX\",\n                  \"rate\": 0.5,\n                  \"tax_class\": {\n                    \"class_id\": \"6\",\n                    \"code\": \"US\",\n                    \"name\": \"Wrapping\"\n                  }\n                }\n              ],\n              \"tax_rate\": 0.5,\n              \"total_tax\": 2.5\n            },\n            \"type\": \"wrapping\"\n          }\n        }\n      ],\n      \"shipping\": {\n        \"id\": \"5d522b889d3d9\",\n        \"price\": {\n          \"amount_inclusive\": 15,\n          \"amount_exclusive\": 10,\n          \"total_tax\": 5,\n          \"tax_rate\": 0.5,\n          \"sales_tax_summary\": [\n            {\n              \"name\": \"Brutal Tax\",\n              \"rate\": 0.5,\n              \"amount\": 5,\n              \"tax_class\": {\n                \"class_id\": \"0\",\n                \"name\": \"Brutal Tax\",\n                \"code\": \"US\"\n              },\n              \"id\": \"Brutal Tax\"\n            }\n          ]\n        },\n        \"type\": \"shipping\"\n      },\n      \"handling\": {\n        \"id\": \"5d522b889d3d9\",\n        \"price\": {\n          \"amount_inclusive\": 0,\n          \"amount_exclusive\": 0,\n          \"total_tax\": 0,\n          \"tax_rate\": 0.5,\n          \"sales_tax_summary\": [\n            {\n              \"name\": \"Brutal Tax\",\n              \"rate\": 0.5,\n              \"amount\": 0,\n              \"tax_class\": {\n                \"class_id\": \"0\",\n                \"name\": \"Brutal Tax\",\n                \"code\": \"US\"\n              },\n              \"id\": \"Brutal Tax\"\n            }\n          ]\n        },\n        \"type\": \"handling\"\n      }\n    }\n  ],\n  \"id\": \"3f0c857e-2c55-443e-a89b-c3c4d8a29605\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5c7adb05-78cb-452d-83d4-721e9d73a234",
+              "name": "Fallback Tax will be used for this transaction. General response that points to an issue with the incoming request that means a valid response is unable to be returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "estimate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"3f0c857e-2c55-443e-a89b-c3c4d8a29605\",\n  \"currency_code\": \"USD\",\n  \"customer\": {\n    \"customer_id\": \"0\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"\"\n  },\n  \"transaction_date\": \"2019-08-13T03:17:37+00:00\",\n  \"documents\": [\n    {\n      \"id\": \"5d522b889d3d9\",\n      \"billing_address\": {\n        \"line1\": \"\",\n        \"line2\": \"\",\n        \"city\": \"\",\n        \"region_name\": \"\",\n        \"region_code\": \"\",\n        \"country_name\": \"\",\n        \"country_code\": \"\",\n        \"postal_code\": \"\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"destination_address\": {\n        \"line1\": \"\",\n        \"line2\": \"\",\n        \"city\": \"Van Wert\",\n        \"region_name\": \"Ohio\",\n        \"region_code\": \"OH\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"45892\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"origin_address\": {\n        \"line1\": \"2139 W ANDERSON LN\",\n        \"line2\": \"\",\n        \"city\": \"AUSTIN\",\n        \"region_name\": \"Texas\",\n        \"region_code\": \"TX\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"78757\",\n        \"company_name\": \"\",\n        \"type\": \"COMMERCIAL\"\n      },\n      \"shipping\": {\n        \"id\": \"5d522b889d3d9\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Shipping to Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 10,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Shipping\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"shipping\"\n      },\n      \"handling\": {\n        \"id\": \"5d522b889d3d9\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Handling for Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 0,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Handling\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"handling\"\n      },\n      \"items\": [\n        {\n          \"id\": \"088c7465-e5b8-4624-a220-0d9faa82e7cb\",\n          \"item_code\": \"ABS\",\n          \"name\": \"[Sample] Able Brewing System\",\n          \"price\": {\n            \"amount\": 450,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 2,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: [Sample] Canvas Laundry Cart\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        },\n        {\n          \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n          \"item_code\": \"CLC\",\n          \"name\": \"[Sample] Canvas Laundry Cart\",\n          \"price\": {\n            \"amount\": 200,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 1,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: [Sample] Canvas Laundry Cart\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "493315cf-e60c-4f3d-b7af-147df325d391",
+              "name": "Response to indicate that the merchant’s authentication credentials are invalid. The merchant will receive an update in their Store Logs.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "estimate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"3f0c857e-2c55-443e-a89b-c3c4d8a29605\",\n  \"currency_code\": \"USD\",\n  \"customer\": {\n    \"customer_id\": \"0\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"\"\n  },\n  \"transaction_date\": \"2019-08-13T03:17:37+00:00\",\n  \"documents\": [\n    {\n      \"id\": \"5d522b889d3d9\",\n      \"billing_address\": {\n        \"line1\": \"\",\n        \"line2\": \"\",\n        \"city\": \"\",\n        \"region_name\": \"\",\n        \"region_code\": \"\",\n        \"country_name\": \"\",\n        \"country_code\": \"\",\n        \"postal_code\": \"\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"destination_address\": {\n        \"line1\": \"\",\n        \"line2\": \"\",\n        \"city\": \"Van Wert\",\n        \"region_name\": \"Ohio\",\n        \"region_code\": \"OH\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"45892\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"origin_address\": {\n        \"line1\": \"2139 W ANDERSON LN\",\n        \"line2\": \"\",\n        \"city\": \"AUSTIN\",\n        \"region_name\": \"Texas\",\n        \"region_code\": \"TX\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"78757\",\n        \"company_name\": \"\",\n        \"type\": \"COMMERCIAL\"\n      },\n      \"shipping\": {\n        \"id\": \"5d522b889d3d9\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Shipping to Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 10,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Shipping\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"shipping\"\n      },\n      \"handling\": {\n        \"id\": \"5d522b889d3d9\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Handling for Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 0,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Handling\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"handling\"\n      },\n      \"items\": [\n        {\n          \"id\": \"088c7465-e5b8-4624-a220-0d9faa82e7cb\",\n          \"item_code\": \"ABS\",\n          \"name\": \"[Sample] Able Brewing System\",\n          \"price\": {\n            \"amount\": 450,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 2,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: [Sample] Canvas Laundry Cart\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        },\n        {\n          \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n          \"item_code\": \"CLC\",\n          \"name\": \"[Sample] Canvas Laundry Cart\",\n          \"price\": {\n            \"amount\": 200,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 1,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: [Sample] Canvas Laundry Cart\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "325c4a97-dc35-4057-84eb-26eae8c9de18",
+              "name": "Fallback Tax will be used for this transaction. General response that points to an error on the tax provider side. These types of errors should be promptly resolved by the tax provider.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "estimate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"3f0c857e-2c55-443e-a89b-c3c4d8a29605\",\n  \"currency_code\": \"USD\",\n  \"customer\": {\n    \"customer_id\": \"0\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"\"\n  },\n  \"transaction_date\": \"2019-08-13T03:17:37+00:00\",\n  \"documents\": [\n    {\n      \"id\": \"5d522b889d3d9\",\n      \"billing_address\": {\n        \"line1\": \"\",\n        \"line2\": \"\",\n        \"city\": \"\",\n        \"region_name\": \"\",\n        \"region_code\": \"\",\n        \"country_name\": \"\",\n        \"country_code\": \"\",\n        \"postal_code\": \"\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"destination_address\": {\n        \"line1\": \"\",\n        \"line2\": \"\",\n        \"city\": \"Van Wert\",\n        \"region_name\": \"Ohio\",\n        \"region_code\": \"OH\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"45892\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"origin_address\": {\n        \"line1\": \"2139 W ANDERSON LN\",\n        \"line2\": \"\",\n        \"city\": \"AUSTIN\",\n        \"region_name\": \"Texas\",\n        \"region_code\": \"TX\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"78757\",\n        \"company_name\": \"\",\n        \"type\": \"COMMERCIAL\"\n      },\n      \"shipping\": {\n        \"id\": \"5d522b889d3d9\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Shipping to Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 10,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Shipping\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"shipping\"\n      },\n      \"handling\": {\n        \"id\": \"5d522b889d3d9\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Handling for Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 0,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Handling\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"handling\"\n      },\n      \"items\": [\n        {\n          \"id\": \"088c7465-e5b8-4624-a220-0d9faa82e7cb\",\n          \"item_code\": \"ABS\",\n          \"name\": \"[Sample] Able Brewing System\",\n          \"price\": {\n            \"amount\": 450,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 2,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: [Sample] Canvas Laundry Cart\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        },\n        {\n          \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n          \"item_code\": \"CLC\",\n          \"name\": \"[Sample] Canvas Laundry Cart\",\n          \"price\": {\n            \"amount\": 200,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 1,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: [Sample] Canvas Laundry Cart\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c6f63342-7882-47ef-a144-0a3049167754",
+          "name": "BigCommerce Void Tax Quote",
+          "request": {
+            "name": "BigCommerce Void Tax Quote",
+            "description": {
+              "content": "Invalidate the persisted tax quote as identified by the given unique ID. Relevant to order cancellations, full refunds, or moving an order from a paid status to an unpaid status.\n\n> Server URL\n> - For supporting tax providers, the server URL contains the tax provider's profile field; for example, `your_profile.example.com`.\n> - The Try it feature is not currently supported for this endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "void"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<string>",
+                  "description": "(Required) Unique ID identifying the existing, persisted Tax Quote that will be voided."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                "key": "X-BC-Store-Hash",
+                "value": "<string>"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "89f5729f-29da-430c-914c-ff46fe77f618",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "void"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8db4c37f-c993-4151-830e-5951a0f01047",
+              "name": "General response that points to an issue with the incoming request that means a valid response is unable to be returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "void"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d96ba5ff-5253-4ad2-b146-cc39b3cbc34a",
+              "name": "Response to indicate that the merchant’s authentication credentials are invalid. The merchant will receive an update in their Store Logs.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "void"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "26772a5d-b08a-4d72-bce1-95e7e5b8ff57",
+              "name": "General response that points to an error on the tax provider side. These types of errors should be promptly resolved by the tax provider.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "void"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a761f4ae-7fb5-441c-9eea-69c4228d576a",
+          "name": "BigCommerce Commit Tax Quote",
+          "request": {
+            "name": "BigCommerce Commit Tax Quote",
+            "description": {
+              "content": "Submit the quote request to be persisted by the enabled third-party tax provider. A commit operation is intended to be submitted once only, when the Order has been confirmed and paid.\n\n> Server URL\n> - For supporting tax providers, the server URL contains the tax provider's profile field; for example, `your_profile.example.com`.\n> - The Try it feature is not currently supported for this endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "commit"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                "key": "X-BC-Store-Hash",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"currency_code\": \"<string>\",\n  \"customer\": {\n    \"customer_id\": \"<string>\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"<string>\"\n  },\n  \"transaction_date\": \"<dateTime>\",\n  \"documents\": [\n    {\n      \"id\": \"<string>\",\n      \"destination_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"origin_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"shipping\": \"<object>\",\n      \"handling\": \"<object>\",\n      \"items\": [\n        {\n          \"id\": \"<string>\",\n          \"price\": {\n            \"amount\": \"<double>\",\n            \"tax_inclusive\": false\n          },\n          \"quantity\": \"<integer>\",\n          \"type\": \"<string>\",\n          \"item_code\": \"<string>\",\n          \"item_reference\": \"<string>\",\n          \"name\": \"<string>\",\n          \"tax_class\": {\n            \"code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"class_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"tax_exempt\": false,\n          \"tax_properties\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"wrapping\": \"<object>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"price\": {\n            \"amount\": \"<double>\",\n            \"tax_inclusive\": false\n          },\n          \"quantity\": \"<integer>\",\n          \"type\": \"<string>\",\n          \"item_code\": \"<string>\",\n          \"item_reference\": \"<string>\",\n          \"name\": \"<string>\",\n          \"tax_class\": {\n            \"code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"class_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"tax_exempt\": false,\n          \"tax_properties\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"wrapping\": \"<object>\"\n        }\n      ],\n      \"billing_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"destination_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"origin_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"shipping\": \"<object>\",\n      \"handling\": \"<object>\",\n      \"items\": [\n        {\n          \"id\": \"<string>\",\n          \"price\": {\n            \"amount\": \"<double>\",\n            \"tax_inclusive\": false\n          },\n          \"quantity\": \"<integer>\",\n          \"type\": \"<string>\",\n          \"item_code\": \"<string>\",\n          \"item_reference\": \"<string>\",\n          \"name\": \"<string>\",\n          \"tax_class\": {\n            \"code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"class_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"tax_exempt\": false,\n          \"tax_properties\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"wrapping\": \"<object>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"price\": {\n            \"amount\": \"<double>\",\n            \"tax_inclusive\": false\n          },\n          \"quantity\": \"<integer>\",\n          \"type\": \"<string>\",\n          \"item_code\": \"<string>\",\n          \"item_reference\": \"<string>\",\n          \"name\": \"<string>\",\n          \"tax_class\": {\n            \"code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"class_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"tax_exempt\": false,\n          \"tax_properties\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"wrapping\": \"<object>\"\n        }\n      ],\n      \"billing_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fc776131-9ffd-4d89-95f8-6db58a3c3ee7",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "commit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"113\",\n  \"currency_code\": \"USD\",\n  \"customer\": {\n    \"customer_id\": \"0\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"\"\n  },\n  \"transaction_date\": \"2019-08-13T03:40:15+00:00\",\n  \"documents\": [\n    {\n      \"id\": \"shipping_14\",\n      \"billing_address\": {\n        \"line1\": \"402 S Vine St\",\n        \"line2\": \"\",\n        \"city\": \"Van Wert\",\n        \"region_name\": \"Ohio\",\n        \"region_code\": \"OH\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"45891\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"destination_address\": {\n        \"line1\": \"402 S Vine St\",\n        \"line2\": \"\",\n        \"city\": \"Van Wert\",\n        \"region_name\": \"Ohio\",\n        \"region_code\": \"OH\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"45891\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"origin_address\": {\n        \"line1\": \"2139 W ANDERSON LN\",\n        \"line2\": \"\",\n        \"city\": \"AUSTIN\",\n        \"region_name\": \"Texas\",\n        \"region_code\": \"TX\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"78757\",\n        \"company_name\": \"\",\n        \"type\": \"COMMERCIAL\"\n      },\n      \"shipping\": {\n        \"id\": \"shipping_14\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Shipping to Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 10,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Shipping\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"shipping\"\n      },\n      \"handling\": {\n        \"id\": \"handling_14\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Handling for Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 0,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Handling\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"handling\"\n      },\n      \"items\": [\n        {\n          \"id\": \"product_13\",\n          \"item_code\": \"ABS\",\n          \"name\": \"[Sample] Able Brewing System\",\n          \"price\": {\n            \"amount\": 450,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 2,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"product_14\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: Holiday\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        },\n        {\n          \"id\": \"product_14\",\n          \"item_code\": \"CLC\",\n          \"name\": \"[Sample] Canvas Laundry Cart\",\n          \"price\": {\n            \"amount\": 200,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 1,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"product_14\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: Holiday\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"documents\": [\n    {\n      \"external_id\": \"sample-doc-123456789\",\n      \"id\": \"shipping_14\",\n      \"items\": [\n        {\n          \"id\": \"product_13\",\n          \"price\": {\n            \"amount_inclusive\": 675,\n            \"amount_exclusive\": 450,\n            \"total_tax\": 225,\n            \"tax_rate\": 0.5,\n            \"sales_tax_summary\": [\n              {\n                \"name\": \"Brutal Tax\",\n                \"rate\": 0.5,\n                \"amount\": 225,\n                \"tax_class\": {\n                  \"class_id\": \"0\",\n                  \"name\": \"Brutal Tax\",\n                  \"code\": \"US\"\n                },\n                \"id\": \"Brutal Tax\"\n              }\n            ]\n          },\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"product_14\",\n            \"price\": {\n              \"amount_exclusive\": 5,\n              \"amount_inclusive\": 7.5,\n              \"sales_tax_summary\": [\n                {\n                  \"amount\": 2.5,\n                  \"id\": \"1\",\n                  \"name\": \"BRUTAL TAX\",\n                  \"rate\": 0.5,\n                  \"tax_class\": {\n                    \"class_id\": \"6\",\n                    \"code\": \"US\",\n                    \"name\": \"Wrapping\"\n                  }\n                }\n              ],\n              \"tax_rate\": 0.5,\n              \"total_tax\": 2.5\n            },\n            \"type\": \"wrapping\"\n          }\n        },\n        {\n          \"id\": \"product_14\",\n          \"price\": {\n            \"amount_inclusive\": 300,\n            \"amount_exclusive\": 200,\n            \"total_tax\": 100,\n            \"tax_rate\": 0.5,\n            \"sales_tax_summary\": [\n              {\n                \"name\": \"Brutal Tax\",\n                \"rate\": 0.5,\n                \"amount\": 100,\n                \"tax_class\": {\n                  \"class_id\": \"0\",\n                  \"name\": \"Brutal Tax\",\n                  \"code\": \"US\"\n                },\n                \"id\": \"Brutal Tax\"\n              }\n            ]\n          },\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"product_14\",\n            \"price\": {\n              \"amount_exclusive\": 5,\n              \"amount_inclusive\": 7.5,\n              \"sales_tax_summary\": [\n                {\n                  \"amount\": 2.5,\n                  \"id\": \"1\",\n                  \"name\": \"BRUTAL TAX\",\n                  \"rate\": 0.5,\n                  \"tax_class\": {\n                    \"class_id\": \"6\",\n                    \"code\": \"US\",\n                    \"name\": \"Wrapping\"\n                  }\n                }\n              ],\n              \"tax_rate\": 0.5,\n              \"total_tax\": 2.5\n            },\n            \"type\": \"wrapping\"\n          }\n        }\n      ],\n      \"shipping\": {\n        \"id\": \"shipping_14\",\n        \"price\": {\n          \"amount_inclusive\": 15,\n          \"amount_exclusive\": 10,\n          \"total_tax\": 5,\n          \"tax_rate\": 0.5,\n          \"sales_tax_summary\": [\n            {\n              \"name\": \"Brutal Tax\",\n              \"rate\": 0.5,\n              \"amount\": 5,\n              \"tax_class\": {\n                \"class_id\": \"0\",\n                \"name\": \"Brutal Tax\",\n                \"code\": \"US\"\n              },\n              \"id\": \"Brutal Tax\"\n            }\n          ]\n        },\n        \"type\": \"shipping\"\n      },\n      \"handling\": {\n        \"id\": \"handling_14\",\n        \"price\": {\n          \"amount_inclusive\": 0,\n          \"amount_exclusive\": 0,\n          \"total_tax\": 0,\n          \"tax_rate\": 0.5,\n          \"sales_tax_summary\": [\n            {\n              \"name\": \"Brutal Tax\",\n              \"rate\": 0.5,\n              \"amount\": 0,\n              \"tax_class\": {\n                \"class_id\": \"0\",\n                \"name\": \"Brutal Tax\",\n                \"code\": \"US\"\n              },\n              \"id\": \"Brutal Tax\"\n            }\n          ]\n        },\n        \"type\": \"handling\"\n      }\n    }\n  ],\n  \"id\": \"113\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ce174197-1447-466e-b23e-fb68876ec203",
+              "name": "General response that points to an issue with the incoming request that means a valid response is unable to be returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "commit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"113\",\n  \"currency_code\": \"USD\",\n  \"customer\": {\n    \"customer_id\": \"0\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"\"\n  },\n  \"transaction_date\": \"2019-08-13T03:40:15+00:00\",\n  \"documents\": [\n    {\n      \"id\": \"shipping_14\",\n      \"billing_address\": {\n        \"line1\": \"402 S Vine St\",\n        \"line2\": \"\",\n        \"city\": \"Van Wert\",\n        \"region_name\": \"Ohio\",\n        \"region_code\": \"OH\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"45891\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"destination_address\": {\n        \"line1\": \"402 S Vine St\",\n        \"line2\": \"\",\n        \"city\": \"Van Wert\",\n        \"region_name\": \"Ohio\",\n        \"region_code\": \"OH\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"45891\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"origin_address\": {\n        \"line1\": \"2139 W ANDERSON LN\",\n        \"line2\": \"\",\n        \"city\": \"AUSTIN\",\n        \"region_name\": \"Texas\",\n        \"region_code\": \"TX\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"78757\",\n        \"company_name\": \"\",\n        \"type\": \"COMMERCIAL\"\n      },\n      \"shipping\": {\n        \"id\": \"shipping_14\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Shipping to Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 10,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Shipping\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"shipping\"\n      },\n      \"handling\": {\n        \"id\": \"handling_14\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Handling for Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 0,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Handling\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"handling\"\n      },\n      \"items\": [\n        {\n          \"id\": \"product_13\",\n          \"item_code\": \"ABS\",\n          \"name\": \"[Sample] Able Brewing System\",\n          \"price\": {\n            \"amount\": 450,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 2,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"product_14\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: Holiday\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        },\n        {\n          \"id\": \"product_14\",\n          \"item_code\": \"CLC\",\n          \"name\": \"[Sample] Canvas Laundry Cart\",\n          \"price\": {\n            \"amount\": 200,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 1,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"product_14\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: Holiday\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f4e81848-3e5a-42e8-a589-0f9256b12349",
+              "name": "Response to indicate that the merchant’s authentication credentials are invalid. The merchant will receive an update in their Store Logs.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "commit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"113\",\n  \"currency_code\": \"USD\",\n  \"customer\": {\n    \"customer_id\": \"0\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"\"\n  },\n  \"transaction_date\": \"2019-08-13T03:40:15+00:00\",\n  \"documents\": [\n    {\n      \"id\": \"shipping_14\",\n      \"billing_address\": {\n        \"line1\": \"402 S Vine St\",\n        \"line2\": \"\",\n        \"city\": \"Van Wert\",\n        \"region_name\": \"Ohio\",\n        \"region_code\": \"OH\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"45891\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"destination_address\": {\n        \"line1\": \"402 S Vine St\",\n        \"line2\": \"\",\n        \"city\": \"Van Wert\",\n        \"region_name\": \"Ohio\",\n        \"region_code\": \"OH\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"45891\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"origin_address\": {\n        \"line1\": \"2139 W ANDERSON LN\",\n        \"line2\": \"\",\n        \"city\": \"AUSTIN\",\n        \"region_name\": \"Texas\",\n        \"region_code\": \"TX\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"78757\",\n        \"company_name\": \"\",\n        \"type\": \"COMMERCIAL\"\n      },\n      \"shipping\": {\n        \"id\": \"shipping_14\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Shipping to Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 10,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Shipping\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"shipping\"\n      },\n      \"handling\": {\n        \"id\": \"handling_14\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Handling for Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 0,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Handling\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"handling\"\n      },\n      \"items\": [\n        {\n          \"id\": \"product_13\",\n          \"item_code\": \"ABS\",\n          \"name\": \"[Sample] Able Brewing System\",\n          \"price\": {\n            \"amount\": 450,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 2,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"product_14\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: Holiday\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        },\n        {\n          \"id\": \"product_14\",\n          \"item_code\": \"CLC\",\n          \"name\": \"[Sample] Canvas Laundry Cart\",\n          \"price\": {\n            \"amount\": 200,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 1,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"product_14\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: Holiday\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d2321a4b-2a24-4df2-bf68-b0057dd1b4d3",
+              "name": "General response that points to an error on the tax provider side. These types of errors should be promptly resolved by the tax provider.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "commit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"113\",\n  \"currency_code\": \"USD\",\n  \"customer\": {\n    \"customer_id\": \"0\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"\"\n  },\n  \"transaction_date\": \"2019-08-13T03:40:15+00:00\",\n  \"documents\": [\n    {\n      \"id\": \"shipping_14\",\n      \"billing_address\": {\n        \"line1\": \"402 S Vine St\",\n        \"line2\": \"\",\n        \"city\": \"Van Wert\",\n        \"region_name\": \"Ohio\",\n        \"region_code\": \"OH\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"45891\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"destination_address\": {\n        \"line1\": \"402 S Vine St\",\n        \"line2\": \"\",\n        \"city\": \"Van Wert\",\n        \"region_name\": \"Ohio\",\n        \"region_code\": \"OH\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"45891\",\n        \"company_name\": \"\",\n        \"type\": \"RESIDENTIAL\"\n      },\n      \"origin_address\": {\n        \"line1\": \"2139 W ANDERSON LN\",\n        \"line2\": \"\",\n        \"city\": \"AUSTIN\",\n        \"region_name\": \"Texas\",\n        \"region_code\": \"TX\",\n        \"country_name\": \"United States\",\n        \"country_code\": \"US\",\n        \"postal_code\": \"78757\",\n        \"company_name\": \"\",\n        \"type\": \"COMMERCIAL\"\n      },\n      \"shipping\": {\n        \"id\": \"shipping_14\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Shipping to Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 10,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Shipping\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"shipping\"\n      },\n      \"handling\": {\n        \"id\": \"handling_14\",\n        \"item_code\": \"Flat Rate\",\n        \"name\": \"Handling for Van Wert, United States 45891\",\n        \"price\": {\n          \"amount\": 0,\n          \"tax_inclusive\": false\n        },\n        \"quantity\": 1,\n        \"tax_class\": {\n          \"code\": \"\",\n          \"class_id\": \"6\",\n          \"name\": \"Handling\"\n        },\n        \"tax_exempt\": false,\n        \"type\": \"handling\"\n      },\n      \"items\": [\n        {\n          \"id\": \"product_13\",\n          \"item_code\": \"ABS\",\n          \"name\": \"[Sample] Able Brewing System\",\n          \"price\": {\n            \"amount\": 450,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 2,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"product_14\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: Holiday\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        },\n        {\n          \"id\": \"product_14\",\n          \"item_code\": \"CLC\",\n          \"name\": \"[Sample] Canvas Laundry Cart\",\n          \"price\": {\n            \"amount\": 200,\n            \"tax_inclusive\": false\n          },\n          \"quantity\": 1,\n          \"tax_class\": {\n            \"code\": \"\",\n            \"class_id\": \"0\",\n            \"name\": \"Default Tax Class\"\n          },\n          \"tax_exempt\": false,\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"product_14\",\n            \"item_code\": \"\",\n            \"name\": \"Wrapping: Holiday\",\n            \"price\": {\n              \"amount\": 5,\n              \"tax_inclusive\": false\n            },\n            \"quantity\": 1,\n            \"tax_class\": {\n              \"code\": \"\",\n              \"class_id\": \"6\",\n              \"name\": \"Wrapping\"\n            },\n            \"tax_exempt\": false,\n            \"type\": \"wrapping\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "17519082-e3b6-4b5f-847f-e00c4d87267d",
+          "name": "BigCommerce Adjust Tax Quote",
+          "request": {
+            "name": "BigCommerce Adjust Tax Quote",
+            "description": {
+              "content": "Replace the persisted tax quote (identified by the given unique ID) with the provided quote request (represented by the **AdjustRequest**).\n\nRelevant for returns, partial refunds, and other Order modifications where there have been changes to the tax liabilities.\n\nThe returned **Tax Quote** response is expected to be the same to a response returned by an equivalent response to **estimate** or **commit** methods.\n\n> Server URL\n> - For supporting tax providers, the server URL contains the tax provider's profile field; for example, `your_profile.example.com`.\n> - The Try it feature is not currently supported for this endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "adjust"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<string>",
+                  "description": "(Required) Unique ID identifying the existing, persisted Tax Quote that will be adjusted."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                "key": "X-BC-Store-Hash",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"currency_code\": \"<string>\",\n  \"customer\": {\n    \"customer_id\": \"<string>\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"<string>\"\n  },\n  \"transaction_date\": \"<dateTime>\",\n  \"documents\": [\n    {\n      \"id\": \"<string>\",\n      \"destination_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"origin_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"shipping\": \"<object>\",\n      \"handling\": \"<object>\",\n      \"items\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"billing_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"destination_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"origin_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"shipping\": \"<object>\",\n      \"handling\": \"<object>\",\n      \"items\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"billing_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"region_name\": \"<string>\",\n        \"region_code\": \"<string>\",\n        \"country_name\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    }\n  ],\n  \"adjust_description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "27c88c16-9579-4f26-9aad-e18e9312b915",
+              "name": "Returned Tax Quote response matches the updated QuoteRequest provided to the service method.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "adjust"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"currency_code\": \"<string>\",\n  \"customer\": {\n    \"customer_id\": \"<string>\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"<string>\"\n  },\n  \"transaction_date\": \"<dateTime>\",\n  \"documents\": [\n    {\n      \"id\": \"<string>\",\n      \"destination_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"origin_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"shipping\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"handling\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"items\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"billing_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"destination_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"origin_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"shipping\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"handling\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"items\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"billing_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    }\n  ],\n  \"adjust_description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"documents\": [\n    {\n      \"id\": \"5d522b889d3d9\",\n      \"items\": [\n        {\n          \"id\": \"088c7465-e5b8-4624-a220-0d9faa82e7cb\",\n          \"price\": {\n            \"amount_inclusive\": 675,\n            \"amount_exclusive\": 450,\n            \"total_tax\": 225,\n            \"tax_rate\": 0.5,\n            \"sales_tax_summary\": [\n              {\n                \"name\": \"Brutal Tax\",\n                \"rate\": 0.5,\n                \"amount\": 225,\n                \"tax_class\": {\n                  \"class_id\": \"0\",\n                  \"name\": \"Brutal Tax\",\n                  \"code\": \"US\"\n                },\n                \"id\": \"Brutal Tax\"\n              }\n            ]\n          },\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n            \"price\": {\n              \"amount_exclusive\": 5,\n              \"amount_inclusive\": 7.5,\n              \"sales_tax_summary\": [\n                {\n                  \"amount\": 2.5,\n                  \"id\": \"1\",\n                  \"name\": \"BRUTAL TAX\",\n                  \"rate\": 0.5,\n                  \"tax_class\": {\n                    \"class_id\": \"6\",\n                    \"code\": \"US\",\n                    \"name\": \"Wrapping\"\n                  }\n                }\n              ],\n              \"tax_rate\": 0.5,\n              \"total_tax\": 2.5\n            },\n            \"type\": \"wrapping\"\n          }\n        },\n        {\n          \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n          \"price\": {\n            \"amount_inclusive\": 300,\n            \"amount_exclusive\": 200,\n            \"total_tax\": 100,\n            \"tax_rate\": 0.5,\n            \"sales_tax_summary\": [\n              {\n                \"name\": \"Brutal Tax\",\n                \"rate\": 0.5,\n                \"amount\": 100,\n                \"tax_class\": {\n                  \"class_id\": \"0\",\n                  \"name\": \"Brutal Tax\",\n                  \"code\": \"US\"\n                },\n                \"id\": \"Brutal Tax\"\n              }\n            ]\n          },\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n            \"price\": {\n              \"amount_exclusive\": 5,\n              \"amount_inclusive\": 7.5,\n              \"sales_tax_summary\": [\n                {\n                  \"amount\": 2.5,\n                  \"id\": \"1\",\n                  \"name\": \"BRUTAL TAX\",\n                  \"rate\": 0.5,\n                  \"tax_class\": {\n                    \"class_id\": \"6\",\n                    \"code\": \"US\",\n                    \"name\": \"Wrapping\"\n                  }\n                }\n              ],\n              \"tax_rate\": 0.5,\n              \"total_tax\": 2.5\n            },\n            \"type\": \"wrapping\"\n          }\n        }\n      ],\n      \"shipping\": {\n        \"id\": \"5d522b889d3d9\",\n        \"price\": {\n          \"amount_inclusive\": 15,\n          \"amount_exclusive\": 10,\n          \"total_tax\": 5,\n          \"tax_rate\": 0.5,\n          \"sales_tax_summary\": [\n            {\n              \"name\": \"Brutal Tax\",\n              \"rate\": 0.5,\n              \"amount\": 5,\n              \"tax_class\": {\n                \"class_id\": \"0\",\n                \"name\": \"Brutal Tax\",\n                \"code\": \"US\"\n              },\n              \"id\": \"Brutal Tax\"\n            }\n          ]\n        },\n        \"type\": \"shipping\"\n      },\n      \"handling\": {\n        \"id\": \"5d522b889d3d9\",\n        \"price\": {\n          \"amount_inclusive\": 0,\n          \"amount_exclusive\": 0,\n          \"total_tax\": 0,\n          \"tax_rate\": 0.5,\n          \"sales_tax_summary\": [\n            {\n              \"name\": \"Brutal Tax\",\n              \"rate\": 0.5,\n              \"amount\": 0,\n              \"tax_class\": {\n                \"class_id\": \"0\",\n                \"name\": \"Brutal Tax\",\n                \"code\": \"US\"\n              },\n              \"id\": \"Brutal Tax\"\n            }\n          ]\n        },\n        \"type\": \"handling\"\n      }\n    }\n  ],\n  \"id\": \"3f0c857e-2c55-443e-a89b-c3c4d8a29605\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff95b72e-a562-4b38-8b3c-379456d39b7e",
+              "name": "General response that points to an issue with the incoming request that means a valid response is unable to be returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "adjust"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"currency_code\": \"<string>\",\n  \"customer\": {\n    \"customer_id\": \"<string>\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"<string>\"\n  },\n  \"transaction_date\": \"<dateTime>\",\n  \"documents\": [\n    {\n      \"id\": \"<string>\",\n      \"destination_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"origin_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"shipping\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"handling\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"items\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"billing_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"destination_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"origin_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"shipping\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"handling\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"items\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"billing_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    }\n  ],\n  \"adjust_description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "78a9c80b-f5a7-4fdd-903d-45c48d443970",
+              "name": "Response to indicate that the merchant’s authentication credentials are invalid. The merchant will receive an update in their Store Logs.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "adjust"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"currency_code\": \"<string>\",\n  \"customer\": {\n    \"customer_id\": \"<string>\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"<string>\"\n  },\n  \"transaction_date\": \"<dateTime>\",\n  \"documents\": [\n    {\n      \"id\": \"<string>\",\n      \"destination_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"origin_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"shipping\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"handling\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"items\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"billing_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"destination_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"origin_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"shipping\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"handling\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"items\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"billing_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    }\n  ],\n  \"adjust_description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1271f1d8-5f9a-4210-a454-419df2d013fa",
+              "name": "General response that points to an error on the tax provider side. These types of errors should be promptly resolved by the tax provider.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "adjust"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) BigCommerce will send through the Store Hash as part of all Tax Provider API operations. Each BigCommerce store on the platform has a unique Store Hash value for the store’s lifetime. This value can assist in account verification or profile matching responsibilities.",
+                    "key": "X-BC-Store-Hash",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"currency_code\": \"<string>\",\n  \"customer\": {\n    \"customer_id\": \"<string>\",\n    \"customer_group_id\": \"0\",\n    \"taxability_code\": \"<string>\"\n  },\n  \"transaction_date\": \"<dateTime>\",\n  \"documents\": [\n    {\n      \"id\": \"<string>\",\n      \"destination_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"origin_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"shipping\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"handling\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"items\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"billing_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"destination_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"origin_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      },\n      \"shipping\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"handling\": {\n        \"id\": \"<string>\",\n        \"price\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_inclusive\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"quantity\": \"<integer>\",\n        \"type\": \"<string>\",\n        \"item_code\": \"<string>\",\n        \"item_reference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"tax_class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tax_exempt\": false,\n        \"tax_properties\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"items\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"price\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"quantity\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_code\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"item_reference\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_class\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_exempt\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tax_properties\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"wrapping\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"billing_address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"Sydney\",\n        \"region_name\": \"New South Wales\",\n        \"region_code\": \"NSW\",\n        \"country_name\": \"Australia\",\n        \"country_code\": \"AU\",\n        \"postal_code\": \"2007\",\n        \"company_name\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    }\n  ],\n  \"adjust_description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"documents\": [\n    {\n      \"external_id\": \"sample-doc-123456789\",\n      \"id\": \"shipping_14\",\n      \"items\": [\n        {\n          \"id\": \"product_13\",\n          \"price\": {\n            \"amount_inclusive\": 337.5,\n            \"amount_exclusive\": 225,\n            \"total_tax\": 112.5,\n            \"tax_rate\": 0.5,\n            \"sales_tax_summary\": [\n              {\n                \"name\": \"Brutal Tax\",\n                \"rate\": 0.5,\n                \"amount\": 112.5,\n                \"tax_class\": {\n                  \"class_id\": \"0\",\n                  \"name\": \"Brutal Tax\",\n                  \"code\": \"US\"\n                },\n                \"id\": \"Brutal Tax\"\n              }\n            ]\n          },\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n            \"price\": {\n              \"amount_exclusive\": 5,\n              \"amount_inclusive\": 7.5,\n              \"sales_tax_summary\": [\n                {\n                  \"amount\": 2.5,\n                  \"id\": \"1\",\n                  \"name\": \"BRUTAL TAX\",\n                  \"rate\": 0.5,\n                  \"tax_class\": {\n                    \"class_id\": \"6\",\n                    \"code\": \"US\",\n                    \"name\": \"Wrapping\"\n                  }\n                }\n              ],\n              \"tax_rate\": 0.5,\n              \"total_tax\": 2.5\n            },\n            \"type\": \"wrapping\"\n          }\n        },\n        {\n          \"id\": \"product_14\",\n          \"price\": {\n            \"amount_inclusive\": 300,\n            \"amount_exclusive\": 200,\n            \"total_tax\": 100,\n            \"tax_rate\": 0.5,\n            \"sales_tax_summary\": [\n              {\n                \"name\": \"Brutal Tax\",\n                \"rate\": 0.5,\n                \"amount\": 100,\n                \"tax_class\": {\n                  \"class_id\": \"0\",\n                  \"name\": \"Brutal Tax\",\n                  \"code\": \"US\"\n                },\n                \"id\": \"Brutal Tax\"\n              }\n            ]\n          },\n          \"type\": \"item\",\n          \"wrapping\": {\n            \"id\": \"d2675662-6326-4a23-9107-ab71fa6a21a1\",\n            \"price\": {\n              \"amount_exclusive\": 5,\n              \"amount_inclusive\": 7.5,\n              \"sales_tax_summary\": [\n                {\n                  \"amount\": 2.5,\n                  \"id\": \"1\",\n                  \"name\": \"BRUTAL TAX\",\n                  \"rate\": 0.5,\n                  \"tax_class\": {\n                    \"class_id\": \"6\",\n                    \"code\": \"US\",\n                    \"name\": \"Wrapping\"\n                  }\n                }\n              ],\n              \"tax_rate\": 0.5,\n              \"total_tax\": 2.5\n            },\n            \"type\": \"wrapping\"\n          }\n        }\n      ],\n      \"shipping\": {\n        \"id\": \"shipping_14\",\n        \"price\": {\n          \"amount_inclusive\": 7.5,\n          \"amount_exclusive\": 5,\n          \"total_tax\": 2.5,\n          \"tax_rate\": 0.5,\n          \"sales_tax_summary\": [\n            {\n              \"name\": \"Brutal Tax\",\n              \"rate\": 0.5,\n              \"amount\": 2.5,\n              \"tax_class\": {\n                \"class_id\": \"0\",\n                \"name\": \"Brutal Tax\",\n                \"code\": \"US\"\n              },\n              \"id\": \"Brutal Tax\"\n            }\n          ]\n        },\n        \"type\": \"shipping\"\n      },\n      \"handling\": {\n        \"id\": \"handling_14\",\n        \"price\": {\n          \"amount_inclusive\": 0,\n          \"amount_exclusive\": 0,\n          \"total_tax\": 0,\n          \"tax_rate\": 0.5,\n          \"sales_tax_summary\": [\n            {\n              \"name\": \"Brutal Tax\",\n              \"rate\": 0.5,\n              \"amount\": 0,\n              \"tax_class\": {\n                \"class_id\": \"0\",\n                \"name\": \"Brutal Tax\",\n                \"code\": \"US\"\n              },\n              \"id\": \"Brutal Tax\"\n            }\n          ]\n        },\n        \"type\": \"handling\"\n      }\n    }\n  ],\n  \"id\": \"113\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e9e4d9e1-8501-4c3f-93c3-df61452588f0",
+    "name": "BigCommerce Abandoned Cart Emails Tax Provider API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

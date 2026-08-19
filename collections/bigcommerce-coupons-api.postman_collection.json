@@ -1,0 +1,812 @@
+{
+  "item": [
+    {
+      "id": "a495e227-43c9-4c56-8a4a-7a64968a4665",
+      "name": "Coupons",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ed89e250-a7ec-4416-80bd-742870fbc5b2",
+          "name": "BigCommerce Get All Coupons",
+          "request": {
+            "name": "BigCommerce Get All Coupons",
+            "description": {
+              "content": "Returns a list of *Coupons*. Default sorting is by coupon/discount id, from lowest to highest. You can pass in optional filter parameters. We recommended using `?min_id=x&limit=y` to paginate through a large set of data because it offers better performance.\n\n## Usage Notes\n\nAvailable types for `type` and `exclude_type` filters:\n\n|Type|\n|-|\n|`per_item_discount`|\n|`percentage_discount`|\n|`per_total_discount`|\n|`shipping_discount`|\n|`free_shipping`|\n|`promotion`|\n\nCoupons with `type=promotion` will not populate usable data for the following fields but instead be set to the following default values:\n\n```json\n...\namount : 0.0000\nmin_purchase: 0.0000\napplies_to\nrestricted_to: []\nshipping_methods : null\n...\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coupons"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<string>",
+                  "description": "Optional filter param. `/api/v2/coupons?id={value}`"
+                },
+                {
+                  "disabled": false,
+                  "key": "code",
+                  "value": "<string>",
+                  "description": "Optional filter param `/api/v2/coupons?code={value}`"
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Optional filter param `/api/v2/coupons?name={value}`"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "|Type|\n|-|\n|`per_item_discount`|\n|`percentage_discount`|\n|`per_total_discount`|\n|`shipping_discount`|\n|`free_shipping`|\n|`promotion`|"
+                },
+                {
+                  "disabled": false,
+                  "key": "min_id",
+                  "value": "<integer>",
+                  "description": "Optional filter param `/api/v2/coupons?min_id={value}`"
+                },
+                {
+                  "disabled": false,
+                  "key": "max_id",
+                  "value": "<integer>",
+                  "description": "Optional filter param`/api/v2/coupons?max_id={value}`"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<number>",
+                  "description": "Number of pages `/api/v2/coupons?page={number}`"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<number>",
+                  "description": "Count per page `/api/v2/coupons?limit={count}`"
+                },
+                {
+                  "disabled": false,
+                  "key": "exclude_type",
+                  "value": "<string>",
+                  "description": "|Type|\n|-|\n|`per_item_discount`|\n|`percentage_discount`|\n|`per_total_discount`|\n|`shipping_discount`|\n|`free_shipping`|\n|`promotion`|"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "94293b1e-4d09-445c-9e16-6e67752e5f59",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coupons"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "min_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "max_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "exclude_type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"$5 off\",\n    \"type\": \"per_total_discount\",\n    \"amount\": \"5.0000\",\n    \"min_purchase\": \"0.0000\",\n    \"expires\": \"\",\n    \"enabled\": true,\n    \"code\": \"S2549JM0Y\",\n    \"applies_to\": {\n      \"entity\": \"categories\",\n      \"ids\": [\n        0\n      ]\n    },\n    \"num_uses\": 2,\n    \"max_uses\": 0,\n    \"max_uses_per_customer\": 0,\n    \"restricted_to\": {},\n    \"shipping_methods\": [],\n    \"date_created\": \"Tue, 13 Mar 2018 16:18:59 +0000\"\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Limit by Location\",\n    \"type\": \"per_total_discount\",\n    \"amount\": \"5.0000\",\n    \"min_purchase\": \"25.0000\",\n    \"expires\": \"\",\n    \"enabled\": true,\n    \"code\": \"E3JC79S0I\",\n    \"applies_to\": {\n      \"entity\": \"categories\",\n      \"ids\": [\n        0\n      ]\n    },\n    \"num_uses\": 0,\n    \"max_uses\": 25,\n    \"max_uses_per_customer\": 0,\n    \"restricted_to\": {\n      \"countries\": \"AU\"\n    },\n    \"shipping_methods\": [\n      \"shipping_endicia\"\n    ],\n    \"date_created\": \"Tue, 12 Jun 2018 20:22:19 +0000\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e5631b9e-9156-463c-8836-1b9a003dd7ed",
+          "name": "BigCommerce Create a New Coupon",
+          "request": {
+            "name": "BigCommerce Create a New Coupon",
+            "description": {
+              "content": "Creates a *Coupon*.\n\n**Required Fields**\n*   `name`\n*   `code`\n*   `type`\n*   `amount`\n*   `applies_to`\n\n**Read Only Fields**\n*   `id`\n*   `num_uses`\n\n**Notes**\n\nThe coupon type can be one of the following:\n\n*   `per_item_discount`\n*   `per_total_discount`\n*   `shipping_discount`\n*   `free_shipping`\n*   `percentage_discount`\n\nLegacy coupon codes only work with the store's default currency. Applying a coupon with any other currency other than the store's default will result in the error: \"Coupons only apply to default currency.\"",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coupons"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": \"<string>\",\n  \"applies_to\": {\n    \"ids\": [\n      \"<integer>\",\n      \"<integer>\"\n    ],\n    \"entity\": \"<string>\"\n  },\n  \"code\": \"<string>\",\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"min_purchase\": \"<string>\",\n  \"expires\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"max_uses\": \"<integer>\",\n  \"max_uses_per_customer\": \"<integer>\",\n  \"restricted_to\": {\n    \"countries\": \"<string>\"\n  },\n  \"shipping_methods\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "aabbf790-ce4f-469a-8487-c37d2a76e5d4",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coupons"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 2,\n  \"name\": \"Australia Customers Discount\",\n  \"type\": \"per_item_discount\",\n  \"amount\": \"5\",\n  \"min_purchase\": \"25\",\n  \"expires\": \"\",\n  \"enabled\": true,\n  \"code\": \"S2549JM0Y\",\n  \"applies_to\": {\n    \"entity\": \"categories\",\n    \"ids\": [\n      0,\n      3\n    ]\n  },\n  \"num_uses\": 0,\n  \"max_uses\": 25,\n  \"max_uses_per_customer\": 0,\n  \"restricted_to\": {\n    \"countries\": \"AU\"\n  },\n  \"shipping_methods\": [\n    \"shipping_endicia\"\n  ],\n  \"date_created\": \"Tue, 13 Mar 2018 16:18:59 +0000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"name\": \"$5 off\",\n  \"type\": \"per_total_discount\",\n  \"amount\": \"5.0000\",\n  \"min_purchase\": \"0.0000\",\n  \"expires\": \"\",\n  \"enabled\": true,\n  \"code\": \"S2549JM0Y\",\n  \"applies_to\": {\n    \"entity\": \"categories\",\n    \"ids\": [\n      0\n    ]\n  },\n  \"num_uses\": 2,\n  \"max_uses\": 0,\n  \"max_uses_per_customer\": 0,\n  \"restricted_to\": {},\n  \"shipping_methods\": [],\n  \"date_created\": \"Tue, 13 Mar 2018 16:18:59 +0000\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "721b8b9e-0dc7-4086-ae09-9807255b86e3",
+          "name": "BigCommerce Delete All Coupons",
+          "request": {
+            "name": "BigCommerce Delete All Coupons",
+            "description": {
+              "content": "## Usage Notes\n* Deleting a coupon via this endpoint will delete the coupon but not the promotion it is attached to\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coupons"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id:in",
+                  "value": "<string>",
+                  "description": "Optional param to identify a comma separated list of ids for coupons to delete in a batch. `/api/v2/coupons?id:in=1,2,3`"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2af3fbdf-d359-4016-ac18-15c86f07f9c2",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coupons"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id:in",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "62f87aa5-c0ff-4519-9c71-8b8aaea83c2a",
+          "name": "BigCommerce Get a Count of Coupons",
+          "request": {
+            "name": "BigCommerce Get a Count of Coupons",
+            "description": {
+              "content": "Returns a count of all *Coupons* in the store.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coupons",
+                "count"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eb005f8d-8900-49b5-89d5-46b499f5e49d",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coupons",
+                    "count"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 27\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "80f099a2-8dd4-42a0-8a5f-c0712cf362e7",
+          "name": "BigCommerce Update a Coupon",
+          "request": {
+            "name": "BigCommerce Update a Coupon",
+            "description": {
+              "content": "Updates a *Coupon*.\n\n\n**Read Only Fields**\n\n* `id`\n* `num_uses`\n* `date_created`\n\n**Notes**\n\nIf the `applies_to` value is cleared, you can restore it to the coupon by reapplying the `applies_to` value in a new `PUT` request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coupons",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "id",
+                  "description": "(Required) ID of the coupon."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": \"<string>\",\n  \"applies_to\": {\n    \"ids\": [\n      \"<integer>\",\n      \"<integer>\"\n    ],\n    \"entity\": \"<string>\"\n  },\n  \"code\": \"<string>\",\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"min_purchase\": \"<string>\",\n  \"expires\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"max_uses\": \"<integer>\",\n  \"max_uses_per_customer\": \"<integer>\",\n  \"restricted_to\": {\n    \"countries\": \"<string>\"\n  },\n  \"shipping_methods\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "83a61010-3cde-4ace-a2e7-0c703163e166",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coupons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) ID of the coupon."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 2,\n  \"name\": \"Australia Customers Discount\",\n  \"type\": \"per_item_discount\",\n  \"amount\": \"5\",\n  \"min_purchase\": \"25\",\n  \"expires\": \"\",\n  \"enabled\": true,\n  \"code\": \"S2549JM0Y\",\n  \"applies_to\": {\n    \"entity\": \"categories\",\n    \"ids\": [\n      0,\n      3\n    ]\n  },\n  \"num_uses\": 0,\n  \"max_uses\": 25,\n  \"max_uses_per_customer\": 0,\n  \"restricted_to\": {\n    \"countries\": \"AU\"\n  },\n  \"shipping_methods\": [\n    \"shipping_endicia\"\n  ],\n  \"date_created\": \"Tue, 13 Mar 2018 16:18:59 +0000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"name\": \"$5 off\",\n  \"type\": \"per_total_discount\",\n  \"amount\": \"5.0000\",\n  \"min_purchase\": \"0.0000\",\n  \"expires\": \"\",\n  \"enabled\": true,\n  \"code\": \"S2549JM0Y\",\n  \"applies_to\": {\n    \"entity\": \"categories\",\n    \"ids\": [\n      0\n    ]\n  },\n  \"num_uses\": 2,\n  \"max_uses\": 0,\n  \"max_uses_per_customer\": 0,\n  \"restricted_to\": {},\n  \"shipping_methods\": [],\n  \"date_created\": \"Tue, 13 Mar 2018 16:18:59 +0000\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "43978ce1-75e4-499c-b274-9f2f977c1c53",
+          "name": "BigCommerce Delete a Coupon",
+          "request": {
+            "name": "BigCommerce Delete a Coupon",
+            "description": {
+              "content": "Deletes a *Coupon*.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coupons",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "id",
+                  "description": "(Required) ID of the coupon."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7284ea6a-0453-448c-b3bb-2702513c309b",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coupons",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "id",
+                      "description": "(Required) ID of the coupon."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a1d47c29-9ed2-41e4-9f6d-f47bfdd89a9a",
+    "name": "BigCommerce Abandoned Cart Emails Coupons API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

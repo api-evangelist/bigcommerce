@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Checkout Coupons API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Checkout Coupons",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Add Coupon to Checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/checkouts/:checkoutId/coupons",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "checkoutId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the checkout; the same as the cart ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a coupon code to a checkout.\n\n**Required Fields**\n* coupon_code\n\n**Limits**\n* Coupon codes have a 50-character limit. "
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Checkout Coupon",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/checkouts/:checkoutId/coupons/:couponCode",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "checkoutId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the checkout; the same as the cart ID."
+              },
+              {
+                "name": "couponCode",
+                "value": "",
+                "type": "path",
+                "description": "The actual coupon code value, not the coupon ID."
+              }
+            ]
+          },
+          "docs": "Deletes a coupon code from a checkout."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

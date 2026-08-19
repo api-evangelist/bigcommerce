@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Tax Zones API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tax Zones",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Tax Zones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax/zones",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter by tax zone `id`. Use a comma-separated CSV string of IDs for multiple tax zones. For example, `5` or `12,34,56`."
+              }
+            ]
+          },
+          "docs": "Retrieve a selection of tax zones when you provide a list of tax zone IDs. Otherwise, retrieve all tax zones defined on the store."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create Tax Zones",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax/zones",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create one or more tax zones.\n\n> #### Note\n> You cannot create a default tax zone."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Tax Zones",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax/zones",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update one or more tax zones. Only the tax zone `id` field is required. Fields unspecified by the request will retain their current state."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Tax Zones",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax/zones",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter by tax zone `id`. Use a comma-separated CSV string of IDs for multiple tax zones. For example, `5` or `12,34,56`."
+              }
+            ]
+          },
+          "docs": "Delete one or more tax zones. Deleting a tax zone removes all associated tax rates.\n\n> You must specify which zone(s) to delete using the `id:in` query parameter."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

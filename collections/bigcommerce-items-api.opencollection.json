@@ -1,0 +1,145 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Items API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Items",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Add Cart Line Items",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/carts/:cartId/items",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "cartId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of a specific cart."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "* `redirect_urls`: Create a direct link to a cart. This can be used for the /POST request for carts.\n* `line_items.physical_items.options`: The cart returns an abbreviated result. Use this to return physical items product options. To return the extended cart object, use in a /POST request.\n* `line_items.digital_items.options`: The cart returns an abbreviated result. Use this to return digital items product options. To return the extended cart object, use in a /POST request.\n* `promotions.banners`: Returns a list of eligible banners."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds line item to the *Cart*.\n\n**Usage Notes**\n\nTo add a custom item use `custom_items`. \n\nOverriding a product’s `list_price` will make that item ineligible for V3 product level promotions.\n\nIf a product has modifiers, omit the `variant_id` and instead use the `option_selections` array to describe both the **variant** and the **modifier** selections.\n\nPlease note that this API endpoint is not concurrent safe, meaning multiple simultaneous requests could result in unexpected and inconsistent res"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Cart Line Item",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/carts/:cartId/items/:itemId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "cartId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of a specific cart."
+              },
+              {
+                "name": "itemId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "* `redirect_urls`: Create a direct link to a cart. This can be used for the /POST request for carts.\n* `line_items.physical_items.options`: The cart returns an abbreviated result. Use this to return physical items product options. To return the extended cart object, use in a /POST request.\n* `line_items.digital_items.options`: The cart returns an abbreviated result. Use this to return digital items product options. To return the extended cart object, use in a /POST request.\n* `promotions.banners`: Returns a list of eligible banners."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing, single line item in the *Cart*. \n\n**Notes**\n\nCurrently, only updating `list_price` and `quantity` are supported. Updating a product’s `list_price` will make that item ineligible for V3 product-level promotions. \n\nIf the product has modifiers, omit the `variant_id` and instead use the `option_selections` array to describe both the **variant** and the **modifier** selections.\n\nIf a variant needs to be changed or updated, the product will need to be removed and re-added to the "
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Cart Line Item",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/carts/:cartId/items/:itemId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "cartId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of a specific cart."
+              },
+              {
+                "name": "itemId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "* `redirect_urls`: Create a direct link to a cart. This can be used for the /POST request for carts.\n* `line_items.physical_items.options`: The cart returns an abbreviated result. Use this to return physical items product options. To return the extended cart object, use in a /POST request.\n* `line_items.digital_items.options`: The cart returns an abbreviated result. Use this to return digital items product options. To return the extended cart object, use in a /POST request.\n* `promotions.banners`: Returns a list of eligible banners."
+              }
+            ]
+          },
+          "docs": "Deletes a *Cart* line item. \n\n**Notes**\n\nRemoving the last `line_item` in the *Cart* deletes the *Cart*."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,286 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Price Lists API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Price Lists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Price Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by ID.\n"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by name.\n"
+              },
+              {
+                "name": "date_created",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by date_created.\n"
+              },
+              {
+                "name": "date_modified",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by date_modified. For example `v3/catalog/products?date_last_imported:min=2018-06-15`"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of products."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of products."
+              },
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "name:like",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "date_created:max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "date_created:min",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "date_modified:max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "date_modified:min",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of *Price Lists*. Optional parameters can be passed in."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Price List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a *Price List*.\n\n**Required Fields**\n* name"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete All Price Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter by `id`. Accepts multiple comma-separated values.\n"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by name.\n"
+              }
+            ]
+          },
+          "docs": "Deletes a *Price List*. All associated price records are also removed. Optional parameters can be passed in."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Price List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/:price_list_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "price_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Price List` requested.\n"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by ID."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by name."
+              },
+              {
+                "name": "date_created",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by date_created."
+              },
+              {
+                "name": "date_modified",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by date_modified. For example `v3/catalog/products?date_last_imported:min=2022-06-15`"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of products."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the number of items per page in a limited (paginated) list of products."
+              }
+            ]
+          },
+          "docs": " Returns a single *Price List*."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Price List",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/:price_list_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "price_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Price List` requested.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a *Price List*."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Price List",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/:price_list_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "price_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Price List` requested.\n"
+              }
+            ]
+          },
+          "docs": "Deletes a *Price List*. All associated price records are also removed.\n**Limits**\n* Limit of 1 concurrent request."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

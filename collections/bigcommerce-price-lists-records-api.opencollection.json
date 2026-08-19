@@ -1,0 +1,456 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Price Lists Records API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Price Lists Records",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Create Batch of Price Lists Records",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/records",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a batch of `Price Lists Records`; may include price list records from more than one price list.  Concurrency limit of 1."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get All Price List Records",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/:price_list_id/records",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "price_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Price List` requested.\n"
+              },
+              {
+                "name": "variant_id:in",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the `Variant` for which prices were requested."
+              },
+              {
+                "name": "product_id:in",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of IDs of `Product`s for which prices were requested.\n"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by currency.\n"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of products."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of products."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Sub-resources to include on a price record, in a comma-separated list. Valid expansions currently include `bulk_pricing_tiers` and `sku`. Other values will be ignored.\n"
+              },
+              {
+                "name": "price",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by price.\n"
+              },
+              {
+                "name": "sale_price",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by sale_price.\n"
+              },
+              {
+                "name": "retail_price",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by retail_price.\n"
+              },
+              {
+                "name": "map_price",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by map_price.\n"
+              },
+              {
+                "name": "calculated_price",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by calculated_price.\n"
+              },
+              {
+                "name": "date_created",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by date_created.\n"
+              },
+              {
+                "name": "date_modified",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by date_modified. For example `v3/catalog/products?date_last_imported:min=2022-06-15`"
+              },
+              {
+                "name": "sku",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by SKU.\n"
+              },
+              {
+                "name": "sku:in",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "currency:in",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "price:max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "price:min",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sale_price:max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sale_price:min",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "retail_price:max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "retail_price:min",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "map_price:max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "map_price:min",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "calculated_price:max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "calculated_price:min",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "date_created:max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "date_created:min",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "date_modified:max",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "date_modified:min",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of *Price List Records* associated with a *Price List*.\n\n**Notes**\n* Supports up to 10 simultaneous GET requests. Running more than the allowed number of requests concurrently on the same store will result in a `429` status error and your additional requests will fail.\n* Store Pricelist Records data to reduce the number of calls and maximize performance."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Upsert Price List Records",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/:price_list_id/records",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "price_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Price List` requested.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates *Price List Records*. \n\n**Required Fields**\n* currency\n\n**Notes**\n* Batch requests support up to 1,000 items per request.\n* Up to 2 concurrent batch upsert requests are supported with this API. Running more than the allowed concurrent requests in parallel on the **same store** will cause a `429` error, and your additional requests will fail. You are encouraged to run requests sequentially with as many records per request as possible to maximize performance.\n* When updating a p"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Price List Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/:price_list_id/records",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "price_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Price List` requested.\n"
+              },
+              {
+                "name": "variant_id:in",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the `Variant` for which prices were requested."
+              }
+            ]
+          },
+          "docs": "Deletes a *Price List Record*. Deleting the records does not delete the Price List. Optional parameters can be passed in."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get Price Records by Variant",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/:price_list_id/records/:variant_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "price_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Price List` requested.\n"
+              },
+              {
+                "name": "variant_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the variant on a product, or on an associated Price List Record.\n"
+              }
+            ]
+          },
+          "docs": "Returns *Price List Records* using the variant ID. Will also contain currency records.\n\n**Notes**\n* Supports up to 40 simultaneous GET requests. Running more than the allowed number of requests concurrently on the same store will result in a `429` status error, and your additional requests will fail.\n* Store Pricelist Records data to reduce the number of calls and maximize performance.\n"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Price Record by Currency Code",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/:price_list_id/records/:variant_id/:currency_code",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "price_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Price List` requested.\n"
+              },
+              {
+                "name": "variant_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the variant on a product, or on an associated Price List Record.\n"
+              },
+              {
+                "name": "currency_code",
+                "value": "",
+                "type": "path",
+                "description": "The currency code associated with the price record being acted upon.\n"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Sub-resources to include on a price record, in a comma-separated list. Valid expansions currently include `bulk_pricing_tiers` and `sku`. Other values will be ignored.\n"
+              }
+            ]
+          },
+          "docs": "Returns a *Price List Record* using the currency code. You can use optional parameters.\n**Notes**\n* Supports up to 50 simultaneous GET requests. Running more than the allowed number of requests concurrently on the same store will result in a `429` status error, and your additional requests will fail."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Set Price List Record by Currency Code",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/:price_list_id/records/:variant_id/:currency_code",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "price_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Price List` requested.\n"
+              },
+              {
+                "name": "variant_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the variant on a product, or on an associated Price List Record.\n"
+              },
+              {
+                "name": "currency_code",
+                "value": "",
+                "type": "path",
+                "description": "The currency code associated with the price record being acted upon.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates a *Price List Record* using the currency code.\n**Notes**\n* Supports up to 40 simultaneous PUT requests. Running more than the allowed number of requests concurrently on the same store will result in a `429` status error, and your additional requests will fail."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Price Record by Currency Code",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/:price_list_id/records/:variant_id/:currency_code",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "price_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Price List` requested.\n"
+              },
+              {
+                "name": "variant_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the variant on a product, or on an associated Price List Record.\n"
+              },
+              {
+                "name": "currency_code",
+                "value": "",
+                "type": "path",
+                "description": "The currency code associated with the price record being acted upon.\n"
+              }
+            ]
+          },
+          "docs": "Deletes a *Price List Record* using the currency code.\n**Note:**\n* Supports up to 25 simultaneous DELETE requests. Running more than the allowed number of requests concurrently on the same store will result in a `429` status error, and your additional requests will fail."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

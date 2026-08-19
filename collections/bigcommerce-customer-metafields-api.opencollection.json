@@ -1,0 +1,165 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Customer Metafields API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customer Metafields",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Customer Metafields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/:customerId/metafields",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the customer."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gets customer metafields by passing the `customerId` in the query parameters."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create Customer Metafields",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/:customerId/metafields",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the customer."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates Customer metafields by passing the `customerId` in the query parameters."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get Customer Metafields List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/:customerId/metafields/:metafieldId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The ID that belongs to the customer."
+              },
+              {
+                "name": "metafieldId",
+                "value": "",
+                "type": "path",
+                "description": "The ID that is generated for a metafield when created."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lists available metafields for a customer. To retrieve the list, use `customerId` and `metafieldId` in the query parameters.\n"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Metafield",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/:customerId/metafields/:metafieldId",
+            "params": [
+              {
+                "name": "metafieldId",
+                "value": "",
+                "type": "query",
+                "description": "The ID that is generated for a metafield when created."
+              },
+              {
+                "name": "metafieldId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the metafield belonging to the customer. The metafieldId is a generated response when sending a POST query to the Create a Customer Metafields endpoint."
+              },
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the customer."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates customer metafields. To update the customer metafields, use 'customerId' and 'metafield' in the query parameters."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Customer Metafields",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/:customerId/metafields/:metafieldId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the customer."
+              },
+              {
+                "name": "metafieldId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the metafield belonging to the customer. The metafieldId is a generated response when sending a POST query to the Create a Customer Metafields endpoint."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deletes customer metafields. To delete customer metafields, use 'customerId' and 'metafieldId' in the query parameters.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

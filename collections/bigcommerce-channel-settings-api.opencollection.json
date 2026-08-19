@@ -1,0 +1,66 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Channel Settings API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Channel Settings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Customer Settings per Channel",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/settings/channels/:channel_id",
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the customer settings per channel.\n\n**Notes**\n\n * `null` indicates that there is no override per given channel and values are inherited from the global level."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Customer Settings per Channel",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers/settings/channels/:channel_id",
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the customer settings per channel\n\n**Required Fields**\n\n* `channel_id`: Provide a `channel_id` array containing one or more channel IDs. Customers will have access to these channels and no others. This array cannot be empty.\n\n**Notes**\n\n* Setting `null` will delete override per given channel, and values will be inherited from the global level. Make sure the channel has `allow_global_logins` enabled."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

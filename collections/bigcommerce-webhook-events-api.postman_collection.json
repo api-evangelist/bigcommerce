@@ -1,0 +1,330 @@
+{
+  "item": [
+    {
+      "id": "cc31167a-26fb-4060-9e79-d4f8898df462",
+      "name": "Webhook Events",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4a8b9ca2-f3ce-4a6a-b9e8-4d8d3d806eda",
+          "name": "BigCommerce Get Events",
+          "request": {
+            "name": "BigCommerce Get Events",
+            "description": {
+              "content": "Get a list of events that were sent but not successfully received. Events are stored for not less than one week.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "hooks",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Items count per page.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_at:max",
+                  "value": "<string>",
+                  "description": "Maximum value for returned data.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_at:min",
+                  "value": "<string>",
+                  "description": "Minimum value for returned data.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ea1816c9-381d-4689-baa8-2727907f2511",
+              "name": "Successful operation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hooks",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "created_at:max",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_at:min",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"scope\": \"string\",\n      \"store_id\": \"string\",\n      \"data\": {},\n      \"hash\": \"string\",\n      \"created_at\": 2270,\n      \"producer\": \"string\"\n    },\n    {\n      \"scope\": \"string\",\n      \"store_id\": \"string\",\n      \"data\": {},\n      \"hash\": \"string\",\n      \"created_at\": 1396,\n      \"producer\": \"string\"\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"total\": 2844,\n      \"count\": 3537,\n      \"per_page\": 446,\n      \"current_page\": 6572,\n      \"total_pages\": 5843,\n      \"links\": {\n        \"previous\": \"string\",\n        \"current\": \"string\",\n        \"next\": \"string\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a43dfc8-9788-405a-91cd-41b2fe3824bc",
+              "name": "Malformed request syntax. Typically need to fix the JSON request body to resend successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hooks",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "created_at:max",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_at:min",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"title\": \"Input is invalid.\",\n  \"type\": \"/api-docs/getting-started/api-status-codes\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "73ed170d-c207-4d76-b60f-f2537ab5d586",
+              "name": "Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hooks",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "created_at:max",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "created_at:min",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"title\": \"Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.\",\n  \"type\": \"/api-docs/getting-started/api-status-codes\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3d342b2d-9f29-45a9-83b3-41cfa35f8264",
+    "name": "BigCommerce Abandoned Cart Emails Webhook Events API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Manage Webhooks (Bulk) API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Manage Webhooks (Bulk)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/hooks",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items count per page.\n"
+              },
+              {
+                "name": "is_active",
+                "value": "",
+                "type": "query",
+                "description": "Enables user to filter for webhooks that are active or not. A webhook subscription becomes deactivated after 90 days of inactivity.\n"
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "query",
+                "description": "Enables user to filter for webhooks by scope.\n"
+              },
+              {
+                "name": "destination",
+                "value": "",
+                "type": "query",
+                "description": "Enables user to filter for webhooks by destination.\n"
+              }
+            ]
+          },
+          "docs": "Returns a list of all webhooks on a store associated to the `client_id` used to authenticate the request.\n\n*Note: BigCommerce determines the `client_id` from the `access_token`.*"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/hooks",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a webhook. Only one webhook at a time can be created. Custom headers can be added. Destination URL must be served on port 443 (custom ports are not currently supported)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

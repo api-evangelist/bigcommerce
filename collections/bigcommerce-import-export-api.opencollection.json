@@ -1,0 +1,206 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Import-Export API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Import-Export",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Redirect Import-Export Jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/storefront/redirects/imex/jobs",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Filters results by Redirect Import-Export job ID."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filters results by the type of the Redirect Import-Export job."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filters results by the status of the Redirect Import-Export job."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Determines the number of items returned per page. The default is 10 items per page."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number to return when the number of items returned exceeds the page limit. Used to paginate large collections."
+              }
+            ]
+          },
+          "docs": "Returns a collection of the storeʼs 301 redirects across all sites."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create Redirects Export Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/storefront/redirects/imex/export",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new 301 Redirects export job."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create Redirects Import Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/storefront/redirects/imex/import",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "import_file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Creates a new 301 Redirects import job."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Open Redirect Export Event Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/storefront/redirects/imex/export/:uuid/events",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The import-export job identifier."
+              }
+            ]
+          },
+          "docs": "Opens an event stream to receive live updates from an export job."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Open Redirect Import Event Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/storefront/redirects/imex/import/:uuid/events",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The import-export job identifier."
+              }
+            ]
+          },
+          "docs": "Opens an event stream to receive live updates from an import job."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Download Redirect Export",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/storefront/redirects/imex/export/:uuid/download",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The import-export job identifier."
+              }
+            ]
+          },
+          "docs": "Downloads the CSV file containing the results of an export job."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

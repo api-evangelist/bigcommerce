@@ -1,0 +1,120 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Theme Configurations API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Theme Configurations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Theme Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/themes/:uuid/configurations",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "site_id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter configurations by a list of site_ids"
+              },
+              {
+                "name": "uuid:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter configurations by a list of configuration UUIDs"
+              },
+              {
+                "name": "variation_uuid",
+                "value": "",
+                "type": "query",
+                "description": "Filter configurations by a variation_uuid"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of products.\n"
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The theme identifier."
+              },
+              {
+                "name": "channel_id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter configurations by a list of channel_ids."
+              }
+            ]
+          },
+          "docs": "Returns a list of theme's configurations.\n\n**Usage Notes**:\n* At least one filter must be provided."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Validate Theme Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/themes/:uuid/configurations/validate",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The theme identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Validates a theme configuration against the theme's schema without creating it. Useful for testing schemas before creation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

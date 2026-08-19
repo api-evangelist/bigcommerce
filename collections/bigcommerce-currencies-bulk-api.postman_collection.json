@@ -1,0 +1,398 @@
+{
+  "item": [
+    {
+      "id": "9c3cec0a-c44b-4455-b4d0-1a2f979f02cd",
+      "name": "Currencies (Bulk)",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ee1ab94d-2efc-4cd1-b1fe-a4c4828a46cf",
+          "name": "BigCommerce Get All Currencies",
+          "request": {
+            "name": "BigCommerce Get All Currencies",
+            "description": {
+              "content": "Returns a list of all store *Currency*.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "currencies"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Specifies the page number in a limited (paginated) list of currencies.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "50",
+                  "description": "Controls the number of items per page in a limited (paginated) list of currencies.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "286619ec-eca7-403d-904a-ff3c42f08edc",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "currencies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"currency_code\": \"EUR\",\n    \"currency_exchange_rate\": \"0.849\",\n    \"decimal_places\": 2,\n    \"decimal_token\": \".\",\n    \"name\": \"Euro\",\n    \"thousands_token\": \",\",\n    \"token\": \"€\",\n    \"token_location\": \"left\",\n    \"is_default\": false,\n    \"country_iso2\": \"EU\",\n    \"auto_update\": true,\n    \"enabled\": false,\n    \"is_transactional\": false,\n    \"id\": 2,\n    \"last_updated\": \"2002-09-01T05:39:35.677Z\"\n  },\n  {\n    \"currency_code\": \"EUR\",\n    \"currency_exchange_rate\": \"0.849\",\n    \"decimal_places\": 2,\n    \"decimal_token\": \".\",\n    \"name\": \"Euro\",\n    \"thousands_token\": \",\",\n    \"token\": \"€\",\n    \"token_location\": \"left\",\n    \"is_default\": false,\n    \"country_iso2\": \"EU\",\n    \"auto_update\": true,\n    \"enabled\": false,\n    \"is_transactional\": false,\n    \"id\": 2,\n    \"last_updated\": \"1971-05-05T06:10:04.064Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f0fcceb1-28ab-487c-b5eb-57aef4705d93",
+          "name": "BigCommerce Create a Currency",
+          "request": {
+            "name": "BigCommerce Create a Currency",
+            "description": {
+              "content": "Creates *Currency*.\n\n**Required Fields** \n\n* name\n* currency_code\n* currency_exchange_rate\n* token_location\n* token\n* decimal_token\n* thousands_token\n* decimal_places\n\n**Read-Only Fields**\n* id\n* date_created\n* date_modified\n\n\nThe `is_default` property can only be set to true. The value of `is_default` cannot be unset, only overridden. To change the storeʼs default currency in the BigCommerce control panel, please see [Managing Currencies (Help Center)](https://support.bigcommerce.com/s/article/Managing-Currencies-Beta).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "currencies"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currency_code\": \"<string>\",\n  \"currency_exchange_rate\": \"<string>\",\n  \"decimal_places\": \"<integer>\",\n  \"decimal_token\": \"<string>\",\n  \"name\": \"<string>\",\n  \"thousands_token\": \"<string>\",\n  \"token\": \"<string>\",\n  \"token_location\": \"<string>\",\n  \"is_default\": \"<boolean>\",\n  \"country_iso2\": \"<string>\",\n  \"auto_update\": \"<boolean>\",\n  \"enabled\": \"<boolean>\",\n  \"is_transactional\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6ab75ca4-cfac-4fd9-8484-3f2de4038a90",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "currencies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 2,\n  \"is_default\": false,\n  \"last_updated\": \"Tue, 12 Jun 2018 14:41:56 +0000\\\"\",\n  \"country_iso2\": \"EU\",\n  \"currency_code\": \"EUR\",\n  \"currency_exchange_rate\": \"0.849\",\n  \"auto_update\": true,\n  \"token_location\": \"left\",\n  \"token\": \"€\",\n  \"decimal_token\": \".\",\n  \"thousands_token\": \",\",\n  \"decimal_places\": 2,\n  \"name\": \"Euro\",\n  \"enabled\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"currency_code\": \"EUR\",\n  \"currency_exchange_rate\": \"0.849\",\n  \"decimal_places\": 2,\n  \"decimal_token\": \".\",\n  \"name\": \"Euro\",\n  \"thousands_token\": \",\",\n  \"token\": \"€\",\n  \"token_location\": \"left\",\n  \"is_default\": false,\n  \"country_iso2\": \"EU\",\n  \"auto_update\": true,\n  \"enabled\": false,\n  \"is_transactional\": false,\n  \"id\": 2,\n  \"last_updated\": \"1999-05-05T17:49:28.586Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "14bf5ad3-035a-409b-b9ce-bc10d855f71e",
+          "name": "BigCommerce Delete All Currencies",
+          "request": {
+            "name": "BigCommerce Delete All Currencies",
+            "description": {
+              "content": "Deletes all non-default store currencies.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "currencies"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "488a337f-7ea2-4cb1-b46c-fa1d0b2f8830",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "currencies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e43f636b-e2f0-4393-b050-95a1d259a649",
+    "name": "BigCommerce Abandoned Cart Emails Currencies (Bulk) API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

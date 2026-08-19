@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Checkout API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Checkout",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get a Checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/checkouts/:checkoutId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "checkoutId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the checkout; the same as the cart ID."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "* `cart.line_items.physical_items.options` - physical options\n* `cart.line_items.digital_items.options` - digital options\n* `consignments.available_shipping_options` - shipping options\n* `promotions.banners` - promotion options"
+              }
+            ]
+          },
+          "docs": "Returns a *Checkout*.\n\n**Notes**\n\nThe cart ID and checkout ID are the same."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Customer Messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/checkouts/:checkoutId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "checkoutId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the checkout; the same as the cart ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Change customer message pertaining to an existing *Checkout*.\n\n**Limits:**\n* 2000 characters for customer message"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

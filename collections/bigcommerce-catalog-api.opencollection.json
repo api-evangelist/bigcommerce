@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Catalog API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Catalog",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Catalog Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/settings/catalog",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+              }
+            ]
+          },
+          "docs": "Returns catalog settings.\n\n - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Catalog Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/settings/catalog",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates catalog settings.\n\n - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

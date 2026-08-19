@@ -1,0 +1,805 @@
+{
+  "item": [
+    {
+      "id": "e8f51e40-352a-4f72-a09a-424329c7cbf4",
+      "name": "Pages",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ca3a4413-f5c8-47ff-894a-70d427666a69",
+          "name": "BigCommerce Get All Pages",
+          "request": {
+            "name": "BigCommerce Get All Pages",
+            "description": {
+              "content": "Returns a list of *Pages*. Default sorting is by auto-generated ID from oldest to newest.\n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To get one or more pages, use Pages V3ʼs [Get pages](/docs/rest-content/pages#get-pages) endpoint. To get a single page, use Pages V3ʼs [Get a page](/docs/rest-content/pages#get-a-page) endpoint.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<number>",
+                  "description": "Filter param."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<number>",
+                  "description": "Filter param."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5ab75aaf-e478-4118-8dcb-4aa9bef1035c",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 44,\n    \"parent_id\": 5,\n    \"type\": \"page\",\n    \"contact_fields\": \"fullname,companyname,phone,orderno,rma\",\n    \"email\": \"janedoes@example.com\",\n    \"name\": \"Contact Form\",\n    \"url\": \"/contact-us/\",\n    \"meta_description\": \"string\",\n    \"body\": \"<p>We're happy to answer questions or help you with returns.<br />Please fill out the form below if you need assistance.</p>\",\n    \"mobile_body\": \"0\",\n    \"has_mobile_version\": false,\n    \"is_visible\": true,\n    \"is_homepage\": false,\n    \"meta_title\": \"string\",\n    \"layout_file\": \"page.html\",\n    \"sort_order\": 3,\n    \"search_keywords\": \"string\",\n    \"meta_keywords\": \"string\",\n    \"feed\": \"string\",\n    \"link\": \"string\",\n    \"content_type\": \"text/html\"\n  },\n  {\n    \"id\": 44,\n    \"parent_id\": 5,\n    \"type\": \"raw\",\n    \"contact_fields\": \"fullname,companyname,phone,orderno,rma\",\n    \"email\": \"janedoes@example.com\",\n    \"name\": \"Contact Form\",\n    \"url\": \"/contact-us/\",\n    \"meta_description\": \"string\",\n    \"body\": \"<p>We're happy to answer questions or help you with returns.<br />Please fill out the form below if you need assistance.</p>\",\n    \"mobile_body\": \"0\",\n    \"has_mobile_version\": false,\n    \"is_visible\": true,\n    \"is_homepage\": false,\n    \"meta_title\": \"string\",\n    \"layout_file\": \"page.html\",\n    \"sort_order\": 3,\n    \"search_keywords\": \"string\",\n    \"meta_keywords\": \"string\",\n    \"feed\": \"string\",\n    \"link\": \"string\",\n    \"content_type\": \"text/html\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8bf48012-ccfa-4178-8e74-cc231a53dd90",
+          "name": "BigCommerce Create a Page",
+          "request": {
+            "name": "BigCommerce Create a Page",
+            "description": {
+              "content": "Creates a *Page*. The request payload limit is 1MB.\n\n**Required Fields**\n*   `type`\n*   `name`\n*   `link` (for a page of `type: link`)\n*   `feed` (for a page of `type: rss_feed`)\n*   `body` (for a page of `type: raw`)\n\n**Read Only Fields**\n*   `id`\n\n## Content Type\n\nThe default value for `content_type` is `text/html`; however, if `page_type` is set to `raw`, `content_type` can be changed to `text/javascript` or `application/json`. Updating this field allows you to place a JavaScript or a JSON file in the root directory.\n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To create one or more pages, use Pages V3ʼs [Create pages](/docs/rest-content/pages#create-pages) endpoint. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"body\": \"<string>\",\n  \"parent_id\": \"<integer>\",\n  \"contact_fields\": \"<string>\",\n  \"email\": \"<string>\",\n  \"url\": \"<string>\",\n  \"meta_description\": \"<string>\",\n  \"mobile_body\": \"<string>\",\n  \"has_mobile_version\": \"<boolean>\",\n  \"is_visible\": \"<boolean>\",\n  \"is_homepage\": \"<boolean>\",\n  \"meta_title\": \"<string>\",\n  \"layout_file\": \"<string>\",\n  \"sort_order\": \"<integer>\",\n  \"search_keywords\": \"<string>\",\n  \"meta_keywords\": \"<string>\",\n  \"feed\": \"<string>\",\n  \"link\": \"<string>\",\n  \"content_type\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3bfe4a01-854b-41a0-aca4-13e14f748fd3",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parent_id\": 5,\n  \"type\": \"page\",\n  \"contact_fields\": \"fullname,companyname,phone,orderno,rma\",\n  \"email\": \"janedoes@example.com\",\n  \"name\": \"Contact Form\",\n  \"url\": \"/contact-us/\",\n  \"meta_description\": \"string\",\n  \"body\": \"<p>We're happy to answer questions or help you with returns.<br />Please fill out the form below if you need assistance.</p>\",\n  \"mobile_body\": \"0\",\n  \"has_mobile_version\": false,\n  \"is_visible\": true,\n  \"is_homepage\": false,\n  \"meta_title\": \"string\",\n  \"layout_file\": \"page.html\",\n  \"sort_order\": 3,\n  \"search_keywords\": \"string\",\n  \"meta_keywords\": \"string\",\n  \"feed\": \"string\",\n  \"link\": \"string\",\n  \"content_type\": \"text/html\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 6,\n  \"parent_id\": 5,\n  \"type\": \"page\",\n  \"contact_fields\": \"fullname,companyname,phone,orderno,rma\",\n  \"email\": \"janedoes@example.com\",\n  \"name\": \"Contact Form\",\n  \"url\": \"/contact-us/\",\n  \"meta_description\": \"\",\n  \"body\": \"We're happy to answer questions or help you with returns.<br />Please fill out the form below if you need assistance.\",\n  \"mobile_body\": \"\",\n  \"has_mobile_version\": false,\n  \"feed\": \"\",\n  \"link\": \"\",\n  \"is_visible\": true,\n  \"is_homepage\": false,\n  \"layout_file\": \"page.html\",\n  \"sort_order\": 3,\n  \"meta_title\": \"\",\n  \"search_keywords\": \"\",\n  \"meta_keywords\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "90fa24de-ea83-431e-93a0-b778211b881b",
+              "name": "Multiple operations have taken place and the status for each operation can be viewed in the body of the response. Typically indicates that a partial failure has occurred, such as when a `POST` or `PUT` request is successful, but saving the URL has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parent_id\": 5,\n  \"type\": \"page\",\n  \"contact_fields\": \"fullname,companyname,phone,orderno,rma\",\n  \"email\": \"janedoes@example.com\",\n  \"name\": \"Contact Form\",\n  \"url\": \"/contact-us/\",\n  \"meta_description\": \"string\",\n  \"body\": \"<p>We're happy to answer questions or help you with returns.<br />Please fill out the form below if you need assistance.</p>\",\n  \"mobile_body\": \"0\",\n  \"has_mobile_version\": false,\n  \"is_visible\": true,\n  \"is_homepage\": false,\n  \"meta_title\": \"string\",\n  \"layout_file\": \"page.html\",\n  \"sort_order\": 3,\n  \"search_keywords\": \"string\",\n  \"meta_keywords\": \"string\",\n  \"feed\": \"string\",\n  \"link\": \"string\",\n  \"content_type\": \"text/html\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Multi-Status (WebDAV) (RFC 4918)",
+              "code": 207,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7725640e-c99b-4a83-9910-d400c86e370e",
+          "name": "BigCommerce Get A Page",
+          "request": {
+            "name": "BigCommerce Get A Page",
+            "description": {
+              "content": "Returns a *Page*. \n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To get a single page, use Pages V3ʼs [Get a page](/docs/rest-content/pages#get-a-page) endpoint.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pages",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) ID of the page."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "267c9f0d-b475-4f66-90d5-d5cdc58c9d70",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) ID of the page."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"name\": \"RSS Syndication\",\n  \"meta_title\": \"\",\n  \"body\": \"%%Syndicate%%\",\n  \"is_visible\": true,\n  \"parent_id\": 0,\n  \"sort_order\": 5,\n  \"meta_keywords\": \"0\",\n  \"type\": \"page\",\n  \"meta_description\": \"\",\n  \"is_homepage\": false,\n  \"layout_file\": \"\",\n  \"is_customers_only\": false,\n  \"search_keywords\": \"0\",\n  \"has_mobile_version\": false,\n  \"feed\": \"\",\n  \"link\": \"\",\n  \"mobile_body\": \"0\",\n  \"url\": \"/rss-syndication/\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6b60d84f-96e5-49db-b37a-a3187d0c66c7",
+          "name": "BigCommerce Update a Page",
+          "request": {
+            "name": "BigCommerce Update a Page",
+            "description": {
+              "content": "Updates a *Page*. The request payload limit is 1MB.\n\n**Read Only Fields**\n* id\n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To update multiple pages, use Pages V3ʼs [Update pages](/docs/rest-content/pages#update-pages) endpoint. To update a single page, use Pages V3ʼs [Update a page](/docs/rest-content/pages#update-a-page) endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pages",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) ID of the page."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"parent_id\": \"<integer>\",\n  \"type\": \"<string>\",\n  \"contact_fields\": \"<string>\",\n  \"email\": \"<string>\",\n  \"name\": \"<string>\",\n  \"url\": \"<string>\",\n  \"meta_description\": \"<string>\",\n  \"body\": \"<string>\",\n  \"mobile_body\": \"<string>\",\n  \"has_mobile_version\": \"<boolean>\",\n  \"is_visible\": \"<boolean>\",\n  \"is_homepage\": \"<boolean>\",\n  \"meta_title\": \"<string>\",\n  \"layout_file\": \"<string>\",\n  \"sort_order\": \"<integer>\",\n  \"search_keywords\": \"<string>\",\n  \"meta_keywords\": \"<string>\",\n  \"feed\": \"<string>\",\n  \"link\": \"<string>\",\n  \"content_type\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4c53e0a3-3865-46a5-8b00-614b3a9082d8",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) ID of the page."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parent_id\": 5,\n  \"type\": \"<string>\",\n  \"contact_fields\": \"fullname,companyname,phone,orderno,rma\",\n  \"email\": \"janedoes@example.com\",\n  \"name\": \"Contact Form\",\n  \"url\": \"/contact-us/\",\n  \"meta_description\": \"<string>\",\n  \"body\": \"<p>We're happy to answer questions or help you with returns.<br />Please fill out the form below if you need assistance.</p>\",\n  \"mobile_body\": \"0\",\n  \"has_mobile_version\": false,\n  \"is_visible\": true,\n  \"is_homepage\": false,\n  \"meta_title\": \"<string>\",\n  \"layout_file\": \"page.html\",\n  \"sort_order\": 3,\n  \"search_keywords\": \"<string>\",\n  \"meta_keywords\": \"<string>\",\n  \"feed\": \"<string>\",\n  \"link\": \"<string>\",\n  \"content_type\": \"text/html\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 2,\n  \"name\": \"Shipping & Returns\",\n  \"meta_title\": \"\",\n  \"body\": \"<em>To edit this page simply login to the control panel, click the <strong style='font-weight: 400'>Website Content</strong> tab and choose the </em> <strong style='font-weight: 400'><em>View Web Pages option. Click Edit next to the Shipping & Returns page and you can change this text. A sample returns policy is shown below which you can edit as needed.</em><em style='font-style: normal'><br/><br/></em></strong><em style='font-style: normal'><strong>Returns Policy</strong></em><strong style='font-weight: 400'></em></em><em style='font-style: normal'><br/><br/></em>You may return most new, unopened items within 30 days of delivery for a full refund. We'll also pay the return shipping costs if the return is a result of our error (you received an incorrect or defective item, etc.).<br/><br/>You should expect to receive your refund within four weeks of giving your package to the return shipper, however, in many cases you will receive a refund more quickly. This time period includes the transit time for us to receive your return from the shipper (5 to 10 business days), the time it takes us to process your return once we receive it (3 to 5 business days), and the time it takes your bank to process our refund request (5 to 10 business days).<br/><br/>If you need to return an item, please <a href='/contact-us/'>Contact Us</a> with your order number and details about the product you would like to return. We will respond quickly with instructions for how to return items from your order.<br/><br/></strong><strong>Shipping</em></em></em></strong><strong style='font-weight: 400'><em style='font-style: normal'><br/><br/></em>We can ship to virtually any address in the world. Note that there are restrictions on some products, and some products cannot be shipped to international destinations.<br/><br/>When you place an order, we will estimate shipping and delivery dates for you based on the availability of your items and the shipping options you choose. Depending on the shipping provider you choose, shipping date estimates may appear on the shipping quotes page.<br/><br/>Please also note that the shipping rates for many items we sell are weight-based. The weight of any such item can be found on its detail page. To reflect the policies of the shipping companies we use, all weights will be rounded up to the next full pound.<br/>\",\n  \"is_visible\": true,\n  \"parent_id\": 0,\n  \"sort_order\": 2,\n  \"meta_keywords\": \"\",\n  \"type\": \"page\",\n  \"meta_description\": \"\",\n  \"is_homepage\": false,\n  \"layout_file\": \"page.html\",\n  \"is_customers_only\": false,\n  \"search_keywords\": \"\",\n  \"has_mobile_version\": false,\n  \"feed\": \"\",\n  \"link\": \"\",\n  \"mobile_body\": \"\",\n  \"url\": \"/shipping-returns/\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "397ca0c0-c9d6-4880-8c69-20b4a8dd1af7",
+              "name": "Multiple operations have taken place and the status for each operation can be viewed in the body of the response. Typically indicates that a partial failure has occurred, such as when a `POST` or `PUT` request is successful, but saving the URL has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) ID of the page."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parent_id\": 5,\n  \"type\": \"<string>\",\n  \"contact_fields\": \"fullname,companyname,phone,orderno,rma\",\n  \"email\": \"janedoes@example.com\",\n  \"name\": \"Contact Form\",\n  \"url\": \"/contact-us/\",\n  \"meta_description\": \"<string>\",\n  \"body\": \"<p>We're happy to answer questions or help you with returns.<br />Please fill out the form below if you need assistance.</p>\",\n  \"mobile_body\": \"0\",\n  \"has_mobile_version\": false,\n  \"is_visible\": true,\n  \"is_homepage\": false,\n  \"meta_title\": \"<string>\",\n  \"layout_file\": \"page.html\",\n  \"sort_order\": 3,\n  \"search_keywords\": \"<string>\",\n  \"meta_keywords\": \"<string>\",\n  \"feed\": \"<string>\",\n  \"link\": \"<string>\",\n  \"content_type\": \"text/html\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Multi-Status (WebDAV) (RFC 4918)",
+              "code": 207,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "530deb1f-e4f3-477c-b079-08e9e5824cb5",
+          "name": "BigCommerce Delete a Page",
+          "request": {
+            "name": "BigCommerce Delete a Page",
+            "description": {
+              "content": "Deletes a *Page*.\n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To delete multiple pages, use Pages V3ʼs [Delete pages](/docs/rest-content/pages#delete-pages) endpoint. To delete a single page, use Pages V3ʼs [Delete a page](/docs/rest-content/pages#delete-a-page) endpoint. \n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pages",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) ID of the page."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "afdcae18-900e-4f64-ac1c-f97e25c0daff",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) ID of the page."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b476ed83-7506-42ad-9662-e4ec67ced0af",
+    "name": "BigCommerce Abandoned Cart Emails Pages API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

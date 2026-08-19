@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Taxes API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Taxes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Tax Classes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax_classes",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Optional filter param. Number of pages."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Optional filter param. Number of items per page"
+              }
+            ]
+          },
+          "docs": "Returns a list of all *Tax Classes* in a store.\n\nDefault sorting is by tax-class id, from lowest to highest."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Tax Class",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/tax_classes/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the tax class."
+              }
+            ]
+          },
+          "docs": "Returns a single *Tax Class*."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

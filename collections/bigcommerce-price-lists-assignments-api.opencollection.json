@@ -1,0 +1,212 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Price Lists Assignments API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Price Lists Assignments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Price List Assignments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/assignments",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the `Price List Assignment`."
+              },
+              {
+                "name": "price_list_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the `Price List`."
+              },
+              {
+                "name": "customer_group_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the `Customer Group`."
+              },
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the `Channel`."
+              },
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by a comma-separated list of `id`s."
+              },
+              {
+                "name": "customer_group_id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by a comma-separated list of `customer_group_id`s."
+              },
+              {
+                "name": "price_list_id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by a comma-separated list of `price_list_id`s."
+              },
+              {
+                "name": "channel_id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by a comma-separated list of `channel_id`s."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of products."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of products."
+              }
+            ]
+          },
+          "docs": "Fetches an array of `Price List Assignments` matching a particular Customer Group and Price List and Channel."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create Price List Assignments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/assignments",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a batch of `Price List Assignments`. \n**Note:** The batch limit for `Price List Assignments` is 25."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Price List Assignments",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/assignments",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the `Price List Assignment`."
+              },
+              {
+                "name": "price_list_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the `Price List`."
+              },
+              {
+                "name": "customer_group_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the `Customer Group`."
+              },
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the `Channel`."
+              },
+              {
+                "name": "channel_id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by a comma-separated list of `channel_id`s."
+              }
+            ]
+          },
+          "docs": "Deletes one or more `Price List Assignments` objects from BigCommerce using a query parameter. You must use at least one query parameter. "
+        },
+        {
+          "info": {
+            "name": "BigCommerce Upsert Price List Assignment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/pricelists/:price_list_id/assignments",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "price_list_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Price List` requested.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Upsert a single `Price List Assignment` for a `Price List`.\n**Note:**\n* Supports up to 25 simultaneous PUT requests. Running more than the allowed number of requests concurrently on the same store will result in a `429` status error and your additional requests will fail.        "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

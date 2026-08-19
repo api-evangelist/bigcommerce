@@ -1,0 +1,138 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Checkout Consignments API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Checkout Consignments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Add Consignment to Checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/checkouts/:checkoutId/consignments",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "checkoutId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the checkout; the same as the cart ID."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a new consignment to a checkout.\n\n\nPlease note that this API endpoint is not concurrent safe, meaning multiple simultaneous requests could result in unexpected and inconsistent results.\n\nFor more information about working with consignments, see [Checkout consignment](/docs/storefront/cart-checkout/guide/consignments).  \n\nThough the only required `address` properties to create a consignment are `email` and `country_code`, to successfully [create an order](/docs/rest-management/checkouts/chec"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Checkout Consignment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/checkouts/:checkoutId/consignments/:consignmentId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "checkoutId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the checkout; the same as the cart ID."
+              },
+              {
+                "name": "consignmentId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Include to get available shipping options."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing consignment. The address, line item IDs, and shipping option ID can be updated using this endpoint.\n\nUse a separate `PUT` request to update the shipping option IDs if you also want to update the address and line item IDs.  \n\nTo add new shipping options, complete the following steps: \n* Use the [Add Consignment to Checkout](/docs/rest-management/checkouts/checkout-consignments#add-consignment-to-checkout) endpoint to add a new [consignment] to a checkout. \n* Assign a shipping "
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Checkout Consignment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/checkouts/:checkoutId/consignments/:consignmentId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "checkoutId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the checkout; the same as the cart ID."
+              },
+              {
+                "name": "consignmentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Removes an existing consignment from a checkout.\n\nRemoving the last consignment will remove the cart from the customer it is assigned to. Create a new redirect URL for the customer so they can access the cart again."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

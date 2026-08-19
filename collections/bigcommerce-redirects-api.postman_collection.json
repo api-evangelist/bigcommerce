@@ -1,0 +1,1263 @@
+{
+  "item": [
+    {
+      "id": "d02a36ff-2702-4825-8135-60981d64a44d",
+      "name": "Redirects",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f13225b3-2d41-4946-b18f-15151b03fe95",
+          "name": "BigCommerce Get All Redirects",
+          "request": {
+            "name": "BigCommerce Get All Redirects",
+            "description": {
+              "content": "Returns a list all *Redirect URLs*. \n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To get redirect URLs, use Redirects V3ʼs [Get redirects](/docs/rest-management/redirects#get-redirects) endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "redirects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Filter param."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Filter param."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a46ec4ae-d7cb-495b-8317-7c4ca69b9b1c",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "redirects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"path\": \"/smith-journal-13/\",\n    \"forward\": {\n      \"type\": \"product\",\n      \"ref\": 111\n    },\n    \"url\": \"http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/\"\n  },\n  {\n    \"id\": 1,\n    \"path\": \"/smith-journal-13/\",\n    \"forward\": {\n      \"type\": \"product\",\n      \"ref\": 111\n    },\n    \"url\": \"http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d61cfa16-0787-4600-8d23-a5dd527c8290",
+          "name": "BigCommerce Create a Redirect",
+          "request": {
+            "name": "BigCommerce Create a Redirect",
+            "description": {
+              "content": "Creates a *Redirect URL*.\n\n**Required Fields**\n*   path\n*   forward\n\n**Read Only**\n*   url\n\n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To upsert new redirect data, use Redirects V3ʼs [Upsert redirects](/docs/rest-management/redirects#upsert-redirects) endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "redirects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"forward\": {\n    \"type\": \"<string>\",\n    \"ref\": \"<integer>\"\n  },\n  \"path\": \"<string>\",\n  \"id\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c06fc689-b3a8-4595-8a54-0d03a352b3cc",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "redirects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 1,\n  \"path\": \"/smith-journal-13/\",\n  \"forward\": {\n    \"type\": \"product\",\n    \"ref\": 111\n  },\n  \"url\": \"http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 3,\n  \"path\": \"/mens_clothing\",\n  \"forward\": {\n    \"type\": \"category\",\n    \"ref\": 3\n  },\n  \"url\": \"http://store.example.com/mens\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e7f9064a-6de3-46b6-83fc-cac81f1fc1ca",
+          "name": "BigCommerce Delete All Redirects",
+          "request": {
+            "name": "BigCommerce Delete All Redirects",
+            "description": {
+              "content": "By default, it deletes all *Redirect URLs* in a store. \n\n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To delete redirect URLs, use Redirects V3ʼs [Delete redirects](/docs/rest-management/redirects#delete-redirects) endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "redirects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2fb6df9f-307f-4b92-9c05-744541115abe",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "redirects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0b983ff2-0836-4c4c-a278-efab283a5fb2",
+          "name": "BigCommerce Get a Redirect",
+          "request": {
+            "name": "BigCommerce Get a Redirect",
+            "description": {
+              "content": "Returns a single *Redirect URL*.\n\n> #### Warning\n> **Deprecated** \n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To get a redirect URL, use Redirects V3ʼs [Get redirects](/docs/rest-management/redirects#get-redirects) endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "redirects",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) ID of the redirect URL."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ebc5f874-22d4-4d51-92fb-088a370d63f5",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "redirects",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) ID of the redirect URL."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"path\": \"/smith-journal-13/\",\n  \"forward\": {\n    \"type\": \"product\",\n    \"ref\": 111\n  },\n  \"url\": \"http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "be416c13-0ef3-478f-9566-e3d348fe6f72",
+          "name": "BigCommerce Update a Redirect",
+          "request": {
+            "name": "BigCommerce Update a Redirect",
+            "description": {
+              "content": "Updates a *Redirect URL*.\n\n**Required Fields**\n*   path\n*   forward\n\n**Read Only Fields**\n*   url\n\n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To update redirect data, use Redirects V3ʼs [Upsert redirects](/docs/rest-management/redirects#upsert-redirects) endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "redirects",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) ID of the redirect URL."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"forward\": {\n    \"type\": \"<string>\",\n    \"ref\": \"<string>\"\n  },\n  \"path\": \"<string>\",\n  \"id\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3563038c-6a2c-4266-9768-bdab8baecf8f",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "redirects",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) ID of the redirect URL."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 1,\n  \"path\": \"/smith-journal-13/\",\n  \"forward\": {\n    \"type\": \"product\",\n    \"ref\": \"111\"\n  },\n  \"url\": \"http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"path\": \"/smith-journal-13/\",\n  \"forward\": {\n    \"type\": \"product\",\n    \"ref\": 111\n  },\n  \"url\": \"http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a9fbcd97-2469-44fe-a100-e3cfceb937d1",
+          "name": "BigCommerce Delete a Redirect",
+          "request": {
+            "name": "BigCommerce Delete a Redirect",
+            "description": {
+              "content": "Deletes a *Redirect URL*.\n\n> #### Warning\n> **Deprecated** \n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To delete a redirect URL, use Redirects V3ʼs [Delete redirects](/docs/rest-management/redirects#delete-redirects) endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "redirects",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) ID of the redirect URL."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "11822e4a-4073-4ad9-a95e-ae0b1c77e9a8",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "redirects",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) ID of the redirect URL."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7a02f61a-118c-4b7b-87ea-d2cf4268e305",
+          "name": "BigCommerce Get a Count of Redirects",
+          "request": {
+            "name": "BigCommerce Get a Count of Redirects",
+            "description": {
+              "content": "Gets a count of *Redirect URLs* in a store.\n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To get a count of redirects, use the `meta` object data returned with the Redirects V3ʼs [Get redirects](/docs/rest-management/redirects#get-redirects) endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "redirects",
+                "count"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "88e9403a-a426-48f7-bdec-a5c4c1903b54",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "redirects",
+                    "count"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 27\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3151fb8f-32bd-4faa-b174-7ed8dbdc90cc",
+          "name": "BigCommerce Get Redirects",
+          "request": {
+            "name": "BigCommerce Get Redirects",
+            "description": {
+              "content": "Returns a collection of the store's 301 redirects across all sites.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "storefront",
+                "redirects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "site_id",
+                  "value": "<integer>",
+                  "description": "Filters items by `site_id`."
+                },
+                {
+                  "disabled": false,
+                  "key": "id:in",
+                  "value": "<string>,<string>",
+                  "description": "Filters items by redirect `id`. Also accepts comma-separated values to filter for multiple redirects."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Controls the number of items to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Specifies the page number in a limited (paginated) list of items. Used to paginate large collections."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Field name to sort by. Note: Since redirect `id` increments when new redirects are added, you can use that field to sort by redirect create date.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "direction",
+                  "value": "<string>",
+                  "description": "Sort direction. Acceptable values are `asc`, `desc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "Indicates whether to include redirect sub-resources. Only `to_url` is supported."
+                },
+                {
+                  "disabled": false,
+                  "key": "keyword",
+                  "value": "<string>",
+                  "description": "Filters redirects by the specified keyword. Will only search from the beginning of a URL path. For example, `blue` will match `/blue` and `/blue-shirt` ,  **not** `/royal-blue-shirt`."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e0209fd6-d414-486a-8f9f-3bf91581ac06",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "storefront",
+                    "redirects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "site_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "id:in",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 3351,\n      \"site_id\": 7294,\n      \"from_path\": \"/old-url\",\n      \"to\": {\n        \"type\": \"brand\",\n        \"entity_id\": 4561,\n        \"url\": \"/new-url/\"\n      },\n      \"to_url\": \"https://store-domain.com/new-url\"\n    },\n    {\n      \"id\": 7132,\n      \"site_id\": 7302,\n      \"from_path\": \"/old-url\",\n      \"to\": {\n        \"type\": \"brand\",\n        \"entity_id\": 3502,\n        \"url\": \"/new-url/\"\n      },\n      \"to_url\": \"https://store-domain.com/new-url\"\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"total\": 246,\n      \"count\": 5,\n      \"per_page\": 5,\n      \"current_page\": 1,\n      \"total_pages\": 50,\n      \"links\": {\n        \"next\": \"?limit=5&page=2\",\n        \"current\": \"?limit=5&page=1\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d6529209-e3f5-4e02-ae88-71268b26e6dd",
+          "name": "BigCommerce Upsert Redirects",
+          "request": {
+            "name": "BigCommerce Upsert Redirects",
+            "description": {
+              "content": "Upserts new redirect data across all storefronts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "storefront",
+                "redirects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"from_path\": \"<string>\",\n    \"site_id\": \"<integer>\",\n    \"to\": {\n      \"type\": \"<string>\",\n      \"entity_id\": \"<integer>\",\n      \"url\": \"<string>\"\n    }\n  },\n  {\n    \"from_path\": \"<string>\",\n    \"site_id\": \"<integer>\",\n    \"to\": {\n      \"type\": \"<string>\",\n      \"entity_id\": \"<integer>\",\n      \"url\": \"<string>\"\n    }\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "421c6a01-3fe6-4c29-9d74-362992d3a5e2",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "storefront",
+                    "redirects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"from_path\": \"/old-url/\",\n    \"site_id\": \"<integer>\",\n    \"to\": {\n      \"type\": \"<string>\",\n      \"entity_id\": \"<integer>\",\n      \"url\": \"/new-url/\"\n    }\n  },\n  {\n    \"from_path\": \"/old-url/\",\n    \"site_id\": \"<integer>\",\n    \"to\": {\n      \"type\": \"<string>\",\n      \"entity_id\": \"<integer>\",\n      \"url\": \"/new-url/\"\n    }\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 5401,\n      \"site_id\": 2022,\n      \"from_path\": \"/old-url\",\n      \"to\": {\n        \"type\": \"<string>\",\n        \"entity_id\": \"<integer>\",\n        \"url\": \"/new-url/\"\n      },\n      \"to_url\": \"https://store-domain.com/new-url\"\n    },\n    {\n      \"id\": 2023,\n      \"site_id\": 2943,\n      \"from_path\": \"/old-url\",\n      \"to\": {\n        \"type\": \"<string>\",\n        \"entity_id\": \"<integer>\",\n        \"url\": \"/new-url/\"\n      },\n      \"to_url\": \"https://store-domain.com/new-url\"\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"total\": 246,\n      \"count\": 5,\n      \"per_page\": 5,\n      \"current_page\": 1,\n      \"total_pages\": 50,\n      \"links\": {\n        \"next\": \"?limit=5&page=2\",\n        \"current\": \"?limit=5&page=1\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "76e054ba-7b7c-4e2f-859a-79d6d4460add",
+          "name": "BigCommerce Delete Redirects",
+          "request": {
+            "name": "BigCommerce Delete Redirects",
+            "description": {
+              "content": "Deletes redirects.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "storefront",
+                "redirects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id:in",
+                  "value": "<integer>,<integer>",
+                  "description": "(Required) List of Redirect IDs to delete explicitly."
+                },
+                {
+                  "disabled": false,
+                  "key": "site_id",
+                  "value": "<integer>",
+                  "description": "Site ID provided to delete all redirects for a given Site."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "26e745fa-7d1a-48b6-91df-f3f61fe35552",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "storefront",
+                    "redirects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id:in",
+                      "value": "<integer>,<integer>"
+                    },
+                    {
+                      "key": "site_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0dbefaed-c639-4996-834b-ff7fceb043d8",
+    "name": "BigCommerce Abandoned Cart Emails Redirects API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

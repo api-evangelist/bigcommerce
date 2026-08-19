@@ -1,0 +1,178 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Pages (Bulk) API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Pages (Bulk)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Pages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/pages",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Return only pages associated with the specified channel."
+              },
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated string of page IDs to fetch. Supports bulk operations. If none of the page IDs passed exist, the query will return an empty `data` array."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Name of the page."
+              },
+              {
+                "name": "name:like",
+                "value": "",
+                "type": "query",
+                "description": "Return only pages whose `name` or `body` contain the supplied string."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per request. See `meta.pagination.per_page` in the response body."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The ordered grouping of results to return. See `meta.pagination.current_page` in the response body."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content."
+              }
+            ]
+          },
+          "docs": "Returns one or more content pages. This endpoint supports bulk operations."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create Pages",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/pages",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates one or more content pages. This endpoint supports bulk operations."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Pages",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/pages",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates one or more content pages. This endpoint supports bulk operations."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Pages",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/pages",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query",
+                "description": "Request deletion of multiple pages by passing a comma-separated string of corresponding page IDs. Supports bulk operations. "
+              }
+            ]
+          },
+          "docs": "Deletes one or more content pages. This endpoint supports bulk operations.\n\n> #### Warning\n> **Pay attention to query parameters**\n> If you attempt to delete multiple pages by passing more than one page ID to `id:in` and one or more of them does not exist, you will receive a 404 response. However, the pages corresponding to the page IDs that do exist will still be deleted."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

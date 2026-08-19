@@ -1,0 +1,149 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Email Templates API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Email Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Email Templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/marketing/email-templates",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+              }
+            ]
+          },
+          "docs": "Get a list of email templates.\n\n> #### Note\n> The `/marketing/email-templates` endpoints only work after opting into the new email management experience from your storeʼs control panel. You can opt-in by visiting Email Templates. If you have already opted in, visiting the Email Templates page will return a `404` error, and you will be able to access the new Transactional Emails page."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get an Email Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/marketing/email-templates/:template-name",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "template-name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+              }
+            ]
+          },
+          "docs": "Get a single global email template or a channel-specific email template override.\n\n> #### Note\n> The `/marketing/email-templates` endpoints only work after opting into the new email management experience from your storeʼs control panel. You can opt-in by visiting [Email Templates](https://login.bigcommerce.com/deep-links/manage/marketing/email-templates). If you have already opted in, visiting the [Email Templates](https://login.bigcommerce.com/deep-links/manage/marketing/email-templates) page w"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/marketing/email-templates/:template-name",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "template-name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a global template or create a channel-specific email template override."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Email Template Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/marketing/email-templates/:template-name",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "template-name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "query",
+                "description": "Required Channel ID. This delete operation will delete overridden settings for this channel, thus restoring them to the global defaults."
+              }
+            ]
+          },
+          "docs": "Removes a channel-specific email template override."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

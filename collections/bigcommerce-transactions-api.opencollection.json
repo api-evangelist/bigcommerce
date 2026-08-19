@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Transactions API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/orders/:order_id/transactions",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Order` to which the transactions belong.\n"
+              }
+            ]
+          },
+          "docs": "Returns an **orderʼs** transactions.\n\n**Usage Notes**\n* Depending on the payment method, different information will be available (not all payment gateways return full card or fraud detail).\n\n\nRequires at least one of the following scopes:\n* `store_v2_transactions_read_only`\n* `store_v2_transactions`"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

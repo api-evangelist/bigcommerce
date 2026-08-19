@@ -1,0 +1,135 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Category Trees API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Category Trees",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Category Trees",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/trees",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "channel_id:in",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of *Category Trees*."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Upsert Category Trees",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/trees",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Upserts *Category Trees*. \n\nThis single endpoint updates and creates category trees. If a tree object contains an ID, it is processed as an update operation using that ID. If you do not provide an ID, a new tree is created. The category tree `name` field is required to create trees, but is not required on the update.\n\n**Usage Notes**\n* `channel_id` is required to create a *Category Tree*. You can assign one `channel_id` to one category tree.\n"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Category Trees",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/trees",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Deletes *Category Trees*. A filter must be supplied with the endpoint."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Category Tree",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/catalog/trees/:tree_id/categories",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "tree_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the Category Tree."
+              },
+              {
+                "name": "depth",
+                "value": "",
+                "type": "query",
+                "description": "Max depth for a tree of categories."
+              }
+            ]
+          },
+          "docs": "Returns a *Category Tree*."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

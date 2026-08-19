@@ -1,0 +1,60 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Webhooks Admin API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Webhooks Admin",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Admin Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/hooks/admin",
+            "params": [
+              {
+                "name": "is_active",
+                "value": "",
+                "type": "query",
+                "description": "Enables user to filter for webhooks that are active or not. A webhook subscription becomes deactivated after 90 days of inactivity.\n"
+              }
+            ]
+          },
+          "docs": "List all notification emails, webhooks, and denylisted domains associated with the API account."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Upsert Email Notifications",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/hooks/admin",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update email addresses that are sent notification emails when any domain associated with the API account is denylisted or when a webhook is deactivated. Supports `upsert` functionality in the case that no email address exists yet.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

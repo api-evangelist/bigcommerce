@@ -1,0 +1,352 @@
+{
+  "item": [
+    {
+      "id": "f6d31128-4a1e-443f-8c61-94df4086cc04",
+      "name": "Units of Measurement",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b274ece2-1383-4ed4-9015-5820a9f25f92",
+          "name": "BigCommerce Get Units of Measurement Settings",
+          "request": {
+            "name": "BigCommerce Get Units of Measurement Settings",
+            "description": {
+              "content": "Get settings for [units of measurements](https://support.bigcommerce.com/s/article/Store-Settings?language=en_US#physical).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "settings",
+                "store",
+                "units-of-measurement"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "channel_id",
+                  "value": "<integer>",
+                  "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a1c3e96e-142b-4dc6-a620-2012f549dc3e",
+              "name": "OK. When you request channel-level settings, `null` indicates that a channel does not have overrides.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "settings",
+                    "store",
+                    "units-of-measurement"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"weight_measurement\": \"Ounces\",\n    \"length_measurement\": \"Inches\",\n    \"decimal_token\": \".\",\n    \"thousands_token\": \",\",\n    \"decimal_places\": 2,\n    \"factoring_dimension\": \"depth\"\n  },\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33f37c4a-d78f-4796-ad10-4fd29a9cfb0e",
+              "name": "The provided settings could not be applied. See detailed errors in the response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "settings",
+                    "store",
+                    "units-of-measurement"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"instance\": \"string\",\n  \"status\": 3931,\n  \"title\": \"string\",\n  \"type\": \"string\",\n  \"errors\": {\n    \"key_0\": 4617,\n    \"key_1\": 7264,\n    \"key_2\": false,\n    \"key_3\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "26a56fb2-3ce7-45fe-9d1f-41c3031f5f7e",
+          "name": "BigCommerce Update Units of Measurement Settings",
+          "request": {
+            "name": "BigCommerce Update Units of Measurement Settings",
+            "description": {
+              "content": "Update settings for [units of measurements](https://support.bigcommerce.com/s/article/Store-Settings?language=en_US#physical).\n\nThe endpoint does not support partial updates. Provide all fields to update global or channel-level settings.\n\nCreate channel-level settings, or overrides for a channel, using the `channel_id`  query parameter. \n\nTo delete overrides for a channel, supply `null` as a value for all fields. A channel then inherits global values.\n\nThe endpoint does not support 'null' as a value for global-level settings.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "settings",
+                "store",
+                "units-of-measurement"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "channel_id",
+                  "value": "<integer>",
+                  "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"weight_measurement\": \"<string>\",\n  \"length_measurement\": \"<string>\",\n  \"decimal_token\": \"<string>\",\n  \"thousands_token\": \"<string>\",\n  \"decimal_places\": \"<integer>\",\n  \"factoring_dimension\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b13f8a06-dcdc-4904-9bd9-9f642a5cbcd8",
+              "name": "OK. When you request channel-level settings, `null` indicates that a channel does not have overrides.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "settings",
+                    "store",
+                    "units-of-measurement"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"weight_measurement\": \"Ounces\",\n  \"length_measurement\": \"Inches\",\n  \"decimal_token\": \".\",\n  \"thousands_token\": \",\",\n  \"decimal_places\": 2,\n  \"factoring_dimension\": \"depth\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"weight_measurement\": \"Ounces\",\n    \"length_measurement\": \"Inches\",\n    \"decimal_token\": \".\",\n    \"thousands_token\": \",\",\n    \"decimal_places\": 2,\n    \"factoring_dimension\": \"depth\"\n  },\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "1878093c-c779-44a2-9392-8025ed3b21a6",
+    "name": "BigCommerce Abandoned Cart Emails Units of Measurement API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

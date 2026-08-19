@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Cart Currency API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cart Currency",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Update Cart Currency",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/carts/:cartId/currency",
+            "params": [
+              {
+                "name": "cartId",
+                "value": "",
+                "type": "path",
+                "description": "This cart's unique ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update currency of the *Cart*. \nPromotions and gift certificates that don't apply to the new currency will be removed from your cart.\nYou cannot update the cart currency if the draft order cart or the cart contains a manual discount.\n\n> #### Note\n> * Substitute your storefront domain for `yourstore.example.com`. \n> * The Send a Test Request feature is not currently supported for this endpoint.  "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

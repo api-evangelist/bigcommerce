@@ -1,0 +1,109 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Abandoned Carts Settings API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Abandoned Carts Settings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Update Global Abandoned Cart Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/abandoned-carts/settings",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the global abandoned cart settings of a store."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get Channel Abandoned Cart Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/abandoned-carts/settings/channels/:channel_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path",
+                "description": "The channel ID of the settings overrides"
+              }
+            ]
+          },
+          "docs": "Returns the per-channel overrides for the abandoned cart settings of a store."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Channel Abandoned Cart Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/abandoned-carts/settings/channels/:channel_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path",
+                "description": "The channel ID of the settings overrides"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the per-channel overrides for the abandoned cart settings of a store.\n\n#### OAuth Scopes\n| UI Name                                      | Permission | Parameter                                     |\n|-||--|     \n| Information & Settings                       | modify     | `store_v2_information`                        |"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

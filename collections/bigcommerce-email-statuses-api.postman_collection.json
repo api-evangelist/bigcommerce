@@ -1,0 +1,309 @@
+{
+  "item": [
+    {
+      "id": "0a5f3356-184f-4df1-88ee-677e55315d16",
+      "name": "Email Statuses",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6e47ca53-6f18-4328-ad5a-4968e63fc5bd",
+          "name": "BigCommerce Get Transactional Email Settings",
+          "request": {
+            "name": "BigCommerce Get Transactional Email Settings",
+            "description": {
+              "content": "Get global transactional email settings or channel specific overrides by `channel_id`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "settings",
+                "email-statuses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "channel_id",
+                  "value": "<integer>",
+                  "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8040b020-fc31-4edf-9c8d-f03316634a56",
+              "name": "OK, null indicates that a particular field has not been overridden on a channel level when channel level settings are requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "settings",
+                    "email-statuses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"abandoned_cart_email\": true,\n    \"account_details_changed_email\": true,\n    \"combined_order_status_email\": true,\n    \"createaccount_email\": true,\n    \"createguestaccount_email\": true,\n    \"giftcertificate_email\": true,\n    \"invoice_email\": true,\n    \"ordermessage_notification\": true,\n    \"product_review_email\": false,\n    \"return_confirmation_email\": true,\n    \"return_statuschange_email\": true\n  },\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "40fffe5b-f1df-47bf-9fd1-2984cc8419c3",
+          "name": "BigCommerce Update Transactional Email Settings",
+          "request": {
+            "name": "BigCommerce Update Transactional Email Settings",
+            "description": {
+              "content": "Update global transactional email settings or create channel specific overrides by `channel_id`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "settings",
+                "email-statuses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "channel_id",
+                  "value": "<integer>",
+                  "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"abandoned_cart_email\": \"<boolean>\",\n  \"account_details_changed_email\": \"<boolean>\",\n  \"combined_order_status_email\": \"<boolean>\",\n  \"create_account_email\": \"<boolean>\",\n  \"create_guest_account_email\": \"<boolean>\",\n  \"gift_certificate_email\": \"<boolean>\",\n  \"invoice_email\": \"<boolean>\",\n  \"order_message_notification_email\": \"<boolean>\",\n  \"product_review_email\": \"<boolean>\",\n  \"return_confirmation_email\": \"<boolean>\",\n  \"return_statuschange_email\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bd8e2b25-2126-44a3-9617-3777ef2d3580",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "settings",
+                    "email-statuses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"abandoned_cart_email\": true,\n  \"account_details_changed_email\": true,\n  \"combined_order_status_email\": true,\n  \"createaccount_email\": true,\n  \"createguestaccount_email\": true,\n  \"giftcertificate_email\": true,\n  \"invoice_email\": true,\n  \"ordermessage_notification\": true,\n  \"product_review_email\": false,\n  \"return_confirmation_email\": true,\n  \"return_statuschange_email\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"abandoned_cart_email\": true,\n    \"account_details_changed_email\": true,\n    \"combined_order_status_email\": true,\n    \"createaccount_email\": true,\n    \"createguestaccount_email\": true,\n    \"giftcertificate_email\": true,\n    \"invoice_email\": true,\n    \"ordermessage_notification\": true,\n    \"product_review_email\": false,\n    \"return_confirmation_email\": true,\n    \"return_statuschange_email\": true\n  },\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b4c1e622-e5f5-48eb-9fc5-adc7036960bf",
+    "name": "BigCommerce Abandoned Cart Emails Email Statuses API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

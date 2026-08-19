@@ -1,0 +1,390 @@
+{
+  "item": [
+    {
+      "id": "acef4e23-e18f-4b8b-a999-6fe65259b454",
+      "name": "Storefront Product",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8fc6492c-b048-4abc-858e-62c57c5d0961",
+          "name": "BigCommerce Get Storefront Product Settings",
+          "request": {
+            "name": "BigCommerce Get Storefront Product Settings",
+            "description": {
+              "content": "Returns product settings.\n\n - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "settings",
+                "storefront",
+                "product"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "channel_id",
+                  "value": "<integer>",
+                  "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2ae28884-4ebe-40d3-a762-d1a485e2a72b",
+              "name": "OK. `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "settings",
+                    "storefront",
+                    "product"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"show_product_price\": true,\n    \"show_product_sku\": true,\n    \"show_product_weight\": false,\n    \"show_product_brand\": true,\n    \"show_product_shipping\": false,\n    \"show_product_rating\": true,\n    \"show_add_to_cart_link\": true,\n    \"default_preorder_message\": \"Preorder message\",\n    \"show_breadcrumbs_product_pages\": \"show_one\",\n    \"show_add_to_cart_qty_box\": true,\n    \"show_add_to_wishlist\": true,\n    \"hide_price_from_guests\": false\n  },\n  \"meta\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "231337a1-6fd0-4ab5-b16f-c7b2d2696c4c",
+          "name": "BigCommerce Update Storefront Product Settings",
+          "request": {
+            "name": "BigCommerce Update Storefront Product Settings",
+            "description": {
+              "content": "Updates product settings.\n\n - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "settings",
+                "storefront",
+                "product"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "channel_id",
+                  "value": "<integer>",
+                  "description": "Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"show_product_price\": \"<boolean>\",\n  \"show_product_sku\": \"<boolean>\",\n  \"show_product_weight\": \"<boolean>\",\n  \"show_product_brand\": \"<boolean>\",\n  \"show_product_shipping\": \"<boolean>\",\n  \"show_product_rating\": \"<boolean>\",\n  \"show_add_to_cart_link\": \"<boolean>\",\n  \"default_preorder_message\": \"<string>\",\n  \"show_breadcrumbs_product_pages\": \"<string>\",\n  \"show_add_to_cart_qty_box\": \"<boolean>\",\n  \"show_add_to_wishlist\": \"<boolean>\",\n  \"hide_price_from_guests\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "58b6e33c-b379-4ad4-85e5-71dfea0cb2a4",
+              "name": "OK. `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "settings",
+                    "storefront",
+                    "product"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"show_product_price\": true,\n  \"show_product_sku\": true,\n  \"show_product_weight\": false,\n  \"show_product_brand\": true,\n  \"show_product_shipping\": false,\n  \"show_product_rating\": true,\n  \"show_add_to_cart_link\": true,\n  \"default_preorder_message\": \"Preorder message\",\n  \"show_breadcrumbs_product_pages\": \"show_one\",\n  \"show_add_to_cart_qty_box\": true,\n  \"show_add_to_wishlist\": true,\n  \"hide_price_from_guests\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"show_product_price\": true,\n    \"show_product_sku\": true,\n    \"show_product_weight\": false,\n    \"show_product_brand\": true,\n    \"show_product_shipping\": false,\n    \"show_product_rating\": true,\n    \"show_add_to_cart_link\": true,\n    \"default_preorder_message\": \"Preorder message\",\n    \"show_breadcrumbs_product_pages\": \"show_one\",\n    \"show_add_to_cart_qty_box\": true,\n    \"show_add_to_wishlist\": true,\n    \"hide_price_from_guests\": false\n  },\n  \"meta\": {\n    \"key_0\": false,\n    \"key_1\": \"string\",\n    \"key_2\": 8167,\n    \"key_3\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9db3d2fe-5e9c-40d7-83c0-4ff1f98f8ad0",
+              "name": "`422 Unprocessable Entity` Provided settings could not be applied for some reason - detailed errors in the response.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "settings",
+                    "storefront",
+                    "product"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "channel_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"show_product_price\": true,\n  \"show_product_sku\": true,\n  \"show_product_weight\": false,\n  \"show_product_brand\": true,\n  \"show_product_shipping\": false,\n  \"show_product_rating\": true,\n  \"show_add_to_cart_link\": true,\n  \"default_preorder_message\": \"Preorder message\",\n  \"show_breadcrumbs_product_pages\": \"show_one\",\n  \"show_add_to_cart_qty_box\": true,\n  \"show_add_to_wishlist\": true,\n  \"hide_price_from_guests\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": {\n    \"\": \"Incorrect value [current__only], it should match one of: current_category_only,child_categories_if_category_empty,child_categories; Incorrect value [besling], it should match one of: featured, newest, bestselling, alphaasc, alphadesc, avgcustomerreview, priceasc, pricedesc, relevance\"\n  },\n  \"status\": 422,\n  \"title\": \"JSON data is missing or invalid\",\n  \"type\": \"https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c66eb625-37e0-43cc-a17f-312dae8e86a4",
+    "name": "BigCommerce Abandoned Cart Emails Storefront Product API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

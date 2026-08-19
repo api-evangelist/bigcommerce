@@ -1,0 +1,210 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Widget Template API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Widget Template",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Widget Templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/widget-templates",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of products.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of products.\n"
+              },
+              {
+                "name": "widget_template_kind",
+                "value": "",
+                "type": "query",
+                "description": "The kind of widget template."
+              },
+              {
+                "name": "channel_id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by channel_id."
+              }
+            ]
+          },
+          "docs": "Returns a list of **Widget Templates**."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Widget Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/widget-templates",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a **Widget Template**.\n\n***Note:*** *There is a limit of 1000 custom widget templates per store.*\n\n**Required Fields**\n* name\n* template"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Render a Widget Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/widget-templates/:uuid/preview",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for a specific widget."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Render a widget template and return the widget html."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Widget Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/widget-templates/:uuid",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for a specific template."
+              },
+              {
+                "name": "version_uuid",
+                "value": "",
+                "type": "query",
+                "description": "This is an optional query parameter used to attempt to fetch a specific Widget Template version."
+              }
+            ]
+          },
+          "docs": "Returns a single **Widget Template**."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Widget Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/widget-templates/:uuid",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for a specific template."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a **Widget Template**."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete A Widget Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/widget-templates/:uuid",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for a specific template."
+              }
+            ]
+          },
+          "docs": "Deletes a **Widget Template**."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

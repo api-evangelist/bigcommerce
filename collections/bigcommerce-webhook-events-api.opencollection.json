@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Webhook Events API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Webhook Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/hooks/events",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items count per page.\n"
+              },
+              {
+                "name": "created_at:max",
+                "value": "",
+                "type": "query",
+                "description": "Maximum value for returned data.\n"
+              },
+              {
+                "name": "created_at:min",
+                "value": "",
+                "type": "query",
+                "description": "Minimum value for returned data.\n"
+              }
+            ]
+          },
+          "docs": "Get a list of events that were sent but not successfully received. Events are stored for not less than one week.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

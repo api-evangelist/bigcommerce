@@ -1,0 +1,220 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Gift Certificates API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Gift Certificates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get a Gift Certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/gift_certificates/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the gift certificate."
+              }
+            ]
+          },
+          "docs": "Returns a single *Gift Certificate*."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Gift Certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/gift_certificates/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the gift certificate."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a *Gift Certificate*.\n\n**Read Only Fields**\n* id\n* order_id"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Gift Certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/gift_certificates/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the gift certificate."
+              }
+            ]
+          },
+          "docs": "Deletes a *Gift Certificate*."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get All Gift Certificates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/gift_certificates",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "min_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "max_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "code",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to_email",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from_email",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of *Gift Certificates*. Optional filter parameters can be passed in.\n\nDefault sorting is by gift-certificate id, from lowest to highest.\n\nThe maximum limit is 250. If a limit isn’t provided, up to 50 gift_certificates are returned by default."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Gift Certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/gift_certificates",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a *Gift Certificate*.\n\n\n**Required Fields**\n* to_name\n* to_email\n* from_name\n* from_email\n* amount\n\n**Read Only Fields**\n* id\n* order_id\n\n**Notes**\n\nWhen a gift certificate is created through the API, no email notification is triggered to the specified recipient."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete All Gift Certificates",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/gift_certificates",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "By default, it deletes all *Gift Certificates*."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

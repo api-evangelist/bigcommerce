@@ -1,0 +1,377 @@
+{
+  "item": [
+    {
+      "id": "3f282a99-4ea9-4d33-b51c-b8af2bbbe368",
+      "name": "Cart Currency",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "68f5ae4f-b5f5-4a87-bfbb-1646b5c74cce",
+          "name": "BigCommerce Update Cart Currency",
+          "request": {
+            "name": "BigCommerce Update Cart Currency",
+            "description": {
+              "content": "Update currency of the *Cart*. \nPromotions and gift certificates that don't apply to the new currency will be removed from your cart.\nYou cannot update the cart currency if the draft order cart or the cart contains a manual discount.\n\n> #### Note\n> * Substitute your storefront domain for `yourstore.example.com`. \n> * The Send a Test Request feature is not currently supported for this endpoint.  ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "carts",
+                ":cartId",
+                "currency"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<UUID>",
+                  "key": "cartId",
+                  "description": "(Required) This cart's unique ID."
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currencyCode\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4d63001e-89a2-4514-8283-7516f58dd0f0",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carts",
+                    ":cartId",
+                    "currency"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<UUID>",
+                      "key": "cartId",
+                      "description": "(Required) This cart's unique ID."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currencyCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"770ded29-da45-4ee0-abc6-883e83c0e5ed\",\n    \"customerId\": 0,\n    \"email\": \"\",\n    \"currency\": {\n      \"name\": \"US Dollars\",\n      \"code\": \"USD\",\n      \"symbol\": \"$\",\n      \"decimalPlaces\": 2\n    },\n    \"isTaxIncluded\": false,\n    \"baseAmount\": 246,\n    \"discountAmount\": 0,\n    \"cartAmount\": 221.4,\n    \"coupons\": [],\n    \"discounts\": [\n      {\n        \"id\": \"a83dea21-d757-47a2-a06a-73cf6a983746\",\n        \"discountedAmount\": 24.6\n      }\n    ],\n    \"lineItems\": {\n      \"physicalItems\": [\n        {\n          \"id\": \"a83dea21-d757-47a2-a06a-73cf6a983746\",\n          \"parentId\": 6,\n          \"variantId\": 193,\n          \"productId\": 230,\n          \"sku\": \"sku123-VA\",\n          \"name\": \"options test\",\n          \"url\": \"https://store.example.com/options-test/\",\n          \"quantity\": 2,\n          \"brand\": \"BigCommerce\",\n          \"isTaxable\": true,\n          \"imageUrl\": \"https://cdn11.bigcommerce.com/r-3b68d717e18793df0b51c71e16bc24664ad18b7c/themes/ClassicNext/images/ProductDefault.gif\",\n          \"discounts\": [\n            {\n              \"id\": \"string\",\n              \"discountedAmount\": 24.6\n            }\n          ],\n          \"discountAmount\": 24.6,\n          \"couponAmount\": 0,\n          \"originalPrice\": 130,\n          \"listPrice\": 123,\n          \"salePrice\": 110.7,\n          \"extendedListPrice\": 246,\n          \"extendedSalePrice\": 221.4,\n          \"isShippingRequired\": true,\n          \"type\": \"physical\",\n          \"isMutable\": true,\n          \"giftWrapping\": null\n        }\n      ],\n      \"digitalItems\": [],\n      \"giftCertificates\": [],\n      \"customItems\": []\n    },\n    \"createdTime\": \"2021-03-04T14:17:50+00:00\",\n    \"updatedTime\": \"2021-03-04T14:17:50+00:00\",\n    \"locale\": \"en\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c97f1e00-8a83-4b93-b0b9-aa01f5ea3841",
+              "name": "Bad request. Authentication Required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carts",
+                    ":cartId",
+                    "currency"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<UUID>",
+                      "key": "cartId",
+                      "description": "(Required) This cart's unique ID."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currencyCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4ee6f0ba-932e-480b-b7ac-4f39f18f2e73",
+              "name": "Currency not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carts",
+                    ":cartId",
+                    "currency"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<UUID>",
+                      "key": "cartId",
+                      "description": "(Required) This cart's unique ID."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currencyCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b85ac8e6-15b4-4177-9845-e35fa767806b",
+              "name": "Missing or invalid data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carts",
+                    ":cartId",
+                    "currency"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<UUID>",
+                      "key": "cartId",
+                      "description": "(Required) This cart's unique ID."
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currencyCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d79d9ed2-0082-4b98-be13-e0e29ee887b0",
+    "name": "BigCommerce Abandoned Cart Emails Cart Currency API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

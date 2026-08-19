@@ -1,0 +1,121 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Cart Items API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cart Items",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Add Cart Line Items",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/carts/:cartId/items",
+            "params": [
+              {
+                "name": "cartId",
+                "value": "",
+                "type": "path",
+                "description": "This cart's unique ID."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "To return product options add one of the following include:\n\n`lineItems.physicalItems.options`: The Cart returns an abbreviated result. Use this to return physical items product options. Can also be used in a /POST to have the extended Cart object return.\n\n`lineItems.digitalItems.options`:  The Cart returns an abbreviated result. Use this to return digital items product options.  Can also be used in a /POST to have the extended Cart object return.\n\n`lineItems.digitalItems.options,lineItems.physicalItems.options`:  The Cart returns an abbreviated result. Use this to return digital and physical options. Can also be used in a /POST to have the extended Cart object return."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a line items to the *Cart*.\n\n> #### Notes\n> * Substitute your storefront domain for `yourstore.example.com`. \n> * The Send a Test Request feature is not currently supported for this endpoint.  \n> * Please note that this API endpoint is not concurrent safe, meaning multiple simultaneous requests could result in unexpected and inconsistent results."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Cart Line Item",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/carts/:cartId/items/:itemId",
+            "params": [
+              {
+                "name": "cartId",
+                "value": "",
+                "type": "path",
+                "description": "This cart's unique ID."
+              },
+              {
+                "name": "itemId",
+                "value": "",
+                "type": "path",
+                "description": "This item's ID."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "To return product options add one of the following include:\n\n`lineItems.physicalItems.options`: The Cart returns an abbreviated result. Use this to return physical items product options. Can also be used in a /POST to have the extended Cart object return.\n\n`lineItems.digitalItems.options`:  The Cart returns an abbreviated result. Use this to return digital items product options.  Can also be used in a /POST to have the extended Cart object return.\n\n`lineItems.digitalItems.options,lineItems.physicalItems.options`:  The Cart returns an abbreviated result. Use this to return digital and physical options. Can also be used in a /POST to have the extended Cart object return."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a *Cart* line item. Updates an existing, single line item quantity and the price of custom items in a cart.\n\nIf a modified product or variant needs to be changed or updated, you can remove and re-add the product to the cart with the correct variants using the [Delete Cart Line Item](/docs/rest-storefront/carts/cart-items#delete-cart-line-item) and the [Add Cart Line Items](/docs/rest-storefront/carts/cart-items#add-cart-line-items) endpoints. You can also use carts mutations that are par"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Cart Line Item",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/carts/:cartId/items/:itemId",
+            "params": [
+              {
+                "name": "cartId",
+                "value": "",
+                "type": "path",
+                "description": "This cart's unique ID."
+              },
+              {
+                "name": "itemId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the item to delete."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "To return product options add one of the following include:\n\n`lineItems.physicalItems.options`: The Cart returns an abbreviated result. Use this to return physical items product options. Can also be used in a /POST to have the extended Cart object return.\n\n`lineItems.digitalItems.options`:  The Cart returns an abbreviated result. Use this to return digital items product options.  Can also be used in a /POST to have the extended Cart object return.\n\n`lineItems.digitalItems.options,lineItems.physicalItems.options`:  The Cart returns an abbreviated result. Use this to return digital and physical options. Can also be used in a /POST to have the extended Cart object return."
+              }
+            ]
+          },
+          "docs": "Deletes a *Cart* line item.\n\nRemoving the last `line_item` in the *Cart* deletes the *Cart*.\n\n> #### Note\n> * Substitute your storefront domain for `yourstore.example.com`. \n> * The Send a Test Request feature is not currently supported for this endpoint.  "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

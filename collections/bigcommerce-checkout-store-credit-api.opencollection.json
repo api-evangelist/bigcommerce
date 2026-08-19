@@ -1,0 +1,62 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Checkout Store Credit API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Checkout Store Credit",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Add Store Credit",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/checkouts/:checkoutId/store-credit",
+            "params": [
+              {
+                "name": "checkoutId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Applies any available store credit to a checkout. As on the storefront, all available store credit will be used (up to the value of the order) and no amount need be specified.\n\n> #### Note\n> * Substitute your storefront domain for `yourstore.example.com`. \n> * The Send a Test Request feature is not currently supported for this endpoint."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Remove Store Credit",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/checkouts/:checkoutId/store-credit",
+            "params": [
+              {
+                "name": "checkoutId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Removes store credit from a checkout.\n\n> #### Note\n> * Substitute your storefront domain for `yourstore.example.com`. \n> * The Send a Test Request feature is not currently supported for this endpoint.  "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

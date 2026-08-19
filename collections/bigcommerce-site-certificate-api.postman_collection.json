@@ -1,0 +1,429 @@
+{
+  "item": [
+    {
+      "id": "800f2be8-b95f-4e48-8e5d-c92da4026e9d",
+      "name": "Site Certificate",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c1b3ae1e-024d-4a6b-97f5-61261db81b6e",
+          "name": "BigCommerce Get a Site’s SSL/TLS Certificate Information",
+          "request": {
+            "name": "BigCommerce Get a Site’s SSL/TLS Certificate Information",
+            "description": {
+              "content": "Obtain information about a site’s SSL/TLS certificate.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sites",
+                ":site_id",
+                "certificate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "site_id",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2d0234d1-dcad-4a8c-b282-39ecb1f41489",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sites",
+                    ":site_id",
+                    "certificate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "site_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"status\": \"shared\",\n    \"installed_certificate\": {\n      \"common_name\": \"store.com\",\n      \"subject_alternative_names\": [\n        \"store.com\",\n        \"www.store.com\"\n      ],\n      \"validity_not_before\": \"2018-01-04T04:15:50.000Z\",\n      \"validity_not_after\": \"2018-01-04T04:15:50.000Z\",\n      \"signing_algorithm\": \"string\",\n      \"issuer\": \"string\",\n      \"certificate\": \"string\",\n      \"intermediate_certificates\": \"string\"\n    }\n  },\n  \"meta\": {\n    \"key_0\": \"string\",\n    \"key_1\": 5301\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "face5a3c-aa9d-4620-b5cc-5d8255f908ba",
+          "name": "BigCommerce Upsert a Site’s SSL/TLS Certificate Information",
+          "request": {
+            "name": "BigCommerce Upsert a Site’s SSL/TLS Certificate Information",
+            "description": {
+              "content": "- If a value for `url` is not supplied, the saved certificate is associated with the specified site’s `primary` URL.\n- Use caution. Because this endpoint upserts, supplying an SSL certificate for a domain that already has a certificate connected overwrites the domain’s extant certificate.'",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sites",
+                ":site_id",
+                "certificate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "site_id",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"<string>\",\n  \"certificate\": {\n    \"certificate\": \"<string>\",\n    \"private_key\": \"<string>\",\n    \"intermediate_certificates\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e9fa546b-5875-493c-895e-584f82294ff4",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sites",
+                    ":site_id",
+                    "certificate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "site_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.",
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"kittens.mybigcommerce.com\",\n  \"certificate\": {\n    \"certificate\": \"<string>\",\n    \"private_key\": \"<string>\",\n    \"intermediate_certificates\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {},\n  \"meta\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dc312bb8-28fb-4d82-82d1-30f32756d4e0",
+          "name": "BigCommerce Get Site Certificates",
+          "request": {
+            "name": "BigCommerce Get Site Certificates",
+            "description": {
+              "content": "Return all SSL certificates connected to domains within a store.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sites",
+                "certificates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "urls:in",
+                  "value": "<string>",
+                  "description": "Query certificates by one or more URLs"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "05edeee5-1c11-4217-9cd5-13d74661e7e1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sites",
+                    "certificates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "urls:in",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"common_name\": \"store.com\",\n      \"subject_alternative_names\": [\n        \"store.com\",\n        \"www.store.com\"\n      ],\n      \"validity_not_before\": \"2018-01-04T04:15:50.000Z\",\n      \"validity_not_after\": \"2018-01-04T04:15:50.000Z\",\n      \"signing_algorithm\": \"string\",\n      \"issuer\": \"string\",\n      \"certificate\": \"string\",\n      \"intermediate_certificates\": \"string\"\n    },\n    {\n      \"common_name\": \"store.com\",\n      \"subject_alternative_names\": [\n        \"store.com\",\n        \"www.store.com\"\n      ],\n      \"validity_not_before\": \"2018-01-04T04:15:50.000Z\",\n      \"validity_not_after\": \"2018-01-04T04:15:50.000Z\",\n      \"signing_algorithm\": \"string\",\n      \"issuer\": \"string\",\n      \"certificate\": \"string\",\n      \"intermediate_certificates\": \"string\"\n    }\n  ],\n  \"meta\": {\n    \"key_0\": 2549\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "815a32d1-a66a-405b-99a0-8693b77709d8",
+    "name": "BigCommerce Abandoned Cart Emails Site Certificate API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

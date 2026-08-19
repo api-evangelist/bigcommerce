@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Abandoned Carts API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Abandoned Carts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get an Abandoned Cart",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/abandoned-carts/:token",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "path",
+                "description": "Unique cart `UUID`.\n\nUnique cart `UUID` token that is generated for abandoned cart emails."
+              }
+            ]
+          },
+          "docs": "Returns the `cart_id` corresponding to the abandoned cart `{token}` passed in.\n\n**Usage Notes**:\n* `{token}` is the token in the query string of the abandoned cart link found in abandoned cart email notifications to shoppers"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

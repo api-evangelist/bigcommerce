@@ -1,0 +1,201 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Placement API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Placement",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Placements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/placements",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of products.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of products.\n"
+              },
+              {
+                "name": "widget_template_kind",
+                "value": "",
+                "type": "query",
+                "description": "The kind of widget template."
+              },
+              {
+                "name": "template_file",
+                "value": "",
+                "type": "query",
+                "description": "The template file, for example: `pages/home`."
+              },
+              {
+                "name": "widget_uuid",
+                "value": "",
+                "type": "query",
+                "description": "The identifier for a specific widget."
+              },
+              {
+                "name": "widget_template_uuid",
+                "value": "",
+                "type": "query",
+                "description": "The identifier for a specific widget template."
+              },
+              {
+                "name": "channel_id:in",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of channel ids to filter the results by."
+              },
+              {
+                "name": "site_id:in",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of site IDs to filter the results by."
+              }
+            ]
+          },
+          "docs": "Returns a list of **Placements**."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Placement",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/placements",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a **Placement**.\n\n**Template Files**\n\nTo view the list of values accepted by the `template_file` property, including **custom** templates, see [Placements](/docs/storefront/widgets#placements)."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Placement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/placements/:uuid",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for a specific placement."
+              }
+            ]
+          },
+          "docs": "Returns a single **Placement**."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Placement",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/placements/:uuid",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for a specific placement."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a **Placement**."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Placement",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/content/placements/:uuid",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for a specific placement."
+              }
+            ]
+          },
+          "docs": "Deletes a **Placement**."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

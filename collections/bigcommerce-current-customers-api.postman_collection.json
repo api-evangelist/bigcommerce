@@ -1,0 +1,163 @@
+{
+  "item": [
+    {
+      "id": "bf711d5b-4560-45b8-addc-10763f6a75b2",
+      "name": "Current Customers",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "326295b8-ccc0-4c4c-ba22-ca9acf18b2a1",
+          "name": "BigCommerce Get Current Customer",
+          "request": {
+            "name": "BigCommerce Get Current Customer",
+            "description": {
+              "content": "Identify logged-in customers securely via JavaScript.\n\n> #### Note\n> The Send a Test Request feature is not currently supported for this endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "customer",
+                "current.jwt"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "app_client_id",
+                  "value": "<string>",
+                  "description": "(Required) This is your applicationʼs client ID, which is obtained during application registration in the Developer Portal."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Permanent ID of the BigCommerce store.",
+                  "type": "any",
+                  "value": "{{store_hash}}",
+                  "key": "store_hash"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bc0e1281-cefc-46a5-b4b8-b562c068e469",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "customer",
+                    "current.jwt"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "app_client_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Permanent ID of the BigCommerce store.",
+                      "type": "any",
+                      "value": "{{store_hash}}",
+                      "key": "store_hash"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Auth-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"customer\": {\n    \"id\": 4927,\n    \"email\": \"john.doe@gmail.com\",\n    \"group_id\": \"6\"\n  },\n  \"iss\": \"bc/apps\",\n  \"sub\": \"abc123\",\n  \"iat\": 1480831863,\n  \"exp\": 1480832763,\n  \"version\": 1,\n  \"aud\": \"6sv16tfx3j5gsopm42ss5dd67g2srvq\",\n  \"application_id\": \"6sv16tasdgr2b5hs5dd67g2srvq\",\n  \"store_hash\": \"abc123\",\n  \"operation\": \"current_customer\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Permanent ID of the BigCommerce store.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "store_hash",
+      "key": "store_hash"
+    },
+    {
+      "type": "string",
+      "value": "https://api.bigcommerce.com/stores/{{store_hash}}/v3",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Auth-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "60d0139a-120d-472b-beb1-8b080ecda19b",
+    "name": "BigCommerce Abandoned Cart Emails Current Customers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Abandoned Cart Emails V3 API managing Handlebars-based emails.\n\nContact Support:\n Name: BigCommerce\n Email: support@bigcommerce.com",
+      "type": "text/plain"
+    }
+  }
+}

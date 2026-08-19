@@ -1,0 +1,190 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Customers API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Customers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number. `page=1`"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items count per page. `limit=50`"
+              },
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by ID.\n`id:in=4,5,6`"
+              },
+              {
+                "name": "company:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by company. `company:in=bigcommerce,commongood`"
+              },
+              {
+                "name": "customer_group_id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by customer_group_id. `customer_group_id:in=5,6`"
+              },
+              {
+                "name": "date_created",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by date_created. `date_created=2018-09-05T13:43:54`"
+              },
+              {
+                "name": "date_created:max",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by maximum date_created. `date_created:max=2018-09-10`"
+              },
+              {
+                "name": "date_created:min",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by date_created. `date_created:min=2018-09-05`"
+              },
+              {
+                "name": "date_modified",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by date_modified. `date_modified=2018-09-05T13:45:03`"
+              },
+              {
+                "name": "date_modified:min",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by minimum date_modified. `date_modified:min=2019-09-04T:00:00:00` or `date_modified:min=2019-09-04`"
+              },
+              {
+                "name": "date_modified:max",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by maximum date_modified. `date_modified:max=2018-09-05T13:45:03` or `date_modified:max=2019-09-04`"
+              },
+              {
+                "name": "email:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by email. `email:in=janedoe@example.com`"
+              },
+              {
+                "name": "name:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by first_name and last_name. `name=james moriarty`"
+              },
+              {
+                "name": "name:like",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by substring in first_name and last_name.\n`name:like=moriarty, sherlock`\nConcatenates the first_name and last_name fields."
+              },
+              {
+                "name": "registration_ip_address:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by registration_ip_address. If the customer was created using the API, then registration address is blank.\n`registration_ip_address:in=12.345.6.789`"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "Indicates whether to include customer sub-resources:\n * `addresses` - customer addresses\n * `storecredit` - store credit\n * `attributes` - customer attributes and address attributes\n * `formfields` - customer and address form fields\n * `shopper_profile_id` - the ID of the shopper profile associated with the customer (Beta)\n * `segment_ids`- segments the customer belongs to (Beta)\n\n `include=addresses,storecredit,attributes,formfields,shopper_profile_id,segment_ids`"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort items by date_created, date_modified, or last_name:* `date_created:asc` - date created, ascending* `date_created:desc` - date created, descending* `last_name:asc` - last name, ascending* `last_name:desc` - last name, descending * `date_modified:asc` - date modified, ascending* `date_modified:desc`- date modified, descending  Example: `sort=last_name:asc`"
+              }
+            ]
+          },
+          "docs": "Returns a list of Customers. Optional filter parameters can be passed in.\n\n**Notes**\n\nAttribute names are not available on the customer object."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create Customers",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates Customers. Create up to 10 customers in one call.\n\n**Required Fields**\n* last_name\n* first_name\n* email\n\n**Required Fields Customer Address**\n* first_name\n* city\n* country_code\n* last_name\n* address1\n\n**Required Fields Attributes**\n* Attributes must be [created](/docs/rest-management/customers/customer-attributes#create-a-customer-attribute) **BEFORE** creating a customer.\n* attribute_id\n* attribute_value -- This is input as a string, regardless of the [Type](/docs/rest-management/custom"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update Customers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates Customers. Subresource updates are not supported. Up to 10 customers can be updated in one call.\n\n**Required Fields**\n* id -- ID of the *Customer* This must be included in the request body\n\n**Read Only Fields**\n* id\n* registration_ip_address\n* date_created\n* date_modified\n\n\n**Notes**\n\n* Attributes Values can not be updated using Update a Customer. Use the [Update customer attribute values](/docs/rest-management/customers/customer-attribute-values#upsert-customer-attribute-values) endpoin"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete Customers",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/customers",
+            "params": [
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter items by ID.\n`id:in=4,5,6`"
+              }
+            ]
+          },
+          "docs": "Deletes Customers.\n\n**Required Query**\n* id:in -- ID of the customer\n\n**Notes**\n\nA query is required to delete customers. If not provided, a 204 is returned, with no changes to the data."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

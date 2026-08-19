@@ -1,0 +1,211 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Banners API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Banners",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Get All Banners",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/banners",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "min_id",
+                "value": "",
+                "type": "query",
+                "description": "Optional filter param `/api/v2/banners?min_id={value}`"
+              },
+              {
+                "name": "max_id",
+                "value": "",
+                "type": "query",
+                "description": "Optional filter param `/api/v2/banners?max_id={value}`"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Optional filter param `/api/v2/banners?page={number}`"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Optional filter param `/api/v2/banners?limit={count}`"
+              }
+            ]
+          },
+          "docs": "Returns a list of *Banners*. Default sorting is by banner id, from lowest to highest."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Banner",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/banners",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a *Banner*.\n\n**Required Fields**\n* name\n* content\n* page\n* location\n* date_type\n\n**Read Only Fields**\n* date_created\n* id"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete All Banners",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/banners",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "By default, it deletes all *Banners*."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Banner",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/banners/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the banner."
+              }
+            ]
+          },
+          "docs": "Returns a single *Banner*"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Update a Banner",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/banners/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the banner."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a *Banner*.\n\n**Read Only Fields**\n* date_created\n* id"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Delete a Banner",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/banners/:id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the banner."
+              }
+            ]
+          },
+          "docs": "Deletes a *Banner*."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Count of Store Banners",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/banners/count",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Returns a count of *Banners*."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

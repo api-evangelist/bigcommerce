@@ -1,0 +1,276 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BigCommerce Abandoned Cart Emails Payment Actions API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Auth-Token",
+      "value": "{{X-Auth-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payment Actions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BigCommerce Capture order payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/orders/:order_id/payment_actions/capture",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Order` to which the transactions belong.\n"
+              }
+            ]
+          },
+          "docs": "Capture the payment for an order. When there are no payment method validation issues, the capture process is successful, the `payment_status` updates to `capture pending`, and the payment request is scheduled. The payment request itself occurs asynchronously.\nRequires at least one of the following scopes:\n* `store_v2_orders`\n* `store_v2_transactions`"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Void",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/orders/:order_id/payment_actions/void",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Order` to which the transactions belong.\n"
+              }
+            ]
+          },
+          "docs": "Void the payment for an order. When there are no payment method validation issues, the void process is successful, the `payment_status` updates to `void pending`, and the void payment request is scheduled. The payment request itself occurs asynchronously.\n\nRequires at least one of the following scopes:\n* `store_v2_orders`\n* `store_v2_transactions`"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Refund Quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/orders/:order_id/payment_actions/refund_quotes",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Order` to which the transactions belong.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Calculate the tax amount, total refund amount and get available payment options for an order refund by providing items and costs or quantities to refund.\n\nRequires at least one of the following scopes:\n* `store_v2_orders`\n* `store_v2_transactions`\n\n**Note:**\nOrder refunds are processed consecutively. Processing synchronous refunds on an order are not yet supported."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get Refunds for Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/orders/:order_id/payment_actions/refunds",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Order` to which the transactions belong.\n"
+              }
+            ]
+          },
+          "docs": "Returns a list of refunds ordered by refund ID in ascending order for the given order.\n\nRequires at least one of the following scopes:\n* `store_v2_transactions_read_only`\n* `store_v2_transactions`\n* `store_v2_orders_read_only`\n* `store_v2_orders`"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create a Refund",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/orders/:order_id/payment_actions/refunds",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              },
+              {
+                "name": "Content-Type",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the `Order` to which the transactions belong.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a refund. When there are no payment method validation issues, the refund process is successful and the refund payment request is scheduled. The payment request itself occurs asynchronously.\n\nRequires at least one of the following scopes:\n* `store_v2_orders`\n* `store_v2_transactions`\n\n**Note:**\nOrder refunds are processed consecutively. Processing synchronous refunds on an order are not yet supported."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get a Refund",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/orders/payment_actions/refunds/:refund_id",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "refund_id",
+                "value": "",
+                "type": "path",
+                "description": "Refund ID."
+              }
+            ]
+          },
+          "docs": "Returns a refund by refund ID."
+        },
+        {
+          "info": {
+            "name": "BigCommerce Get All Refunds",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/orders/payment_actions/refunds",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "order_id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter by `order_id`. Accepts multiple as comma-separated values."
+              },
+              {
+                "name": "id:in",
+                "value": "",
+                "type": "query",
+                "description": "Filter by refund `id`. Accepts multiple as comma-separated values."
+              },
+              {
+                "name": "created:min",
+                "value": "",
+                "type": "query",
+                "description": "Filter results so they are later than or equal to provided date.\n\n\nMust be in url-encoded RFC 3339 format.\ne.g. `2020-01-15T01:02:34-01:00` is RFC 3339 format.\nUrl-encoded this will be `2020-01-15T01%3A02%3A34%2B01%3A00`"
+              },
+              {
+                "name": "created:max",
+                "value": "",
+                "type": "query",
+                "description": "Filter results so they are earlier than or equal to provided date.\n\nMust be in url-encoded RFC 3339 format.\ne.g. `2020-01-15T01:02:34-01:00` is RFC 3339 format.\nUrl-encoded this will be `2020-01-15T01%3A02%3A34%2B01%3A00`"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the page number in a limited (paginated) list of items."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Controls the number of items per page in a limited (paginated) list of items."
+              }
+            ]
+          },
+          "docs": "Returns a list of refunds ordered by refund ID in ascending order.\n\nRequires at least one of the following scopes:\n* `store_v2_transactions_read_only`\n* `store_v2_transactions`\n* `store_v2_orders_read_only`\n* `store_v2_orders`"
+        },
+        {
+          "info": {
+            "name": "BigCommerce Create Refund Quotes - BATCH",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bigcommerce.com/stores/{store_hash}/v3/orders/payment_actions/refund_quotes",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Calculate the tax amount, total refund amount and get available payment options for an order refund by providing items and costs or quantities to refund.\n\nThis endpoint will accept a batch of one or more.\n\nRequires at least one of the following scopes:\n* `store_v2_orders`\n* `store_v2_transactions`"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
