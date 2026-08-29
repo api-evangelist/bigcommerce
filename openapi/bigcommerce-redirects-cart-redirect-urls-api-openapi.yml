@@ -1,9 +1,12 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Redirects - Cart Redirect URLs API
-  version: 3.0.0
+  title: BigCommerce Carts Redirects - Cart Redirect URLs API
+  version: ''
+  description: 'Create a cart using BigCommerce cart logic.
+
+
+    Manage settings related to carts.'
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
@@ -40,6 +43,50 @@ paths:
       summary: BigCommerce Create Cart Redirect URL
       operationId: createCartRedirectURL
 components:
+  schemas:
+    metaCollection_open:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    Redirect_urls_Post:
+      type: object
+      title: Redirect_urls_Post
+      properties:
+        query_params:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
+    cartId:
+      name: cartId
+      in: path
+      description: The identifier of a specific cart.
+      required: true
+      schema:
+        type: string
+        format: UUID
   responses:
     CartRedirectResponse:
       description: ''
@@ -74,50 +121,6 @@ components:
                   embedded_checkout_url: https://store.mybigcommerce.com/cart.php?embedded=1&action=loadInCheckout&id=0aa00afa-a000-00a0-00aae-aa0000f000a0&token=00aaaaa0aa0000000000a000a000f0aa0000afa00aa00afa0a000000000aa0a0
                 meta:
                   $ref: '#/components/schemas/metaCollection_open'
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
-    cartId:
-      name: cartId
-      in: path
-      description: The identifier of a specific cart.
-      required: true
-      schema:
-        type: string
-        format: UUID
-  schemas:
-    metaCollection_open:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    Redirect_urls_Post:
-      type: object
-      title: Redirect_urls_Post
-      properties:
-        query_params:
-          type: array
-          items:
-            type: object
-            properties:
-              key:
-                type: string
-              value:
-                type: string
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -128,9 +131,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |Carts|modify|`store_cart`|
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |Carts |read-only|`store_cart_read_only`|
 
 
         ### Authentication header

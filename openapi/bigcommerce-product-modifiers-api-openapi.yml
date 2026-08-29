@@ -1,13 +1,51 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Product Modifiers API
-  version: 3.0.0
+  title: BigCommerce Catalog Product Modifiers API
+  description: '> The Catalog API manages products, categories, brands, bulk pricing rules, and more. To learn more about catalog resources, see the [Catalog Overview](/docs/store-operations/catalog).
+
+
+    Product Modifiers represent choices that the shopper can make to change how the merchant customizes or adds on to the product. Examples include shipping insurance, monograms, custom inseam length, and a color selection for an unfinished product.
+
+
+    Modifier values do not change which item is picked in a warehouse, but they change what happens to that item between the warehouse shelf and the shopper taking possession of their order.
+
+
+    Critically, Modifier values do not change which Product Variant is fulfilled. You cannot track inventory for combinations of Modifier values.
+
+
+    You can add an adjuster to a Modifier value to override the underlying Product Variant''s properties, such as price, weight, and shipping rules.  Not all Modifier types are compatible with adjusters.
+
+
+    > To learn more about authenticating Catalog endpoints, locate the **Authentication** section at the top of each endpoint, then click **Show Details**.
+
+
+    ## Resources
+
+
+    ### Webhooks
+
+    Learn more about [Product webhook events](/docs/integrations/webhooks/events#products).
+
+
+    ### Additional Catalog endpoints
+
+    * [Brands](/docs/rest-catalog/brands)
+
+    * [Categories](/docs/rest-catalog/categories)
+
+    * [Category Trees](/docs/rest-catalog/category-trees)
+
+    * [Products](/docs/rest-catalog/products)
+
+    * [Product Variants](/docs/rest-catalog/product-variants)
+
+    * [Product Variant Options](/docs/rest-catalog/product-variant-options)'
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  version: ''
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -1609,86 +1647,42 @@ paths:
           description: ''
           content: {}
 components:
+  parameters:
+    ModifierIdParam:
+      name: modifier_id
+      description: 'The ID of the `Modifier`.
+
+        '
+      required: true
+      in: path
+      schema:
+        type: integer
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs.
+
+        '
+      required: true
+      schema:
+        type: integer
   schemas:
-    productModifier_Base:
-      title: productModifier_Base
-      required:
-      - required
-      - type
-      type: object
-      properties:
-        type:
-          type: string
-          description: 'BigCommerce API, which determines how it will display on the storefront. Acceptable values: `date`, `checkbox`, `file`, `text`, `multi_line_text`, `numbers_only_text`, `radio_buttons`, `rectangles`, `dropdown`, `product_list`, `product_list_with_images`, `swatch`. Required in a /POST.
-
-            '
-          enum:
-          - date
-          - checkbox
-          - file
-          - text
-          - multi_line_text
-          - numbers_only_text
-          - radio_buttons
-          - rectangles
-          - dropdown
-          - product_list
-          - product_list_with_images
-          - swatch
-          x-required:
-          - post
-        required:
-          type: boolean
-          description: 'Whether or not this modifer is required or not at checkout. Required in a /POST.
-
-            '
-          x-required:
-          - post
-        sort_order:
-          type: integer
-          description: The order the modifiers display on the product detail page.
-        config:
-          $ref: '#/components/schemas/config_Full'
-        display_name:
-          type: string
-          description: The name of the option shown on the storefront.
-      description: Common Modifier properties.
-      x-internal: false
-    adjuster_Full:
-      title: adjuster_Full
-      type: object
-      properties:
-        adjuster:
-          type: string
-          description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
-
-            '
-          nullable: true
-          enum:
-          - relative
-          - percentage
-        adjuster_value:
-          type: number
-          description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
-
-            '
-          example: 5
-      description: Adjuster for Complex Rules.
-      x-internal: false
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
     productModifierOptionValue_Full:
       title: productModifierOptionValue_Full
       description: Product Modifer `option_value`.
@@ -1703,6 +1697,77 @@ components:
               '
           option_id:
             type: integer
+      x-internal: false
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    adjuster_Full:
+      title: adjuster_Full
+      type: object
+      properties:
+        adjuster:
+          type:
+          - string
+          - 'null'
+          description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+            '
+          enum:
+          - relative
+          - percentage
+        adjuster_value:
+          type: number
+          description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+            '
+          example: 5
+      description: Adjuster for Complex Rules.
+      x-internal: false
+    productModifierOptionValue_Base:
+      title: productModifierOptionValue_Base
+      required:
+      - label
+      - sort_order
+      type: object
+      properties:
+        is_default:
+          type: boolean
+          description: 'The flag for preselecting a value as the default on the storefront. This field is not supported for swatch options/modifiers.
+
+            '
+          example: false
+        label:
+          type: string
+          description: 'The text display identifying the value on the storefront. Required in a /POST.
+
+            '
+          example: Green
+          x-required:
+          - post
+        sort_order:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: 'The order in which the value will be displayed on the product page. Required in a /POST.
+
+            '
+          example: 0
+          x-required:
+          - post
+        value_data:
+          type:
+          - object
+          - 'null'
+          properties: {}
+          description: 'Extra data describing the value, based on the type of option or modifier with which the value is associated. The `swatch` type option can accept an array of `colors`, with up to three hexidecimal color keys; or an `image_url`, which is a full image URL path including protocol. The `product list` type option requires a `product_id`. The `checkbox` type option requires a boolean flag, called `checked_value`, to determine which value is considered to be the checked state. If no data is available, returns `null`.
+
+            '
+        adjusters:
+          $ref: '#/components/schemas/adjusters_Full'
+      description: Common Product Modifer `option_value` properties.
       x-internal: false
     config_Full:
       title: config_Full
@@ -1863,36 +1928,6 @@ components:
           - package
       description: The values for option config can vary based on the Modifier created.
       x-internal: false
-    productModifier_Full:
-      title: productModifier_Full
-      description: Product Modifier
-      allOf:
-      - $ref: '#/components/schemas/productModifier_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: 'The unique numeric ID of the modifier; increments sequentially.
-
-              '
-            example: 12
-          product_id:
-            type: integer
-            description: 'The unique numeric ID of the product to which the option belongs.
-
-              '
-            example: 77
-          name:
-            type: string
-            description: 'The unique option name. Auto-generated from the display name, a timestamp, and the product ID.
-
-              '
-            example: Add-a-$5-Donation1535039590-191
-          option_values:
-            type: array
-            items:
-              $ref: '#/components/schemas/productModifierOptionValue_Full'
-      x-internal: false
     adjusters_Full:
       title: adjusters_Full
       type: object
@@ -1920,48 +1955,6 @@ components:
               description: 'The message displayed on the storefront when the purchasing disabled status is `true`.
 
                 '
-      x-internal: false
-    productModifierOptionValue_Base:
-      title: productModifierOptionValue_Base
-      required:
-      - label
-      - sort_order
-      type: object
-      properties:
-        is_default:
-          type: boolean
-          description: 'The flag for preselecting a value as the default on the storefront. This field is not supported for swatch options/modifiers.
-
-            '
-          example: false
-        label:
-          type: string
-          description: 'The text display identifying the value on the storefront. Required in a /POST.
-
-            '
-          example: Green
-          x-required:
-          - post
-        sort_order:
-          maximum: 2147483647
-          minimum: -2147483648
-          type: integer
-          description: 'The order in which the value will be displayed on the product page. Required in a /POST.
-
-            '
-          example: 0
-          x-required:
-          - post
-        value_data:
-          type: object
-          properties: {}
-          description: 'Extra data describing the value, based on the type of option or modifier with which the value is associated. The `swatch` type option can accept an array of `colors`, with up to three hexidecimal color keys; or an `image_url`, which is a full image URL path including protocol. The `product list` type option requires a `product_id`. The `checkbox` type option requires a boolean flag, called `checked_value`, to determine which value is considered to be the checked state. If no data is available, returns `null`.
-
-            '
-          nullable: true
-        adjusters:
-          $ref: '#/components/schemas/adjusters_Full'
-      description: Common Product Modifer `option_value` properties.
       x-internal: false
     pagination_Full:
       title: pagination_Full
@@ -2021,41 +2014,88 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-  parameters:
-    ModifierIdParam:
-      name: modifier_id
-      description: 'The ID of the `Modifier`.
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    productModifier_Base:
+      title: productModifier_Base
+      required:
+      - required
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: 'BigCommerce API, which determines how it will display on the storefront. Acceptable values: `date`, `checkbox`, `file`, `text`, `multi_line_text`, `numbers_only_text`, `radio_buttons`, `rectangles`, `dropdown`, `product_list`, `product_list_with_images`, `swatch`. Required in a /POST.
 
-        '
-      required: true
-      in: path
-      schema:
-        type: integer
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ProductIdParam:
-      name: product_id
-      in: path
-      description: 'The ID of the `Product` to which the resource belongs.
+            '
+          enum:
+          - date
+          - checkbox
+          - file
+          - text
+          - multi_line_text
+          - numbers_only_text
+          - radio_buttons
+          - rectangles
+          - dropdown
+          - product_list
+          - product_list_with_images
+          - swatch
+          x-required:
+          - post
+        required:
+          type: boolean
+          description: 'Whether or not this modifer is required or not at checkout. Required in a /POST.
 
-        '
-      required: true
-      schema:
-        type: integer
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
+            '
+          x-required:
+          - post
+        sort_order:
+          type: integer
+          description: The order the modifiers display on the product detail page.
+        config:
+          $ref: '#/components/schemas/config_Full'
+        display_name:
+          type: string
+          description: The name of the option shown on the storefront.
+      description: Common Modifier properties.
+      x-internal: false
+    productModifier_Full:
+      title: productModifier_Full
+      description: Product Modifier
+      allOf:
+      - $ref: '#/components/schemas/productModifier_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: 'The unique numeric ID of the modifier; increments sequentially.
+
+              '
+            example: 12
+          product_id:
+            type: integer
+            description: 'The unique numeric ID of the product to which the option belongs.
+
+              '
+            example: 77
+          name:
+            type: string
+            description: 'The unique option name. Auto-generated from the display name, a timestamp, and the product ID.
+
+              '
+            example: Add-a-$5-Donation1535039590-191
+          option_values:
+            type: array
+            items:
+              $ref: '#/components/schemas/productModifierOptionValue_Full'
+      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -2066,9 +2106,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Products | modify | `store_v2_products` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Products | read-only | `store_v2_products_read_only` |
 
 
         ### Authentication header

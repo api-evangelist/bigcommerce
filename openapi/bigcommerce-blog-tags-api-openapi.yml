@@ -1,15 +1,15 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Blog Tags API
-  version: 3.0.0
+  title: BigCommerce Content Blog Tags API
+  description: "Manage blog posts, blog tags, content pages, and redirects.\n\n> #### Warning\n> **Deprecations**\n> * Redirects V2 are deprecated; use [Redirects V3](/docs/rest-management/redirects) instead. \n> * Pages V2 are deprecated; use [Pages V3](/docs/rest-content/pages) instead."
+  version: ''
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
 servers:
-- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+- url: https://api.bigcommerce.com/stores/{store_hash}/v2
   variables:
     store_hash:
       default: store_hash
@@ -39,15 +39,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/blogTags'
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
     blogTags:
       title: blogTags
@@ -67,6 +58,15 @@ components:
             items:
               type: integer
       x-internal: false
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -77,9 +77,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Content | modify | `store_v2_content` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Content | read-only | `store_v2_content_read_only` |
 
 
         ### Authentication header

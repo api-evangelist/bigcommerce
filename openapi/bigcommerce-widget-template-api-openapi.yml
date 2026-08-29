@@ -1,9 +1,42 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Widget Template API
-  version: 3.0.0
+  title: BigCommerce Widgets Widget Template API
+  version: ''
+  description: 'Create and manage widget templates, widgets, regions, and placements.
+
+
+    ## Subresources
+
+
+    ### Widget templates
+
+    [Widget templates](/docs/rest-content/widgets/widget-template) are reusable Handlebars-enabled HTML templates that define the structure of the widget on a page.
+
+
+    ### Widgets
+
+    [Widgets](/docs/rest-content/widgets/widget) are units of content placed on specific pages in a Stencil theme. Widgets consist of a widget configuration and a widget template UUID and render as part of the storefront’s HTML.
+
+
+    ### Regions
+
+    [Regions](/docs/rest-content/widgets/regions) are specific locations in the Stencil theme template files where you can place a widget.
+
+
+    ### Placements
+
+    [Placements](/docs/rest-content/widgets/placement) determine the region where you place widgets and in what order.
+
+
+    ## Additional Information
+
+
+    * [Widgets API Overview](/docs/storefront/widgets)
+
+    * [Widget UI Schema](/docs/storefront/widgets/input-reference/schema)
+
+    * [Widget UI Input Types](/docs/storefront/widgets/input-reference/settings)'
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
@@ -193,267 +226,6 @@ paths:
       description: Deletes a **Widget Template**.
 components:
   schemas:
-    metaCollection:
-      type: object
-      description: Data about the response, including pagination and collection totals.
-      title: metaCollection
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination'
-      x-internal: false
-    widgetSchema:
-      type: array
-      description: 'The schema for the widget’s merchant-facing UI. For more information on the available schema settings, see [Widget UI Schema](/docs/storefront/widgets/input-reference/schema). '
-      title: ''
-      items:
-        anyOf:
-        - $ref: '#/components/schemas/widgetSchemaTab'
-        - $ref: '#/components/schemas/widgetSchemaArray'
-        - $ref: '#/components/schemas/widgetSchemaHidden'
-      x-internal: false
-    Meta:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    widgetSchemaHidden:
-      type: object
-      title: widgetSchemaHidden
-      description: '**Hidden.** Use the **hidden** settings type to create controls that have no user interface drawn in Page Builder. Hidden settings are not grouped into any other tabs or arrays.'
-      x-internal: false
-      properties:
-        type:
-          type: string
-          enum:
-          - hidden
-          example: hidden
-        settings:
-          type: array
-          items:
-            type: object
-            title: widgetSchemaSetting_Base
-            description: For examples of each type of setting, see [Page Builder > Schema Settings](/docs/storefront/widgets/input-reference/settings#alignment) in Theme Docs.
-            properties:
-              type:
-                type: string
-                description: 'The type of setting component to display. You can view the list of elements below to discover which are available to use.
-
-
-                  For examples of each type of setting, see [Page Builder > Schema Settings](/docs/storefront/widgets/input-reference/settings#alignment) in Theme Docs.'
-                enum:
-                - alignment
-                - boolean
-                - boxModel
-                - code
-                - color
-                - imageManager
-                - input
-                - number
-                - productId
-                - productImage
-                - range
-                - regexInput
-                - select
-                - text
-                - toggle
-              label:
-                type: string
-                description: The user friendly message to inform the user how this setting will be used.
-              id:
-                type: string
-                description: The variable name where the setting value will be available in the widget template.
-              default:
-                type: string
-                description: The default value to use when rendering the widget for the first time. Make sure to set sensible defaults to make your widget easier to use.
-              typeMeta:
-                type: object
-                description: Additional information needed based on the selected setting type.
-                properties:
-                  selectOptions:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        label:
-                          type: string
-                          example: Image
-                        value:
-                          type: string
-                          example: image
-              conditional:
-                type: object
-                title: widgetSchemaConditional
-                description: An optional property that can be added to each setting to control whether it should be displayed to the user while editing in Page Builder. This does not clear the value in the setting, just controls the display of the setting.
-                x-examples:
-                  Conditional attribute:
-                    key: backgroundType
-                    operator: IN
-                    value:
-                    - color
-                properties:
-                  key:
-                    type: string
-                    description: The ID of the `setting` object the conditional attribute is related to.
-                    example: backgroundType
-                  operator:
-                    type: string
-                    description: 'Specifies the operation used to determine whether to display the setting. The `IN` operator is currently the only supported operator. The setting will be displayed if the conditional’s `value` property is equal to the selected value of the `selectOptions`. '
-                    example: IN
-                  value:
-                    type: array
-                    description: A single-object array containing a value from the `typeMeta`'s `selectOptions`.
-                    items: {}
-    widgetTemplate_Put:
-      allOf:
-      - $ref: '#/components/schemas/widgetTemplate_Base'
-      - type: object
-        properties:
-          create_new_version:
-            type: boolean
-            description: Can be added to create a new widget template version instead of updating the current one.
-          channel_id:
-            type: integer
-            description: The id of the channel on which to place this template.
-      title: widgetTemplate_Put
-      x-internal: false
-    WidgetTemplatePreviewResponse:
-      type: object
-      properties:
-        data:
-          properties:
-            html:
-              type: string
-              description: The HTML render of the widget template.
-              format: html
-      x-tags:
-      - Models
-      title: ''
-    WidgetTemplatePreview:
-      properties:
-        widget_configuration:
-          type: object
-          description: The JSON data that populates the template.
-          format: json
-      x-tags:
-      - Models
-    widgetSchemaArray:
-      type: object
-      title: widgetSchemaArray
-      description: '**Array.** Use the **array** settings type to build collections of elements within the widget. Each element in the array can contain tabs, sections, and an entire schema.'
-      properties:
-        type:
-          type: string
-          enum:
-          - array
-        label:
-          type: string
-        id:
-          type: string
-        defaultCount:
-          type: integer
-          description: number of elements in the list to display by default.
-        entryLabel:
-          type: string
-          description: name for each element in the list
-        thumbnail:
-          type: object
-          description: used to display an image stored at the specified attribute name
-          properties:
-            type:
-              type: string
-              example: image
-            valueKey:
-              type: string
-              example: imageUrl.src
-        schema:
-          description: The schema used for each element in the array.
-          type: array
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/widgetSchemaHidden'
-            - $ref: '#/components/schemas/widgetSchemaTab'
-      x-internal: false
-    widgetTemplate_Base:
-      type: object
-      title: widgetTemplate_Base
-      properties:
-        name:
-          type: string
-          description: The user-friendly name.
-        schema:
-          $ref: '#/components/schemas/widgetSchema'
-        template:
-          type: string
-          format: html
-          description: The widget template HTML. Supports Handlebars and Paper helpers.
-        storefront_api_query:
-          type: string
-          description: The GraphQL Storefront API query that provides widget data.
-      description: ''
-      x-internal: false
-    widgetTemplate_Post:
-      title: widgetTemplate_Post
-      type: object
-      description: ''
-      x-internal: false
-      properties:
-        name:
-          type: string
-          description: User-friendly name.
-        schema:
-          $ref: '#/components/schemas/widgetSchema'
-        template:
-          type: string
-          description: Handlebars HTML content. Also has access to Stencil Paper helpers.
-          format: html
-        storefront_api_query:
-          type: string
-          description: The GraphQL Storefront API query that provides widget data.
-        channel_id:
-          type: integer
-          description: The id of the channel on which to create this template. Defaults to the first channel created on the store.
-      required:
-      - name
-      - template
-      x-examples:
-        example-1:
-          name: string
-          schema:
-          - tab
-          template: string
-          storefront_api_query: string
-          channel_id: 0
-    widgetTemplate_Full:
-      allOf:
-      - $ref: '#/components/schemas/widgetTemplate_Base'
-      - type: object
-        properties:
-          uuid:
-            type: string
-            format: uuid
-            description: The primary identifier.
-          kind:
-            type: string
-            description: The kind of widget template.
-          date_created:
-            type: string
-            format: date-time
-            description: The date on which this object was initially created.
-          date_modified:
-            type: string
-            format: date-time
-            description: The date on which this object was last updated.
-          current_version_uuid:
-            type: string
-            description: The identifier to the current version of this widget template.
-          icon_name:
-            type: string
-            default: default
-            description: A read-only value. Do not attempt to set or modify this value in a POST or PUT operation.
-      title: widgetTemplate_Full
-      description: ''
-      x-internal: false
     widgetSchemaTab:
       type: object
       title: widgetSchemaTab
@@ -558,6 +330,148 @@ components:
                           items: {}
       x-internal: false
       x-examples: {}
+    widgetTemplate_Full:
+      allOf:
+      - $ref: '#/components/schemas/widgetTemplate_Base'
+      - type: object
+        properties:
+          uuid:
+            type: string
+            format: uuid
+            description: The primary identifier.
+          kind:
+            type: string
+            description: The kind of widget template.
+          date_created:
+            type: string
+            format: date-time
+            description: The date on which this object was initially created.
+          date_modified:
+            type: string
+            format: date-time
+            description: The date on which this object was last updated.
+          current_version_uuid:
+            type: string
+            description: The identifier to the current version of this widget template.
+          icon_name:
+            type: string
+            default: default
+            description: A read-only value. Do not attempt to set or modify this value in a POST or PUT operation.
+      title: widgetTemplate_Full
+      description: ''
+      x-internal: false
+    metaCollection:
+      type: object
+      description: Data about the response, including pagination and collection totals.
+      title: metaCollection
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination'
+      x-internal: false
+    error_Base:
+      type: object
+      description: Error payload for the BigCommerce API.
+      properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+        title:
+          description: The error title describing the particular error.
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+      x-internal: false
+      title: error_Base
+    WidgetTemplatePreviewResponse:
+      type: object
+      properties:
+        data:
+          properties:
+            html:
+              type: string
+              description: The HTML render of the widget template.
+              format: html
+      x-tags:
+      - Models
+      title: ''
+    widgetSchema:
+      type: array
+      description: 'The schema for the widget’s merchant-facing UI. For more information on the available schema settings, see [Widget UI Schema](/docs/storefront/widgets/input-reference/schema). '
+      title: ''
+      items:
+        anyOf:
+        - $ref: '#/components/schemas/widgetSchemaTab'
+        - $ref: '#/components/schemas/widgetSchemaArray'
+        - $ref: '#/components/schemas/widgetSchemaHidden'
+      x-internal: false
+    widgetTemplate_Base:
+      type: object
+      title: widgetTemplate_Base
+      properties:
+        name:
+          type: string
+          description: The user-friendly name.
+        schema:
+          $ref: '#/components/schemas/widgetSchema'
+        template:
+          type: string
+          format: html
+          description: The widget template HTML. Supports Handlebars and Paper helpers.
+        storefront_api_query:
+          type: string
+          description: The GraphQL Storefront API query that provides widget data.
+      description: ''
+      x-internal: false
+    widgetTemplate_Post:
+      title: widgetTemplate_Post
+      type: object
+      description: ''
+      x-internal: false
+      properties:
+        name:
+          type: string
+          description: User-friendly name.
+        schema:
+          $ref: '#/components/schemas/widgetSchema'
+        template:
+          type: string
+          description: Handlebars HTML content. Also has access to Stencil Paper helpers.
+          format: html
+        storefront_api_query:
+          type: string
+          description: The GraphQL Storefront API query that provides widget data.
+        channel_id:
+          type: integer
+          description: The id of the channel on which to create this template. Defaults to the first channel created on the store.
+      required:
+      - name
+      - template
+      x-examples:
+        example-1:
+          name: string
+          schema:
+          - tab
+          template: string
+          storefront_api_query: string
+          channel_id: 0
+    Meta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    WidgetTemplatePreview:
+      properties:
+        widget_configuration:
+          type: object
+          description: The JSON data that populates the template.
+          format: json
+      x-tags:
+      - Models
     pagination:
       type: object
       description: 'Data about the response, including pagination and collection totals.
@@ -612,89 +526,144 @@ components:
                 '
       title: pagination
       x-internal: false
-    error_Base:
+    widgetSchemaHidden:
       type: object
-      description: Error payload for the BigCommerce API.
+      title: widgetSchemaHidden
+      description: '**Hidden.** Use the **hidden** settings type to create controls that have no user interface drawn in Page Builder. Hidden settings are not grouped into any other tabs or arrays.'
+      x-internal: false
       properties:
-        status:
-          description: The HTTP status code.
-          type: integer
-        title:
-          description: The error title describing the particular error.
-          type: string
         type:
           type: string
-        instance:
-          type: string
-        errors:
-          type: object
-      x-internal: false
-      title: error_Base
-  parameters:
-    TemplateUUID:
-      name: uuid
-      description: The identifier for a specific template.
-      required: true
-      in: path
-      schema:
-        type: string
-        format: uuid
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-  responses:
-    WidgetTemplate_Resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            allOf:
-            - type: object
-              properties:
-                data:
-                  $ref: '#/components/schemas/widgetTemplate_Full'
-            - properties:
-                meta:
-                  $ref: '#/components/schemas/Meta'
-          examples:
-            response:
-              value:
-                data:
-                  channel_id: 1
-                  client_rerender: false
-                  current_version_uuid: 4bd7619e-7992-4454-8610-84fb16449761
-                  date_created: '2020-12-21T19:36:16.896Z'
-                  date_modified: '2020-12-21T19:36:16.896Z'
-                  icon_name: default
-                  kind: custom
-                  name: Header Images
-                  schema: []
-                  storefront_api_query: ''
-                  template: '{{#each images}}{{/each}}'
-                  template_engine: handlebars_v3
-                  uuid: f8459145-da8f-4d98-93e4-83aa47da61c6
-                meta: {}
-    Error422_Resp:
-      description: 'This is the result of missing required fields, or of invalid data. See the response for more details.
+          enum:
+          - hidden
+          example: hidden
+        settings:
+          type: array
+          items:
+            type: object
+            title: widgetSchemaSetting_Base
+            description: For examples of each type of setting, see [Page Builder > Schema Settings](/docs/storefront/widgets/input-reference/settings#alignment) in Theme Docs.
+            properties:
+              type:
+                type: string
+                description: 'The type of setting component to display. You can view the list of elements below to discover which are available to use.
 
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Base'
+
+                  For examples of each type of setting, see [Page Builder > Schema Settings](/docs/storefront/widgets/input-reference/settings#alignment) in Theme Docs.'
+                enum:
+                - alignment
+                - boolean
+                - boxModel
+                - code
+                - color
+                - imageManager
+                - input
+                - number
+                - productId
+                - productImage
+                - range
+                - regexInput
+                - select
+                - text
+                - toggle
+              label:
+                type: string
+                description: The user friendly message to inform the user how this setting will be used.
+              id:
+                type: string
+                description: The variable name where the setting value will be available in the widget template.
+              default:
+                type: string
+                description: The default value to use when rendering the widget for the first time. Make sure to set sensible defaults to make your widget easier to use.
+              typeMeta:
+                type: object
+                description: Additional information needed based on the selected setting type.
+                properties:
+                  selectOptions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        label:
+                          type: string
+                          example: Image
+                        value:
+                          type: string
+                          example: image
+              conditional:
+                type: object
+                title: widgetSchemaConditional
+                description: An optional property that can be added to each setting to control whether it should be displayed to the user while editing in Page Builder. This does not clear the value in the setting, just controls the display of the setting.
+                x-examples:
+                  Conditional attribute:
+                    key: backgroundType
+                    operator: IN
+                    value:
+                    - color
+                properties:
+                  key:
+                    type: string
+                    description: The ID of the `setting` object the conditional attribute is related to.
+                    example: backgroundType
+                  operator:
+                    type: string
+                    description: 'Specifies the operation used to determine whether to display the setting. The `IN` operator is currently the only supported operator. The setting will be displayed if the conditional’s `value` property is equal to the selected value of the `selectOptions`. '
+                    example: IN
+                  value:
+                    type: array
+                    description: A single-object array containing a value from the `typeMeta`'s `selectOptions`.
+                    items: {}
+    widgetSchemaArray:
+      type: object
+      title: widgetSchemaArray
+      description: '**Array.** Use the **array** settings type to build collections of elements within the widget. Each element in the array can contain tabs, sections, and an entire schema.'
+      properties:
+        type:
+          type: string
+          enum:
+          - array
+        label:
+          type: string
+        id:
+          type: string
+        defaultCount:
+          type: integer
+          description: number of elements in the list to display by default.
+        entryLabel:
+          type: string
+          description: name for each element in the list
+        thumbnail:
+          type: object
+          description: used to display an image stored at the specified attribute name
+          properties:
+            type:
+              type: string
+              example: image
+            valueKey:
+              type: string
+              example: imageUrl.src
+        schema:
+          description: The schema used for each element in the array.
+          type: array
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/widgetSchemaHidden'
+            - $ref: '#/components/schemas/widgetSchemaTab'
+      x-internal: false
+    widgetTemplate_Put:
+      allOf:
+      - $ref: '#/components/schemas/widgetTemplate_Base'
+      - type: object
+        properties:
+          create_new_version:
+            type: boolean
+            description: Can be added to create a new widget template version instead of updating the current one.
+          channel_id:
+            type: integer
+            description: The id of the channel on which to place this template.
+      title: widgetTemplate_Put
+      x-internal: false
+  responses:
     Error404_Resp:
       description: The resource was not found.
       content:
@@ -709,6 +678,14 @@ components:
                 type: string
                 instance: string
                 errors: {}
+    Error422_Resp:
+      description: 'This is the result of missing required fields, or of invalid data. See the response for more details.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Base'
     WidgetTemplateCollection_Resp:
       description: ''
       content:
@@ -828,6 +805,62 @@ components:
                     per_page: 50
                     current_page: 1
                     total_pages: 1
+    WidgetTemplate_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            allOf:
+            - type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/widgetTemplate_Full'
+            - properties:
+                meta:
+                  $ref: '#/components/schemas/Meta'
+          examples:
+            response:
+              value:
+                data:
+                  channel_id: 1
+                  client_rerender: false
+                  current_version_uuid: 4bd7619e-7992-4454-8610-84fb16449761
+                  date_created: '2020-12-21T19:36:16.896Z'
+                  date_modified: '2020-12-21T19:36:16.896Z'
+                  icon_name: default
+                  kind: custom
+                  name: Header Images
+                  schema: []
+                  storefront_api_query: ''
+                  template: '{{#each images}}{{/each}}'
+                  template_engine: handlebars_v3
+                  uuid: f8459145-da8f-4d98-93e4-83aa47da61c6
+                meta: {}
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    TemplateUUID:
+      name: uuid
+      description: The identifier for a specific template.
+      required: true
+      in: path
+      schema:
+        type: string
+        format: uuid
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -838,9 +871,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Content | modify | `store_v2_content` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Content | read-only | `store_v2_content_read_only` |
 
 
         ### Authentication header

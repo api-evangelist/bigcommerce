@@ -1,13 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Storefront Category API
-  version: 3.0.0
+  description: Manage settings and configuration for BigCommerce hosted stores and headless storefronts.
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  title: BigCommerce Settings V3 Storefront Category API
+  version: 3.0.0
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -72,6 +72,51 @@ paths:
       tags:
       - Storefront Category
 components:
+  schemas:
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    CategoryListingModeEnumValues:
+      type: string
+      enum:
+      - current_category_only
+      - child_categories
+      - child_categories_if_category_empty
+      title: CategoryListingModeEnumValues
+      x-tags:
+      - Models
+    ProductSortEnumValues:
+      description: The available sorts for PLP pages.
+      type: string
+      default: bestselling
+      enum:
+      - featured
+      - bestselling
+      - newest
+      - alphaasc
+      - alphadesc
+      - pricedesc
+      - priceasc
+      - avgcustomerreview
+      - relevance
+      title: ProductSortEnumValues
+      x-internal: false
+    StorefrontCategorySettings:
+      type: object
+      properties:
+        category_tree_depth:
+          type: integer
+          maximum: 8
+          minimum: 1
+        default_product_sort:
+          $ref: '#/components/schemas/ProductSortEnumValues'
+        listing_mode:
+          $ref: '#/components/schemas/CategoryListingModeEnumValues'
+      x-tags:
+      - Models
   parameters:
     Accept:
       name: Accept
@@ -95,51 +140,6 @@ components:
       name: channel_id
       schema:
         type: integer
-  schemas:
-    CategoryListingModeEnumValues:
-      type: string
-      enum:
-      - current_category_only
-      - child_categories
-      - child_categories_if_category_empty
-      title: CategoryListingModeEnumValues
-      x-tags:
-      - Models
-    StorefrontCategorySettings:
-      type: object
-      properties:
-        category_tree_depth:
-          type: integer
-          maximum: 8
-          minimum: 1
-        default_product_sort:
-          $ref: '#/components/schemas/ProductSortEnumValues'
-        listing_mode:
-          $ref: '#/components/schemas/CategoryListingModeEnumValues'
-      x-tags:
-      - Models
-    ProductSortEnumValues:
-      description: The available sorts for PLP pages.
-      type: string
-      default: bestselling
-      enum:
-      - featured
-      - bestselling
-      - newest
-      - alphaasc
-      - alphadesc
-      - pricedesc
-      - priceasc
-      - avgcustomerreview
-      - relevance
-      title: ProductSortEnumValues
-      x-internal: false
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
   responses:
     422ErrorResp:
       description: '`422 Unprocessable Entity` Provided settings could not be applied for some reason - detailed errors in the response.
@@ -188,9 +188,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Information & Settings | modify | `store_v2_information` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Information & Settings | read-only | `store_v2_information_read_only` |
 
 
         ### Authentication header

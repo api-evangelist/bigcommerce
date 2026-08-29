@@ -1,9 +1,12 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Settings API
-  version: 3.0.0
+  title: BigCommerce Carts Settings API
+  version: ''
+  description: 'Create a cart using BigCommerce cart logic.
+
+
+    Manage settings related to carts.'
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
@@ -185,6 +188,80 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       operationId: updateChannelCartSettings
 components:
+  schemas:
+    GlobalCartSettingsRequest:
+      allOf:
+      - $ref: '#/components/schemas/CartSettings'
+      - description: The request object for updating the cart settings of a store at the global level.
+        required:
+        - allow_purchasing
+      x-tags:
+      - Models
+    ChannelCartSettingsRequest:
+      allOf:
+      - $ref: '#/components/schemas/ChannelCartSettings'
+      - description: The request object for updating the cart settings overrides of a store for a channel.
+      x-tags:
+      - Models
+    metaCollection_open:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+      x-tags:
+      - Models
+    ChannelCartSettingsResponse:
+      description: The response object of cart settings overrides for a channel.
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ChannelCartSettings'
+        meta:
+          $ref: '#/components/schemas/metaCollection_open'
+      x-tags:
+      - Models
+    ChannelCartSettings:
+      description: Represents all settings overrides related to the shopping cart functionality of a store for a channel.
+      type: object
+      properties:
+        allow_purchasing:
+          type:
+          - boolean
+          - 'null'
+      x-tags:
+      - Models
+    CartSettings:
+      description: Represents all settings related to the shopping cart functionality of a store.
+      type: object
+      properties:
+        allow_purchasing:
+          type: boolean
+      x-tags:
+      - Models
+    GlobalCartSettingsResponse:
+      description: The response object of cart settings at the global level.
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CartSettings'
+        meta:
+          $ref: '#/components/schemas/metaCollection_open'
+      x-tags:
+      - Models
   parameters:
     Accept:
       name: Accept
@@ -201,79 +278,6 @@ components:
       schema:
         type: string
         default: application/json
-  schemas:
-    metaCollection_open:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ChannelCartSettingsResponse:
-      description: The response object of cart settings overrides for a channel.
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ChannelCartSettings'
-        meta:
-          $ref: '#/components/schemas/metaCollection_open'
-      x-tags:
-      - Models
-    ErrorResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-        title:
-          type: string
-        type:
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-      x-tags:
-      - Models
-    GlobalCartSettingsResponse:
-      description: The response object of cart settings at the global level.
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/CartSettings'
-        meta:
-          $ref: '#/components/schemas/metaCollection_open'
-      x-tags:
-      - Models
-    CartSettings:
-      description: Represents all settings related to the shopping cart functionality of a store.
-      type: object
-      properties:
-        allow_purchasing:
-          type: boolean
-      x-tags:
-      - Models
-    ChannelCartSettingsRequest:
-      allOf:
-      - $ref: '#/components/schemas/ChannelCartSettings'
-      - description: The request object for updating the cart settings overrides of a store for a channel.
-      x-tags:
-      - Models
-    GlobalCartSettingsRequest:
-      allOf:
-      - $ref: '#/components/schemas/CartSettings'
-      - description: The request object for updating the cart settings of a store at the global level.
-        required:
-        - allow_purchasing
-      x-tags:
-      - Models
-    ChannelCartSettings:
-      description: Represents all settings overrides related to the shopping cart functionality of a store for a channel.
-      type: object
-      properties:
-        allow_purchasing:
-          type: boolean
-          nullable: true
-      x-tags:
-      - Models
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -284,9 +288,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |Carts|modify|`store_cart`|
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |Carts |read-only|`store_cart_read_only`|
 
 
         ### Authentication header

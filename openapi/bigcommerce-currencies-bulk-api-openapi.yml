@@ -1,15 +1,15 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Currencies (Bulk) API
-  version: 3.0.0
+  title: BigCommerce Currencies Currencies (Bulk) API
+  description: "Manage alternate currency display options on the storefront.\n\n## Definitions\n\n| Name | Description |\n| -- | -- |\n| Default Currency | Storeʼs default currency is the one from which any auto-conversion of pricing (product, tax, shipping, promotions) will happen.|\n| Display Currency | Currency that is displayed on the storefront. This might or might not mean that shopper can actually transact in that currency. Display currency is also often called \"presentment currency\" in the payments industry. |\n| Transactional Currency | Transactional currency is what currency and amount BigCommerce passes to the payment provider and the currency/amount that the shopper will be charged to their bank account. If thereʼs a discrepancy between the storefront display currency and the transactional currency, a shopper has to pay a conversion fee and the conversion rate that will be used will be outside of BigCommerceʼs purview. |\n| Settlement Currency | This is the currency in which the merchant gets paid out to their bank account. If thereʼs a discrepancy between the currency that shopper transacts in and the currency in which merchant settles, merchant has to pay a conversion fee and the conversion rate used will be outside of BigCommerceʼs purview. Merchant is able to set their settlement currency through their payment provider. |\n|BigCommerce Conversion Rate | Any conversion rate set on BigCommerce used to convert product’s default currency pricing into a new non-default currency. Conversion rate could be static or dynamic. |\n| Static Conversion Rate | One of the two auto-converted pricing options. If a merchant manually enters a static conversion rate, then the conversion rate will remain the same until/unless merchant updates their currency settings to use a different conversion rate. The advantage of using this method is to avoid constantly fluctuating price in non-default currencies. |\n| Dynamic Conversion Rate | One of the two auto-converted pricing options. If a merchant selects a dynamic conversion rate, theyʼve tied themselves to a currency conversion service, which will update the conversion rate at a certain frequency. This helps shopper-facing pricing remain most aligned to the storeʼs default currency and keeps non-default currency conversion rate at market rate. Merchant can either use BigCommerce Currency Service provided in the Currency setup page, or they can use API to automatically update the exchange rate from their trusted source. |\n| Bank Conversion Rate | Conversion rate used by merchant’s or shopper’s payment or credit card provider when auto-converting from store’s transactional currency. This rate might not align with the BigCommerce conversion rate and BigCommerce has no visibility into it. |\n| Multi Currency Pricing | Rather than opting for auto-converting product pricing from default currency using BigCommerce conversion rate, merchant has a choice to set price per product per currency. This will be implemented through price lists. |\n\n## FAQ\n\n**Do Multi-Currency settings work with the Checkout SDK?**  \nThe Checkout SDK works with multi-currency. There is no additional setup needed for the SDK.\nAfter setting up currency in the Control Panel the SDK will work as normal.\n\n## Resources\n\n- [How Currencies Work](/docs/store-operations/currencies/guide)\n- [Price List API Reference](/docs/rest-management/price-lists)\n- [Using Price Lists (Help Center)](https://support.bigcommerce.com/s/article/Price-Lists)\n- [Managing Currencies (Help Center)](https://support.bigcommerce.com/s/article/Managing-Currencies-Beta) \n- [Tax (Help Center)](https://support.bigcommerce.com/s/article/Manual-Tax-Setup#intro1)"
+  version: ''
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
 servers:
-- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+- url: https://api.bigcommerce.com/stores/{store_hash}/v2
   variables:
     store_hash:
       default: store_hash
@@ -108,6 +108,8 @@ components:
         type: string
         default: application/json
   schemas:
+    currency_Post:
+      $ref: '#/components/schemas/currency_Base'
     currency_Base:
       title: currency_Base
       required:
@@ -224,8 +226,6 @@ components:
             description: Date the currency was last updated, created or modified.
             format: date-time
       x-internal: false
-    currency_Post:
-      $ref: '#/components/schemas/currency_Base'
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -236,9 +236,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Information & Settings | modify | `store_v2_information` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Information & Settings | read-only | `store_v2_information_read_only` |
 
 
         ### Authentication header

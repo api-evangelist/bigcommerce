@@ -1,15 +1,15 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Store Information API
-  version: 3.0.0
+  version: ''
+  title: BigCommerce Store Information API
+  description: Get Store Information endpoint, manage store profile settings.
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
 servers:
-- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+- url: https://api.bigcommerce.com/stores/{store_hash}/v2
   variables:
     store_hash:
       default: store_hash
@@ -100,15 +100,6 @@ paths:
                         active: 3
                         total_including_inactive: 4
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body. The default is application/xml, but application/json is available when specified.
-      schema:
-        type: string
-        default: application/xml
   schemas:
     Timezone:
       title: Time Zone
@@ -132,23 +123,6 @@ components:
           type: boolean
         date_format:
           $ref: '#/components/schemas/DateFormat'
-      x-internal: false
-    DateFormat:
-      title: Date Format
-      type: object
-      properties:
-        display:
-          description: A string that defines dates’ display format, in the pattern `M jS Y`.
-          example: M jS Y
-          type: string
-        export:
-          description: A string that defines the CSV export format for orders, customers, and products, in the pattern `M jS Y`.
-          example: M jS Y
-          type: string
-        extended_display:
-          description: A string that defines dates’ extended-display format, in the pattern `M jS Y @ g:i A`.
-          example: M jS Y @ g:i A
-          type: string
       x-internal: false
     StoreInformation:
       title: Store Information
@@ -363,6 +337,32 @@ components:
                   default: 1
                   example: 15
                   description: Describes the total number of storefronts associated with the store, including both active and inactive storefronts. The default varies based on store plan.
+    DateFormat:
+      title: Date Format
+      type: object
+      properties:
+        display:
+          description: A string that defines dates’ display format, in the pattern `M jS Y`.
+          example: M jS Y
+          type: string
+        export:
+          description: A string that defines the CSV export format for orders, customers, and products, in the pattern `M jS Y`.
+          example: M jS Y
+          type: string
+        extended_display:
+          description: A string that defines dates’ extended-display format, in the pattern `M jS Y @ g:i A`.
+          example: M jS Y @ g:i A
+          type: string
+      x-internal: false
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body. The default is application/xml, but application/json is available when specified.
+      schema:
+        type: string
+        default: application/xml
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -373,9 +373,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Information & Settings | modify | `store_v2_information` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Information & Settings | read-only | `store_v2_information_read_only` |
 
 
         ### Authentication header

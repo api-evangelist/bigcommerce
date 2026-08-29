@@ -1,9 +1,9 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Abandoned Carts API
-  version: 3.0.0
+  version: ''
+  title: BigCommerce Abandoned Carts API
+  description: Use `/abandoned-carts/{token}` on headless storefronts to retrieve the `cart_id` using the abandoned cart `token` passed to the storefront when a shopper clicks an abandoned cart email link. Once the cart ID has been retrieved, your application can use it to fetch and display information about the cart to the shopper using the REST Storefront API, the REST Management API, or the GraphQL Storefront API.
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
@@ -61,32 +61,7 @@ paths:
       tags:
       - Abandoned Carts
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
-    errorDetailed_Full:
-      type: object
-      properties:
-        errors:
-          type: object
-          additionalProperties:
-            type: string
-          title: DetailedErrors
-      title: errorDetailed_Full
-      x-internal: false
-    metaEmpty_Full:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     error_Full:
       type: object
       title: error_Full
@@ -104,6 +79,16 @@ components:
         type:
           type: string
       x-internal: false
+    errorDetailed_Full:
+      type: object
+      properties:
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+          title: DetailedErrors
+      title: errorDetailed_Full
+      x-internal: false
     abandonedCartInfo_Full:
       type: object
       title: abandonedCartInfo_Full
@@ -112,7 +97,36 @@ components:
           type: string
           description: The `cart_id` of the abandoned cart. Can be used to display the abandoned cart to the customer using storefront cart or server-to-server cart APIs.
       x-internal: false
+    metaEmpty_Full:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   responses:
+    503_ServiceUnavailable:
+      description: If this occurs, you should retry the request. If you are unable to successfully make a request, please check the BigCommerce system status [here](https://status.bigcommerce.com/). A service is likely down and the request will need to be made again when it is back up (in several hours usually)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 503
+                title: Service Unavailable
+                type: /api-docs/getting-started/api-status-codes
+    abandonedCart_Resp:
+      description: Returned on `GET` requests to `/abandoned_carts`.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/abandonedCartInfo_Full'
+              meta:
+                $ref: '#/components/schemas/metaEmpty_Full'
     404_NotFound:
       description: If the requested account resource is not found for the franchise, return a 404 Not Found.
       content:
@@ -124,6 +138,18 @@ components:
               value:
                 status: 404
                 title: Account with {id} not found
+                type: /api-docs/getting-started/api-status-codes
+    502_GatewayError:
+      description: If something happens during the request that causes it to fail, a 502 response will be returned. A new request should be made; however, it could fail.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 502
+                title: A login URL could not be generated. Please try another request.
                 type: /api-docs/getting-started/api-status-codes
     422_UnprocessableEntity:
       description: This occurs when missing or unacceptable data is passed for one or more fields. Please correct the values for the fields listed in the errors object.
@@ -140,29 +166,6 @@ components:
                 errors:
                   name: error.expected.jsstring
                   primary_contact.district: error.expected.jsstring.
-    502_GatewayError:
-      description: If something happens during the request that causes it to fail, a 502 response will be returned. A new request should be made; however, it could fail.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 502
-                title: A login URL could not be generated. Please try another request.
-                type: /api-docs/getting-started/api-status-codes
-    abandonedCart_Resp:
-      description: Returned on `GET` requests to `/abandoned_carts`.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                $ref: '#/components/schemas/abandonedCartInfo_Full'
-              meta:
-                $ref: '#/components/schemas/metaEmpty_Full'
     400_BadRequest:
       description: 'Malformed request syntax. Typically need to fix the JSON
 
@@ -190,18 +193,15 @@ components:
                 title: Gateway Timeout
                 type: /api-docs/getting-started/api-status-codes
                 errors: {}
-    503_ServiceUnavailable:
-      description: If this occurs, you should retry the request. If you are unable to successfully make a request, please check the BigCommerce system status [here](https://status.bigcommerce.com/). A service is likely down and the request will need to be made again when it is back up (in several hours usually)
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 503
-                title: Service Unavailable
-                type: /api-docs/getting-started/api-status-codes
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

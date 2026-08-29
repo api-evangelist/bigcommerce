@@ -1,13 +1,15 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Theme Custom Templates API
-  version: 3.0.0
+  title: BigCommerce Themes Theme Custom Templates API
+  version: ''
+  description: Backup, restore, download, and activate themes; and, get the status of theme jobs and read theme configurations.
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  license:
+    name: ''
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -77,6 +79,13 @@ paths:
       operationId: getThemeCustomTemplates
       description: Enumerate available custom templates for in the theme files in a specific theme version for each supported entity type.
 components:
+  schemas:
+    OpenMeta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   parameters:
     Accept:
       name: Accept
@@ -86,13 +95,6 @@ components:
       schema:
         type: string
         default: application/json
-  schemas:
-    OpenMeta:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -103,9 +105,7 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
-
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Themes | modify | `store_themes_manage` |
 
 
         ### Authentication header

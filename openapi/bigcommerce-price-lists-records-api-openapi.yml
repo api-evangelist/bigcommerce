@@ -1,13 +1,91 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Price Lists Records API
-  version: 3.0.0
+  title: BigCommerce Price Lists Price Lists Records API
+  description: 'Populate different versions of catalog pricing and assign them to different [customer groups](/docs/rest-management/customers-v2/customer-groups) at the variant level.
+
+
+    ## Price Lists
+
+    You can associate a Price List with a customer group either through the control panel or by using the [Customer Groups API](/docs/rest-management/customers-v2/customer-groups).
+
+
+    You can create [Price List Assignments](/docs/rest-management/price-lists/price-lists-assignments#create-price-list-assignments) to assign Price Lists to a specific [channel](/docs/rest-management/channels/channel-listings). Price Lists assigned to a channel apply to all shoppers on that channel, unless there are more specific assignments or customer group discounts set up for the shopper''s customer group.
+
+
+    If an active Price List does not contain prices for a variant, the catalog pricing will be used.
+
+    Price Lists provide overridden price values to the Stencil storefront. You can further customize the final price display using Stencil''s [handlebars objects](/docs/storefront/stencil/themes/context/object-reference/config).
+
+
+    To learn more about Price Lists, see [Price Lists API](/docs/store-operations/pricing/price-lists).
+
+
+    ## Price Lists Assignments
+
+
+    ### Order of operations
+
+
+    **IF** Price List assigned to current customer group **AND** Price List assigned to current channel:
+
+    * Use this Price List -- any prices not found fall back to the catalog price (or in the case of multi-currency, auto-converted prices)
+
+
+    **ELSE IF** Price List assigned to current customer group:
+
+    * Use this Price List -- any prices not found fall back to the catalog price (or in the case of multi-currency, auto-converted prices)
+
+
+    **ELSE IF** Customer group discounts:
+
+    * Use them -- any prices not found fall back to the catalog price (or in the case of multi-currency, auto-converted prices)
+
+
+    **ELSE IF** Channel has a default Price List:
+
+    * Use this Price List -- any prices not found fall back to the catalog price (or in the case of multi-currency, auto-converted prices)
+
+
+    **ELSE**:
+
+    * Fall back to the catalog price (or in the case of multi-currency, auto-converted prices)
+
+
+    ## Usage notes
+
+
+    - You cannot assign Price Lists to a customer group with customer group discounts -- You must delete the customer group discounts first.
+
+    - Bulk pricing Tiers can additionally be associated with a price record to indicate different pricing as the quantity in the cart increases.
+
+    - If a variant has a Price Record, any existing product-level bulk pricing will not apply to the cart. For variants without Price Records, any existing product bulk pricing will apply.
+
+    - [Price Lists Records](/docs/rest-management/price-lists/price-lists-records) accepts bulk upsert. You can only do one bulk upsert at a time. Running more than one bulk upsert in parallel on the **same store** will cause a `429` error and the request will fail.
+
+    - There are webhooks available for Price Lists assignments. The price list assignment webhook fires when a price list assignment is assigned, reassigned, or unassigned. Note that since Price Lists directly relate to products, neither product nor SKU webhooks are going to fire for corresponding changes, such as pricing.
+
+
+    ## Additional information
+
+
+    ### Webhooks
+
+
+    * [Price list assignments](/docs/integrations/webhooks/events/channels#price-list-assignments)
+
+    * [Products](/docs/integrations/webhooks/events#products)
+
+    * [SKU](/docs/integrations/webhooks/events#sku)
+
+    ### Related endpoints
+
+    * [Get All Price Lists](/docs/rest-management/price-lists#get-all-price-lists)'
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  version: ''
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -1901,23 +1979,6 @@ paths:
           description: ''
           content: {}
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   schemas:
     PriceRecordIdentifiers:
       type: object
@@ -1938,82 +1999,6 @@ components:
             type: string
             description: The 3-letter currency code with which this price set is associated.
             format: ISO-4217
-    BulkPricingTier:
-      type: object
-      properties:
-        quantity_min:
-          type: integer
-          description: The cart's minimum quantity of associated variants needed to qualify for this tier's pricing.
-          example: 1
-        quantity_max:
-          type: integer
-          description: The cart's maximum allowed quantity of associated variants to qualify for this tier's pricing.
-          example: 10
-        type:
-          type: string
-          description: "The type of adjustment that is made. \nAcceptable values: \n* price – the adjustment amount per product \n* percent – the adjustment as a percentage of the original price \n* fixed – the adjusted absolute price of the product"
-          enum:
-          - fixed
-          - price
-          - percent
-          example: fixed
-        amount:
-          type: number
-          description: The price adjustment amount. This value and the type will decide the price per variant for the pricing tier.
-          format: double
-          example: 0
-    PriceRecordBatchErrorResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/PriceRecordIdentifiers'
-        field_errors:
-          $ref: '#/components/schemas/DetailedErrors'
-      description: Error during `Price Record` batch PUT. Includes data sent in the request and errors.
-    PriceRecordBase:
-      type: object
-      properties:
-        price:
-          type: number
-          description: The list price for the variant mapped in a Price List. Overrides any existing or Catalog list price for the variant/product. If empty, the sale price will be treated as not being set on this variant.
-          format: double
-          example: 0
-        sale_price:
-          type: number
-          description: The sale price for the variant mapped in a Price List. Overrides any existing or Catalog sale price for the variant/product. If empty, the sale price will be treated as not being set on this variant.
-          format: double
-          example: 0
-        retail_price:
-          type: number
-          description: The retail price for the variant mapped in a Price List. Overrides any existing or Catalog retail price for the variant/product.  If empty, the retail price will be treated as not being set on this variant.
-          format: double
-          example: 0
-        map_price:
-          type: number
-          description: The MAP (Minimum Advertised Price) for the variant mapped in a Price List. Overrides any existing or Catalog MAP price for the variant/product. If empty, the `map_ price` will be treated as not being set on this variant.
-          format: double
-          example: 0
-        bulk_pricing_tiers:
-          type: array
-          items:
-            $ref: '#/components/schemas/BulkPricingTier'
-      description: Common Price Record properties.
-    SuccessBatchResponse:
-      type: object
-      description: Empty object for Success case for Batch API.
-      properties:
-        data:
-          type: object
-          example: {}
-        meta:
-          type: object
-          example: {}
-    Meta:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     PriceRecordBatchItem:
       type: object
       properties:
@@ -2067,10 +2052,103 @@ components:
             title: Detailed Errors
       title: Error Response
       x-internal: false
+    BulkPricingTier:
+      type: object
+      properties:
+        quantity_min:
+          type: integer
+          description: The cart's minimum quantity of associated variants needed to qualify for this tier's pricing.
+          example: 1
+        quantity_max:
+          type: integer
+          description: The cart's maximum allowed quantity of associated variants to qualify for this tier's pricing.
+          example: 10
+        type:
+          type: string
+          description: "The type of adjustment that is made. \nAcceptable values: \n* price – the adjustment amount per product \n* percent – the adjustment as a percentage of the original price \n* fixed – the adjusted absolute price of the product"
+          enum:
+          - fixed
+          - price
+          - percent
+          example: fixed
+        amount:
+          type: number
+          description: The price adjustment amount. This value and the type will decide the price per variant for the pricing tier.
+          format: double
+          example: 0
     DetailedErrors:
       type: object
       additionalProperties:
         type: string
+    SuccessBatchResponse:
+      type: object
+      description: Empty object for Success case for Batch API.
+      properties:
+        data:
+          type: object
+          example: {}
+        meta:
+          type: object
+          example: {}
+    PriceRecordBase:
+      type: object
+      properties:
+        price:
+          type: number
+          description: The list price for the variant mapped in a Price List. Overrides any existing or Catalog list price for the variant/product. If empty, the sale price will be treated as not being set on this variant.
+          format: double
+          example: 0
+        sale_price:
+          type: number
+          description: The sale price for the variant mapped in a Price List. Overrides any existing or Catalog sale price for the variant/product. If empty, the sale price will be treated as not being set on this variant.
+          format: double
+          example: 0
+        retail_price:
+          type: number
+          description: The retail price for the variant mapped in a Price List. Overrides any existing or Catalog retail price for the variant/product.  If empty, the retail price will be treated as not being set on this variant.
+          format: double
+          example: 0
+        map_price:
+          type: number
+          description: The MAP (Minimum Advertised Price) for the variant mapped in a Price List. Overrides any existing or Catalog MAP price for the variant/product. If empty, the `map_ price` will be treated as not being set on this variant.
+          format: double
+          example: 0
+        bulk_pricing_tiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkPricingTier'
+      description: Common Price Record properties.
+    Meta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    PriceRecordBatchErrorResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/PriceRecordIdentifiers'
+        field_errors:
+          $ref: '#/components/schemas/DetailedErrors'
+      description: Error during `Price Record` batch PUT. Includes data sent in the request and errors.
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -2081,9 +2159,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Products | modify | `store_v2_products` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Products | read-only | `store_v2_products_read_only` |
 
 
         ### Authentication header

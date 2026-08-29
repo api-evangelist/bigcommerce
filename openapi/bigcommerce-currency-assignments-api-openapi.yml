@@ -1,13 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Currency Assignments API
-  version: 3.0.0
+  version: ''
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  title: BigCommerce Channels Currency Assignments API
+  description: "Create and manage sales [channels](/docs/integrations/channels), their [sites](/docs/rest-management/channels/channel-site), and their [product listings](/docs/rest-management/channels/channel-listings).\n\n## Channels\n\nA [channel](/docs/rest-management/channels) is anywhere a merchant sells their products. This encompasses headless storefronts, marketplaces, POS systems, and marketing platforms.\n\n### Platform\n\nA channelʼs `type` and `platform` combination must be a valid pair as indicated in the table below.\n\n| Platform            | Accepted Type |\n|:--|:--|\n| `clover`            | `pos` |\n| `square`            | `pos` |\n| `stripe`            | `pos` |\n| `talech`            | `pos` |\n| `vend`              | `pos` |\n| `amazon`            | `marketplace` |\n| `belk`              | `marketplace` |\n| `catch`             | `marketplace` |\n| `ebay`              | `marketplace` |\n| `etsy`              | `marketplace` |\n| `facebook`          | `marketplace`, `marketing` |\n| `hudsons_bay`       | `marketplace` |\n| `google`            | `marketplace`, `marketing` |\n| `google_shopping` (deprecated)   | `marketing` |\n| `instagram`         | `marketplace`, `marketing` |\n| `macys`             | `marketplace` |\n| `mirakl`            | `marketplace` |\n| `overstock`         | `marketplace` |\n| `pinterest`         | `marketplace` |\n| `target_plus`       | `marketplace` |\n| `tiktok`            | `marketplace` |\n| `wayfair`           | `marketplace` |\n| `wish`              | `marketplace` |\n| `walmart`           | `marketplace` |\n| `acquia`            | `storefront` |\n| `bigcommerce` (Stencil and Blueprint) | `storefront` |\n| `bloomreach`        | `storefront` |\n| `catalyst` (BigCommerce Next.js) | `storefront` |\n| `deity`             | `storefront` |\n| `drupal`            | `storefront` |\n| `gatsby`            | `storefront` |\n| `next` (Next.js Commerce and other Next.js) | `storefront` |\n| `vue`               | `storefront` |\n| `wordpress`         | `storefront` |\n| `custom`            | `storefront`, `pos`, `marketing`, `marketplace` |\n    \n\n### Status\n\nAllowed values for a channelʼs `status` vary by channel `type`.\n\n| Type | Writeable Statuses |\n|:--|:-|\n| `storefront` | `prelaunch`, `active`, `inactive`, `archived`, `deleted` |\n| `marketing`, `marketplace`, `pos`| `connected`, `disconnected`, `archived`, `deleted` |\n\n> #### Warning\n> * You can restore a Channel with `deleted` status within **90 days** after deletion by contacting the BigCommerce support team. After the 90-days grace period is over, the Channel `status` will become `terminated`.\n> * The `terminated` status is read-only. Channels with a `status` of `terminated` **cannot** be restored.\n\n## Channel listings\n\n[Channel listings](/docs/rest-management/channels/channel-listings) allow you to manage catalog differences among different storefronts or marketplaces.\n\n## Channel site\n\nA [Channel site](/docs/rest-management/channels/channel-site) refers to the domain associated with a channel.\n\n## Resources\n\n* [Sites and Routes API Reference](/docs/rest-management/sites)\n* [Building Channels Overview](/docs/integrations/channels)\n* [Building Channel Apps](/docs/integrations/channels/guide)\n* [Channels Toolkit Reference](/docs/integrations/channels/toolkit-reference)"
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -159,6 +159,15 @@ components:
               $ref: '#/components/examples/error_422_multiple_channels_currency_assignments_resp_example'
             Currency Not Yet Enabled:
               $ref: '#/components/examples/error_422_invalid_enabled_currencies_resp_example'
+    channel_not_found_resp:
+      description: A *Channel* with the provided ID was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Channel Not Found:
+              $ref: '#/components/examples/error_404_resp_example'
     multiple_channels_currency_assignments_resp:
       description: ''
       content:
@@ -175,42 +184,6 @@ components:
           examples:
             response:
               $ref: '#/components/examples/multiple_channels_currency_assignments_resp_example'
-    channel_not_found_resp:
-      description: A *Channel* with the provided ID was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            Channel Not Found:
-              $ref: '#/components/examples/error_404_resp_example'
-    single_channel_currency_assignments_resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                $ref: '#/components/schemas/CurrencyNotRequiredWithChannelId'
-              meta:
-                $ref: '#/components/schemas/EmptyMeta'
-          examples:
-            response:
-              $ref: '#/components/examples/single_channel_currency_assignments_resp_example'
-    missing_or_invalid_single_channel_currency_assignments_data_resp:
-      description: The request is missing one or more required fields or invalid data is submitted.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            Missing Required Fields:
-              $ref: '#/components/examples/error_422_single_channel_currency_assignments_resp_example'
-            Currency Not Yet Enabled:
-              $ref: '#/components/examples/error_422_invalid_enabled_currencies_resp_example'
-            Invalid Channel ID:
-              $ref: '#/components/examples/error_422_invalid_channel_id_resp_example'
     delete_currency_assignments_resp:
       description: ''
       content:
@@ -225,25 +198,163 @@ components:
           examples:
             response:
               $ref: '#/components/examples/delete_currency_assignments_resp_example'
+    missing_or_invalid_single_channel_currency_assignments_data_resp:
+      description: The request is missing one or more required fields or invalid data is submitted.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Missing Required Fields:
+              $ref: '#/components/examples/error_422_single_channel_currency_assignments_resp_example'
+            Currency Not Yet Enabled:
+              $ref: '#/components/examples/error_422_invalid_enabled_currencies_resp_example'
+            Invalid Channel ID:
+              $ref: '#/components/examples/error_422_invalid_channel_id_resp_example'
+    single_channel_currency_assignments_resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/CurrencyNotRequiredWithChannelId'
+              meta:
+                $ref: '#/components/schemas/EmptyMeta'
+          examples:
+            response:
+              $ref: '#/components/examples/single_channel_currency_assignments_resp_example'
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    channel_id_path_param:
+      name: channel_id
+      description: The ID of a channel.
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+  examples:
+    single_channel_currency_assignments_req_example:
+      value:
+        enabled_currencies:
+        - USD
+        - GBP
+        - AUD
+        default_currency: USD
+    error_422_invalid_enabled_currencies_resp_example:
+      value:
+        status: 422
+        title: 'The following fields are invalid: `enabled_currencies`'
+        type: /api-docs/getting-started/api-status-codes
+        errors:
+          enabled_currencies: The field `enabled_currencies` contains the following currencies that have not been enabled [AWG]
+    multiple_channels_currency_assignments_req_example:
+      value:
+      - channel_id: 1
+        enabled_currencies:
+        - USD
+        default_currency: USD
+      - channel_id: 664177
+        enabled_currencies:
+        - USD
+        - GBP
+        default_currency: USD
+      - channel_id: 664179
+        enabled_currencies:
+        - USD
+        - AUD
+        default_currency: USD
+      - channel_id: 667159
+        enabled_currencies:
+        - USD
+        default_currency: USD
+    single_channel_currency_assignments_resp_example:
+      value:
+        data:
+          channel_id: 1
+          enabled_currencies:
+          - USD
+          - GBP
+          - AUD
+          default_currency: USD
+        meta: {}
+    multiple_channels_currency_assignments_resp_example:
+      value:
+        data:
+        - channel_id: 1
+          enabled_currencies:
+          - USD
+          default_currency: USD
+        - channel_id: 664177
+          enabled_currencies:
+          - USD
+          - GBP
+          default_currency: USD
+        - channel_id: 664179
+          enabled_currencies:
+          - USD
+          - AUD
+          default_currency: USD
+        - channel_id: 667159
+          enabled_currencies:
+          - USD
+          default_currency: USD
+        meta: {}
+    error_422_invalid_channel_id_resp_example:
+      value:
+        status: 422
+        title: The following `channel_id`s [123456789] are not valid for store 1000000000.
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+    error_404_resp_example:
+      value:
+        status: 404
+        title: Not found
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+    delete_currency_assignments_resp_example:
+      value:
+        data: 1
+        meta: {}
+    error_422_single_channel_currency_assignments_resp_example:
+      value:
+        status: 422
+        title: JSON data is missing or invalid
+        type: /api-docs/getting-started/api-status-codes
+        errors:
+          enabled_currencies: error.path.missing
+          default_currency: error.path.missing
+    error_422_multiple_channels_currency_assignments_resp_example:
+      value:
+        status: 422
+        title: JSON data is missing or invalid
+        type: /api-docs/getting-started/api-status-codes
+        errors:
+          0.channel_id: error.expected.jsnumber
+          0.enabled_currencies: error.path.missing
+          0.default_currency: error.path.missing
   schemas:
-    ErrorDetail:
-      type: object
-      description: 'Error detail response payload for the BigCommerce API.
-
-        '
-      example:
-        '1': Unauthorized to delete
-        '2': Metafield does not exist
     DefaultCurrency:
       type: string
       description: Default currency for the channel in [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) three character alphabetic format. Will be used on storefront when other currencies cannot.
       x-internal: false
-    EmptyMeta:
-      type: object
-      title: Empty meta response.
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     CurrencyNotRequiredWithChannelId:
       type: object
       description: Details about currency assignments for a specific channel.
@@ -282,28 +393,6 @@ components:
           example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
         errors:
           $ref: '#/components/schemas/ErrorDetail'
-    CurrencyRequiredWithoutChannelId:
-      type: object
-      description: Details about currency assignments for a specific channel.
-      properties:
-        enabled_currencies:
-          $ref: '#/components/schemas/EnabledCurrencies'
-        default_currency:
-          $ref: '#/components/schemas/DefaultCurrency'
-      required:
-      - enabled_currencies
-      - default_currency
-      x-internal: false
-    UpsertMultipleChannelsCurrencyAssignmentsReq:
-      type: array
-      items:
-        $ref: '#/components/schemas/CurrencyRequiredWithChannelId'
-      x-internal: false
-    ChannelId:
-      type: integer
-      format: int64
-      description: The ID of the channel.
-      x-internal: false
     CurrencyRequiredWithChannelId:
       type: object
       description: Details about currency assignments for a specific channel.
@@ -319,137 +408,48 @@ components:
       - enabled_currencies
       - default_currency
       x-internal: false
+    ChannelId:
+      type: integer
+      format: int64
+      description: The ID of the channel.
+      x-internal: false
+    ErrorDetail:
+      type: object
+      description: 'Error detail response payload for the BigCommerce API.
+
+        '
+      example:
+        '1': Unauthorized to delete
+        '2': Metafield does not exist
+    CurrencyRequiredWithoutChannelId:
+      type: object
+      description: Details about currency assignments for a specific channel.
+      properties:
+        enabled_currencies:
+          $ref: '#/components/schemas/EnabledCurrencies'
+        default_currency:
+          $ref: '#/components/schemas/DefaultCurrency'
+      required:
+      - enabled_currencies
+      - default_currency
+      x-internal: false
+    EmptyMeta:
+      type: object
+      title: Empty meta response.
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    UpsertMultipleChannelsCurrencyAssignmentsReq:
+      type: array
+      items:
+        $ref: '#/components/schemas/CurrencyRequiredWithChannelId'
+      x-internal: false
     EnabledCurrencies:
       type: array
       description: Currencies that are enabled for the specified channel in [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) three character alphabetic format.
       items:
         type: string
       x-internal: false
-  examples:
-    error_422_single_channel_currency_assignments_resp_example:
-      value:
-        status: 422
-        title: JSON data is missing or invalid
-        type: /api-docs/getting-started/api-status-codes
-        errors:
-          enabled_currencies: error.path.missing
-          default_currency: error.path.missing
-    error_404_resp_example:
-      value:
-        status: 404
-        title: Not found
-        type: /api-docs/getting-started/api-status-codes
-        errors: {}
-    single_channel_currency_assignments_req_example:
-      value:
-        enabled_currencies:
-        - USD
-        - GBP
-        - AUD
-        default_currency: USD
-    multiple_channels_currency_assignments_resp_example:
-      value:
-        data:
-        - channel_id: 1
-          enabled_currencies:
-          - USD
-          default_currency: USD
-        - channel_id: 664177
-          enabled_currencies:
-          - USD
-          - GBP
-          default_currency: USD
-        - channel_id: 664179
-          enabled_currencies:
-          - USD
-          - AUD
-          default_currency: USD
-        - channel_id: 667159
-          enabled_currencies:
-          - USD
-          default_currency: USD
-        meta: {}
-    error_422_invalid_enabled_currencies_resp_example:
-      value:
-        status: 422
-        title: 'The following fields are invalid: `enabled_currencies`'
-        type: /api-docs/getting-started/api-status-codes
-        errors:
-          enabled_currencies: The field `enabled_currencies` contains the following currencies that have not been enabled [AWG]
-    multiple_channels_currency_assignments_req_example:
-      value:
-      - channel_id: 1
-        enabled_currencies:
-        - USD
-        default_currency: USD
-      - channel_id: 664177
-        enabled_currencies:
-        - USD
-        - GBP
-        default_currency: USD
-      - channel_id: 664179
-        enabled_currencies:
-        - USD
-        - AUD
-        default_currency: USD
-      - channel_id: 667159
-        enabled_currencies:
-        - USD
-        default_currency: USD
-    error_422_invalid_channel_id_resp_example:
-      value:
-        status: 422
-        title: The following `channel_id`s [123456789] are not valid for store 1000000000.
-        type: /api-docs/getting-started/api-status-codes
-        errors: {}
-    delete_currency_assignments_resp_example:
-      value:
-        data: 1
-        meta: {}
-    single_channel_currency_assignments_resp_example:
-      value:
-        data:
-          channel_id: 1
-          enabled_currencies:
-          - USD
-          - GBP
-          - AUD
-          default_currency: USD
-        meta: {}
-    error_422_multiple_channels_currency_assignments_resp_example:
-      value:
-        status: 422
-        title: JSON data is missing or invalid
-        type: /api-docs/getting-started/api-status-codes
-        errors:
-          0.channel_id: error.expected.jsnumber
-          0.enabled_currencies: error.path.missing
-          0.default_currency: error.path.missing
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    channel_id_path_param:
-      name: channel_id
-      description: The ID of a channel.
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -460,9 +460,17 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Channel Listings | modify | `store_channel_listings` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Channel Listings | read-only | `store_channel_listings_read_only` |
+
+        |  Channel Settings | modify | `store_channel_settings` |
+
+        |  Channel Settings | read-only | `store_channel_settings_read_only` |
+
+        |  Sites & Routes | modify | `store_sites` |
+
+        |  Sites & Routes | read-only | `store_sites_read_only` |
 
 
         ### Authentication header

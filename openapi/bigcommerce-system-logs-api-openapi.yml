@@ -1,9 +1,9 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails System Logs API
-  version: 3.0.0
+  title: BigCommerce Store Logs V3 System Logs API
+  version: ''
+  description: This API can be used to retrieve and filter for specific store logs.
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
@@ -127,6 +127,25 @@ paths:
         description: Query parameter that lets you filter by the maximum date created in [Unix time](https://www.unixtimestamp.com/), for example, `?date_created:min=1658379600`. Returns logs created before this date.
 components:
   schemas:
+    SystemLog:
+      title: SystemLog
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        module:
+          type: string
+        severity:
+          type: string
+        summary:
+          type: string
+        message:
+          type: string
+        date_created:
+          type: string
+          format: date-time
     IndexMeta:
       type: object
       description: BigCommerce meta payload for collection-type responses.
@@ -161,25 +180,6 @@ components:
                 next:
                   type: string
                   example: ?page=1&limit=50
-    SystemLog:
-      title: SystemLog
-      type: object
-      properties:
-        id:
-          type: integer
-        type:
-          type: string
-        module:
-          type: string
-        severity:
-          type: string
-        summary:
-          type: string
-        message:
-          type: string
-        date_created:
-          type: string
-          format: date-time
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -190,9 +190,7 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
-
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Store logs | read-only | store_logs_read_only |
 
 
         ### Authentication header

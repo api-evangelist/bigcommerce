@@ -1,13 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Analytics API
-  version: 3.0.0
+  description: Manage settings and configuration for BigCommerce hosted stores and headless storefronts.
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  title: BigCommerce Settings V3 Analytics API
+  version: 3.0.0
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -155,45 +155,6 @@ paths:
       - Analytics
 components:
   schemas:
-    AnalyticsProvider:
-      type: object
-      properties:
-        code:
-          description: Web Analytics Provider code.
-          type: string
-        enabled:
-          description: Flag indicates if Web Analytics Provider is enabled or not.
-          type: boolean
-        id:
-          description: Web Analytics Provider ID.
-          type: integer
-        name:
-          description: Web Analytics Provider title.
-          type: string
-      x-internal: false
-    ErrorResponse409:
-      type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/Error'
-      x-internal: false
-    AnalyticsProviders:
-      type: array
-      items:
-        $ref: '#/components/schemas/AnalyticsProvider'
-      x-internal: false
-    ErrorResponse400:
-      type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/Error'
-      x-internal: false
-    ErrorResponse404:
-      type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/Error'
-      x-internal: false
     Error:
       description: A standard error object.
       type: object
@@ -213,11 +174,50 @@ components:
       properties: {}
       additionalProperties: true
       description: Response metadata.
+    ErrorResponse409:
+      type: object
+      properties:
+        schema:
+          $ref: '#/components/schemas/Error'
+      x-internal: false
+    AnalyticsProviders:
+      type: array
+      items:
+        $ref: '#/components/schemas/AnalyticsProvider'
+      x-internal: false
+    ErrorResponse404:
+      type: object
+      properties:
+        schema:
+          $ref: '#/components/schemas/Error'
+      x-internal: false
+    ErrorResponse400:
+      type: object
+      properties:
+        schema:
+          $ref: '#/components/schemas/Error'
+      x-internal: false
     ErrorResponse422:
       type: object
       properties:
         schema:
           $ref: '#/components/schemas/Error'
+      x-internal: false
+    AnalyticsProvider:
+      type: object
+      properties:
+        code:
+          description: Web Analytics Provider code.
+          type: string
+        enabled:
+          description: Flag indicates if Web Analytics Provider is enabled or not.
+          type: boolean
+        id:
+          description: Web Analytics Provider ID.
+          type: integer
+        name:
+          description: Web Analytics Provider title.
+          type: string
       x-internal: false
   parameters:
     Accept:
@@ -252,9 +252,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Information & Settings | modify | `store_v2_information` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Information & Settings | read-only | `store_v2_information_read_only` |
 
 
         ### Authentication header

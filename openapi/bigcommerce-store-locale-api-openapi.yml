@@ -1,13 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Store Locale API
-  version: 3.0.0
+  description: Manage settings and configuration for BigCommerce hosted stores and headless storefronts.
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  title: BigCommerce Settings V3 Store Locale API
+  version: 3.0.0
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -96,44 +96,26 @@ paths:
       tags:
       - Store Locale
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   schemas:
-    BaseError:
-      description: 'Error payload for the BigCommerce API.
-
-        '
+    MetaOpen:
+      title: Response meta
       type: object
-      properties:
-        instance:
-          type: string
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - properties:
+          errors:
+            $ref: '#/components/schemas/DetailedErrors'
+        type: object
+      x-internal: false
+    DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      title: Detailed Errors
       x-internal: false
     Locale:
       description: The basic locale settings for a store, used to give shopper information about languages, countries, etc.
@@ -164,26 +146,44 @@ components:
       required:
       - default_shopper_language
       x-internal: false
-    MetaOpen:
-      title: Response meta
+    BaseError:
+      description: 'Error payload for the BigCommerce API.
+
+        '
       type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    DetailedErrors:
-      type: object
-      properties: {}
-      additionalProperties: true
-      title: Detailed Errors
+      properties:
+        instance:
+          type: string
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
       x-internal: false
-    ErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseError'
-      - properties:
-          errors:
-            $ref: '#/components/schemas/DetailedErrors'
-        type: object
-      x-internal: false
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -194,9 +194,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Information & Settings | modify | `store_v2_information` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Information & Settings | read-only | `store_v2_information_read_only` |
 
 
         ### Authentication header

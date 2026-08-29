@@ -1,9 +1,14 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Attributes API
-  version: 3.0.0
+  version: ''
+  title: BigCommerce Customers V3 Attributes API
+  description: 'Create and manage customers.
+
+
+    ## Resources
+
+    * [Customers Overview](/docs/store-operations/customers).'
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
@@ -271,49 +276,6 @@ paths:
       - Attributes
 components:
   schemas:
-    attribute_Post:
-      title: attribute_Post
-      example:
-        name: attribute_string 01
-        type: string
-      type: object
-      properties:
-        name:
-          description: Attribute name.
-          type: string
-          minLength: 1
-          maxLength: 255
-        type:
-          title: Type
-          description: 'Attribute type should match one of: string, number, date.'
-          example: string
-          type: string
-          enum:
-          - string
-          - number
-          - date
-      required:
-      - name
-      - type
-      x-internal: false
-    attribute_Put:
-      title: attribute_Put
-      type: object
-      properties:
-        name:
-          description: Attribute name.
-          type: string
-          minLength: 1
-          maxLength: 255
-        id:
-          description: Attribute ID.
-          type: integer
-          format: int32
-      required:
-      - name
-      - id
-      description: Once the data type is set, it can not be changed. The attribute will need to be deleted then created again with the new data type. This will also delete it from the customer.
-      x-internal: false
     MetaOpen:
       title: Response meta
       type: object
@@ -340,6 +302,49 @@ components:
           type: object
           additionalProperties:
             type: string
+      x-internal: false
+    attribute_Put:
+      title: attribute_Put
+      type: object
+      properties:
+        name:
+          description: Attribute name.
+          type: string
+          minLength: 1
+          maxLength: 255
+        id:
+          description: Attribute ID.
+          type: integer
+          format: int32
+      required:
+      - name
+      - id
+      description: Once the data type is set, it can not be changed. The attribute will need to be deleted then created again with the new data type. This will also delete it from the customer.
+      x-internal: false
+    attribute_Post:
+      title: attribute_Post
+      example:
+        name: attribute_string 01
+        type: string
+      type: object
+      properties:
+        name:
+          description: Attribute name.
+          type: string
+          minLength: 1
+          maxLength: 255
+        type:
+          title: Type
+          description: 'Attribute type should match one of: string, number, date.'
+          example: string
+          type: string
+          enum:
+          - string
+          - number
+          - date
+      required:
+      - name
+      - type
       x-internal: false
   responses:
     CustomerAttributesResponse:
@@ -409,9 +414,13 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        | Customers | modify | `store_v2_customers` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        | Customers | read-only | `store_v2_customers_read_only` |
+
+        | Stored Payment Instruments | modify | `store_stored_payment_instruments` |
+
+        | Stored Payment Instruments | read-only | `store_stored_payment_instruments_read_only` |
 
 
         ### Authentication header

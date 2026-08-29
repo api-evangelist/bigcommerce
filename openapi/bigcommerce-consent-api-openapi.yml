@@ -1,13 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Consent API
-  version: 3.0.0
-  termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
-  contact:
-    name: BigCommerce
-    url: https://www.bigcommerce.com
-    email: support@bigcommerce.com
+  title: Bigcommerce Consent API
+  version: '1.0'
+  description: 'Operations tagged Consent across 2 of this provider''s published API definitions: customers-openapi-original.yml, storefront-cookie-consent-openapi-original.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -15,8 +10,11 @@ servers:
       default: store_hash
       description: Permanent ID of the BigCommerce store.
   description: BigCommerce API Gateway
-security:
-- X-Auth-Token: []
+- url: https://{store_domain}/api/storefront
+  variables:
+    store_domain:
+      default: your_store.example.com
+      description: The [URL authority](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/What_is_a_URL#authority) of the storefront.
 tags:
 - name: Consent
 paths:
@@ -51,6 +49,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - X-Auth-Token: []
     put:
       description: Updates the status of a customerʼs consent to allow data collection by cookies and scripts while shopping on a storefront.
       summary: BigCommerce Update Customer Consent
@@ -97,6 +97,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - X-Auth-Token: []
+    servers:
+    - url: https://api.bigcommerce.com/stores/{store_hash}/v3
+      variables:
+        store_hash:
+          default: store_hash
+          description: Permanent ID of the BigCommerce store.
+      description: BigCommerce API Gateway
   /consent:
     parameters: []
     post:
@@ -125,15 +134,41 @@ paths:
         required: true
       description: "Sets the status of a customer's consent to allow data collection by cookies and scripts according to the following consent categories:\n\n\n  2. Analytics — These cookies provide statistical information on site usage so the store owner can improve the website over time.  \n  3. Functional — These cookies enable enhanced functionality, such as videos and live chat. If a shopper does not allow these, then some or all of these functions may not work properly. \n  4. Targeting; Advertising — These cookies allow merchants to create profiles or personalize content to enhance users' shopping experience.\n  \n  \nThis endpoint only works if the cookie consent feature is enabled. It is assumed the shopper has not consented to anything until a value is explicitly set. The request body must be populated with a complete set of allowed and denied categories.\n\nOnce set, consent preferences will be saved as a cookie for guest shoppers. Consent preferences will be persisted to a shopper's account to be used for future sessions once they have logged in. Consent preferences can also be managed using the [Update customer consent](/docs/rest-management/customers/customer-consent#update-customer-consent) endpoint.   \n\n> #### Note\n> * Substitute your storefront domain for `yourstore.example.com`. \n"
       operationId: postCookieConsent
+    servers:
+    - url: https://{store_domain}/api/storefront
+      variables:
+        store_domain:
+          default: your_store.example.com
+          description: The [URL authority](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/What_is_a_URL#authority) of the storefront.
 components:
-  responses:
-    consent_Resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/consent_Full'
   schemas:
+    consentAllow:
+      title: consentAllow
+      type: array
+      uniqueItems: true
+      minItems: 0
+      example:
+      - essential
+      - targeting
+      - functional
+      items:
+        type: string
+        enum:
+        - essential
+        - functional
+        - analytics
+        - targeting
+      x-internal: false
+    DeclareCustomerConsentRequest:
+      title: DeclareCustomerConsentRequest
+      description: Request payload for the BigCommerce API.
+      type: object
+      properties:
+        allow:
+          $ref: '#/components/schemas/consentAllow'
+        deny:
+          $ref: '#/components/schemas/Deny'
+      x-internal: false
     ErrorResponse:
       title: Error Response
       type: object
@@ -155,47 +190,6 @@ components:
           additionalProperties:
             type: string
       x-internal: false
-    DeclareCustomerConsentRequest:
-      title: DeclareCustomerConsentRequest
-      description: Request payload for the BigCommerce API.
-      type: object
-      properties:
-        allow:
-          $ref: '#/components/schemas/consentAllow'
-        deny:
-          $ref: '#/components/schemas/Deny'
-      x-internal: false
-    consent_Full:
-      title: consent_Full
-      description: Response payload for the BigCommerce API.
-      type: object
-      properties:
-        allow:
-          $ref: '#/components/schemas/consentAllow'
-        deny:
-          $ref: '#/components/schemas/Deny'
-        updated_at:
-          description: The date of which the customer consent was last updated.
-          type: string
-          format: date-time
-      x-internal: false
-    consentAllow:
-      title: consentAllow
-      type: array
-      uniqueItems: true
-      minItems: 0
-      example:
-      - essential
-      - targeting
-      - functional
-      items:
-        type: string
-        enum:
-        - essential
-        - functional
-        - analytics
-        - targeting
-      x-internal: false
     Deny:
       title: Deny
       type: array
@@ -210,6 +204,20 @@ components:
         - functional
         - analytics
         - targeting
+      x-internal: false
+    consent_Full:
+      title: consent_Full
+      description: Response payload for the BigCommerce API.
+      type: object
+      properties:
+        allow:
+          $ref: '#/components/schemas/consentAllow'
+        deny:
+          $ref: '#/components/schemas/Deny'
+        updated_at:
+          description: The date of which the customer consent was last updated.
+          type: string
+          format: date-time
       x-internal: false
     ConsentPreferences:
       type: object
@@ -253,6 +261,13 @@ components:
       - allow
       - deny
       x-internal: false
+  responses:
+    consent_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/consent_Full'
   parameters:
     customerId:
       name: customerId
@@ -271,9 +286,13 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        | Customers | modify | `store_v2_customers` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        | Customers | read-only | `store_v2_customers_read_only` |
+
+        | Stored Payment Instruments | modify | `store_stored_payment_instruments` |
+
+        | Stored Payment Instruments | read-only | `store_stored_payment_instruments_read_only` |
 
 
         ### Authentication header
@@ -298,3 +317,6 @@ components:
         For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
       type: apiKey
       in: header
+x-refined-from:
+- customers-openapi-original.yml
+- storefront-cookie-consent-openapi-original.yml

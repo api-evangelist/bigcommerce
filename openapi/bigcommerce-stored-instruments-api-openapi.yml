@@ -1,9 +1,14 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Stored Instruments API
-  version: 3.0.0
+  version: ''
+  title: BigCommerce Customers V3 Stored Instruments API
+  description: 'Create and manage customers.
+
+
+    ## Resources
+
+    * [Customers Overview](/docs/store-operations/customers).'
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
@@ -97,6 +102,89 @@ paths:
                 message: Missing scope
 components:
   schemas:
+    PayPalAccountInstrument:
+      type: object
+      title: PayPal Account Instrument
+      properties:
+        type:
+          type: string
+          description: Instrument type.
+          enum:
+          - stored_paypal_account
+        token:
+          type: string
+          description: An identifier representing this stored instrument.
+          example: 84596bea275fa254da820056bdc3e495bdf01fd11c51b0336347d447ee16200c
+        is_default:
+          type: boolean
+          description: Identifies whether this stored instrument is default for the customer.
+        email:
+          type: string
+          description: PayPal email address.
+          example: bc-buyer-paypal-express@example.com
+      description: A PayPal account stored instrument.
+      x-internal: false
+    ErrorResponse:
+      title: Error Response
+      type: object
+      properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+          format: int32
+        title:
+          description: The error title describing the particular error.
+          type: string
+        type:
+          description: A link to a list of BigCommerce API status codes.
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+      x-internal: false
+    CardInstrument:
+      type: object
+      title: Card Instrument
+      properties:
+        type:
+          type: string
+          description: Type of instrument.
+          enum:
+          - stored_card
+        token:
+          type: string
+          description: An identifier representing this stored instrument.
+          example: 84596bea275fa254da820056bdc3e495bdf01fd11c51b0336347d447ee16200c
+        is_default:
+          type: boolean
+          description: Identifies whether this stored instrument is default for the customer.
+        brand:
+          type: string
+          description: Card brand.
+          example: VISA
+        expiry_month:
+          maximum: 12
+          minimum: 1
+          type: integer
+          description: Expiry month for this card.
+        expiry_year:
+          type: integer
+          description: Expiry year for this card.
+        issuer_identification_number:
+          type: string
+          description: Issuer identification number for this card.
+          example: '411111'
+        last_4:
+          type: string
+          description: Last four digits of this card.
+          example: '1111'
+        billing_address:
+          $ref: '#/components/schemas/BillingAddress'
+      description: Details about a stored card instrument which includes details around billing, last 4 digits, issuer, etc.
+      x-internal: false
     BillingAddress:
       type: object
       properties:
@@ -142,67 +230,6 @@ components:
           type: string
           example: 101-192-0293
       x-internal: false
-    CardInstrument:
-      type: object
-      title: Card Instrument
-      properties:
-        type:
-          type: string
-          description: Type of instrument.
-          enum:
-          - stored_card
-        token:
-          type: string
-          description: An identifier representing this stored instrument.
-          example: 84596bea275fa254da820056bdc3e495bdf01fd11c51b0336347d447ee16200c
-        is_default:
-          type: boolean
-          description: Identifies whether this stored instrument is default for the customer.
-        brand:
-          type: string
-          description: Card brand.
-          example: VISA
-        expiry_month:
-          maximum: 12
-          minimum: 1
-          type: integer
-          description: Expiry month for this card.
-        expiry_year:
-          type: integer
-          description: Expiry year for this card.
-        issuer_identification_number:
-          type: string
-          description: Issuer identification number for this card.
-          example: '411111'
-        last_4:
-          type: string
-          description: Last four digits of this card.
-          example: '1111'
-        billing_address:
-          $ref: '#/components/schemas/BillingAddress'
-      description: Details about a stored card instrument which includes details around billing, last 4 digits, issuer, etc.
-      x-internal: false
-    ErrorResponse:
-      title: Error Response
-      type: object
-      properties:
-        status:
-          description: The HTTP status code.
-          type: integer
-          format: int32
-        title:
-          description: The error title describing the particular error.
-          type: string
-        type:
-          description: A link to a list of BigCommerce API status codes.
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-          additionalProperties:
-            type: string
-      x-internal: false
     BankAccountInstrument:
       type: object
       title: Bank Account Instrument
@@ -229,28 +256,6 @@ components:
           example: DE001
       description: A stored bank account instrument.
       x-internal: false
-    PayPalAccountInstrument:
-      type: object
-      title: PayPal Account Instrument
-      properties:
-        type:
-          type: string
-          description: Instrument type.
-          enum:
-          - stored_paypal_account
-        token:
-          type: string
-          description: An identifier representing this stored instrument.
-          example: 84596bea275fa254da820056bdc3e495bdf01fd11c51b0336347d447ee16200c
-        is_default:
-          type: boolean
-          description: Identifies whether this stored instrument is default for the customer.
-        email:
-          type: string
-          description: PayPal email address.
-          example: bc-buyer-paypal-express@example.com
-      description: A PayPal account stored instrument.
-      x-internal: false
   parameters:
     customerId:
       name: customerId
@@ -269,9 +274,13 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        | Customers | modify | `store_v2_customers` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        | Customers | read-only | `store_v2_customers_read_only` |
+
+        | Stored Payment Instruments | modify | `store_stored_payment_instruments` |
+
+        | Stored Payment Instruments | read-only | `store_stored_payment_instruments_read_only` |
 
 
         ### Authentication header

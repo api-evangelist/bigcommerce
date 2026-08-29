@@ -1,9 +1,9 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Tokens API
-  version: 3.0.0
+  version: ''
+  title: BigCommerce Payment Access Token Tokens API
+  description: "> The Payments API processes payments using payment instruments such as credit cards or PayPal accounts. To learn more about Payments, see the [Payments Overview](/docs/store-operations/payments).\n\nBigCommerce payments requests require a Payment Access Token, or _PAT_, which is a single use BigCommerce-generated JWT that's tied to the particular **order** for which the shopper authorizes BigCommerce to submit a payment. \n\nTo get a valid PAT, submit the order number to the [Create a Payment Access Token](/docs/rest-payments/tokens#create-payment-access-token) endpoint. Authenticate using an [API account access token](/docs/start/authentication/api-accounts#api-accounts) with the [Create payments](/docs/start/authentication/api-accounts#token-creation-scopes) scope as the value of the X-Auth-Token header.\n\nYou can also generate a PAT during checkout by using the `completeCheckout` mutation in the [GraphQL Storefront API](/docs/storefront/cart-checkout/guide/graphql-storefront#handling-payments).\n\nFor a guide through the API call sequence needed to create a PAT and make charges, see the [Payments Overview](/docs/store-operations/payments#compatible-payment-gateways).\n\n> To learn more about authenticating Payments endpoints, locate the **Authentication** section at the top of each endpoint, then click **Show Details**. \n\n## Resources\n\n* [Payments Overview](/docs/store-operations/payments)\n* [Process payments authentication example request](/docs/start/authentication#bigcommerce-generated-jwts)\n* [Orders Overview](/docs/store-operations/orders)\n\n### Webhooks\n\n* [Carts](https://developer.bigcommerce.com/api-docs/channels/guide/webhooks#carts)\n* [Orders](https://developer.bigcommerce.com/api-docs/store-management/webhooks/webhook-events#orders)\n* [Price list assignment](https://developer.bigcommerce.com/api-docs/channels/guide/webhooks#price-list-assignments)\n\n\n### Additional Payments endpoints\n\n* [Get accepted payment methods](/docs/rest-payments/methods#get-accepted-payment-methods)\n* [Process payments](/docs/rest-payments/processing#process-payment)\n* [Get a customer's stored instruments](/docs/rest-management/customers/customer-stored-instruments#get-stored-instruments)\n"
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
@@ -300,19 +300,19 @@ paths:
                 - type
 components:
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
       schema:
         type: string
         default: application/json
@@ -348,9 +348,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Create Payments | create | `store_payments_access_token_create` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Get Payment Methods | read-only | `store_payments_methods_read` |
 
 
         ### Authentication header

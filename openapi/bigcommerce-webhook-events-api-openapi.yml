@@ -1,13 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Webhook Events API
-  version: 3.0.0
+  title: BigCommerce Webhooks v3 Webhook Events API
+  version: ''
+  description: Get notified when specific events occur on a BigCommerce store. For more information, see the [Webhooks Overview](/docs/integrations/webhooks).
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
+    email: support@bigcommerce.com
     name: BigCommerce
     url: https://www.bigcommerce.com
-    email: support@bigcommerce.com
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -57,70 +57,25 @@ paths:
 
         '
 components:
-  parameters:
-    FilterMinCreatedAtParam:
-      name: created_at:min
-      in: query
-      description: 'Minimum value for returned data.
-
-        '
-      required: false
-      schema:
-        type: string
-    FilterPageParam:
-      name: page
-      in: query
-      description: 'Page number.
-
-        '
-      required: false
-      schema:
-        type: integer
-        example: 1
-    FilterLimitParam:
-      name: limit
-      in: query
-      description: 'Items count per page.
-
-        '
-      required: false
-      schema:
-        type: integer
-    FilterMaxCreatedAtParam:
-      name: created_at:max
-      in: query
-      description: 'Maximum value for returned data.
-
-        '
-      required: false
-      schema:
-        type: string
-  responses:
-    401_Unauthorized:
-      description: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 401
-                title: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
-                type: /api-docs/getting-started/api-status-codes
-    400_BadRequest:
-      description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 400
-                title: Input is invalid.
-                type: /api-docs/getting-started/api-status-codes
   schemas:
+    error_Full:
+      type: object
+      title: error_Full
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          description: This value is typically a link to BigCommerce API Status codes.
+          type: string
+      x-internal: false
     Pagination:
       type: object
       description: 'Data about the response, including pagination and collection totals.
@@ -155,24 +110,6 @@ components:
               type: string
               description: Link to the next page returned in the response.
       x-internal: false
-    error_Full:
-      type: object
-      title: error_Full
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          description: This value is typically a link to BigCommerce API Status codes.
-          type: string
-      x-internal: false
     HistoryEvent:
       type: object
       properties:
@@ -195,19 +132,76 @@ components:
         producer:
           type: string
           description: Will always follow the pattern stores/store_hash. This is the store that created the webhook.
+  parameters:
+    FilterMaxCreatedAtParam:
+      name: created_at:max
+      in: query
+      description: 'Maximum value for returned data.
+
+        '
+      required: false
+      schema:
+        type: string
+    FilterLimitParam:
+      name: limit
+      in: query
+      description: 'Items count per page.
+
+        '
+      required: false
+      schema:
+        type: integer
+    FilterPageParam:
+      name: page
+      in: query
+      description: 'Page number.
+
+        '
+      required: false
+      schema:
+        type: integer
+        example: 1
+    FilterMinCreatedAtParam:
+      name: created_at:min
+      in: query
+      description: 'Minimum value for returned data.
+
+        '
+      required: false
+      schema:
+        type: string
+  responses:
+    401_Unauthorized:
+      description: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 401
+                title: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
+                type: /api-docs/getting-started/api-status-codes
+    400_BadRequest:
+      description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 400
+                title: Input is invalid.
+                type: /api-docs/getting-started/api-status-codes
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
       description: '### OAuth scopes
 
 
-        | UI Name | Permission | Parameter |
-
-        |:--|:--|:-|
-
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
-
-        | Information & Settings  | modify     | `store_v2_information`          |
+        None required. Create and manage webhooks with the default scope of an API account.
 
 
         ### Authentication header

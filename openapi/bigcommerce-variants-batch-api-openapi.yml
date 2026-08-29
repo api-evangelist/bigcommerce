@@ -1,13 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Variants (Batch) API
-  version: 3.0.0
+  title: BigCommerce Catalog - Product Variants Variants (Batch) API
+  description: "> The Catalog API manages products, categories, brands, bulk pricing rules, and more. To learn more about catalog resources, see the [Catalog Overview](/docs/store-operations/catalog).\n\nA Product Variant is a version of a product that has its own SKU. For example, a catalog might model a particular style of high-top sneakers that come in both red and blue as one product - high-tops - with two variants - red and blue. From a storefront point of view, Product Variants are often what shoppers seek. They are also the object that maps to SKUs and tracks inventory. A Product with one only Variant is a _base variant_.\n\nOur Catalog Product Variants endpoints let you work in two ways. \n\nOn a per-product basis, you can [create and manage Product Variants](/docs/rest-catalog/product-variants), their [images](/docs/rest-catalog/product-variants/images), and their [metafields](/docs/rest-catalog/product-variants/metafields), which are arbitrary key-value attributes.\n\nBy design, Product Variants consist of a combination of [Product Variant Option values](/docs/rest-catalog/product-variant-options/values).\n\nThis API family also provides endpoints that can make [batch updates](/docs/rest-catalog/product-variants/variants-batch#update-variants-batch) to Product Variants from different products across the Catalog, as well as [getting all variants](/docs/rest-catalog/product-variants/variants-batch#get-all-variants).\n\nThe terms \"product variant\" and \"variant\" are used interchangeably throughout the documentation.\n\n> To learn more about authenticating Catalog endpoints, locate the **Authentication** section at the top of each endpoint, then click **Show Details**.\n\n## Resources\n\n### Webhooks\nLearn more about [Product webhook events](/docs/integrations/webhooks/events#products).\n\n### Additional Catalog endpoints\n* [Brands](/docs/rest-catalog/brands)\n* [Categories](/docs/rest-catalog/categories)\n* [Category Trees](/docs/rest-catalog/category-trees)\n* [Products](/docs/rest-catalog/products)\n* [Product Modifiers](/docs/rest-catalog/product-modifiers)\n* [Product Variant Options](/docs/rest-catalog/product-variant-options)"
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  version: ''
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -687,6 +687,23 @@ paths:
                   '
       x-codegen-request-body-name: body
 components:
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
     metaCollection_Full:
       title: metaCollection_Full
@@ -754,23 +771,6 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -781,9 +781,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Products | modify | `store_v2_products` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Products | read-only | `store_v2_products_read_only` |
 
 
         ### Authentication header

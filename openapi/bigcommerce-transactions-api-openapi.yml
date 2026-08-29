@@ -1,13 +1,15 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Transactions API
-  version: 3.0.0
+  title: BigCommerce Orders V3 Transactions API
+  version: ''
+  description: Manage order settings of BigCommerce stores.
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  license:
+    name: ''
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -126,25 +128,33 @@ components:
               meta:
                 $ref: '#/components/schemas/metaCollection_Full'
   schemas:
-    metaCollection_Full:
+    pagination_Full:
       type: object
-      title: metaCollection_Full
+      title: pagination_Full
       properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
+        total:
+          description: Total number of items in the result set.
+          type: integer
+          format: int32
+        count:
+          description: Total number of items in the collection response.
+          type: integer
+          format: int32
+        per_page:
+          description: The amount of items returned in the collection per page, controlled by the limit parameter.
+          type: integer
+          format: int32
+        current_page:
+          description: The page you are currently on within the collection.
+          type: integer
+          format: int32
+        total_pages:
+          description: The total number of pages in the collection.
+          type: integer
+          format: int32
+        links:
+          $ref: '#/components/schemas/links_Full'
       x-internal: false
-      x-examples:
-        example-1:
-          pagination:
-            total: 0
-            count: 0
-            per_page: 0
-            current_page: 0
-            total_pages: 0
-            links:
-              previous: string
-              current: ?page=1&limit=50
-              next: string
     links_Full:
       type: object
       properties:
@@ -465,33 +475,25 @@ components:
           store_credit:
             remaining_balance: 35.42
       description: ''
-    pagination_Full:
+    metaCollection_Full:
       type: object
-      title: pagination_Full
+      title: metaCollection_Full
       properties:
-        total:
-          description: Total number of items in the result set.
-          type: integer
-          format: int32
-        count:
-          description: Total number of items in the collection response.
-          type: integer
-          format: int32
-        per_page:
-          description: The amount of items returned in the collection per page, controlled by the limit parameter.
-          type: integer
-          format: int32
-        current_page:
-          description: The page you are currently on within the collection.
-          type: integer
-          format: int32
-        total_pages:
-          description: The total number of pages in the collection.
-          type: integer
-          format: int32
-        links:
-          $ref: '#/components/schemas/links_Full'
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
       x-internal: false
+      x-examples:
+        example-1:
+          pagination:
+            total: 0
+            count: 0
+            per_page: 0
+            current_page: 0
+            total_pages: 0
+            links:
+              previous: string
+              current: ?page=1&limit=50
+              next: string
     CreditCard:
       type: object
       description: A credit-card model.
@@ -552,9 +554,13 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Order Transactions | read and modify `transactions` and `payment_methods` | `store_v2_transactions` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Order Transactions | read `transactions` and `payment_methods`  | `store_v2_transactions_read_only` |
+
+        |  Orders | read and modify `payment_methods` |`store_v2_orders`|
+
+        |  Orders | read `payment_methods` |`store_v2_orders_read_only`|
 
 
         ### Authentication header

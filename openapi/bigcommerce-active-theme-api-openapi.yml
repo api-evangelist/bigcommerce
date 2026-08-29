@@ -1,13 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Active Theme API
-  version: 3.0.0
+  version: ''
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  title: BigCommerce Channels Active Theme API
+  description: "Create and manage sales [channels](/docs/integrations/channels), their [sites](/docs/rest-management/channels/channel-site), and their [product listings](/docs/rest-management/channels/channel-listings).\n\n## Channels\n\nA [channel](/docs/rest-management/channels) is anywhere a merchant sells their products. This encompasses headless storefronts, marketplaces, POS systems, and marketing platforms.\n\n### Platform\n\nA channelʼs `type` and `platform` combination must be a valid pair as indicated in the table below.\n\n| Platform            | Accepted Type |\n|:--|:--|\n| `clover`            | `pos` |\n| `square`            | `pos` |\n| `stripe`            | `pos` |\n| `talech`            | `pos` |\n| `vend`              | `pos` |\n| `amazon`            | `marketplace` |\n| `belk`              | `marketplace` |\n| `catch`             | `marketplace` |\n| `ebay`              | `marketplace` |\n| `etsy`              | `marketplace` |\n| `facebook`          | `marketplace`, `marketing` |\n| `hudsons_bay`       | `marketplace` |\n| `google`            | `marketplace`, `marketing` |\n| `google_shopping` (deprecated)   | `marketing` |\n| `instagram`         | `marketplace`, `marketing` |\n| `macys`             | `marketplace` |\n| `mirakl`            | `marketplace` |\n| `overstock`         | `marketplace` |\n| `pinterest`         | `marketplace` |\n| `target_plus`       | `marketplace` |\n| `tiktok`            | `marketplace` |\n| `wayfair`           | `marketplace` |\n| `wish`              | `marketplace` |\n| `walmart`           | `marketplace` |\n| `acquia`            | `storefront` |\n| `bigcommerce` (Stencil and Blueprint) | `storefront` |\n| `bloomreach`        | `storefront` |\n| `catalyst` (BigCommerce Next.js) | `storefront` |\n| `deity`             | `storefront` |\n| `drupal`            | `storefront` |\n| `gatsby`            | `storefront` |\n| `next` (Next.js Commerce and other Next.js) | `storefront` |\n| `vue`               | `storefront` |\n| `wordpress`         | `storefront` |\n| `custom`            | `storefront`, `pos`, `marketing`, `marketplace` |\n    \n\n### Status\n\nAllowed values for a channelʼs `status` vary by channel `type`.\n\n| Type | Writeable Statuses |\n|:--|:-|\n| `storefront` | `prelaunch`, `active`, `inactive`, `archived`, `deleted` |\n| `marketing`, `marketplace`, `pos`| `connected`, `disconnected`, `archived`, `deleted` |\n\n> #### Warning\n> * You can restore a Channel with `deleted` status within **90 days** after deletion by contacting the BigCommerce support team. After the 90-days grace period is over, the Channel `status` will become `terminated`.\n> * The `terminated` status is read-only. Channels with a `status` of `terminated` **cannot** be restored.\n\n## Channel listings\n\n[Channel listings](/docs/rest-management/channels/channel-listings) allow you to manage catalog differences among different storefronts or marketplaces.\n\n## Channel site\n\nA [Channel site](/docs/rest-management/channels/channel-site) refers to the domain associated with a channel.\n\n## Resources\n\n* [Sites and Routes API Reference](/docs/rest-management/sites)\n* [Building Channels Overview](/docs/integrations/channels)\n* [Building Channel Apps](/docs/integrations/channels/guide)\n* [Channels Toolkit Reference](/docs/integrations/channels/toolkit-reference)"
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -38,55 +38,7 @@ paths:
         '404':
           $ref: '#/components/responses/active_theme_not_found_resp'
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    channel_id_path_param:
-      name: channel_id
-      description: The ID of a channel.
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
   schemas:
-    ErrorDetail:
-      type: object
-      description: 'Error detail response payload for the BigCommerce API.
-
-        '
-      example:
-        '1': Unauthorized to delete
-        '2': Metafield does not exist
-    EmptyMeta:
-      type: object
-      title: Empty meta response.
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ActiveTheme:
-      type: object
-      description: Details about the Channelʼs relationship to Themes.
-      properties:
-        active_theme_uuid:
-          type: string
-          description: The UUID of the currently active Theme on the Channel.
-        active_theme_configuration_uuid:
-          type: string
-          description: The UUID of the currently active Theme Configuration on the Channel.
-        active_theme_version_uuid:
-          type: string
-          description: The UUID of the currently active Theme Version on the Channel. Needed to look up the available Custom Templates for the Theme.
-        saved_theme_configuration_uuid:
-          type: string
-          description: The UUID of the most recently saved Theme Configuration. If this is different from the active Theme Configuration UUID, this indicates that some changes have been saved in the control panel Theme Editor that have not yet been published.
-      x-internal: false
     Error:
       type: object
       description: 'Error response payload for the BigCommerce API.
@@ -114,6 +66,69 @@ components:
           example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
         errors:
           $ref: '#/components/schemas/ErrorDetail'
+    ActiveTheme:
+      type: object
+      description: Details about the Channelʼs relationship to Themes.
+      properties:
+        active_theme_uuid:
+          type: string
+          description: The UUID of the currently active Theme on the Channel.
+        active_theme_configuration_uuid:
+          type: string
+          description: The UUID of the currently active Theme Configuration on the Channel.
+        active_theme_version_uuid:
+          type: string
+          description: The UUID of the currently active Theme Version on the Channel. Needed to look up the available Custom Templates for the Theme.
+        saved_theme_configuration_uuid:
+          type: string
+          description: The UUID of the most recently saved Theme Configuration. If this is different from the active Theme Configuration UUID, this indicates that some changes have been saved in the control panel Theme Editor that have not yet been published.
+      x-internal: false
+    ErrorDetail:
+      type: object
+      description: 'Error detail response payload for the BigCommerce API.
+
+        '
+      example:
+        '1': Unauthorized to delete
+        '2': Metafield does not exist
+    EmptyMeta:
+      type: object
+      title: Empty meta response.
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+  examples:
+    single_active_theme_resp_example:
+      value:
+        data:
+          active_theme_uuid: e3d82ce0-9bae-0133-0de7-525400970412
+          active_theme_configuration_uuid: 1c0962a0-9172-0139-70bc-2a81c0049363
+          active_theme_version_uuid: b9911770-8a43-0139-f84a-7e39a3a0bc55
+          saved_theme_configuration_uuid: 1c0962a0-9172-0139-70bc-2a81c0049363
+        meta: {}
+    error_404_active_theme_not_found_resp_example:
+      value:
+        status: 404
+        title: 'No active theme found with channel_id: 123456789'
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    channel_id_path_param:
+      name: channel_id
+      description: The ID of a channel.
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
   responses:
     channel_active_theme_resp:
       description: ''
@@ -138,21 +153,6 @@ components:
           examples:
             Active Theme Not Found:
               $ref: '#/components/examples/error_404_active_theme_not_found_resp_example'
-  examples:
-    single_active_theme_resp_example:
-      value:
-        data:
-          active_theme_uuid: e3d82ce0-9bae-0133-0de7-525400970412
-          active_theme_configuration_uuid: 1c0962a0-9172-0139-70bc-2a81c0049363
-          active_theme_version_uuid: b9911770-8a43-0139-f84a-7e39a3a0bc55
-          saved_theme_configuration_uuid: 1c0962a0-9172-0139-70bc-2a81c0049363
-        meta: {}
-    error_404_active_theme_not_found_resp_example:
-      value:
-        status: 404
-        title: 'No active theme found with channel_id: 123456789'
-        type: /api-docs/getting-started/api-status-codes
-        errors: {}
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -163,9 +163,17 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Channel Listings | modify | `store_channel_listings` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Channel Listings | read-only | `store_channel_listings_read_only` |
+
+        |  Channel Settings | modify | `store_channel_settings` |
+
+        |  Channel Settings | read-only | `store_channel_settings_read_only` |
+
+        |  Sites & Routes | modify | `store_sites` |
+
+        |  Sites & Routes | read-only | `store_sites_read_only` |
 
 
         ### Authentication header

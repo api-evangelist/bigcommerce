@@ -1,13 +1,15 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Theme Actions API
-  version: 3.0.0
+  title: BigCommerce Themes Theme Actions API
+  version: ''
+  description: Backup, restore, download, and activate themes; and, get the status of theme jobs and read theme configurations.
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  license:
+    name: ''
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -187,6 +189,23 @@ components:
       title: Which Theme To Download
       type: object
       x-internal: false
+    Activate:
+      description: Request definition for activation endpoint.
+      required:
+      - variation_id
+      properties:
+        variation_id:
+          description: The identifier for the variation to activate.
+          type: string
+        which:
+          description: Which configuration to use.
+          type: string
+          enum:
+          - original
+          - last_activated
+          - last_created
+      title: Activate
+      x-internal: false
     NoContent:
       description: No-content response for the BigCommerce API.
       type: object
@@ -214,29 +233,20 @@ components:
           type: string
       title: Job Id
       x-internal: false
-    Activate:
-      description: Request definition for activation endpoint.
-      required:
-      - variation_id
-      properties:
-        variation_id:
-          description: The identifier for the variation to activate.
-          type: string
-        which:
-          description: Which configuration to use.
-          type: string
-          enum:
-          - original
-          - last_activated
-          - last_created
-      title: Activate
-      x-internal: false
   parameters:
     Accept:
       name: Accept
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
       schema:
         type: string
         default: application/json
@@ -247,14 +257,6 @@ components:
       required: true
       schema:
         type: string
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -265,9 +267,7 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
-
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Themes | modify | `store_themes_manage` |
 
 
         ### Authentication header

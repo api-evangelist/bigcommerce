@@ -1,9 +1,14 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Addresses API
-  version: 3.0.0
+  version: ''
+  title: BigCommerce Customers V3 Addresses API
+  description: 'Create and manage customers.
+
+
+    ## Resources
+
+    * [Customers Overview](/docs/store-operations/customers).'
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
@@ -285,6 +290,64 @@ paths:
       - Addresses
 components:
   schemas:
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    formFieldValue_Address:
+      title: Customer Address Form Field Value
+      type: object
+      required:
+      - address_id
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: The form field name.
+          example: color
+        value:
+          oneOf:
+          - type: string
+            example: blue
+          - type: number
+            format: double
+            example: 12.345
+          - type: array
+            example:
+            - red
+            - green
+            - black
+            items:
+              type: string
+        address_id:
+          type: integer
+          description: The Customer Address ID.
+          example: 1
+      x-internal: false
+    ErrorResponse:
+      title: Error Response
+      type: object
+      properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+          format: int32
+        title:
+          description: The error title describing the particular error.
+          type: string
+        type:
+          description: A link to a list of BigCommerce API status codes.
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+      x-internal: false
     _metaCollection:
       title: _metaCollection
       description: Data about the response, including pagination and collection totals.
@@ -293,86 +356,20 @@ components:
         pagination:
           $ref: '#/components/schemas/Pagination'
       x-internal: false
-    address_Put:
-      title: address_Put
+    Links:
+      title: Links
+      description: Pagination links for the previous and next parts of the whole collection.
       type: object
       properties:
-        first_name:
-          description: The first name of the customer address.
+        previous:
+          description: Link to the previous page returned in the response.
           type: string
-          minLength: 1
-          maxLength: 255
-        last_name:
-          description: The last name of the customer address.
+        current:
+          description: Link to the current page returned in the response.
           type: string
-          minLength: 1
-          maxLength: 255
-        company:
-          description: The company of the customer address.
+        next:
+          description: Link to the next page returned in the response.
           type: string
-          minLength: 0
-          maxLength: 255
-        address1:
-          description: The address 1 line.
-          type: string
-        address2:
-          description: The address 2 line.
-          type: string
-        city:
-          description: The city of the customer address.
-          type: string
-          minLength: 0
-          maxLength: 100
-        state_or_province:
-          description: The state or province name.
-          type: string
-          minLength: 0
-          maxLength: 100
-          example: California
-        postal_code:
-          description: The postal code of the customer address.
-          type: string
-          minLength: 0
-          maxLength: 30
-        country_code:
-          description: The country code of the customer address.
-          type: string
-          minLength: 2
-          maxLength: 2
-          example: US
-        phone:
-          description: The phone number of the customer address.
-          type: string
-          minLength: 0
-          maxLength: 50
-        address_type:
-          title: Address Type
-          description: The address type. Residential or Commercial.
-          example: residential
-          type: string
-          enum:
-          - residential
-          - commercial
-        id:
-          description: The unique numeric ID of the address.
-          type: integer
-          format: int32
-          example: 1
-        form_fields:
-          type: array
-          description: 'Array of form fields. Controlled by formfields parameter.
-
-            '
-          items:
-            $ref: '#/components/schemas/formFieldValue'
-      required:
-      - id
-      x-examples:
-        example-1:
-          value:
-          - id: 18
-            first_name: sam
-      x-internal: false
     formFieldValue:
       title: Generic Form Field Value
       type: object
@@ -398,12 +395,6 @@ components:
             - black
             items:
               type: string
-    formFieldValue_Full:
-      oneOf:
-      - $ref: '#/components/schemas/formFieldValue_Customer'
-      - $ref: '#/components/schemas/formFieldValue_Address'
-      title: formFieldValue_Full
-      x-internal: false
     address_Post:
       title: address_Post
       type: object
@@ -507,6 +498,12 @@ components:
             address_type: residential
             customer_id: 1
       x-internal: false
+    formFieldValue_Full:
+      oneOf:
+      - $ref: '#/components/schemas/formFieldValue_Customer'
+      - $ref: '#/components/schemas/formFieldValue_Address'
+      title: formFieldValue_Full
+      x-internal: false
     Pagination:
       title: Pagination
       description: Data about the response, including pagination and collection totals.
@@ -535,47 +532,86 @@ components:
         links:
           $ref: '#/components/schemas/Links'
       x-internal: false
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ErrorResponse:
-      title: Error Response
+    address_Put:
+      title: address_Put
       type: object
       properties:
-        status:
-          description: The HTTP status code.
+        first_name:
+          description: The first name of the customer address.
+          type: string
+          minLength: 1
+          maxLength: 255
+        last_name:
+          description: The last name of the customer address.
+          type: string
+          minLength: 1
+          maxLength: 255
+        company:
+          description: The company of the customer address.
+          type: string
+          minLength: 0
+          maxLength: 255
+        address1:
+          description: The address 1 line.
+          type: string
+        address2:
+          description: The address 2 line.
+          type: string
+        city:
+          description: The city of the customer address.
+          type: string
+          minLength: 0
+          maxLength: 100
+        state_or_province:
+          description: The state or province name.
+          type: string
+          minLength: 0
+          maxLength: 100
+          example: California
+        postal_code:
+          description: The postal code of the customer address.
+          type: string
+          minLength: 0
+          maxLength: 30
+        country_code:
+          description: The country code of the customer address.
+          type: string
+          minLength: 2
+          maxLength: 2
+          example: US
+        phone:
+          description: The phone number of the customer address.
+          type: string
+          minLength: 0
+          maxLength: 50
+        address_type:
+          title: Address Type
+          description: The address type. Residential or Commercial.
+          example: residential
+          type: string
+          enum:
+          - residential
+          - commercial
+        id:
+          description: The unique numeric ID of the address.
           type: integer
           format: int32
-        title:
-          description: The error title describing the particular error.
-          type: string
-        type:
-          description: A link to a list of BigCommerce API status codes.
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-          additionalProperties:
-            type: string
+          example: 1
+        form_fields:
+          type: array
+          description: 'Array of form fields. Controlled by formfields parameter.
+
+            '
+          items:
+            $ref: '#/components/schemas/formFieldValue'
+      required:
+      - id
+      x-examples:
+        example-1:
+          value:
+          - id: 18
+            first_name: sam
       x-internal: false
-    Links:
-      title: Links
-      description: Pagination links for the previous and next parts of the whole collection.
-      type: object
-      properties:
-        previous:
-          description: Link to the previous page returned in the response.
-          type: string
-        current:
-          description: Link to the current page returned in the response.
-          type: string
-        next:
-          description: Link to the next page returned in the response.
-          type: string
     formFieldValue_Customer:
       title: Customer Form Field Value
       type: object
@@ -604,37 +640,6 @@ components:
               type: string
         customer_id:
           type: integer
-    formFieldValue_Address:
-      title: Customer Address Form Field Value
-      type: object
-      required:
-      - address_id
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: The form field name.
-          example: color
-        value:
-          oneOf:
-          - type: string
-            example: blue
-          - type: number
-            format: double
-            example: 12.345
-          - type: array
-            example:
-            - red
-            - green
-            - black
-            items:
-              type: string
-        address_id:
-          type: integer
-          description: The Customer Address ID.
-          example: 1
-      x-internal: false
   responses:
     AddressCollectionResponsePostPut:
       description: ''
@@ -978,9 +983,13 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        | Customers | modify | `store_v2_customers` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        | Customers | read-only | `store_v2_customers_read_only` |
+
+        | Stored Payment Instruments | modify | `store_stored_payment_instruments` |
+
+        | Stored Payment Instruments | read-only | `store_stored_payment_instruments_read_only` |
 
 
         ### Authentication header

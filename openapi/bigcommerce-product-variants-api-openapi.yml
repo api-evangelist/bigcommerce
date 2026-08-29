@@ -1,13 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Product Variants API
-  version: 3.0.0
+  title: BigCommerce Catalog Product Variants API
+  description: "> The Catalog API manages products, categories, brands, bulk pricing rules, and more. To learn more about catalog resources, see the [Catalog Overview](/docs/store-operations/catalog).\n\nA Product Variant is a version of a product that has its own SKU. For example, a catalog might model a particular style of high-top sneakers that come in both red and blue as one product - high-tops - with two variants - red and blue. From a storefront point of view, Product Variants are often what shoppers seek. They are also the object that maps to SKUs and tracks inventory. A Product with one only Variant is a _base variant_.\n\nOur Catalog Product Variants endpoints let you work in two ways. \n\nOn a per-product basis, you can [create and manage Product Variants](/docs/rest-catalog/product-variants), their [images](/docs/rest-catalog/product-variants/images), and their [metafields](/docs/rest-catalog/product-variants/metafields), which are arbitrary key-value attributes.\n\nBy design, Product Variants consist of a combination of [Product Variant Option values](/docs/rest-catalog/product-variant-options/values).\n\nThis API family also provides endpoints that can make [batch updates](/docs/rest-catalog/product-variants/variants-batch#update-variants-batch) to Product Variants from different products across the Catalog, as well as [getting all variants](/docs/rest-catalog/product-variants/variants-batch#get-all-variants).\n\nThe terms \"product variant\" and \"variant\" are used interchangeably throughout the documentation.\n\n> To learn more about authenticating Catalog endpoints, locate the **Authentication** section at the top of each endpoint, then click **Show Details**.\n\n## Resources\n\n### Webhooks\nLearn more about [Product webhook events](/docs/integrations/webhooks/events#products).\n\n### Additional Catalog endpoints\n* [Brands](/docs/rest-catalog/brands)\n* [Categories](/docs/rest-catalog/categories)\n* [Category Trees](/docs/rest-catalog/category-trees)\n* [Products](/docs/rest-catalog/products)\n* [Product Modifiers](/docs/rest-catalog/product-modifiers)\n* [Product Variant Options](/docs/rest-catalog/product-variant-options)"
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  version: ''
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -531,11 +531,28 @@ paths:
           content: {}
 components:
   parameters:
+    VariantIdParam:
+      name: variant_id
+      in: path
+      description: 'ID of the variant on a product, or on an associated Price List Record.
+
+        '
+      required: true
+      schema:
+        type: integer
     Accept:
       name: Accept
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
       schema:
         type: string
         default: application/json
@@ -548,186 +565,7 @@ components:
       required: true
       schema:
         type: integer
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    VariantIdParam:
-      name: variant_id
-      in: path
-      description: 'ID of the variant on a product, or on an associated Price List Record.
-
-        '
-      required: true
-      schema:
-        type: integer
   schemas:
-    productVariant_Base:
-      title: productVariant_Base
-      type: object
-      properties:
-        cost_price:
-          minimum: 0
-          type: number
-          description: The cost price of the variant. Not affected by Price List prices.
-          format: double
-          nullable: true
-        price:
-          minimum: 0
-          type: number
-          description: This variant’s base price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is `null`, the product’s default price (set in the Product resource’s `price` field) will be used as the base price.
-          format: double
-          nullable: true
-        sale_price:
-          minimum: 0
-          type: number
-          description: This variant’s sale price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is null, the product’s sale price (set in the Product resource’s `price` field) will be used as the sale price.
-          format: double
-          nullable: true
-        retail_price:
-          minimum: 0
-          type: number
-          description: This variant’s retail price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is null, the product’s retail price (set in the Product resource’s `price` field) will be used as the retail price.
-          format: double
-          nullable: true
-        weight:
-          minimum: 0
-          type: number
-          description: This variant’s base weight on the storefront. If this value is null, the product’s default weight (set in the Product resource’s weight field) will be used as the base weight.
-          format: double
-          nullable: true
-        width:
-          minimum: 0
-          type: number
-          description: 'Width of the variant, which can be used when calculating shipping costs. If this value is `null`, the productʼs default width (set in the Product resourceʼs `width` field) will be used as the base width.
-
-            '
-          format: double
-          nullable: true
-        height:
-          minimum: 0
-          type: number
-          description: 'Height of the variant, which can be used when calculating shipping costs. If this value is `null`, the productʼs default height (set in the Product resourceʼs `height` field) will be used as the base height.
-
-            '
-          format: double
-          nullable: true
-        depth:
-          minimum: 0
-          type: number
-          description: 'Depth of the variant, which can be used when calculating shipping costs. If this value is `null`, the productʼs default depth (set in the Product resourceʼs `depth` field) will be used as the base depth.
-
-            '
-          format: double
-          nullable: true
-        is_free_shipping:
-          type: boolean
-          description: 'Flag used to indicate whether the variant has free shipping. If `true`, the shipping cost for the variant will be zero.
-
-            '
-        fixed_cost_shipping_price:
-          minimum: 0
-          type: number
-          description: 'A fixed shipping cost for the variant. If defined, this value will be used during checkout instead of normal shipping-cost calculation.
-
-            '
-          format: double
-          nullable: true
-        purchasing_disabled:
-          type: boolean
-          description: If `true`, this variant will not be purchasable on the storefront.
-        purchasing_disabled_message:
-          maxLength: 255
-          minLength: 0
-          type: string
-          description: If `purchasing_disabled` is `true`, this message should show on the storefront when the variant is selected.
-        upc:
-          type: string
-          description: The UPC code used in feeds for shopping comparison sites and external channel integrations.
-          nullable: true
-        inventory_level:
-          type: integer
-          description: "Inventory level for the variant, which is used when the product’s inventory_tracking is set to `variant`. The Catalog API returns the inventory for only the default location.\n\nThe inventory for a variant cannot exceed 2,147,483,647 in the catalog. The sum of the variant inventories, or the total inventory for a product, cannot exceed 2,147,483,647. \n\nIf you exceed the limit, the store sets the variant inventory to the limit if no other variant inventories are set. If other variant inventories are set, the store does not save the variant inventory rather than setting the variant inventory to the remaining limit.\n\nThe Catalog API handles limits in a different way than the Inventory API. For more information, see [Limit handling](/docs/store-operations/catalog/inventory-adjustments#limit-handling-in-inventory-versus-catalog-api). "
-          nullable: true
-          maximum: 2147483647
-        inventory_warning_level:
-          type: integer
-          description: When the variant hits this inventory level, it is considered low stock.
-          nullable: true
-          maximum: 2147483647
-        bin_picking_number:
-          maxLength: 255
-          minLength: 0
-          type: string
-          description: Identifies where in a warehouse the variant is located.
-          nullable: true
-        mpn:
-          type: string
-          description: The Manufacturer Part Number (MPN) for the variant.
-        gtin:
-          type: string
-          example: 012345678905
-      description: Common Variant properties.
-      x-internal: false
-      x-examples:
-        example-1:
-          cost_price: 0
-          price: 0
-          sale_price: 0
-          retail_price: 0
-          weight: 0
-          width: 0
-          height: 0
-          depth: 0
-          is_free_shipping: true
-          fixed_cost_shipping_price: 0
-          purchasing_disabled: true
-          purchasing_disabled_message: string
-          upc: string
-          inventory_level: 0
-          inventory_warning_level: 0
-          bin_picking_number: string
-          mpn: string
-          gtin: 012345678905
-    errorMultiStatus:
-      title: errorMultiStatus
-      type: object
-      properties:
-        status:
-          type: integer
-          minLength: 3
-          maxLength: 3
-          description: The [HTTP status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) of the failure or partial success.
-        title:
-          type: string
-          description: A summary of the failure or partial success.
-        type:
-          type: string
-          description: A BigCommerce-defined error signifier.
-        errors:
-          $ref: '#/components/schemas/DetailedErrors'
-    productVariant_Put:
-      title: productVariant_Put
-      description: The model for a PUT to update variants on a product.
-      allOf:
-      - $ref: '#/components/schemas/productVariant_Base'
-      - type: object
-        properties:
-          product_id:
-            type: integer
-            x-required:
-            - post
-          sku:
-            maxLength: 255
-            minLength: 1
-            type: string
-            x-required:
-            - post
-      x-internal: false
     MultiStatus:
       type: object
       properties:
@@ -737,266 +575,6 @@ components:
           $ref: '#/components/schemas/errorMultiStatus'
         meta:
           $ref: '#/components/schemas/metaCollection_Full'
-    productVariantOptionValue_Base:
-      title: productVariantOptionValue_Base
-      type: object
-      properties:
-        id:
-          type: integer
-          description: '`option_value` ID.'
-          example: 146
-        option_id:
-          type: integer
-          description: '`option` ID.'
-          example: 151
-      description: Common Product Variant Option properties.
-      x-internal: false
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    productVariant_Post:
-      title: productVariant_Post
-      description: 'The model for a POST to create variants on a product.
-
-        '
-      allOf:
-      - title: Variant Base
-        type: object
-        properties:
-          cost_price:
-            minimum: 0
-            type: number
-            description: The cost price of the variant. Not affected by Price List prices.
-            format: double
-            nullable: true
-          price:
-            minimum: 0
-            type: number
-            description: This variant’s base price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is `null`, the product’s default price (set in the Product resource’s `price` field) will be used as the base price.
-            format: double
-            nullable: true
-          sale_price:
-            minimum: 0
-            type: number
-            description: This variant’s sale price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is null, the product’s sale price (set in the Product resource’s `price` field) will be used as the sale price.
-            format: double
-            nullable: true
-          retail_price:
-            minimum: 0
-            type: number
-            description: This variant’s retail price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is null, the product’s retail price (set in the Product resource’s `price` field) will be used as the retail price.
-            format: double
-            nullable: true
-          weight:
-            minimum: 0
-            type: number
-            description: This variant’s base weight on the storefront. If this value is null, the product’s default weight (set in the Product resource’s weight field) will be used as the base weight.
-            format: double
-            nullable: true
-          width:
-            minimum: 0
-            type: number
-            description: 'Width of the variant, which can be used when calculating shipping costs. If this value is `null`, the productʼs default width (set in the Product resourceʼs `width` field) will be used as the base width.
-
-              '
-            format: double
-            nullable: true
-          height:
-            minimum: 0
-            type: number
-            description: 'Height of the variant, which can be used when calculating shipping costs. If this value is `null`, the productʼs default height (set in the Product resourceʼs `height` field) will be used as the base height.
-
-              '
-            format: double
-            nullable: true
-          depth:
-            minimum: 0
-            type: number
-            description: 'Depth of the variant, which can be used when calculating shipping costs. If this value is `null`, the productʼs default depth (set in the Product resourceʼs `depth` field) will be used as the base depth.
-
-              '
-            format: double
-            nullable: true
-          is_free_shipping:
-            type: boolean
-            description: 'Flag used to indicate whether the variant has free shipping. If `true`, the shipping cost for the variant will be zero.
-
-              '
-          fixed_cost_shipping_price:
-            minimum: 0
-            type: number
-            description: 'A fixed shipping cost for the variant. If defined, this value will be used during checkout instead of normal shipping-cost calculation.
-
-              '
-            format: double
-            nullable: true
-          purchasing_disabled:
-            type: boolean
-            description: If `true`, this variant will not be purchasable on the storefront.
-          purchasing_disabled_message:
-            maxLength: 255
-            minLength: 0
-            type: string
-            description: If `purchasing_disabled` is `true`, this message should show on the storefront when the variant is selected.
-          upc:
-            type: string
-            description: The UPC code used in feeds for shopping comparison sites and external channel integrations.
-            nullable: true
-          inventory_level:
-            type: integer
-            description: "Inventory level for the variant, which is used when the product’s inventory_tracking is set to `variant`. The Catalog API returns the inventory for only the default location.\n\nThe inventory for a variant cannot exceed 2,147,483,647 in the catalog. The sum of the variant inventories, or the total inventory for a product, cannot exceed 2,147,483,647. \n\nIf you exceed the limit, the store sets the variant inventory to the limit if no other variant inventories are set. If other variant inventories are set, the store does not save the variant inventory rather than setting the variant inventory to the remaining limit.\n\nThe Catalog API handles limits in a different way than the Inventory API. For more information, see [Limit handling](/docs/store-operations/catalog/inventory-adjustments#limit-handling-in-inventory-versus-catalog-api). "
-            nullable: true
-            maximum: 2147483647
-          inventory_warning_level:
-            type: integer
-            description: When the variant hits this inventory level, it is considered low stock.
-            nullable: true
-            maximum: 2147483647
-          bin_picking_number:
-            maxLength: 255
-            minLength: 0
-            type: string
-            description: Identifies where in a warehouse the variant is located.
-            nullable: true
-          image_url:
-            type: string
-            description: Publicly available image url
-          gtin:
-            type: string
-            description: Global Trade Item Number
-            example: 012345678905
-          mpn:
-            type: string
-            description: Manufacturer Part Number
-            example: HV-HM02
-        description: Common Variant properties.
-      - type: object
-        properties:
-          product_id:
-            type: integer
-            x-required:
-            - post
-          sku:
-            maxLength: 255
-            minLength: 1
-            type: string
-            x-required:
-            - post
-          option_values:
-            type: array
-            description: Array of option and option values IDs that make up this variant. Will be empty if the variant is the productʼs base variant.
-            items:
-              $ref: '#/components/schemas/productVariantOptionValue_Full'
-            x-required:
-            - post
-      x-internal: false
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
-    DetailedErrors:
-      title: DetailedErrors
-      description: Each key-value pair describes a failure or partial success case.
-      type: object
-      properties: {}
-      additionalProperties: true
-      x-internal: false
-    productVariantOptionValue_Full:
-      title: productVariantOptionValue_Full
-      allOf:
-      - type: object
-        properties:
-          option_display_name:
-            maxLength: 255
-            minLength: 1
-            type: string
-            description: 'The name of the option.
-
-              '
-            example: Color
-            x-required:
-            - post
-          label:
-            maxLength: 255
-            minLength: 1
-            type: string
-            description: 'The label of the option value.
-
-              '
-            example: Beige
-            x-required:
-            - post
-      - $ref: '#/components/schemas/productVariantOptionValue_Base'
-      x-internal: false
-    productVariant_Full:
-      title: productVariant_Full
-      allOf:
-      - $ref: '#/components/schemas/productVariant_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-          product_id:
-            type: integer
-          sku:
-            type: string
-          sku_id:
-            type: integer
-            description: Read-only reference to v2 APIʼs SKU ID. Null if it is a base variant.
-            nullable: true
-          option_values:
-            type: array
-            description: Array of option and option values IDs that make up this variant. Will be empty if the variant is the productʼs base variant.
-            items:
-              $ref: '#/components/schemas/productVariantOptionValue_Full'
-          calculated_price:
-            type: number
-            description: 'The price of the variant as seen on the storefront. This price takes into account `sale_price` and any price adjustment rules that are applicable to this variant.
-
-              '
-            format: double
-          calculated_weight:
-            type: number
-      x-internal: false
-      description: ''
-      x-examples:
-        example-1:
-          cost_price: 0
-          price: 0
-          sale_price: 0
-          retail_price: 0
-          weight: 0
-          width: 0
-          height: 0
-          depth: 0
-          is_free_shipping: true
-          fixed_cost_shipping_price: 0
-          purchasing_disabled: true
-          purchasing_disabled_message: string
-          upc: string
-          inventory_level: 0
-          inventory_warning_level: 0
-          bin_picking_number: string
-          mpn: string
-          gtin: 012345678905
-          id: 0
-          product_id: 0
-          sku: string
-          sku_id: 0
-          option_values:
-          - option_display_name: Color
-            label: Beige
-            id: 146
-            option_id: 151
-          calculated_price: 0
-          calculated_weight: 0
     pagination_Full:
       title: pagination_Full
       type: object
@@ -1055,6 +633,455 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
+    DetailedErrors:
+      title: DetailedErrors
+      description: Each key-value pair describes a failure or partial success case.
+      type: object
+      properties: {}
+      additionalProperties: true
+      x-internal: false
+    productVariant_Post:
+      title: productVariant_Post
+      description: 'The model for a POST to create variants on a product.
+
+        '
+      allOf:
+      - title: Variant Base
+        type: object
+        properties:
+          cost_price:
+            minimum: 0
+            type:
+            - number
+            - 'null'
+            description: The cost price of the variant. Not affected by Price List prices.
+            format: double
+          price:
+            minimum: 0
+            type:
+            - number
+            - 'null'
+            description: This variant’s base price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is `null`, the product’s default price (set in the Product resource’s `price` field) will be used as the base price.
+            format: double
+          sale_price:
+            minimum: 0
+            type:
+            - number
+            - 'null'
+            description: This variant’s sale price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is null, the product’s sale price (set in the Product resource’s `price` field) will be used as the sale price.
+            format: double
+          retail_price:
+            minimum: 0
+            type:
+            - number
+            - 'null'
+            description: This variant’s retail price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is null, the product’s retail price (set in the Product resource’s `price` field) will be used as the retail price.
+            format: double
+          weight:
+            minimum: 0
+            type:
+            - number
+            - 'null'
+            description: This variant’s base weight on the storefront. If this value is null, the product’s default weight (set in the Product resource’s weight field) will be used as the base weight.
+            format: double
+          width:
+            minimum: 0
+            type:
+            - number
+            - 'null'
+            description: 'Width of the variant, which can be used when calculating shipping costs. If this value is `null`, the productʼs default width (set in the Product resourceʼs `width` field) will be used as the base width.
+
+              '
+            format: double
+          height:
+            minimum: 0
+            type:
+            - number
+            - 'null'
+            description: 'Height of the variant, which can be used when calculating shipping costs. If this value is `null`, the productʼs default height (set in the Product resourceʼs `height` field) will be used as the base height.
+
+              '
+            format: double
+          depth:
+            minimum: 0
+            type:
+            - number
+            - 'null'
+            description: 'Depth of the variant, which can be used when calculating shipping costs. If this value is `null`, the productʼs default depth (set in the Product resourceʼs `depth` field) will be used as the base depth.
+
+              '
+            format: double
+          is_free_shipping:
+            type: boolean
+            description: 'Flag used to indicate whether the variant has free shipping. If `true`, the shipping cost for the variant will be zero.
+
+              '
+          fixed_cost_shipping_price:
+            minimum: 0
+            type:
+            - number
+            - 'null'
+            description: 'A fixed shipping cost for the variant. If defined, this value will be used during checkout instead of normal shipping-cost calculation.
+
+              '
+            format: double
+          purchasing_disabled:
+            type: boolean
+            description: If `true`, this variant will not be purchasable on the storefront.
+          purchasing_disabled_message:
+            maxLength: 255
+            minLength: 0
+            type: string
+            description: If `purchasing_disabled` is `true`, this message should show on the storefront when the variant is selected.
+          upc:
+            type:
+            - string
+            - 'null'
+            description: The UPC code used in feeds for shopping comparison sites and external channel integrations.
+          inventory_level:
+            type:
+            - integer
+            - 'null'
+            description: "Inventory level for the variant, which is used when the product’s inventory_tracking is set to `variant`. The Catalog API returns the inventory for only the default location.\n\nThe inventory for a variant cannot exceed 2,147,483,647 in the catalog. The sum of the variant inventories, or the total inventory for a product, cannot exceed 2,147,483,647. \n\nIf you exceed the limit, the store sets the variant inventory to the limit if no other variant inventories are set. If other variant inventories are set, the store does not save the variant inventory rather than setting the variant inventory to the remaining limit.\n\nThe Catalog API handles limits in a different way than the Inventory API. For more information, see [Limit handling](/docs/store-operations/catalog/inventory-adjustments#limit-handling-in-inventory-versus-catalog-api). "
+            maximum: 2147483647
+          inventory_warning_level:
+            type:
+            - integer
+            - 'null'
+            description: When the variant hits this inventory level, it is considered low stock.
+            maximum: 2147483647
+          bin_picking_number:
+            maxLength: 255
+            minLength: 0
+            type:
+            - string
+            - 'null'
+            description: Identifies where in a warehouse the variant is located.
+          image_url:
+            type: string
+            description: Publicly available image url
+          gtin:
+            type: string
+            description: Global Trade Item Number
+            example: 012345678905
+          mpn:
+            type: string
+            description: Manufacturer Part Number
+            example: HV-HM02
+        description: Common Variant properties.
+      - type: object
+        properties:
+          product_id:
+            type: integer
+            x-required:
+            - post
+          sku:
+            maxLength: 255
+            minLength: 1
+            type: string
+            x-required:
+            - post
+          option_values:
+            type: array
+            description: Array of option and option values IDs that make up this variant. Will be empty if the variant is the productʼs base variant.
+            items:
+              $ref: '#/components/schemas/productVariantOptionValue_Full'
+            x-required:
+            - post
+      x-internal: false
+    productVariant_Full:
+      title: productVariant_Full
+      allOf:
+      - $ref: '#/components/schemas/productVariant_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+          product_id:
+            type: integer
+          sku:
+            type: string
+          sku_id:
+            type:
+            - integer
+            - 'null'
+            description: Read-only reference to v2 APIʼs SKU ID. Null if it is a base variant.
+          option_values:
+            type: array
+            description: Array of option and option values IDs that make up this variant. Will be empty if the variant is the productʼs base variant.
+            items:
+              $ref: '#/components/schemas/productVariantOptionValue_Full'
+          calculated_price:
+            type: number
+            description: 'The price of the variant as seen on the storefront. This price takes into account `sale_price` and any price adjustment rules that are applicable to this variant.
+
+              '
+            format: double
+          calculated_weight:
+            type: number
+      x-internal: false
+      description: ''
+      x-examples:
+        example-1:
+          cost_price: 0
+          price: 0
+          sale_price: 0
+          retail_price: 0
+          weight: 0
+          width: 0
+          height: 0
+          depth: 0
+          is_free_shipping: true
+          fixed_cost_shipping_price: 0
+          purchasing_disabled: true
+          purchasing_disabled_message: string
+          upc: string
+          inventory_level: 0
+          inventory_warning_level: 0
+          bin_picking_number: string
+          mpn: string
+          gtin: 012345678905
+          id: 0
+          product_id: 0
+          sku: string
+          sku_id: 0
+          option_values:
+          - option_display_name: Color
+            label: Beige
+            id: 146
+            option_id: 151
+          calculated_price: 0
+          calculated_weight: 0
+    productVariant_Put:
+      title: productVariant_Put
+      description: The model for a PUT to update variants on a product.
+      allOf:
+      - $ref: '#/components/schemas/productVariant_Base'
+      - type: object
+        properties:
+          product_id:
+            type: integer
+            x-required:
+            - post
+          sku:
+            maxLength: 255
+            minLength: 1
+            type: string
+            x-required:
+            - post
+      x-internal: false
+    productVariant_Base:
+      title: productVariant_Base
+      type: object
+      properties:
+        cost_price:
+          minimum: 0
+          type:
+          - number
+          - 'null'
+          description: The cost price of the variant. Not affected by Price List prices.
+          format: double
+        price:
+          minimum: 0
+          type:
+          - number
+          - 'null'
+          description: This variant’s base price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is `null`, the product’s default price (set in the Product resource’s `price` field) will be used as the base price.
+          format: double
+        sale_price:
+          minimum: 0
+          type:
+          - number
+          - 'null'
+          description: This variant’s sale price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is null, the product’s sale price (set in the Product resource’s `price` field) will be used as the sale price.
+          format: double
+        retail_price:
+          minimum: 0
+          type:
+          - number
+          - 'null'
+          description: This variant’s retail price on the storefront. If a Price List ID is used, the Price List value will be used. If a Price List ID is not used, and this value is null, the product’s retail price (set in the Product resource’s `price` field) will be used as the retail price.
+          format: double
+        weight:
+          minimum: 0
+          type:
+          - number
+          - 'null'
+          description: This variant’s base weight on the storefront. If this value is null, the product’s default weight (set in the Product resource’s weight field) will be used as the base weight.
+          format: double
+        width:
+          minimum: 0
+          type:
+          - number
+          - 'null'
+          description: 'Width of the variant, which can be used when calculating shipping costs. If this value is `null`, the productʼs default width (set in the Product resourceʼs `width` field) will be used as the base width.
+
+            '
+          format: double
+        height:
+          minimum: 0
+          type:
+          - number
+          - 'null'
+          description: 'Height of the variant, which can be used when calculating shipping costs. If this value is `null`, the productʼs default height (set in the Product resourceʼs `height` field) will be used as the base height.
+
+            '
+          format: double
+        depth:
+          minimum: 0
+          type:
+          - number
+          - 'null'
+          description: 'Depth of the variant, which can be used when calculating shipping costs. If this value is `null`, the productʼs default depth (set in the Product resourceʼs `depth` field) will be used as the base depth.
+
+            '
+          format: double
+        is_free_shipping:
+          type: boolean
+          description: 'Flag used to indicate whether the variant has free shipping. If `true`, the shipping cost for the variant will be zero.
+
+            '
+        fixed_cost_shipping_price:
+          minimum: 0
+          type:
+          - number
+          - 'null'
+          description: 'A fixed shipping cost for the variant. If defined, this value will be used during checkout instead of normal shipping-cost calculation.
+
+            '
+          format: double
+        purchasing_disabled:
+          type: boolean
+          description: If `true`, this variant will not be purchasable on the storefront.
+        purchasing_disabled_message:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: If `purchasing_disabled` is `true`, this message should show on the storefront when the variant is selected.
+        upc:
+          type:
+          - string
+          - 'null'
+          description: The UPC code used in feeds for shopping comparison sites and external channel integrations.
+        inventory_level:
+          type:
+          - integer
+          - 'null'
+          description: "Inventory level for the variant, which is used when the product’s inventory_tracking is set to `variant`. The Catalog API returns the inventory for only the default location.\n\nThe inventory for a variant cannot exceed 2,147,483,647 in the catalog. The sum of the variant inventories, or the total inventory for a product, cannot exceed 2,147,483,647. \n\nIf you exceed the limit, the store sets the variant inventory to the limit if no other variant inventories are set. If other variant inventories are set, the store does not save the variant inventory rather than setting the variant inventory to the remaining limit.\n\nThe Catalog API handles limits in a different way than the Inventory API. For more information, see [Limit handling](/docs/store-operations/catalog/inventory-adjustments#limit-handling-in-inventory-versus-catalog-api). "
+          maximum: 2147483647
+        inventory_warning_level:
+          type:
+          - integer
+          - 'null'
+          description: When the variant hits this inventory level, it is considered low stock.
+          maximum: 2147483647
+        bin_picking_number:
+          maxLength: 255
+          minLength: 0
+          type:
+          - string
+          - 'null'
+          description: Identifies where in a warehouse the variant is located.
+        mpn:
+          type: string
+          description: The Manufacturer Part Number (MPN) for the variant.
+        gtin:
+          type: string
+          example: 012345678905
+      description: Common Variant properties.
+      x-internal: false
+      x-examples:
+        example-1:
+          cost_price: 0
+          price: 0
+          sale_price: 0
+          retail_price: 0
+          weight: 0
+          width: 0
+          height: 0
+          depth: 0
+          is_free_shipping: true
+          fixed_cost_shipping_price: 0
+          purchasing_disabled: true
+          purchasing_disabled_message: string
+          upc: string
+          inventory_level: 0
+          inventory_warning_level: 0
+          bin_picking_number: string
+          mpn: string
+          gtin: 012345678905
+    productVariantOptionValue_Base:
+      title: productVariantOptionValue_Base
+      type: object
+      properties:
+        id:
+          type: integer
+          description: '`option_value` ID.'
+          example: 146
+        option_id:
+          type: integer
+          description: '`option` ID.'
+          example: 151
+      description: Common Product Variant Option properties.
+      x-internal: false
+    errorMultiStatus:
+      title: errorMultiStatus
+      type: object
+      properties:
+        status:
+          type: integer
+          minLength: 3
+          maxLength: 3
+          description: The [HTTP status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) of the failure or partial success.
+        title:
+          type: string
+          description: A summary of the failure or partial success.
+        type:
+          type: string
+          description: A BigCommerce-defined error signifier.
+        errors:
+          $ref: '#/components/schemas/DetailedErrors'
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    productVariantOptionValue_Full:
+      title: productVariantOptionValue_Full
+      allOf:
+      - type: object
+        properties:
+          option_display_name:
+            maxLength: 255
+            minLength: 1
+            type: string
+            description: 'The name of the option.
+
+              '
+            example: Color
+            x-required:
+            - post
+          label:
+            maxLength: 255
+            minLength: 1
+            type: string
+            description: 'The label of the option value.
+
+              '
+            example: Beige
+            x-required:
+            - post
+      - $ref: '#/components/schemas/productVariantOptionValue_Base'
+      x-internal: false
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -1065,9 +1092,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Products | modify | `store_v2_products` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Products | read-only | `store_v2_products_read_only` |
 
 
         ### Authentication header

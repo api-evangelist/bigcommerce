@@ -1,13 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Pages (Single) API
-  version: 3.0.0
-  termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
+  title: BigCommerce Pages V3 Pages (Single) API
+  version: ''
+  termsOfService: http://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  description: "## Overview\n\nA **page** appears on a **site** that is associated with a **channel**. \n\nSome pages, such as blog pages, contact forms, and plain-text or HTML pages, are web pages in the traditional sense. They contain markup (a `body`) and load at a relative page location on the site itself (the `url`). Other pages, such as link and feed pages, make external or non-visual content available from the menu of a parent page or by direct link.\n\n### Bulk operations\nAll endpoints without a `pageId` path parameter support bulk operations.\n\n### Page types\n\nThe following table describes the types of pages that the Pages API can manage:\n\n| Page Type | Description | Body |\n|:-|:|:--|\n| `page` | A user-defined plain-text page. | text |\n| `contact_form` | A user-customizable page that contains a contact form. | HTML |\n| `raw` | A user-defined page that contains HTML markup or other stringified code. | HTML, other code |\n| `blog` | A page that contains blog posts. Use caution; `blog`-type pages can only be created in the store control panel, but you may be able to change the type of a blog page to something else with this API. Use the [Store Content API](/docs/rest-content/store-content/blog-posts#create-a-blog-post) to work with blog posts and tags. | empty string |\n| `feed` | Makes RSS-syndicated content feeds available in the menu of other pages that contain markup. | &mdash; |\n| `link` | A link to an external absolute URL. Displays in the menu of other pages that contain markup. | &mdash; |"
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -290,7 +290,62 @@ paths:
       parameters: []
       summary: BigCommerce Delete a Page
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
+    includeQuery:
+      schema:
+        type: string
+        enum:
+        - body
+      in: query
+      name: include
+      description: Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content.
+    pageIdPath:
+      schema:
+        type: string
+      name: pageId
+      in: path
+      required: true
+      description: The ID of the page to be operated on.
   schemas:
+    ResponseErrorItemized:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      title: ResponseErrorItemized
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+      required:
+      - status
     Page:
       allOf:
       - type: object
@@ -301,15 +356,17 @@ components:
             maxLength: 255
             default: ''
           meta_title:
-            type: string
-            nullable: true
+            type:
+            - string
+            - 'null'
           body:
-            type: string
+            type:
+            - string
+            - 'null'
             description: 'HTML or variable that populates this page’s element, in default/desktop view. Required in a `POST` request if the page type is `raw`.
 
               '
             example: <div>Hello World!</div>
-            nullable: true
           feed:
             type: string
             description: 'The URL of the RSS feed. Required in a `POST` request if the page type is `rss_feed`.
@@ -347,21 +404,24 @@ components:
 
               '
             default: ''
-            type: string
-            nullable: true
+            type:
+            - string
+            - 'null'
           meta_description:
-            type: string
+            type:
+            - string
+            - 'null'
             description: 'Description contained within this page’s element.
 
               '
-            nullable: true
           search_keywords:
-            type: string
+            type:
+            - string
+            - 'null'
             description: 'Comma-separated list of keywords that shoppers can use to locate this page when searching the store.
 
               '
             example: trousers,pockets,luxury
-            nullable: true
           url:
             type: string
             description: 'Relative URL on the storefront for this page.
@@ -393,7 +453,7 @@ components:
             $ref: '#/components/schemas/ResponseMeta'
       title: PageResponseObject
       type: object
-    ResponseErrorBrief:
+    ResponseErrorDetailed:
       type: object
       description: 'Error payload for the BigCommerce API.
 
@@ -411,8 +471,68 @@ components:
           type: string
         type:
           type: string
+        detail:
+          type: string
       required:
       - status
+    ResponseMeta:
+      type: object
+      description: 'Data about the response, including pagination and collection totals.
+
+        '
+      properties:
+        pagination:
+          type: object
+          description: 'Data about the response, including pagination and collection totals.
+
+            '
+          properties:
+            total:
+              type: integer
+              description: 'Total number of items in the result set.
+
+                '
+            count:
+              type: integer
+              description: 'Total number of items in the collection response.
+
+                '
+            per_page:
+              type: integer
+              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+                '
+            current_page:
+              type: integer
+              description: 'The page you are currently on within the collection.
+
+                '
+            total_pages:
+              type: integer
+              description: 'The total number of pages in the collection.
+
+                '
+            links:
+              type: object
+              description: 'Pagination links for the previous and next parts of the whole collection.
+
+                '
+              properties:
+                previous:
+                  type: string
+                  description: 'Link to the previous page returned in the response.
+
+                    '
+                current:
+                  type: string
+                  description: 'Link to the current page returned in the response.
+
+                    '
+                next:
+                  type: string
+                  description: 'Link to the next page returned in the response.
+
+                    '
     PagePut:
       type: object
       description: Properties of the page modification request body.
@@ -487,15 +607,17 @@ components:
           description: 'Applicable when the page type is `contact_form`: contact email address that receives messages sent via the form. Must be unique.'
           maxLength: 255
         meta_title:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         body:
-          type: string
+          type:
+          - string
+          - 'null'
           description: 'HTML or variable that populates the elment of this page, in default/desktop view. Required in a `POST` request if the page type is `raw`.
 
             '
           example: <div>Hello World!</div>
-          nullable: true
         feed:
           type: string
           description: 'The URL of the RSS feed. Required in a `POST` request if the page type is `rss_feed`.
@@ -529,24 +651,27 @@ components:
           example: fullname,companyname,phone,orderno,rma
         meta_keywords:
           default: ''
-          type: string
+          type:
+          - string
+          - 'null'
           description: 'Comma-separated list of SEO-relevant keywords to include in the element of this page.
 
             '
-          nullable: true
         meta_description:
-          type: string
+          type:
+          - string
+          - 'null'
           description: 'Description contained within the element of this page.
 
             '
-          nullable: true
         search_keywords:
-          type: string
+          type:
+          - string
+          - 'null'
           description: 'Comma-separated list of keywords that shoppers can use to locate this page when searching the store.
 
             '
           example: trousers,pockets,luxury
-          nullable: true
         url:
           type: string
           description: 'Relative URL on the storefront for this page.
@@ -562,28 +687,6 @@ components:
           default: 0
       required:
       - id
-    ResponseErrorDetailed:
-      type: object
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-        detail:
-          type: string
-      required:
-      - status
     PageBase:
       type: object
       description: Common Page properties.
@@ -654,12 +757,11 @@ components:
       required:
       - name
       - type
-    ResponseErrorItemized:
+    ResponseErrorBrief:
       type: object
       description: 'Error payload for the BigCommerce API.
 
         '
-      title: ResponseErrorItemized
       properties:
         status:
           description: 'The HTTP status code.
@@ -673,137 +775,14 @@ components:
           type: string
         type:
           type: string
-        errors:
-          type: array
-          items:
-            type: string
       required:
       - status
-    ResponseMeta:
-      type: object
-      description: 'Data about the response, including pagination and collection totals.
-
-        '
-      properties:
-        pagination:
-          type: object
-          description: 'Data about the response, including pagination and collection totals.
-
-            '
-          properties:
-            total:
-              type: integer
-              description: 'Total number of items in the result set.
-
-                '
-            count:
-              type: integer
-              description: 'Total number of items in the collection response.
-
-                '
-            per_page:
-              type: integer
-              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
-
-                '
-            current_page:
-              type: integer
-              description: 'The page you are currently on within the collection.
-
-                '
-            total_pages:
-              type: integer
-              description: 'The total number of pages in the collection.
-
-                '
-            links:
-              type: object
-              description: 'Pagination links for the previous and next parts of the whole collection.
-
-                '
-              properties:
-                previous:
-                  type: string
-                  description: 'Link to the previous page returned in the response.
-
-                    '
-                current:
-                  type: string
-                  description: 'Link to the current page returned in the response.
-
-                    '
-                next:
-                  type: string
-                  description: 'Link to the next page returned in the response.
-
-                    '
   responses:
     HTTP204:
       description: No content. A 204 response with no payload indicates successful deletion of all specified pages.
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
-    includeQuery:
-      schema:
-        type: string
-        enum:
-        - body
-      in: query
-      name: include
-      description: Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content.
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
-    pageIdPath:
-      schema:
-        type: string
-      name: pageId
-      in: path
-      required: true
-      description: The ID of the page to be operated on.
   securitySchemes:
     X-Auth-Token:
-      name: X-Auth-Token
-      description: '### OAuth scopes
-
-
-        | UI Name | Permission | Parameter |
-
-        |:--|:--|:-|
-
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
-
-        | Information & Settings  | modify     | `store_v2_information`          |
-
-
-        ### Authentication header
-
-
-        | Header | Argument | Description |
-
-        |:-|:|:|
-
-        | `X-Auth-Token` | `access_token` | For more about API accounts that generate `access_token`s, see our [Guide to API Accounts](/docs/start/authentication/api-accounts). |
-
-
-        ### Further reading
-
-
-        For example requests and more information about authenticating BigCommerce APIs, see [Authentication and Example Requests](/docs/start/authentication#x-auth-token-header-example-requests).
-
-
-        For more about BigCommerce OAuth scopes, see our [Guide to API Accounts](/docs/start/authentication/api-accounts#oauth-scopes).
-
-
-        For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
       type: apiKey
+      name: X-Auth-Token
       in: header
+      description: "## API account\n\nYou can use this API with a [store API account or an app API account](https://developer.bigcommerce.com/api-docs/getting-started/rest-api-authentication). \n\n## OAuth scopes \n\n| UI Name | Permission | Parameter | \n|:--|:--|:-| \n| Content | modify     |`store_v2_content`| \n| Content | read-only  |`store_v2_content_read_only`| \n\nFor a [full list of OAuth scopes](https://developer.bigcommerce.com/api-docs/getting-started/rest-api-authentication#oauth-scopes), see our narrative documentation.\n\n## Security header        \n\nInclude a header parameter called `X-Auth-Token` and pass it the `access_token` provided with your store API account or generated with your app's `/auth` callback.\n\n```http filename=\"Security header example\"\n  X-Auth-Token: example_access_token\n```\n\n## Example requests\n\nFor detailed examples, consult our [X-Auth-Token example requests](https://developer.bigcommerce.com/api-docs/getting-started/authentication#x-auth-token-header-example-requests).\n\n## Additional information\n\n[BigCommerce Terms of Service](http://www.bigcommerce.com/terms)"

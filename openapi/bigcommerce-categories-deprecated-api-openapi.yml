@@ -1,13 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Categories (Deprecated) API
-  version: 3.0.0
+  title: BigCommerce Catalog - Categories Categories (Deprecated) API
+  description: "\n> The Catalog API manages products, categories, brands, bulk pricing rules, and more. To learn more about catalog resources, see the [Catalog Overview](/docs/store-operations/catalog).\n\n> Warning:\n> - The [Catalog V3 Categories](/docs/rest-catalog/categories) endpoints were primarily useful in applications for single storefront stores and are deprecated. We still support these endpoints, but will not implement new features within them. The endpoints will continue working as is.\n> - To manage Categories, use the [Catalog V3 Category Trees - Categories](/docs/rest-catalog/category-trees/categories) endpoints. These endpoints work for both [MSF-enabled stores](/docs/storefront/multi-storefront) and single storefront stores, and are backwards-compatible with categories created using Catalog V3 Categories.\n\nCategory images have their own dedicated [create a category image](/docs/rest-catalog/categories/images#create-a-category-image) and [delete a category image](/docs/rest-catalog/categories/images#delete-a-category-image) endpoints. \n\nIn addition, categories have metafields that you can use to store information structured in key-value pairs; learn more about [creating category metafields](/docs/rest-catalog/categories/metafields#create-a-category-metafield), [updating category metafields](/docs/rest-catalog/categories/metafields#update-a-category-metafield), and [deleting category metafields](/docs/rest-catalog/categories/metafields#delete-a-category-metafield). \n\nThis API family also contains endpoints to [update product sort order](/docs/rest-catalog/categories/sort-order#update-product-sort-order) within a category. \n\n> To learn more about authenticating Catalog endpoints, locate the **Authentication** section at the top of each endpoint, then click **Show Details**. \n\n## Resources\n\n### Webhooks\nLearn more about [Category webhook events](/docs/integrations/webhooks/events#category).\n\n### Additional Catalog endpoints\n* [Brands](/docs/rest-catalog/brands)\n* [Category Trees](/docs/rest-catalog/category-trees)\n* [Products](/docs/rest-catalog/products)\n* [Product Modifiers](/docs/rest-catalog/product-modifiers)\n* [Product Variants](/docs/rest-catalog/product-variants)\n* [Product Variant Options](/docs/rest-catalog/product-variant-options)"
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  version: ''
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -1187,26 +1187,28 @@ paths:
           content: {}
 components:
   schemas:
-    id:
-      title: id
+    error_Base:
+      title: error_Base
       type: object
       properties:
-        id:
+        status:
           type: integer
-          description: 'Unique ID of the *Category*. Increments sequentially.
-
-            Read-Only.'
-          readOnly: true
-    sort_order:
-      title: sort_order
-      type: object
-      properties:
-        sort_order:
-          type: integer
-          description: 'Priority this category will be given when included in the menu and category pages. The lower the number, the closer to the top of the results the category will be.
+          description: 'The HTTP status code.
 
             '
-          example: 3
+        title:
+          type: string
+          description: 'The error title describing the particular error.
+
+            '
+        type:
+          type: string
+        instance:
+          type: string
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      x-internal: false
     default_product_sort:
       title: default_product_sort
       type: object
@@ -1226,22 +1228,46 @@ components:
           - avg_customer_review
           - price_asc
           - price_desc
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    parent_id:
-      title: parent_id
+    meta_keywords:
+      title: meta_keywords
       type: object
       properties:
-        parent_id:
-          type: integer
-          description: 'The unique numeric ID of the categoryʼs parent. This field controls where the category sits in the tree of categories that organize the catalog.
+        meta_keywords:
+          type: array
+          description: 'Custom meta keywords for the category page. If not defined, the storeʼs default keywords will be used. Must post as an array like: ["awesome","sauce"].
 
-            Required in a POST if creating a child category.'
-          example: 2
+            '
+          items:
+            type: string
+    views:
+      title: views
+      type: object
+      properties:
+        views:
+          type: integer
+          description: 'Number of views the category has on the storefront.
+
+            '
+          example: 1050
+    page_title:
+      title: page_title
+      type: object
+      properties:
+        page_title:
+          type: string
+          description: 'Custom title for the category page. If not defined, the category name will be used as the meta title.
+
+            '
+          example: Bath
+    search_keywords:
+      title: search_keywords
+      type: object
+      properties:
+        search_keywords:
+          type: string
+          description: 'A comma-separated list of keywords that can be used to locate the category when searching the store.
+
+            '
     layout_file:
       title: layout_file
       type: object
@@ -1254,37 +1280,6 @@ components:
 
             '
           example: category.html
-    description:
-      title: description
-      type: object
-      properties:
-        description:
-          type: string
-          description: 'The product description, which can include HTML formatting.
-
-            '
-          example: <p>We offer a wide variety of products perfect for relaxing</p>
-    views:
-      title: views
-      type: object
-      properties:
-        views:
-          type: integer
-          description: 'Number of views the category has on the storefront.
-
-            '
-          example: 1050
-    image_url:
-      title: image_url
-      type: object
-      properties:
-        image_url:
-          type: string
-          description: 'Image URL used for this category on the storefront. Images can be uploaded using form file post to `/categories/{categoryId}/image`, or by providing a publicly accessible URL in this field. An image extension like .jpg or .png is required.
-
-            '
-          example: https://cdn8.bigcommerce.com/s-123456/product_images/d/fakeimage.png
-          x-url: true
     pagination_Full:
       title: pagination_Full
       type: object
@@ -1343,6 +1338,28 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
+    parent_id:
+      title: parent_id
+      type: object
+      properties:
+        parent_id:
+          type: integer
+          description: 'The unique numeric ID of the categoryʼs parent. This field controls where the category sits in the tree of categories that organize the catalog.
+
+            Required in a POST if creating a child category.'
+          example: 2
+    name:
+      title: name
+      type: object
+      properties:
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: 'The name displayed for the category. Name is unique with respect to the categoryʼs siblings.
+
+            Required in a POST.'
+          example: Bath
     category_Full:
       title: category_Full
       type: object
@@ -1462,34 +1479,16 @@ components:
       required:
       - parent_id
       - name
-    meta_keywords:
-      title: meta_keywords
+    sort_order:
+      title: sort_order
       type: object
       properties:
-        meta_keywords:
-          type: array
-          description: 'Custom meta keywords for the category page. If not defined, the storeʼs default keywords will be used. Must post as an array like: ["awesome","sauce"].
+        sort_order:
+          type: integer
+          description: 'Priority this category will be given when included in the menu and category pages. The lower the number, the closer to the top of the results the category will be.
 
             '
-          items:
-            type: string
-    is_visible:
-      title: is_visible
-      type: object
-      properties:
-        is_visible:
-          type: boolean
-          description: 'Flag to determine whether the product should be displayed to customers browsing the store. If `true`, the category will be displayed. If `false`, the category will be hidden from view.
-
-            '
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
+          example: 3
     meta_description:
       title: meta_description
       type: object
@@ -1501,34 +1500,22 @@ components:
           description: 'Custom meta description for the category page. If not defined, the storeʼs default meta description will be used.
 
             '
-    page_title:
-      title: page_title
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    description:
+      title: description
       type: object
       properties:
-        page_title:
+        description:
           type: string
-          description: 'Custom title for the category page. If not defined, the category name will be used as the meta title.
+          description: 'The product description, which can include HTML formatting.
 
             '
-          example: Bath
-    search_keywords:
-      title: search_keywords
-      type: object
-      properties:
-        search_keywords:
-          type: string
-          description: 'A comma-separated list of keywords that can be used to locate the category when searching the store.
-
-            '
-    Url:
-      type: object
-      properties:
-        url:
-          type: string
-        is_customized:
-          type: boolean
-      x-tags:
-      - Models
+          example: <p>We offer a wide variety of products perfect for relaxing</p>
     customUrl_Full:
       title: customUrl_Full
       type: object
@@ -1554,6 +1541,34 @@ components:
           - put
       description: The custom URL for the product on the storefront.
       x-internal: false
+    image_url:
+      title: image_url
+      type: object
+      properties:
+        image_url:
+          type: string
+          description: 'Image URL used for this category on the storefront. Images can be uploaded using form file post to `/categories/{categoryId}/image`, or by providing a publicly accessible URL in this field. An image extension like .jpg or .png is required.
+
+            '
+          example: https://cdn8.bigcommerce.com/s-123456/product_images/d/fakeimage.png
+          x-url: true
+    Url:
+      type: object
+      properties:
+        url:
+          type: string
+        is_customized:
+          type: boolean
+      x-tags:
+      - Models
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
     Category:
       x-tags:
       - Models
@@ -1577,48 +1592,34 @@ components:
         properties:
           custom_url:
             $ref: '#/components/schemas/Url'
-    name:
-      title: name
+    is_visible:
+      title: is_visible
       type: object
       properties:
-        name:
-          maxLength: 50
-          minLength: 1
-          type: string
-          description: 'The name displayed for the category. Name is unique with respect to the categoryʼs siblings.
+        is_visible:
+          type: boolean
+          description: 'Flag to determine whether the product should be displayed to customers browsing the store. If `true`, the category will be displayed. If `false`, the category will be hidden from view.
 
-            Required in a POST.'
-          example: Bath
-    error_Base:
-      title: error_Base
+            '
+    id:
+      title: id
       type: object
       properties:
-        status:
+        id:
           type: integer
-          description: 'The HTTP status code.
+          description: 'Unique ID of the *Category*. Increments sequentially.
 
-            '
-        title:
-          type: string
-          description: 'The error title describing the particular error.
-
-            '
-        type:
-          type: string
-        instance:
-          type: string
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      x-internal: false
-  responses:
-    General207Status:
-      description: Multi-status. Multiple operations have taken place and the status for each operation can be viewed in the body of the response. Typically indicates that a partial failure has occurred, such as when a `POST` or `PUT` request is successful, but saving the URL or inventory data has failed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Base'
+            Read-Only.'
+          readOnly: true
   parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
     Accept:
       name: Accept
       in: header
@@ -1636,14 +1637,13 @@ components:
       required: true
       schema:
         type: integer
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
+  responses:
+    General207Status:
+      description: Multi-status. Multiple operations have taken place and the status for each operation can be viewed in the body of the response. Typically indicates that a partial failure has occurred, such as when a `POST` or `PUT` request is successful, but saving the URL or inventory data has failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Base'
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -1654,9 +1654,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Products | modify | `store_v2_products` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Products | read-only | `store_v2_products_read_only` |
 
 
         ### Authentication header

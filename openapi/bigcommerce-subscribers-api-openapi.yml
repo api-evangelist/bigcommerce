@@ -1,13 +1,15 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Subscribers API
-  version: 3.0.0
+  title: BigCommerce Subscribers API
+  description: Manage subscribers.
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  license:
+    name: ''
+  version: ''
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -484,20 +486,6 @@ components:
         type: string
         default: application/json
   schemas:
-    subscriber_Put:
-      title: subscriber_Put
-      description: 'The model for a PUT to update a subscriber.
-
-        '
-      allOf:
-      - $ref: '#/components/schemas/subscriber_Base'
-      x-internal: false
-    OpenMeta:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     CollectionMeta:
       title: Collection Meta
       type: object
@@ -561,14 +549,6 @@ components:
           description: Data about the response, including pagination and collection totals.
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-    subscriber_Post:
-      title: subscriber_Post
-      description: 'The model for a POST to create a subscriber.
-
-        '
-      allOf:
-      - $ref: '#/components/schemas/subscriber_Base'
-      x-internal: false
     subscriber_Full:
       title: subscriber_Full
       description: Full subscriber object returned in responses.
@@ -627,17 +607,40 @@ components:
         order_id:
           maximum: 2147483647
           minimum: 1
-          type: integer
+          type:
+          - integer
+          - 'null'
           description: 'The ID of the source order, if source was an order.
 
             '
-          nullable: true
         channel_id:
           maximum: 2147483647
           minimum: 1
           type: integer
           description: The channel ID where the subscriber was created.
       description: Common Subscriber properties.
+      x-internal: false
+    OpenMeta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    subscriber_Put:
+      title: subscriber_Put
+      description: 'The model for a PUT to update a subscriber.
+
+        '
+      allOf:
+      - $ref: '#/components/schemas/subscriber_Base'
+      x-internal: false
+    subscriber_Post:
+      title: subscriber_Post
+      description: 'The model for a POST to create a subscriber.
+
+        '
+      allOf:
+      - $ref: '#/components/schemas/subscriber_Base'
       x-internal: false
   securitySchemes:
     X-Auth-Token:
@@ -649,9 +652,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Customers | modify | `store_v2_customers` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Customers | read-only | `store_v2_customers_read_only` |
 
 
         ### Authentication header

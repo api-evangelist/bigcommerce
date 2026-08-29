@@ -1,13 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Site API
-  version: 3.0.0
+  version: ''
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  title: BigCommerce Channels Site API
+  description: "Create and manage sales [channels](/docs/integrations/channels), their [sites](/docs/rest-management/channels/channel-site), and their [product listings](/docs/rest-management/channels/channel-listings).\n\n## Channels\n\nA [channel](/docs/rest-management/channels) is anywhere a merchant sells their products. This encompasses headless storefronts, marketplaces, POS systems, and marketing platforms.\n\n### Platform\n\nA channelʼs `type` and `platform` combination must be a valid pair as indicated in the table below.\n\n| Platform            | Accepted Type |\n|:--|:--|\n| `clover`            | `pos` |\n| `square`            | `pos` |\n| `stripe`            | `pos` |\n| `talech`            | `pos` |\n| `vend`              | `pos` |\n| `amazon`            | `marketplace` |\n| `belk`              | `marketplace` |\n| `catch`             | `marketplace` |\n| `ebay`              | `marketplace` |\n| `etsy`              | `marketplace` |\n| `facebook`          | `marketplace`, `marketing` |\n| `hudsons_bay`       | `marketplace` |\n| `google`            | `marketplace`, `marketing` |\n| `google_shopping` (deprecated)   | `marketing` |\n| `instagram`         | `marketplace`, `marketing` |\n| `macys`             | `marketplace` |\n| `mirakl`            | `marketplace` |\n| `overstock`         | `marketplace` |\n| `pinterest`         | `marketplace` |\n| `target_plus`       | `marketplace` |\n| `tiktok`            | `marketplace` |\n| `wayfair`           | `marketplace` |\n| `wish`              | `marketplace` |\n| `walmart`           | `marketplace` |\n| `acquia`            | `storefront` |\n| `bigcommerce` (Stencil and Blueprint) | `storefront` |\n| `bloomreach`        | `storefront` |\n| `catalyst` (BigCommerce Next.js) | `storefront` |\n| `deity`             | `storefront` |\n| `drupal`            | `storefront` |\n| `gatsby`            | `storefront` |\n| `next` (Next.js Commerce and other Next.js) | `storefront` |\n| `vue`               | `storefront` |\n| `wordpress`         | `storefront` |\n| `custom`            | `storefront`, `pos`, `marketing`, `marketplace` |\n    \n\n### Status\n\nAllowed values for a channelʼs `status` vary by channel `type`.\n\n| Type | Writeable Statuses |\n|:--|:-|\n| `storefront` | `prelaunch`, `active`, `inactive`, `archived`, `deleted` |\n| `marketing`, `marketplace`, `pos`| `connected`, `disconnected`, `archived`, `deleted` |\n\n> #### Warning\n> * You can restore a Channel with `deleted` status within **90 days** after deletion by contacting the BigCommerce support team. After the 90-days grace period is over, the Channel `status` will become `terminated`.\n> * The `terminated` status is read-only. Channels with a `status` of `terminated` **cannot** be restored.\n\n## Channel listings\n\n[Channel listings](/docs/rest-management/channels/channel-listings) allow you to manage catalog differences among different storefronts or marketplaces.\n\n## Channel site\n\nA [Channel site](/docs/rest-management/channels/channel-site) refers to the domain associated with a channel.\n\n## Resources\n\n* [Sites and Routes API Reference](/docs/rest-management/sites)\n* [Building Channels Overview](/docs/integrations/channels)\n* [Building Channel Apps](/docs/integrations/channels/guide)\n* [Channels Toolkit Reference](/docs/integrations/channels/toolkit-reference)"
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -92,44 +92,6 @@ paths:
       - Site
       summary: BigCommerce Delete a Channel Site
 components:
-  responses:
-    site_Resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                $ref: '#/components/schemas/Site'
-              meta:
-                $ref: '#/components/schemas/EmptyMeta'
-          examples: {}
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    channel_id_path_param:
-      name: channel_id
-      description: The ID of a channel.
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
   schemas:
     site_Post:
       type: object
@@ -143,35 +105,6 @@ components:
           description: The channel this site is attached to. Each site belongs to a single channel, and each channel can have either zero or one sites.
       title: site_Post
       x-internal: false
-    Url:
-      type: object
-      properties:
-        url:
-          type: string
-          description: URL of site
-        type:
-          type: string
-          description: URL type
-          enum:
-          - primary
-          - canonical
-          - checkout
-        created_at:
-          type: string
-          example: '2018-01-04T04:15:50.000Z'
-          format: date-time
-          description: The date-time that this URL was created, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
-        updated_at:
-          type: string
-          description: The date-time that this URL was last updated, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
-          example: '2018-01-04T04:15:50.000Z'
-          format: date-time
-    EmptyMeta:
-      type: object
-      title: Empty meta response.
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     Site:
       type: object
       properties:
@@ -217,6 +150,73 @@ components:
           description: The Fully Qualified URL (including host and scheme) where this site is hosted. All URLs generated for this site will be appended to this.
       title: site_Put
       x-internal: false
+    Url:
+      type: object
+      properties:
+        url:
+          type: string
+          description: URL of site
+        type:
+          type: string
+          description: URL type
+          enum:
+          - primary
+          - canonical
+          - checkout
+        created_at:
+          type: string
+          example: '2018-01-04T04:15:50.000Z'
+          format: date-time
+          description: The date-time that this URL was created, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
+        updated_at:
+          type: string
+          description: The date-time that this URL was last updated, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
+          example: '2018-01-04T04:15:50.000Z'
+          format: date-time
+    EmptyMeta:
+      type: object
+      title: Empty meta response.
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    channel_id_path_param:
+      name: channel_id
+      description: The ID of a channel.
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    site_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/Site'
+              meta:
+                $ref: '#/components/schemas/EmptyMeta'
+          examples: {}
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -227,9 +227,17 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Channel Listings | modify | `store_channel_listings` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Channel Listings | read-only | `store_channel_listings_read_only` |
+
+        |  Channel Settings | modify | `store_channel_settings` |
+
+        |  Channel Settings | read-only | `store_channel_settings_read_only` |
+
+        |  Sites & Routes | modify | `store_sites` |
+
+        |  Sites & Routes | read-only | `store_sites_read_only` |
 
 
         ### Authentication header

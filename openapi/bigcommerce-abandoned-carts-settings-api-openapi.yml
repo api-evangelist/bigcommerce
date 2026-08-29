@@ -1,9 +1,9 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Abandoned Carts Settings API
-  version: 3.0.0
+  version: ''
+  title: BigCommerce Abandoned Carts Abandoned Carts Settings API
+  description: Use `/abandoned-carts/{token}` on headless storefronts to retrieve the `cart_id` using the abandoned cart `token` passed to the storefront when a shopper clicks an abandoned cart email link. Once the cart ID has been retrieved, your application can use it to fetch and display information about the cart to the shopper using the REST Storefront API, the REST Management API, or the GraphQL Storefront API.
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
@@ -119,15 +119,38 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       security: []
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
-    GlobalAbandonedCartSettingsResponse:
-      description: The response object of abandoned cart settings at the global level
+    ErrorResponse:
+      description: The response object containing details of an error
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/AbandonedCartSettings'
-        meta:
-          $ref: '#/components/schemas/metaEmpty_Full'
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
       x-tags:
       - Models
     ChannelAbandonedCartSettingsRequest:
@@ -146,12 +169,31 @@ components:
           $ref: '#/components/schemas/metaEmpty_Full'
       x-tags:
       - Models
-    metaEmpty_Full:
-      title: Response meta
+    GlobalAbandonedCartSettingsResponse:
+      description: The response object of abandoned cart settings at the global level
       type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
+      properties:
+        data:
+          $ref: '#/components/schemas/AbandonedCartSettings'
+        meta:
+          $ref: '#/components/schemas/metaEmpty_Full'
+      x-tags:
+      - Models
+    GlobalAbandonedCartSettingsRequest:
+      allOf:
+      - $ref: '#/components/schemas/AbandonedCartSettings'
+      - description: The request object for updating the abandoned cart settings of a store at the global level
+        required:
+        - enabled
+        - email_customer_until_cart_is_recovered
+        - marketing_emails_require_customer_consent
+        - email_merchant_when_cart_is_converted
+        - email_merchant_when_cart_is_abandoned
+        - merchant_email_address
+        - merchant_abandoned_cart_email_frequency_type
+        - merchant_abandoned_cart_digest_email_frequency
+      x-tags:
+      - Models
     ChannelAbandonedCartSettings:
       description: Represents all settings overrides related to the abandoned cart functionality of a store for a channel
       type: object
@@ -160,42 +202,50 @@ components:
       properties:
         enable_notification:
           description: Indicates whether or not abandoned cart notification is on. If it is null, it means there is no override for the specified channel.
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
         email_customer_until_cart_is_recovered:
           description: Indicates whether or not a customer should continue to receive abandoned cart emails until their cart is recovered. If it is null, it means there is no override for the specified channel.
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
         marketing_emails_require_customer_consent:
           description: Indicates whether or not a customer should receive abandoned cart emails based on their consent. If it is null, it means there is no override for the specified channel. By default customers will not receive emails.
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
         email_merchant_when_cart_is_converted:
           description: Indicates whether or not a merchant should receive a notification email when a cart is converted into an order. If it is null, it means there is no override for the specified channel.
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
         email_merchant_when_cart_is_abandoned:
           description: Indicates whether or not a merchant should receive a notification email when a cart is abandoned. If it is null, it means there is no override for the specified channel.
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
         merchant_email_address:
           description: The email address for receiving merchant notifications. If it is null, it means there is no override for the specified channel.
-          type: string
+          type:
+          - string
+          - 'null'
           format: email
-          nullable: true
         merchant_abandoned_cart_email_frequency_type:
           description: Indicates whether to send an email for every abandoned cart or to send a digest email after X number of abandoned carts. If it is null, it means there is no override for the specified channel.
-          type: string
+          type:
+          - string
+          - 'null'
           enum:
           - digest
           - individual
-          nullable: true
         merchant_abandoned_cart_digest_email_frequency:
           description: The number of abandoned carts to accumulate before a digest email is sent to a merchant. If it is null, it means there is no override for the specified channel.
-          type: integer
+          type:
+          - integer
+          - 'null'
           minimum: 2
           maximum: 1000
-          nullable: true
     AbandonedCartSettings:
       description: Represents all settings related to the abandoned cart functionality of a store
       type: object
@@ -232,54 +282,12 @@ components:
           type: integer
           minimum: 2
           maximum: 1000
-    ErrorResponse:
-      description: The response object containing details of an error
+    metaEmpty_Full:
+      title: Response meta
       type: object
-      properties:
-        status:
-          type: integer
-        title:
-          type: string
-        type:
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-      x-tags:
-      - Models
-    GlobalAbandonedCartSettingsRequest:
-      allOf:
-      - $ref: '#/components/schemas/AbandonedCartSettings'
-      - description: The request object for updating the abandoned cart settings of a store at the global level
-        required:
-        - enabled
-        - email_customer_until_cart_is_recovered
-        - marketing_emails_require_customer_consent
-        - email_merchant_when_cart_is_converted
-        - email_merchant_when_cart_is_abandoned
-        - merchant_email_address
-        - merchant_abandoned_cart_email_frequency_type
-        - merchant_abandoned_cart_digest_email_frequency
-      x-tags:
-      - Models
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -1,9 +1,14 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Form Field Values API
-  version: 3.0.0
+  version: ''
+  title: BigCommerce Customers V3 Form Field Values API
+  description: 'Create and manage customers.
+
+
+    ## Resources
+
+    * [Customers Overview](/docs/store-operations/customers).'
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
@@ -135,100 +140,100 @@ paths:
                   name: What is your favorite pizza topping?
                   value: Mushrooms
 components:
+  schemas:
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    ErrorResponse:
+      title: Error Response
+      type: object
+      properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+          format: int32
+        title:
+          description: The error title describing the particular error.
+          type: string
+        type:
+          description: A link to a list of BigCommerce API status codes.
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+      x-internal: false
+    formFieldValue_Address:
+      title: Customer Address Form Field Value
+      type: object
+      required:
+      - address_id
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: The form field name.
+          example: color
+        value:
+          oneOf:
+          - type: string
+            example: blue
+          - type: number
+            format: double
+            example: 12.345
+          - type: array
+            example:
+            - red
+            - green
+            - black
+            items:
+              type: string
+        address_id:
+          type: integer
+          description: The Customer Address ID.
+          example: 1
+      x-internal: false
+    formFieldValue_Full:
+      oneOf:
+      - $ref: '#/components/schemas/formFieldValue_Customer'
+      - $ref: '#/components/schemas/formFieldValue_Address'
+      title: formFieldValue_Full
+      x-internal: false
+    formFieldValue_Customer:
+      title: Customer Form Field Value
+      type: object
+      required:
+      - customer_id
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: The form field name.
+          example: color
+        value:
+          oneOf:
+          - type: string
+            example: blue
+          - type: number
+            format: double
+            example: 12.345
+          - type: array
+            example:
+            - red
+            - green
+            - black
+            items:
+              type: string
+        customer_id:
+          type: integer
   responses:
-    FormFieldValuesResponse:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  oneOf:
-                  - allOf:
-                    - type: object
-                      title: Form Field Value Base
-                      required:
-                      - name
-                      - value
-                      properties:
-                        name:
-                          type: string
-                          description: The form field name.
-                          example: color
-                        value:
-                          oneOf:
-                          - type: string
-                            example: blue
-                          - type: number
-                            format: double
-                            example: 12.345
-                          - type: array
-                            example:
-                            - red
-                            - green
-                            - black
-                            items:
-                              type: string
-                    - type: object
-                      properties:
-                        customer_id:
-                          type: integer
-                      required:
-                      - customer_id
-                    title: Customer Form Field Value
-                  - allOf:
-                    - type: object
-                      title: Form Field Value Base
-                      required:
-                      - name
-                      - value
-                      properties:
-                        name:
-                          type: string
-                          description: The form field name.
-                          example: color
-                        value:
-                          oneOf:
-                          - type: string
-                            example: blue
-                          - type: number
-                            format: double
-                            example: 12.345
-                          - type: array
-                            example:
-                            - red
-                            - green
-                            - black
-                            items:
-                              type: string
-                    - type: object
-                      properties:
-                        address_id:
-                          type: integer
-                          description: The Customer Address ID.
-                      required:
-                      - address_id
-                    title: Customer Address Form Field Value
-                  title: Form Field Value
-              meta:
-                $ref: '#/components/schemas/MetaOpen'
-          examples:
-            response:
-              value:
-                data:
-                - customer_id: 12
-                  name: Sales Rep
-                  value: Miss Moneypenny
-                - customer_id: 12
-                  name: How did you hear about us?
-                  value: Other
-                - customer_id: 12
-                  name: What is your favorite pizza topping?
-                  value: Mushrooms
-                meta: {}
     FormFieldValueCollectionResponse:
       description: ''
       content:
@@ -438,99 +443,99 @@ components:
                     per_page: 50
                     total: 1
                     total_pages: 1
-  schemas:
-    formFieldValue_Full:
-      oneOf:
-      - $ref: '#/components/schemas/formFieldValue_Customer'
-      - $ref: '#/components/schemas/formFieldValue_Address'
-      title: formFieldValue_Full
-      x-internal: false
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ErrorResponse:
-      title: Error Response
-      type: object
-      properties:
-        status:
-          description: The HTTP status code.
-          type: integer
-          format: int32
-        title:
-          description: The error title describing the particular error.
-          type: string
-        type:
-          description: A link to a list of BigCommerce API status codes.
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-          additionalProperties:
-            type: string
-      x-internal: false
-    formFieldValue_Address:
-      title: Customer Address Form Field Value
-      type: object
-      required:
-      - address_id
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: The form field name.
-          example: color
-        value:
-          oneOf:
-          - type: string
-            example: blue
-          - type: number
-            format: double
-            example: 12.345
-          - type: array
-            example:
-            - red
-            - green
-            - black
-            items:
-              type: string
-        address_id:
-          type: integer
-          description: The Customer Address ID.
-          example: 1
-      x-internal: false
-    formFieldValue_Customer:
-      title: Customer Form Field Value
-      type: object
-      required:
-      - customer_id
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: The form field name.
-          example: color
-        value:
-          oneOf:
-          - type: string
-            example: blue
-          - type: number
-            format: double
-            example: 12.345
-          - type: array
-            example:
-            - red
-            - green
-            - black
-            items:
-              type: string
-        customer_id:
-          type: integer
+    FormFieldValuesResponse:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  oneOf:
+                  - allOf:
+                    - type: object
+                      title: Form Field Value Base
+                      required:
+                      - name
+                      - value
+                      properties:
+                        name:
+                          type: string
+                          description: The form field name.
+                          example: color
+                        value:
+                          oneOf:
+                          - type: string
+                            example: blue
+                          - type: number
+                            format: double
+                            example: 12.345
+                          - type: array
+                            example:
+                            - red
+                            - green
+                            - black
+                            items:
+                              type: string
+                    - type: object
+                      properties:
+                        customer_id:
+                          type: integer
+                      required:
+                      - customer_id
+                    title: Customer Form Field Value
+                  - allOf:
+                    - type: object
+                      title: Form Field Value Base
+                      required:
+                      - name
+                      - value
+                      properties:
+                        name:
+                          type: string
+                          description: The form field name.
+                          example: color
+                        value:
+                          oneOf:
+                          - type: string
+                            example: blue
+                          - type: number
+                            format: double
+                            example: 12.345
+                          - type: array
+                            example:
+                            - red
+                            - green
+                            - black
+                            items:
+                              type: string
+                    - type: object
+                      properties:
+                        address_id:
+                          type: integer
+                          description: The Customer Address ID.
+                      required:
+                      - address_id
+                    title: Customer Address Form Field Value
+                  title: Form Field Value
+              meta:
+                $ref: '#/components/schemas/MetaOpen'
+          examples:
+            response:
+              value:
+                data:
+                - customer_id: 12
+                  name: Sales Rep
+                  value: Miss Moneypenny
+                - customer_id: 12
+                  name: How did you hear about us?
+                  value: Other
+                - customer_id: 12
+                  name: What is your favorite pizza topping?
+                  value: Mushrooms
+                meta: {}
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -541,9 +546,13 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        | Customers | modify | `store_v2_customers` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        | Customers | read-only | `store_v2_customers_read_only` |
+
+        | Stored Payment Instruments | modify | `store_stored_payment_instruments` |
+
+        | Stored Payment Instruments | read-only | `store_stored_payment_instruments_read_only` |
 
 
         ### Authentication header

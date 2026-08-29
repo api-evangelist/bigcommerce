@@ -1,13 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Storefront Search API
-  version: 3.0.0
+  description: Manage settings and configuration for BigCommerce hosted stores and headless storefronts.
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
+  title: BigCommerce Settings V3 Storefront Search API
+  version: 3.0.0
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -95,6 +95,56 @@ paths:
       tags:
       - Storefront Search
 components:
+  schemas:
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    ContentSortEnumValues:
+      type: string
+      default: relevance
+      enum:
+      - relevance
+      - alphaasc
+      - alphadesc
+      title: ContentSortEnumValues
+      x-internal: false
+    ProductSortEnumValues:
+      description: The available sorts for PLP pages.
+      type: string
+      default: bestselling
+      enum:
+      - featured
+      - bestselling
+      - newest
+      - alphaasc
+      - alphadesc
+      - pricedesc
+      - priceasc
+      - avgcustomerreview
+      - relevance
+      title: ProductSortEnumValues
+      x-internal: false
+    StorefrontSearchSettings:
+      type: object
+      properties:
+        content_product_sort:
+          $ref: '#/components/schemas/ContentSortEnumValues'
+        default_product_sort:
+          $ref: '#/components/schemas/ProductSortEnumValues'
+        product_filtering_enabled:
+          description: Controls whether Product Filtering feature is active on the storefront. Only supports manipulation on a global level.
+          type: boolean
+        search_suggest:
+          type: boolean
+      required:
+      - content_product_sort
+      - default_product_sort
+      - product_filtering_enabled
+      - search_suggest
+      x-internal: false
   parameters:
     Accept:
       name: Accept
@@ -118,56 +168,6 @@ components:
       name: channel_id
       schema:
         type: integer
-  schemas:
-    ProductSortEnumValues:
-      description: The available sorts for PLP pages.
-      type: string
-      default: bestselling
-      enum:
-      - featured
-      - bestselling
-      - newest
-      - alphaasc
-      - alphadesc
-      - pricedesc
-      - priceasc
-      - avgcustomerreview
-      - relevance
-      title: ProductSortEnumValues
-      x-internal: false
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    StorefrontSearchSettings:
-      type: object
-      properties:
-        content_product_sort:
-          $ref: '#/components/schemas/ContentSortEnumValues'
-        default_product_sort:
-          $ref: '#/components/schemas/ProductSortEnumValues'
-        product_filtering_enabled:
-          description: Controls whether Product Filtering feature is active on the storefront. Only supports manipulation on a global level.
-          type: boolean
-        search_suggest:
-          type: boolean
-      required:
-      - content_product_sort
-      - default_product_sort
-      - product_filtering_enabled
-      - search_suggest
-      x-internal: false
-    ContentSortEnumValues:
-      type: string
-      default: relevance
-      enum:
-      - relevance
-      - alphaasc
-      - alphadesc
-      title: ContentSortEnumValues
-      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -178,9 +178,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Information & Settings | modify | `store_v2_information` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Information & Settings | read-only | `store_v2_information_read_only` |
 
 
         ### Authentication header

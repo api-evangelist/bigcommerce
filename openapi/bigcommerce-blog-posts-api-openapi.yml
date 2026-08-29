@@ -1,15 +1,15 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Blog Posts API
-  version: 3.0.0
+  title: BigCommerce Content Blog Posts API
+  description: "Manage blog posts, blog tags, content pages, and redirects.\n\n> #### Warning\n> **Deprecations**\n> * Redirects V2 are deprecated; use [Redirects V3](/docs/rest-management/redirects) instead. \n> * Pages V2 are deprecated; use [Pages V3](/docs/rest-content/pages) instead."
+  version: ''
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
 servers:
-- url: https://api.bigcommerce.com/stores/{store_hash}/v3
+- url: https://api.bigcommerce.com/stores/{store_hash}/v2
   variables:
     store_hash:
       default: store_hash
@@ -56,15 +56,12 @@ paths:
         description: Filter param.
         schema:
           maximum: 50
-          exclusiveMinimum: false
           type: integer
       - name: limit
         in: query
         description: Filter param.
         schema:
           maximum: 250
-          exclusiveMaximum: false
-          exclusiveMinimum: false
           type: integer
       responses:
         '200':
@@ -214,16 +211,12 @@ paths:
         description: Filter param.
         schema:
           maximum: 250
-          exclusiveMaximum: false
-          exclusiveMinimum: false
           type: integer
       - name: limit
         in: query
         description: Filter param.
         schema:
           maximum: 50
-          exclusiveMaximum: false
-          exclusiveMinimum: false
           type: integer
       responses:
         '204':
@@ -237,8 +230,6 @@ paths:
       description: ID of the blog post.
       required: true
       schema:
-        exclusiveMaximum: false
-        exclusiveMinimum: false
         type: integer
     get:
       tags:
@@ -372,70 +363,6 @@ components:
       example:
         count: 27
       x-internal: false
-    blogPost_Base_Res:
-      title: blogPost_Base_Res
-      type: object
-      x-internal: false
-      x-examples: {}
-      description: blog post base response
-      properties:
-        title:
-          type: string
-          description: Title of this blog post.
-          example: Welcome to BigCommerce
-        url:
-          type: string
-          description: URL for the public blog post.
-          example: /blog/welcome-bigcommerce/
-        preview_url:
-          type: string
-          description: URL to preview the blog post. READ-ONLY.
-          readOnly: true
-          example: /blog/welcome-bigcommerce/
-        body:
-          type: string
-          description: Text body of the blog post.
-          example: '<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>'
-        tags:
-          type: array
-          description: Tags to characterize the blog post.
-          items:
-            type: string
-        summary:
-          type: string
-          description: Summary of the blog post. READ-ONLY.
-          readOnly: true
-          example: <p>We power ecommerce websites for successful retailers all over the world</p>
-        is_published:
-          type: boolean
-          description: Whether the blog post is published. If you want the post to be or remain published following the request, you must set the field explicitly to true, even if the blog post was already published prior to the request.
-          default: false
-          example: true
-        published_date:
-          $ref: '#/components/schemas/publishedDate'
-        published_date_iso8601:
-          type: string
-          description: Published date in `ISO 8601` format.
-          example: 5/18/2023 1:26:42 PM
-        meta_description:
-          type: string
-          description: Description text for this blog post’s `<meta/>` element.
-          example: Welcome Post
-          nullable: true
-        meta_keywords:
-          type: string
-          description: Keywords for this blog post’s `<meta/>` element.
-          example: BigCommerce, welcome, ecommerce
-          nullable: true
-        author:
-          type: string
-          description: Name of the blog post’s author.
-          example: BigCommerce
-          nullable: true
-        thumbnail_path:
-          type: string
-          description: Local path to a thumbnail uploaded to `/product_images/` using [WebDAV](https://support.bigcommerce.com/s/article/File-Access-WebDAV).
-          nullable: true
     blogPost_Base_Post:
       title: blogPost_Base_Post
       type: object
@@ -499,20 +426,6 @@ components:
       required:
       - title
       - body
-    publishedDate:
-      type: object
-      x-internal: false
-      properties:
-        timezone_type:
-          type: integer
-          example: 1
-        date:
-          type: string
-          format: date-time
-          example: '2022-08-10 14:39:15.000000'
-        timezone:
-          type: string
-          example: +00:00
     blogPost_Full:
       title: blogPost_Full
       allOf:
@@ -545,6 +458,88 @@ components:
           meta_keywords: BigCommerce, welcome, ecommerce
           author: BigCommerce
           thumbnail_path: string
+    blogPost_Base_Res:
+      title: blogPost_Base_Res
+      type: object
+      x-internal: false
+      x-examples: {}
+      description: blog post base response
+      properties:
+        title:
+          type: string
+          description: Title of this blog post.
+          example: Welcome to BigCommerce
+        url:
+          type: string
+          description: URL for the public blog post.
+          example: /blog/welcome-bigcommerce/
+        preview_url:
+          type: string
+          description: URL to preview the blog post. READ-ONLY.
+          readOnly: true
+          example: /blog/welcome-bigcommerce/
+        body:
+          type: string
+          description: Text body of the blog post.
+          example: '<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>'
+        tags:
+          type: array
+          description: Tags to characterize the blog post.
+          items:
+            type: string
+        summary:
+          type: string
+          description: Summary of the blog post. READ-ONLY.
+          readOnly: true
+          example: <p>We power ecommerce websites for successful retailers all over the world</p>
+        is_published:
+          type: boolean
+          description: Whether the blog post is published. If you want the post to be or remain published following the request, you must set the field explicitly to true, even if the blog post was already published prior to the request.
+          default: false
+          example: true
+        published_date:
+          $ref: '#/components/schemas/publishedDate'
+        published_date_iso8601:
+          type: string
+          description: Published date in `ISO 8601` format.
+          example: 5/18/2023 1:26:42 PM
+        meta_description:
+          type:
+          - string
+          - 'null'
+          description: Description text for this blog post’s `<meta/>` element.
+          example: Welcome Post
+        meta_keywords:
+          type:
+          - string
+          - 'null'
+          description: Keywords for this blog post’s `<meta/>` element.
+          example: BigCommerce, welcome, ecommerce
+        author:
+          type:
+          - string
+          - 'null'
+          description: Name of the blog post’s author.
+          example: BigCommerce
+        thumbnail_path:
+          type:
+          - string
+          - 'null'
+          description: Local path to a thumbnail uploaded to `/product_images/` using [WebDAV](https://support.bigcommerce.com/s/article/File-Access-WebDAV).
+    publishedDate:
+      type: object
+      x-internal: false
+      properties:
+        timezone_type:
+          type: integer
+          example: 1
+        date:
+          type: string
+          format: date-time
+          example: '2022-08-10 14:39:15.000000'
+        timezone:
+          type: string
+          example: +00:00
   parameters:
     Accept:
       name: Accept
@@ -572,9 +567,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |  Content | modify | `store_v2_content` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |  Content | read-only | `store_v2_content_read_only` |
 
 
         ### Authentication header

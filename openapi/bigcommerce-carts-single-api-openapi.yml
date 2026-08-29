@@ -1,9 +1,12 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Carts (Single) API
-  version: 3.0.0
+  title: BigCommerce Carts Carts (Single) API
+  version: ''
+  description: 'Create a cart using BigCommerce cart logic.
+
+
+    Manage settings related to carts.'
   termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
   contact:
     name: BigCommerce
     url: https://www.bigcommerce.com
@@ -318,31 +321,64 @@ components:
         type: string
         format: UUID
   schemas:
-    ItemCustomGet:
+    AppliedCoupon:
+      title: Applied Coupon
       type: object
-      title: Item Custom
-      description: 'Add a custom item to the shopperʼs cart.
+      description: '|Type `int`|Type Name|
 
+        |-|-|
 
-        * Custom items are not added to the catalog.
+        |`0`|`per_item_discount`|
 
-        * The price should be set to match the store settings for taxes.'
+        |`1`|`percentage_discount`|
+
+        |`2`|`per_total_discount`|
+
+        |`3`|`shipping_discount`|
+
+        |`4`|`free_shipping`|
+
+        |`5`|`promotion`|'
       x-internal: false
       properties:
+        code:
+          description: The coupon code.
+          type: string
         id:
+          description: The coupon ID. (read-only)
           type: string
-          description: ID of the custom item.
-        sku:
+          readOnly: true
+        coupon_type:
+          description: 'Key name to identify the type of coupon.
+
+
+            type 0: per_item_discount
+
+            type 1: percentage_discount
+
+            type 2: per_total_discount
+
+            type 3: shipping_discount
+
+            type 4: free_shipping
+
+            type 5: promotion'
           type: string
-          description: SKU of the custom item.
-        name:
-          type: string
-          description: Name of the item.
-        quantity:
-          type: string
-        list_price:
-          type: string
-          description: Specifies the price of the item. This value can include or exclude tax, depending on the store setup.
+          enum:
+          - '0'
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          readOnly: true
+        discounted_amount:
+          description: The discounted amount applied within a given context.
+          type: number
+          format: double
+          readOnly: true
+      required:
+      - code
     Cart_Full:
       description: A cart contains a collection of items, prices, discounts, etc. It does not contain customer-related data.
       type: object
@@ -440,214 +476,6 @@ components:
                 text:
                   description: Text of the banner.
                   type: string
-    CartUpdatePutRequestData:
-      type: object
-      properties:
-        customer_id:
-          type: integer
-      title: Cart Update Put Request Data
-      x-internal: false
-    LineItemsGet:
-      title: LineItemsGet
-      type: object
-      properties:
-        physical_items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ItemPhysicalGet'
-        digital_items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ItemDigitalGet'
-        gift_certificates:
-          type: array
-          items:
-            $ref: '#/components/schemas/ItemGiftCertificateGet'
-        custom_items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ItemCustomGet'
-      description: '`GET`'
-    CartCreatePostData:
-      type: object
-      title: Cart Create Post Data
-      x-internal: false
-      properties:
-        customer_id:
-          type: integer
-        line_items:
-          type: array
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/cart_PostVariant'
-            - $ref: '#/components/schemas/cart_PostModifier'
-        custom_items:
-          $ref: '#/components/schemas/cart_PostCustomItem'
-        gift_certificates:
-          type: array
-          items:
-            type: object
-            title: Line Item Gift Certificate Request Data
-            properties:
-              name:
-                type: string
-                description: Given name for the gift certificate line item.
-              theme:
-                type: string
-                description: The theme of the gift certificate.
-                enum:
-                - birthday.html
-                - boy.html
-                - celebration.html
-                - christmas.html
-                - general.html
-                - girl.html
-              amount:
-                type: number
-                minimum: 1
-                maximum: 1000
-              quantity:
-                type: integer
-                minimum: 1
-              sender:
-                title: Contact Entity
-                type: object
-                properties:
-                  name:
-                    type: string
-                  email:
-                    type: string
-              recipient:
-                title: Contact Entity
-                type: object
-                properties:
-                  name:
-                    type: string
-                  email:
-                    type: string
-              message:
-                type: string
-                maximum: 200
-                description: Message shown to recipient, as provided by sender.
-            required:
-            - name
-            - theme
-            - amount
-            - quantity
-            - sender
-            - recipient
-        channel_id:
-          type: integer
-          description: The Channel ID. If no channel is specified, defaults to 1.
-        currency:
-          type: object
-          properties:
-            code:
-              type: string
-              format: ISO-4217
-              description: The [transactional currency](/docs/rest-management/currencies#definitions) code for the cart, formatted as an [ISO-4217](https://www.iso.org/iso-4217-currency-codes.html) string. This code is required when multi-currency is enabled. Passing a non-transactional display currency will result in a `400` error.
-              example: usd
-        locale:
-          type: string
-          description: The locale of the cart. Accepts strings of format `xx` or `xx-YY`. Uses the [ISO-639 standard](https://www.iso.org/iso-639-language-codes.html) format.
-          format: ISO-639
-          example: en-US
-      description: ''
-    AppliedCoupon:
-      title: Applied Coupon
-      type: object
-      description: '|Type `int`|Type Name|
-
-        |-|-|
-
-        |`0`|`per_item_discount`|
-
-        |`1`|`percentage_discount`|
-
-        |`2`|`per_total_discount`|
-
-        |`3`|`shipping_discount`|
-
-        |`4`|`free_shipping`|
-
-        |`5`|`promotion`|'
-      x-internal: false
-      properties:
-        code:
-          description: The coupon code.
-          type: string
-        id:
-          description: The coupon ID. (read-only)
-          type: string
-          readOnly: true
-        coupon_type:
-          description: 'Key name to identify the type of coupon.
-
-
-            type 0: per_item_discount
-
-            type 1: percentage_discount
-
-            type 2: per_total_discount
-
-            type 3: shipping_discount
-
-            type 4: free_shipping
-
-            type 5: promotion'
-          type: string
-          enum:
-          - '0'
-          - '1'
-          - '2'
-          - '3'
-          - '4'
-          - '5'
-          readOnly: true
-        discounted_amount:
-          description: The discounted amount applied within a given context.
-          type: number
-          format: double
-          readOnly: true
-      required:
-      - code
-    ItemGiftCertificateGet:
-      type: object
-      title: Item Gift Certificate
-      x-internal: false
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-          description: Name provided for the gift certificate that will appear in the control panel.
-        theme:
-          type: string
-          description: The theme of the gift certificate. The following options are available:`birthday.html`, `boy.html`, `celebration.html`, `christmas.html`, `general.html`, and `girl.html`.
-        amount:
-          type: number
-          description: Value must be between 1.00 and 1,000.00 in the store’s default currency.
-        is_taxable:
-          type: boolean
-        sender:
-          title: Contact Entity
-          type: object
-          properties:
-            name:
-              type: string
-            email:
-              type: string
-        recipient:
-          title: Contact Entity
-          type: object
-          properties:
-            name:
-              type: string
-            email:
-              type: string
-        message:
-          type: string
-          description: The message included in the gift certificate is limited to 200 characters.
     ItemDigitalGet:
       allOf:
       - title: Base Item
@@ -819,6 +647,75 @@ components:
       type: object
       title: ''
       description: ''
+    ItemCustomGet:
+      type: object
+      title: Item Custom
+      description: 'Add a custom item to the shopperʼs cart.
+
+
+        * Custom items are not added to the catalog.
+
+        * The price should be set to match the store settings for taxes.'
+      x-internal: false
+      properties:
+        id:
+          type: string
+          description: ID of the custom item.
+        sku:
+          type: string
+          description: SKU of the custom item.
+        name:
+          type: string
+          description: Name of the item.
+        quantity:
+          type: string
+        list_price:
+          type: string
+          description: Specifies the price of the item. This value can include or exclude tax, depending on the store setup.
+    LineItemsGet:
+      title: LineItemsGet
+      type: object
+      properties:
+        physical_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemPhysicalGet'
+        digital_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemDigitalGet'
+        gift_certificates:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemGiftCertificateGet'
+        custom_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemCustomGet'
+      description: '`GET`'
+    cart_PostCustomItem:
+      type: array
+      title: Custom item
+      x-internal: false
+      items:
+        type: object
+        properties:
+          sku:
+            type: string
+          name:
+            type: string
+            minLength: 1
+            maxLength: 250
+          quantity:
+            type: number
+          list_price:
+            type: number
+      x-examples:
+        example-1:
+        - sku: string
+          name: string
+          quantity: 0
+          list_price: 0
     cart_PostModifier:
       type: object
       title: Item with modifier
@@ -871,84 +768,50 @@ components:
             value: string
             name_id: 0
             value_id: 0
-    cart_PostCustomItem:
-      type: array
-      title: Custom item
-      x-internal: false
-      items:
-        type: object
-        properties:
-          sku:
-            type: string
-          name:
-            type: string
-            minLength: 1
-            maxLength: 250
-          quantity:
-            type: number
-          list_price:
-            type: number
-      x-examples:
-        example-1:
-        - sku: string
-          name: string
-          quantity: 0
-          list_price: 0
-    cart_PostVariant:
+    ItemGiftCertificateGet:
       type: object
-      title: Item with variant
+      title: Item Gift Certificate
       x-internal: false
       properties:
-        quantity:
-          type: number
-        product_id:
-          type: number
-        list_price:
-          type: number
-          description: Optional price override.
-        variant_id:
-          type: number
-          description: Variant ID. Exists only in Catalog V3.
+        id:
+          type: string
         name:
           type: string
-          description: Optionally, provide a value to override the product name.
-        gift_wrapping:
+          description: Name provided for the gift certificate that will appear in the control panel.
+        theme:
+          type: string
+          description: The theme of the gift certificate. The following options are available:`birthday.html`, `boy.html`, `celebration.html`, `christmas.html`, `general.html`, and `girl.html`.
+        amount:
+          type: number
+          description: Value must be between 1.00 and 1,000.00 in the store’s default currency.
+        is_taxable:
+          type: boolean
+        sender:
+          title: Contact Entity
           type: object
           properties:
-            wrap_together:
-              type: boolean
-              description: Boolean value that specifies whether items whether items should be wrapped together or wrapped individually.
-              example: true
-            wrap_details:
-              type: array
-              description: Details for the gift wrapping option selected. This can be specified for each line item.
-              items:
-                type: object
-                properties:
-                  id:
-                    type: number
-                    description: Identifier of the gift wrapping option selected.
-                    example: 0
-                  message:
-                    type: string
-                    description: Custom gift message.
-                    example: Happy Birthday
-          required:
-          - quantity
-          - product_id
-      description: Product with a variant.
-      x-examples:
-        example-1:
-          quantity: 0
-          product_id: 0
-          list_price: 0
-          variant_id: 0
-          name: string
-          gift_wrapping:
-            wrap_together: true
-            wrap_details:
-            - id: 0
-              message: Happy Birthday
+            name:
+              type: string
+            email:
+              type: string
+        recipient:
+          title: Contact Entity
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+        message:
+          type: string
+          description: The message included in the gift certificate is limited to 200 characters.
+    CartUpdatePutRequestData:
+      type: object
+      properties:
+        customer_id:
+          type: integer
+      title: Cart Update Put Request Data
+      x-internal: false
     ItemPhysicalGet:
       allOf:
       - type: object
@@ -1146,6 +1009,146 @@ components:
       - {}
       title: ''
       description: ''
+    CartCreatePostData:
+      type: object
+      title: Cart Create Post Data
+      x-internal: false
+      properties:
+        customer_id:
+          type: integer
+        line_items:
+          type: array
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/cart_PostVariant'
+            - $ref: '#/components/schemas/cart_PostModifier'
+        custom_items:
+          $ref: '#/components/schemas/cart_PostCustomItem'
+        gift_certificates:
+          type: array
+          items:
+            type: object
+            title: Line Item Gift Certificate Request Data
+            properties:
+              name:
+                type: string
+                description: Given name for the gift certificate line item.
+              theme:
+                type: string
+                description: The theme of the gift certificate.
+                enum:
+                - birthday.html
+                - boy.html
+                - celebration.html
+                - christmas.html
+                - general.html
+                - girl.html
+              amount:
+                type: number
+                minimum: 1
+                maximum: 1000
+              quantity:
+                type: integer
+                minimum: 1
+              sender:
+                title: Contact Entity
+                type: object
+                properties:
+                  name:
+                    type: string
+                  email:
+                    type: string
+              recipient:
+                title: Contact Entity
+                type: object
+                properties:
+                  name:
+                    type: string
+                  email:
+                    type: string
+              message:
+                type: string
+                maximum: 200
+                description: Message shown to recipient, as provided by sender.
+            required:
+            - name
+            - theme
+            - amount
+            - quantity
+            - sender
+            - recipient
+        channel_id:
+          type: integer
+          description: The Channel ID. If no channel is specified, defaults to 1.
+        currency:
+          type: object
+          properties:
+            code:
+              type: string
+              format: ISO-4217
+              description: The [transactional currency](/docs/rest-management/currencies#definitions) code for the cart, formatted as an [ISO-4217](https://www.iso.org/iso-4217-currency-codes.html) string. This code is required when multi-currency is enabled. Passing a non-transactional display currency will result in a `400` error.
+              example: usd
+        locale:
+          type: string
+          description: The locale of the cart. Accepts strings of format `xx` or `xx-YY`. Uses the [ISO-639 standard](https://www.iso.org/iso-639-language-codes.html) format.
+          format: ISO-639
+          example: en-US
+      description: ''
+    cart_PostVariant:
+      type: object
+      title: Item with variant
+      x-internal: false
+      properties:
+        quantity:
+          type: number
+        product_id:
+          type: number
+        list_price:
+          type: number
+          description: Optional price override.
+        variant_id:
+          type: number
+          description: Variant ID. Exists only in Catalog V3.
+        name:
+          type: string
+          description: Optionally, provide a value to override the product name.
+        gift_wrapping:
+          type: object
+          properties:
+            wrap_together:
+              type: boolean
+              description: Boolean value that specifies whether items whether items should be wrapped together or wrapped individually.
+              example: true
+            wrap_details:
+              type: array
+              description: Details for the gift wrapping option selected. This can be specified for each line item.
+              items:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    description: Identifier of the gift wrapping option selected.
+                    example: 0
+                  message:
+                    type: string
+                    description: Custom gift message.
+                    example: Happy Birthday
+          required:
+          - quantity
+          - product_id
+      description: Product with a variant.
+      x-examples:
+        example-1:
+          quantity: 0
+          product_id: 0
+          list_price: 0
+          variant_id: 0
+          name: string
+          gift_wrapping:
+            wrap_together: true
+            wrap_details:
+            - id: 0
+              message: Happy Birthday
   responses:
     CartResponse:
       description: ''
@@ -1164,9 +1167,9 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        |Carts|modify|`store_cart`|
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        |Carts |read-only|`store_cart_read_only`|
 
 
         ### Authentication header

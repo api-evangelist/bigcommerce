@@ -1,13 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: BigCommerce Abandoned Cart Emails Customers API
-  version: 3.0.0
-  termsOfService: https://www.bigcommerce.com/terms
-  description: Abandoned Cart Emails V3 API managing Handlebars-based emails.
-  contact:
-    name: BigCommerce
-    url: https://www.bigcommerce.com
-    email: support@bigcommerce.com
+  title: Bigcommerce Customers API
+  version: '1.0'
+  description: 'Operations tagged Customers across 2 of this provider''s published API definitions: customers-openapi-original.yml, storefront-customers-openapi-original.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -15,8 +10,11 @@ servers:
       default: store_hash
       description: Permanent ID of the BigCommerce store.
   description: BigCommerce API Gateway
-security:
-- X-Auth-Token: []
+- url: https://{store_domain}/api/storefront
+  variables:
+    store_domain:
+      default: your_store.example.com
+      description: The [URL authority](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/What_is_a_URL#authority) of the storefront.
 tags:
 - name: Customers
 paths:
@@ -176,6 +174,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/CustomerCollectionResponse'
+      security:
+      - X-Auth-Token: []
     post:
       description: "Creates Customers. Create up to 10 customers in one call.\n\n**Required Fields**\n* last_name\n* first_name\n* email\n\n**Required Fields Customer Address**\n* first_name\n* city\n* country_code\n* last_name\n* address1\n\n**Required Fields Attributes**\n* Attributes must be [created](/docs/rest-management/customers/customer-attributes#create-a-customer-attribute) **BEFORE** creating a customer.\n* attribute_id\n* attribute_value -- This is input as a string, regardless of the [Type](/docs/rest-management/customers/customer-attributes#create-a-customer-attribute).\n\n**Notes**\n\nA customer can be created with global access or channel-specific access.\n* **Global access:**\n  * Make sure the channel has `allow_global_logins` enabled. This is on by default only for the default storefront. Find more info at [Customer Settings > Channel](/docs/rest-management/customers/customer-settings-channel).\n  * Omit `channel_ids` field, or provide `channel_ids: null`.\n* **Channel-specific access:**\n  * Provide a `channel_ids` array containing the channels accessible by the customer. This array cannot be empty."
       summary: BigCommerce Create Customers
@@ -250,6 +250,8 @@ paths:
                     type: /api-docs/getting-started/api-status-codes
                     errors:
                       .customer_create: Error creating customers
+      security:
+      - X-Auth-Token: []
     put:
       description: 'Updates Customers. Subresource updates are not supported. Up to 10 customers can be updated in one call.
 
@@ -333,6 +335,8 @@ paths:
                   form_fields:
                   - name: test
                     value: test
+      security:
+      - X-Auth-Token: []
     delete:
       description: 'Deletes Customers.
 
@@ -368,6 +372,15 @@ paths:
         '204':
           description: ''
           headers: {}
+      security:
+      - X-Auth-Token: []
+    servers:
+    - url: https://api.bigcommerce.com/stores/{store_hash}/v3
+      variables:
+        store_hash:
+          default: store_hash
+          description: Permanent ID of the BigCommerce store.
+      description: BigCommerce API Gateway
 components:
   responses:
     CustomerCollectionResponse:
@@ -429,6 +442,27 @@ components:
                       current: string
                       next: string
   schemas:
+    ErrorResponse:
+      title: Error Response
+      type: object
+      properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+          format: int32
+        title:
+          description: The error title describing the particular error.
+          type: string
+        type:
+          description: A link to a list of BigCommerce API status codes.
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+      x-internal: false
     _metaCollection:
       title: _metaCollection
       description: Data about the response, including pagination and collection totals.
@@ -437,226 +471,48 @@ components:
         pagination:
           $ref: '#/components/schemas/Pagination'
       x-internal: false
-    customerAttributes_Base:
+    attribute_Full:
       description: ''
-      title: customerAttributes_Base
       type: object
+      x-examples:
+        Example:
+          attribute_id: 2
+          attribute_value: 'Yes'
+          customer_id: 1
+          date_created: '2021-07-28T19:00:38Z'
+          date_modified: '2021-07-28T19:00:38Z'
+          id: 2
       properties:
         attribute_id:
           type: integer
-          format: int32
-          example: 55
           description: Attribute ID.
+          format: int32
+          example: 2
         attribute_value:
           type: string
-          example: string
-          minLength: 0
-          maxLength: 255
-          description: Attribute value. This will always be a string, regardless of the attribute’s type.
-      x-internal: false
-    CustomerStoredCreditAmounts:
-      description: 'Store credit. '
-      type: array
-      format: double
-      items:
-        type: object
-        properties:
-          amount:
-            type: number
-            format: float
-            example: 43.15
-      x-internal: false
-    customer_Post:
-      title: customer_Post
-      type: object
-      properties:
-        email:
-          description: The email of the customer. Must be unique.
-          type: string
-          minLength: 3
-          maxLength: 255
-        first_name:
-          description: The first name of the customer.
-          type: string
           minLength: 1
-          maxLength: 100
-        last_name:
-          description: The last name of the customer.
-          type: string
-          minLength: 1
-          maxLength: 100
-        company:
-          description: The company of the customer.
-          type: string
-          minLength: 0
-          maxLength: 255
-        phone:
-          description: The phone number of the customer.
-          type: string
-          minLength: 0
-          maxLength: 50
-        notes:
-          description: The customer notes.
-          type: string
-        tax_exempt_category:
-          description: The tax exempt category code for the customer.
-          type: string
-          minLength: 0
-          maxLength: 255
-        customer_group_id:
-          description: ID of the group which this customer belongs to.
+          description: Attribute value.
+          example: 'Yes'
+        customer_id:
           type: integer
+          description: Customer ID.
+          example: 1
           format: int32
-        addresses:
-          description: Array of customer addresses. Limited to 10.
-          type: array
-          maxItems: 10
-          items:
-            $ref: '#/components/schemas/customerAddresses_CustomerPost'
-        attributes:
-          description: Array of customer attributes. Limited to 10.
-          type: array
-          maxItems: 10
-          items:
-            $ref: '#/components/schemas/customerAttributes_Base'
-        authentication:
-          $ref: '#/components/schemas/customerAuthentication_PostPut'
-        accepts_product_review_abandoned_cart_emails:
-          type: boolean
-          description: It determines if the customer is signed up to receive either product review or abandoned cart emails or receive both emails.
-        store_credit_amounts:
-          $ref: '#/components/schemas/CustomerStoredCreditAmounts'
-        origin_channel_id:
-          type: integer
-          description: Channel ID of the customer that has created the form.
-        channel_ids:
-          description: Array of channels the customer can access.
-          type: array
-          example:
-          - 1
-          - 2
-          items:
-            type: integer
-        form_fields:
-          type: array
-          description: 'Array of form fields. Controlled by formfields parameter.
-
-            '
-          items:
-            $ref: '#/components/schemas/formFieldValue'
-      required:
-      - email
-      - first_name
-      - last_name
-      x-internal: false
-    customerChannelIds:
-      type: array
-      title: customerChannelIds
-      description: Array of channel ids the Customer has access to.
-      items:
-        example:
-        - 1
-        - 2
-      x-internal: false
-    formFieldValue:
-      title: Generic Form Field Value
-      type: object
-      required:
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: The form field name.
-          example: color
-        value:
-          oneOf:
-          - type: string
-            example: blue
-          - type: number
-            format: double
-            example: 12.345
-          - type: array
-            example:
-            - red
-            - green
-            - black
-            items:
-              type: string
-    customer_Put:
-      title: customer_Put
-      type: object
-      properties:
-        email:
-          description: The email of the customer. Must be unique.
-          type: string
-          minLength: 3
-          maxLength: 255
-        first_name:
-          description: The first name of the customer.
+        date_created:
           type: string
           minLength: 1
-          maxLength: 100
-        last_name:
-          description: The last name of the customer.
+          description: The date the customer attribute was created.
+          format: date-time
+        date_modified:
           type: string
           minLength: 1
-          maxLength: 100
-        company:
-          description: The company of the customer.
-          type: string
-          minLength: 0
-          maxLength: 255
-        phone:
-          description: The phone number of the customer.
-          type: string
-          minLength: 0
-          maxLength: 50
-        registration_ip_address:
-          description: The IP address from which this customer was registered.
-          type: string
-          minLength: 0
-          maxLength: 30
-        notes:
-          description: The customer notes.
-          type: string
-        tax_exempt_category:
-          description: The tax exempt category code for the customer.
-          type: string
-          minLength: 0
-          maxLength: 255
-        customer_group_id:
-          description: ID of the group which this customer belongs to.
-          type: integer
-          format: int32
+          description: The date the customer attribute was modified.
+          format: date-time
         id:
-          description: The unique numeric ID of the customer.
           type: integer
+          description: Attribute value ID.
           format: int32
-        authentication:
-          $ref: '#/components/schemas/customerAuthentication_PostPut'
-        accepts_product_review_abandoned_cart_emails:
-          type: boolean
-          description: It determines if the customer is signed up to receive either product review or abandoned cart emails or receive both emails.
-        store_credit_amounts:
-          $ref: '#/components/schemas/CustomerStoredCreditAmounts'
-        origin_channel_id:
-          type: integer
-          description: Channel ID of the customer that has created the form.
-        channel_ids:
-          description: Arrays of channels the customer can access.
-          type: array
-          items:
-            type: integer
-        form_fields:
-          type: array
-          description: 'Array of form fields. Controlled by formfields parameter.
-
-            '
-          items:
-            $ref: '#/components/schemas/formFieldValue'
-      required:
-      - id
+          example: 2
       x-internal: false
     customerAddresses_CustomerPost:
       title: customerAddresses_CustomerPost
@@ -746,19 +602,57 @@ components:
       - country_code
       description: The `address` object for the `customer` objectʼs `addresses` array.
       x-internal: false
-    customerAuthentication_PostPut:
-      title: customerAuthentication_PostPut
-      allOf:
-      - properties:
-          force_password_reset:
-            description: If `true`, this customer will be forced to change password on next login.
-            type: boolean
-      - properties:
-          new_password:
-            description: New password for customer. Write only field.
-            type: string
+    Links:
+      title: Links
+      description: Pagination links for the previous and next parts of the whole collection.
       type: object
+      properties:
+        previous:
+          description: Link to the previous page returned in the response.
+          type: string
+        current:
+          description: Link to the current page returned in the response.
+          type: string
+        next:
+          description: Link to the next page returned in the response.
+          type: string
+    CustomerStoredCreditAmounts:
+      description: 'Store credit. '
+      type: array
+      format: double
+      items:
+        type: object
+        properties:
+          amount:
+            type: number
+            format: float
+            example: 43.15
       x-internal: false
+    formFieldValue:
+      title: Generic Form Field Value
+      type: object
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: The form field name.
+          example: color
+        value:
+          oneOf:
+          - type: string
+            example: blue
+          - type: number
+            format: double
+            example: 12.345
+          - type: array
+            example:
+            - red
+            - green
+            - black
+            items:
+              type: string
     customer_Full:
       title: customer_Full
       type: object
@@ -862,6 +756,15 @@ components:
         channel_ids:
           $ref: '#/components/schemas/customerChannelIds'
       x-internal: false
+    customerChannelIds:
+      type: array
+      title: customerChannelIds
+      description: Array of channel ids the Customer has access to.
+      items:
+        example:
+        - 1
+        - 2
+      x-internal: false
     address_Full:
       title: address_Full
       type: object
@@ -949,48 +852,93 @@ components:
       - customer_id
       - id
       x-internal: false
-    attribute_Full:
-      description: ''
+    customerAuthentication_PostPut:
+      title: customerAuthentication_PostPut
+      allOf:
+      - properties:
+          force_password_reset:
+            description: If `true`, this customer will be forced to change password on next login.
+            type: boolean
+      - properties:
+          new_password:
+            description: New password for customer. Write only field.
+            type: string
       type: object
-      x-examples:
-        Example:
-          attribute_id: 2
-          attribute_value: 'Yes'
-          customer_id: 1
-          date_created: '2021-07-28T19:00:38Z'
-          date_modified: '2021-07-28T19:00:38Z'
-          id: 2
+      x-internal: false
+    customer_Put:
+      title: customer_Put
+      type: object
       properties:
-        attribute_id:
+        email:
+          description: The email of the customer. Must be unique.
+          type: string
+          minLength: 3
+          maxLength: 255
+        first_name:
+          description: The first name of the customer.
+          type: string
+          minLength: 1
+          maxLength: 100
+        last_name:
+          description: The last name of the customer.
+          type: string
+          minLength: 1
+          maxLength: 100
+        company:
+          description: The company of the customer.
+          type: string
+          minLength: 0
+          maxLength: 255
+        phone:
+          description: The phone number of the customer.
+          type: string
+          minLength: 0
+          maxLength: 50
+        registration_ip_address:
+          description: The IP address from which this customer was registered.
+          type: string
+          minLength: 0
+          maxLength: 30
+        notes:
+          description: The customer notes.
+          type: string
+        tax_exempt_category:
+          description: The tax exempt category code for the customer.
+          type: string
+          minLength: 0
+          maxLength: 255
+        customer_group_id:
+          description: ID of the group which this customer belongs to.
           type: integer
-          description: Attribute ID.
           format: int32
-          example: 2
-        attribute_value:
-          type: string
-          minLength: 1
-          description: Attribute value.
-          example: 'Yes'
-        customer_id:
-          type: integer
-          description: Customer ID.
-          example: 1
-          format: int32
-        date_created:
-          type: string
-          minLength: 1
-          description: The date the customer attribute was created.
-          format: date-time
-        date_modified:
-          type: string
-          minLength: 1
-          description: The date the customer attribute was modified.
-          format: date-time
         id:
+          description: The unique numeric ID of the customer.
           type: integer
-          description: Attribute value ID.
           format: int32
-          example: 2
+        authentication:
+          $ref: '#/components/schemas/customerAuthentication_PostPut'
+        accepts_product_review_abandoned_cart_emails:
+          type: boolean
+          description: It determines if the customer is signed up to receive either product review or abandoned cart emails or receive both emails.
+        store_credit_amounts:
+          $ref: '#/components/schemas/CustomerStoredCreditAmounts'
+        origin_channel_id:
+          type: integer
+          description: Channel ID of the customer that has created the form.
+        channel_ids:
+          description: Arrays of channels the customer can access.
+          type: array
+          items:
+            type: integer
+        form_fields:
+          type: array
+          description: 'Array of form fields. Controlled by formfields parameter.
+
+            '
+          items:
+            $ref: '#/components/schemas/formFieldValue'
+      required:
+      - id
       x-internal: false
     Pagination:
       title: Pagination
@@ -1020,41 +968,6 @@ components:
         links:
           $ref: '#/components/schemas/Links'
       x-internal: false
-    ErrorResponse:
-      title: Error Response
-      type: object
-      properties:
-        status:
-          description: The HTTP status code.
-          type: integer
-          format: int32
-        title:
-          description: The error title describing the particular error.
-          type: string
-        type:
-          description: A link to a list of BigCommerce API status codes.
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-          additionalProperties:
-            type: string
-      x-internal: false
-    Links:
-      title: Links
-      description: Pagination links for the previous and next parts of the whole collection.
-      type: object
-      properties:
-        previous:
-          description: Link to the previous page returned in the response.
-          type: string
-        current:
-          description: Link to the current page returned in the response.
-          type: string
-        next:
-          description: Link to the next page returned in the response.
-          type: string
     formFieldValue_Customer:
       title: Customer Form Field Value
       type: object
@@ -1083,6 +996,144 @@ components:
               type: string
         customer_id:
           type: integer
+    customerAttributes_Base:
+      description: ''
+      title: customerAttributes_Base
+      type: object
+      properties:
+        attribute_id:
+          type: integer
+          format: int32
+          example: 55
+          description: Attribute ID.
+        attribute_value:
+          type: string
+          example: string
+          minLength: 0
+          maxLength: 255
+          description: Attribute value. This will always be a string, regardless of the attribute’s type.
+      x-internal: false
+    customer_Post:
+      title: customer_Post
+      type: object
+      properties:
+        email:
+          description: The email of the customer. Must be unique.
+          type: string
+          minLength: 3
+          maxLength: 255
+        first_name:
+          description: The first name of the customer.
+          type: string
+          minLength: 1
+          maxLength: 100
+        last_name:
+          description: The last name of the customer.
+          type: string
+          minLength: 1
+          maxLength: 100
+        company:
+          description: The company of the customer.
+          type: string
+          minLength: 0
+          maxLength: 255
+        phone:
+          description: The phone number of the customer.
+          type: string
+          minLength: 0
+          maxLength: 50
+        notes:
+          description: The customer notes.
+          type: string
+        tax_exempt_category:
+          description: The tax exempt category code for the customer.
+          type: string
+          minLength: 0
+          maxLength: 255
+        customer_group_id:
+          description: ID of the group which this customer belongs to.
+          type: integer
+          format: int32
+        addresses:
+          description: Array of customer addresses. Limited to 10.
+          type: array
+          maxItems: 10
+          items:
+            $ref: '#/components/schemas/customerAddresses_CustomerPost'
+        attributes:
+          description: Array of customer attributes. Limited to 10.
+          type: array
+          maxItems: 10
+          items:
+            $ref: '#/components/schemas/customerAttributes_Base'
+        authentication:
+          $ref: '#/components/schemas/customerAuthentication_PostPut'
+        accepts_product_review_abandoned_cart_emails:
+          type: boolean
+          description: It determines if the customer is signed up to receive either product review or abandoned cart emails or receive both emails.
+        store_credit_amounts:
+          $ref: '#/components/schemas/CustomerStoredCreditAmounts'
+        origin_channel_id:
+          type: integer
+          description: Channel ID of the customer that has created the form.
+        channel_ids:
+          description: Array of channels the customer can access.
+          type: array
+          example:
+          - 1
+          - 2
+          items:
+            type: integer
+        form_fields:
+          type: array
+          description: 'Array of form fields. Controlled by formfields parameter.
+
+            '
+          items:
+            $ref: '#/components/schemas/formFieldValue'
+      required:
+      - email
+      - first_name
+      - last_name
+      x-internal: false
+    CustomFields:
+      title: CustomFields
+      type: object
+      x-internal: false
+      properties:
+        fieldId:
+          type: string
+        fieldValue:
+          oneOf:
+          - type: string
+          - type: number
+          - type: array
+            items:
+              type: string
+    CustomerCreateData:
+      title: CustomerCreateData
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: First name of customer.
+        lastName:
+          type: string
+          description: Last name of customer.
+        email:
+          type: string
+          description: Email of customer.
+        password:
+          type: string
+          description: Password of customer.
+        acceptsMarketingEmails:
+          type: boolean
+          description: Indicates whether customer provided consent to receive marketing emails.
+        customFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomFields'
+      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
@@ -1093,9 +1144,13 @@ components:
 
         |:--|:--|:-|
 
-        | Information & Settings  | read-only  | `store_v2_information_read_only`|
+        | Customers | modify | `store_v2_customers` |
 
-        | Information & Settings  | modify     | `store_v2_information`          |
+        | Customers | read-only | `store_v2_customers_read_only` |
+
+        | Stored Payment Instruments | modify | `store_stored_payment_instruments` |
+
+        | Stored Payment Instruments | read-only | `store_stored_payment_instruments_read_only` |
 
 
         ### Authentication header
@@ -1120,3 +1175,6 @@ components:
         For a list of API status codes, see [API Status Codes](/docs/start/about/status-codes).'
       type: apiKey
       in: header
+x-refined-from:
+- customers-openapi-original.yml
+- storefront-customers-openapi-original.yml
