@@ -1,0 +1,343 @@
+slug: bigcommerce
+provider: BigCommerce
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Retail & Consumer Goods
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 34
+edges:
+- tag: Customers
+  spec_file: bigcommerce-customers-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.88
+  evidence: POST /customers — 'Create Customers'; schemas customer_Full, customerAddresses_CustomerPost,
+    customerAttributes_Base
+  reason: Straightforward CRUD over the shopper master record including addresses, attributes and authentication
+    details — customer master data management in an e-commerce platform.
+- tag: Price Lists
+  spec_file: bigcommerce-price-lists-api-openapi.yml
+  capability_id: BC-440.20
+  capability_id_l1: BC-440
+  capability_name: Price List Management
+  confidence: 0.88
+  evidence: '''Populate different versions of catalog pricing and assign them to different customer groups
+    at the variant level''; ''Create a Price List'''
+  reason: CRUD over price lists that override catalog pricing — textbook price book / price list maintenance.
+- tag: Price Lists Records
+  spec_file: bigcommerce-price-lists-records-api-openapi.yml
+  capability_id: BC-440.20
+  capability_id_l1: BC-440
+  capability_name: Price List Management
+  confidence: 0.88
+  evidence: '''Set Price List Record by Currency Code''; schemas PriceRecordBase, BulkPricingTier'
+  reason: Maintains individual price records per variant and currency inside price lists — price list
+    / price book maintenance.
+- tag: Coupons
+  spec_file: bigcommerce-coupons-api-openapi.yml
+  capability_id: BC-440.30
+  capability_id_l1: BC-440
+  capability_name: Discount & Promotion Management
+  confidence: 0.85
+  evidence: '"Coupons: Category or product discounts that can be applied to orders for customers who enter
+    a given code"; POST /coupons  createCoupon'
+  reason: Create/update/delete of discount coupon codes applied to orders is squarely discount and promotional
+    offer management.
+- tag: Images
+  spec_file: bigcommerce-images-api-openapi.yml
+  capability_id: BC-2370.20
+  capability_id_l1: BC-2370
+  capability_name: Product Content Authoring Management
+  confidence: 0.85
+  evidence: POST /catalog/products/{product_id}/images createProductImage; POST /catalog/brands/{brand_id}/image
+    createBrandImage
+  reason: Operations manage product, variant, modifier, brand and category imagery in the catalog — authoring
+    of rich media that makes an item record sellable, i.e. product content authoring within PIM.
+- tag: Manage Webhooks (Bulk)
+  spec_file: bigcommerce-manage-webhooks-bulk-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.85
+  evidence: '''Get notified when specific events occur on a BigCommerce store'' with ''POST /hooks  createWebhooks''
+    and schema ''webhook_Base'''
+  reason: Operations create and list outbound webhook subscriptions for store events — the lifecycle of
+    event subscriptions exposed to integrating developers, i.e. Webhook & Event Subscription Management
+    in the developer/API ecosystem capability.
+- tag: Manage Webhooks (Single)
+  spec_file: bigcommerce-manage-webhooks-single-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.85
+  evidence: '''GET /hooks/{webhook_id}  getWebhook'', ''PUT /hooks/{webhook_id}  updateWebhook'', ''DELETE
+    /hooks/{webhook_id}  deleteWebhook'''
+  reason: Single-subscription CRUD over event notification hooks — outbound webhook subscription lifecycle
+    management on the platform's developer surface.
+- tag: Tax Provider
+  spec_file: bigcommerce-tax-provider-api-openapi.yml
+  capability_id: BC-220.20
+  capability_id_l1: BC-220
+  capability_name: Indirect Tax Management
+  confidence: 0.85
+  evidence: POST /estimate "Estimate Taxes", POST /commit "Commit Tax Quote", POST /void "Void Tax Quote";
+    schemas SalesTax, TaxClass
+  reason: Operations perform sales-tax quote estimation, adjustment, commit and void against a tax engine
+    — clearly indirect (sales/VAT) tax calculation and compliance on transactions.
+- tag: Tax Rates
+  spec_file: bigcommerce-tax-rates-api-openapi.yml
+  capability_id: BC-220.20
+  capability_id_l1: BC-220
+  capability_name: Indirect Tax Management
+  confidence: 0.85
+  evidence: '"Manage manual tax rates and zones"; GET /tax/rates, POST /tax/rates; schema Tax_Rate'
+  reason: CRUD over sales-tax rates applied to storefront transactions — indirect tax rate maintenance.
+- tag: Tax Zones
+  spec_file: bigcommerce-tax-zones-api-openapi.yml
+  capability_id: BC-220.20
+  capability_id_l1: BC-220
+  capability_name: Indirect Tax Management
+  confidence: 0.85
+  evidence: '"Manage manual tax rates and zones"; POST /tax/zones; schema Tax_Zone'
+  reason: CRUD over sales-tax zones (jurisdiction groupings) used in transaction tax calculation — indirect
+    tax management.
+- tag: Consent
+  spec_file: bigcommerce-consent-api-openapi.yml
+  capability_id: BC-130.50
+  capability_id_l1: BC-130
+  capability_name: Privacy & Data Protection Management
+  confidence: 0.82
+  evidence: GET /customers/{customerId}/consent  getCustomerConsent; POST /consent  postCookieConsent  "Set
+    Cookie Consent Preferences"; schemas DeclareCustomerConsentRequest, ConsentPreferences
+  reason: Operations capture and update customer and cookie consent preferences — the data-protection/consent-management
+    surface (GDPR-style privacy by design), which maps to Privacy & Data Protection Management.
+- tag: Price Lists Assignments
+  spec_file: bigcommerce-price-lists-assignments-api-openapi.yml
+  capability_id: BC-440.20
+  capability_id_l1: BC-440
+  capability_name: Price List Management
+  confidence: 0.82
+  evidence: '''Create Price List Assignments'' — ''assign Price Lists to a specific channel'''
+  reason: Assigns price lists to channels and customer groups, i.e. maintenance of which price book applies
+    to which segment/channel.
+- tag: Addresses
+  spec_file: bigcommerce-addresses-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.8
+  evidence: POST /customers/addresses "Create a Customer Address"; schemas "address_Post", "formFieldValue_Customer"
+  reason: CRUD over customer address records maintained on the customer master — customer data management.
+- tag: Listings
+  spec_file: bigcommerce-listings-api-openapi.yml
+  capability_id: BC-2330.40
+  capability_id_l1: BC-2330
+  capability_name: Marketplace Seller Operations Management
+  confidence: 0.8
+  evidence: POST /channels/{channel_id}/listings createChannelListings; 'A channel is anywhere a merchant
+    sells their products... marketplaces' with platforms amazon, ebay, etsy
+  reason: Creates and maintains product listings on sales channels including third-party marketplaces,
+    which is retailer-as-seller marketplace listing operations. Alternative reading as channel syndication
+    (BC-2370.30) exists, hence 0.8.
+- tag: Tax Zone Check
+  spec_file: bigcommerce-tax-zone-check-api-openapi.yml
+  capability_id: BC-220.20
+  capability_id_l1: BC-220
+  capability_name: Indirect Tax Management
+  confidence: 0.8
+  evidence: '"Check the applicable tax zone for a given address and customer group"; schemas TaxZone,
+    ZoneCheck'
+  reason: Jurisdiction determination for sales tax based on address — a core indirect tax function.
+- tag: Product Variant Options
+  spec_file: bigcommerce-product-variant-options-api-openapi.yml
+  capability_id: BC-820.40
+  capability_id_l1: BC-820
+  capability_name: Product Configuration & Variant Management
+  confidence: 0.78
+  evidence: '''Product Variant Options represent the different facets of a product. For example, size,
+    color, fabric''; ''Create a Product Variant Option'''
+  reason: Defines the option axes and option values from which product variants are composed — product
+    variant/option configuration management.
+- tag: Videos
+  spec_file: bigcommerce-videos-api-openapi.yml
+  capability_id: BC-2370.20
+  capability_id_l1: BC-2370
+  capability_name: Product Content Authoring Management
+  confidence: 0.78
+  evidence: POST /catalog/products/{product_id}/videos  createProductVideo  BigCommerce Create a Product
+    Video
+  reason: CRUD over rich-media video assets attached to catalog products matches Product Content Authoring
+    Management ('marketing copy, photography, video, and rich media that turn an item record into a sellable
+    consumer' record).
+- tag: Blog Posts
+  spec_file: bigcommerce-blog-posts-api-openapi.yml
+  capability_id: BC-400.70
+  capability_id_l1: BC-400
+  capability_name: Content Marketing Management
+  confidence: 0.75
+  evidence: '"Create a Blog Post", "Get All Blog Posts", schema blogPost_Full with publishedDate'
+  reason: Authoring and publishing blog editorial content on the store is content marketing production
+    and distribution.
+- tag: Product Variants
+  spec_file: bigcommerce-product-variants-api-openapi.yml
+  capability_id: BC-820.40
+  capability_id_l1: BC-820
+  capability_name: Product Configuration & Variant Management
+  confidence: 0.75
+  evidence: '''A Product Variant is a version of a product that has its own SKU''; ''Create a Product
+    Variant'''
+  reason: CRUD over SKU-level product variants of a base product — variant management within product lifecycle.
+- tag: Tax Properties
+  spec_file: bigcommerce-tax-properties-api-openapi.yml
+  capability_id: BC-220.20
+  capability_id_l1: BC-220
+  capability_name: Indirect Tax Management
+  confidence: 0.75
+  evidence: '"Include tax properties and product tax properties in tax calculations"'
+  reason: Maintains the property metadata used in sales-tax calculation on commerce transactions, which
+    is indirect tax (sales tax/VAT) determination rather than direct tax or accounting.
+- tag: Attribute Values
+  spec_file: bigcommerce-attribute-values-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.72
+  evidence: PUT /customers/attribute-values "Upsert Customer Attribute Values"
+  reason: Maintains attribute values on customer records, extending the customer master data record.
+- tag: Bulk Pricing Rules
+  spec_file: bigcommerce-bulk-pricing-rules-api-openapi.yml
+  capability_id: BC-440
+  capability_id_l1: BC-440
+  capability_name: Pricing Management
+  confidence: 0.72
+  evidence: '"Get a Bulk Pricing Rule", "Update a Bulk Pricing Rule", schema bulkPricingRule_Full under
+    /catalog/products/{product_id}'
+  reason: Quantity-tiered pricing rules attached to products are price setting/structure; ambiguity between
+    price-book and discount sub-capabilities so no L2 asserted.
+- tag: Categories (Deprecated)
+  spec_file: bigcommerce-categories-deprecated-api-openapi.yml
+  capability_id: BC-2370.10
+  capability_id_l1: BC-2370
+  capability_name: Item Master Data Management
+  confidence: 0.72
+  evidence: GET /catalog/categories getCategories 'Get All Categories'; 'The Catalog API manages products,
+    categories, brands'; schema category_Full, parent_id, sort_order
+  reason: Operations create/read/update/delete product catalog categories with parent_id hierarchy — this
+    is product master data taxonomy/hierarchy maintenance (Item Master Data Management), not merchandising
+    category strategy.
+- tag: Category Trees
+  spec_file: bigcommerce-category-trees-api-openapi.yml
+  capability_id: BC-2370.10
+  capability_id_l1: BC-2370
+  capability_name: Item Master Data Management
+  confidence: 0.72
+  evidence: GET /catalog/trees getCategoryTrees 'Get All Category Trees'; schemas CategoryNodeTree, CategoryNode
+  reason: Manages the catalog category tree structure (product taxonomy/hierarchy) used across storefronts
+    — product master data taxonomy management.
+- tag: Attributes
+  spec_file: bigcommerce-attributes-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.7
+  evidence: POST /customers/attributes "Create a Customer Attribute"
+  reason: Defines custom attribute fields on the customer record — customer master data model management.
+- tag: Category Assignments
+  spec_file: bigcommerce-category-assignments-api-openapi.yml
+  capability_id: BC-2370.10
+  capability_id_l1: BC-2370
+  capability_name: Item Master Data Management
+  confidence: 0.7
+  evidence: PUT /catalog/products/category-assignments 'Create Products Category Assignments'; schema
+    ProductCategoryAssignment
+  reason: Assigns catalog products to categories — maintenance of the canonical product record's classification/hierarchy,
+    i.e. item master data rather than category business management.
+- tag: Form Field Values
+  spec_file: bigcommerce-form-field-values-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.7
+  evidence: GET /customers/form-field-values getCustomersFormFieldValues; schemas formFieldValue_Customer,
+    formFieldValue_Address
+  reason: Operations read and upsert custom attribute values attached to customer and address records,
+    i.e. maintenance of the customer master data record. Moderate confidence since it is a generic extension-field
+    mechanism rather than core customer identity.
+- tag: Items
+  spec_file: bigcommerce-items-api-openapi.yml
+  capability_id: BC-2320.10
+  capability_id_l1: BC-2320
+  capability_name: Sales Transaction Management
+  confidence: 0.7
+  evidence: POST /carts/{cartId}/items addCartLineItems; schemas Cart_Full, AppliedCoupon, ItemPhysicalGet
+  reason: Manages line items within a shopping cart including applied coupons and item variants — basket
+    build for a consumer sales transaction. Confidence moderated because this is digital cart rather than
+    till-based POS.
+- tag: Login Token
+  spec_file: bigcommerce-login-token-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: '''Enable single sign-on for shoppers on BigCommerce hosted storefronts''; GET /login/token/{jwt_token}
+    getCustomerLogin'
+  reason: JWT-based single sign-on login for storefront shoppers — authentication/federation plumbing,
+    mapped to Identity & Access Management as the honest cross-industry IT reading.
+- tag: Product Modifiers
+  spec_file: bigcommerce-product-modifiers-api-openapi.yml
+  capability_id: BC-820.40
+  capability_id_l1: BC-820
+  capability_name: Product Configuration & Variant Management
+  confidence: 0.7
+  evidence: '''Product Modifiers represent choices that the shopper can make to change how the merchant
+    customizes or adds on to the product''; schema productModifierOptionValue_Full, adjuster_Full'
+  reason: Defines selectable product options/add-ons with price and weight adjusters — product option
+    and configuration definition rather than pricing or inventory.
+- tag: Products
+  spec_file: bigcommerce-products-api-openapi.yml
+  capability_id: BC-2370.10
+  capability_id_l1: BC-2370
+  capability_name: Item Master Data Management
+  confidence: 0.7
+  evidence: '''Create a Product'' / ''Update Products (Batch)'' on /catalog/products; ''The Catalog API
+    manages products, categories, brands, bulk pricing rules'''
+  reason: Authoritative CRUD over the catalog product record (attributes, images, options, categories)
+    — the canonical sellable item master for the store. Could also be read as product lifecycle, hence
+    0.7.
+- tag: Subscription
+  spec_file: bigcommerce-subscription-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: '"Manage newsletter and marketing email subscriptions on the storefront"; POST /subscriptions
+    "Create a Subscription"'
+  reason: Despite the SaaS-sounding tag, the description explicitly scopes this to newsletter and marketing
+    email opt-ins, i.e. digital/email marketing capture — not subscription commerce or billing.
+- tag: Tax Settings
+  spec_file: bigcommerce-tax-settings-api-openapi.yml
+  capability_id: BC-220.20
+  capability_id_l1: BC-220
+  capability_name: Indirect Tax Management
+  confidence: 0.7
+  evidence: '"Manage tax settings"; GET /tax/settings, PUT /tax/settings; schema Tax_Settings'
+  reason: Configuration of how sales tax is applied and displayed for the store; sits within indirect
+    tax management, though the description is minimal.
+- tag: Variants (Batch)
+  spec_file: bigcommerce-variants-batch-api-openapi.yml
+  capability_id: BC-820.40
+  capability_id_l1: BC-820
+  capability_name: Product Configuration & Variant Management
+  confidence: 0.7
+  evidence: '"A Product Variant is a version of a product that has its own SKU"; PUT /catalog/variants
+    updateVariantsBatch'
+  reason: Bulk retrieval and update of product variants (SKU-level versions of a product) is product variant/configuration
+    management. Batch nature is a technical detail; the object managed is the variant.
