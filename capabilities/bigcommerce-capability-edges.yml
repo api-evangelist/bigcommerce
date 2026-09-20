@@ -11,7 +11,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 34
+edge_count: 38
 edges:
 - tag: Customers
   spec_file: bigcommerce-customers-api-openapi.yml
@@ -41,6 +41,17 @@ edges:
   evidence: '''Set Price List Record by Currency Code''; schemas PriceRecordBase, BulkPricingTier'
   reason: Maintains individual price records per variant and currency inside price lists — price list
     / price book maintenance.
+- tag: API Token
+  spec_file: bigcommerce-api-token-api-openapi.yml
+  capability_id: BC-4270.40
+  capability_id_l1: BC-4270
+  capability_name: Developer Identity & Credential Management
+  confidence: 0.85
+  evidence: POST /storefront/api-token  createToken  BigCommerce Create a Token; DELETE /storefront/api-token  revokeToken;
+    schemas TokenPostImpersonation, Token_Full
+  reason: Issuance and revocation of storefront API tokens (including impersonation tokens) is developer
+    credential management on a public API platform.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: Coupons
   spec_file: bigcommerce-coupons-api-openapi.yml
   capability_id: BC-440.30
@@ -156,6 +167,26 @@ edges:
   evidence: '"Check the applicable tax zone for a given address and customer group"; schemas TaxZone,
     ZoneCheck'
   reason: Jurisdiction determination for sales tax based on address — a core indirect tax function.
+- tag: Taxes
+  spec_file: bigcommerce-taxes-api-openapi.yml
+  capability_id: BC-220.20
+  capability_id_l1: BC-220
+  capability_name: Indirect Tax Management
+  confidence: 0.8
+  evidence: GET /tax_classes getTaxClasses Get All Tax Classes; schema taxClass_Full
+  reason: Retrieval of tax classes used to classify products for sales-tax treatment — indirect tax management.
+  recovered_from: sweep-20260828T235257Z-edges.json
+- tag: Values
+  spec_file: bigcommerce-values-api-openapi.yml
+  capability_id: BC-820.40
+  capability_id_l1: BC-820
+  capability_name: Product Configuration & Variant Management
+  confidence: 0.8
+  evidence: '''Create Product Modifier Value'', ''Get All Product Variant Option Values'', ''Update a
+    Product Variant Option Value'''
+  reason: Operations maintain the option and modifier values that define product variants and configurable
+    options in the catalogue, which is Product Configuration & Variant Management.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: Product Variant Options
   spec_file: bigcommerce-product-variant-options-api-openapi.yml
   capability_id: BC-820.40
@@ -177,6 +208,18 @@ edges:
   reason: CRUD over rich-media video assets attached to catalog products matches Product Content Authoring
     Management ('marketing copy, photography, video, and rich media that turn an item record into a sellable
     consumer' record).
+- tag: Abandoned Cart Emails
+  spec_file: bigcommerce-abandoned-cart-emails-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.75
+  evidence: GET /marketing/abandoned-cart-emails  getAbandonedCartEmailTemplates ... Create abandoned
+    cart email template
+  reason: Operations manage marketing email templates (with CouponCode) sent to recover abandoned carts
+    — lifecycle/automation marketing under the /marketing path. Best fits digital marketing automation;
+    could arguably be demand generation, hence 0.75.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: Blog Posts
   spec_file: bigcommerce-blog-posts-api-openapi.yml
   capability_id: BC-400.70
