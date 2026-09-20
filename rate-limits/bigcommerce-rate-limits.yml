@@ -1,50 +1,30 @@
-specification: API Commons Rate Limits
-specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
-provider: BigCommerce
-providerId: bigcommerce
-created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-reconciled: true
-tags:
-  - Rate Limiting
-  - Commerce
-description: BigCommerce REST and GraphQL APIs enforce per-store, per-API-account limits.
+# Rate limits transcribed from the provider's own documentation — see provenance. Quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://docs.bigcommerce.com/developer/docs/overview/api-fundamentals/rate-limits
 sources:
-  - https://www.bigcommerce.com/essentials/pricing/
-  - https://developer.bigcommerce.com/docs/start/about/api-rate-limits
-headers:
-  requestsLimit: X-Rate-Limit-Requests-Quota
-  requestsLeft: X-Rate-Limit-Requests-Left
-  timeReset: X-Rate-Limit-Time-Reset-Ms
-  windowMs: X-Rate-Limit-Time-Window-Ms
-responseCodes:
-  throttled: 429
+- https://docs.bigcommerce.com/developer/docs/overview/api-fundamentals/rate-limits
+provenance:
+  tool: planning/api-economics/harvest_ratelimits.py
+  run: 20260920T133210
+  grounding: every limit_text was found verbatim in the fetched page text
+published: false
+note: Quota refreshed every 30 seconds, shared across all apps accessing a store. Enterprise and sandbox
+  quotas vary by plan/resource; Unlimited Rate Plan has no request rate limits. Numeric fields left null
+  since limit_text contains two combined figures.
+limit_count: 2
 limits:
-  - name: REST API (Standard)
-    scope: store
-    metric: requests_per_30s
-    limit: 450
-    timeFrame: 30 seconds
-  - name: REST API (Plus)
-    scope: store
-    metric: requests_per_30s
-    limit: 450
-    timeFrame: 30 seconds
-  - name: REST API (Pro)
-    scope: store
-    metric: requests_per_30s
-    limit: 600
-    timeFrame: 30 seconds
-  - name: REST API (Enterprise)
-    scope: store
-    metric: requests_per_30s
-    limit: unlimited
-  - name: Storefront GraphQL
-    scope: store
-    metric: requests_per_minute
-    limit: 60
-    timeFrame: minute
+- name: Pro plan quota
+  limit_text: 60k per hour (450 / 30sec)
+  scope: account
+  plan: Pro
+- name: Plus & Standard plan quota
+  limit_text: 20k per hour (150 / 30sec)
+  scope: account
+  plan: Plus & Standard
+headers:
+- X-Rate-Limit-Time-Window-Ms
+- X-Rate-Limit-Time-Reset-Ms
+- X-Rate-Limit-Requests-Quota
+- X-Rate-Limit-Requests-Left
+exceeded_status: 429
