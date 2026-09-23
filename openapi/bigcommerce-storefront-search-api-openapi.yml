@@ -26,7 +26,13 @@ paths:
     get:
       operationId: getSettingsStorefrontSearch
       summary: BigCommerce Get Storefront Search Settings
-      description: "Returns search settings.\n\n - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level."
+      description: 'Returns search settings.
+
+
+        - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only.
+
+
+        - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level.'
       parameters:
       - $ref: '#/components/parameters/ChannelIdParam'
       responses:
@@ -55,7 +61,13 @@ paths:
     put:
       summary: BigCommerce Update Storefront Search Settings
       operationId: updateSettingsStorefrontSearch
-      description: "Updates search settings.\n\n - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel."
+      description: 'Updates search settings.
+
+
+        - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only.
+
+
+        - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel.'
       parameters:
       - $ref: '#/components/parameters/ContentType'
       - $ref: '#/components/parameters/ChannelIdParam'
@@ -95,7 +107,48 @@ paths:
       tags:
       - Storefront Search
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
+    StorefrontSearchSettings:
+      type: object
+      properties:
+        content_product_sort:
+          $ref: '#/components/schemas/ContentSortEnumValues'
+        default_product_sort:
+          $ref: '#/components/schemas/ProductSortEnumValues'
+        product_filtering_enabled:
+          description: Controls whether Product Filtering feature is active on the storefront. Only supports manipulation on a global level.
+          type: boolean
+        search_suggest:
+          type: boolean
+      required:
+      - content_product_sort
+      - default_product_sort
+      - product_filtering_enabled
+      - search_suggest
+      x-internal: false
     MetaOpen:
       title: Response meta
       type: object
@@ -127,47 +180,6 @@ components:
       - relevance
       title: ProductSortEnumValues
       x-internal: false
-    StorefrontSearchSettings:
-      type: object
-      properties:
-        content_product_sort:
-          $ref: '#/components/schemas/ContentSortEnumValues'
-        default_product_sort:
-          $ref: '#/components/schemas/ProductSortEnumValues'
-        product_filtering_enabled:
-          description: Controls whether Product Filtering feature is active on the storefront. Only supports manipulation on a global level.
-          type: boolean
-        search_suggest:
-          type: boolean
-      required:
-      - content_product_sort
-      - default_product_sort
-      - product_filtering_enabled
-      - search_suggest
-      x-internal: false
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

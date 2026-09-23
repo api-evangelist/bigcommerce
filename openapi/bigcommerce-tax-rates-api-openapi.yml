@@ -136,13 +136,86 @@ paths:
         '204':
           description: No Content
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    Content-Type:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    rateIdIn:
+      name: id:in
+      in: query
+      schema:
+        type: array
+        items:
+          type: integer
+        minItems: 1
+      style: form
+      explode: false
+      description: Filter by tax rate `id`. Use a comma-separated CSV string of IDs for multiple tax rates. For example, `5` or `12,34,56`.
+      required: false
+    taxZoneIdIn:
+      name: tax_zone_id:in
+      in: query
+      schema:
+        type: array
+        items:
+          type: integer
+        minItems: 1
+      style: form
+      explode: false
+      description: Filter by tax zone `id`. Use a comma-separated CSV string of IDs for multiple tax zones. For example, `5` or `12,34,56`.
+      required: false
+  requestBodies:
+    Tax_RateArray:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Tax_RatePUT'
+          examples:
+            Example 1:
+              value:
+              - id: 3
+                tax_zone_id: 2
+                name: Sales Tax
+                enabled: true
+                priority: 1
+                class_rates:
+                - rate: 10
+                  tax_class_id: 0
+      required: true
+    Tax_RateArrayPOST:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Tax_RatePOST'
+          examples:
+            Example 1:
+              value:
+              - tax_zone_id: 2
+                name: Sales Tax
+                enabled: true
+                priority: 1
+                class_rates:
+                - rate: 5
+                  tax_class_id: 0
+      required: true
   schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     Tax_RatePUT:
       type: object
       properties:
@@ -182,6 +255,44 @@ components:
           example: 2
       required:
       - id
+    Meta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            total:
+              type: integer
+            count:
+              type: integer
+            per_page:
+              type: integer
+            current_page:
+              type: integer
+            total_pages:
+              type: integer
+            links:
+              type: object
+              properties:
+                current:
+                  type: string
+      x-examples:
+        Example 1:
+          pagination:
+            total: 1
+            count: 1
+            per_page: 50
+            current_page: 1
+            total_pages: 1
+            links:
+              current: ?tax_zone_id%3Ain=1&page=1&limit=50
+      title: Meta
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     Tax_RatePOST:
       type: object
       properties:
@@ -260,117 +371,6 @@ components:
           description: ID of an associated tax zone. You must associate a tax rate with a tax zone.
           example: 2
       x-examples: {}
-    Meta:
-      type: object
-      properties:
-        pagination:
-          type: object
-          properties:
-            total:
-              type: integer
-            count:
-              type: integer
-            per_page:
-              type: integer
-            current_page:
-              type: integer
-            total_pages:
-              type: integer
-            links:
-              type: object
-              properties:
-                current:
-                  type: string
-      x-examples:
-        Example 1:
-          pagination:
-            total: 1
-            count: 1
-            per_page: 50
-            current_page: 1
-            total_pages: 1
-            links:
-              current: ?tax_zone_id%3Ain=1&page=1&limit=50
-      title: Meta
-  requestBodies:
-    Tax_RateArrayPOST:
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/Tax_RatePOST'
-          examples:
-            Example 1:
-              value:
-              - tax_zone_id: 2
-                name: Sales Tax
-                enabled: true
-                priority: 1
-                class_rates:
-                - rate: 5
-                  tax_class_id: 0
-      required: true
-    Tax_RateArray:
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/Tax_RatePUT'
-          examples:
-            Example 1:
-              value:
-              - id: 3
-                tax_zone_id: 2
-                name: Sales Tax
-                enabled: true
-                priority: 1
-                class_rates:
-                - rate: 10
-                  tax_class_id: 0
-      required: true
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    rateIdIn:
-      name: id:in
-      in: query
-      schema:
-        type: array
-        items:
-          type: integer
-        minItems: 1
-      style: form
-      explode: false
-      description: Filter by tax rate `id`. Use a comma-separated CSV string of IDs for multiple tax rates. For example, `5` or `12,34,56`.
-      required: false
-    taxZoneIdIn:
-      name: tax_zone_id:in
-      in: query
-      schema:
-        type: array
-        items:
-          type: integer
-        minItems: 1
-      style: form
-      explode: false
-      description: Filter by tax zone `id`. Use a comma-separated CSV string of IDs for multiple tax zones. For example, `5` or `12,34,56`.
-      required: false
-    Content-Type:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

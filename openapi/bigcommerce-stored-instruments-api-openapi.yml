@@ -7,7 +7,7 @@ info:
 
     ## Resources
 
-    * [Customers Overview](/docs/store-operations/customers).'
+    * Customers Overview.'
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -102,15 +102,15 @@ paths:
                 message: Missing scope
 components:
   schemas:
-    PayPalAccountInstrument:
+    BankAccountInstrument:
       type: object
-      title: PayPal Account Instrument
+      title: Bank Account Instrument
       properties:
         type:
           type: string
           description: Instrument type.
           enum:
-          - stored_paypal_account
+          - stored_bank_account
         token:
           type: string
           description: An identifier representing this stored instrument.
@@ -118,32 +118,15 @@ components:
         is_default:
           type: boolean
           description: Identifies whether this stored instrument is default for the customer.
-        email:
+        masked_account_number:
           type: string
-          description: PayPal email address.
-          example: bc-buyer-paypal-express@example.com
-      description: A PayPal account stored instrument.
-      x-internal: false
-    ErrorResponse:
-      title: Error Response
-      type: object
-      properties:
-        status:
-          description: The HTTP status code.
-          type: integer
-          format: int32
-        title:
-          description: The error title describing the particular error.
+          description: A masked bank account number.
+          example: 12XXX56
+        issuer:
           type: string
-        type:
-          description: A link to a list of BigCommerce API status codes.
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-          additionalProperties:
-            type: string
+          description: Issuer identifier for the account.
+          example: DE001
+      description: A stored bank account instrument.
       x-internal: false
     CardInstrument:
       type: object
@@ -184,6 +167,28 @@ components:
         billing_address:
           $ref: '#/components/schemas/BillingAddress'
       description: Details about a stored card instrument which includes details around billing, last 4 digits, issuer, etc.
+      x-internal: false
+    PayPalAccountInstrument:
+      type: object
+      title: PayPal Account Instrument
+      properties:
+        type:
+          type: string
+          description: Instrument type.
+          enum:
+          - stored_paypal_account
+        token:
+          type: string
+          description: An identifier representing this stored instrument.
+          example: 84596bea275fa254da820056bdc3e495bdf01fd11c51b0336347d447ee16200c
+        is_default:
+          type: boolean
+          description: Identifies whether this stored instrument is default for the customer.
+        email:
+          type: string
+          description: PayPal email address.
+          example: bc-buyer-paypal-express@example.com
+      description: A PayPal account stored instrument.
       x-internal: false
     BillingAddress:
       type: object
@@ -230,31 +235,26 @@ components:
           type: string
           example: 101-192-0293
       x-internal: false
-    BankAccountInstrument:
+    ErrorResponse:
+      title: Error Response
       type: object
-      title: Bank Account Instrument
       properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+          format: int32
+        title:
+          description: The error title describing the particular error.
+          type: string
         type:
+          description: A link to a list of BigCommerce API status codes.
           type: string
-          description: Instrument type.
-          enum:
-          - stored_bank_account
-        token:
+        instance:
           type: string
-          description: An identifier representing this stored instrument.
-          example: 84596bea275fa254da820056bdc3e495bdf01fd11c51b0336347d447ee16200c
-        is_default:
-          type: boolean
-          description: Identifies whether this stored instrument is default for the customer.
-        masked_account_number:
-          type: string
-          description: A masked bank account number.
-          example: 12XXX56
-        issuer:
-          type: string
-          description: Issuer identifier for the account.
-          example: DE001
-      description: A stored bank account instrument.
+        errors:
+          type: object
+          additionalProperties:
+            type: string
       x-internal: false
   parameters:
     customerId:

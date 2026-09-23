@@ -24,7 +24,7 @@ paths:
     get:
       summary: BigCommerce Get Units of Measurement Settings
       operationId: getSettingsMeasurementUnits
-      description: Get settings for [units of measurements](https://support.bigcommerce.com/s/article/Store-Settings?language=en_US#physical).
+      description: Get settings for units of measurements.
       tags:
       - Units of Measurement
       responses:
@@ -50,7 +50,19 @@ paths:
     put:
       summary: BigCommerce Update Units of Measurement Settings
       operationId: updateSettingsMeasurementUnits
-      description: "Update settings for [units of measurements](https://support.bigcommerce.com/s/article/Store-Settings?language=en_US#physical).\n\nThe endpoint does not support partial updates. Provide all fields to update global or channel-level settings.\n\nCreate channel-level settings, or overrides for a channel, using the `channel_id`  query parameter. \n\nTo delete overrides for a channel, supply `null` as a value for all fields. A channel then inherits global values.\n\nThe endpoint does not support 'null' as a value for global-level settings."
+      description: 'Update settings for units of measurements.
+
+
+        The endpoint does not support partial updates. Provide all fields to update global or channel-level settings.
+
+
+        Create channel-level settings, or overrides for a channel, using the `channel_id` query parameter.
+
+
+        To delete overrides for a channel, supply `null` as a value for all fields. A channel then inherits global values.
+
+
+        The endpoint does not support ''null'' as a value for global-level settings.'
       requestBody:
         content:
           application/json:
@@ -73,20 +85,40 @@ paths:
       tags:
       - Units of Measurement
 components:
+  parameters:
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
   schemas:
-    ErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseError'
-      - properties:
-          errors:
-            $ref: '#/components/schemas/DetailedErrors'
-        type: object
-      x-internal: false
     DetailedErrors:
       type: object
       properties: {}
       additionalProperties: true
       title: Detailed Errors
+      x-internal: false
+    BaseError:
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      type: object
+      properties:
+        instance:
+          type: string
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
       x-internal: false
     MeasurementUnitsSettings:
       type: object
@@ -122,34 +154,14 @@ components:
           - depth
           - height
           - width
-    BaseError:
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      type: object
-      properties:
-        instance:
-          type: string
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
+    ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - properties:
+          errors:
+            $ref: '#/components/schemas/DetailedErrors'
+        type: object
       x-internal: false
-  parameters:
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

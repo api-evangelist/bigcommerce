@@ -2,44 +2,7 @@ openapi: 3.2.0
 info:
   version: ''
   title: BigCommerce Shipping Providers Shipping Provider API
-  description: 'Implement endpoints consumed by BigCommerce for custom shipping integrations. To learn more, see [Shipping Provider API Overview](/docs/integrations/shipping).
-
-
-    ## Authentication
-
-
-    This specification file describes API requests BigCommerce will make to a registered shipping carrierʼs server to check connection options and retrieve rates. As such, the method of authentication is determined by the carrier server.
-
-
-    For more, see [developer-configured authentication](/docs/start/authentication#developer-configured-authentication) for provider APIs.
-
-
-    ## Subresources
-
-
-    ### Check Connection Options
-
-    The Check Connection Options request is made by BigCommerce when checking for available shipping options. Each Shipping Provider will have different configurations for the payload.
-
-
-    ### Rate
-
-    The Rate request is made by BigCommerce to get shipping quotes from the provider.
-
-
-    ## Additional Information
-
-
-    ### Webhooks
-
-    - [Shipments](/docs/integrations/webhooks/events#shipments)
-
-
-    ### Related API Resources
-
-    - [Shipping Provider](/docs/rest-contracts/shipping)
-
-    - [Shipping V2 API](/docs/rest-management/shipping-v2)'
+  description: Implement endpoints consumed by BigCommerce for custom shipping integrations.
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -57,7 +20,14 @@ tags:
 paths:
   /rate:
     post:
-      description: "Request shipping rates. BigCommerce sends a request for shipping quotes to the shipping provider URL. The shipping provider responds with shipping quotes.\n\n> #### Note\n> * Substitute the host and path specific to the shipping provider for `your_app.example.com` and `rate`. \n> * The Send a Test Request feature is not currently supported for this endpoint.  "
+      description: 'Request shipping rates. BigCommerce sends a request for shipping quotes to the shipping provider URL. The shipping provider responds with shipping quotes.
+
+
+        > #### Note
+
+        > * Substitute the host and path specific to the shipping provider for `your_app.example.com` and `rate`.
+
+        > * The Send a Test Request feature is not currently supported for this endpoint.'
       requestBody:
         content:
           application/json:
@@ -369,7 +339,14 @@ paths:
       operationId: requestShippingRates
   /check_connection_options:
     post:
-      description: "Validate connection options. BigCommerce sends a request to the shipping provider URL to check a merchantʼs connection credentials. The shipping provider sends a response indicating whether a merchant has valid credentials. \n\n> #### Note\n> * Substitute the host and path specific to the shipping provider for `your_app.example.com` and `check_connection_options`.  \n> * The Send a Test Request feature is not currently supported for this endpoint."
+      description: 'Validate connection options. BigCommerce sends a request to the shipping provider URL to check a merchantʼs connection credentials. The shipping provider sends a response indicating whether a merchant has valid credentials.
+
+
+        > #### Note
+
+        > * Substitute the host and path specific to the shipping provider for `your_app.example.com` and `check_connection_options`.
+
+        > * The Send a Test Request feature is not currently supported for this endpoint.'
       requestBody:
         content:
           application/json:
@@ -401,11 +378,6 @@ paths:
       operationId: validateConnectionOptions
 components:
   schemas:
-    ZoneOptionsInstance:
-      type: object
-      description: Any zone-specific request options declared by the carrier and configured by the merchant to retrieve rates. Optional.
-      title: Zone Options Instance
-      x-internal: false
     CheckConnectionOptionsRequestPayload:
       type: object
       properties:
@@ -418,25 +390,6 @@ components:
 
 
         Each Shipping Provider will have different configurations for the payload.'
-      x-internal: false
-    ConnectionOptionsInstance:
-      type: object
-      description: Any global request options declared by the carrier and configured by the merchant to retrieve rates. Optional.
-      title: Connection Options Instance
-      x-internal: false
-    RateRequestPayload:
-      type: object
-      title: Rate Request Payload
-      description: Payload sent to a Shipping Provider to get quotes.
-      properties:
-        base_options:
-          $ref: '#/components/schemas/BaseOptions'
-        zone_options:
-          $ref: '#/components/schemas/ZoneOptionsInstance'
-        connection_options:
-          $ref: '#/components/schemas/ConnectionOptionsInstance'
-      required:
-      - base_options
       x-internal: false
     RateResponsePayload:
       type: object
@@ -586,6 +539,63 @@ components:
       - carrier_quotes
       title: Rate Response Payload
       description: The response from the Shipping Service. Contains zero or more quotes.
+      x-internal: false
+    RateRequestPayload:
+      type: object
+      title: Rate Request Payload
+      description: Payload sent to a Shipping Provider to get quotes.
+      properties:
+        base_options:
+          $ref: '#/components/schemas/BaseOptions'
+        zone_options:
+          $ref: '#/components/schemas/ZoneOptionsInstance'
+        connection_options:
+          $ref: '#/components/schemas/ConnectionOptionsInstance'
+      required:
+      - base_options
+      x-internal: false
+    FormFieldValue:
+      type: string
+      description: The value of a [shipping address](/docs/rest-management/orders/order-shipping-addresses#get-a-shipping-address) form field. Depending on the form field, this could be a user-defined value or the value of a hidden input.
+      title: Form Field Value
+    ZoneOptionsInstance:
+      type: object
+      description: Any zone-specific request options declared by the carrier and configured by the merchant to retrieve rates. Optional.
+      title: Zone Options Instance
+      x-internal: false
+    CheckConnectionOptionsResponsePayload:
+      type: object
+      properties:
+        valid:
+          type: boolean
+          description: Indicates whether or not the connection options are valid.
+        messages:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+                minLength: 1
+                maxLength: 500
+              type:
+                type: string
+                enum:
+                - INFO
+                - WARNING
+                - ERROR
+            required:
+            - text
+            - type
+            title: Message
+            description: A simple string/type response for returning information.
+      title: Check Connection Options Response Payload
+      description: The response received back from the Shipping Provider connection check. This allows the store to understand whether the connection was successful.
+      x-internal: false
+    ConnectionOptionsInstance:
+      type: object
+      description: Any global request options declared by the carrier and configured by the merchant to retrieve rates. Optional.
+      title: Connection Options Instance
       x-internal: false
     BaseOptions:
       description: The minimum required payload that is sent to retrieve rates.
@@ -859,36 +869,3 @@ components:
       - destination
       - items
       - store_id
-    FormFieldValue:
-      type: string
-      description: The value of a [shipping address](/docs/rest-management/orders/order-shipping-addresses#get-a-shipping-address) form field. Depending on the form field, this could be a user-defined value or the value of a hidden input.
-      title: Form Field Value
-    CheckConnectionOptionsResponsePayload:
-      type: object
-      properties:
-        valid:
-          type: boolean
-          description: Indicates whether or not the connection options are valid.
-        messages:
-          type: array
-          items:
-            type: object
-            properties:
-              text:
-                type: string
-                minLength: 1
-                maxLength: 500
-              type:
-                type: string
-                enum:
-                - INFO
-                - WARNING
-                - ERROR
-            required:
-            - text
-            - type
-            title: Message
-            description: A simple string/type response for returning information.
-      title: Check Connection Options Response Payload
-      description: The response received back from the Shipping Provider connection check. This allows the store to understand whether the connection was successful.
-      x-internal: false

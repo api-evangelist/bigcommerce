@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: BigCommerce Webhooks v3 Webhooks Admin API
   version: ''
-  description: Get notified when specific events occur on a BigCommerce store. For more information, see the [Webhooks Overview](/docs/integrations/webhooks).
+  description: Get notified when specific events occur on a BigCommerce store. For more information, see the Webhooks Overview.
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     email: support@bigcommerce.com
@@ -139,9 +139,7 @@ paths:
     put:
       operationId: updateHooksAdmin
       summary: BigCommerce Upsert Email Notifications
-      description: 'Update email addresses that are sent notification emails when any domain associated with the API account is denylisted or when a webhook is deactivated. Supports `upsert` functionality in the case that no email address exists yet.
-
-        '
+      description: Update email addresses that are sent notification emails when any domain associated with the API account is denylisted or when a webhook is deactivated. Supports `upsert` functionality in the case that no email address exists yet.
       requestBody:
         description: List of notification emails.
         content:
@@ -173,25 +171,56 @@ paths:
       tags:
       - Webhooks Admin
 components:
+  parameters:
+    IsActive:
+      name: is_active
+      in: query
+      description: 'Enables user to filter for webhooks that are active or not. A webhook subscription becomes deactivated after 90 days of inactivity.
+
+        '
+      schema:
+        type: boolean
+        example: true
+  responses:
+    400_BadRequest:
+      description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 400
+                title: Input is invalid.
+                type: /api-docs/getting-started/api-status-codes
+    401_Unauthorized:
+      description: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 401
+                title: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
+                type: /api-docs/getting-started/api-status-codes
+    422_UnprocessableEntity:
+      description: This occurs when missing or unacceptable data is passed for one or more fields. Please correct the values for the fields listed in the errors object.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorDetailed_Full'
+          examples:
+            response:
+              value:
+                status: 422
+                title: JSON data is missing or invalid
+                type: /api-docs/getting-started/api-status-codes
+                errors:
+                  destination: error.path.missing.
   schemas:
-    error_Full:
-      type: object
-      title: error_Full
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          description: This value is typically a link to BigCommerce API Status codes.
-          type: string
-      x-internal: false
     errorDetailed_Full:
       type: object
       title: errorDetailed_Full
@@ -211,6 +240,24 @@ components:
           type: string
         errors:
           type: object
+      x-internal: false
+    error_Full:
+      type: object
+      title: error_Full
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          description: This value is typically a link to BigCommerce API Status codes.
+          type: string
       x-internal: false
     Pagination:
       type: object
@@ -246,55 +293,6 @@ components:
               type: string
               description: Link to the next page returned in the response.
       x-internal: false
-  responses:
-    422_UnprocessableEntity:
-      description: This occurs when missing or unacceptable data is passed for one or more fields. Please correct the values for the fields listed in the errors object.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/errorDetailed_Full'
-          examples:
-            response:
-              value:
-                status: 422
-                title: JSON data is missing or invalid
-                type: /api-docs/getting-started/api-status-codes
-                errors:
-                  destination: error.path.missing.
-    401_Unauthorized:
-      description: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 401
-                title: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
-                type: /api-docs/getting-started/api-status-codes
-    400_BadRequest:
-      description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 400
-                title: Input is invalid.
-                type: /api-docs/getting-started/api-status-codes
-  parameters:
-    IsActive:
-      name: is_active
-      in: query
-      description: 'Enables user to filter for webhooks that are active or not. A webhook subscription becomes deactivated after 90 days of inactivity.
-
-        '
-      schema:
-        type: boolean
-        example: true
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

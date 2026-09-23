@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: BigCommerce Sites Site Routes API
   version: ''
-  description: "Create and manage [sites](#sites) and [routes](#routes) for [headless storefront](https://support.bigcommerce.com/s/article/The-Headless-Approach#what-mean) sales [channels](/docs/rest-management/channels).\n\n## [Sites](/docs/rest-management/sites)\n\nSites link [headless storefronts](/docs/storefront/headless) to sales [channels](/docs/rest-management/channels). To [create a site](/docs/rest-management/sites#create-a-site), send a `POST` request to `/stores/{{STORE_HASH}}/v3/sites`.\n\n```http\nPOST https://api.bigcommerce.com/stores/{{STORE_HASH}}/v3/sites\nX-Auth-Token: {{ACCESS_TOKEN}}\nContent-Type: application/json\nAccept: application/json\n\n{\n  \"url\": \"http://store.example.com/\",\n  \"channel_id\": 5\n}\n```\n\n**Response**\n\n```json\n{\n  \"id\": 1,\n  \"url\": \"http://store.example.com/\",\n  \"channel_id\": 5,\n  \"created_at\": \"2022-01-04T04:15:50.000Z\",\n  \"updated_at\": \"2022-01-04T04:15:50.000Z\"\n}\n```\n\nTo [get a list of sites](/docs/rest-management/sites#get-sites), send a `GET` request to `/stores/{{STORE_HASH}}/v3/sites`.\n\n```http\nGET https://api.bigcommerce.com/stores/{{STORE_HASH}}/v3/sites\nX-Auth-Token: {{ACCESS_TOKEN}}\nAccept: application/json\n```\n\n## Site routes\n\n[Site routes](/docs/rest-management/sites/site-routes) tell BigCommerce how to link to pages on a [headless storefront](/docs/storefront/headless). To [create a route](/docs/rest-management/sites/site-routes#create-a-site-route) for a [site](#sites), send a `POST` request to `/stores/{{STORE_HASH}}/v3/sites/{site_id}/routes`.\n\n```http\nPOST https://api.bigcommerce.com/stores/{{STORE_HASH}}/v3/sites/{site_id}/routes\nX-Auth-Token: {{ACCESS_TOKEN}}\nContent-Type: application/json\nAccept: application/json\n\n{\n  \"type\": \"product\",\n  \"matching\": \"12\",\n  \"route\": \"/en/product?id=12\"\n}\n```\n\n## Route types\n\nThe following route types are supported.\n\n| Type | Description |\n|-|-|\n|`product`|Route for product details pages |\n|`brand`|Route to brand pages |\n|`category`|Route to category pages |    \n|`blog`|Route to blog page|    \n|`home`|Route to storefront homepage|\n|`cart`|Route to shopper’s cart|\n|`checkout`|Route to checkout page|\n|`search`|Route to store search page|\n|`account`|Route to account profile page|\n|`login`|Route to account login page|\n|`returns`|Route for return policy page|\n|`static`|Route to a static page|    \n|`create_account`|Route to create new shopper account page|\n|`forgot_password`|Route to shopper forgot password page|\n|`account_order_status`|Route for order status page|\n|`account_new_return`|Route for product returns page|\n|`recover_abandoned_cart`|Route for URL in emails for a shopper to recover their abandoned cart|\n\n## Route variables\n\nThe following route variables are supported.\n\n|Variable|Description|\n|-|-|\n|`{id}`|The **ID** of the requested item|\n|`{slug}`|The **slug** for the requested item (if available). Note: the `slug` value may contain `/` slash|\n|`{lang}`|The **language** string that the client is using|\n\n**Example:**\n\n```http\nPOST https://api.bigcommerce.com/stores/{{STORE_HASH}}/v3/sites/{site_id}/routes\nX-Auth-Token: {{ACCESS_TOKEN}}\nContent-Type: application/json\nAccept: application/json\n\n{\n  \"type\": \"product\",\n  \"matching\": \"*\",\n  \"route\": \"/{lang}/{slug}?id={id}\"\n}\n```\n\n## Additional Information\n\n### Related resources\n* [Channels and Listings Reference](/docs/rest-management/channels)\n* [Channels Overview](/docs/integrations/channels)\n* [Building Headless Storefronts Guide](/docs/storefront/headless)"
+  description: Create and manage sites and routes for headless storefront sales channels.
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -108,12 +108,12 @@ paths:
           $ref: '#/components/responses/502_GatewayError'
       tags:
       - Site Routes
-      description: 'Create routes that tell BigCommerce how to link to pages on a [headless storefront](/docs/storefront/headless).
+      description: 'Create routes that tell BigCommerce how to link to pages on a headless storefront.
 
 
         ## Usage Notes
 
-        * For a list of supported route types, see [Route types](/docs/rest-management/sites#route-types).'
+        * For a list of supported route types, see Route types.'
     put:
       responses:
         '200':
@@ -245,9 +245,7 @@ paths:
           $ref: '#/components/responses/siteRoute_Resp'
       tags:
       - Site Routes
-      description: 'Update a site’s route.
-
-        '
+      description: Update a site’s route.
     delete:
       summary: BigCommerce Delete a Site Route
       operationId: deleteSiteRoute
@@ -259,135 +257,6 @@ paths:
       description: Delete a site’s route.
 components:
   schemas:
-    error_Full:
-      type: object
-      title: error_Full
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-      x-internal: false
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    siteRoute_Full:
-      title: siteRoute_Full
-      description: Route object used in responses.
-      allOf:
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: Unique ID for this route. Required when updating an existing route.
-      - $ref: '#/components/schemas/siteRoute_Base'
-      x-internal: false
-    _metaCollection:
-      title: metaCollection
-      description: Meta data relating to pagination.
-      type: object
-      properties:
-        pagination:
-          type: object
-          properties:
-            total:
-              type: integer
-              description: Total number of items returned.
-              example: 3
-            count:
-              type: integer
-              description: Number of items returned on per page.
-              example: 1
-            per_page:
-              type: integer
-              description: Number of items to be displayed per page.
-              example: 1
-            current_page:
-              type: integer
-              description: Current page number.
-              example: 2
-            total_page:
-              type: integer
-              description: Total number of pages.
-              example: 3
-            links:
-              type: object
-              properties:
-                previous:
-                  type: string
-                  description: Query string appended to the resource to return to the previous page.
-                  example: ?limit=1&page=1
-                next:
-                  type: string
-                  description: Query string appended to the resource to proceed to the next page.
-                  example: ?limit=1&page=3
-                current:
-                  type: string
-                  description: Query string appended to the resource to show the current page.
-                  example: ?limit=1&page=2
-      x-internal: false
-    siteRoutes_Route_Base:
-      title: siteRoutes_Route_Base
-      type: object
-      properties:
-        type:
-          type: string
-          description: The type of resource being routed to; [supported types](/docs/rest-management/sites#route-types).
-          enum:
-          - product
-          - brand
-          - category
-          - page
-          - blog
-          - home
-          - cart
-          - checkout
-          - search
-          - account
-          - login
-          - returns
-          - static
-        matching:
-          type: string
-          example: '5'
-          description: 'Depending on the resource type, this can be an ID (matching a specific item), or a "*" wildcard (matching all items of that type).
-
-
-            For example, a route with a type: "product" and matching: "5" will be used for the product with the ID of 5.'
-        route:
-          type: string
-          example: /my-amazing-product
-          description: 'The route template that will be used to generate the URL for the requested resource.
-
-
-            Supports several tokens:
-
-            - `{id}` The **ID** of the requested item.
-
-            - `{slug}` The **slug** for the requested item (if available). Note: the `slug` value may contain `/` slash.
-
-            - `{language}` The **language** string that the client is using.'
-      required:
-      - type
-      - matching
-      - route
-      x-internal: false
-    _errors:
-      type: object
-      description: The keys and values in an errors object will vary depending on the error received.
-      title: _errors
-      x-internal: false
     _metaEmpty:
       type: object
       properties: {}
@@ -436,6 +305,135 @@ components:
             - `{language}` The **language** string that the client is using.'
           example: /my-amazing-product
       x-internal: false
+    error_Full:
+      type: object
+      title: error_Full
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+      x-internal: false
+    siteRoutes_Route_Base:
+      title: siteRoutes_Route_Base
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of resource being routed to; [supported types](/docs/rest-management/sites#route-types).
+          enum:
+          - product
+          - brand
+          - category
+          - page
+          - blog
+          - home
+          - cart
+          - checkout
+          - search
+          - account
+          - login
+          - returns
+          - static
+        matching:
+          type: string
+          example: '5'
+          description: 'Depending on the resource type, this can be an ID (matching a specific item), or a "*" wildcard (matching all items of that type).
+
+
+            For example, a route with a type: "product" and matching: "5" will be used for the product with the ID of 5.'
+        route:
+          type: string
+          example: /my-amazing-product
+          description: 'The route template that will be used to generate the URL for the requested resource.
+
+
+            Supports several tokens:
+
+            - `{id}` The **ID** of the requested item.
+
+            - `{slug}` The **slug** for the requested item (if available). Note: the `slug` value may contain `/` slash.
+
+            - `{language}` The **language** string that the client is using.'
+      required:
+      - type
+      - matching
+      - route
+      x-internal: false
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    _errors:
+      type: object
+      description: The keys and values in an errors object will vary depending on the error received.
+      title: _errors
+      x-internal: false
+    _metaCollection:
+      title: metaCollection
+      description: Meta data relating to pagination.
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            total:
+              type: integer
+              description: Total number of items returned.
+              example: 3
+            count:
+              type: integer
+              description: Number of items returned on per page.
+              example: 1
+            per_page:
+              type: integer
+              description: Number of items to be displayed per page.
+              example: 1
+            current_page:
+              type: integer
+              description: Current page number.
+              example: 2
+            total_page:
+              type: integer
+              description: Total number of pages.
+              example: 3
+            links:
+              type: object
+              properties:
+                previous:
+                  type: string
+                  description: Query string appended to the resource to return to the previous page.
+                  example: ?limit=1&page=1
+                next:
+                  type: string
+                  description: Query string appended to the resource to proceed to the next page.
+                  example: ?limit=1&page=3
+                current:
+                  type: string
+                  description: Query string appended to the resource to show the current page.
+                  example: ?limit=1&page=2
+      x-internal: false
+    siteRoute_Full:
+      title: siteRoute_Full
+      description: Route object used in responses.
+      allOf:
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: Unique ID for this route. Required when updating an existing route.
+      - $ref: '#/components/schemas/siteRoute_Base'
+      x-internal: false
   parameters:
     Accept:
       name: Accept
@@ -454,49 +452,6 @@ components:
         type: string
         default: application/json
   responses:
-    ErrorResponse:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              title:
-                type: string
-                description: General error message
-              status:
-                type: string
-                description: HTTP status code
-              errors:
-                $ref: '#/components/schemas/_errors'
-              type:
-                type: string
-    502_GatewayError:
-      description: If something happens during the request that causes it to fail, a 502 response will be returned. A new request should be made; however, it could fail.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-    siteRoute_Resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                $ref: '#/components/schemas/siteRoute_Full'
-              meta:
-                $ref: '#/components/schemas/MetaOpen'
-          examples:
-            response:
-              value:
-                data:
-                  id: 123
-                  type: checkout
-                  matching: '5'
-                  route: /my-amazing-product
-                meta: {}
     BulkErrorResponse:
       description: ''
       content:
@@ -526,6 +481,49 @@ components:
                   0.matching.type: Route already exists for site 1 matching 5 for type product
                   1.matching.type: Route already exists for site 1 matching * for type home
                 status: 422
+    502_GatewayError:
+      description: If something happens during the request that causes it to fail, a 502 response will be returned. A new request should be made; however, it could fail.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+    ErrorResponse:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: General error message
+              status:
+                type: string
+                description: HTTP status code
+              errors:
+                $ref: '#/components/schemas/_errors'
+              type:
+                type: string
+    siteRoute_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/siteRoute_Full'
+              meta:
+                $ref: '#/components/schemas/MetaOpen'
+          examples:
+            response:
+              value:
+                data:
+                  id: 123
+                  type: checkout
+                  matching: '5'
+                  route: /my-amazing-product
+                meta: {}
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

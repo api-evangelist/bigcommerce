@@ -77,6 +77,29 @@ paths:
       - Inventory
       description: Update inventory settings
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
     MetaOpen:
       title: Response meta
@@ -84,14 +107,6 @@ components:
       properties: {}
       additionalProperties: true
       description: Response metadata.
-    ErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseError'
-      - properties:
-          errors:
-            $ref: '#/components/schemas/DetailedErrors'
-        type: object
-      x-internal: false
     InventorySettings:
       type: object
       properties:
@@ -155,12 +170,6 @@ components:
           description: Describes whether out-of-stock messages are shown on product listing pages.
           default: false
           example: true
-    DetailedErrors:
-      type: object
-      properties: {}
-      additionalProperties: true
-      title: Detailed Errors
-      x-internal: false
     BaseError:
       description: 'Error payload for the BigCommerce API.
 
@@ -182,29 +191,20 @@ components:
         type:
           type: string
       x-internal: false
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
+    DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      title: Detailed Errors
+      x-internal: false
+    ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - properties:
+          errors:
+            $ref: '#/components/schemas/DetailedErrors'
+        type: object
+      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

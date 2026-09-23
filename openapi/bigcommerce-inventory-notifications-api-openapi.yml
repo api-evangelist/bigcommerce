@@ -26,7 +26,9 @@ paths:
     get:
       summary: BigCommerce Get Inventory Notifications Settings
       operationId: getSettingsInventoryNotifications
-      description: "Returns inventory notification settings. \n* `channel_id` can be used as a query parameter to get inventory notification settings per channel. If omitted, you will interact with the global setting only."
+      description: 'Returns inventory notification settings.
+
+        * `channel_id` can be used as a query parameter to get inventory notification settings per channel. If omitted, you will interact with the global setting only.'
       parameters:
       - $ref: '#/components/parameters/ChannelIdParam'
       responses:
@@ -47,7 +49,13 @@ paths:
     put:
       summary: BigCommerce Update Inventory Notifications Settings
       operationId: updateSettingsInventoryNotifications
-      description: "Updates inventory notification settings. \n* `channel_id` can be used as a query parameter to get inventory notification settings per channel. If omitted, you will interact with the global setting only. \n* Supplying `null` settings values per channel will delete overrides per given channel and values will be inherited from global level. \n* Partial updates are not supported within the given endpoint. In order to delete overrides per channel, `null` should be supplied for all the settings within the given endpoint."
+      description: 'Updates inventory notification settings.
+
+        * `channel_id` can be used as a query parameter to get inventory notification settings per channel. If omitted, you will interact with the global setting only.
+
+        * Supplying `null` settings values per channel will delete overrides per given channel and values will be inherited from global level.
+
+        * Partial updates are not supported within the given endpoint. In order to delete overrides per channel, `null` should be supplied for all the settings within the given endpoint.'
       parameters:
       - $ref: '#/components/parameters/ContentType'
       - $ref: '#/components/parameters/ChannelIdParam'
@@ -63,13 +71,30 @@ paths:
       tags:
       - Inventory Notifications
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     InventoryNotificationsSettings:
       type: object
       x-tags:
@@ -91,29 +116,12 @@ components:
           - test.user@example.com
           out_of_stock_notification_address:
           - test.user@example.com
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

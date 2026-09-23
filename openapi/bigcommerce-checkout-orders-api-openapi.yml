@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: BigCommerce Checkouts Checkout Orders API
-  description: 'For more information on authenticating BigCommerce APIs, see [Authentication](/docs/start/authentication).
+  description: 'For more information on authenticating BigCommerce APIs, see Authentication.
 
 
     Create and manage checkouts from existing carts using BigCommerce checkout logic.'
@@ -64,6 +64,30 @@ paths:
                   id: 75
                 meta: {}
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    checkoutId:
+      name: checkoutId
+      in: path
+      description: ID of the checkout; the same as the cart ID.
+      required: true
+      schema:
+        type: string
+    Content-Type:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
     MetaOpen:
       title: Response meta
@@ -80,30 +104,6 @@ components:
           description: The order ID.
           example: 75
       x-internal: false
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    Content-Type:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    checkoutId:
-      name: checkoutId
-      in: path
-      description: ID of the checkout; the same as the cart ID.
-      required: true
-      schema:
-        type: string
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

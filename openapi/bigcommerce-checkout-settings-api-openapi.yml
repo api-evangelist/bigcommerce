@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: BigCommerce Checkouts Checkout Settings API
-  description: 'For more information on authenticating BigCommerce APIs, see [Authentication](/docs/start/authentication).
+  description: 'For more information on authenticating BigCommerce APIs, see Authentication.
 
 
     Create and manage checkouts from existing carts using BigCommerce checkout logic.'
@@ -99,19 +99,24 @@ paths:
                   custom_order_confirmation_script_url: webdav:vtz-order-confirmation/dist/auto-loader.js
                 meta: {}
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    Content-Type:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
-    CheckoutsSettings:
-      title: Checkouts Settings
-      type: object
-      properties:
-        custom_checkout_script_url:
-          type: string
-        order_confirmation_use_custom_checkout_script:
-          type: boolean
-        custom_order_confirmation_script_url:
-          type: string
-        custom_checkout_supports_uco_settings:
-          type: boolean
     MetaOpen:
       title: Response meta
       type: object
@@ -135,23 +140,18 @@ components:
           type: boolean
           description: Boolean value that specifies whether this checkout supports Optimized One-Page Checkout settings.
       description: ''
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    Content-Type:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
+    CheckoutsSettings:
+      title: Checkouts Settings
+      type: object
+      properties:
+        custom_checkout_script_url:
+          type: string
+        order_confirmation_use_custom_checkout_script:
+          type: boolean
+        custom_order_confirmation_script_url:
+          type: string
+        custom_checkout_supports_uco_settings:
+          type: boolean
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

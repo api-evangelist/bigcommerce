@@ -37,7 +37,6 @@ paths:
         * Depending on the payment method, different information will be available (not all payment gateways return full card or fraud detail).
 
 
-
         Requires at least one of the following scopes:
 
         * `store_v2_transactions_read_only`
@@ -95,39 +94,57 @@ paths:
                 title: Not Found
       summary: BigCommerce Get Transactions
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    OrderIdParam:
-      name: order_id
-      in: path
-      description: 'The ID of the `Order` to which the transactions belong.
-
-        '
-      required: true
-      schema:
-        type: integer
-  responses:
-    TransactionCollection_Resp:
-      description: Response payload for the BigCommerce Order Transactions API.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Transaction'
-              meta:
-                $ref: '#/components/schemas/metaCollection_Full'
   schemas:
+    CreditCard:
+      type: object
+      description: A credit-card model.
+      title: Credit Card
+      properties:
+        card_type:
+          type: string
+          enum:
+          - alelo
+          - alia
+          - american_express
+          - cabal
+          - carnet
+          - dankort
+          - diners_club
+          - discover
+          - elo
+          - forbrugsforeningen
+          - jcb
+          - maestro
+          - master
+          - naranja
+          - sodexo
+          - unionpay
+          - visa
+          - vr
+          description: '**Allowed values**: alelo, alia, american_express, cabal, carnet, dankort, diners_club, discover, elo, forbrugsforeningen, jcb, maestro, master, naranja, sodexo, unionpay, visa, vr'
+        card_iin:
+          description: 'The IIN of a credit-card number.
+
+            '
+          type: string
+        card_last4:
+          description: 'The last 4 digits of a credit-card number.
+
+            '
+          type: string
+        card_expiry_month:
+          description: 'The expiry month of a credit-card.
+
+            '
+          type: integer
+          minimum: 1
+          maximum: 12
+        card_expiry_year:
+          description: 'The expiry year of a credit-card.
+
+            '
+          type: integer
+      x-internal: false
     pagination_Full:
       type: object
       title: pagination_Full
@@ -176,6 +193,25 @@ components:
             '
       title: links_Full
       x-internal: false
+    metaCollection_Full:
+      type: object
+      title: metaCollection_Full
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      x-internal: false
+      x-examples:
+        example-1:
+          pagination:
+            total: 0
+            count: 0
+            per_page: 0
+            current_page: 0
+            total_pages: 0
+            links:
+              previous: string
+              current: ?page=1&limit=50
+              next: string
     Transaction:
       allOf:
       - title: Transaction Base
@@ -475,75 +511,38 @@ components:
           store_credit:
             remaining_balance: 35.42
       description: ''
-    metaCollection_Full:
-      type: object
-      title: metaCollection_Full
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      x-internal: false
-      x-examples:
-        example-1:
-          pagination:
-            total: 0
-            count: 0
-            per_page: 0
-            current_page: 0
-            total_pages: 0
-            links:
-              previous: string
-              current: ?page=1&limit=50
-              next: string
-    CreditCard:
-      type: object
-      description: A credit-card model.
-      title: Credit Card
-      properties:
-        card_type:
-          type: string
-          enum:
-          - alelo
-          - alia
-          - american_express
-          - cabal
-          - carnet
-          - dankort
-          - diners_club
-          - discover
-          - elo
-          - forbrugsforeningen
-          - jcb
-          - maestro
-          - master
-          - naranja
-          - sodexo
-          - unionpay
-          - visa
-          - vr
-          description: '**Allowed values**: alelo, alia, american_express, cabal, carnet, dankort, diners_club, discover, elo, forbrugsforeningen, jcb, maestro, master, naranja, sodexo, unionpay, visa, vr'
-        card_iin:
-          description: 'The IIN of a credit-card number.
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    OrderIdParam:
+      name: order_id
+      in: path
+      description: 'The ID of the `Order` to which the transactions belong.
 
-            '
-          type: string
-        card_last4:
-          description: 'The last 4 digits of a credit-card number.
-
-            '
-          type: string
-        card_expiry_month:
-          description: 'The expiry month of a credit-card.
-
-            '
-          type: integer
-          minimum: 1
-          maximum: 12
-        card_expiry_year:
-          description: 'The expiry year of a credit-card.
-
-            '
-          type: integer
-      x-internal: false
+        '
+      required: true
+      schema:
+        type: integer
+  responses:
+    TransactionCollection_Resp:
+      description: Response payload for the BigCommerce Order Transactions API.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+              meta:
+                $ref: '#/components/schemas/metaCollection_Full'
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -224,22 +224,22 @@ paths:
 
         **Required Fields**
 
-        *   `name`
+        * `name`
 
-        *   `code`
+        * `code`
 
-        *   `type`
+        * `type`
 
-        *   `amount`
+        * `amount`
 
-        *   `applies_to`
+        * `applies_to`
 
 
         **Read Only Fields**
 
-        *   `id`
+        * `id`
 
-        *   `num_uses`
+        * `num_uses`
 
 
         **Notes**
@@ -248,15 +248,15 @@ paths:
         The coupon type can be one of the following:
 
 
-        *   `per_item_discount`
+        * `per_item_discount`
 
-        *   `per_total_discount`
+        * `per_total_discount`
 
-        *   `shipping_discount`
+        * `shipping_discount`
 
-        *   `free_shipping`
+        * `free_shipping`
 
-        *   `percentage_discount`
+        * `percentage_discount`
 
 
         Legacy coupon codes only work with the store''s default currency. Applying a coupon with any other currency other than the store''s default will result in the error: "Coupons only apply to default currency."'
@@ -301,9 +301,7 @@ paths:
       summary: BigCommerce Delete All Coupons
       description: '## Usage Notes
 
-        * Deleting a coupon via this endpoint will delete the coupon but not the promotion it is attached to
-
-        '
+        * Deleting a coupon via this endpoint will delete the coupon but not the promotion it is attached to'
       operationId: deleteCoupons
       parameters:
       - name: id:in
@@ -351,7 +349,6 @@ paths:
       - Coupons
       summary: BigCommerce Update a Coupon
       description: 'Updates a *Coupon*.
-
 
 
         **Read Only Fields**
@@ -415,24 +412,28 @@ paths:
           description: ''
           content: {}
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
+    coupon_Full:
+      title: coupon_Full
+      allOf:
+      - required:
+        - id
+        type: object
+        properties:
+          id:
+            type: integer
+            description: The coupon's ID. This is a read-only field; do not set or modify its value in a POST or PUT request.
+            example: 2
+          date_created:
+            type: string
+            description: Date Created
+            example: Tue, 13 Mar 2018 16:18:59 +0000
+          num_uses:
+            type: integer
+            description: Number of times this coupon has been used. This is a read-only field; do not set or modify its value in a POST or PUT request.
+            example: 0
+      - $ref: '#/components/schemas/coupon_Base'
+      x-internal: false
     coupon_Base:
       title: coupon_Base
       required:
@@ -531,27 +532,23 @@ components:
         - shipping_endicia
         date_created: Tue, 13 Mar 2018 16:18:59 +0000
       x-internal: false
-    coupon_Full:
-      title: coupon_Full
-      allOf:
-      - required:
-        - id
-        type: object
-        properties:
-          id:
-            type: integer
-            description: The coupon's ID. This is a read-only field; do not set or modify its value in a POST or PUT request.
-            example: 2
-          date_created:
-            type: string
-            description: Date Created
-            example: Tue, 13 Mar 2018 16:18:59 +0000
-          num_uses:
-            type: integer
-            description: Number of times this coupon has been used. This is a read-only field; do not set or modify its value in a POST or PUT request.
-            example: 0
-      - $ref: '#/components/schemas/coupon_Base'
-      x-internal: false
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

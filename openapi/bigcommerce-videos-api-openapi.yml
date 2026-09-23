@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: BigCommerce Catalog - Products Videos API
-  description: "> The Catalog API manages products, categories, brands, bulk pricing rules, and more. To learn more about catalog resources, see the [Catalog Overview](/docs/store-operations/catalog).\n\nOur Catalog Products endpoints let you [create products](/docs/rest-catalog/products#create-a-product), perform [batch operations on existing products](/docs/rest-catalog/products#update-products-batch) and work with [reviews](/docs/rest-catalog/products/reviews), [images](/docs/rest-catalog/products/images), and [videos](/docs/rest-catalog/products/videos). Note that after a product is created initially, you can manage the nuances of its variations using the [Product Modifier](/docs/rest-catalog/product-modifiers), [Product Variant](/docs/rest-catalog/product-variants), and [Product Variant Options](/docs/rest-catalog/product-variant-options) endpoints. \n\nOther core product endpoints focus on [bulk pricing](/docs/rest-catalog/products/bulk-pricing-rules), [complex rules](/docs/rest-catalog/products/complex-rules), [custom fields](/docs/rest-catalog/products/custom-fields), and [metafields](/docs/rest-catalog/products/metafields). Product Variant objects also contain [their own metafields](/docs/rest-catalog/product-variants/metafields). For [MSF-enabled](/docs/storefront/multi-storefront) stores, the product object also contains product [channel assignments](/docs/rest-catalog/products/channel-assignments) and [category assignments](/docs/rest-catalog/products/category-assignments); read more about [products in the MSF context](/docs/storefront/multi-storefront/guide#products). \n\nThis API family also contains an endpoint to [Get a catalog summary](/docs/rest-catalog/products/summary).\n\n> To learn more about authenticating Catalog endpoints, locate the **Authentication** section at the top of each endpoint, then click **Show Details**. \n\n## Resources\n\n### Webhooks\n* [Product webhook events](/docs/integrations/webhooks/events#products)\n* [Product assignment webhook events](/docs/integrations/webhooks/events/channels#product-assignments) \n\n### Additional Catalog endpoints\n* [Brands](/docs/rest-catalog/brands)\n* [Categories](/docs/rest-catalog/categories)\n* [Category Trees](/docs/rest-catalog/category-trees)\n* [Product Modifiers](/docs/rest-catalog/product-modifiers)\n* [Product Variants](/docs/rest-catalog/product-variants)\n* [Product Variant Options](/docs/rest-catalog/product-variant-options)"
+  description: '> The Catalog API manages products, categories, brands, bulk pricing rules, and more.'
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -550,13 +550,6 @@ paths:
           content: {}
 components:
   parameters:
-    VideoIdParam:
-      name: id
-      description: The BigCommerce ID of the `Video`
-      required: true
-      in: path
-      schema:
-        type: integer
     Accept:
       name: Accept
       in: header
@@ -565,6 +558,13 @@ components:
       schema:
         type: string
         default: application/json
+    VideoIdParam:
+      name: id
+      description: The BigCommerce ID of the `Video`
+      required: true
+      in: path
+      schema:
+        type: integer
     ContentType:
       name: Content-Type
       in: header
@@ -641,39 +641,6 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-    productVideo_Full:
-      title: productVideo_Full
-      description: 'A product video model.
-
-        '
-      allOf:
-      - $ref: '#/components/schemas/productVideo_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: 'The unique numeric ID of the product video; increments sequentially.
-
-              '
-          product_id:
-            type: integer
-            description: 'The unique numeric identifier for the product with which the image is associated.
-
-              '
-          length:
-            type: string
-            description: 'Length of the video. This will be filled in according to data on a host site.
-
-              '
-      x-internal: false
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
     productVideo_Base:
       title: productVideo_Base
       type: object
@@ -715,6 +682,39 @@ components:
           type: string
           description: The ID of the video on a host site.
           example: z3fRu9pkuXE
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    productVideo_Full:
+      title: productVideo_Full
+      description: 'A product video model.
+
+        '
+      allOf:
+      - $ref: '#/components/schemas/productVideo_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: 'The unique numeric ID of the product video; increments sequentially.
+
+              '
+          product_id:
+            type: integer
+            description: 'The unique numeric identifier for the product with which the image is associated.
+
+              '
+          length:
+            type: string
+            description: 'Length of the video. This will be filled in according to data on a host site.
+
+              '
+      x-internal: false
     metaEmpty_Full:
       type: object
       title: Response meta

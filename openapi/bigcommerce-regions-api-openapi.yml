@@ -2,40 +2,7 @@ openapi: 3.2.0
 info:
   title: BigCommerce Widgets Regions API
   version: ''
-  description: 'Create and manage widget templates, widgets, regions, and placements.
-
-
-    ## Subresources
-
-
-    ### Widget templates
-
-    [Widget templates](/docs/rest-content/widgets/widget-template) are reusable Handlebars-enabled HTML templates that define the structure of the widget on a page.
-
-
-    ### Widgets
-
-    [Widgets](/docs/rest-content/widgets/widget) are units of content placed on specific pages in a Stencil theme. Widgets consist of a widget configuration and a widget template UUID and render as part of the storefront’s HTML.
-
-
-    ### Regions
-
-    [Regions](/docs/rest-content/widgets/regions) are specific locations in the Stencil theme template files where you can place a widget.
-
-
-    ### Placements
-
-    [Placements](/docs/rest-content/widgets/placement) determine the region where you place widgets and in what order.
-
-
-    ## Additional Information
-
-
-    * [Widgets API Overview](/docs/storefront/widgets)
-
-    * [Widget UI Schema](/docs/storefront/widgets/input-reference/schema)
-
-    * [Widget UI Input Types](/docs/storefront/widgets/input-reference/settings)'
+  description: Create and manage widget templates, widgets, regions, and placements.
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -86,6 +53,19 @@ components:
         type: string
         default: application/json
   schemas:
+    themeRegion:
+      properties:
+        name:
+          type: string
+          description: The region name.
+      title: themeRegion
+      x-internal: false
+    Meta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     error_Base:
       type: object
       description: Error payload for the BigCommerce API.
@@ -104,20 +84,15 @@ components:
           type: object
       x-internal: false
       title: error_Base
-    themeRegion:
-      properties:
-        name:
-          type: string
-          description: The region name.
-      title: themeRegion
-      x-internal: false
-    Meta:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
   responses:
+    Error422_Resp:
+      description: 'This is the result of missing required fields, or of invalid data. See the response for more details.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Base'
     Error404_Resp:
       description: The resource was not found.
       content:
@@ -152,14 +127,6 @@ components:
                 - name: header_bottom
                 - name: category_header_banner
                 meta: {}
-    Error422_Resp:
-      description: 'This is the result of missing required fields, or of invalid data. See the response for more details.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Base'
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

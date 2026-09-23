@@ -7,7 +7,7 @@ info:
 
     ## Resources
 
-    * [Customers Overview](/docs/store-operations/customers).'
+    * Customers Overview.'
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -69,9 +69,7 @@ paths:
   /customers/{customerId}/metafields/{metafieldId}:
     get:
       summary: BigCommerce Get Customer Metafields List
-      description: 'Lists available metafields for a customer. To retrieve the list, use `customerId` and `metafieldId` in the query parameters.
-
-        '
+      description: Lists available metafields for a customer. To retrieve the list, use `customerId` and `metafieldId` in the query parameters.
       operationId: getMetafieldsCustomerId
       tags:
       - Customer Metafields
@@ -141,9 +139,7 @@ paths:
       summary: BigCommerce Delete Customer Metafields
       tags:
       - Customer Metafields
-      description: 'Deletes customer metafields. To delete customer metafields, use ''customerId'' and ''metafieldId'' in the query parameters.
-
-        '
+      description: Deletes customer metafields. To delete customer metafields, use 'customerId' and 'metafieldId' in the query parameters.
       parameters:
       - $ref: '#/components/parameters/customerId'
       - $ref: '#/components/parameters/metafieldId'
@@ -163,6 +159,153 @@ paths:
             '
 components:
   schemas:
+    MetafieldBase_Post:
+      type: object
+      description: 'Common Metafield properties.
+
+        '
+      x-internal: false
+      properties:
+        permission_set:
+          type: string
+          description: 'Determines the visibility and writeability of the field by other API consumers.
+
+            | Value | Description |
+
+            | : | : |
+
+            | `app_only` | Private to the app that owns the field. |
+
+            | `read` | Visible to other API consumers. |
+
+            | `write` | Open for reading and writing by other API consumers. |
+
+            | `read_and_sf_access` | Visible to other API consumers, including on the storefront. |
+
+            | `write_and_sf_access` | Open for reading and writing by other API consumers, including on the storefront. |
+
+            '
+          enum:
+          - app_only
+          - read
+          - write
+          - read_and_sf_access
+          - write_and_sf_access
+        namespace:
+          type: string
+          description: 'Namespace for the metafield, for organizational purposes.
+
+            '
+          example: Sales Department
+          minLength: 1
+          maxLength: 64
+        key:
+          type: string
+          description: 'The name of the field, for example: `location_id`, `color`.
+
+            '
+          minLength: 1
+          maxLength: 64
+          example: Staff Name
+        value:
+          type: string
+          description: 'The value of the field, for example: `1`, `blue`.
+
+            '
+          minLength: 1
+          maxLength: 65535
+          example: Ronaldo
+        description:
+          type: string
+          description: 'Description for the metafields.
+
+            '
+          minLength: 0
+          maxLength: 255
+          example: Name of Staff Member
+      required:
+      - permission_set
+      - namespace
+      - key
+      - value
+    CollectionMeta:
+      type: object
+      description: Data about the response, including pagination and collection totals.
+      properties:
+        pagination:
+          type: object
+          description: Data about the response, including pagination and collection totals.
+          title: Pagination
+          properties:
+            total:
+              type: integer
+              description: 'Total number of items in the result set.
+
+                '
+              example: 36
+            count:
+              type: integer
+              description: 'Total number of items in the collection response.
+
+                '
+              example: 36
+            per_page:
+              type: integer
+              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+                '
+              example: 50
+            current_page:
+              type: integer
+              description: 'The page you are currently on within the collection.
+
+                '
+              example: 1
+            total_pages:
+              type: integer
+              description: 'The total number of pages in the collection.
+
+                '
+              example: 1
+            links:
+              type: object
+              description: 'Pagination links for the previous and next parts of the whole collection.
+
+                '
+              properties:
+                previous:
+                  type: string
+                  description: 'Link to the previous page returned in the response.
+
+                    '
+                current:
+                  type: string
+                  description: 'Link to the current page returned in the response.
+
+                    '
+                  example: ?page=1&limit=50
+                next:
+                  type: string
+                  description: 'Link to the next page returned in the response.
+
+                    '
+      additionalProperties: true
+      title: Collection Meta
+      x-internal: false
+    MetaFieldCollectionPostPutResponses:
+      type: object
+      description: Response payload for the BigCommerce API.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Metafield'
+        errors:
+          type: array
+          description: Empty for 200 responses.
+          example: []
+        meta:
+          $ref: '#/components/schemas/CollectionMeta'
     MetafieldBase_Put:
       type: object
       description: 'Common Metafield properties.
@@ -343,153 +486,6 @@ components:
       - date_created
       - date_modified
       x-interal: false
-    MetaFieldCollectionPostPutResponses:
-      type: object
-      description: Response payload for the BigCommerce API.
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Metafield'
-        errors:
-          type: array
-          description: Empty for 200 responses.
-          example: []
-        meta:
-          $ref: '#/components/schemas/CollectionMeta'
-    MetafieldBase_Post:
-      type: object
-      description: 'Common Metafield properties.
-
-        '
-      x-internal: false
-      properties:
-        permission_set:
-          type: string
-          description: 'Determines the visibility and writeability of the field by other API consumers.
-
-            | Value | Description |
-
-            | : | : |
-
-            | `app_only` | Private to the app that owns the field. |
-
-            | `read` | Visible to other API consumers. |
-
-            | `write` | Open for reading and writing by other API consumers. |
-
-            | `read_and_sf_access` | Visible to other API consumers, including on the storefront. |
-
-            | `write_and_sf_access` | Open for reading and writing by other API consumers, including on the storefront. |
-
-            '
-          enum:
-          - app_only
-          - read
-          - write
-          - read_and_sf_access
-          - write_and_sf_access
-        namespace:
-          type: string
-          description: 'Namespace for the metafield, for organizational purposes.
-
-            '
-          example: Sales Department
-          minLength: 1
-          maxLength: 64
-        key:
-          type: string
-          description: 'The name of the field, for example: `location_id`, `color`.
-
-            '
-          minLength: 1
-          maxLength: 64
-          example: Staff Name
-        value:
-          type: string
-          description: 'The value of the field, for example: `1`, `blue`.
-
-            '
-          minLength: 1
-          maxLength: 65535
-          example: Ronaldo
-        description:
-          type: string
-          description: 'Description for the metafields.
-
-            '
-          minLength: 0
-          maxLength: 255
-          example: Name of Staff Member
-      required:
-      - permission_set
-      - namespace
-      - key
-      - value
-    CollectionMeta:
-      type: object
-      description: Data about the response, including pagination and collection totals.
-      properties:
-        pagination:
-          type: object
-          description: Data about the response, including pagination and collection totals.
-          title: Pagination
-          properties:
-            total:
-              type: integer
-              description: 'Total number of items in the result set.
-
-                '
-              example: 36
-            count:
-              type: integer
-              description: 'Total number of items in the collection response.
-
-                '
-              example: 36
-            per_page:
-              type: integer
-              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
-
-                '
-              example: 50
-            current_page:
-              type: integer
-              description: 'The page you are currently on within the collection.
-
-                '
-              example: 1
-            total_pages:
-              type: integer
-              description: 'The total number of pages in the collection.
-
-                '
-              example: 1
-            links:
-              type: object
-              description: 'Pagination links for the previous and next parts of the whole collection.
-
-                '
-              properties:
-                previous:
-                  type: string
-                  description: 'Link to the previous page returned in the response.
-
-                    '
-                current:
-                  type: string
-                  description: 'Link to the current page returned in the response.
-
-                    '
-                  example: ?page=1&limit=50
-                next:
-                  type: string
-                  description: 'Link to the next page returned in the response.
-
-                    '
-      additionalProperties: true
-      title: Collection Meta
-      x-internal: false
   parameters:
     customerId:
       name: customerId

@@ -1,7 +1,16 @@
 openapi: 3.2.0
 info:
   title: BigCommerce Content Blog Tags API
-  description: "Manage blog posts, blog tags, content pages, and redirects.\n\n> #### Warning\n> **Deprecations**\n> * Redirects V2 are deprecated; use [Redirects V3](/docs/rest-management/redirects) instead. \n> * Pages V2 are deprecated; use [Pages V3](/docs/rest-content/pages) instead."
+  description: 'Manage blog posts, blog tags, content pages, and redirects.
+
+
+    > #### Warning
+
+    > **Deprecations**
+
+    > * Redirects V2 are deprecated; use Redirects V3 instead.
+
+    > * Pages V2 are deprecated; use Pages V3 instead.'
   version: ''
   termsOfService: https://www.bigcommerce.com/terms
   contact:
@@ -39,6 +48,15 @@ paths:
                 items:
                   $ref: '#/components/schemas/blogTags'
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
     blogTags:
       title: blogTags
@@ -58,15 +76,6 @@ components:
             items:
               type: integer
       x-internal: false
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

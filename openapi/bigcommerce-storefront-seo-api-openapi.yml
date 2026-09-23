@@ -26,7 +26,13 @@ paths:
     get:
       summary: BigCommerce Get Storefront SEO Settings
       operationId: getSettingsStorefrontSeo
-      description: "Returns SEO settings.\n\n - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level."
+      description: 'Returns SEO settings.
+
+
+        - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only.
+
+
+        - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level.'
       parameters:
       - $ref: '#/components/parameters/ChannelIdParam'
       responses:
@@ -55,7 +61,13 @@ paths:
     put:
       summary: BigCommerce Update Storefront SEO Settings
       operationId: updateSettingsStorefrontSeo
-      description: "Updates SEO settings.\n\n - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel."
+      description: 'Updates SEO settings.
+
+
+        - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only.
+
+
+        - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel.'
       parameters:
       - $ref: '#/components/parameters/ContentType'
       - $ref: '#/components/parameters/ChannelIdParam'
@@ -89,29 +101,6 @@ paths:
       tags:
       - Storefront SEO
 components:
-  schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    SEOSettings:
-      type: object
-      properties:
-        meta_description:
-          type: string
-        meta_keywords:
-          type: string
-        page_title:
-          type: string
-        www_redirect:
-          type: string
-          enum:
-          - www
-          - no-www
-          - none
-      x-internal: false
   parameters:
     Accept:
       name: Accept
@@ -121,6 +110,12 @@ components:
       schema:
         type: string
         default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
     ContentType:
       name: Content-Type
       in: header
@@ -129,12 +124,6 @@ components:
       schema:
         type: string
         default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
   responses:
     422ErrorResp:
       description: '`422 Unprocessable Entity` Provided settings could not be applied for some reason - detailed errors in the response.
@@ -173,6 +162,29 @@ components:
                 status: 422
                 title: JSON data is missing or invalid
                 type: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+  schemas:
+    SEOSettings:
+      type: object
+      properties:
+        meta_description:
+          type: string
+        meta_keywords:
+          type: string
+        page_title:
+          type: string
+        www_redirect:
+          type: string
+          enum:
+          - www
+          - no-www
+          - none
+      x-internal: false
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

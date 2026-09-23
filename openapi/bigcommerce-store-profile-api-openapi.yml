@@ -26,7 +26,13 @@ paths:
     get:
       summary: BigCommerce Get Store Profile Settings
       operationId: getSettingsStoreProfile
-      description: "Returns store profile settings.\n\n - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level."
+      description: 'Returns store profile settings.
+
+
+        - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only.
+
+
+        - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level.'
       parameters:
       - $ref: '#/components/parameters/ChannelIdParam'
       responses:
@@ -46,7 +52,13 @@ paths:
     put:
       summary: BigCommerce Update Store Profile Settings
       operationId: updateSettingsStoreProfile
-      description: "Updates store profile settings.\n\n - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel."
+      description: 'Updates store profile settings.
+
+
+        - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only.
+
+
+        - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel.'
       parameters:
       - $ref: '#/components/parameters/ContentType'
       - $ref: '#/components/parameters/ChannelIdParam'
@@ -76,21 +88,30 @@ paths:
       tags:
       - Store Profile
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseError'
-      - properties:
-          errors:
-            $ref: '#/components/schemas/DetailedErrors'
-        type: object
-      x-internal: false
     StoreProfile:
       title: Store Profile
       description: The basic profile settings for a store, used to give the shopper information about the business from which they are purchasing.
@@ -107,12 +128,12 @@ components:
           type: string
         store_phone:
           type: string
-    DetailedErrors:
+    MetaOpen:
+      title: Response meta
       type: object
       properties: {}
       additionalProperties: true
-      title: Detailed Errors
-      x-internal: false
+      description: Response metadata.
     BaseError:
       description: 'Error payload for the BigCommerce API.
 
@@ -134,6 +155,12 @@ components:
         type:
           type: string
       x-internal: false
+    DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      title: Detailed Errors
+      x-internal: false
     AddressTypeEnumValues:
       description: Only supports manipulation on a global level.
       type: string
@@ -146,29 +173,14 @@ components:
       title: AddressTypeEnumValues
       x-tags:
       - Models
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
+    ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - properties:
+          errors:
+            $ref: '#/components/schemas/DetailedErrors'
+        type: object
+      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

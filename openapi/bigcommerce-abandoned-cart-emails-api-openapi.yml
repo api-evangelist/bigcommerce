@@ -252,7 +252,48 @@ paths:
                       keys:
                         hello_phrase: Welcome back
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdOptional:
+      in: query
+      name: channel_id
+      description: Channel ID to use for channel-level data.
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
+    AbandondedCartEmail:
+      title: AbandondedCartEmail
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        notify_at_minutes:
+          $ref: '#/components/schemas/NotifyAtMinutes'
+        coupon_code:
+          $ref: '#/components/schemas/CouponCode'
+        template:
+          $ref: '#/components/schemas/Template'
+        is_active:
+          type: boolean
+        sent_num:
+          type: integer
+      x-internal: false
     NotifyAtMinutes:
       type: integer
       title: NotifyAtMinutes
@@ -296,34 +337,23 @@ components:
         example-1: 60
         type: integer
       x-internal: false
-    metaCollection_open:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    CouponCode:
-      title: Coupon Code Field
-      type: string
-      example: FF11-22X4
-      x-internal: false
-    AbandondedCartEmail:
-      title: AbandondedCartEmail
+    TranslationDefinition:
+      title: TranslationDefinition
       type: object
       properties:
-        id:
-          type: integer
-          example: 1
-        notify_at_minutes:
-          $ref: '#/components/schemas/NotifyAtMinutes'
-        coupon_code:
-          $ref: '#/components/schemas/CouponCode'
-        template:
-          $ref: '#/components/schemas/Template'
-        is_active:
-          type: boolean
-        sent_num:
-          type: integer
+        locale:
+          type: string
+          example: en
+          description: Locale code for this language, such as 'en', 'en-us', 'fr-ca'.
+        keys:
+          type: object
+          description: Language keys for the template. User-defined. Should match any language keys used in the template.
+          properties: {}
+          additionalProperties:
+            type: string
+      required:
+      - locale
+      - keys
       x-internal: false
     SaveError:
       type: object
@@ -341,19 +371,12 @@ components:
           items:
             type: string
       x-internal: false
-    AbandondedCartEmailPayload:
+    metaCollection_open:
+      title: Response meta
       type: object
-      properties:
-        is_active:
-          type: boolean
-        coupon_code:
-          $ref: '#/components/schemas/CouponCode'
-        notify_at_minutes:
-          $ref: '#/components/schemas/NotifyAtMinutes'
-        template:
-          $ref: '#/components/schemas/Template'
-      title: ''
-      x-internal: false
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     Template:
       title: Template
       type: object
@@ -374,47 +397,24 @@ components:
       - body
       - translations
       x-internal: false
-    TranslationDefinition:
-      title: TranslationDefinition
+    AbandondedCartEmailPayload:
       type: object
       properties:
-        locale:
-          type: string
-          example: en
-          description: Locale code for this language, such as 'en', 'en-us', 'fr-ca'.
-        keys:
-          type: object
-          description: Language keys for the template. User-defined. Should match any language keys used in the template.
-          properties: {}
-          additionalProperties:
-            type: string
-      required:
-      - locale
-      - keys
+        is_active:
+          type: boolean
+        coupon_code:
+          $ref: '#/components/schemas/CouponCode'
+        notify_at_minutes:
+          $ref: '#/components/schemas/NotifyAtMinutes'
+        template:
+          $ref: '#/components/schemas/Template'
+      title: ''
       x-internal: false
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIdOptional:
-      in: query
-      name: channel_id
-      description: Channel ID to use for channel-level data.
-      schema:
-        type: integer
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
+    CouponCode:
+      title: Coupon Code Field
+      type: string
+      example: FF11-22X4
+      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

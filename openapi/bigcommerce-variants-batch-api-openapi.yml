@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: BigCommerce Catalog - Product Variants Variants (Batch) API
-  description: "> The Catalog API manages products, categories, brands, bulk pricing rules, and more. To learn more about catalog resources, see the [Catalog Overview](/docs/store-operations/catalog).\n\nA Product Variant is a version of a product that has its own SKU. For example, a catalog might model a particular style of high-top sneakers that come in both red and blue as one product - high-tops - with two variants - red and blue. From a storefront point of view, Product Variants are often what shoppers seek. They are also the object that maps to SKUs and tracks inventory. A Product with one only Variant is a _base variant_.\n\nOur Catalog Product Variants endpoints let you work in two ways. \n\nOn a per-product basis, you can [create and manage Product Variants](/docs/rest-catalog/product-variants), their [images](/docs/rest-catalog/product-variants/images), and their [metafields](/docs/rest-catalog/product-variants/metafields), which are arbitrary key-value attributes.\n\nBy design, Product Variants consist of a combination of [Product Variant Option values](/docs/rest-catalog/product-variant-options/values).\n\nThis API family also provides endpoints that can make [batch updates](/docs/rest-catalog/product-variants/variants-batch#update-variants-batch) to Product Variants from different products across the Catalog, as well as [getting all variants](/docs/rest-catalog/product-variants/variants-batch#get-all-variants).\n\nThe terms \"product variant\" and \"variant\" are used interchangeably throughout the documentation.\n\n> To learn more about authenticating Catalog endpoints, locate the **Authentication** section at the top of each endpoint, then click **Show Details**.\n\n## Resources\n\n### Webhooks\nLearn more about [Product webhook events](/docs/integrations/webhooks/events#products).\n\n### Additional Catalog endpoints\n* [Brands](/docs/rest-catalog/brands)\n* [Categories](/docs/rest-catalog/categories)\n* [Category Trees](/docs/rest-catalog/category-trees)\n* [Products](/docs/rest-catalog/products)\n* [Product Modifiers](/docs/rest-catalog/product-modifiers)\n* [Product Variant Options](/docs/rest-catalog/product-variant-options)"
+  description: '> The Catalog API manages products, categories, brands, bulk pricing rules, and more.'
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -265,7 +265,28 @@ paths:
       tags:
       - Variants (Batch)
       summary: BigCommerce Update Variants (Batch)
-      description: "Updates a batch of `variant` objects. Currently the limit is 50 variants however this is subject to change.\n\n**Required Fields**\n\nTo update an existing variant:\n* id (variant ID)\n\nTo create a new variant:\n* product_id\n* sku\n* option_values\n  - id (option_value ID - Example: 146)\n  - option_id (Option ID - Example: 151)"
+      description: 'Updates a batch of `variant` objects. Currently the limit is 50 variants however this is subject to change.
+
+
+        **Required Fields**
+
+
+        To update an existing variant:
+
+        * id (variant ID)
+
+
+        To create a new variant:
+
+        * product_id
+
+        * sku
+
+        * option_values
+
+        - id (option_value ID - Example: 146)
+
+        - option_id (Option ID - Example: 151)'
       operationId: updateVariantsBatch
       parameters:
       - $ref: '#/components/parameters/ContentType'
@@ -687,23 +708,6 @@ paths:
                   '
       x-codegen-request-body-name: body
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
     metaCollection_Full:
       title: metaCollection_Full
@@ -771,6 +775,23 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

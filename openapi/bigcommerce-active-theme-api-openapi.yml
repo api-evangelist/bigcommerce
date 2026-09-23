@@ -7,7 +7,7 @@ info:
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
   title: BigCommerce Channels Active Theme API
-  description: "Create and manage sales [channels](/docs/integrations/channels), their [sites](/docs/rest-management/channels/channel-site), and their [product listings](/docs/rest-management/channels/channel-listings).\n\n## Channels\n\nA [channel](/docs/rest-management/channels) is anywhere a merchant sells their products. This encompasses headless storefronts, marketplaces, POS systems, and marketing platforms.\n\n### Platform\n\nA channelʼs `type` and `platform` combination must be a valid pair as indicated in the table below.\n\n| Platform            | Accepted Type |\n|:--|:--|\n| `clover`            | `pos` |\n| `square`            | `pos` |\n| `stripe`            | `pos` |\n| `talech`            | `pos` |\n| `vend`              | `pos` |\n| `amazon`            | `marketplace` |\n| `belk`              | `marketplace` |\n| `catch`             | `marketplace` |\n| `ebay`              | `marketplace` |\n| `etsy`              | `marketplace` |\n| `facebook`          | `marketplace`, `marketing` |\n| `hudsons_bay`       | `marketplace` |\n| `google`            | `marketplace`, `marketing` |\n| `google_shopping` (deprecated)   | `marketing` |\n| `instagram`         | `marketplace`, `marketing` |\n| `macys`             | `marketplace` |\n| `mirakl`            | `marketplace` |\n| `overstock`         | `marketplace` |\n| `pinterest`         | `marketplace` |\n| `target_plus`       | `marketplace` |\n| `tiktok`            | `marketplace` |\n| `wayfair`           | `marketplace` |\n| `wish`              | `marketplace` |\n| `walmart`           | `marketplace` |\n| `acquia`            | `storefront` |\n| `bigcommerce` (Stencil and Blueprint) | `storefront` |\n| `bloomreach`        | `storefront` |\n| `catalyst` (BigCommerce Next.js) | `storefront` |\n| `deity`             | `storefront` |\n| `drupal`            | `storefront` |\n| `gatsby`            | `storefront` |\n| `next` (Next.js Commerce and other Next.js) | `storefront` |\n| `vue`               | `storefront` |\n| `wordpress`         | `storefront` |\n| `custom`            | `storefront`, `pos`, `marketing`, `marketplace` |\n    \n\n### Status\n\nAllowed values for a channelʼs `status` vary by channel `type`.\n\n| Type | Writeable Statuses |\n|:--|:-|\n| `storefront` | `prelaunch`, `active`, `inactive`, `archived`, `deleted` |\n| `marketing`, `marketplace`, `pos`| `connected`, `disconnected`, `archived`, `deleted` |\n\n> #### Warning\n> * You can restore a Channel with `deleted` status within **90 days** after deletion by contacting the BigCommerce support team. After the 90-days grace period is over, the Channel `status` will become `terminated`.\n> * The `terminated` status is read-only. Channels with a `status` of `terminated` **cannot** be restored.\n\n## Channel listings\n\n[Channel listings](/docs/rest-management/channels/channel-listings) allow you to manage catalog differences among different storefronts or marketplaces.\n\n## Channel site\n\nA [Channel site](/docs/rest-management/channels/channel-site) refers to the domain associated with a channel.\n\n## Resources\n\n* [Sites and Routes API Reference](/docs/rest-management/sites)\n* [Building Channels Overview](/docs/integrations/channels)\n* [Building Channel Apps](/docs/integrations/channels/guide)\n* [Channels Toolkit Reference](/docs/integrations/channels/toolkit-reference)"
+  description: Create and manage sales channels, their sites, and their product listings.
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -38,7 +38,71 @@ paths:
         '404':
           $ref: '#/components/responses/active_theme_not_found_resp'
 components:
+  responses:
+    channel_active_theme_resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/ActiveTheme'
+              meta:
+                $ref: '#/components/schemas/EmptyMeta'
+          examples:
+            response:
+              $ref: '#/components/examples/single_active_theme_resp_example'
+    active_theme_not_found_resp:
+      description: Active Theme of the *Channel* was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Active Theme Not Found:
+              $ref: '#/components/examples/error_404_active_theme_not_found_resp_example'
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    channel_id_path_param:
+      name: channel_id
+      description: The ID of a channel.
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
   schemas:
+    ActiveTheme:
+      type: object
+      description: Details about the Channelʼs relationship to Themes.
+      properties:
+        active_theme_uuid:
+          type: string
+          description: The UUID of the currently active Theme on the Channel.
+        active_theme_configuration_uuid:
+          type: string
+          description: The UUID of the currently active Theme Configuration on the Channel.
+        active_theme_version_uuid:
+          type: string
+          description: The UUID of the currently active Theme Version on the Channel. Needed to look up the available Custom Templates for the Theme.
+        saved_theme_configuration_uuid:
+          type: string
+          description: The UUID of the most recently saved Theme Configuration. If this is different from the active Theme Configuration UUID, this indicates that some changes have been saved in the control panel Theme Editor that have not yet been published.
+      x-internal: false
+    EmptyMeta:
+      type: object
+      title: Empty meta response.
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     Error:
       type: object
       description: 'Error response payload for the BigCommerce API.
@@ -66,23 +130,6 @@ components:
           example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
         errors:
           $ref: '#/components/schemas/ErrorDetail'
-    ActiveTheme:
-      type: object
-      description: Details about the Channelʼs relationship to Themes.
-      properties:
-        active_theme_uuid:
-          type: string
-          description: The UUID of the currently active Theme on the Channel.
-        active_theme_configuration_uuid:
-          type: string
-          description: The UUID of the currently active Theme Configuration on the Channel.
-        active_theme_version_uuid:
-          type: string
-          description: The UUID of the currently active Theme Version on the Channel. Needed to look up the available Custom Templates for the Theme.
-        saved_theme_configuration_uuid:
-          type: string
-          description: The UUID of the most recently saved Theme Configuration. If this is different from the active Theme Configuration UUID, this indicates that some changes have been saved in the control panel Theme Editor that have not yet been published.
-      x-internal: false
     ErrorDetail:
       type: object
       description: 'Error detail response payload for the BigCommerce API.
@@ -91,12 +138,6 @@ components:
       example:
         '1': Unauthorized to delete
         '2': Metafield does not exist
-    EmptyMeta:
-      type: object
-      title: Empty meta response.
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
   examples:
     single_active_theme_resp_example:
       value:
@@ -112,47 +153,6 @@ components:
         title: 'No active theme found with channel_id: 123456789'
         type: /api-docs/getting-started/api-status-codes
         errors: {}
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    channel_id_path_param:
-      name: channel_id
-      description: The ID of a channel.
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
-  responses:
-    channel_active_theme_resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                $ref: '#/components/schemas/ActiveTheme'
-              meta:
-                $ref: '#/components/schemas/EmptyMeta'
-          examples:
-            response:
-              $ref: '#/components/examples/single_active_theme_resp_example'
-    active_theme_not_found_resp:
-      description: Active Theme of the *Channel* was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            Active Theme Not Found:
-              $ref: '#/components/examples/error_404_active_theme_not_found_resp_example'
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

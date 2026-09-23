@@ -468,23 +468,6 @@ paths:
           description: ''
           content: {}
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   schemas:
     CollectionMeta:
       title: Collection Meta
@@ -549,29 +532,6 @@ components:
           description: Data about the response, including pagination and collection totals.
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-    subscriber_Full:
-      title: subscriber_Full
-      description: Full subscriber object returned in responses.
-      allOf:
-      - $ref: '#/components/schemas/subscriber_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: The unique numeric ID of the subscriber; increments sequentially.
-          date_modified:
-            type: string
-            description: 'The date on which the subscriber was modified.
-
-              '
-            format: date-time
-          date_created:
-            type: string
-            description: 'The date of which the subscriber was created.
-
-              '
-            format: date-time
-      x-internal: false
     subscriber_Base:
       title: subscriber_Base
       type: object
@@ -620,6 +580,37 @@ components:
           description: The channel ID where the subscriber was created.
       description: Common Subscriber properties.
       x-internal: false
+    subscriber_Full:
+      title: subscriber_Full
+      description: Full subscriber object returned in responses.
+      allOf:
+      - $ref: '#/components/schemas/subscriber_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: The unique numeric ID of the subscriber; increments sequentially.
+          date_modified:
+            type: string
+            description: 'The date on which the subscriber was modified.
+
+              '
+            format: date-time
+          date_created:
+            type: string
+            description: 'The date of which the subscriber was created.
+
+              '
+            format: date-time
+      x-internal: false
+    subscriber_Post:
+      title: subscriber_Post
+      description: 'The model for a POST to create a subscriber.
+
+        '
+      allOf:
+      - $ref: '#/components/schemas/subscriber_Base'
+      x-internal: false
     OpenMeta:
       title: Response meta
       type: object
@@ -634,14 +625,23 @@ components:
       allOf:
       - $ref: '#/components/schemas/subscriber_Base'
       x-internal: false
-    subscriber_Post:
-      title: subscriber_Post
-      description: 'The model for a POST to create a subscriber.
-
-        '
-      allOf:
-      - $ref: '#/components/schemas/subscriber_Base'
-      x-internal: false
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

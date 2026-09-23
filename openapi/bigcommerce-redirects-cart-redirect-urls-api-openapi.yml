@@ -29,7 +29,27 @@ paths:
     - $ref: '#/components/parameters/Accept'
     - $ref: '#/components/parameters/ContentType'
     post:
-      description: "Creates a **Cart** redirect URL for redirecting a shopper to an already created cart using the `cartId`.\n\n**Usage Notes**\n\n* Redirect URLs can also be created with **Create a Cart** requests by appending `include=redirect_urls`.\n* A **Carts** redirect URL may only be used once.\n* Redirect URLs point to either a shared checkout domain or a channel-specific domain, depending on the storefront configuration.\n* Once a redirect URL has been visited, it will be invalidated and cannot be used again. \n* If your application requires URLs to be visited more than once, consider generating a fresh one each time you need to restore a cart, and redirecting to the URL from your own application.\n* Redirect URLs can be generated only from carts that were created using the **REST Management API**. \n* To restore a cart that was created on the storefront, either by a shopper or a Storefront API, first recreate the cart using the **REST Management API**.\n* When redirecting the shopper, you can add a set of `query_params` to the URL. The `query_params` feature allows passing additional information to the redirect URL."
+      description: 'Creates a **Cart** redirect URL for redirecting a shopper to an already created cart using the `cartId`.
+
+
+        **Usage Notes**
+
+
+        * Redirect URLs can also be created with **Create a Cart** requests by appending `include=redirect_urls`.
+
+        * A **Carts** redirect URL may only be used once.
+
+        * Redirect URLs point to either a shared checkout domain or a channel-specific domain, depending on the storefront configuration.
+
+        * Once a redirect URL has been visited, it will be invalidated and cannot be used again.
+
+        * If your application requires URLs to be visited more than once, consider generating a fresh one each time you need to restore a cart, and redirecting to the URL from your own application.
+
+        * Redirect URLs can be generated only from carts that were created using the **REST Management API**.
+
+        * To restore a cart that was created on the storefront, either by a shopper or a Storefront API, first recreate the cart using the **REST Management API**.
+
+        * When redirecting the shopper, you can add a set of `query_params` to the URL. The `query_params` feature allows passing additional information to the redirect URL.'
       tags:
       - Redirects - Cart Redirect URLs
       requestBody:
@@ -43,26 +63,6 @@ paths:
       summary: BigCommerce Create Cart Redirect URL
       operationId: createCartRedirectURL
 components:
-  schemas:
-    metaCollection_open:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    Redirect_urls_Post:
-      type: object
-      title: Redirect_urls_Post
-      properties:
-        query_params:
-          type: array
-          items:
-            type: object
-            properties:
-              key:
-                type: string
-              value:
-                type: string
   parameters:
     Accept:
       name: Accept
@@ -121,6 +121,26 @@ components:
                   embedded_checkout_url: https://store.mybigcommerce.com/cart.php?embedded=1&action=loadInCheckout&id=0aa00afa-a000-00a0-00aae-aa0000f000a0&token=00aaaaa0aa0000000000a000a000f0aa0000afa00aa00afa0a000000000aa0a0
                 meta:
                   $ref: '#/components/schemas/metaCollection_open'
+  schemas:
+    metaCollection_open:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    Redirect_urls_Post:
+      type: object
+      title: Redirect_urls_Post
+      properties:
+        query_params:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

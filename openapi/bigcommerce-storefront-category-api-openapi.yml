@@ -26,7 +26,13 @@ paths:
     get:
       summary: BigCommerce Get Storefront Category Settings
       operationId: getSettingsStorefrontCategory
-      description: "Returns category settings.\n\n - Channel ID can be used as a query parameter for getting channel-specific settings. If omitted, you will interact with the global setting only. \n\n - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level."
+      description: 'Returns category settings.
+
+
+        - Channel ID can be used as a query parameter for getting channel-specific settings. If omitted, you will interact with the global setting only.
+
+
+        - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level.'
       parameters:
       - $ref: '#/components/parameters/ChannelIdParam'
       responses:
@@ -46,7 +52,13 @@ paths:
     put:
       summary: BigCommerce Update Storefront Category Settings
       operationId: updateSettingsStorefrontCategory
-      description: "Updates category settings.\n\n - Channel ID can be used as a query parameter for updating channel-specific settings. If omitted, you will interact with the global setting only. \n\n - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel."
+      description: 'Updates category settings.
+
+
+        - Channel ID can be used as a query parameter for updating channel-specific settings. If omitted, you will interact with the global setting only.
+
+
+        - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel.'
       parameters:
       - $ref: '#/components/parameters/ContentType'
       - $ref: '#/components/parameters/ChannelIdParam'
@@ -72,51 +84,6 @@ paths:
       tags:
       - Storefront Category
 components:
-  schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    CategoryListingModeEnumValues:
-      type: string
-      enum:
-      - current_category_only
-      - child_categories
-      - child_categories_if_category_empty
-      title: CategoryListingModeEnumValues
-      x-tags:
-      - Models
-    ProductSortEnumValues:
-      description: The available sorts for PLP pages.
-      type: string
-      default: bestselling
-      enum:
-      - featured
-      - bestselling
-      - newest
-      - alphaasc
-      - alphadesc
-      - pricedesc
-      - priceasc
-      - avgcustomerreview
-      - relevance
-      title: ProductSortEnumValues
-      x-internal: false
-    StorefrontCategorySettings:
-      type: object
-      properties:
-        category_tree_depth:
-          type: integer
-          maximum: 8
-          minimum: 1
-        default_product_sort:
-          $ref: '#/components/schemas/ProductSortEnumValues'
-        listing_mode:
-          $ref: '#/components/schemas/CategoryListingModeEnumValues'
-      x-tags:
-      - Models
   parameters:
     Accept:
       name: Accept
@@ -126,6 +93,12 @@ components:
       schema:
         type: string
         default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
     ContentType:
       name: Content-Type
       in: header
@@ -134,12 +107,6 @@ components:
       schema:
         type: string
         default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
   responses:
     422ErrorResp:
       description: '`422 Unprocessable Entity` Provided settings could not be applied for some reason - detailed errors in the response.
@@ -178,6 +145,51 @@ components:
                 status: 422
                 title: JSON data is missing or invalid
                 type: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+  schemas:
+    StorefrontCategorySettings:
+      type: object
+      properties:
+        category_tree_depth:
+          type: integer
+          maximum: 8
+          minimum: 1
+        default_product_sort:
+          $ref: '#/components/schemas/ProductSortEnumValues'
+        listing_mode:
+          $ref: '#/components/schemas/CategoryListingModeEnumValues'
+      x-tags:
+      - Models
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    CategoryListingModeEnumValues:
+      type: string
+      enum:
+      - current_category_only
+      - child_categories
+      - child_categories_if_category_empty
+      title: CategoryListingModeEnumValues
+      x-tags:
+      - Models
+    ProductSortEnumValues:
+      description: The available sorts for PLP pages.
+      type: string
+      default: bestselling
+      enum:
+      - featured
+      - bestselling
+      - newest
+      - alphaasc
+      - alphadesc
+      - pricedesc
+      - priceasc
+      - avgcustomerreview
+      - relevance
+      title: ProductSortEnumValues
+      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

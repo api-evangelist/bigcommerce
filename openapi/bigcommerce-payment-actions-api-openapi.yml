@@ -510,82 +510,29 @@ paths:
       x-private: true
 components:
   schemas:
-    ErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/error_Base'
-      - type: object
-        properties:
-          errors:
-            type: object
-            properties: {}
-            additionalProperties: true
-            title: DetailedErrors
-      title: ErrorResponse
-      x-internal: false
-    error_Base:
+    MerchantOverride:
       type: object
-      title: error_Base
+      title: Merchant Calculated Override
+      description: 'Merchant explicitly provided override based on their own calculation.
+
+
+        This override gives merchants the flexibility to
+
+        - bypass any tax correction due to tax rate/providers changes between when a customer places an order and a merchant initiates a refund
+
+        - use explicit values calculated by external systems (e.g., merchants'' own Extended Producer Responsibility or Order Management System)
+
+
+        Note: when using the override, BC internal tax based refund calculation is skipped and therefore order/taxes records are not updated.'
       properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-      description: Error payload for the BigCommerce API.
-      x-internal: false
-    QuantityBoundItem:
-      type: object
-      title: Quantity Bound Item
-      description: 'Quantity Bound Item
-
-
-        Type of refund item that capture refunding of items in the order that are of type quantity.
-
-        * `ORDER`
-
-        * `PRODUCT`
-
-        * `GIFT_WRAPPING`
-
-        * `SHIPPING`
-
-        * `HANDLING`
-
-        * `TAX`
-
-        '
-      properties:
-        item_type:
-          type: string
-          example: PRODUCT
-          enum:
-          - ORDER
-          - PRODUCT
-          - GIFT_WRAPPING
-          - SHIPPING
-          - HANDLING
-          - TAX
-          description: Type of refund.
-        item_id:
-          type: integer
-          example: 1
-          description: Order Product ID.
-        quantity:
-          type: integer
-          example: 3
-        reason:
-          type: string
-          example: Wrong size.
-          description: Reason for refund.
-          minLength: 0
-          maxLength: 1000
+        total_amount:
+          $ref: '#/components/schemas/Amount'
+        total_tax:
+          type: number
+          description: Total tax amount refunded back to the shopper. Use 0 value if there is no tax liability change for the refund or tax does not need to be recorded on the refund and would be handled externally.
+      required:
+      - total_amount
+      - total_tax
       x-internal: false
     PaymentRequest:
       type: object
@@ -604,26 +551,61 @@ components:
           example: true
       title: Payment Request
       x-internal: false
-    RefundRequest_Post:
+    AmountBoundItem:
       type: object
-      description: Request body for refund requests.
-      title: RefundRequest_Post
+      title: Amount Bound Item
+      description: 'Amount Bound Item
+
+
+        Type of refund item that capture refunding of items in the order that are of type amount.
+
+        * `PRODUCT`
+
+        * `ORDER`
+
+        * `GIFT_WRAPPING`
+
+        * `SHIPPING`
+
+        * `HANDLING`
+
+        * `TAX`'
       x-internal: false
       properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ItemsRefund'
-        payments:
-          type: array
-          items:
-            $ref: '#/components/schemas/PaymentRequest'
-        merchant_calculated_override:
-          $ref: '#/components/schemas/MerchantOverride'
-      required:
-      - items
-      - payments
-      x-examples: {}
+        item_type:
+          type: string
+          enum:
+          - PRODUCT
+          - ORDER
+          - GIFT_WRAPPING
+          - SHIPPING
+          - HANDLING
+          - TAX
+          example: SHIPPING
+          description: Type of refund.
+        item_id:
+          type: integer
+          example: 1
+          description: Order address ID.
+        amount:
+          $ref: '#/components/schemas/Amount'
+        quantity:
+          type: integer
+          example: 3
+          description: Number of items in refund.
+        reason:
+          type: string
+          description: Explanation of refund.
+          minLength: 0
+          maxLength: 1000
+          example: Customer requested refund
+    Amount:
+      type: number
+      format: float
+      description: A non-negative 2 decimal place rounded value that represents the amount that can be charged/refunded with payment providers.
+      example: 1.99
+      title: Amount
+      x-internal: false
     Meta:
       type: object
       title: Meta
@@ -686,103 +668,6 @@ components:
 
                     '
       x-internal: false
-    RefundQuote_Full:
-      type: object
-      title: RefundQuote_Full
-      x-internal: false
-      properties:
-        order_id:
-          type: integer
-          description: ID of the order to be refunded.
-        total_refund_amount:
-          $ref: '#/components/schemas/Amount'
-        total_refund_tax_amount:
-          type: number
-          example: 1.95
-        rounding:
-          type: number
-          description: Indicates rounding value to bring `refund_total` to an amount refundable with payment providers (in this case to 2 decimal places).
-        adjustment:
-          $ref: '#/components/schemas/AdjustmentAmount'
-        tax_inclusive:
-          type: boolean
-          description: Indicate if `total_refund_amount` includes tax amount.
-        refund_methods:
-          type: array
-          description: "An array of available refund methods.\n\nNote that `refund_methods` is an array of refund methods, with each refund method being an array of payment options.\n\nFor example, if the order was placed by a combination of store credit and bank deposit the refund methods would be:\n\n```json\n{\n  \"refund_methods\": [\n    [\n      {\n        \"provider_id\": \"storecredit\",\n        \"provider_description\": \"Store Credit\",\n        \"amount\": 119.35,\n        \"offline\": false,\n        \"offline_provider\": false,\n        \"offline_reason\": \"\"\n      }\n    ],\n    [\n      {\n        \"provider_id\": \"custom\",\n        \"provider_description\": \"Custom\",\n        \"amount\": 119.35,\n        \"offline\": true,\n        \"offline_provider\": true,\n        \"offline_reason\": \"This is an offline payment provider.\"\n      }\n    ],\n    [\n      {\n        \"provider_id\": \"bankdeposit\",\n        \"provider_description\": \"Bank Deposit\",\n        \"amount\": 80.35,\n        \"offline\": true,\n        \"offline_provider\": true,\n        \"offline_reason\": \"This is an offline payment provider.\"\n      },\n      {\n        \"provider_id\": \"storecredit\",\n        \"provider_description\": \"Store Credit\",\n        \"amount\": 39,\n        \"offline\": false,\n        \"offline_provider\": false,\n        \"offline_reason\": \"\"\n      }\n    ]\n  ]\n}\n```\n\nIn this case there are three refund methods available to the merchant:\n1. Refund up to the entire order amount to store credit.\n2. Mark an amount up to the full order amount as refunded externally, through a provider or means not represented directly in BC (\"custom\").\n3. Refund the amount paid by store credit to store credit, and the amount paid by bank deposit with a manual refund, which will be recorded as being refunded against the bank deposit.\n"
-          items:
-            $ref: '#/components/schemas/RefundMethod'
-    RefundItem:
-      type: object
-      properties:
-        item_type:
-          type: string
-          description: Type of item that was refunded.
-          enum:
-          - PRODUCT
-          - GIFT_WRAPPING
-          - SHIPPING
-          - HANDLING
-          - ORDER
-        item_id:
-          type: integer
-          description: order_product.id corresponding to the item_types of PRODUCT, GIFT_WRAPPING. order_address.id corresponding to the item_types of SHIPPING, HANDLING. order.id corresponding to the item_type of ORDER.
-        reason:
-          type: string
-          description: Reason for refunding an item.
-        quantity:
-          type: integer
-          description: 'Quantity of item refunded. Note: this will only be populated for item_type PRODUCT'
-        requested_amount:
-          $ref: '#/components/schemas/Amount'
-      title: Refund Item
-      x-internal: false
-    RefundMethod:
-      type: array
-      minItems: 1
-      items:
-        $ref: '#/components/schemas/PaymentOption'
-      title: Refund Method
-      x-internal: false
-    PostRefundQuotesRequest:
-      type: array
-      description: Request body for batch refund quotes.
-      title: Refund Quotes Request - BATCH
-      items:
-        $ref: '#/components/schemas/RefundQuote_Post'
-      x-internal: false
-    RefundPayment:
-      type: object
-      title: Refund Payment
-      properties:
-        id:
-          type: integer
-          description: Reference to refund payment ID.
-          readOnly: true
-        provider_id:
-          type: string
-          description: Reference to payment provider.
-          example: storecredit
-        amount:
-          $ref: '#/components/schemas/Amount'
-        offline:
-          type: boolean
-          description: Indicate whether payment was offline.
-        is_declined:
-          type: boolean
-          description: Indicate if this payment has been declined by payment provider.
-        declined_message:
-          type: string
-          description: Message indicate why payment was declined.
-      x-internal: false
-    ItemsRefund:
-      title: ItemsRefund
-      x-internal: false
-      oneOf:
-      - $ref: '#/components/schemas/AmountBoundItem'
-      - $ref: '#/components/schemas/QuantityBoundItem'
-      - $ref: '#/components/schemas/TaxExemptItem'
-      x-examples: {}
     PaymentOption:
       type: object
       example:
@@ -819,6 +704,138 @@ components:
           description: Reason the payment option is offline only, if applicable.
           example: Multiple online refunds are not available
       x-internal: false
+    FailedQuoteError:
+      type: object
+      description: Failed quote response.
+      properties:
+        order_id:
+          type: integer
+        status:
+          type: integer
+          description: HTTP status code.
+          example: 422
+        error:
+          type: string
+          description: Details why the request failed.
+      title: FailedQuoteError
+      x-internal: false
+    ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/error_Base'
+      - type: object
+        properties:
+          errors:
+            type: object
+            properties: {}
+            additionalProperties: true
+            title: DetailedErrors
+      title: ErrorResponse
+      x-internal: false
+    RefundQuote_Post:
+      type: object
+      title: RefundQuote_Post
+      description: Request body for refund quotes.
+      x-internal: false
+      x-examples: {}
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemsRefund'
+      required:
+      - items
+    TaxExemptItem:
+      type: object
+      title: Tax Exempt (Order Level)
+      description: Use this to refund a custom value at the order level. When `item_type` is set to `ORDER`, tax is not re-calculated.
+      x-internal: false
+      properties:
+        item_type:
+          type: string
+          description: The type of refund. When `item_type` is set to `ORDER`, tax is not re-calculated.
+          example: ORDER
+          enum:
+          - ORDER
+        item_id:
+          type: number
+          description: Numeric ID of the product in the order.
+          example: 1
+        amount:
+          $ref: '#/components/schemas/Amount'
+        reason:
+          type: string
+          description: Reason for the refund.
+          minLength: 0
+          maxLength: 1000
+    RefundPayment:
+      type: object
+      title: Refund Payment
+      properties:
+        id:
+          type: integer
+          description: Reference to refund payment ID.
+          readOnly: true
+        provider_id:
+          type: string
+          description: Reference to payment provider.
+          example: storecredit
+        amount:
+          $ref: '#/components/schemas/Amount'
+        offline:
+          type: boolean
+          description: Indicate whether payment was offline.
+        is_declined:
+          type: boolean
+          description: Indicate if this payment has been declined by payment provider.
+        declined_message:
+          type: string
+          description: Message indicate why payment was declined.
+      x-internal: false
+    PostRefundQuotesRequest:
+      type: array
+      description: Request body for batch refund quotes.
+      title: Refund Quotes Request - BATCH
+      items:
+        $ref: '#/components/schemas/RefundQuote_Post'
+      x-internal: false
+    RefundRequest_Post:
+      type: object
+      description: Request body for refund requests.
+      title: RefundRequest_Post
+      x-internal: false
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemsRefund'
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentRequest'
+        merchant_calculated_override:
+          $ref: '#/components/schemas/MerchantOverride'
+      required:
+      - items
+      - payments
+      x-examples: {}
+    error_Base:
+      type: object
+      title: error_Base
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+      description: Error payload for the BigCommerce API.
+      x-internal: false
     AdjustmentAmount:
       type: number
       format: float
@@ -826,17 +843,50 @@ components:
       example: -10.2
       title: Adjustment Amount
       x-internal: false
-    AmountBoundItem:
+    RefundItem:
       type: object
-      title: Amount Bound Item
-      description: 'Amount Bound Item
+      properties:
+        item_type:
+          type: string
+          description: Type of item that was refunded.
+          enum:
+          - PRODUCT
+          - GIFT_WRAPPING
+          - SHIPPING
+          - HANDLING
+          - ORDER
+        item_id:
+          type: integer
+          description: order_product.id corresponding to the item_types of PRODUCT, GIFT_WRAPPING. order_address.id corresponding to the item_types of SHIPPING, HANDLING. order.id corresponding to the item_type of ORDER.
+        reason:
+          type: string
+          description: Reason for refunding an item.
+        quantity:
+          type: integer
+          description: 'Quantity of item refunded. Note: this will only be populated for item_type PRODUCT'
+        requested_amount:
+          $ref: '#/components/schemas/Amount'
+      title: Refund Item
+      x-internal: false
+    ItemsRefund:
+      title: ItemsRefund
+      x-internal: false
+      oneOf:
+      - $ref: '#/components/schemas/AmountBoundItem'
+      - $ref: '#/components/schemas/QuantityBoundItem'
+      - $ref: '#/components/schemas/TaxExemptItem'
+      x-examples: {}
+    QuantityBoundItem:
+      type: object
+      title: Quantity Bound Item
+      description: 'Quantity Bound Item
 
 
-        Type of refund item that capture refunding of items in the order that are of type amount.
-
-        * `PRODUCT`
+        Type of refund item that capture refunding of items in the order that are of type quantity.
 
         * `ORDER`
+
+        * `PRODUCT`
 
         * `GIFT_WRAPPING`
 
@@ -844,36 +894,89 @@ components:
 
         * `HANDLING`
 
-        * `TAX`'
-      x-internal: false
+        * `TAX`
+
+        '
       properties:
         item_type:
           type: string
+          example: PRODUCT
           enum:
-          - PRODUCT
           - ORDER
+          - PRODUCT
           - GIFT_WRAPPING
           - SHIPPING
           - HANDLING
           - TAX
-          example: SHIPPING
           description: Type of refund.
         item_id:
           type: integer
           example: 1
-          description: Order address ID.
-        amount:
-          $ref: '#/components/schemas/Amount'
+          description: Order Product ID.
         quantity:
           type: integer
           example: 3
-          description: Number of items in refund.
         reason:
           type: string
-          description: Explanation of refund.
+          example: Wrong size.
+          description: Reason for refund.
           minLength: 0
           maxLength: 1000
-          example: Customer requested refund
+      x-internal: false
+    errorDetailed_Full:
+      type: object
+      properties:
+        errors:
+          type: object
+          properties: {}
+          additionalProperties: true
+          title: DetailedErrors
+      title: errorDetailed_Full
+      x-internal: false
+    Refund:
+      type: object
+      title: Refund
+      properties:
+        id:
+          type: integer
+          description: Refund resource ID.
+          readOnly: true
+        order_id:
+          type: integer
+          description: Reference to order ID.
+        user_id:
+          type: integer
+          description: Reference to the userʼs ID who create this refund. This is automatically populated by BigCommerce.
+          readOnly: true
+        created:
+          type: string
+          format: date-time
+          description: Timestamp of when this refund was created.
+          readOnly: true
+        reason:
+          type: string
+          description: Reason for refund.
+        total_amount:
+          $ref: '#/components/schemas/Amount'
+        total_tax:
+          type: number
+          description: 'Total tax amount refunded back to the shopper. Note: `order_level_amount` does not affect tax liability. This can be a negative amount indicating we have collected tax by refunding less to the customer.'
+        uses_merchant_override_values:
+          type: boolean
+          description: Whether refund amount and tax are provided explicitly by merchant override.
+        items:
+          type: array
+          description: Array of items refunded.
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/RefundItem'
+        payments:
+          type: array
+          description: An array of refund payments made to payment providers.
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/RefundPayment'
+      x-internal: false
     RefundID_Get:
       type: object
       x-examples:
@@ -1023,148 +1126,71 @@ components:
                       '
         meta:
           $ref: '#/components/schemas/metaEmpty_Full'
-    errorDetailed_Full:
-      type: object
-      properties:
-        errors:
-          type: object
-          properties: {}
-          additionalProperties: true
-          title: DetailedErrors
-      title: errorDetailed_Full
+    RefundMethod:
+      type: array
+      minItems: 1
+      items:
+        $ref: '#/components/schemas/PaymentOption'
+      title: Refund Method
       x-internal: false
-    RefundQuote_Post:
+    RefundQuote_Full:
       type: object
-      title: RefundQuote_Post
-      description: Request body for refund quotes.
+      title: RefundQuote_Full
       x-internal: false
-      x-examples: {}
       properties:
-        items:
+        order_id:
+          type: integer
+          description: ID of the order to be refunded.
+        total_refund_amount:
+          $ref: '#/components/schemas/Amount'
+        total_refund_tax_amount:
+          type: number
+          example: 1.95
+        rounding:
+          type: number
+          description: Indicates rounding value to bring `refund_total` to an amount refundable with payment providers (in this case to 2 decimal places).
+        adjustment:
+          $ref: '#/components/schemas/AdjustmentAmount'
+        tax_inclusive:
+          type: boolean
+          description: Indicate if `total_refund_amount` includes tax amount.
+        refund_methods:
           type: array
+          description: "An array of available refund methods.\n\nNote that `refund_methods` is an array of refund methods, with each refund method being an array of payment options.\n\nFor example, if the order was placed by a combination of store credit and bank deposit the refund methods would be:\n\n```json\n{\n  \"refund_methods\": [\n    [\n      {\n        \"provider_id\": \"storecredit\",\n        \"provider_description\": \"Store Credit\",\n        \"amount\": 119.35,\n        \"offline\": false,\n        \"offline_provider\": false,\n        \"offline_reason\": \"\"\n      }\n    ],\n    [\n      {\n        \"provider_id\": \"custom\",\n        \"provider_description\": \"Custom\",\n        \"amount\": 119.35,\n        \"offline\": true,\n        \"offline_provider\": true,\n        \"offline_reason\": \"This is an offline payment provider.\"\n      }\n    ],\n    [\n      {\n        \"provider_id\": \"bankdeposit\",\n        \"provider_description\": \"Bank Deposit\",\n        \"amount\": 80.35,\n        \"offline\": true,\n        \"offline_provider\": true,\n        \"offline_reason\": \"This is an offline payment provider.\"\n      },\n      {\n        \"provider_id\": \"storecredit\",\n        \"provider_description\": \"Store Credit\",\n        \"amount\": 39,\n        \"offline\": false,\n        \"offline_provider\": false,\n        \"offline_reason\": \"\"\n      }\n    ]\n  ]\n}\n```\n\nIn this case there are three refund methods available to the merchant:\n1. Refund up to the entire order amount to store credit.\n2. Mark an amount up to the full order amount as refunded externally, through a provider or means not represented directly in BC (\"custom\").\n3. Refund the amount paid by store credit to store credit, and the amount paid by bank deposit with a manual refund, which will be recorded as being refunded against the bank deposit.\n"
           items:
-            $ref: '#/components/schemas/ItemsRefund'
-      required:
-      - items
+            $ref: '#/components/schemas/RefundMethod'
     metaEmpty_Full:
       type: object
       title: Response meta
       properties: {}
       additionalProperties: true
       description: Response metadata.
-    TaxExemptItem:
-      type: object
-      title: Tax Exempt (Order Level)
-      description: Use this to refund a custom value at the order level. When `item_type` is set to `ORDER`, tax is not re-calculated.
-      x-internal: false
-      properties:
-        item_type:
-          type: string
-          description: The type of refund. When `item_type` is set to `ORDER`, tax is not re-calculated.
-          example: ORDER
-          enum:
-          - ORDER
-        item_id:
-          type: number
-          description: Numeric ID of the product in the order.
-          example: 1
-        amount:
-          $ref: '#/components/schemas/Amount'
-        reason:
-          type: string
-          description: Reason for the refund.
-          minLength: 0
-          maxLength: 1000
-    Refund:
-      type: object
-      title: Refund
-      properties:
-        id:
-          type: integer
-          description: Refund resource ID.
-          readOnly: true
-        order_id:
-          type: integer
-          description: Reference to order ID.
-        user_id:
-          type: integer
-          description: Reference to the userʼs ID who create this refund. This is automatically populated by BigCommerce.
-          readOnly: true
-        created:
-          type: string
-          format: date-time
-          description: Timestamp of when this refund was created.
-          readOnly: true
-        reason:
-          type: string
-          description: Reason for refund.
-        total_amount:
-          $ref: '#/components/schemas/Amount'
-        total_tax:
-          type: number
-          description: 'Total tax amount refunded back to the shopper. Note: `order_level_amount` does not affect tax liability. This can be a negative amount indicating we have collected tax by refunding less to the customer.'
-        uses_merchant_override_values:
-          type: boolean
-          description: Whether refund amount and tax are provided explicitly by merchant override.
-        items:
-          type: array
-          description: Array of items refunded.
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/RefundItem'
-        payments:
-          type: array
-          description: An array of refund payments made to payment providers.
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/RefundPayment'
-      x-internal: false
-    MerchantOverride:
-      type: object
-      title: Merchant Calculated Override
-      description: 'Merchant explicitly provided override based on their own calculation.
+  parameters:
+    OrderIdParam:
+      name: order_id
+      in: path
+      description: 'The ID of the `Order` to which the transactions belong.
 
-
-        This override gives merchants the flexibility to
-
-        - bypass any tax correction due to tax rate/providers changes between when a customer places an order and a merchant initiates a refund
-
-        - use explicit values calculated by external systems (e.g., merchants'' own Extended Producer Responsibility or Order Management System)
-
-
-        Note: when using the override, BC internal tax based refund calculation is skipped and therefore order/taxes records are not updated.'
-      properties:
-        total_amount:
-          $ref: '#/components/schemas/Amount'
-        total_tax:
-          type: number
-          description: Total tax amount refunded back to the shopper. Use 0 value if there is no tax liability change for the refund or tax does not need to be recorded on the refund and would be handled externally.
-      required:
-      - total_amount
-      - total_tax
-      x-internal: false
-    FailedQuoteError:
-      type: object
-      description: Failed quote response.
-      properties:
-        order_id:
-          type: integer
-        status:
-          type: integer
-          description: HTTP status code.
-          example: 422
-        error:
-          type: string
-          description: Details why the request failed.
-      title: FailedQuoteError
-      x-internal: false
-    Amount:
-      type: number
-      format: float
-      description: A non-negative 2 decimal place rounded value that represents the amount that can be charged/refunded with payment providers.
-      example: 1.99
-      title: Amount
-      x-internal: false
+        '
+      required: true
+      schema:
+        type: integer
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   responses:
     422_UnprocessableEntity:
       description: This occurs when missing or unacceptable data is passed for one or more fields. Please correct the values for the fields listed in the errors object.
@@ -1181,20 +1207,34 @@ components:
                 errors:
                   name: error.expected.jsstring
                   primary_contact.district: error.expected.jsstring.
-    400_BadRequest:
-      description: 'Malformed request syntax. Typically need to fix the JSON.
-
-        Body to resend successfully.'
+    RefundQuotesBATCH_Resp:
+      description: ''
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/error_Base'
-          examples:
-            response:
-              value:
-                status: 400
-                title: Input is invalid.
-                type: /api-docs/getting-started/api-status-codes
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RefundQuote_Full'
+              errors:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FailedQuoteError'
+              meta:
+                $ref: '#/components/schemas/Meta'
+    Refund_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/Refund'
+              meta:
+                $ref: '#/components/schemas/metaEmpty_Full'
     RefundCollection_Resp:
       description: ''
       content:
@@ -1210,18 +1250,19 @@ components:
                   $ref: '#/components/schemas/Refund'
               meta:
                 $ref: '#/components/schemas/metaEmpty_Full'
-    503_ServiceUnavailable:
-      description: If this occurs, you should retry the request. If you cannot successfully make a request, please check the BigCommerce system status [here](https://status.bigcommerce.com/). A service is likely down, and you will need to make the request again when it is back up (in several hours, usually).
+    504_GatewayTimeout:
+      description: If this occurs, you should retry the request. Typically retrying the request several times will result in a successful request; however, if you cannot successfully make a request, please check the BigCommerce system status [here](https://status.bigcommerce.com/). A service is likely down, and you will need to complete the request again when it is back up (in several hours, usually).
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/error_Base'
+            $ref: '#/components/schemas/errorDetailed_Full'
           examples:
             response:
               value:
-                status: 503
-                title: Service Unavailable
+                status: 504
+                title: Gateway Timeout
                 type: /api-docs/getting-started/api-status-codes
+                errors: {}
     RefundID_Response:
       description: ''
       content:
@@ -1253,30 +1294,38 @@ components:
                     quantity: 1
                     requested_amount: null
                 meta: {}
-    Refund_Resp:
-      description: ''
+    503_ServiceUnavailable:
+      description: If this occurs, you should retry the request. If you cannot successfully make a request, please check the BigCommerce system status [here](https://status.bigcommerce.com/). A service is likely down, and you will need to make the request again when it is back up (in several hours, usually).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Base'
+          examples:
+            response:
+              value:
+                status: 503
+                title: Service Unavailable
+                type: /api-docs/getting-started/api-status-codes
+    400_BadRequest:
+      description: 'Malformed request syntax. Typically need to fix the JSON.
+
+        Body to resend successfully.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Base'
+          examples:
+            response:
+              value:
+                status: 400
+                title: Input is invalid.
+                type: /api-docs/getting-started/api-status-codes
+    201_Created:
+      description: Resource Created.
       content:
         application/json:
           schema:
             type: object
-            properties:
-              data:
-                $ref: '#/components/schemas/Refund'
-              meta:
-                $ref: '#/components/schemas/metaEmpty_Full'
-    504_GatewayTimeout:
-      description: If this occurs, you should retry the request. Typically retrying the request several times will result in a successful request; however, if you cannot successfully make a request, please check the BigCommerce system status [here](https://status.bigcommerce.com/). A service is likely down, and you will need to complete the request again when it is back up (in several hours, usually).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/errorDetailed_Full'
-          examples:
-            response:
-              value:
-                status: 504
-                title: Gateway Timeout
-                type: /api-docs/getting-started/api-status-codes
-                errors: {}
     502_GatewayError:
       description: If something happens during the request that causes it to fail, a 502 response will be returned. A new request should be made; however, it could fail.
       content:
@@ -1289,12 +1338,17 @@ components:
                 status: 502
                 title: A login URL could not be generated. Please try another request.
                 type: /api-docs/getting-started/api-status-codes
-    201_Created:
-      description: Resource Created.
+    RefundQuote_Resp:
+      description: ''
       content:
         application/json:
           schema:
             type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/RefundQuote_Full'
+              meta:
+                $ref: '#/components/schemas/metaEmpty_Full'
     404_NotFound:
       description: The resource was not found.
       content:
@@ -1307,60 +1361,6 @@ components:
                 status: 404
                 title: Account with {id} not found
                 type: /api-docs/getting-started/api-status-codes
-    RefundQuotesBATCH_Resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/components/schemas/RefundQuote_Full'
-              errors:
-                type: array
-                items:
-                  $ref: '#/components/schemas/FailedQuoteError'
-              meta:
-                $ref: '#/components/schemas/Meta'
-    RefundQuote_Resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                $ref: '#/components/schemas/RefundQuote_Full'
-              meta:
-                $ref: '#/components/schemas/metaEmpty_Full'
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    OrderIdParam:
-      name: order_id
-      in: path
-      description: 'The ID of the `Order` to which the transactions belong.
-
-        '
-      required: true
-      schema:
-        type: integer
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

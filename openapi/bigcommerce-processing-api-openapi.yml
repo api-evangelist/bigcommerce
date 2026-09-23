@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   version: ''
   title: BigCommerce Payment Processing API
-  description: "> The Payments API processes payments using payment instruments such as credit cards or PayPal accounts. To learn more about Payments, see the [Payments Overview](/docs/store-operations/payments).\n\nThe Payment Processing API uses BigCommerce's PCI-compliant payments server and a supported payment gateway to charge customers. The payment portal you choose may support charging stored instruments and/or making refund transactions. For a list of compatible payment gateways, as well as a guide through the API call sequence needed to make charges, see the [Payments Overview](/docs/store-operations/payments#compatible-payment-gateways).\n\nA Payment Access Token (_PAT_) is required to authorize payment processing requests. The X-Auth-Token header is not required in requests to the payment processing endpoint. To generate a PAT, use the [Create a Payment Access Token](/docs/rest-payments/tokens#create-payment-access-token) endpoint or the `completeCheckout` mutation in the [GraphQL Storefront API](/docs/storefront/cart-checkout/guide/graphql-storefront#handling-payments). For a payment processing authentication example request, see the related section in our [Authentication article](/docs/start/authentication#bigcommerce-generated-jwts).\n\nAlso note that payment processing requests use the BigCommerce Payments Gateway, which uses a different server than our other REST APIs. Please see the server URL for the payment processing endpoint.\n\n> To learn more about authenticating Payments endpoints, locate the **Authentication** section at the top of each endpoint, then click **Show Details**.\n\n## Resources\n\n* [Payments Overview](/docs/store-operations/payments)\n* [Process payments authentication example request](/docs/start/authentication#bigcommerce-generated-jwts)\n* [Orders Overview](/docs/store-operations/orders)\n\n ### Webhooks\n\n* [Carts](https://developer.bigcommerce.com/api-docs/channels/guide/webhooks#carts)\n* [Orders](https://developer.bigcommerce.com/api-docs/store-management/webhooks/webhook-events#orders)\n* [Price list assignment](https://developer.bigcommerce.com/api-docs/channels/guide/webhooks#price-list-assignments)\n\n### Additional Payments endpoints\n\n* [Get accepted payment methods](/docs/rest-payments/methods#get-accepted-payment-methods)\n* [Create a Payment Access Token](/docs/rest-payments/tokens#create-payment-access-token)\n* [Get a customer's stored instruments](/docs/rest-management/customers/customer-stored-instruments#get-stored-instruments)\n"
+  description: '> The Payments API processes payments using payment instruments such as credit cards or PayPal accounts.'
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -26,7 +26,7 @@ paths:
       tags:
       - Processing
       operationId: PaymentsPost
-      description: Process payments for an order. See [Payment Processing](/docs/store-operations/payments) for more information.
+      description: Process payments for an order. See Payment Processing for more information.
       parameters:
       - $ref: '#/components/parameters/AcceptPaymentResponse'
       - $ref: '#/components/parameters/ContentType'
@@ -314,25 +314,6 @@ paths:
                 - type
 components:
   schemas:
-    StoredPayPalAccount:
-      title: StoredPayPalAccount
-      type: object
-      x-internal: false
-      properties:
-        type:
-          type: string
-          description: Type to classify this payment instrument (required)
-          enum:
-          - stored_paypal_account
-        token:
-          description: Identifier representing this stored PayPal account (required)
-          type: string
-          minLength: 64
-          maxLength: 64
-      x-examples:
-        example-1:
-          type: stored_paypal_account
-          token: stringstringstringstringstringstringstringstringstringstringstri
     Card:
       title: Card
       type: object
@@ -429,6 +410,20 @@ components:
       required:
       - type
       - token
+    GiftCertificate:
+      title: GiftCertificate
+      type: object
+      properties:
+        type:
+          type: string
+          example: gift_certificate
+        gift_certificate_code:
+          type: string
+          example: ABC-DEF-GXX
+      x-examples:
+        example-1:
+          type: gift_certificate
+          gift_certificate_code: ABC-DEF-GXX
     StoredCard:
       title: Stored Card
       type: object
@@ -454,6 +449,35 @@ components:
           description: Verification value of this card (CVV)
           minLength: 3
           maxLength: 4
+    StoreCredit:
+      title: StoreCredit
+      type: object
+      properties:
+        type:
+          type: string
+          example: store_credit
+      x-examples:
+        example-1:
+          type: store_credit
+    StoredPayPalAccount:
+      title: StoredPayPalAccount
+      type: object
+      x-internal: false
+      properties:
+        type:
+          type: string
+          description: Type to classify this payment instrument (required)
+          enum:
+          - stored_paypal_account
+        token:
+          description: Identifier representing this stored PayPal account (required)
+          type: string
+          minLength: 64
+          maxLength: 64
+      x-examples:
+        example-1:
+          type: stored_paypal_account
+          token: stringstringstringstringstringstringstringstringstringstringstri
     StoredBankAccount:
       title: StoredBankAccount
       type: object
@@ -473,30 +497,6 @@ components:
         example-1:
           type: stored_bank_account
           token: stringstringstringstringstringstringstringstringstringstringstri
-    GiftCertificate:
-      title: GiftCertificate
-      type: object
-      properties:
-        type:
-          type: string
-          example: gift_certificate
-        gift_certificate_code:
-          type: string
-          example: ABC-DEF-GXX
-      x-examples:
-        example-1:
-          type: gift_certificate
-          gift_certificate_code: ABC-DEF-GXX
-    StoreCredit:
-      title: StoreCredit
-      type: object
-      properties:
-        type:
-          type: string
-          example: store_credit
-      x-examples:
-        example-1:
-          type: store_credit
   parameters:
     ContentType:
       name: Content-Type

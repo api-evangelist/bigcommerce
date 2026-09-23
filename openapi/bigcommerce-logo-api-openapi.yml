@@ -26,7 +26,13 @@ paths:
     get:
       operationId: getSettingsLogo
       summary: BigCommerce Get Store Logo Settings
-      description: "Returns store logo settings.\n\n - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level."
+      description: 'Returns store logo settings.
+
+
+        - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only.
+
+
+        - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level.'
       parameters:
       - $ref: '#/components/parameters/ChannelIdParam'
       responses:
@@ -46,7 +52,13 @@ paths:
     put:
       operationId: updateSettingsLogo
       summary: BigCommerce Update Store Logo Settings
-      description: "Updates the logo type and logo text for a textual logo. To upload new images, use the dedicated image POST endpoints.\n\n - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel."
+      description: 'Updates the logo type and logo text for a textual logo. To upload new images, use the dedicated image POST endpoints.
+
+
+        - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only.
+
+
+        - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel.'
       parameters:
       - $ref: '#/components/parameters/ChannelIdParam'
       requestBody:
@@ -69,7 +81,37 @@ paths:
       tags:
       - Logo
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
   schemas:
+    LogoSettings:
+      type: object
+      properties:
+        favicon_url:
+          type: string
+        logo_image_url:
+          type: string
+        logo_text:
+          type: string
+        type:
+          type: string
+          enum:
+          - image
+          - text
+      x-internal: false
     MetaOpen:
       title: Response meta
       type: object
@@ -88,36 +130,6 @@ components:
           - text
       x-tags:
       - Models
-    LogoSettings:
-      type: object
-      properties:
-        favicon_url:
-          type: string
-        logo_image_url:
-          type: string
-        logo_text:
-          type: string
-        type:
-          type: string
-          enum:
-          - image
-          - text
-      x-internal: false
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -272,7 +272,30 @@ paths:
               example:
                 count: 27
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
+    banner_Put:
+      title: banner_Put
+      allOf:
+      - type: object
+      - $ref: '#/components/schemas/banner_Base'
+      x-internal: false
     banner_Base:
       title: banner_Base
       required:
@@ -347,29 +370,6 @@ components:
             description: Date the banner is created.
       - $ref: '#/components/schemas/banner_Base'
       x-internal: false
-    banner_Put:
-      title: banner_Put
-      allOf:
-      - type: object
-      - $ref: '#/components/schemas/banner_Base'
-      x-internal: false
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

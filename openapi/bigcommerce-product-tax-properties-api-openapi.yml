@@ -100,30 +100,6 @@ paths:
         '400':
           description: Request parameters invalid
 components:
-  schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ProductTaxProperty:
-      type: object
-      description: A collection of tax property values associated with a product.
-      properties:
-        product_id:
-          type: integer
-          description: A reference to the product that the product tax properties are associated with.
-          example: 157
-        tax_properties:
-          type: object
-          description: A simple key-value pairing. The tax property must be defined to associate a value. These values will be sent to the active tax provider during Tax Provider API operations whenever the associated product is included in the operation.
-          example:
-            A-123456789: '26'
-            B-6731789: '200'
-      required:
-      - product_id
-      - tax_properties
   parameters:
     Accept:
       name: Accept
@@ -148,6 +124,30 @@ components:
       description: ID of product. To target multiple products, provide a comma-separated list of IDs such as `12,34,56`
       schema:
         type: string
+  schemas:
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    ProductTaxProperty:
+      type: object
+      description: A collection of tax property values associated with a product.
+      properties:
+        product_id:
+          type: integer
+          description: A reference to the product that the product tax properties are associated with.
+          example: 157
+        tax_properties:
+          type: object
+          description: A simple key-value pairing. The tax property must be defined to associate a value. These values will be sent to the active tax provider during Tax Provider API operations whenever the associated product is included in the operation.
+          example:
+            A-123456789: '26'
+            B-6731789: '200'
+      required:
+      - product_id
+      - tax_properties
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

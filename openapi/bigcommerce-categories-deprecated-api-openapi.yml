@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: BigCommerce Catalog - Categories Categories (Deprecated) API
-  description: "\n> The Catalog API manages products, categories, brands, bulk pricing rules, and more. To learn more about catalog resources, see the [Catalog Overview](/docs/store-operations/catalog).\n\n> Warning:\n> - The [Catalog V3 Categories](/docs/rest-catalog/categories) endpoints were primarily useful in applications for single storefront stores and are deprecated. We still support these endpoints, but will not implement new features within them. The endpoints will continue working as is.\n> - To manage Categories, use the [Catalog V3 Category Trees - Categories](/docs/rest-catalog/category-trees/categories) endpoints. These endpoints work for both [MSF-enabled stores](/docs/storefront/multi-storefront) and single storefront stores, and are backwards-compatible with categories created using Catalog V3 Categories.\n\nCategory images have their own dedicated [create a category image](/docs/rest-catalog/categories/images#create-a-category-image) and [delete a category image](/docs/rest-catalog/categories/images#delete-a-category-image) endpoints. \n\nIn addition, categories have metafields that you can use to store information structured in key-value pairs; learn more about [creating category metafields](/docs/rest-catalog/categories/metafields#create-a-category-metafield), [updating category metafields](/docs/rest-catalog/categories/metafields#update-a-category-metafield), and [deleting category metafields](/docs/rest-catalog/categories/metafields#delete-a-category-metafield). \n\nThis API family also contains endpoints to [update product sort order](/docs/rest-catalog/categories/sort-order#update-product-sort-order) within a category. \n\n> To learn more about authenticating Catalog endpoints, locate the **Authentication** section at the top of each endpoint, then click **Show Details**. \n\n## Resources\n\n### Webhooks\nLearn more about [Category webhook events](/docs/integrations/webhooks/events#category).\n\n### Additional Catalog endpoints\n* [Brands](/docs/rest-catalog/brands)\n* [Category Trees](/docs/rest-catalog/category-trees)\n* [Products](/docs/rest-catalog/products)\n* [Product Modifiers](/docs/rest-catalog/product-modifiers)\n* [Product Variants](/docs/rest-catalog/product-variants)\n* [Product Variant Options](/docs/rest-catalog/product-variant-options)"
+  description: '> The Catalog API manages products, categories, brands, bulk pricing rules, and more.'
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -28,7 +28,7 @@ paths:
       - Categories (Deprecated)
       deprecated: true
       summary: BigCommerce Get All Categories
-      description: 'When possible, use the [Catalog Trees - Get all categories](/docs/rest-catalog/category-trees/categories#get-all-categories) endpoint instead.
+      description: 'When possible, use the Catalog Trees - Get all categories endpoint instead.
 
 
         Returns a list of *Categories*. Optional filter parameters can be passed in.
@@ -343,7 +343,50 @@ paths:
       - Categories (Deprecated)
       deprecated: true
       summary: BigCommerce Create a Category
-      description: "When possible, use the [Category Trees - Create categories](/docs/rest-catalog/category-trees/categories#create-categories) endpoint instead.\n\nCreates a *Category*.\n\nUse this endpoint when an API only works with categories of a default BigCommerce storefront (`channel_id=1`). \n\nUse the [Create categories](/docs/rest-catalog/category-trees/categories#create-categories) endpoint when an API works with categories across different category trees that belong to different storefront channels.\n\n**Required Fields**:\n- `parent_id`: \n\t- To create a child category, set the `parent_id` to the parent category.\n\t- To create a top level category, set the `parent_id` to `0`.\n- `name`\n\n**Read-Only Fields**:\n- `id`\n\n**Limits**:\n- 16,000 categories per store limit.\n- 1,000 categories per product limit.\n- 50 characters category name length.\n- 8 levels of category depth limit.\n- 65,642 characters category description length limit.\n\n **Note:**\n The default rate limit for this endpoint is 40 concurrent requests.\n"
+      description: 'When possible, use the Category Trees - Create categories endpoint instead.
+
+
+        Creates a *Category*.
+
+
+        Use this endpoint when an API only works with categories of a default BigCommerce storefront (`channel_id=1`).
+
+
+        Use the Create categories endpoint when an API works with categories across different category trees that belong to different storefront channels.
+
+
+        **Required Fields**:
+
+        - `parent_id`:
+
+        - To create a child category, set the `parent_id` to the parent category.
+
+        - To create a top level category, set the `parent_id` to `0`.
+
+        - `name`
+
+
+        **Read-Only Fields**:
+
+        - `id`
+
+
+        **Limits**:
+
+        - 16,000 categories per store limit.
+
+        - 1,000 categories per product limit.
+
+        - 50 characters category name length.
+
+        - 8 levels of category depth limit.
+
+        - 65,642 characters category description length limit.
+
+
+        **Note:**
+
+        The default rate limit for this endpoint is 40 concurrent requests.'
       operationId: createCategory
       parameters:
       - $ref: '#/components/parameters/ContentType'
@@ -569,7 +612,18 @@ paths:
       - Categories (Deprecated)
       deprecated: true
       summary: BigCommerce Delete Categories
-      description: "When possible, use the [Category Trees - Delete categories](/docs/rest-catalog/category-trees/categories#delete-categories) endpoint instead.\n\nDeletes *Category* objects. At least one filter parameter is required to perform the `DELETE` operation.\n\n**Usage Notes**\n\n- Sending a `DELETE`request without specifying a filter parameter will result in a `422` error. \n- Sending a `DELETE` request for a category that contains products will result in a `422` error. Move products to a new category by sending a `PUT` request to the `/catalog/products/{product_id}` endpoint before deleting a category."
+      description: 'When possible, use the Category Trees - Delete categories endpoint instead.
+
+
+        Deletes *Category* objects. At least one filter parameter is required to perform the `DELETE` operation.
+
+
+        **Usage Notes**
+
+
+        - Sending a `DELETE`request without specifying a filter parameter will result in a `422` error.
+
+        - Sending a `DELETE` request for a category that contains products will result in a `422` error. Move products to a new category by sending a `PUT` request to the `/catalog/products/{product_id}` endpoint before deleting a category.'
       operationId: deleteCategories
       parameters:
       - name: id
@@ -723,7 +777,7 @@ paths:
       - Categories (Deprecated)
       deprecated: true
       summary: BigCommerce Get a Category
-      description: 'When possible, use the [Catalog Trees - Get all categories](/docs/rest-catalog/category-trees/categories#get-all-categories) endpoint instead. You can provide a category identifier using query parameters to retrieve a single category.
+      description: 'When possible, use the Catalog Trees - Get all categories endpoint instead. You can provide a category identifier using query parameters to retrieve a single category.
 
 
         Returns a single *Category*. Optional parameters can be passed in.
@@ -785,7 +839,25 @@ paths:
       - Categories (Deprecated)
       deprecated: true
       summary: BigCommerce Update a Category
-      description: "When possible, use the [Catalog Trees - Update categories](/docs/rest-catalog/category-trees/categories#update-categories) endpoint instead.\n\nUpdates a *Category*.\n\n**Required Fields**\n* none\n\n**Read-Only Fields**\n- id\n\n**Note:** \nThe default rate limit for this endpoint is 40 concurrent requests."
+      description: 'When possible, use the Catalog Trees - Update categories endpoint instead.
+
+
+        Updates a *Category*.
+
+
+        **Required Fields**
+
+        * none
+
+
+        **Read-Only Fields**
+
+        - id
+
+
+        **Note:**
+
+        The default rate limit for this endpoint is 40 concurrent requests.'
       operationId: updateCategory
       parameters:
       - $ref: '#/components/parameters/ContentType'
@@ -1171,7 +1243,7 @@ paths:
       - Categories (Deprecated)
       deprecated: true
       summary: BigCommerce Delete a Category
-      description: 'When possible, use the [Category Trees - Delete categories](/docs/rest-catalog/category-trees/categories#delete-categories) endpoint instead. You can provide a category identifier using query parameters to delete a single category.
+      description: 'When possible, use the Category Trees - Delete categories endpoint instead. You can provide a category identifier using query parameters to delete a single category.
 
 
         Deletes a *Category*.
@@ -1187,99 +1259,16 @@ paths:
           content: {}
 components:
   schemas:
-    error_Base:
-      title: error_Base
+    sort_order:
+      title: sort_order
       type: object
       properties:
-        status:
+        sort_order:
           type: integer
-          description: 'The HTTP status code.
+          description: 'Priority this category will be given when included in the menu and category pages. The lower the number, the closer to the top of the results the category will be.
 
             '
-        title:
-          type: string
-          description: 'The error title describing the particular error.
-
-            '
-        type:
-          type: string
-        instance:
-          type: string
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      x-internal: false
-    default_product_sort:
-      title: default_product_sort
-      type: object
-      properties:
-        default_product_sort:
-          type: string
-          description: 'Determines how the products are sorted on category page load.
-
-            '
-          enum:
-          - use_store_settings
-          - featured
-          - newest
-          - best_selling
-          - alpha_asc
-          - alpha_desc
-          - avg_customer_review
-          - price_asc
-          - price_desc
-    meta_keywords:
-      title: meta_keywords
-      type: object
-      properties:
-        meta_keywords:
-          type: array
-          description: 'Custom meta keywords for the category page. If not defined, the storeʼs default keywords will be used. Must post as an array like: ["awesome","sauce"].
-
-            '
-          items:
-            type: string
-    views:
-      title: views
-      type: object
-      properties:
-        views:
-          type: integer
-          description: 'Number of views the category has on the storefront.
-
-            '
-          example: 1050
-    page_title:
-      title: page_title
-      type: object
-      properties:
-        page_title:
-          type: string
-          description: 'Custom title for the category page. If not defined, the category name will be used as the meta title.
-
-            '
-          example: Bath
-    search_keywords:
-      title: search_keywords
-      type: object
-      properties:
-        search_keywords:
-          type: string
-          description: 'A comma-separated list of keywords that can be used to locate the category when searching the store.
-
-            '
-    layout_file:
-      title: layout_file
-      type: object
-      properties:
-        layout_file:
-          maxLength: 500
-          minLength: 0
-          type: string
-          description: 'A valid layout file. Please refer to [the article on creating category files (Help Center)](https://support.bigcommerce.com/articles/Public/Creating-Custom-Template-Files/). This field is writable only for stores with a Blueprint theme applied. For stores with a Stencil theme applied, see [Custom Template Associations](/docs/rest-content/custom-template-associations).
-
-            '
-          example: category.html
+          example: 3
     pagination_Full:
       title: pagination_Full
       type: object
@@ -1338,6 +1327,44 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
+    search_keywords:
+      title: search_keywords
+      type: object
+      properties:
+        search_keywords:
+          type: string
+          description: 'A comma-separated list of keywords that can be used to locate the category when searching the store.
+
+            '
+    page_title:
+      title: page_title
+      type: object
+      properties:
+        page_title:
+          type: string
+          description: 'Custom title for the category page. If not defined, the category name will be used as the meta title.
+
+            '
+          example: Bath
+    default_product_sort:
+      title: default_product_sort
+      type: object
+      properties:
+        default_product_sort:
+          type: string
+          description: 'Determines how the products are sorted on category page load.
+
+            '
+          enum:
+          - use_store_settings
+          - featured
+          - newest
+          - best_selling
+          - alpha_asc
+          - alpha_desc
+          - avg_customer_review
+          - price_asc
+          - price_desc
     parent_id:
       title: parent_id
       type: object
@@ -1348,6 +1375,39 @@ components:
 
             Required in a POST if creating a child category.'
           example: 2
+    image_url:
+      title: image_url
+      type: object
+      properties:
+        image_url:
+          type: string
+          description: 'Image URL used for this category on the storefront. Images can be uploaded using form file post to `/categories/{categoryId}/image`, or by providing a publicly accessible URL in this field. An image extension like .jpg or .png is required.
+
+            '
+          example: https://cdn8.bigcommerce.com/s-123456/product_images/d/fakeimage.png
+          x-url: true
+    error_Base:
+      title: error_Base
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 'The HTTP status code.
+
+            '
+        title:
+          type: string
+          description: 'The error title describing the particular error.
+
+            '
+        type:
+          type: string
+        instance:
+          type: string
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      x-internal: false
     name:
       title: name
       type: object
@@ -1360,6 +1420,16 @@ components:
 
             Required in a POST.'
           example: Bath
+    id:
+      title: id
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 'Unique ID of the *Category*. Increments sequentially.
+
+            Read-Only.'
+          readOnly: true
     category_Full:
       title: category_Full
       type: object
@@ -1479,88 +1549,18 @@ components:
       required:
       - parent_id
       - name
-    sort_order:
-      title: sort_order
+    layout_file:
+      title: layout_file
       type: object
       properties:
-        sort_order:
-          type: integer
-          description: 'Priority this category will be given when included in the menu and category pages. The lower the number, the closer to the top of the results the category will be.
-
-            '
-          example: 3
-    meta_description:
-      title: meta_description
-      type: object
-      properties:
-        meta_description:
-          maxLength: 65535
+        layout_file:
+          maxLength: 500
           minLength: 0
           type: string
-          description: 'Custom meta description for the category page. If not defined, the storeʼs default meta description will be used.
+          description: 'A valid layout file. Please refer to [the article on creating category files (Help Center)](https://support.bigcommerce.com/articles/Public/Creating-Custom-Template-Files/). This field is writable only for stores with a Blueprint theme applied. For stores with a Stencil theme applied, see [Custom Template Associations](/docs/rest-content/custom-template-associations).
 
             '
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    description:
-      title: description
-      type: object
-      properties:
-        description:
-          type: string
-          description: 'The product description, which can include HTML formatting.
-
-            '
-          example: <p>We offer a wide variety of products perfect for relaxing</p>
-    customUrl_Full:
-      title: customUrl_Full
-      type: object
-      properties:
-        url:
-          maxLength: 255
-          minLength: 0
-          type: string
-          description: 'Product URL on the storefront.
-
-            '
-          x-required:
-          - post
-          - put
-          x-url: true
-        is_customized:
-          type: boolean
-          description: 'Returns `true` if the URL has been changed from its default state (the auto-assigned URL that BigCommerce provides).
-
-            '
-          x-required:
-          - post
-          - put
-      description: The custom URL for the product on the storefront.
-      x-internal: false
-    image_url:
-      title: image_url
-      type: object
-      properties:
-        image_url:
-          type: string
-          description: 'Image URL used for this category on the storefront. Images can be uploaded using form file post to `/categories/{categoryId}/image`, or by providing a publicly accessible URL in this field. An image extension like .jpg or .png is required.
-
-            '
-          example: https://cdn8.bigcommerce.com/s-123456/product_images/d/fakeimage.png
-          x-url: true
-    Url:
-      type: object
-      properties:
-        url:
-          type: string
-        is_customized:
-          type: boolean
-      x-tags:
-      - Models
+          example: category.html
     metaCollection_Full:
       title: metaCollection_Full
       type: object
@@ -1601,25 +1601,89 @@ components:
           description: 'Flag to determine whether the product should be displayed to customers browsing the store. If `true`, the category will be displayed. If `false`, the category will be hidden from view.
 
             '
-    id:
-      title: id
+    description:
+      title: description
       type: object
       properties:
-        id:
-          type: integer
-          description: 'Unique ID of the *Category*. Increments sequentially.
+        description:
+          type: string
+          description: 'The product description, which can include HTML formatting.
 
-            Read-Only.'
-          readOnly: true
+            '
+          example: <p>We offer a wide variety of products perfect for relaxing</p>
+    customUrl_Full:
+      title: customUrl_Full
+      type: object
+      properties:
+        url:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: 'Product URL on the storefront.
+
+            '
+          x-required:
+          - post
+          - put
+          x-url: true
+        is_customized:
+          type: boolean
+          description: 'Returns `true` if the URL has been changed from its default state (the auto-assigned URL that BigCommerce provides).
+
+            '
+          x-required:
+          - post
+          - put
+      description: The custom URL for the product on the storefront.
+      x-internal: false
+    meta_keywords:
+      title: meta_keywords
+      type: object
+      properties:
+        meta_keywords:
+          type: array
+          description: 'Custom meta keywords for the category page. If not defined, the storeʼs default keywords will be used. Must post as an array like: ["awesome","sauce"].
+
+            '
+          items:
+            type: string
+    views:
+      title: views
+      type: object
+      properties:
+        views:
+          type: integer
+          description: 'Number of views the category has on the storefront.
+
+            '
+          example: 1050
+    Url:
+      type: object
+      properties:
+        url:
+          type: string
+        is_customized:
+          type: boolean
+      x-tags:
+      - Models
+    meta_description:
+      title: meta_description
+      type: object
+      properties:
+        meta_description:
+          maxLength: 65535
+          minLength: 0
+          type: string
+          description: 'Custom meta description for the category page. If not defined, the storeʼs default meta description will be used.
+
+            '
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
     Accept:
       name: Accept
       in: header
@@ -1637,6 +1701,14 @@ components:
       required: true
       schema:
         type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   responses:
     General207Status:
       description: Multi-status. Multiple operations have taken place and the status for each operation can be viewed in the body of the response. Typically indicates that a partial failure has occurred, such as when a `POST` or `PUT` request is successful, but saving the URL or inventory data has failed.

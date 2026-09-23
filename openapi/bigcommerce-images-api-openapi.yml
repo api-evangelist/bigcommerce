@@ -41,7 +41,7 @@ paths:
         - id
 
 
-        Only one image at a time can be created. To update a *Brand Image*, use the [Update a brand](/docs/rest-catalog/brands#update-a-brand) endpoint and an `image_url`.'
+        Only one image at a time can be created. To update a *Brand Image*, use the Update a brand endpoint and an `image_url`.'
       operationId: createBrandImage
       parameters:
       - $ref: '#/components/parameters/ContentType'
@@ -154,7 +154,19 @@ paths:
       tags:
       - Images
       summary: BigCommerce Create a Category Image
-      description: "Create a *Category Image*.\n\n **Required Fields**\n- image_file: Form posts are the only accepted upload option.\n\nOnly one image at a time can be created.\nLimit image size to 1MB.\nTo update a *Category Image*, use the [Update categories](/docs/rest-catalog/category-trees/categories#update-categories) endpoint and an `image_url`."
+      description: 'Create a *Category Image*.
+
+
+        **Required Fields**
+
+        - image_file: Form posts are the only accepted upload option.
+
+
+        Only one image at a time can be created.
+
+        Limit image size to 1MB.
+
+        To update a *Category Image*, use the Update categories endpoint and an `image_url`.'
       operationId: createCategoryImage
       parameters:
       - $ref: '#/components/parameters/ContentType'
@@ -274,7 +286,15 @@ paths:
       tags:
       - Images
       summary: BigCommerce Create Product Modifier Image
-      description: "Creates a *Modifier Image*.\n\nThe image will show on the storefront when the value is selected.\n\n **Required Fields**\n- image_file: Form posts are the only accepted upload option."
+      description: 'Creates a *Modifier Image*.
+
+
+        The image will show on the storefront when the value is selected.
+
+
+        **Required Fields**
+
+        - image_file: Form posts are the only accepted upload option.'
       operationId: createProductModifierImage
       parameters:
       - $ref: '#/components/parameters/ContentType'
@@ -412,7 +432,20 @@ paths:
       tags:
       - Images
       summary: BigCommerce Create a Product Variant Image
-      description: "Creates a *Variant Image*.\n\nOnly one image can be explicitly associated with a Variant. If the Variant already has an associated image, overwrites the existing Variant Image.\n\nThe image displays on the storefront when the Variant is selected.\n\n **Required Fields**\n- image_file: Form posts. Files larger than 1 MB are not accepted\n- image_url: Any publicly available URL"
+      description: 'Creates a *Variant Image*.
+
+
+        Only one image can be explicitly associated with a Variant. If the Variant already has an associated image, overwrites the existing Variant Image.
+
+
+        The image displays on the storefront when the Variant is selected.
+
+
+        **Required Fields**
+
+        - image_file: Form posts. Files larger than 1 MB are not accepted
+
+        - image_url: Any publicly available URL'
       operationId: createProductVariantImage
       parameters:
       - $ref: '#/components/parameters/ContentType'
@@ -689,7 +722,27 @@ paths:
       tags:
       - Images
       summary: BigCommerce Create a Product Image
-      description: "Creates a *Product Image*.\n\n **Required Fields**\n- `image_file`, or\n- `image_url`\n\n**Usage Notes**\n- `image_url` - `255` character limit\n- For file uploads, use the `multipart/form-data` media type.\n- You can create only one image at a time. A product can have up to 1000 images.\n- Supported image file types are BMP, GIF, JPEG, PNG, WBMP, XBM, and WEBP.\n- Each image file or image uploaded by URL can be up to 8 MB."
+      description: 'Creates a *Product Image*.
+
+
+        **Required Fields**
+
+        - `image_file`, or
+
+        - `image_url`
+
+
+        **Usage Notes**
+
+        - `image_url` - `255` character limit
+
+        - For file uploads, use the `multipart/form-data` media type.
+
+        - You can create only one image at a time. A product can have up to 1000 images.
+
+        - Supported image file types are BMP, GIF, JPEG, PNG, WBMP, XBM, and WEBP.
+
+        - Each image file or image uploaded by URL can be up to 8 MB.'
       operationId: createProductImage
       parameters:
       - $ref: '#/components/parameters/ContentType'
@@ -1368,19 +1421,19 @@ paths:
       description: BigCommerce API Gateway
 components:
   parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
     Accept:
       name: Accept
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
       schema:
         type: string
         default: application/json
@@ -1402,18 +1455,18 @@ components:
       required: true
       schema:
         type: integer
-    ModifierIdParam:
-      name: modifier_id
-      description: 'The ID of the `Modifier`.
+    ValueIdParam:
+      name: value_id
+      description: 'The ID of the `Modifier/Option Value`.
 
         '
       required: true
       in: path
       schema:
         type: integer
-    ValueIdParam:
-      name: value_id
-      description: 'The ID of the `Modifier/Option Value`.
+    ModifierIdParam:
+      name: modifier_id
+      description: 'The ID of the `Modifier`.
 
         '
       required: true
@@ -1521,40 +1574,6 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-    productImage_Base:
-      title: productImage_Base
-      type: object
-      properties:
-        image_file:
-          type: string
-          description: 'The local path to the original image file uploaded to BigCommerce. Use image_url when creating a product.
-
-
-            Must be sent as a `multipart/form-data` field in the request body. Limit of 8 MB per file.
-
-            '
-        is_thumbnail:
-          type: boolean
-          description: 'Flag for identifying whether the image is used as the productʼs thumbnail.
-
-            '
-        sort_order:
-          maximum: 2147483647
-          minimum: -2147483648
-          type: integer
-          description: 'The order in which the image will be displayed on the product page. Higher integers give the image a lower priority. When updating, if the image is given a lower priority, all images with a `sort_order` the same as or greater than the imageʼs new `sort_order` value will have their `sort_order`s reordered.
-
-            '
-        description:
-          type: string
-          description: 'The description for the image.
-
-            '
-        image_url:
-          type: string
-          description: Must be a fully qualified URL path, including protocol. Limit of 8MB per file.
-      description: Common ProductImage properties.
-      x-internal: false
     productImage_Full:
       title: productImage_Full
       description: Common ProductImage properties.
@@ -1604,6 +1623,40 @@ components:
               '
             format: date-time
         description: Common ProductImage properties.
+      x-internal: false
+    productImage_Base:
+      title: productImage_Base
+      type: object
+      properties:
+        image_file:
+          type: string
+          description: 'The local path to the original image file uploaded to BigCommerce. Use image_url when creating a product.
+
+
+            Must be sent as a `multipart/form-data` field in the request body. Limit of 8 MB per file.
+
+            '
+        is_thumbnail:
+          type: boolean
+          description: 'Flag for identifying whether the image is used as the productʼs thumbnail.
+
+            '
+        sort_order:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: 'The order in which the image will be displayed on the product page. Higher integers give the image a lower priority. When updating, if the image is given a lower priority, all images with a `sort_order` the same as or greater than the imageʼs new `sort_order` value will have their `sort_order`s reordered.
+
+            '
+        description:
+          type: string
+          description: 'The description for the image.
+
+            '
+        image_url:
+          type: string
+          description: Must be a fully qualified URL path, including protocol. Limit of 8MB per file.
+      description: Common ProductImage properties.
       x-internal: false
     metaCollection_Full:
       title: metaCollection_Full

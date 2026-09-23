@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: BigCommerce Webhooks v3 Webhook Events API
   version: ''
-  description: Get notified when specific events occur on a BigCommerce store. For more information, see the [Webhooks Overview](/docs/integrations/webhooks).
+  description: Get notified when specific events occur on a BigCommerce store. For more information, see the Webhooks Overview.
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     email: support@bigcommerce.com
@@ -53,10 +53,71 @@ paths:
           $ref: '#/components/responses/400_BadRequest'
         '401':
           $ref: '#/components/responses/401_Unauthorized'
-      description: 'Get a list of events that were sent but not successfully received. Events are stored for not less than one week.
+      description: Get a list of events that were sent but not successfully received. Events are stored for not less than one week.
+components:
+  responses:
+    400_BadRequest:
+      description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 400
+                title: Input is invalid.
+                type: /api-docs/getting-started/api-status-codes
+    401_Unauthorized:
+      description: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 401
+                title: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
+                type: /api-docs/getting-started/api-status-codes
+  parameters:
+    FilterMinCreatedAtParam:
+      name: created_at:min
+      in: query
+      description: 'Minimum value for returned data.
 
         '
-components:
+      required: false
+      schema:
+        type: string
+    FilterLimitParam:
+      name: limit
+      in: query
+      description: 'Items count per page.
+
+        '
+      required: false
+      schema:
+        type: integer
+    FilterPageParam:
+      name: page
+      in: query
+      description: 'Page number.
+
+        '
+      required: false
+      schema:
+        type: integer
+        example: 1
+    FilterMaxCreatedAtParam:
+      name: created_at:max
+      in: query
+      description: 'Maximum value for returned data.
+
+        '
+      required: false
+      schema:
+        type: string
   schemas:
     error_Full:
       type: object
@@ -132,69 +193,6 @@ components:
         producer:
           type: string
           description: Will always follow the pattern stores/store_hash. This is the store that created the webhook.
-  parameters:
-    FilterMaxCreatedAtParam:
-      name: created_at:max
-      in: query
-      description: 'Maximum value for returned data.
-
-        '
-      required: false
-      schema:
-        type: string
-    FilterLimitParam:
-      name: limit
-      in: query
-      description: 'Items count per page.
-
-        '
-      required: false
-      schema:
-        type: integer
-    FilterPageParam:
-      name: page
-      in: query
-      description: 'Page number.
-
-        '
-      required: false
-      schema:
-        type: integer
-        example: 1
-    FilterMinCreatedAtParam:
-      name: created_at:min
-      in: query
-      description: 'Minimum value for returned data.
-
-        '
-      required: false
-      schema:
-        type: string
-  responses:
-    401_Unauthorized:
-      description: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 401
-                title: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
-                type: /api-docs/getting-started/api-status-codes
-    400_BadRequest:
-      description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 400
-                title: Input is invalid.
-                type: /api-docs/getting-started/api-status-codes
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

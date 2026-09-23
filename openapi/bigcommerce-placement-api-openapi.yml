@@ -2,40 +2,7 @@ openapi: 3.2.0
 info:
   title: BigCommerce Widgets Placement API
   version: ''
-  description: 'Create and manage widget templates, widgets, regions, and placements.
-
-
-    ## Subresources
-
-
-    ### Widget templates
-
-    [Widget templates](/docs/rest-content/widgets/widget-template) are reusable Handlebars-enabled HTML templates that define the structure of the widget on a page.
-
-
-    ### Widgets
-
-    [Widgets](/docs/rest-content/widgets/widget) are units of content placed on specific pages in a Stencil theme. Widgets consist of a widget configuration and a widget template UUID and render as part of the storefront’s HTML.
-
-
-    ### Regions
-
-    [Regions](/docs/rest-content/widgets/regions) are specific locations in the Stencil theme template files where you can place a widget.
-
-
-    ### Placements
-
-    [Placements](/docs/rest-content/widgets/placement) determine the region where you place widgets and in what order.
-
-
-    ## Additional Information
-
-
-    * [Widgets API Overview](/docs/storefront/widgets)
-
-    * [Widget UI Schema](/docs/storefront/widgets/input-reference/schema)
-
-    * [Widget UI Input Types](/docs/storefront/widgets/input-reference/settings)'
+  description: Create and manage widget templates, widgets, regions, and placements.
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -89,7 +56,7 @@ paths:
         **Template Files**
 
 
-        To view the list of values accepted by the `template_file` property, including **custom** templates, see [Placements](/docs/storefront/widgets#placements).'
+        To view the list of values accepted by the `template_file` property, including **custom** templates, see Placements.'
     get:
       tags:
       - Placement
@@ -205,6 +172,26 @@ paths:
       description: Deletes a **Placement**.
 components:
   schemas:
+    placement_Post:
+      title: placement_Post
+      allOf:
+      - type: object
+        properties:
+          widget_uuid:
+            type: string
+            description: A widget identifier.
+          template_file:
+            type: string
+            description: The template file that you would like to target.
+          channel_id:
+            type: integer
+            description: The id of the channel on which to create this placement. Defaults to the first channel created on the store.
+            example: 1
+        required:
+        - widget_uuid
+        - template_file
+      - $ref: '#/components/schemas/placement_Base'
+      x-internal: false
     widgetSchemaTab:
       type: object
       title: widgetSchemaTab
@@ -309,36 +296,12 @@ components:
                           items: {}
       x-internal: false
       x-examples: {}
-    widgetTemplate_Full:
-      allOf:
-      - $ref: '#/components/schemas/widgetTemplate_Base'
-      - type: object
-        properties:
-          uuid:
-            type: string
-            format: uuid
-            description: The primary identifier.
-          kind:
-            type: string
-            description: The kind of widget template.
-          date_created:
-            type: string
-            format: date-time
-            description: The date on which this object was initially created.
-          date_modified:
-            type: string
-            format: date-time
-            description: The date on which this object was last updated.
-          current_version_uuid:
-            type: string
-            description: The identifier to the current version of this widget template.
-          icon_name:
-            type: string
-            default: default
-            description: A read-only value. Do not attempt to set or modify this value in a POST or PUT operation.
-      title: widgetTemplate_Full
-      description: ''
-      x-internal: false
+    Meta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     metaCollection:
       type: object
       description: Data about the response, including pagination and collection totals.
@@ -346,68 +309,6 @@ components:
       properties:
         pagination:
           $ref: '#/components/schemas/pagination'
-      x-internal: false
-    error_Base:
-      type: object
-      description: Error payload for the BigCommerce API.
-      properties:
-        status:
-          description: The HTTP status code.
-          type: integer
-        title:
-          description: The error title describing the particular error.
-          type: string
-        type:
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-      x-internal: false
-      title: error_Base
-    placement_Put:
-      title: placement_Put
-      allOf:
-      - type: object
-        properties:
-          template_file:
-            type: string
-            description: The template file that you would like to target.
-          widget_uuid:
-            type: string
-            description: A widget identifier.
-          channel_id:
-            type: integer
-            description: The ID of the channel on which this placement exists.
-      - $ref: '#/components/schemas/placement_Base'
-      x-internal: false
-    widgetSchema:
-      type: array
-      description: 'The schema for the widget’s merchant-facing UI. For more information on the available schema settings, see [Widget UI Schema](/docs/storefront/widgets/input-reference/schema). '
-      title: ''
-      items:
-        anyOf:
-        - $ref: '#/components/schemas/widgetSchemaTab'
-        - $ref: '#/components/schemas/widgetSchemaArray'
-        - $ref: '#/components/schemas/widgetSchemaHidden'
-      x-internal: false
-    widgetTemplate_Base:
-      type: object
-      title: widgetTemplate_Base
-      properties:
-        name:
-          type: string
-          description: The user-friendly name.
-        schema:
-          $ref: '#/components/schemas/widgetSchema'
-        template:
-          type: string
-          format: html
-          description: The widget template HTML. Supports Handlebars and Paper helpers.
-        storefront_api_query:
-          type: string
-          description: The GraphQL Storefront API query that provides widget data.
-      description: ''
       x-internal: false
     widget_Full:
       title: widget_Full
@@ -436,12 +337,6 @@ components:
             type: integer
             description: The ID of the channel on which this widget exists.
       x-internal: false
-    Meta:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     pagination:
       type: object
       description: 'Data about the response, including pagination and collection totals.
@@ -496,18 +391,34 @@ components:
                 '
       title: pagination
       x-internal: false
-    placement_Full:
-      title: placement_Full
+    placement_Put:
+      title: placement_Put
       allOf:
+      - type: object
+        properties:
+          template_file:
+            type: string
+            description: The template file that you would like to target.
+          widget_uuid:
+            type: string
+            description: A widget identifier.
+          channel_id:
+            type: integer
+            description: The ID of the channel on which this placement exists.
+      - $ref: '#/components/schemas/placement_Base'
+      x-internal: false
+    widgetTemplate_Full:
+      allOf:
+      - $ref: '#/components/schemas/widgetTemplate_Base'
       - type: object
         properties:
           uuid:
             type: string
             format: uuid
             description: The primary identifier.
-          template_file:
+          kind:
             type: string
-            description: The template file that you would like to target.
+            description: The kind of widget template.
           date_created:
             type: string
             format: date-time
@@ -516,14 +427,88 @@ components:
             type: string
             format: date-time
             description: The date on which this object was last updated.
-          channel_id:
-            type: integer
-            description: The ID of the channel on which this placement exists.
-      - $ref: '#/components/schemas/placement_Base'
-      - type: object
-        properties:
-          widget:
-            $ref: '#/components/schemas/widget_Full'
+          current_version_uuid:
+            type: string
+            description: The identifier to the current version of this widget template.
+          icon_name:
+            type: string
+            default: default
+            description: A read-only value. Do not attempt to set or modify this value in a POST or PUT operation.
+      title: widgetTemplate_Full
+      description: ''
+      x-internal: false
+    error_Base:
+      type: object
+      description: Error payload for the BigCommerce API.
+      properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+        title:
+          description: The error title describing the particular error.
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+      x-internal: false
+      title: error_Base
+    widget_Base:
+      type: object
+      title: widget_Base
+      properties:
+        name:
+          type: string
+          description: The user-friendly name.
+        description:
+          type: string
+          description: The user-friendly description.
+        widget_configuration:
+          type: object
+          format: json
+          description: The JSON data that populates the template.
+      x-internal: false
+      x-examples: {}
+    widgetTemplate_Base:
+      type: object
+      title: widgetTemplate_Base
+      properties:
+        name:
+          type: string
+          description: The user-friendly name.
+        schema:
+          $ref: '#/components/schemas/widgetSchema'
+        template:
+          type: string
+          format: html
+          description: The widget template HTML. Supports Handlebars and Paper helpers.
+        storefront_api_query:
+          type: string
+          description: The GraphQL Storefront API query that provides widget data.
+      description: ''
+      x-internal: false
+    placement_Base:
+      type: object
+      title: placement_Base
+      properties:
+        entity_id:
+          type: string
+          description: The identifier of a page you would like to target. For product pages, choose product ID. For category pages, choose category ID. Home page does not support `entity_id`.
+        sort_order:
+          type: integer
+          description: The sort order to control the position of a content widget in a region.
+        region:
+          type: string
+          description: The name of the region in which to insert content widgets.
+        status:
+          type: string
+          enum:
+          - inactive
+          - active
+          description: Sets the placement as either inactive or active.
+          default: inactive
       x-internal: false
     widgetSchemaHidden:
       type: object
@@ -612,25 +597,34 @@ components:
                     type: array
                     description: A single-object array containing a value from the `typeMeta`'s `selectOptions`.
                     items: {}
-    placement_Post:
-      title: placement_Post
+    placement_Full:
+      title: placement_Full
       allOf:
       - type: object
         properties:
-          widget_uuid:
+          uuid:
             type: string
-            description: A widget identifier.
+            format: uuid
+            description: The primary identifier.
           template_file:
             type: string
             description: The template file that you would like to target.
+          date_created:
+            type: string
+            format: date-time
+            description: The date on which this object was initially created.
+          date_modified:
+            type: string
+            format: date-time
+            description: The date on which this object was last updated.
           channel_id:
             type: integer
-            description: The id of the channel on which to create this placement. Defaults to the first channel created on the store.
-            example: 1
-        required:
-        - widget_uuid
-        - template_file
+            description: The ID of the channel on which this placement exists.
       - $ref: '#/components/schemas/placement_Base'
+      - type: object
+        properties:
+          widget:
+            $ref: '#/components/schemas/widget_Full'
       x-internal: false
     widgetSchemaArray:
       type: object
@@ -669,82 +663,16 @@ components:
             - $ref: '#/components/schemas/widgetSchemaHidden'
             - $ref: '#/components/schemas/widgetSchemaTab'
       x-internal: false
-    placement_Base:
-      type: object
-      title: placement_Base
-      properties:
-        entity_id:
-          type: string
-          description: The identifier of a page you would like to target. For product pages, choose product ID. For category pages, choose category ID. Home page does not support `entity_id`.
-        sort_order:
-          type: integer
-          description: The sort order to control the position of a content widget in a region.
-        region:
-          type: string
-          description: The name of the region in which to insert content widgets.
-        status:
-          type: string
-          enum:
-          - inactive
-          - active
-          description: Sets the placement as either inactive or active.
-          default: inactive
+    widgetSchema:
+      type: array
+      description: 'The schema for the widget’s merchant-facing UI. For more information on the available schema settings, see [Widget UI Schema](/docs/storefront/widgets/input-reference/schema). '
+      title: ''
+      items:
+        anyOf:
+        - $ref: '#/components/schemas/widgetSchemaTab'
+        - $ref: '#/components/schemas/widgetSchemaArray'
+        - $ref: '#/components/schemas/widgetSchemaHidden'
       x-internal: false
-    widget_Base:
-      type: object
-      title: widget_Base
-      properties:
-        name:
-          type: string
-          description: The user-friendly name.
-        description:
-          type: string
-          description: The user-friendly description.
-        widget_configuration:
-          type: object
-          format: json
-          description: The JSON data that populates the template.
-      x-internal: false
-      x-examples: {}
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIDInParam:
-      name: channel_id:in
-      in: query
-      required: false
-      schema:
-        type: string
-      description: A comma-separated list of channel ids to filter the results by.
-    PlacementUUID:
-      name: uuid
-      description: The identifier for a specific placement.
-      required: true
-      in: path
-      schema:
-        type: string
-        format: uuid
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    SiteIDInParam:
-      name: site_id:in
-      in: query
-      required: false
-      schema:
-        type: string
-      description: A comma-separated list of site IDs to filter the results by.
   responses:
     Error404_Resp:
       description: The resource was not found.
@@ -886,6 +814,45 @@ components:
                       template_engine: handlebars_v3
                       uuid: f8459145-da8f-4d98-93e4-83aa47da61c6
                 meta: {}
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    PlacementUUID:
+      name: uuid
+      description: The identifier for a specific placement.
+      required: true
+      in: path
+      schema:
+        type: string
+        format: uuid
+    ChannelIDInParam:
+      name: channel_id:in
+      in: query
+      required: false
+      schema:
+        type: string
+      description: A comma-separated list of channel ids to filter the results by.
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    SiteIDInParam:
+      name: site_id:in
+      in: query
+      required: false
+      schema:
+        type: string
+      description: A comma-separated list of site IDs to filter the results by.
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

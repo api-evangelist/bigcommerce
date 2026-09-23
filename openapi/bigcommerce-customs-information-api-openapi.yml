@@ -167,6 +167,54 @@ components:
         type: string
         default: application/json
   schemas:
+    customsInformation_request:
+      title: customsInformationRequest
+      description: Data about the customs information object.
+      type: object
+      x-internal: false
+      properties:
+        product_id:
+          description: The product ID to which the customs information data applies.
+          type: integer
+          format: int32
+          example: 77
+        country_of_origin:
+          type: string
+          description: The country of manufacture, production, or growth represented in ISO 3166-1 alpha-2 format.
+          example: US
+        commodity_description:
+          description: Description that provides information for customs to identify and verify the shapes, physical characteristics, and packaging of each shipment.
+          type: string
+          minLength: 0
+          maxLength: 100
+          example: Baseball caps
+        international_shipping:
+          description: Flag to determine whether this product will be shipped internationally.
+          type: boolean
+          enum:
+          - true
+          - false
+          example: true
+        hs_codes:
+          $ref: '#/components/schemas/harmonizedSystemCodes'
+      required:
+      - product_id
+      - country_of_origin
+      - commodity_description
+      - international_shipping
+      - hs_codes
+    harmonizedSystemCodes:
+      title: harmonizedSystemCodes
+      description: "Key-value pairs that are commonly used in the following form:  \n\n`countryISO2: '/^[0-9A-Za-z]{6,14}$/'`\n\nThis key-value pair represents a country and the associated `hs_code` that applies to that country. \n\nYou can also use the `ALL` key in place of an ISO2 key to specify that the `hs_code` applies to all countries. The `ALL` key can be combined with other countries in the `hs_code` object."
+      type: object
+      properties: {}
+      additionalProperties: true
+      example:
+        ALL: '501000'
+        CA: '508313'
+        US: '641000'
+        AU: '817355'
+      x-internal: false
     metaCollection:
       title: metaCollection
       description: Meta data relating to pagination.
@@ -211,18 +259,6 @@ components:
                   description: Query string appended to the resource to show the current page.
                   example: ?limit=1&page=2
       x-internal: false
-    harmonizedSystemCodes:
-      title: harmonizedSystemCodes
-      description: "Key-value pairs that are commonly used in the following form:  \n\n`countryISO2: '/^[0-9A-Za-z]{6,14}$/'`\n\nThis key-value pair represents a country and the associated `hs_code` that applies to that country. \n\nYou can also use the `ALL` key in place of an ISO2 key to specify that the `hs_code` applies to all countries. The `ALL` key can be combined with other countries in the `hs_code` object."
-      type: object
-      properties: {}
-      additionalProperties: true
-      example:
-        ALL: '501000'
-        CA: '508313'
-        US: '641000'
-        AU: '817355'
-      x-internal: false
     customsInformation:
       title: customsInformation
       description: Data about the customs information object.
@@ -265,42 +301,6 @@ components:
           readOnly: true
           format: date-time
           example: 2022-09-21 14:15:00+00:00
-    customsInformation_request:
-      title: customsInformationRequest
-      description: Data about the customs information object.
-      type: object
-      x-internal: false
-      properties:
-        product_id:
-          description: The product ID to which the customs information data applies.
-          type: integer
-          format: int32
-          example: 77
-        country_of_origin:
-          type: string
-          description: The country of manufacture, production, or growth represented in ISO 3166-1 alpha-2 format.
-          example: US
-        commodity_description:
-          description: Description that provides information for customs to identify and verify the shapes, physical characteristics, and packaging of each shipment.
-          type: string
-          minLength: 0
-          maxLength: 100
-          example: Baseball caps
-        international_shipping:
-          description: Flag to determine whether this product will be shipped internationally.
-          type: boolean
-          enum:
-          - true
-          - false
-          example: true
-        hs_codes:
-          $ref: '#/components/schemas/harmonizedSystemCodes'
-      required:
-      - product_id
-      - country_of_origin
-      - commodity_description
-      - international_shipping
-      - hs_codes
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

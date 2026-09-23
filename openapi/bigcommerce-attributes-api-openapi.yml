@@ -7,7 +7,7 @@ info:
 
     ## Resources
 
-    * [Customers Overview](/docs/store-operations/customers).'
+    * Customers Overview.'
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -276,51 +276,6 @@ paths:
       - Attributes
 components:
   schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ErrorResponse:
-      title: Error Response
-      type: object
-      properties:
-        status:
-          description: The HTTP status code.
-          type: integer
-          format: int32
-        title:
-          description: The error title describing the particular error.
-          type: string
-        type:
-          description: A link to a list of BigCommerce API status codes.
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-          additionalProperties:
-            type: string
-      x-internal: false
-    attribute_Put:
-      title: attribute_Put
-      type: object
-      properties:
-        name:
-          description: Attribute name.
-          type: string
-          minLength: 1
-          maxLength: 255
-        id:
-          description: Attribute ID.
-          type: integer
-          format: int32
-      required:
-      - name
-      - id
-      description: Once the data type is set, it can not be changed. The attribute will need to be deleted then created again with the new data type. This will also delete it from the customer.
-      x-internal: false
     attribute_Post:
       title: attribute_Post
       example:
@@ -345,6 +300,51 @@ components:
       required:
       - name
       - type
+      x-internal: false
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    attribute_Put:
+      title: attribute_Put
+      type: object
+      properties:
+        name:
+          description: Attribute name.
+          type: string
+          minLength: 1
+          maxLength: 255
+        id:
+          description: Attribute ID.
+          type: integer
+          format: int32
+      required:
+      - name
+      - id
+      description: Once the data type is set, it can not be changed. The attribute will need to be deleted then created again with the new data type. This will also delete it from the customer.
+      x-internal: false
+    ErrorResponse:
+      title: Error Response
+      type: object
+      properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+          format: int32
+        title:
+          description: The error title describing the particular error.
+          type: string
+        type:
+          description: A link to a list of BigCommerce API status codes.
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
       x-internal: false
   responses:
     CustomerAttributesResponse:

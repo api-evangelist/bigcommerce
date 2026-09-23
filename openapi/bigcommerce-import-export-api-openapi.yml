@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: BigCommerce Redirects Import Export API
-  description: Manage 301 redirects for one or more storefronts powered by a single BigCommerce backend. For a list of redirects that are not allowed, see the [301 Redirects FAQ](https://support.bigcommerce.com/s/article/301-Redirects#faq) in our Help Center.
+  description: Manage 301 redirects for one or more storefronts powered by a single BigCommerce backend. For a list of redirects that are not allowed, see the 301 Redirects FAQ in our Help Center.
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -18,14 +18,14 @@ servers:
 security:
 - X-Auth-Token: []
 tags:
-- name: Import-Export
+- name: Import Export
 paths:
   /storefront/redirects/imex/jobs:
     parameters:
     - $ref: '#/components/parameters/Accept'
     get:
       tags:
-      - Import-Export
+      - Import Export
       summary: BigCommerce Get Redirect Import-Export Jobs
       description: Returns a collection of the storeʼs 301 redirects across all sites.
       operationId: getRedirectImportExportJobs
@@ -81,7 +81,7 @@ paths:
     - $ref: '#/components/parameters/Accept'
     post:
       tags:
-      - Import-Export
+      - Import Export
       summary: BigCommerce Create Redirects Export Job
       description: Creates a new 301 Redirects export job.
       operationId: createRedirectExportJob
@@ -131,7 +131,7 @@ paths:
     - $ref: '#/components/parameters/Accept'
     post:
       tags:
-      - Import-Export
+      - Import Export
       summary: BigCommerce Create Redirects Import Job
       description: Creates a new 301 Redirects import job.
       operationId: createRedirectImportJob
@@ -184,7 +184,7 @@ paths:
     - $ref: '#/components/parameters/ImportExportIdParam'
     get:
       tags:
-      - Import-Export
+      - Import Export
       summary: BigCommerce Open Redirect Export Event Stream
       description: Opens an event stream to receive live updates from an export job.
       operationId: getRedirectExportEvents
@@ -204,7 +204,7 @@ paths:
     - $ref: '#/components/parameters/ImportExportIdParam'
     get:
       tags:
-      - Import-Export
+      - Import Export
       summary: BigCommerce Open Redirect Import Event Stream
       description: Opens an event stream to receive live updates from an import job.
       operationId: getRedirectImportEvents
@@ -224,7 +224,7 @@ paths:
     - $ref: '#/components/parameters/ImportExportIdParam'
     get:
       tags:
-      - Import-Export
+      - Import Export
       summary: BigCommerce Download Redirect Export
       description: Downloads the CSV file containing the results of an export job.
       operationId: getRedirectExportDownload
@@ -245,22 +245,6 @@ paths:
           description: The requested export download does not exist.
 components:
   schemas:
-    ImportExportJobType:
-      type: string
-      enum:
-      - import
-      - export
-    ImportErrors:
-      type: array
-      items:
-        type: object
-        description: Detail of an error that occurred during an import job.
-        properties:
-          row:
-            type: integer
-            description: The row in the import CSV where the error occurred.
-          message:
-            type: string
     ImportExportJobStatus:
       type: string
       enum:
@@ -269,39 +253,6 @@ components:
       - complete
       - aborted
       - failed
-    301RedirectImportExportJobRead:
-      type: object
-      description: Full detail of a Redirect Import-Export job.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The Import-Export job ID.
-        type:
-          $ref: '#/components/schemas/ImportExportJobType'
-        status:
-          $ref: '#/components/schemas/ImportExportJobStatus'
-        completed_items:
-          type: integer
-          description: The number of items that were successfully imported or exported.
-        failed_items:
-          type: integer
-          description: The number of items that were not successfully imported or exported.
-        total_items:
-          type: integer
-          description: The number of items in the import or export job.
-        errors:
-          $ref: '#/components/schemas/ImportErrors'
-        created_at:
-          type: string
-          format: date-time
-          description: The date-time that the import-export job was created, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
-          example: '2022-01-04T04:15:50.000Z'
-        completed_at:
-          type: string
-          format: date-time
-          description: The date-time that the import-export job was completed, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
-          example: '2022-01-04T04:15:50.000Z'
     MetaPaginationObject:
       type: object
       properties:
@@ -337,15 +288,56 @@ components:
                 current:
                   type: string
                   example: ?limit=5&page=1
+    ImportErrors:
+      type: array
+      items:
+        type: object
+        description: Detail of an error that occurred during an import job.
+        properties:
+          row:
+            type: integer
+            description: The row in the import CSV where the error occurred.
+          message:
+            type: string
+    301RedirectImportExportJobRead:
+      type: object
+      description: Full detail of a Redirect Import-Export job.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The Import-Export job ID.
+        type:
+          $ref: '#/components/schemas/ImportExportJobType'
+        status:
+          $ref: '#/components/schemas/ImportExportJobStatus'
+        completed_items:
+          type: integer
+          description: The number of items that were successfully imported or exported.
+        failed_items:
+          type: integer
+          description: The number of items that were not successfully imported or exported.
+        total_items:
+          type: integer
+          description: The number of items in the import or export job.
+        errors:
+          $ref: '#/components/schemas/ImportErrors'
+        created_at:
+          type: string
+          format: date-time
+          description: The date-time that the import-export job was created, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
+          example: '2022-01-04T04:15:50.000Z'
+        completed_at:
+          type: string
+          format: date-time
+          description: The date-time that the import-export job was completed, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
+          example: '2022-01-04T04:15:50.000Z'
+    ImportExportJobType:
+      type: string
+      enum:
+      - import
+      - export
   parameters:
-    ContentTypeCsv:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: text/csv
     Accept:
       name: Accept
       in: header
@@ -354,14 +346,6 @@ components:
       schema:
         type: string
         default: application/json
-    ImportExportIdParam:
-      name: uuid
-      description: The import-export job identifier.
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
     AcceptEventStream:
       name: Accept
       in: header
@@ -370,6 +354,22 @@ components:
       schema:
         type: string
         default: text/event-stream
+    ImportExportIdParam:
+      name: uuid
+      description: The import-export job identifier.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    ContentTypeCsv:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: text/csv
     ContentType:
       name: Content-Type
       in: header

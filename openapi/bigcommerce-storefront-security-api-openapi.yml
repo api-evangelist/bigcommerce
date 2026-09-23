@@ -26,7 +26,13 @@ paths:
     get:
       summary: BigCommerce Get Storefront Security Settings
       operationId: getSettingsStorefrontSecurity
-      description: "Returns security settings.\n\n - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level."
+      description: 'Returns security settings.
+
+
+        - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only.
+
+
+        - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level.'
       parameters:
       - $ref: '#/components/parameters/ChannelIdParam'
       responses:
@@ -46,7 +52,13 @@ paths:
     put:
       summary: BigCommerce Update Storefront Security Settings
       operationId: updateSettingsStorefrontSecurity
-      description: "Updates security settings.\n\n - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel."
+      description: 'Updates security settings.
+
+
+        - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only.
+
+
+        - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel.'
       parameters:
       - $ref: '#/components/parameters/ContentType'
       - $ref: '#/components/parameters/ChannelIdParam'
@@ -71,12 +83,15 @@ paths:
       - Storefront Security
 components:
   schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
+    HSTSMaxAgeEnumValues:
+      type: string
+      enum:
+      - zero_seconds
+      - five_minutes
+      - one_year
+      title: HSTSMaxAgeEnumValues
+      x-tags:
+      - Models
     StorefrontSecuritySettings:
       type: object
       properties:
@@ -115,15 +130,12 @@ components:
               - allow_from_url
       title: StorefrontSecuritySettings
       x-internal: false
-    HSTSMaxAgeEnumValues:
-      type: string
-      enum:
-      - zero_seconds
-      - five_minutes
-      - one_year
-      title: HSTSMaxAgeEnumValues
-      x-tags:
-      - Models
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   parameters:
     Accept:
       name: Accept
@@ -133,6 +145,12 @@ components:
       schema:
         type: string
         default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
     ContentType:
       name: Content-Type
       in: header
@@ -141,12 +159,6 @@ components:
       schema:
         type: string
         default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

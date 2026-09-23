@@ -7,7 +7,10 @@ info:
     name: BigCommerce
     url: https://www.bigcommerce.com
     email: support@bigcommerce.com
-  description: "## Overview\n\nA **page** appears on a **site** that is associated with a **channel**. \n\nSome pages, such as blog pages, contact forms, and plain-text or HTML pages, are web pages in the traditional sense. They contain markup (a `body`) and load at a relative page location on the site itself (the `url`). Other pages, such as link and feed pages, make external or non-visual content available from the menu of a parent page or by direct link.\n\n### Bulk operations\nAll endpoints without a `pageId` path parameter support bulk operations.\n\n### Page types\n\nThe following table describes the types of pages that the Pages API can manage:\n\n| Page Type | Description | Body |\n|:-|:|:--|\n| `page` | A user-defined plain-text page. | text |\n| `contact_form` | A user-customizable page that contains a contact form. | HTML |\n| `raw` | A user-defined page that contains HTML markup or other stringified code. | HTML, other code |\n| `blog` | A page that contains blog posts. Use caution; `blog`-type pages can only be created in the store control panel, but you may be able to change the type of a blog page to something else with this API. Use the [Store Content API](/docs/rest-content/store-content/blog-posts#create-a-blog-post) to work with blog posts and tags. | empty string |\n| `feed` | Makes RSS-syndicated content feeds available in the menu of other pages that contain markup. | &mdash; |\n| `link` | A link to an external absolute URL. Displays in the menu of other pages that contain markup. | &mdash; |"
+  description: '## Overview
+
+
+    A **page** appears on a **site** that is associated with a **channel**.'
 servers:
 - url: https://api.bigcommerce.com/stores/{store_hash}/v3
   variables:
@@ -35,7 +38,7 @@ paths:
 
         > **Pay attention to query parameters**
 
-        > This endpoint recognizes the same query parameters as [Get Multiple Pages](/docs/rest-content/pages#get-pages). If the requested page does not meet the query parameters you specify, you will receive a 404 response even if the requested `pageId` does exist.'
+        > This endpoint recognizes the same query parameters as Get Multiple Pages. If the requested page does not meet the query parameters you specify, you will receive a 404 response even if the requested `pageId` does exist.'
       responses:
         '200':
           description: ''
@@ -290,170 +293,8 @@ paths:
       parameters: []
       summary: BigCommerce Delete a Page
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
-    includeQuery:
-      schema:
-        type: string
-        enum:
-        - body
-      in: query
-      name: include
-      description: Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content.
-    pageIdPath:
-      schema:
-        type: string
-      name: pageId
-      in: path
-      required: true
-      description: The ID of the page to be operated on.
   schemas:
-    ResponseErrorItemized:
-      type: object
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      title: ResponseErrorItemized
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-      required:
-      - status
-    Page:
-      allOf:
-      - type: object
-        properties:
-          email:
-            type: string
-            description: 'Applicable when the page type is `contact_form`: contact email address that receives messages sent via the form. Must be unique.'
-            maxLength: 255
-            default: ''
-          meta_title:
-            type:
-            - string
-            - 'null'
-          body:
-            type:
-            - string
-            - 'null'
-            description: 'HTML or variable that populates this page’s element, in default/desktop view. Required in a `POST` request if the page type is `raw`.
-
-              '
-            example: <div>Hello World!</div>
-          feed:
-            type: string
-            description: 'The URL of the RSS feed. Required in a `POST` request if the page type is `rss_feed`.
-
-              '
-          link:
-            type: string
-            description: 'Required in a `POST` request to create a link if the page type is `link`.
-
-              '
-          contact_fields:
-            type: string
-            description: 'Applicable when the page type is `contact_form`: comma-separated list of keywords representing the fields enabled in the control panel for storefront display. Possible fields include:
-
-
-              |Field|Description|
-
-              |-|-|
-
-              |`fullname`|Full name of the customer submitting the form|
-
-              |`phone`|Customer’s phone number, as submitted on the form|
-
-              |`companyname`|Customer’s submitted company name|
-
-              |`orderno`|Customer’s submitted order number|
-
-              |`rma`|Customer’s submitted RMA (Return Merchandise Authorization) number|
-
-              '
-            example: fullname,orderno,rma
-            default: ''
-          meta_keywords:
-            description: 'Comma-separated list of SEO-relevant keywords to include in the page’s element.
-
-              '
-            default: ''
-            type:
-            - string
-            - 'null'
-          meta_description:
-            type:
-            - string
-            - 'null'
-            description: 'Description contained within this page’s element.
-
-              '
-          search_keywords:
-            type:
-            - string
-            - 'null'
-            description: 'Comma-separated list of keywords that shoppers can use to locate this page when searching the store.
-
-              '
-            example: trousers,pockets,luxury
-          url:
-            type: string
-            description: 'Relative URL on the storefront for this page.
-
-              '
-            example: /my-store-page
-          channel_id:
-            type: integer
-            description: 'The Id of the channel where this page should be shown.
-
-              '
-            example: 12
-            default: 1
-      - $ref: '#/components/schemas/PageBase'
-      title: ''
-      description: ''
-    PageResponse:
-      description: 'Response payload for the BigCommerce API.
-
-        '
-      x-examples: {}
-      allOf:
-      - properties:
-          data:
-            type: object
-            items:
-              $ref: '#/components/schemas/Page'
-          meta:
-            $ref: '#/components/schemas/ResponseMeta'
-      title: PageResponseObject
-      type: object
-    ResponseErrorDetailed:
+    ResponseErrorBrief:
       type: object
       description: 'Error payload for the BigCommerce API.
 
@@ -471,68 +312,8 @@ components:
           type: string
         type:
           type: string
-        detail:
-          type: string
       required:
       - status
-    ResponseMeta:
-      type: object
-      description: 'Data about the response, including pagination and collection totals.
-
-        '
-      properties:
-        pagination:
-          type: object
-          description: 'Data about the response, including pagination and collection totals.
-
-            '
-          properties:
-            total:
-              type: integer
-              description: 'Total number of items in the result set.
-
-                '
-            count:
-              type: integer
-              description: 'Total number of items in the collection response.
-
-                '
-            per_page:
-              type: integer
-              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
-
-                '
-            current_page:
-              type: integer
-              description: 'The page you are currently on within the collection.
-
-                '
-            total_pages:
-              type: integer
-              description: 'The total number of pages in the collection.
-
-                '
-            links:
-              type: object
-              description: 'Pagination links for the previous and next parts of the whole collection.
-
-                '
-              properties:
-                previous:
-                  type: string
-                  description: 'Link to the previous page returned in the response.
-
-                    '
-                current:
-                  type: string
-                  description: 'Link to the current page returned in the response.
-
-                    '
-                next:
-                  type: string
-                  description: 'Link to the next page returned in the response.
-
-                    '
     PagePut:
       type: object
       description: Properties of the page modification request body.
@@ -687,6 +468,104 @@ components:
           default: 0
       required:
       - id
+    ResponseErrorItemized:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      title: ResponseErrorItemized
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+      required:
+      - status
+    PageResponse:
+      description: 'Response payload for the BigCommerce API.
+
+        '
+      x-examples: {}
+      allOf:
+      - properties:
+          data:
+            type: object
+            items:
+              $ref: '#/components/schemas/Page'
+          meta:
+            $ref: '#/components/schemas/ResponseMeta'
+      title: PageResponseObject
+      type: object
+    ResponseMeta:
+      type: object
+      description: 'Data about the response, including pagination and collection totals.
+
+        '
+      properties:
+        pagination:
+          type: object
+          description: 'Data about the response, including pagination and collection totals.
+
+            '
+          properties:
+            total:
+              type: integer
+              description: 'Total number of items in the result set.
+
+                '
+            count:
+              type: integer
+              description: 'Total number of items in the collection response.
+
+                '
+            per_page:
+              type: integer
+              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+                '
+            current_page:
+              type: integer
+              description: 'The page you are currently on within the collection.
+
+                '
+            total_pages:
+              type: integer
+              description: 'The total number of pages in the collection.
+
+                '
+            links:
+              type: object
+              description: 'Pagination links for the previous and next parts of the whole collection.
+
+                '
+              properties:
+                previous:
+                  type: string
+                  description: 'Link to the previous page returned in the response.
+
+                    '
+                current:
+                  type: string
+                  description: 'Link to the current page returned in the response.
+
+                    '
+                next:
+                  type: string
+                  description: 'Link to the next page returned in the response.
+
+                    '
     PageBase:
       type: object
       description: Common Page properties.
@@ -757,7 +636,99 @@ components:
       required:
       - name
       - type
-    ResponseErrorBrief:
+    Page:
+      allOf:
+      - type: object
+        properties:
+          email:
+            type: string
+            description: 'Applicable when the page type is `contact_form`: contact email address that receives messages sent via the form. Must be unique.'
+            maxLength: 255
+            default: ''
+          meta_title:
+            type:
+            - string
+            - 'null'
+          body:
+            type:
+            - string
+            - 'null'
+            description: 'HTML or variable that populates this page’s element, in default/desktop view. Required in a `POST` request if the page type is `raw`.
+
+              '
+            example: <div>Hello World!</div>
+          feed:
+            type: string
+            description: 'The URL of the RSS feed. Required in a `POST` request if the page type is `rss_feed`.
+
+              '
+          link:
+            type: string
+            description: 'Required in a `POST` request to create a link if the page type is `link`.
+
+              '
+          contact_fields:
+            type: string
+            description: 'Applicable when the page type is `contact_form`: comma-separated list of keywords representing the fields enabled in the control panel for storefront display. Possible fields include:
+
+
+              |Field|Description|
+
+              |-|-|
+
+              |`fullname`|Full name of the customer submitting the form|
+
+              |`phone`|Customer’s phone number, as submitted on the form|
+
+              |`companyname`|Customer’s submitted company name|
+
+              |`orderno`|Customer’s submitted order number|
+
+              |`rma`|Customer’s submitted RMA (Return Merchandise Authorization) number|
+
+              '
+            example: fullname,orderno,rma
+            default: ''
+          meta_keywords:
+            description: 'Comma-separated list of SEO-relevant keywords to include in the page’s element.
+
+              '
+            default: ''
+            type:
+            - string
+            - 'null'
+          meta_description:
+            type:
+            - string
+            - 'null'
+            description: 'Description contained within this page’s element.
+
+              '
+          search_keywords:
+            type:
+            - string
+            - 'null'
+            description: 'Comma-separated list of keywords that shoppers can use to locate this page when searching the store.
+
+              '
+            example: trousers,pockets,luxury
+          url:
+            type: string
+            description: 'Relative URL on the storefront for this page.
+
+              '
+            example: /my-store-page
+          channel_id:
+            type: integer
+            description: 'The Id of the channel where this page should be shown.
+
+              '
+            example: 12
+            default: 1
+      - $ref: '#/components/schemas/PageBase'
+      title: ''
+      description: ''
+    ResponseErrorDetailed:
       type: object
       description: 'Error payload for the BigCommerce API.
 
@@ -775,8 +746,40 @@ components:
           type: string
         type:
           type: string
+        detail:
+          type: string
       required:
       - status
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
+    pageIdPath:
+      schema:
+        type: string
+      name: pageId
+      in: path
+      required: true
+      description: The ID of the page to be operated on.
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
+    includeQuery:
+      schema:
+        type: string
+        enum:
+        - body
+      in: query
+      name: include
+      description: Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content.
   responses:
     HTTP204:
       description: No content. A 204 response with no payload indicates successful deletion of all specified pages.

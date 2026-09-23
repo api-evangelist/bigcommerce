@@ -288,64 +288,7 @@ paths:
 
         Theme variations can not be deleted using this endpoint. This will delete the theme and all variations.'
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    ThemeIdParam:
-      name: uuid
-      description: The theme identifier.
-      in: path
-      required: true
-      schema:
-        type: string
   schemas:
-    Theme:
-      description: A theme.
-      type: object
-      properties:
-        variations:
-          description: The variations.
-          type: array
-          items:
-            description: A variation.
-            type: object
-            properties:
-              description:
-                description: The description.
-                type: string
-              external_id:
-                description: The external identifier.
-                type: string
-              name:
-                description: The name.
-                type: string
-              uuid:
-                description: The identifier.
-                type: string
-        uuid:
-          description: The identifier.
-          type: string
-        name:
-          description: The theme name identifier.
-          type: string
-        is_private:
-          description: Flag to identify private themes.
-          type: boolean
-      x-internal: false
     CollectionMeta:
       type: object
       description: Data about the response, including pagination and collection totals.
@@ -409,26 +352,38 @@ components:
                     '
       title: Collection Meta
       x-internal: false
-    ThemeResponse:
-      description: 'Response payload for the BigCommerce API.
-
-        '
-      type: object
-      title: Theme Response
-      properties:
-        data:
-          $ref: '#/components/schemas/Theme'
-        meta:
-          $ref: '#/components/schemas/CollectionMeta'
-      x-internal: false
-    JobId:
-      description: The job identifier for theme upload or download.
+    Theme:
+      description: A theme.
       type: object
       properties:
-        job_id:
-          description: The job identifier.
+        variations:
+          description: The variations.
+          type: array
+          items:
+            description: A variation.
+            type: object
+            properties:
+              description:
+                description: The description.
+                type: string
+              external_id:
+                description: The external identifier.
+                type: string
+              name:
+                description: The name.
+                type: string
+              uuid:
+                description: The identifier.
+                type: string
+        uuid:
+          description: The identifier.
           type: string
-      title: Job Id
+        name:
+          description: The theme name identifier.
+          type: string
+        is_private:
+          description: Flag to identify private themes.
+          type: boolean
       x-internal: false
     ThemesCollectionResponse:
       description: 'Response payload for the BigCommerce API.
@@ -534,6 +489,51 @@ components:
           title: Collection Meta
       title: Themes Collection Response
       x-internal: false
+    ThemeResponse:
+      description: 'Response payload for the BigCommerce API.
+
+        '
+      type: object
+      title: Theme Response
+      properties:
+        data:
+          $ref: '#/components/schemas/Theme'
+        meta:
+          $ref: '#/components/schemas/CollectionMeta'
+      x-internal: false
+    JobId:
+      description: The job identifier for theme upload or download.
+      type: object
+      properties:
+        job_id:
+          description: The job identifier.
+          type: string
+      title: Job Id
+      x-internal: false
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ThemeIdParam:
+      name: uuid
+      description: The theme identifier.
+      in: path
+      required: true
+      schema:
+        type: string
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -1,7 +1,16 @@
 openapi: 3.2.0
 info:
   title: BigCommerce Content Blog Posts API
-  description: "Manage blog posts, blog tags, content pages, and redirects.\n\n> #### Warning\n> **Deprecations**\n> * Redirects V2 are deprecated; use [Redirects V3](/docs/rest-management/redirects) instead. \n> * Pages V2 are deprecated; use [Pages V3](/docs/rest-content/pages) instead."
+  description: 'Manage blog posts, blog tags, content pages, and redirects.
+
+
+    > #### Warning
+
+    > **Deprecations**
+
+    > * Redirects V2 are deprecated; use Redirects V3 instead.
+
+    > * Pages V2 are deprecated; use Pages V3 instead.'
   version: ''
   termsOfService: https://www.bigcommerce.com/terms
   contact:
@@ -143,15 +152,15 @@ paths:
 
         **Required Fields**
 
-        *   `title`
+        * `title`
 
-        *   `body`
+        * `body`
 
 
         **Notes**
 
 
-        * When including `published_date` in a request, supply it as a flat date string (not an object) in valid <a href="http://tools.ietf.org/html/rfc2822#section-3.3" target="_blank">RFC 2822</a>. The following example request includes a `published_date` in RFC 2822 format.
+        * When including `published_date` in a request, supply it as a flat date string (not an object) in valid RFC 2822. The following example request includes a `published_date` in RFC 2822 format.
 
         * Blog posts default to draft status. To publish blog posts to the storefront, set the `is_published` property to `true`.
 
@@ -275,7 +284,7 @@ paths:
         **Notes**
 
 
-        * To include `published_date` in a request, provide a flat date string (not an object) in valid <a href="http://tools.ietf.org/html/rfc2822#section-3.3" target="_blank">RFC 2822</a>. The following example request includes a `published_date` in RFC 2822 format.
+        * To include `published_date` in a request, provide a flat date string (not an object) in valid RFC 2822. The following example request includes a `published_date` in RFC 2822 format.
 
 
         * Blog posts default to draft status. To publish blog posts to the storefront, set the `is_published` property to `true`.'
@@ -351,6 +360,23 @@ paths:
               example:
                 count: 27
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
     count_Response:
       title: count_Response
@@ -363,69 +389,6 @@ components:
       example:
         count: 27
       x-internal: false
-    blogPost_Base_Post:
-      title: blogPost_Base_Post
-      type: object
-      example:
-        title: Welcome to BigCommerce
-        url: /blog/welcome-bigcommerce/
-        preview_url: /blog/welcome-bigcommerce/
-        body: '<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>'
-        tags:
-        - string
-        summary: <p>We power ecommerce websites for successful retailers all over the world</p>
-        is_published: true
-        published_date: Thu, 18 May 2023 13:26:42 -0000
-        published_date_iso8601: 5/18/2023 1:26:42 PM
-        meta_description: Welcome Post
-        meta_keywords: BigCommerce, welcome, ecommerce
-        author: BigCommerce
-        thumbnail_path: string
-      description: blogPost base for POST requests
-      properties:
-        title:
-          type: string
-          description: Title of this blog post.
-          example: Welcome to BigCommerce
-        url:
-          type: string
-          description: URL for the public blog post.
-          example: /blog/welcome-bigcommerce/
-        body:
-          type: string
-          description: Text body of the blog post.
-          example: '<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>'
-        tags:
-          type: array
-          description: Tags to characterize the blog post.
-          items:
-            type: string
-        is_published:
-          type: boolean
-          description: Whether the blog post is published. If you want the post to be or remain published following the request, you must set the field explicitly to true, even if the blog post was already published prior to the request.
-          default: false
-          example: true
-        meta_description:
-          type: string
-          description: Description text for this blog post’s `<meta/>` element.
-          example: Welcome Post
-        meta_keywords:
-          type: string
-          description: Keywords for this blog post’s `<meta/>` element.
-          example: BigCommerce, welcome, ecommerce
-        author:
-          type: string
-          description: Name of the blog post’s author.
-          example: BigCommerce
-        thumbnail_path:
-          type: string
-          description: Local path to a thumbnail uploaded to `/product_images/` using [WebDAV](https://support.bigcommerce.com/s/article/File-Access-WebDAV).
-        published_date:
-          type: string
-          example: Wed, 10 Aug 2022 15:39:15 -0500
-      required:
-      - title
-      - body
     blogPost_Full:
       title: blogPost_Full
       allOf:
@@ -458,6 +421,20 @@ components:
           meta_keywords: BigCommerce, welcome, ecommerce
           author: BigCommerce
           thumbnail_path: string
+    publishedDate:
+      type: object
+      x-internal: false
+      properties:
+        timezone_type:
+          type: integer
+          example: 1
+        date:
+          type: string
+          format: date-time
+          example: '2022-08-10 14:39:15.000000'
+        timezone:
+          type: string
+          example: +00:00
     blogPost_Base_Res:
       title: blogPost_Base_Res
       type: object
@@ -526,37 +503,69 @@ components:
           - string
           - 'null'
           description: Local path to a thumbnail uploaded to `/product_images/` using [WebDAV](https://support.bigcommerce.com/s/article/File-Access-WebDAV).
-    publishedDate:
+    blogPost_Base_Post:
+      title: blogPost_Base_Post
       type: object
-      x-internal: false
+      example:
+        title: Welcome to BigCommerce
+        url: /blog/welcome-bigcommerce/
+        preview_url: /blog/welcome-bigcommerce/
+        body: '<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>'
+        tags:
+        - string
+        summary: <p>We power ecommerce websites for successful retailers all over the world</p>
+        is_published: true
+        published_date: Thu, 18 May 2023 13:26:42 -0000
+        published_date_iso8601: 5/18/2023 1:26:42 PM
+        meta_description: Welcome Post
+        meta_keywords: BigCommerce, welcome, ecommerce
+        author: BigCommerce
+        thumbnail_path: string
+      description: blogPost base for POST requests
       properties:
-        timezone_type:
-          type: integer
-          example: 1
-        date:
+        title:
           type: string
-          format: date-time
-          example: '2022-08-10 14:39:15.000000'
-        timezone:
+          description: Title of this blog post.
+          example: Welcome to BigCommerce
+        url:
           type: string
-          example: +00:00
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
+          description: URL for the public blog post.
+          example: /blog/welcome-bigcommerce/
+        body:
+          type: string
+          description: Text body of the blog post.
+          example: '<p>Customize your site, manage shipping and payments, and list your products on Amazon, eBay, and Facebook by Meta with the #1 ecommerce platform. </p>'
+        tags:
+          type: array
+          description: Tags to characterize the blog post.
+          items:
+            type: string
+        is_published:
+          type: boolean
+          description: Whether the blog post is published. If you want the post to be or remain published following the request, you must set the field explicitly to true, even if the blog post was already published prior to the request.
+          default: false
+          example: true
+        meta_description:
+          type: string
+          description: Description text for this blog post’s `<meta/>` element.
+          example: Welcome Post
+        meta_keywords:
+          type: string
+          description: Keywords for this blog post’s `<meta/>` element.
+          example: BigCommerce, welcome, ecommerce
+        author:
+          type: string
+          description: Name of the blog post’s author.
+          example: BigCommerce
+        thumbnail_path:
+          type: string
+          description: Local path to a thumbnail uploaded to `/product_images/` using [WebDAV](https://support.bigcommerce.com/s/article/File-Access-WebDAV).
+        published_date:
+          type: string
+          example: Wed, 10 Aug 2022 15:39:15 -0500
+      required:
+      - title
+      - body
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

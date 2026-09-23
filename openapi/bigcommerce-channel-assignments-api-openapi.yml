@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: BigCommerce Catalog - Products Channel Assignments API
-  description: "> The Catalog API manages products, categories, brands, bulk pricing rules, and more. To learn more about catalog resources, see the [Catalog Overview](/docs/store-operations/catalog).\n\nOur Catalog Products endpoints let you [create products](/docs/rest-catalog/products#create-a-product), perform [batch operations on existing products](/docs/rest-catalog/products#update-products-batch) and work with [reviews](/docs/rest-catalog/products/reviews), [images](/docs/rest-catalog/products/images), and [videos](/docs/rest-catalog/products/videos). Note that after a product is created initially, you can manage the nuances of its variations using the [Product Modifier](/docs/rest-catalog/product-modifiers), [Product Variant](/docs/rest-catalog/product-variants), and [Product Variant Options](/docs/rest-catalog/product-variant-options) endpoints. \n\nOther core product endpoints focus on [bulk pricing](/docs/rest-catalog/products/bulk-pricing-rules), [complex rules](/docs/rest-catalog/products/complex-rules), [custom fields](/docs/rest-catalog/products/custom-fields), and [metafields](/docs/rest-catalog/products/metafields). Product Variant objects also contain [their own metafields](/docs/rest-catalog/product-variants/metafields). For [MSF-enabled](/docs/storefront/multi-storefront) stores, the product object also contains product [channel assignments](/docs/rest-catalog/products/channel-assignments) and [category assignments](/docs/rest-catalog/products/category-assignments); read more about [products in the MSF context](/docs/storefront/multi-storefront/guide#products). \n\nThis API family also contains an endpoint to [Get a catalog summary](/docs/rest-catalog/products/summary).\n\n> To learn more about authenticating Catalog endpoints, locate the **Authentication** section at the top of each endpoint, then click **Show Details**. \n\n## Resources\n\n### Webhooks\n* [Product webhook events](/docs/integrations/webhooks/events#products)\n* [Product assignment webhook events](/docs/integrations/webhooks/events/channels#product-assignments) \n\n### Additional Catalog endpoints\n* [Brands](/docs/rest-catalog/brands)\n* [Categories](/docs/rest-catalog/categories)\n* [Category Trees](/docs/rest-catalog/category-trees)\n* [Product Modifiers](/docs/rest-catalog/product-modifiers)\n* [Product Variants](/docs/rest-catalog/product-variants)\n* [Product Variant Options](/docs/rest-catalog/product-variant-options)"
+  description: '> The Catalog API manages products, categories, brands, bulk pricing rules, and more.'
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -112,20 +112,6 @@ paths:
                 $ref: '#/components/schemas/beta5ErrorResponse'
 components:
   schemas:
-    ProductChannelAssignment:
-      properties:
-        product_id:
-          type: integer
-        channel_id:
-          type: integer
-      x-tags:
-      - Models
-    beta5DetailedErrors:
-      type: object
-      properties: {}
-      additionalProperties: true
-      x-tags:
-      - Models
     beta5ErrorResponse:
       allOf:
       - $ref: '#/components/schemas/BaseError'
@@ -133,6 +119,14 @@ components:
         properties:
           errors:
             $ref: '#/components/schemas/beta5DetailedErrors'
+      x-tags:
+      - Models
+    ProductChannelAssignment:
+      properties:
+        product_id:
+          type: integer
+        channel_id:
+          type: integer
       x-tags:
       - Models
     MetaPaginationObject:
@@ -170,6 +164,12 @@ components:
                 current:
                   type: string
                   example: ?limit=5&page=1
+      x-tags:
+      - Models
+    beta5DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
       x-tags:
       - Models
     BaseError:

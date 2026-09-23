@@ -1,42 +1,7 @@
 openapi: 3.2.0
 info:
   title: BigCommerce Catalog - Category Trees Categories API
-  description: '> The Catalog API manages products, categories, brands, bulk pricing rules, and more. To learn more about catalog resources, see the [Catalog Overview](/docs/store-operations/catalog).
-
-
-    Our Catalog Category Trees and their [Categories](/docs/rest-catalog/category-trees/categories) endpoints are the more modern and performant counterparts to the [Categories (deprecated)](/docs/rest-catalog/categories) endpoints. Although the Category Trees endpoints and objects are designed to center an MSF-compatible, [multi-tenant category tree architecture](#categories), the endpoints work just as well in a single storefront context and support batch requests. Use [Catalog Trees Categories](/docs/rest-catalog/category-trees/categories) endpoints, instead of [Categories (deprecated)](/docs/rest-catalog/categories) endpoints.
-
-
-    The Category Trees endpoints let you [get the Categories for a specific tree](/docs/rest-catalog/category-trees/categories#get-a-category-tree), and [bulk create](/docs/rest-catalog/category-trees/categories#create-categories), [bulk update](/docs/rest-catalog/category-trees/categories#update-categories), and [bulk delete](/docs/rest-catalog/category-trees/categories#delete-categories) Categories. You can also [bulk update the properties of Category Trees](/docs/rest-catalog/category-trees#upsert-category-trees), which includes changing the channels to which a Tree is assigned.
-
-
-    The terms "category tree" and "catalog tree" are used interchangeably throughout the documentation.
-
-
-    > To learn more about authenticating Catalog endpoints, locate the **Authentication** section at the top of each endpoint, then click **Show Details**.
-
-
-    ## Resources
-
-
-    ### Webhooks
-
-    Learn more about [Category Tree webhook events](/docs/integrations/webhooks/events/channels#category-trees).
-
-
-    ### Additional Catalog endpoints
-
-    * [Brands](/docs/rest-catalog/brands)
-
-    * [Categories](/docs/rest-catalog/categories)
-
-    * [Products](/docs/rest-catalog/products)
-
-    * [Product Modifiers](/docs/rest-catalog/product-modifiers)
-
-    * [Product Variants](/docs/rest-catalog/product-variants)
-
-    * [Product Variant Options](/docs/rest-catalog/product-variant-options)'
+  description: '> The Catalog API manages products, categories, brands, bulk pricing rules, and more.'
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -60,7 +25,10 @@ paths:
     - $ref: '#/components/parameters/Accept'
     get:
       summary: BigCommerce Get All Categories
-      description: "Returns a list of categories. \n\nTo get a specific category in a tree, provide a category ID."
+      description: 'Returns a list of categories.
+
+
+        To get a specific category in a tree, provide a category ID.'
       tags:
       - Categories
       parameters:
@@ -192,7 +160,14 @@ paths:
       operationId: getAllCategories
     post:
       summary: BigCommerce Create Categories
-      description: "Creates new categories. \n\nCreating a category requires:\n - `name`\n - `tree_id` or `parent_id` "
+      description: 'Creates new categories.
+
+
+        Creating a category requires:
+
+        - `name`
+
+        - `tree_id` or `parent_id`'
       parameters:
       - $ref: '#/components/parameters/ContentType'
       tags:
@@ -266,7 +241,10 @@ paths:
       operationId: createCategories
     put:
       summary: BigCommerce Update Categories
-      description: "Updates existing categories. \n\n To update a specific category in a tree, provide a category id."
+      description: 'Updates existing categories.
+
+
+        To update a specific category in a tree, provide a category id.'
       parameters:
       - $ref: '#/components/parameters/ContentType'
       tags:
@@ -311,7 +289,10 @@ paths:
       operationId: updateCategories
     delete:
       summary: BigCommerce Delete Categories
-      description: "Deletes categories. \n\nTo delete a specific category in a tree, provide a category ID."
+      description: 'Deletes categories.
+
+
+        To delete a specific category in a tree, provide a category ID.'
       tags:
       - Categories
       parameters:
@@ -353,197 +334,6 @@ paths:
       operationId: deleteTreeCategories
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          $ref: '#/components/schemas/MetaError'
-        meta:
-          $ref: '#/components/schemas/MetaData'
-      x-tags:
-      - Models
-    ErrorBasic:
-      type: object
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-      x-tags:
-      - Models
-    url:
-      title: URL
-      description: 'If not provided, the URL is autogenerated from the category name.
-
-        '
-      type: object
-      properties:
-        path:
-          type: string
-          example: /bath/
-        is_customized:
-          type: boolean
-          example: false
-    PartialSuccessResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/GetCategories'
-        errors:
-          $ref: '#/components/schemas/MetaError'
-        meta:
-          $ref: '#/components/schemas/MetaData'
-      x-tags:
-      - Models
-    parent_id:
-      title: Parent ID
-      type: integer
-      description: 'The unique numeric ID of the categoryʼs parent. This field controls where the category sits in the tree of categories that organize the catalog.
-
-        Required in a POST if creating a child category.'
-      example: 0
-    tree_id:
-      title: Tree ID
-      type: integer
-      description: The ID of the Category Tree.
-      example: 1
-    MetaData:
-      type: object
-      properties:
-        total:
-          type: integer
-        success:
-          type: integer
-        failed:
-          type: integer
-      x-tags:
-      - Models
-    UpdateCategories:
-      type: array
-      items:
-        allOf:
-        - type: object
-          properties:
-            category_id:
-              $ref: '#/components/schemas/category_id'
-            name:
-              $ref: '#/components/schemas/name'
-            tree_id:
-              $ref: '#/components/schemas/tree_id'
-            parent_id:
-              $ref: '#/components/schemas/parent_id'
-          required:
-          - category_id
-        - $ref: '#/components/schemas/CategoryBase'
-        - type: object
-          properties:
-            url:
-              $ref: '#/components/schemas/url'
-    name:
-      title: Name
-      maxLength: 50
-      minLength: 1
-      type: string
-      description: 'The name displayed for the category. Name is unique with respect to the categoryʼs siblings.
-
-        Required in a POST.'
-      example: Bath
-    SuccessNoContentResponse:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/MetaData'
-      x-tags:
-      - Models
-    category_uuid:
-      title: Category UUID
-      type: string
-      description: An additional unique identifier for the category. Read-Only.
-      format: uuid
-      readOnly: true
-      example: d1964756-5e1d-4c72-9fa0-e1a3f7be4a34
-    GetCategories:
-      title: Get Categories
-      allOf:
-      - type: object
-        properties:
-          name:
-            $ref: '#/components/schemas/name'
-          category_id:
-            $ref: '#/components/schemas/category_id'
-          category_uuid:
-            $ref: '#/components/schemas/category_uuid'
-          tree_id:
-            $ref: '#/components/schemas/tree_id'
-          parent_id:
-            $ref: '#/components/schemas/parent_id'
-      - $ref: '#/components/schemas/CategoryBase'
-      - type: object
-        properties:
-          url:
-            $ref: '#/components/schemas/url'
-    ErrorAdditional:
-      type: object
-      properties:
-        errors:
-          $ref: '#/components/schemas/DetailedErrors'
-      x-tags:
-      - Models
-    CreateCategories:
-      title: Create Categories
-      type: array
-      items:
-        allOf:
-        - type: object
-          properties:
-            name:
-              $ref: '#/components/schemas/name'
-            url:
-              $ref: '#/components/schemas/url'
-            parent_id:
-              $ref: '#/components/schemas/parent_id'
-            tree_id:
-              $ref: '#/components/schemas/tree_id'
-          required:
-          - name
-          - tree_id
-          - parent_id
-        - $ref: '#/components/schemas/CategoryBase'
-    DetailedErrors:
-      title: DetailedErrors
-      description: Each key-value pair describes a failure or partial success case.
-      type: object
-      properties: {}
-      additionalProperties: true
-      x-internal: false
-    PartialSuccessNoContentResponse:
-      type: object
-      properties:
-        errors:
-          $ref: '#/components/schemas/MetaError'
-        meta:
-          $ref: '#/components/schemas/MetaData'
-      x-tags:
-      - Models
-    ErrorRequest:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorBasic'
-      x-tags:
-      - Models
     MetaPagination:
       type: object
       properties:
@@ -584,6 +374,90 @@ components:
                   example: ?limit=5&page=3
       x-tags:
       - Models
+    PartialSuccessNoContentResponse:
+      type: object
+      properties:
+        errors:
+          $ref: '#/components/schemas/MetaError'
+        meta:
+          $ref: '#/components/schemas/MetaData'
+      x-tags:
+      - Models
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          $ref: '#/components/schemas/MetaError'
+        meta:
+          $ref: '#/components/schemas/MetaData'
+      x-tags:
+      - Models
+    DetailedErrors:
+      title: DetailedErrors
+      description: Each key-value pair describes a failure or partial success case.
+      type: object
+      properties: {}
+      additionalProperties: true
+      x-internal: false
+    parent_id:
+      title: Parent ID
+      type: integer
+      description: 'The unique numeric ID of the categoryʼs parent. This field controls where the category sits in the tree of categories that organize the catalog.
+
+        Required in a POST if creating a child category.'
+      example: 0
+    UpdateCategories:
+      type: array
+      items:
+        allOf:
+        - type: object
+          properties:
+            category_id:
+              $ref: '#/components/schemas/category_id'
+            name:
+              $ref: '#/components/schemas/name'
+            tree_id:
+              $ref: '#/components/schemas/tree_id'
+            parent_id:
+              $ref: '#/components/schemas/parent_id'
+          required:
+          - category_id
+        - $ref: '#/components/schemas/CategoryBase'
+        - type: object
+          properties:
+            url:
+              $ref: '#/components/schemas/url'
+    url:
+      title: URL
+      description: 'If not provided, the URL is autogenerated from the category name.
+
+        '
+      type: object
+      properties:
+        path:
+          type: string
+          example: /bath/
+        is_customized:
+          type: boolean
+          example: false
+    ErrorAdditional:
+      type: object
+      properties:
+        errors:
+          $ref: '#/components/schemas/DetailedErrors'
+      x-tags:
+      - Models
+    SuccessResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetCategories'
+        meta:
+          $ref: '#/components/schemas/MetaData'
+      x-tags:
+      - Models
     category_id:
       title: Category ID
       type: integer
@@ -592,6 +466,51 @@ components:
         Read-Only.'
       readOnly: true
       example: 36
+    ErrorRequest:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorBasic'
+      x-tags:
+      - Models
+    name:
+      title: Name
+      maxLength: 50
+      minLength: 1
+      type: string
+      description: 'The name displayed for the category. Name is unique with respect to the categoryʼs siblings.
+
+        Required in a POST.'
+      example: Bath
+    SuccessNoContentResponse:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/MetaData'
+      x-tags:
+      - Models
+    GetCategories:
+      title: Get Categories
+      allOf:
+      - type: object
+        properties:
+          name:
+            $ref: '#/components/schemas/name'
+          category_id:
+            $ref: '#/components/schemas/category_id'
+          category_uuid:
+            $ref: '#/components/schemas/category_uuid'
+          tree_id:
+            $ref: '#/components/schemas/tree_id'
+          parent_id:
+            $ref: '#/components/schemas/parent_id'
+      - $ref: '#/components/schemas/CategoryBase'
+      - type: object
+        properties:
+          url:
+            $ref: '#/components/schemas/url'
     CategoryList:
       type: object
       properties:
@@ -601,10 +520,77 @@ components:
             $ref: '#/components/schemas/GetCategories'
         meta:
           $ref: '#/components/schemas/MetaPagination'
-    MetaError:
-      allOf:
-      - $ref: '#/components/schemas/ErrorBasic'
-      - $ref: '#/components/schemas/ErrorAdditional'
+    CreateCategories:
+      title: Create Categories
+      type: array
+      items:
+        allOf:
+        - type: object
+          properties:
+            name:
+              $ref: '#/components/schemas/name'
+            url:
+              $ref: '#/components/schemas/url'
+            parent_id:
+              $ref: '#/components/schemas/parent_id'
+            tree_id:
+              $ref: '#/components/schemas/tree_id'
+          required:
+          - name
+          - tree_id
+          - parent_id
+        - $ref: '#/components/schemas/CategoryBase'
+    ErrorBasic:
+      type: object
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+      x-tags:
+      - Models
+    category_uuid:
+      title: Category UUID
+      type: string
+      description: An additional unique identifier for the category. Read-Only.
+      format: uuid
+      readOnly: true
+      example: d1964756-5e1d-4c72-9fa0-e1a3f7be4a34
+    tree_id:
+      title: Tree ID
+      type: integer
+      description: The ID of the Category Tree.
+      example: 1
+    MetaData:
+      type: object
+      properties:
+        total:
+          type: integer
+        success:
+          type: integer
+        failed:
+          type: integer
+      x-tags:
+      - Models
+    PartialSuccessResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetCategories'
+        errors:
+          $ref: '#/components/schemas/MetaError'
+        meta:
+          $ref: '#/components/schemas/MetaData'
       x-tags:
       - Models
     CategoryBase:
@@ -692,31 +678,26 @@ components:
           - avg_customer_review
           - price_asc
           - price_desc
-    SuccessResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/GetCategories'
-        meta:
-          $ref: '#/components/schemas/MetaData'
+    MetaError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorBasic'
+      - $ref: '#/components/schemas/ErrorAdditional'
       x-tags:
       - Models
   parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
     Accept:
       name: Accept
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
       schema:
         type: string
         default: application/json

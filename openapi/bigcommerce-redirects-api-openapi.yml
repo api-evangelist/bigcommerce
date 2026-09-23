@@ -34,7 +34,16 @@ paths:
       tags:
       - Redirects
       summary: BigCommerce Get All Redirects
-      description: "Returns a list all *Redirect URLs*. \n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To get redirect URLs, use Redirects V3ʼs [Get redirects](/docs/rest-management/redirects#get-redirects) endpoint."
+      description: 'Returns a list all *Redirect URLs*.
+
+
+        > #### Warning
+
+        > **Deprecated**
+
+        > * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.
+
+        > * To get redirect URLs, use Redirects V3ʼs Get redirects endpoint.'
       operationId: getRedirects
       parameters:
       - name: page
@@ -67,15 +76,14 @@ paths:
 
         **Required Fields**
 
-        *   path
+        * path
 
-        *   forward
+        * forward
 
 
         **Read Only**
 
-        *   url
-
+        * url
 
 
         > #### Warning
@@ -84,7 +92,7 @@ paths:
 
         > * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.
 
-        > * To upsert new redirect data, use Redirects V3ʼs [Upsert redirects](/docs/rest-management/redirects#upsert-redirects) endpoint.'
+        > * To upsert new redirect data, use Redirects V3ʼs Upsert redirects endpoint.'
       operationId: createRedirect
       parameters:
       - $ref: '#/components/parameters/ContentType'
@@ -113,7 +121,16 @@ paths:
       tags:
       - Redirects
       summary: BigCommerce Delete All Redirects
-      description: "By default, it deletes all *Redirect URLs* in a store. \n\n\n> #### Warning\n> **Deprecated**\n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To delete redirect URLs, use Redirects V3ʼs [Delete redirects](/docs/rest-management/redirects#delete-redirects) endpoint."
+      description: 'By default, it deletes all *Redirect URLs* in a store.
+
+
+        > #### Warning
+
+        > **Deprecated**
+
+        > * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.
+
+        > * To delete redirect URLs, use Redirects V3ʼs Delete redirects endpoint.'
       operationId: deleteRedirects
       responses:
         '204':
@@ -140,7 +157,16 @@ paths:
       tags:
       - Redirects
       summary: BigCommerce Get a Redirect
-      description: "Returns a single *Redirect URL*.\n\n> #### Warning\n> **Deprecated** \n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To get a redirect URL, use Redirects V3ʼs [Get redirects](/docs/rest-management/redirects#get-redirects) endpoint."
+      description: 'Returns a single *Redirect URL*.
+
+
+        > #### Warning
+
+        > **Deprecated**
+
+        > * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.
+
+        > * To get a redirect URL, use Redirects V3ʼs Get redirects endpoint.'
       operationId: getRedirect
       responses:
         '200':
@@ -165,15 +191,14 @@ paths:
 
         **Required Fields**
 
-        *   path
+        * path
 
-        *   forward
+        * forward
 
 
         **Read Only Fields**
 
-        *   url
-
+        * url
 
 
         > #### Warning
@@ -182,7 +207,7 @@ paths:
 
         > * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.
 
-        > * To update redirect data, use Redirects V3ʼs [Upsert redirects](/docs/rest-management/redirects#upsert-redirects) endpoint.'
+        > * To update redirect data, use Redirects V3ʼs Upsert redirects endpoint.'
       operationId: updateRedirect
       parameters:
       - $ref: '#/components/parameters/ContentType'
@@ -248,7 +273,16 @@ paths:
       tags:
       - Redirects
       summary: BigCommerce Delete a Redirect
-      description: "Deletes a *Redirect URL*.\n\n> #### Warning\n> **Deprecated** \n> * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.\n> * To delete a redirect URL, use Redirects V3ʼs [Delete redirects](/docs/rest-management/redirects#delete-redirects) endpoint."
+      description: 'Deletes a *Redirect URL*.
+
+
+        > #### Warning
+
+        > **Deprecated**
+
+        > * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.
+
+        > * To delete a redirect URL, use Redirects V3ʼs Delete redirects endpoint.'
       operationId: deleteRedirect
       responses:
         '204':
@@ -278,7 +312,7 @@ paths:
 
         > * This API operation is deprecated. Avoid using this API operation if possible. It will be removed in a future version.
 
-        > * To get a count of redirects, use the `meta` object data returned with the Redirects V3ʼs [Get redirects](/docs/rest-management/redirects#get-redirects) endpoint.'
+        > * To get a count of redirects, use the `meta` object data returned with the Redirects V3ʼs Get redirects endpoint.'
       operationId: getRedirectsCount
       responses:
         '200':
@@ -441,17 +475,6 @@ paths:
       description: BigCommerce API Gateway
 components:
   schemas:
-    count_Response:
-      title: count_Response
-      type: object
-      properties:
-        count:
-          type: number
-          description: ''
-          example: 27
-      example:
-        count: 27
-      x-internal: false
     redirect:
       title: redirect
       required:
@@ -482,6 +505,17 @@ components:
           ref: 111
         url: http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/
       x-internal: false
+    count_Response:
+      title: count_Response
+      type: object
+      properties:
+        count:
+          type: number
+          description: ''
+          example: 27
+      example:
+        count: 27
+      x-internal: false
     forward:
       title: forward
       type: object
@@ -495,43 +529,6 @@ components:
           type: integer
           description: Reference of the redirect. Dynamic redirects will have the category or product number. Manual redirects will have the url that is being directed to.
           example: 111
-    301RedirectRead:
-      type: object
-      description: Full detail of a Redirect, optionally including the full destination URL.
-      properties:
-        id:
-          type: integer
-        site_id:
-          type: integer
-        from_path:
-          type: string
-          example: /old-url
-        to:
-          $ref: '#/components/schemas/RedirectTo'
-        to_url:
-          type: string
-          description: Full destination URL for the redirect. Must be explicitly included via URL parameter.
-          format: uri
-          example: https://store-domain.com/new-url
-    RedirectTo:
-      title: RedirectTo
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - product
-          - brand
-          - category
-          - page
-          - post
-          - url
-        entity_id:
-          type: integer
-        url:
-          maxLength: 2048
-          type: string
-          example: /new-url/
     MetaPaginationObject:
       type: object
       properties:
@@ -567,6 +564,25 @@ components:
                 current:
                   type: string
                   example: ?limit=5&page=1
+    RedirectTo:
+      title: RedirectTo
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - product
+          - brand
+          - category
+          - page
+          - post
+          - url
+        entity_id:
+          type: integer
+        url:
+          maxLength: 2048
+          type: string
+          example: /new-url/
     301RedirectUpsert:
       required:
       - from_path
@@ -581,6 +597,24 @@ components:
         to:
           $ref: '#/components/schemas/RedirectTo'
       description: Data necessary to create or update a redirect. If there’s a conflict on the from_path and site_id, the redirect will be overwritten with new data.
+    301RedirectRead:
+      type: object
+      description: Full detail of a Redirect, optionally including the full destination URL.
+      properties:
+        id:
+          type: integer
+        site_id:
+          type: integer
+        from_path:
+          type: string
+          example: /old-url
+        to:
+          $ref: '#/components/schemas/RedirectTo'
+        to_url:
+          type: string
+          description: Full destination URL for the redirect. Must be explicitly included via URL parameter.
+          format: uri
+          example: https://store-domain.com/new-url
   parameters:
     Accept:
       name: Accept

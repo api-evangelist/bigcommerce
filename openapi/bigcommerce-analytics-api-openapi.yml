@@ -155,53 +155,10 @@ paths:
       - Analytics
 components:
   schemas:
-    Error:
-      description: A standard error object.
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-      required:
-      - code
-      x-internal: false
-      x-tags:
-      - Common
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ErrorResponse409:
-      type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/Error'
-      x-internal: false
     AnalyticsProviders:
       type: array
       items:
         $ref: '#/components/schemas/AnalyticsProvider'
-      x-internal: false
-    ErrorResponse404:
-      type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/Error'
-      x-internal: false
-    ErrorResponse400:
-      type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/Error'
-      x-internal: false
-    ErrorResponse422:
-      type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/Error'
       x-internal: false
     AnalyticsProvider:
       type: object
@@ -219,6 +176,49 @@ components:
           description: Web Analytics Provider title.
           type: string
       x-internal: false
+    ErrorResponse422:
+      type: object
+      properties:
+        schema:
+          $ref: '#/components/schemas/Error'
+      x-internal: false
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    ErrorResponse400:
+      type: object
+      properties:
+        schema:
+          $ref: '#/components/schemas/Error'
+      x-internal: false
+    ErrorResponse404:
+      type: object
+      properties:
+        schema:
+          $ref: '#/components/schemas/Error'
+      x-internal: false
+    Error:
+      description: A standard error object.
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+      - code
+      x-internal: false
+      x-tags:
+      - Common
+    ErrorResponse409:
+      type: object
+      properties:
+        schema:
+          $ref: '#/components/schemas/Error'
+      x-internal: false
   parameters:
     Accept:
       name: Accept
@@ -228,6 +228,12 @@ components:
       schema:
         type: string
         default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
     ContentType:
       name: Content-Type
       in: header
@@ -236,12 +242,6 @@ components:
       schema:
         type: string
         default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -26,7 +26,13 @@ paths:
     get:
       operationId: getSettingsStorefrontProduct
       summary: BigCommerce Get Storefront Product Settings
-      description: "Returns product settings.\n\n - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level."
+      description: 'Returns product settings.
+
+
+        - Channel ID can be used as a query parameter for getting channel-specific setting. If omitted, you will interact with the global setting only.
+
+
+        - `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested and values are inherited from global level.'
       parameters:
       - $ref: '#/components/parameters/ChannelIdParam'
       responses:
@@ -37,7 +43,13 @@ paths:
     put:
       operationId: updateSettingsStorefrontProduct
       summary: BigCommerce Update Storefront Product Settings
-      description: "Updates product settings.\n\n - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only. \n\n - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel."
+      description: 'Updates product settings.
+
+
+        - Channel ID can be used as a query parameter for updating channel-specific setting. If omitted, you will interact with the global setting only.
+
+
+        - `null` should be supplied to delete overrides per given channel and to inherit values from global level. Partial updates are not supported and all settings should be supplied with `null` value in order to delete overrides per channel.'
       parameters:
       - $ref: '#/components/parameters/ContentType'
       - $ref: '#/components/parameters/ChannelIdParam'
@@ -54,13 +66,80 @@ paths:
       tags:
       - Storefront Product
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  responses:
+    422ErrorResp:
+      description: '`422 Unprocessable Entity` Provided settings could not be applied for some reason - detailed errors in the response.
+
+        '
+      content:
+        application/json:
+          examples: {}
+          schema:
+            description: ''
+            type: object
+            properties:
+              errors:
+                type: object
+                properties:
+                  ? ''
+                  : type: string
+                    example: 'Incorrect value [current__only], it should match one of: current_category_only,child_categories_if_category_empty,child_categories; Incorrect value [besling], it should match one of: featured, newest, bestselling, alphaasc, alphadesc, avgcustomerreview, priceasc, pricedesc, relevance'
+                    minLength: 1
+              status:
+                type: number
+                example: 422
+              title:
+                type: string
+                example: JSON data is missing or invalid
+                minLength: 1
+              type:
+                type: string
+                example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+                minLength: 1
+            x-examples:
+              example-1:
+                errors:
+                  ? ''
+                  : 'Incorrect value [], it should match one of: current_category_only,child_categories_if_category_empty,child_categories; Incorrect value [], it should match one of: featured, newest, bestselling, alphaasc, alphadesc, avgcustomerreview, priceasc, pricedesc, relevance'
+                status: 422
+                title: JSON data is missing or invalid
+                type: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+    200-storefront-product-settings:
+      description: OK. `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested
+      content:
+        application/json:
+          examples: {}
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/StorefrontProductSettings'
+              meta:
+                $ref: '#/components/schemas/MetaOpen'
   schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     StorefrontProductSettings:
       type: object
       properties:
@@ -139,79 +218,12 @@ components:
       title: StorefrontProductSettings
       x-tags:
       - Models
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
-  responses:
-    200-storefront-product-settings:
-      description: OK. `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested
-      content:
-        application/json:
-          examples: {}
-          schema:
-            type: object
-            properties:
-              data:
-                $ref: '#/components/schemas/StorefrontProductSettings'
-              meta:
-                $ref: '#/components/schemas/MetaOpen'
-    422ErrorResp:
-      description: '`422 Unprocessable Entity` Provided settings could not be applied for some reason - detailed errors in the response.
-
-        '
-      content:
-        application/json:
-          examples: {}
-          schema:
-            description: ''
-            type: object
-            properties:
-              errors:
-                type: object
-                properties:
-                  ? ''
-                  : type: string
-                    example: 'Incorrect value [current__only], it should match one of: current_category_only,child_categories_if_category_empty,child_categories; Incorrect value [besling], it should match one of: featured, newest, bestselling, alphaasc, alphadesc, avgcustomerreview, priceasc, pricedesc, relevance'
-                    minLength: 1
-              status:
-                type: number
-                example: 422
-              title:
-                type: string
-                example: JSON data is missing or invalid
-                minLength: 1
-              type:
-                type: string
-                example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
-                minLength: 1
-            x-examples:
-              example-1:
-                errors:
-                  ? ''
-                  : 'Incorrect value [], it should match one of: current_category_only,child_categories_if_category_empty,child_categories; Incorrect value [], it should match one of: featured, newest, bestselling, alphaasc, alphadesc, avgcustomerreview, priceasc, pricedesc, relevance'
-                status: 422
-                title: JSON data is missing or invalid
-                type: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

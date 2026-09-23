@@ -189,6 +189,12 @@ paths:
       operationId: updateChannelCartSettings
 components:
   schemas:
+    ChannelCartSettingsRequest:
+      allOf:
+      - $ref: '#/components/schemas/ChannelCartSettings'
+      - description: The request object for updating the cart settings overrides of a store for a channel.
+      x-tags:
+      - Models
     GlobalCartSettingsRequest:
       allOf:
       - $ref: '#/components/schemas/CartSettings'
@@ -197,10 +203,12 @@ components:
         - allow_purchasing
       x-tags:
       - Models
-    ChannelCartSettingsRequest:
-      allOf:
-      - $ref: '#/components/schemas/ChannelCartSettings'
-      - description: The request object for updating the cart settings overrides of a store for a channel.
+    CartSettings:
+      description: Represents all settings related to the shopping cart functionality of a store.
+      type: object
+      properties:
+        allow_purchasing:
+          type: boolean
       x-tags:
       - Models
     metaCollection_open:
@@ -209,21 +217,6 @@ components:
       properties: {}
       additionalProperties: true
       description: Response metadata.
-    ErrorResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-        title:
-          type: string
-        type:
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-      x-tags:
-      - Models
     ChannelCartSettingsResponse:
       description: The response object of cart settings overrides for a channel.
       type: object
@@ -244,14 +237,6 @@ components:
           - 'null'
       x-tags:
       - Models
-    CartSettings:
-      description: Represents all settings related to the shopping cart functionality of a store.
-      type: object
-      properties:
-        allow_purchasing:
-          type: boolean
-      x-tags:
-      - Models
     GlobalCartSettingsResponse:
       description: The response object of cart settings at the global level.
       type: object
@@ -260,6 +245,21 @@ components:
           $ref: '#/components/schemas/CartSettings'
         meta:
           $ref: '#/components/schemas/metaCollection_open'
+      x-tags:
+      - Models
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
       x-tags:
       - Models
   parameters:

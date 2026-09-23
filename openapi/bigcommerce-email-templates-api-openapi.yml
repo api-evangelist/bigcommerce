@@ -80,7 +80,7 @@ paths:
 
         > #### Note
 
-        > The `/marketing/email-templates` endpoints only work after opting into the new email management experience from your storeʼs control panel. You can opt-in by visiting [Email Templates](https://login.bigcommerce.com/deep-links/manage/marketing/email-templates). If you have already opted in, visiting the [Email Templates](https://login.bigcommerce.com/deep-links/manage/marketing/email-templates) page will return a `404` error, and you will be able to access the new [Transactional Emails](https://login.bigcommerce.com/deep-links/manage/transactional-emails) page.'
+        > The `/marketing/email-templates` endpoints only work after opting into the new email management experience from your storeʼs control panel. You can opt-in by visiting Email Templates. If you have already opted in, visiting the Email Templates page will return a `404` error, and you will be able to access the new Transactional Emails page.'
       tags:
       - Email Templates
       responses:
@@ -183,15 +183,37 @@ paths:
       parameters:
       - $ref: '#/components/parameters/RequiredChannelIdParamForDelete'
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdParam:
+      in: query
+      name: channel_id
+      schema:
+        type: integer
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+    RequiredChannelIdParamForDelete:
+      in: query
+      name: channel_id
+      schema:
+        type: integer
+      description: Required Channel ID. This delete operation will delete overridden settings for this channel, thus restoring them to the global defaults.
+      required: true
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
-    ErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseError'
-      - type: object
-        properties:
-          errors:
-            $ref: '#/components/schemas/DetailedErrors'
-      x-internal: false
     LocaleObject:
       title: LocaleObject
       type: object
@@ -206,46 +228,6 @@ components:
             reset_password: 'To change your customer account password at {{name}} please click this link or copy and paste it into your browser:'
           description: Language keys for the template. User-defined. Should match any lang keys used in the template.
       description: A particular localeʼs translations.
-      x-internal: false
-    LocaleCollection:
-      title: LocaleCollection
-      type: array
-      items:
-        $ref: '#/components/schemas/LocaleObject'
-      description: A collection of locale translations for the static language.
-      x-internal: false
-    DetailedErrors:
-      type: object
-      additionalProperties:
-        type: string
-      x-internal: false
-    BaseError:
-      type: object
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-        instance:
-          type: string
-      x-internal: false
-    EmailTemplatesCollection:
-      title: EmailTemplatesCollection
-      type: array
-      items:
-        $ref: '#/components/schemas/EmailTemplate'
-      description: A collection of all email templates.
       x-internal: false
     EmailTemplate:
       title: EmailTemplate
@@ -277,36 +259,54 @@ components:
           type: string
           example: Reset your password at {{store.name}}
       x-internal: false
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
+    EmailTemplatesCollection:
+      title: EmailTemplatesCollection
+      type: array
+      items:
+        $ref: '#/components/schemas/EmailTemplate'
+      description: A collection of all email templates.
+      x-internal: false
+    LocaleCollection:
+      title: LocaleCollection
+      type: array
+      items:
+        $ref: '#/components/schemas/LocaleObject'
+      description: A collection of locale translations for the static language.
+      x-internal: false
+    BaseError:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+      x-internal: false
+    DetailedErrors:
+      type: object
+      additionalProperties:
         type: string
-        default: application/json
-    RequiredChannelIdParamForDelete:
-      in: query
-      name: channel_id
-      schema:
-        type: integer
-      description: Required Channel ID. This delete operation will delete overridden settings for this channel, thus restoring them to the global defaults.
-      required: true
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIdParam:
-      in: query
-      name: channel_id
-      schema:
-        type: integer
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      x-internal: false
+    ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - type: object
+        properties:
+          errors:
+            $ref: '#/components/schemas/DetailedErrors'
+      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: BigCommerce Catalog - Categories Sort Order API
-  description: "\n> The Catalog API manages products, categories, brands, bulk pricing rules, and more. To learn more about catalog resources, see the [Catalog Overview](/docs/store-operations/catalog).\n\n> Warning:\n> - The [Catalog V3 Categories](/docs/rest-catalog/categories) endpoints were primarily useful in applications for single storefront stores and are deprecated. We still support these endpoints, but will not implement new features within them. The endpoints will continue working as is.\n> - To manage Categories, use the [Catalog V3 Category Trees - Categories](/docs/rest-catalog/category-trees/categories) endpoints. These endpoints work for both [MSF-enabled stores](/docs/storefront/multi-storefront) and single storefront stores, and are backwards-compatible with categories created using Catalog V3 Categories.\n\nCategory images have their own dedicated [create a category image](/docs/rest-catalog/categories/images#create-a-category-image) and [delete a category image](/docs/rest-catalog/categories/images#delete-a-category-image) endpoints. \n\nIn addition, categories have metafields that you can use to store information structured in key-value pairs; learn more about [creating category metafields](/docs/rest-catalog/categories/metafields#create-a-category-metafield), [updating category metafields](/docs/rest-catalog/categories/metafields#update-a-category-metafield), and [deleting category metafields](/docs/rest-catalog/categories/metafields#delete-a-category-metafield). \n\nThis API family also contains endpoints to [update product sort order](/docs/rest-catalog/categories/sort-order#update-product-sort-order) within a category. \n\n> To learn more about authenticating Catalog endpoints, locate the **Authentication** section at the top of each endpoint, then click **Show Details**. \n\n## Resources\n\n### Webhooks\nLearn more about [Category webhook events](/docs/integrations/webhooks/events#category).\n\n### Additional Catalog endpoints\n* [Brands](/docs/rest-catalog/brands)\n* [Category Trees](/docs/rest-catalog/category-trees)\n* [Products](/docs/rest-catalog/products)\n* [Product Modifiers](/docs/rest-catalog/product-modifiers)\n* [Product Variants](/docs/rest-catalog/product-variants)\n* [Product Variant Options](/docs/rest-catalog/product-variant-options)"
+  description: '> The Catalog API manages products, categories, brands, bulk pricing rules, and more.'
   termsOfService: https://www.bigcommerce.com/terms
   contact:
     name: BigCommerce
@@ -28,7 +28,24 @@ paths:
       tags:
       - Sort Order
       summary: BigCommerce Get Product Sort Order
-      description: "Returns a list of products and their sort order for a specific category.\n\n**Usage Notes**\n* Data pairs are displayed in ascending order based on products' `sort_order` values.\n* `null` values are allowed for products without specified `sort_order` values.\n* Products with `sort_order` value of `null` will be displayed after products with valid numerical values.\n* The priorities for determining product sort order on a storefront are the following:\n  - Priority 1: Manually specified sort order on Category Level (API).\n  - Priority 2: Manually specified sort order on Product (Global) Level (UI/API).\n  - Priority 3: Default sorting by Product ID (newly added products go first) (UI/API)."
+      description: 'Returns a list of products and their sort order for a specific category.
+
+
+        **Usage Notes**
+
+        * Data pairs are displayed in ascending order based on products'' `sort_order` values.
+
+        * `null` values are allowed for products without specified `sort_order` values.
+
+        * Products with `sort_order` value of `null` will be displayed after products with valid numerical values.
+
+        * The priorities for determining product sort order on a storefront are the following:
+
+        - Priority 1: Manually specified sort order on Category Level (API).
+
+        - Priority 2: Manually specified sort order on Product (Global) Level (UI/API).
+
+        - Priority 3: Default sorting by Product ID (newly added products go first) (UI/API).'
       operationId: getCategorySortOrders
       responses:
         '200':
