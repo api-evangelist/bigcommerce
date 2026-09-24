@@ -1,1 +1,0 @@
-# BigCommerce GraphQL API
