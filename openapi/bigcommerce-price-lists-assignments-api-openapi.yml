@@ -180,18 +180,11 @@ paths:
           description: A matching customer group or channel wasnʼt found, so no assignment is created or returned.
 components:
   parameters:
-    FilterPriceListIdParam:
-      name: price_list_id
-      description: The ID of the `Price List`.
-      required: false
-      in: query
-      schema:
-        type: integer
-    Accept:
-      name: Accept
+    ContentType:
+      name: Content-Type
       in: header
       required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
       schema:
         type: string
         default: application/json
@@ -202,9 +195,37 @@ components:
       schema:
         type: integer
       name: id
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdInParam:
+      in: query
+      name: channel_id:in
+      description: Filter results by a comma-separated list of `channel_id`s.
+      schema:
+        type: string
     FilterCustomerGroupIdParam:
       name: customer_group_id
       description: The ID of the `Customer Group`.
+      required: false
+      in: query
+      schema:
+        type: integer
+    FilterPriceListIdParam:
+      name: price_list_id
+      description: The ID of the `Price List`.
+      required: false
+      in: query
+      schema:
+        type: integer
+    FilterChannelIdParam:
+      name: channel_id
+      description: The ID of the `Channel`.
       required: false
       in: query
       schema:
@@ -218,28 +239,150 @@ components:
 
         '
       required: true
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIdInParam:
-      in: query
-      name: channel_id:in
-      description: Filter results by a comma-separated list of `channel_id`s.
-      schema:
-        type: string
-    FilterChannelIdParam:
-      name: channel_id
-      description: The ID of the `Channel`.
-      required: false
-      in: query
-      schema:
-        type: integer
   schemas:
+    AssignmentForPutRequest:
+      type: object
+      properties:
+        customer_group_id:
+          type: integer
+          format: int32
+          description: Customer group ID for assignment.
+          example: 2
+        channel_id:
+          type: integer
+          format: int32
+          description: Channel ID for assignment
+          example: 1
+      required:
+      - customer_group_id
+      - channel_id
+    AssignmentsForGetResponse:
+      description: Array of the price list assignments matching the filter. The response is paginated.
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssignmentForGetResponse'
+        meta:
+          $ref: '#/components/schemas/CollectionMeta'
+      x-internal: false
+    AssignmentsForRequest:
+      type: object
+      description: '`Price List Assignments` object used in a batch create request.'
+      x-internal: false
+      properties:
+        price_list_id:
+          type: integer
+          format: int32
+          description: Price list ID for assignment.
+          example: 1
+        customer_group_id:
+          type: integer
+          format: int32
+          description: Customer group ID for assignment.
+          example: 2
+        channel_id:
+          type: integer
+          format: int32
+          description: Channel ID for assignment
+          example: 1
+      required:
+      - price_list_id
+    Meta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    CreateBatchPriceListAssignmentsRequest:
+      type: array
+      description: Batch of price list assignments.
+      items:
+        $ref: '#/components/schemas/AssignmentsForRequest'
+      x-internal: false
+    PriceListAssignmentsBatchErrorResponse:
+      type: object
+      x-internal: false
+      properties:
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+        errors:
+          type: object
+          properties: {}
+          additionalProperties: true
+          title: Detailed Errors
+        meta:
+          type: object
+          properties:
+            saved_records:
+              type: integer
+    AssignmentForPutResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int32
+              description: Unique identifier for this price list assignment.
+              example: 1
+            price_list_id:
+              type: integer
+              format: int32
+              description: Price list ID for assignment.
+              example: 1
+            customer_group_id:
+              type: integer
+              format: int32
+              description: Customer group ID for assignment.
+              example: 2
+            channel_id:
+              type: integer
+              format: int32
+              description: Channel ID for assignment.
+              example: 2
+        meta:
+          $ref: '#/components/schemas/Meta'
+    AssignmentForGetResponse:
+      type: object
+      x-internal: false
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: Unique identifier for this price list assignment.
+          example: 1
+        price_list_id:
+          type: integer
+          format: int32
+          description: Pricelist ID for assignment.
+          example: 1
+        customer_group_id:
+          type: integer
+          format: int32
+          description: Customer group ID for assignment.
+          example: 2
+        channel_id:
+          type: integer
+          format: int32
+          description: Channel ID for assignment.
+          example: 2
+    SuccessBatchResponse:
+      type: object
+      description: Empty object for Success case for Batch API.
+      properties:
+        data:
+          type: object
+          example: {}
+        meta:
+          type: object
+          example: {}
     CollectionMeta:
       type: object
       description: Data related the response, including pagination and collection totals.
@@ -303,149 +446,6 @@ components:
                     '
       title: Collection Meta
       x-internal: false
-    AssignmentForGetResponse:
-      type: object
-      x-internal: false
-      properties:
-        id:
-          type: integer
-          format: int32
-          description: Unique identifier for this price list assignment.
-          example: 1
-        price_list_id:
-          type: integer
-          format: int32
-          description: Pricelist ID for assignment.
-          example: 1
-        customer_group_id:
-          type: integer
-          format: int32
-          description: Customer group ID for assignment.
-          example: 2
-        channel_id:
-          type: integer
-          format: int32
-          description: Channel ID for assignment.
-          example: 2
-    AssignmentsForRequest:
-      type: object
-      description: '`Price List Assignments` object used in a batch create request.'
-      x-internal: false
-      properties:
-        price_list_id:
-          type: integer
-          format: int32
-          description: Price list ID for assignment.
-          example: 1
-        customer_group_id:
-          type: integer
-          format: int32
-          description: Customer group ID for assignment.
-          example: 2
-        channel_id:
-          type: integer
-          format: int32
-          description: Channel ID for assignment
-          example: 1
-      required:
-      - price_list_id
-    CreateBatchPriceListAssignmentsRequest:
-      type: array
-      description: Batch of price list assignments.
-      items:
-        $ref: '#/components/schemas/AssignmentsForRequest'
-      x-internal: false
-    AssignmentForPutResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            id:
-              type: integer
-              format: int32
-              description: Unique identifier for this price list assignment.
-              example: 1
-            price_list_id:
-              type: integer
-              format: int32
-              description: Price list ID for assignment.
-              example: 1
-            customer_group_id:
-              type: integer
-              format: int32
-              description: Customer group ID for assignment.
-              example: 2
-            channel_id:
-              type: integer
-              format: int32
-              description: Channel ID for assignment.
-              example: 2
-        meta:
-          $ref: '#/components/schemas/Meta'
-    AssignmentsForGetResponse:
-      description: Array of the price list assignments matching the filter. The response is paginated.
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssignmentForGetResponse'
-        meta:
-          $ref: '#/components/schemas/CollectionMeta'
-      x-internal: false
-    Meta:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    SuccessBatchResponse:
-      type: object
-      description: Empty object for Success case for Batch API.
-      properties:
-        data:
-          type: object
-          example: {}
-        meta:
-          type: object
-          example: {}
-    PriceListAssignmentsBatchErrorResponse:
-      type: object
-      x-internal: false
-      properties:
-        status:
-          type: integer
-        title:
-          type: string
-        type:
-          type: string
-        errors:
-          type: object
-          properties: {}
-          additionalProperties: true
-          title: Detailed Errors
-        meta:
-          type: object
-          properties:
-            saved_records:
-              type: integer
-    AssignmentForPutRequest:
-      type: object
-      properties:
-        customer_group_id:
-          type: integer
-          format: int32
-          description: Customer group ID for assignment.
-          example: 2
-        channel_id:
-          type: integer
-          format: int32
-          description: Channel ID for assignment
-          example: 1
-      required:
-      - customer_group_id
-      - channel_id
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

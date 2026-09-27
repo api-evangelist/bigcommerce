@@ -186,14 +186,6 @@ paths:
       - Category Trees
 components:
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
@@ -202,7 +194,126 @@ components:
       schema:
         type: string
         default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
+    beta4ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - type: object
+        properties:
+          errors:
+            $ref: '#/components/schemas/beta4DetailedErrors'
+      x-tags:
+      - Models
+    beta4DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      x-tags:
+      - Models
+    CategoryNodeTree:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryNode'
+        meta:
+          $ref: '#/components/schemas/metaEmpty_Full'
+    BaseError:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+      x-tags:
+      - Models
+    Tree:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        channels:
+          type: array
+          items:
+            type: integer
+      x-tags:
+      - Models
+    CategoryTree:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tree'
+        meta:
+          $ref: '#/components/schemas/metaEmpty_Full'
+    CategoryTreeListRequest:
+      type: array
+      items:
+        $ref: '#/components/schemas/Tree'
+      example:
+      - id: 0
+        name: string
+        channels:
+        - 0
+    CategoryNode:
+      type: object
+      properties:
+        id:
+          type: integer
+        parent_id:
+          type: integer
+        depth:
+          type: integer
+        path:
+          type: array
+          items:
+            type: integer
+        name:
+          type: string
+        is_visible:
+          type: boolean
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryNode'
+      x-tags:
+      - Models
+    CategoryTreeList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tree'
+        meta:
+          $ref: '#/components/schemas/MetaPaginationObject'
     MetaPaginationObject:
       type: object
       properties:
@@ -238,117 +349,6 @@ components:
                 current:
                   type: string
                   example: ?limit=5&page=1
-      x-tags:
-      - Models
-    CategoryNodeTree:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CategoryNode'
-        meta:
-          $ref: '#/components/schemas/metaEmpty_Full'
-    CategoryNode:
-      type: object
-      properties:
-        id:
-          type: integer
-        parent_id:
-          type: integer
-        depth:
-          type: integer
-        path:
-          type: array
-          items:
-            type: integer
-        name:
-          type: string
-        is_visible:
-          type: boolean
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/CategoryNode'
-      x-tags:
-      - Models
-    Tree:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-          minLength: 1
-          maxLength: 255
-        channels:
-          type: array
-          items:
-            type: integer
-      x-tags:
-      - Models
-    CategoryTree:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tree'
-        meta:
-          $ref: '#/components/schemas/metaEmpty_Full'
-    beta4DetailedErrors:
-      type: object
-      properties: {}
-      additionalProperties: true
-      x-tags:
-      - Models
-    CategoryTreeList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tree'
-        meta:
-          $ref: '#/components/schemas/MetaPaginationObject'
-    BaseError:
-      type: object
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-        instance:
-          type: string
-      x-tags:
-      - Models
-    CategoryTreeListRequest:
-      type: array
-      items:
-        $ref: '#/components/schemas/Tree'
-      example:
-      - id: 0
-        name: string
-        channels:
-        - 0
-    beta4ErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseError'
-      - type: object
-        properties:
-          errors:
-            $ref: '#/components/schemas/beta4DetailedErrors'
       x-tags:
       - Models
     metaEmpty_Full:

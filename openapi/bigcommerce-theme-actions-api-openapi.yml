@@ -160,25 +160,31 @@ paths:
 
         This returns a 204 response upon success.'
 components:
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    ThemeIdParam:
+      name: uuid
+      description: The theme identifier.
+      in: path
+      required: true
+      schema:
+        type: string
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
-    NoContent:
-      description: No-content response for the BigCommerce API.
-      type: object
-      properties:
-        status:
-          description: '204 HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: The error title describing the situation.
-          type: string
-        type:
-          type: string
-        instance:
-          type: string
-      title: No Content
-      x-internal: false
     Activate:
       description: Request definition for activation endpoint.
       required:
@@ -233,30 +239,24 @@ components:
       title: Which Theme To Download
       type: object
       x-internal: false
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ThemeIdParam:
-      name: uuid
-      description: The theme identifier.
-      in: path
-      required: true
-      schema:
-        type: string
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
+    NoContent:
+      description: No-content response for the BigCommerce API.
+      type: object
+      properties:
+        status:
+          description: '204 HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: The error title describing the situation.
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+      title: No Content
+      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

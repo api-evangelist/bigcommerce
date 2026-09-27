@@ -1581,7 +1581,121 @@ paths:
           description: ''
           content: {}
 components:
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs.
+
+        '
+      required: true
+      schema:
+        type: integer
+    OptionIdParam:
+      name: option_id
+      description: 'The ID of the `Option`.
+
+        '
+      required: true
+      in: path
+      schema:
+        type: integer
   schemas:
+    pagination_Full:
+      title: pagination_Full
+      type: object
+      properties:
+        total:
+          type: integer
+          description: 'Total number of items in the result set.
+
+            '
+          example: 36
+        count:
+          type: integer
+          description: 'Total number of items in the collection response.
+
+            '
+          example: 36
+        per_page:
+          type: integer
+          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+            '
+          example: 50
+        current_page:
+          type: integer
+          description: 'The page you are currently on within the collection.
+
+            '
+          example: 1
+        total_pages:
+          type: integer
+          description: 'The total number of pages in the collection.
+
+            '
+          example: 1
+        links:
+          type: object
+          properties:
+            previous:
+              type: string
+              description: 'Link to the previous page returned in the response.
+
+                '
+            current:
+              type: string
+              description: 'Link to the current page returned in the response.
+
+                '
+              example: ?page=1&limit=50
+            next:
+              type: string
+              description: 'Link to the next page returned in the response.
+
+                '
+          description: 'Pagination links for the previous and next parts of the whole collection.
+
+            '
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    productOption_Full:
+      title: productOption_Full
+      allOf:
+      - $ref: '#/components/schemas/productOption_Base'
+      - type: object
+        properties:
+          name:
+            type: string
+            description: 'The unique option name, auto-generated from the display name, a timestamp, and the product ID.
+
+              '
+            example: Add-a-$5-Donation1535042499-187
+      x-internal: false
     productOption_Base:
       title: productOption_Base
       type: object
@@ -1654,126 +1768,12 @@ components:
 
               '
       x-internal: false
-    productOptionOptionValue_Base:
-      title: productOptionOptionValue_Base
-      required:
-      - label
-      - sort_order
+    metaEmpty_Full:
       type: object
-      properties:
-        is_default:
-          type: boolean
-          description: 'The flag for preselecting a value as the default on the storefront. This field is not supported for swatch options/modifiers.
-
-            '
-          example: false
-        label:
-          type: string
-          description: 'The text display identifying the value on the storefront. Required in a /POST.
-
-            '
-          example: Green
-          x-required:
-          - post
-        sort_order:
-          maximum: 2147483647
-          minimum: -2147483648
-          type: integer
-          description: 'The order in which the value will be displayed on the product page. Required in a /POST.
-
-            '
-          example: 0
-          x-required:
-          - post
-        value_data:
-          type:
-          - object
-          - 'null'
-          properties: {}
-          description: 'Extra data describing the value, based on the type of option or modifier with which the value is associated. The `swatch` type option can accept an array of `colors`, with up to three hexidecimal color keys; or an `image_url`, which is a full image URL path including protocol. The `product list` type option requires a `product_id`. The `checkbox` type option requires a boolean flag, called `checked_value`, to determine which value is considered to be the checked state. If no data is available, returns `null`.
-
-            '
-      description: Common Product Option `option_value` properties.
-      x-internal: false
-    pagination_Full:
-      title: pagination_Full
-      type: object
-      properties:
-        total:
-          type: integer
-          description: 'Total number of items in the result set.
-
-            '
-          example: 36
-        count:
-          type: integer
-          description: 'Total number of items in the collection response.
-
-            '
-          example: 36
-        per_page:
-          type: integer
-          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
-
-            '
-          example: 50
-        current_page:
-          type: integer
-          description: 'The page you are currently on within the collection.
-
-            '
-          example: 1
-        total_pages:
-          type: integer
-          description: 'The total number of pages in the collection.
-
-            '
-          example: 1
-        links:
-          type: object
-          properties:
-            previous:
-              type: string
-              description: 'Link to the previous page returned in the response.
-
-                '
-            current:
-              type: string
-              description: 'Link to the current page returned in the response.
-
-                '
-              example: ?page=1&limit=50
-            next:
-              type: string
-              description: 'Link to the next page returned in the response.
-
-                '
-          description: 'Pagination links for the previous and next parts of the whole collection.
-
-            '
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
-    productOption_Full:
-      title: productOption_Full
-      allOf:
-      - $ref: '#/components/schemas/productOption_Base'
-      - type: object
-        properties:
-          name:
-            type: string
-            description: 'The unique option name, auto-generated from the display name, a timestamp, and the product ID.
-
-              '
-            example: Add-a-$5-Donation1535042499-187
-      x-internal: false
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     productOptionConfig_Full:
       title: productOptionConfig_Full
       type: object
@@ -1933,47 +1933,47 @@ components:
           - package
       description: The values for option config can vary based on the Modifier created.
       x-internal: false
-    metaEmpty_Full:
+    productOptionOptionValue_Base:
+      title: productOptionOptionValue_Base
+      required:
+      - label
+      - sort_order
       type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    OptionIdParam:
-      name: option_id
-      description: 'The ID of the `Option`.
+      properties:
+        is_default:
+          type: boolean
+          description: 'The flag for preselecting a value as the default on the storefront. This field is not supported for swatch options/modifiers.
 
-        '
-      required: true
-      in: path
-      schema:
-        type: integer
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    ProductIdParam:
-      name: product_id
-      in: path
-      description: 'The ID of the `Product` to which the resource belongs.
+            '
+          example: false
+        label:
+          type: string
+          description: 'The text display identifying the value on the storefront. Required in a /POST.
 
-        '
-      required: true
-      schema:
-        type: integer
+            '
+          example: Green
+          x-required:
+          - post
+        sort_order:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: 'The order in which the value will be displayed on the product page. Required in a /POST.
+
+            '
+          example: 0
+          x-required:
+          - post
+        value_data:
+          type:
+          - object
+          - 'null'
+          properties: {}
+          description: 'Extra data describing the value, based on the type of option or modifier with which the value is associated. The `swatch` type option can accept an array of `colors`, with up to three hexidecimal color keys; or an `image_url`, which is a full image URL path including protocol. The `product list` type option requires a `product_id`. The `checkbox` type option requires a boolean flag, called `checked_value`, to determine which value is considered to be the checked state. If no data is available, returns `null`.
+
+            '
+      description: Common Product Option `option_value` properties.
+      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

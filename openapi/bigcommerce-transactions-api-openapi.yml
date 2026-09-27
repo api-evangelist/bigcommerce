@@ -95,6 +95,52 @@ paths:
       summary: BigCommerce Get Transactions
 components:
   schemas:
+    pagination_Full:
+      type: object
+      title: pagination_Full
+      properties:
+        total:
+          description: Total number of items in the result set.
+          type: integer
+          format: int32
+        count:
+          description: Total number of items in the collection response.
+          type: integer
+          format: int32
+        per_page:
+          description: The amount of items returned in the collection per page, controlled by the limit parameter.
+          type: integer
+          format: int32
+        current_page:
+          description: The page you are currently on within the collection.
+          type: integer
+          format: int32
+        total_pages:
+          description: The total number of pages in the collection.
+          type: integer
+          format: int32
+        links:
+          $ref: '#/components/schemas/links_Full'
+      x-internal: false
+    metaCollection_Full:
+      type: object
+      title: metaCollection_Full
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      x-internal: false
+      x-examples:
+        example-1:
+          pagination:
+            total: 0
+            count: 0
+            per_page: 0
+            current_page: 0
+            total_pages: 0
+            links:
+              previous: string
+              current: ?page=1&limit=50
+              next: string
     CreditCard:
       type: object
       description: A credit-card model.
@@ -145,33 +191,6 @@ components:
             '
           type: integer
       x-internal: false
-    pagination_Full:
-      type: object
-      title: pagination_Full
-      properties:
-        total:
-          description: Total number of items in the result set.
-          type: integer
-          format: int32
-        count:
-          description: Total number of items in the collection response.
-          type: integer
-          format: int32
-        per_page:
-          description: The amount of items returned in the collection per page, controlled by the limit parameter.
-          type: integer
-          format: int32
-        current_page:
-          description: The page you are currently on within the collection.
-          type: integer
-          format: int32
-        total_pages:
-          description: The total number of pages in the collection.
-          type: integer
-          format: int32
-        links:
-          $ref: '#/components/schemas/links_Full'
-      x-internal: false
     links_Full:
       type: object
       properties:
@@ -193,25 +212,6 @@ components:
             '
       title: links_Full
       x-internal: false
-    metaCollection_Full:
-      type: object
-      title: metaCollection_Full
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      x-internal: false
-      x-examples:
-        example-1:
-          pagination:
-            total: 0
-            count: 0
-            per_page: 0
-            current_page: 0
-            total_pages: 0
-            links:
-              previous: string
-              current: ?page=1&limit=50
-              next: string
     Transaction:
       allOf:
       - title: Transaction Base

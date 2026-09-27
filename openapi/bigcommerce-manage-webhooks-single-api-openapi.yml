@@ -79,31 +79,29 @@ paths:
       - $ref: '#/components/parameters/Accept'
       - $ref: '#/components/parameters/Content-Type'
 components:
+  parameters:
+    Accept:
+      in: header
+      name: Accept
+      schema:
+        type: string
+        default: application/json
+    WebhookId:
+      name: webhook_id
+      in: path
+      description: The ID of a Webhook.
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+        example: 22561593
+    Content-Type:
+      name: Content-Type
+      in: header
+      schema:
+        type: string
+        default: application/json
   responses:
-    400_BadRequest:
-      description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 400
-                title: Input is invalid.
-                type: /api-docs/getting-started/api-status-codes
-    401_Unauthorized:
-      description: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 401
-                title: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
-                type: /api-docs/getting-started/api-status-codes
     webhook_Resp:
       description: Example response
       content:
@@ -187,6 +185,30 @@ components:
                     per_page: 100
                     total: 5
                     total_pages: 1
+    401_Unauthorized:
+      description: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 401
+                title: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
+                type: /api-docs/getting-started/api-status-codes
+    400_BadRequest:
+      description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 400
+                title: Input is invalid.
+                type: /api-docs/getting-started/api-status-codes
     404_NotFound:
       description: If the requested webhook is not found, return a 404 Not Found.
       content:
@@ -199,47 +221,7 @@ components:
                 status: 404
                 title: Webhook with id [{webhook_id}] not found
                 type: /api-docs/getting-started/api-status-codes
-  parameters:
-    Accept:
-      in: header
-      name: Accept
-      schema:
-        type: string
-        default: application/json
-    WebhookId:
-      name: webhook_id
-      in: path
-      description: The ID of a Webhook.
-      required: true
-      schema:
-        type: integer
-        minimum: 1
-        example: 22561593
-    Content-Type:
-      name: Content-Type
-      in: header
-      schema:
-        type: string
-        default: application/json
   schemas:
-    error_Full:
-      type: object
-      title: error_Full
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          description: This value is typically a link to BigCommerce API Status codes.
-          type: string
-      x-internal: false
     webhook_Put:
       type: object
       title: webhook_Put
@@ -302,6 +284,24 @@ components:
             next:
               type: string
               description: Link to the next page returned in the response.
+      x-internal: false
+    error_Full:
+      type: object
+      title: error_Full
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          description: This value is typically a link to BigCommerce API Status codes.
+          type: string
       x-internal: false
   securitySchemes:
     X-Auth-Token:

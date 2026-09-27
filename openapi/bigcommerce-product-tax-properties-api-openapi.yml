@@ -101,14 +101,6 @@ paths:
           description: Request parameters invalid
 components:
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
@@ -124,13 +116,15 @@ components:
       description: ID of product. To target multiple products, provide a comma-separated list of IDs such as `12,34,56`
       schema:
         type: string
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     ProductTaxProperty:
       type: object
       description: A collection of tax property values associated with a product.
@@ -148,6 +142,12 @@ components:
       required:
       - product_id
       - tax_properties
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

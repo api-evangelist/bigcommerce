@@ -44,15 +44,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       parameters: []
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
     AbandonedCartSettings:
       description: Represents all settings related to the abandoned cart functionality of a store
@@ -90,6 +81,16 @@ components:
           type: integer
           minimum: 2
           maximum: 1000
+    GlobalAbandonedCartSettingsResponse:
+      description: The response object of abandoned cart settings at the global level
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AbandonedCartSettings'
+        meta:
+          $ref: '#/components/schemas/metaEmpty_Full'
+      x-tags:
+      - Models
     ErrorResponse:
       description: The response object containing details of an error
       type: object
@@ -106,22 +107,21 @@ components:
           type: object
       x-tags:
       - Models
-    GlobalAbandonedCartSettingsResponse:
-      description: The response object of abandoned cart settings at the global level
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/AbandonedCartSettings'
-        meta:
-          $ref: '#/components/schemas/metaEmpty_Full'
-      x-tags:
-      - Models
     metaEmpty_Full:
       title: Response meta
       type: object
       properties: {}
       additionalProperties: true
       description: Response metadata.
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

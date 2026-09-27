@@ -85,6 +85,14 @@ paths:
       - Storefront Category
 components:
   parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
     Accept:
       name: Accept
       in: header
@@ -99,14 +107,51 @@ components:
       name: channel_id
       schema:
         type: integer
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
+  schemas:
+    StorefrontCategorySettings:
+      type: object
+      properties:
+        category_tree_depth:
+          type: integer
+          maximum: 8
+          minimum: 1
+        default_product_sort:
+          $ref: '#/components/schemas/ProductSortEnumValues'
+        listing_mode:
+          $ref: '#/components/schemas/CategoryListingModeEnumValues'
+      x-tags:
+      - Models
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    ProductSortEnumValues:
+      description: The available sorts for PLP pages.
+      type: string
+      default: bestselling
+      enum:
+      - featured
+      - bestselling
+      - newest
+      - alphaasc
+      - alphadesc
+      - pricedesc
+      - priceasc
+      - avgcustomerreview
+      - relevance
+      title: ProductSortEnumValues
+      x-internal: false
+    CategoryListingModeEnumValues:
+      type: string
+      enum:
+      - current_category_only
+      - child_categories
+      - child_categories_if_category_empty
+      title: CategoryListingModeEnumValues
+      x-tags:
+      - Models
   responses:
     422ErrorResp:
       description: '`422 Unprocessable Entity` Provided settings could not be applied for some reason - detailed errors in the response.
@@ -145,51 +190,6 @@ components:
                 status: 422
                 title: JSON data is missing or invalid
                 type: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
-  schemas:
-    StorefrontCategorySettings:
-      type: object
-      properties:
-        category_tree_depth:
-          type: integer
-          maximum: 8
-          minimum: 1
-        default_product_sort:
-          $ref: '#/components/schemas/ProductSortEnumValues'
-        listing_mode:
-          $ref: '#/components/schemas/CategoryListingModeEnumValues'
-      x-tags:
-      - Models
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    CategoryListingModeEnumValues:
-      type: string
-      enum:
-      - current_category_only
-      - child_categories
-      - child_categories_if_category_empty
-      title: CategoryListingModeEnumValues
-      x-tags:
-      - Models
-    ProductSortEnumValues:
-      description: The available sorts for PLP pages.
-      type: string
-      default: bestselling
-      enum:
-      - featured
-      - bestselling
-      - newest
-      - alphaasc
-      - alphadesc
-      - pricedesc
-      - priceasc
-      - avgcustomerreview
-      - relevance
-      title: ProductSortEnumValues
-      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

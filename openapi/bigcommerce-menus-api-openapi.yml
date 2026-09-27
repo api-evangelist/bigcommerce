@@ -73,6 +73,51 @@ paths:
       - Menus
       summary: BigCommerce Delete Channel Menus
 components:
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    channel_id_path_param:
+      name: channel_id
+      description: The ID of a channel.
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    channel_menus_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  bigcommerce_protected_app_sections:
+                    $ref: '#/components/schemas/BigCommerceProtectedAppSections'
+                  custom_app_sections:
+                    $ref: '#/components/schemas/CustomAppSections'
+              meta:
+                $ref: '#/components/schemas/EmptyMeta'
+          examples:
+            response:
+              $ref: '#/components/examples/channel_menus_resp_example'
   examples:
     channel_menus_resp_example:
       value:
@@ -94,51 +139,6 @@ components:
           - title: Settings
             query_path: settings
         meta: {}
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    channel_id_path_param:
-      name: channel_id
-      description: The ID of a channel.
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-  responses:
-    channel_menus_Resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                type: object
-                properties:
-                  bigcommerce_protected_app_sections:
-                    $ref: '#/components/schemas/BigCommerceProtectedAppSections'
-                  custom_app_sections:
-                    $ref: '#/components/schemas/CustomAppSections'
-              meta:
-                $ref: '#/components/schemas/EmptyMeta'
-          examples:
-            response:
-              $ref: '#/components/examples/channel_menus_resp_example'
   schemas:
     BigCommerceProtectedAppSections:
       type: array

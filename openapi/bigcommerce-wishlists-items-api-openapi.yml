@@ -196,31 +196,6 @@ paths:
           description: Internal server error.
           content: {}
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    WishlistID:
-      name: wishlist_id
-      in: path
-      description: ID of the Wishlist.
-      required: true
-      schema:
-        type: integer
-        format: int32
   schemas:
     wishlistItem_Post:
       type: object
@@ -242,26 +217,6 @@ components:
           items:
           - product_id: 12
             variant_id: 152
-    wishlistItem_Full:
-      title: wishlistItem_Full
-      type: object
-      properties:
-        id:
-          type: integer
-          description: The ID of the item.
-          format: int32
-          example: 12
-        product_id:
-          type: integer
-          description: The ID of the product.
-          format: int32
-          example: 55
-        variant_id:
-          type: integer
-          description: The variant ID of the product.
-          format: int32
-          example: 22
-      x-internal: false
     wishlist_Full:
       title: wishlist_Full
       type: object
@@ -295,6 +250,51 @@ components:
           items:
             $ref: '#/components/schemas/wishlistItem_Full'
       x-internal: false
+    wishlistItem_Full:
+      title: wishlistItem_Full
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the item.
+          format: int32
+          example: 12
+        product_id:
+          type: integer
+          description: The ID of the product.
+          format: int32
+          example: 55
+        variant_id:
+          type: integer
+          description: The variant ID of the product.
+          format: int32
+          example: 22
+      x-internal: false
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    WishlistID:
+      name: wishlist_id
+      in: path
+      description: ID of the Wishlist.
+      required: true
+      schema:
+        type: integer
+        format: int32
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -185,14 +185,6 @@ paths:
       operationId: deleteCustomTemplateAssociations
 components:
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
@@ -201,7 +193,68 @@ components:
       schema:
         type: string
         default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
+    BaseError:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+      x-internal: false
+    CustomTemplateAssociationUpsert:
+      title: CustomTemplateAssociation
+      type: object
+      properties:
+        channel_id:
+          type: integer
+        entity_type:
+          type: string
+          enum:
+          - product
+          - category
+          - brand
+          - page
+        entity_id:
+          type: integer
+        file_name:
+          type: string
+          example: custom-product-1.html
+      required:
+      - channel_id
+      - entity_type
+      - entity_id
+      - file_name
+      x-internal: false
+    ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - type: object
+        properties:
+          errors:
+            $ref: '#/components/schemas/DetailedErrors'
+      x-internal: false
     MetaPaginationObject:
       type: object
       properties:
@@ -238,6 +291,11 @@ components:
                   type: string
                   example: ?limit=5&page=1
       x-internal: false
+    DetailedErrors:
+      type: object
+      additionalProperties:
+        type: string
+      x-internal: false
     CustomTemplateAssociation:
       title: CustomTemplateAssociation
       type: object
@@ -265,64 +323,6 @@ components:
           type: string
         date_modified:
           type: string
-      x-internal: false
-    CustomTemplateAssociationUpsert:
-      title: CustomTemplateAssociation
-      type: object
-      properties:
-        channel_id:
-          type: integer
-        entity_type:
-          type: string
-          enum:
-          - product
-          - category
-          - brand
-          - page
-        entity_id:
-          type: integer
-        file_name:
-          type: string
-          example: custom-product-1.html
-      required:
-      - channel_id
-      - entity_type
-      - entity_id
-      - file_name
-      x-internal: false
-    BaseError:
-      type: object
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-        instance:
-          type: string
-      x-internal: false
-    DetailedErrors:
-      type: object
-      additionalProperties:
-        type: string
-      x-internal: false
-    ErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseError'
-      - type: object
-        properties:
-          errors:
-            $ref: '#/components/schemas/DetailedErrors'
       x-internal: false
   securitySchemes:
     X-Auth-Token:

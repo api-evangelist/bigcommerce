@@ -293,27 +293,37 @@ paths:
       parameters: []
       summary: BigCommerce Delete a Page
 components:
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
+    includeQuery:
+      schema:
+        type: string
+        enum:
+        - body
+      in: query
+      name: include
+      description: Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content.
+    pageIdPath:
+      schema:
+        type: string
+      name: pageId
+      in: path
+      required: true
+      description: The ID of the page to be operated on.
   schemas:
-    ResponseErrorBrief:
-      type: object
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-      required:
-      - status
     PagePut:
       type: object
       description: Properties of the page modification request body.
@@ -468,6 +478,21 @@ components:
           default: 0
       required:
       - id
+    PageResponse:
+      description: 'Response payload for the BigCommerce API.
+
+        '
+      x-examples: {}
+      allOf:
+      - properties:
+          data:
+            type: object
+            items:
+              $ref: '#/components/schemas/Page'
+          meta:
+            $ref: '#/components/schemas/ResponseMeta'
+      title: PageResponseObject
+      type: object
     ResponseErrorItemized:
       type: object
       description: 'Error payload for the BigCommerce API.
@@ -493,79 +518,6 @@ components:
             type: string
       required:
       - status
-    PageResponse:
-      description: 'Response payload for the BigCommerce API.
-
-        '
-      x-examples: {}
-      allOf:
-      - properties:
-          data:
-            type: object
-            items:
-              $ref: '#/components/schemas/Page'
-          meta:
-            $ref: '#/components/schemas/ResponseMeta'
-      title: PageResponseObject
-      type: object
-    ResponseMeta:
-      type: object
-      description: 'Data about the response, including pagination and collection totals.
-
-        '
-      properties:
-        pagination:
-          type: object
-          description: 'Data about the response, including pagination and collection totals.
-
-            '
-          properties:
-            total:
-              type: integer
-              description: 'Total number of items in the result set.
-
-                '
-            count:
-              type: integer
-              description: 'Total number of items in the collection response.
-
-                '
-            per_page:
-              type: integer
-              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
-
-                '
-            current_page:
-              type: integer
-              description: 'The page you are currently on within the collection.
-
-                '
-            total_pages:
-              type: integer
-              description: 'The total number of pages in the collection.
-
-                '
-            links:
-              type: object
-              description: 'Pagination links for the previous and next parts of the whole collection.
-
-                '
-              properties:
-                previous:
-                  type: string
-                  description: 'Link to the previous page returned in the response.
-
-                    '
-                current:
-                  type: string
-                  description: 'Link to the current page returned in the response.
-
-                    '
-                next:
-                  type: string
-                  description: 'Link to the next page returned in the response.
-
-                    '
     PageBase:
       type: object
       description: Common Page properties.
@@ -636,6 +588,28 @@ components:
       required:
       - name
       - type
+    ResponseErrorDetailed:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+        detail:
+          type: string
+      required:
+      - status
     Page:
       allOf:
       - type: object
@@ -728,7 +702,7 @@ components:
       - $ref: '#/components/schemas/PageBase'
       title: ''
       description: ''
-    ResponseErrorDetailed:
+    ResponseErrorBrief:
       type: object
       description: 'Error payload for the BigCommerce API.
 
@@ -746,40 +720,66 @@ components:
           type: string
         type:
           type: string
-        detail:
-          type: string
       required:
       - status
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
-    pageIdPath:
-      schema:
-        type: string
-      name: pageId
-      in: path
-      required: true
-      description: The ID of the page to be operated on.
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
-    includeQuery:
-      schema:
-        type: string
-        enum:
-        - body
-      in: query
-      name: include
-      description: Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content.
+    ResponseMeta:
+      type: object
+      description: 'Data about the response, including pagination and collection totals.
+
+        '
+      properties:
+        pagination:
+          type: object
+          description: 'Data about the response, including pagination and collection totals.
+
+            '
+          properties:
+            total:
+              type: integer
+              description: 'Total number of items in the result set.
+
+                '
+            count:
+              type: integer
+              description: 'Total number of items in the collection response.
+
+                '
+            per_page:
+              type: integer
+              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+                '
+            current_page:
+              type: integer
+              description: 'The page you are currently on within the collection.
+
+                '
+            total_pages:
+              type: integer
+              description: 'The total number of pages in the collection.
+
+                '
+            links:
+              type: object
+              description: 'Pagination links for the previous and next parts of the whole collection.
+
+                '
+              properties:
+                previous:
+                  type: string
+                  description: 'Link to the previous page returned in the response.
+
+                    '
+                current:
+                  type: string
+                  description: 'Link to the current page returned in the response.
+
+                    '
+                next:
+                  type: string
+                  description: 'Link to the next page returned in the response.
+
+                    '
   responses:
     HTTP204:
       description: No content. A 204 response with no payload indicates successful deletion of all specified pages.

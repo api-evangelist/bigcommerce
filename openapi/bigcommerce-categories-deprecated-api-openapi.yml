@@ -1259,133 +1259,34 @@ paths:
           content: {}
 components:
   schemas:
-    sort_order:
-      title: sort_order
+    Url:
       type: object
       properties:
-        sort_order:
-          type: integer
-          description: 'Priority this category will be given when included in the menu and category pages. The lower the number, the closer to the top of the results the category will be.
-
-            '
-          example: 3
-    pagination_Full:
-      title: pagination_Full
+        url:
+          type: string
+        is_customized:
+          type: boolean
+      x-tags:
+      - Models
+    meta_description:
+      title: meta_description
       type: object
       properties:
-        total:
-          type: integer
-          description: 'Total number of items in the result set.
+        meta_description:
+          maxLength: 65535
+          minLength: 0
+          type: string
+          description: 'Custom meta description for the category page. If not defined, the storeʼs default meta description will be used.
 
             '
-          example: 36
-        count:
-          type: integer
-          description: 'Total number of items in the collection response.
-
-            '
-          example: 36
-        per_page:
-          type: integer
-          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
-
-            '
-          example: 50
-        current_page:
-          type: integer
-          description: 'The page you are currently on within the collection.
-
-            '
-          example: 1
-        total_pages:
-          type: integer
-          description: 'The total number of pages in the collection.
-
-            '
-          example: 1
-        links:
-          type: object
-          properties:
-            previous:
-              type: string
-              description: 'Link to the previous page returned in the response.
-
-                '
-            current:
-              type: string
-              description: 'Link to the current page returned in the response.
-
-                '
-              example: ?page=1&limit=50
-            next:
-              type: string
-              description: 'Link to the next page returned in the response.
-
-                '
-          description: 'Pagination links for the previous and next parts of the whole collection.
-
-            '
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-    search_keywords:
-      title: search_keywords
-      type: object
-      properties:
-        search_keywords:
-          type: string
-          description: 'A comma-separated list of keywords that can be used to locate the category when searching the store.
-
-            '
-    page_title:
-      title: page_title
-      type: object
-      properties:
-        page_title:
-          type: string
-          description: 'Custom title for the category page. If not defined, the category name will be used as the meta title.
-
-            '
-          example: Bath
-    default_product_sort:
-      title: default_product_sort
-      type: object
-      properties:
-        default_product_sort:
-          type: string
-          description: 'Determines how the products are sorted on category page load.
-
-            '
-          enum:
-          - use_store_settings
-          - featured
-          - newest
-          - best_selling
-          - alpha_asc
-          - alpha_desc
-          - avg_customer_review
-          - price_asc
-          - price_desc
-    parent_id:
-      title: parent_id
-      type: object
-      properties:
-        parent_id:
-          type: integer
-          description: 'The unique numeric ID of the categoryʼs parent. This field controls where the category sits in the tree of categories that organize the catalog.
-
-            Required in a POST if creating a child category.'
-          example: 2
-    image_url:
-      title: image_url
-      type: object
-      properties:
-        image_url:
-          type: string
-          description: 'Image URL used for this category on the storefront. Images can be uploaded using form file post to `/categories/{categoryId}/image`, or by providing a publicly accessible URL in this field. An image extension like .jpg or .png is required.
-
-            '
-          example: https://cdn8.bigcommerce.com/s-123456/product_images/d/fakeimage.png
-          x-url: true
     error_Base:
       title: error_Base
       type: object
@@ -1408,18 +1309,48 @@ components:
 
         '
       x-internal: false
-    name:
-      title: name
+    search_keywords:
+      title: search_keywords
       type: object
       properties:
-        name:
-          maxLength: 50
-          minLength: 1
+        search_keywords:
           type: string
-          description: 'The name displayed for the category. Name is unique with respect to the categoryʼs siblings.
+          description: 'A comma-separated list of keywords that can be used to locate the category when searching the store.
 
-            Required in a POST.'
-          example: Bath
+            '
+    layout_file:
+      title: layout_file
+      type: object
+      properties:
+        layout_file:
+          maxLength: 500
+          minLength: 0
+          type: string
+          description: 'A valid layout file. Please refer to [the article on creating category files (Help Center)](https://support.bigcommerce.com/articles/Public/Creating-Custom-Template-Files/). This field is writable only for stores with a Blueprint theme applied. For stores with a Stencil theme applied, see [Custom Template Associations](/docs/rest-content/custom-template-associations).
+
+            '
+          example: category.html
+    description:
+      title: description
+      type: object
+      properties:
+        description:
+          type: string
+          description: 'The product description, which can include HTML formatting.
+
+            '
+          example: <p>We offer a wide variety of products perfect for relaxing</p>
+    image_url:
+      title: image_url
+      type: object
+      properties:
+        image_url:
+          type: string
+          description: 'Image URL used for this category on the storefront. Images can be uploaded using form file post to `/categories/{categoryId}/image`, or by providing a publicly accessible URL in this field. An image extension like .jpg or .png is required.
+
+            '
+          example: https://cdn8.bigcommerce.com/s-123456/product_images/d/fakeimage.png
+          x-url: true
     id:
       title: id
       type: object
@@ -1430,6 +1361,60 @@ components:
 
             Read-Only.'
           readOnly: true
+    customUrl_Full:
+      title: customUrl_Full
+      type: object
+      properties:
+        url:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: 'Product URL on the storefront.
+
+            '
+          x-required:
+          - post
+          - put
+          x-url: true
+        is_customized:
+          type: boolean
+          description: 'Returns `true` if the URL has been changed from its default state (the auto-assigned URL that BigCommerce provides).
+
+            '
+          x-required:
+          - post
+          - put
+      description: The custom URL for the product on the storefront.
+      x-internal: false
+    default_product_sort:
+      title: default_product_sort
+      type: object
+      properties:
+        default_product_sort:
+          type: string
+          description: 'Determines how the products are sorted on category page load.
+
+            '
+          enum:
+          - use_store_settings
+          - featured
+          - newest
+          - best_selling
+          - alpha_asc
+          - alpha_desc
+          - avg_customer_review
+          - price_asc
+          - price_desc
+    sort_order:
+      title: sort_order
+      type: object
+      properties:
+        sort_order:
+          type: integer
+          description: 'Priority this category will be given when included in the menu and category pages. The lower the number, the closer to the top of the results the category will be.
+
+            '
+          example: 3
     category_Full:
       title: category_Full
       type: object
@@ -1549,24 +1534,114 @@ components:
       required:
       - parent_id
       - name
-    layout_file:
-      title: layout_file
+    meta_keywords:
+      title: meta_keywords
       type: object
       properties:
-        layout_file:
-          maxLength: 500
-          minLength: 0
-          type: string
-          description: 'A valid layout file. Please refer to [the article on creating category files (Help Center)](https://support.bigcommerce.com/articles/Public/Creating-Custom-Template-Files/). This field is writable only for stores with a Blueprint theme applied. For stores with a Stencil theme applied, see [Custom Template Associations](/docs/rest-content/custom-template-associations).
+        meta_keywords:
+          type: array
+          description: 'Custom meta keywords for the category page. If not defined, the storeʼs default keywords will be used. Must post as an array like: ["awesome","sauce"].
 
             '
-          example: category.html
-    metaCollection_Full:
-      title: metaCollection_Full
+          items:
+            type: string
+    parent_id:
+      title: parent_id
       type: object
       properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
+        parent_id:
+          type: integer
+          description: 'The unique numeric ID of the categoryʼs parent. This field controls where the category sits in the tree of categories that organize the catalog.
+
+            Required in a POST if creating a child category.'
+          example: 2
+    name:
+      title: name
+      type: object
+      properties:
+        name:
+          maxLength: 50
+          minLength: 1
+          type: string
+          description: 'The name displayed for the category. Name is unique with respect to the categoryʼs siblings.
+
+            Required in a POST.'
+          example: Bath
+    page_title:
+      title: page_title
+      type: object
+      properties:
+        page_title:
+          type: string
+          description: 'Custom title for the category page. If not defined, the category name will be used as the meta title.
+
+            '
+          example: Bath
+    is_visible:
+      title: is_visible
+      type: object
+      properties:
+        is_visible:
+          type: boolean
+          description: 'Flag to determine whether the product should be displayed to customers browsing the store. If `true`, the category will be displayed. If `false`, the category will be hidden from view.
+
+            '
+    pagination_Full:
+      title: pagination_Full
+      type: object
+      properties:
+        total:
+          type: integer
+          description: 'Total number of items in the result set.
+
+            '
+          example: 36
+        count:
+          type: integer
+          description: 'Total number of items in the collection response.
+
+            '
+          example: 36
+        per_page:
+          type: integer
+          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+            '
+          example: 50
+        current_page:
+          type: integer
+          description: 'The page you are currently on within the collection.
+
+            '
+          example: 1
+        total_pages:
+          type: integer
+          description: 'The total number of pages in the collection.
+
+            '
+          example: 1
+        links:
+          type: object
+          properties:
+            previous:
+              type: string
+              description: 'Link to the previous page returned in the response.
+
+                '
+            current:
+              type: string
+              description: 'Link to the current page returned in the response.
+
+                '
+              example: ?page=1&limit=50
+            next:
+              type: string
+              description: 'Link to the next page returned in the response.
+
+                '
+          description: 'Pagination links for the previous and next parts of the whole collection.
+
+            '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
     Category:
@@ -1592,61 +1667,12 @@ components:
         properties:
           custom_url:
             $ref: '#/components/schemas/Url'
-    is_visible:
-      title: is_visible
+    metaEmpty_Full:
       type: object
-      properties:
-        is_visible:
-          type: boolean
-          description: 'Flag to determine whether the product should be displayed to customers browsing the store. If `true`, the category will be displayed. If `false`, the category will be hidden from view.
-
-            '
-    description:
-      title: description
-      type: object
-      properties:
-        description:
-          type: string
-          description: 'The product description, which can include HTML formatting.
-
-            '
-          example: <p>We offer a wide variety of products perfect for relaxing</p>
-    customUrl_Full:
-      title: customUrl_Full
-      type: object
-      properties:
-        url:
-          maxLength: 255
-          minLength: 0
-          type: string
-          description: 'Product URL on the storefront.
-
-            '
-          x-required:
-          - post
-          - put
-          x-url: true
-        is_customized:
-          type: boolean
-          description: 'Returns `true` if the URL has been changed from its default state (the auto-assigned URL that BigCommerce provides).
-
-            '
-          x-required:
-          - post
-          - put
-      description: The custom URL for the product on the storefront.
-      x-internal: false
-    meta_keywords:
-      title: meta_keywords
-      type: object
-      properties:
-        meta_keywords:
-          type: array
-          description: 'Custom meta keywords for the category page. If not defined, the storeʼs default keywords will be used. Must post as an array like: ["awesome","sauce"].
-
-            '
-          items:
-            type: string
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     views:
       title: views
       type: object
@@ -1657,38 +1683,12 @@ components:
 
             '
           example: 1050
-    Url:
-      type: object
-      properties:
-        url:
-          type: string
-        is_customized:
-          type: boolean
-      x-tags:
-      - Models
-    meta_description:
-      title: meta_description
-      type: object
-      properties:
-        meta_description:
-          maxLength: 65535
-          minLength: 0
-          type: string
-          description: 'Custom meta description for the category page. If not defined, the storeʼs default meta description will be used.
-
-            '
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
   parameters:
-    Accept:
-      name: Accept
+    ContentType:
+      name: Content-Type
       in: header
       required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
       schema:
         type: string
         default: application/json
@@ -1701,11 +1701,11 @@ components:
       required: true
       schema:
         type: integer
-    ContentType:
-      name: Content-Type
+    Accept:
+      name: Accept
       in: header
       required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
       schema:
         type: string
         default: application/json

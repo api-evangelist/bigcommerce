@@ -1580,22 +1580,60 @@ paths:
           description: Permanent ID of the BigCommerce store.
       description: BigCommerce API Gateway
 components:
-  schemas:
-    productModifierOptionValue_Full:
-      title: productModifierOptionValue_Full
-      description: Product Modifer `option_value`.
-      allOf:
-      - $ref: '#/components/schemas/productModifierOptionValue_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: 'The unique numeric ID of the value; increments sequentially.
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs.
 
-              '
-          option_id:
-            type: integer
-      x-internal: false
+        '
+      required: true
+      schema:
+        type: integer
+    ModifierIdParam:
+      name: modifier_id
+      description: 'The ID of the `Modifier`.
+
+        '
+      required: true
+      in: path
+      schema:
+        type: integer
+    ValueIdParam:
+      name: value_id
+      description: 'The ID of the `Modifier/Option Value`.
+
+        '
+      required: true
+      in: path
+      schema:
+        type: integer
+    OptionIdParam:
+      name: option_id
+      description: 'The ID of the `Option`.
+
+        '
+      required: true
+      in: path
+      schema:
+        type: integer
+  schemas:
     pagination_Full:
       title: pagination_Full
       type: object
@@ -1654,33 +1692,28 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-    adjusters_Full:
-      title: adjusters_Full
+    productModifierOptionValue_Full:
+      title: productModifierOptionValue_Full
+      description: Product Modifer `option_value`.
+      allOf:
+      - $ref: '#/components/schemas/productModifierOptionValue_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: 'The unique numeric ID of the value; increments sequentially.
+
+              '
+          option_id:
+            type: integer
+      x-internal: false
+    metaCollection_Full:
+      title: metaCollection_Full
       type: object
       properties:
-        price:
-          $ref: '#/components/schemas/adjuster_Full'
-        weight:
-          $ref: '#/components/schemas/adjuster_Full'
-        image_url:
-          type: string
-          description: 'The URL for an image displayed on the storefront when the modifier value is selected.Limit of 8MB per file.
-
-            '
-          example: https://cdn8.bigcommerce.com/s-{{store_hash}}/products/184/images/445/naturalcanvascart2_1024x1024__92347__29648.1534344533.1280.1280.jpg?c=2
-        purchasing_disabled:
-          type: object
-          properties:
-            status:
-              type: boolean
-              description: 'Flag for whether the modifier value disables purchasing when selected on the storefront. This can be used for temporarily disabling a particular modifier value.
-
-                '
-            message:
-              type: string
-              description: 'The message displayed on the storefront when the purchasing disabled status is `true`.
-
-                '
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
       x-internal: false
     productModifierOptionValue_Base:
       title: productModifierOptionValue_Base
@@ -1725,13 +1758,33 @@ components:
           $ref: '#/components/schemas/adjusters_Full'
       description: Common Product Modifer `option_value` properties.
       x-internal: false
-    metaCollection_Full:
-      title: metaCollection_Full
+    adjusters_Full:
+      title: adjusters_Full
       type: object
       properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
+        price:
+          $ref: '#/components/schemas/adjuster_Full'
+        weight:
+          $ref: '#/components/schemas/adjuster_Full'
+        image_url:
+          type: string
+          description: 'The URL for an image displayed on the storefront when the modifier value is selected.Limit of 8MB per file.
+
+            '
+          example: https://cdn8.bigcommerce.com/s-{{store_hash}}/products/184/images/445/naturalcanvascart2_1024x1024__92347__29648.1534344533.1280.1280.jpg?c=2
+        purchasing_disabled:
+          type: object
+          properties:
+            status:
+              type: boolean
+              description: 'Flag for whether the modifier value disables purchasing when selected on the storefront. This can be used for temporarily disabling a particular modifier value.
+
+                '
+            message:
+              type: string
+              description: 'The message displayed on the storefront when the purchasing disabled status is `true`.
+
+                '
       x-internal: false
     adjuster_Full:
       title: adjuster_Full
@@ -1761,59 +1814,6 @@ components:
       properties: {}
       additionalProperties: true
       description: Response metadata.
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ValueIdParam:
-      name: value_id
-      description: 'The ID of the `Modifier/Option Value`.
-
-        '
-      required: true
-      in: path
-      schema:
-        type: integer
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    ModifierIdParam:
-      name: modifier_id
-      description: 'The ID of the `Modifier`.
-
-        '
-      required: true
-      in: path
-      schema:
-        type: integer
-    ProductIdParam:
-      name: product_id
-      in: path
-      description: 'The ID of the `Product` to which the resource belongs.
-
-        '
-      required: true
-      schema:
-        type: integer
-    OptionIdParam:
-      name: option_id
-      description: 'The ID of the `Option`.
-
-        '
-      required: true
-      in: path
-      schema:
-        type: integer
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

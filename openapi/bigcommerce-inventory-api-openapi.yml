@@ -78,6 +78,14 @@ paths:
       description: Update inventory settings
 components:
   parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
     Accept:
       name: Accept
       in: header
@@ -92,21 +100,7 @@ components:
       name: channel_id
       schema:
         type: integer
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     InventorySettings:
       type: object
       properties:
@@ -191,12 +185,12 @@ components:
         type:
           type: string
       x-internal: false
-    DetailedErrors:
+    MetaOpen:
+      title: Response meta
       type: object
       properties: {}
       additionalProperties: true
-      title: Detailed Errors
-      x-internal: false
+      description: Response metadata.
     ErrorResponse:
       allOf:
       - $ref: '#/components/schemas/BaseError'
@@ -204,6 +198,12 @@ components:
           errors:
             $ref: '#/components/schemas/DetailedErrors'
         type: object
+      x-internal: false
+    DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      title: Detailed Errors
       x-internal: false
   securitySchemes:
     X-Auth-Token:

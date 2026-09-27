@@ -329,14 +329,6 @@ paths:
           content: {}
 components:
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
@@ -345,7 +337,27 @@ components:
       schema:
         type: string
         default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
+    page_Full:
+      title: page_Full
+      allOf:
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: ID of the page. Read-Only.
+            example: 44
+            readOnly: true
+      - $ref: '#/components/schemas/page_Base_Res'
+      x-internal: false
     page_Base:
       title: page_Base
       type: object
@@ -540,18 +552,6 @@ components:
           - application/json
           - text/javascript
           - text/html
-    page_Full:
-      title: page_Full
-      allOf:
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: ID of the page. Read-Only.
-            example: 44
-            readOnly: true
-      - $ref: '#/components/schemas/page_Base_Res'
-      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

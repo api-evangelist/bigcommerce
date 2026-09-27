@@ -326,7 +326,109 @@ paths:
       tags:
       - Search Filters
 components:
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
+    EnabledRatingFilter:
+      description: A filter based on product review ratings.
+      type: object
+      properties:
+        collapsed_by_default:
+          type: boolean
+        display_name:
+          type: string
+        id:
+          type: string
+        is_enabled:
+          type: boolean
+        type:
+          type: string
+          enum:
+          - rating
+      title: EnabledRatingFilter
+      x-internal: false
+    EnabledCategoryFilter:
+      description: A storefront filter for product category
+      type: object
+      properties:
+        collapsed_by_default:
+          type: boolean
+        display_name:
+          type: string
+        display_product_count:
+          type: boolean
+        id:
+          type: string
+        is_enabled:
+          type: boolean
+        items_to_show:
+          type: integer
+          enum:
+          - 5
+          - 10
+          - 15
+        type:
+          type: string
+          enum:
+          - category
+      title: EnabledCategoryFilter
+      x-internal: false
+    EnabledMiscFilter:
+      description: Miscellaneous Filters which appear as a group.
+      type: object
+      properties:
+        collapsed_by_default:
+          type: boolean
+        display_name:
+          type: string
+        display_product_count:
+          type: boolean
+        id:
+          type: integer
+        is_enabled:
+          type: boolean
+        show_free_shipping_filter:
+          type: boolean
+        show_in_stock_filter:
+          type: boolean
+        show_is_featured_filter:
+          type: boolean
+        show_product_count:
+          type: boolean
+        type:
+          type: string
+          enum:
+          - other
+      title: EnabledMiscFilter
+      x-internal: false
+    AvailableOtherFilter:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - other
+      title: AvailableOtherFilter
+      x-internal: false
     AvailableNormalFilter:
       type: object
       properties:
@@ -346,12 +448,6 @@ components:
       title: AvailableNormalFilter
       x-tags:
       - Models
-    ConfiguredFilters:
-      type: array
-      items:
-        $ref: '#/components/schemas/ConfiguredFilter'
-      title: ConfiguredFilters
-      x-internal: false
     SearchFilterOverrideContextIdentifier:
       type: object
       properties:
@@ -361,36 +457,53 @@ components:
           type: integer
       title: ContextIdentifier
       x-internal: false
-    AvailableOtherFilter:
+    ConfiguredFilter:
+      oneOf:
+      - $ref: '#/components/schemas/EnabledProductFilter'
+      - $ref: '#/components/schemas/EnabledPriceFilter'
+      - $ref: '#/components/schemas/EnabledCategoryFilter'
+      - $ref: '#/components/schemas/EnabledBrandFilter'
+      - $ref: '#/components/schemas/EnabledRatingFilter'
+      - $ref: '#/components/schemas/EnabledMiscFilter'
+      title: ConfiguredFilter
+      x-internal: false
+    ConfiguredFilters:
+      type: array
+      items:
+        $ref: '#/components/schemas/ConfiguredFilter'
+      title: ConfiguredFilters
+      x-internal: false
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    AvailablePriceFilter:
+      description: ''
       type: object
       properties:
         id:
           type: string
         name:
           type: string
-        type:
-          type: string
-          enum:
-          - other
-      title: AvailableOtherFilter
-      x-internal: false
-    EnabledPriceFilter:
-      description: A filter based on the product’s price, shown as a price range on the storefront.
-      type: object
-      properties:
-        collapsed_by_default:
-          type: boolean
-        display_name:
-          type: string
-        id:
-          type: string
-        is_enabled:
-          type: boolean
+        price_range_max:
+          type: number
+        price_range_min:
+          type: number
         type:
           type: string
           enum:
           - price
-      title: EnabledPriceFilter
+      title: AvailablePriceFilter
+      x-internal: false
+    AvailableFilter:
+      type: object
+      oneOf:
+      - $ref: '#/components/schemas/AvailableNormalFilter'
+      - $ref: '#/components/schemas/AvailablePriceFilter'
+      - $ref: '#/components/schemas/AvailableOtherFilter'
+      title: AvailableFilter
       x-internal: false
     MetaPaginationObject:
       type: object
@@ -428,8 +541,8 @@ components:
               example: 50
               minimum: 0
       x-internal: false
-    EnabledRatingFilter:
-      description: A filter based on product review ratings.
+    EnabledPriceFilter:
+      description: A filter based on the product’s price, shown as a price range on the storefront.
       type: object
       properties:
         collapsed_by_default:
@@ -443,18 +556,8 @@ components:
         type:
           type: string
           enum:
-          - rating
-      title: EnabledRatingFilter
-      x-internal: false
-    ConfiguredFilter:
-      oneOf:
-      - $ref: '#/components/schemas/EnabledProductFilter'
-      - $ref: '#/components/schemas/EnabledPriceFilter'
-      - $ref: '#/components/schemas/EnabledCategoryFilter'
-      - $ref: '#/components/schemas/EnabledBrandFilter'
-      - $ref: '#/components/schemas/EnabledRatingFilter'
-      - $ref: '#/components/schemas/EnabledMiscFilter'
-      title: ConfiguredFilter
+          - price
+      title: EnabledPriceFilter
       x-internal: false
     EnabledProductFilter:
       description: A filter that uses product options and custom field data.
@@ -519,92 +622,6 @@ components:
           - brand
       title: EnabledBrandFilter
       x-internal: false
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    AvailablePriceFilter:
-      description: ''
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        price_range_max:
-          type: number
-        price_range_min:
-          type: number
-        type:
-          type: string
-          enum:
-          - price
-      title: AvailablePriceFilter
-      x-internal: false
-    AvailableFilter:
-      type: object
-      oneOf:
-      - $ref: '#/components/schemas/AvailableNormalFilter'
-      - $ref: '#/components/schemas/AvailablePriceFilter'
-      - $ref: '#/components/schemas/AvailableOtherFilter'
-      title: AvailableFilter
-      x-internal: false
-    EnabledMiscFilter:
-      description: Miscellaneous Filters which appear as a group.
-      type: object
-      properties:
-        collapsed_by_default:
-          type: boolean
-        display_name:
-          type: string
-        display_product_count:
-          type: boolean
-        id:
-          type: integer
-        is_enabled:
-          type: boolean
-        show_free_shipping_filter:
-          type: boolean
-        show_in_stock_filter:
-          type: boolean
-        show_is_featured_filter:
-          type: boolean
-        show_product_count:
-          type: boolean
-        type:
-          type: string
-          enum:
-          - other
-      title: EnabledMiscFilter
-      x-internal: false
-    EnabledCategoryFilter:
-      description: A storefront filter for product category
-      type: object
-      properties:
-        collapsed_by_default:
-          type: boolean
-        display_name:
-          type: string
-        display_product_count:
-          type: boolean
-        id:
-          type: string
-        is_enabled:
-          type: boolean
-        items_to_show:
-          type: integer
-          enum:
-          - 5
-          - 10
-          - 15
-        type:
-          type: string
-          enum:
-          - category
-      title: EnabledCategoryFilter
-      x-internal: false
     ConfiguredFiltersOverride:
       description: A new set of enabled Product Filtering filters which should display in a particular context, such as on a particular Channel, or while viewing a particular Category. Array order indicates the display order on the storefront.
       type: object
@@ -615,23 +632,6 @@ components:
           $ref: '#/components/schemas/ConfiguredFilters'
       title: ConfiguredFiltersOverride
       x-internal: false
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

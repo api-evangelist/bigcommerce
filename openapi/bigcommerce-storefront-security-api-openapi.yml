@@ -82,6 +82,29 @@ paths:
       tags:
       - Storefront Security
 components:
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
   schemas:
     HSTSMaxAgeEnumValues:
       type: string
@@ -92,6 +115,12 @@ components:
       title: HSTSMaxAgeEnumValues
       x-tags:
       - Models
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     StorefrontSecuritySettings:
       type: object
       properties:
@@ -130,35 +159,6 @@ components:
               - allow_from_url
       title: StorefrontSecuritySettings
       x-internal: false
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

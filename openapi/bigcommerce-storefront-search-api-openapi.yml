@@ -108,6 +108,14 @@ paths:
       - Storefront Search
 components:
   parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
     Accept:
       name: Accept
       in: header
@@ -122,15 +130,13 @@ components:
       name: channel_id
       schema:
         type: integer
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   schemas:
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     StorefrontSearchSettings:
       type: object
       properties:
@@ -149,21 +155,6 @@ components:
       - product_filtering_enabled
       - search_suggest
       x-internal: false
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ContentSortEnumValues:
-      type: string
-      default: relevance
-      enum:
-      - relevance
-      - alphaasc
-      - alphadesc
-      title: ContentSortEnumValues
-      x-internal: false
     ProductSortEnumValues:
       description: The available sorts for PLP pages.
       type: string
@@ -179,6 +170,15 @@ components:
       - avgcustomerreview
       - relevance
       title: ProductSortEnumValues
+      x-internal: false
+    ContentSortEnumValues:
+      type: string
+      default: relevance
+      enum:
+      - relevance
+      - alphaasc
+      - alphadesc
+      title: ContentSortEnumValues
       x-internal: false
   securitySchemes:
     X-Auth-Token:

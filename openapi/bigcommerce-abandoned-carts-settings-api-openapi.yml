@@ -129,19 +129,19 @@ paths:
       security: []
 components:
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
       schema:
         type: string
         default: application/json
@@ -154,21 +154,6 @@ components:
           $ref: '#/components/schemas/ChannelAbandonedCartSettings'
         meta:
           $ref: '#/components/schemas/metaEmpty_Full'
-      x-tags:
-      - Models
-    GlobalAbandonedCartSettingsRequest:
-      allOf:
-      - $ref: '#/components/schemas/AbandonedCartSettings'
-      - description: The request object for updating the abandoned cart settings of a store at the global level
-        required:
-        - enabled
-        - email_customer_until_cart_is_recovered
-        - marketing_emails_require_customer_consent
-        - email_merchant_when_cart_is_converted
-        - email_merchant_when_cart_is_abandoned
-        - merchant_email_address
-        - merchant_abandoned_cart_email_frequency_type
-        - merchant_abandoned_cart_digest_email_frequency
       x-tags:
       - Models
     AbandonedCartSettings:
@@ -207,6 +192,31 @@ components:
           type: integer
           minimum: 2
           maximum: 1000
+    GlobalAbandonedCartSettingsRequest:
+      allOf:
+      - $ref: '#/components/schemas/AbandonedCartSettings'
+      - description: The request object for updating the abandoned cart settings of a store at the global level
+        required:
+        - enabled
+        - email_customer_until_cart_is_recovered
+        - marketing_emails_require_customer_consent
+        - email_merchant_when_cart_is_converted
+        - email_merchant_when_cart_is_abandoned
+        - merchant_email_address
+        - merchant_abandoned_cart_email_frequency_type
+        - merchant_abandoned_cart_digest_email_frequency
+      x-tags:
+      - Models
+    GlobalAbandonedCartSettingsResponse:
+      description: The response object of abandoned cart settings at the global level
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AbandonedCartSettings'
+        meta:
+          $ref: '#/components/schemas/metaEmpty_Full'
+      x-tags:
+      - Models
     ChannelAbandonedCartSettingsRequest:
       allOf:
       - $ref: '#/components/schemas/ChannelAbandonedCartSettings'
@@ -279,16 +289,6 @@ components:
           type: string
         errors:
           type: object
-      x-tags:
-      - Models
-    GlobalAbandonedCartSettingsResponse:
-      description: The response object of abandoned cart settings at the global level
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/AbandonedCartSettings'
-        meta:
-          $ref: '#/components/schemas/metaEmpty_Full'
       x-tags:
       - Models
     metaEmpty_Full:

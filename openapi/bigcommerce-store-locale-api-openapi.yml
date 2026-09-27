@@ -97,14 +97,6 @@ paths:
       - Store Locale
 components:
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
@@ -113,7 +105,42 @@ components:
       schema:
         type: string
         default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
+    BaseError:
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      type: object
+      properties:
+        instance:
+          type: string
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+      x-internal: false
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     Locale:
       description: The basic locale settings for a store, used to give shopper information about languages, countries, etc.
       type: object
@@ -143,39 +170,6 @@ components:
       required:
       - default_shopper_language
       x-internal: false
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    BaseError:
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      type: object
-      properties:
-        instance:
-          type: string
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-      x-internal: false
-    DetailedErrors:
-      type: object
-      properties: {}
-      additionalProperties: true
-      title: Detailed Errors
-      x-internal: false
     ErrorResponse:
       allOf:
       - $ref: '#/components/schemas/BaseError'
@@ -183,6 +177,12 @@ components:
           errors:
             $ref: '#/components/schemas/DetailedErrors'
         type: object
+      x-internal: false
+    DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      title: Detailed Errors
       x-internal: false
   securitySchemes:
     X-Auth-Token:

@@ -225,6 +225,56 @@ paths:
       tags:
       - Attribute Values
 components:
+  schemas:
+    attributeValue_Base:
+      title: attributeValue_Base
+      type: object
+      properties:
+        id:
+          description: Attribute value ID.
+          type: integer
+          format: int32
+        attribute_id:
+          description: Attribute ID.
+          type: integer
+          format: int32
+        value:
+          description: "Attribute value. This will always be a string, regardless of the attributeʼs type. \n\nCorresponds to `attribute_value` used in customer attribute values `GET` requests."
+          type: string
+          minLength: 0
+          maxLength: 255
+          example: string
+        customer_id:
+          type: integer
+          description: Customer ID.
+          format: int32
+          example: 8504
+      required:
+      - attribute_id
+      - value
+      - customer_id
+      x-internal: false
+    ErrorResponse:
+      title: Error Response
+      type: object
+      properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+          format: int32
+        title:
+          description: The error title describing the particular error.
+          type: string
+        type:
+          description: A link to a list of BigCommerce API status codes.
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+      x-internal: false
   responses:
     CustomerAttributeValueCollectionResponse:
       description: ''
@@ -314,56 +364,6 @@ components:
                           next:
                             description: Link to the next page returned in the response.
                             type: string
-  schemas:
-    attributeValue_Base:
-      title: attributeValue_Base
-      type: object
-      properties:
-        id:
-          description: Attribute value ID.
-          type: integer
-          format: int32
-        attribute_id:
-          description: Attribute ID.
-          type: integer
-          format: int32
-        value:
-          description: "Attribute value. This will always be a string, regardless of the attributeʼs type. \n\nCorresponds to `attribute_value` used in customer attribute values `GET` requests."
-          type: string
-          minLength: 0
-          maxLength: 255
-          example: string
-        customer_id:
-          type: integer
-          description: Customer ID.
-          format: int32
-          example: 8504
-      required:
-      - attribute_id
-      - value
-      - customer_id
-      x-internal: false
-    ErrorResponse:
-      title: Error Response
-      type: object
-      properties:
-        status:
-          description: The HTTP status code.
-          type: integer
-          format: int32
-        title:
-          description: The error title describing the particular error.
-          type: string
-        type:
-          description: A link to a list of BigCommerce API status codes.
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-          additionalProperties:
-            type: string
-      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

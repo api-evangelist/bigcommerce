@@ -188,11 +188,68 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       operationId: updateChannelCartSettings
 components:
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
+    GlobalCartSettingsResponse:
+      description: The response object of cart settings at the global level.
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CartSettings'
+        meta:
+          $ref: '#/components/schemas/metaCollection_open'
+      x-tags:
+      - Models
+    metaCollection_open:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+      x-tags:
+      - Models
     ChannelCartSettingsRequest:
       allOf:
       - $ref: '#/components/schemas/ChannelCartSettings'
       - description: The request object for updating the cart settings overrides of a store for a channel.
+      x-tags:
+      - Models
+    ChannelCartSettingsResponse:
+      description: The response object of cart settings overrides for a channel.
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ChannelCartSettings'
+        meta:
+          $ref: '#/components/schemas/metaCollection_open'
       x-tags:
       - Models
     GlobalCartSettingsRequest:
@@ -211,22 +268,6 @@ components:
           type: boolean
       x-tags:
       - Models
-    metaCollection_open:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ChannelCartSettingsResponse:
-      description: The response object of cart settings overrides for a channel.
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ChannelCartSettings'
-        meta:
-          $ref: '#/components/schemas/metaCollection_open'
-      x-tags:
-      - Models
     ChannelCartSettings:
       description: Represents all settings overrides related to the shopping cart functionality of a store for a channel.
       type: object
@@ -237,47 +278,6 @@ components:
           - 'null'
       x-tags:
       - Models
-    GlobalCartSettingsResponse:
-      description: The response object of cart settings at the global level.
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/CartSettings'
-        meta:
-          $ref: '#/components/schemas/metaCollection_open'
-      x-tags:
-      - Models
-    ErrorResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-        title:
-          type: string
-        type:
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-      x-tags:
-      - Models
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

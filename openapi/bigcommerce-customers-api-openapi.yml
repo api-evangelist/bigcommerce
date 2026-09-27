@@ -421,27 +421,55 @@ paths:
           headers: {}
 components:
   schemas:
-    customerAddresses_CustomerPost:
-      title: customerAddresses_CustomerPost
-      example:
-        address1: Addr 1
-        address2: ''
-        address_type: residential
-        city: San Francisco
-        company: History
-        country_code: US
-        first_name: Ronald
-        last_name: Swimmer
-        phone: '707070707'
-        postal_code: '33333'
-        state_or_province: California
-        form_fields:
-        - name: test
-          value: test
+    attribute_Full:
+      description: ''
+      type: object
+      x-examples:
+        Example:
+          attribute_id: 2
+          attribute_value: 'Yes'
+          customer_id: 1
+          date_created: '2021-07-28T19:00:38Z'
+          date_modified: '2021-07-28T19:00:38Z'
+          id: 2
+      properties:
+        attribute_id:
+          type: integer
+          description: Attribute ID.
+          format: int32
+          example: 2
+        attribute_value:
+          type: string
+          minLength: 1
+          description: Attribute value.
+          example: 'Yes'
+        customer_id:
+          type: integer
+          description: Customer ID.
+          example: 1
+          format: int32
+        date_created:
+          type: string
+          minLength: 1
+          description: The date the customer attribute was created.
+          format: date-time
+        date_modified:
+          type: string
+          minLength: 1
+          description: The date the customer attribute was modified.
+          format: date-time
+        id:
+          type: integer
+          description: Attribute value ID.
+          format: int32
+          example: 2
+      x-internal: false
+    address_Full:
+      title: address_Full
       type: object
       properties:
         first_name:
-          description: The first name associated with the customer address.
+          description: The first name of the customer address.
           type: string
           minLength: 1
           maxLength: 255
@@ -467,12 +495,12 @@ components:
           minLength: 0
           maxLength: 100
         state_or_province:
-          description: The state or province name. Required for countries in which valid addresses must contain a state/province.
+          description: The state or province name.
           type: string
           minLength: 0
           maxLength: 100
         postal_code:
-          description: The postal code of the customer address. Required for countries in which valid addresses must have postal codes.
+          description: The postal code of the customer address.
           type: string
           minLength: 0
           maxLength: 30
@@ -494,6 +522,17 @@ components:
           enum:
           - residential
           - commercial
+        customer_id:
+          description: The customer ID.
+          type: integer
+          format: int32
+        id:
+          description: The unique numeric ID of the address.
+          type: integer
+          format: int32
+        country:
+          description: The country name of the customer address.
+          type: string
         form_fields:
           description: Array of form fields. Controlled by `formfields` parameter.
           type: array
@@ -506,84 +545,65 @@ components:
       - last_name
       - address1
       - city
+      - state_or_province
+      - postal_code
       - country_code
-      description: The `address` object for the `customer` objectʼs `addresses` array.
-      x-internal: false
-    customer_Put:
-      title: customer_Put
-      type: object
-      properties:
-        email:
-          description: The email of the customer. Must be unique.
-          type: string
-          minLength: 3
-          maxLength: 255
-        first_name:
-          description: The first name of the customer.
-          type: string
-          minLength: 1
-          maxLength: 100
-        last_name:
-          description: The last name of the customer.
-          type: string
-          minLength: 1
-          maxLength: 100
-        company:
-          description: The company of the customer.
-          type: string
-          minLength: 0
-          maxLength: 255
-        phone:
-          description: The phone number of the customer.
-          type: string
-          minLength: 0
-          maxLength: 50
-        registration_ip_address:
-          description: The IP address from which this customer was registered.
-          type: string
-          minLength: 0
-          maxLength: 30
-        notes:
-          description: The customer notes.
-          type: string
-        tax_exempt_category:
-          description: The tax exempt category code for the customer.
-          type: string
-          minLength: 0
-          maxLength: 255
-        customer_group_id:
-          description: ID of the group which this customer belongs to.
-          type: integer
-          format: int32
-        id:
-          description: The unique numeric ID of the customer.
-          type: integer
-          format: int32
-        authentication:
-          $ref: '#/components/schemas/customerAuthentication_PostPut'
-        accepts_product_review_abandoned_cart_emails:
-          type: boolean
-          description: It determines if the customer is signed up to receive either product review or abandoned cart emails or receive both emails.
-        store_credit_amounts:
-          $ref: '#/components/schemas/CustomerStoredCreditAmounts'
-        origin_channel_id:
-          type: integer
-          description: Channel ID of the customer that has created the form.
-        channel_ids:
-          description: Arrays of channels the customer can access.
-          type: array
-          items:
-            type: integer
-        form_fields:
-          type: array
-          description: 'Array of form fields. Controlled by formfields parameter.
-
-            '
-          items:
-            $ref: '#/components/schemas/formFieldValue'
-      required:
+      - customer_id
       - id
       x-internal: false
+    formFieldValue:
+      title: Generic Form Field Value
+      type: object
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: The form field name.
+          example: color
+        value:
+          oneOf:
+          - type: string
+            example: blue
+          - type: number
+            format: double
+            example: 12.345
+          - type: array
+            example:
+            - red
+            - green
+            - black
+            items:
+              type: string
+    formFieldValue_Customer:
+      title: Customer Form Field Value
+      type: object
+      required:
+      - customer_id
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: The form field name.
+          example: color
+        value:
+          oneOf:
+          - type: string
+            example: blue
+          - type: number
+            format: double
+            example: 12.345
+          - type: array
+            example:
+            - red
+            - green
+            - black
+            items:
+              type: string
+        customer_id:
+          type: integer
     customer_Post:
       title: customer_Post
       type: object
@@ -666,6 +686,15 @@ components:
       - email
       - first_name
       - last_name
+      x-internal: false
+    customerChannelIds:
+      type: array
+      title: customerChannelIds
+      description: Array of channel ids the Customer has access to.
+      items:
+        example:
+        - 1
+        - 2
       x-internal: false
     customer_Full:
       title: customer_Full
@@ -770,57 +799,101 @@ components:
         channel_ids:
           $ref: '#/components/schemas/customerChannelIds'
       x-internal: false
-    attribute_Full:
-      description: ''
+    customerAuthentication_PostPut:
+      title: customerAuthentication_PostPut
+      allOf:
+      - properties:
+          force_password_reset:
+            description: If `true`, this customer will be forced to change password on next login.
+            type: boolean
+      - properties:
+          new_password:
+            description: New password for customer. Write only field.
+            type: string
       type: object
-      x-examples:
-        Example:
-          attribute_id: 2
-          attribute_value: 'Yes'
-          customer_id: 1
-          date_created: '2021-07-28T19:00:38Z'
-          date_modified: '2021-07-28T19:00:38Z'
-          id: 2
-      properties:
-        attribute_id:
-          type: integer
-          description: Attribute ID.
-          format: int32
-          example: 2
-        attribute_value:
-          type: string
-          minLength: 1
-          description: Attribute value.
-          example: 'Yes'
-        customer_id:
-          type: integer
-          description: Customer ID.
-          example: 1
-          format: int32
-        date_created:
-          type: string
-          minLength: 1
-          description: The date the customer attribute was created.
-          format: date-time
-        date_modified:
-          type: string
-          minLength: 1
-          description: The date the customer attribute was modified.
-          format: date-time
-        id:
-          type: integer
-          description: Attribute value ID.
-          format: int32
-          example: 2
       x-internal: false
-    customerChannelIds:
-      type: array
-      title: customerChannelIds
-      description: Array of channel ids the Customer has access to.
-      items:
-        example:
-        - 1
-        - 2
+    _metaCollection:
+      title: _metaCollection
+      description: Data about the response, including pagination and collection totals.
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      x-internal: false
+    customer_Put:
+      title: customer_Put
+      type: object
+      properties:
+        email:
+          description: The email of the customer. Must be unique.
+          type: string
+          minLength: 3
+          maxLength: 255
+        first_name:
+          description: The first name of the customer.
+          type: string
+          minLength: 1
+          maxLength: 100
+        last_name:
+          description: The last name of the customer.
+          type: string
+          minLength: 1
+          maxLength: 100
+        company:
+          description: The company of the customer.
+          type: string
+          minLength: 0
+          maxLength: 255
+        phone:
+          description: The phone number of the customer.
+          type: string
+          minLength: 0
+          maxLength: 50
+        registration_ip_address:
+          description: The IP address from which this customer was registered.
+          type: string
+          minLength: 0
+          maxLength: 30
+        notes:
+          description: The customer notes.
+          type: string
+        tax_exempt_category:
+          description: The tax exempt category code for the customer.
+          type: string
+          minLength: 0
+          maxLength: 255
+        customer_group_id:
+          description: ID of the group which this customer belongs to.
+          type: integer
+          format: int32
+        id:
+          description: The unique numeric ID of the customer.
+          type: integer
+          format: int32
+        authentication:
+          $ref: '#/components/schemas/customerAuthentication_PostPut'
+        accepts_product_review_abandoned_cart_emails:
+          type: boolean
+          description: It determines if the customer is signed up to receive either product review or abandoned cart emails or receive both emails.
+        store_credit_amounts:
+          $ref: '#/components/schemas/CustomerStoredCreditAmounts'
+        origin_channel_id:
+          type: integer
+          description: Channel ID of the customer that has created the form.
+        channel_ids:
+          description: Arrays of channels the customer can access.
+          type: array
+          items:
+            type: integer
+        form_fields:
+          type: array
+          description: 'Array of form fields. Controlled by formfields parameter.
+
+            '
+          items:
+            $ref: '#/components/schemas/formFieldValue'
+      required:
+      - id
       x-internal: false
     ErrorResponse:
       title: Error Response
@@ -843,92 +916,44 @@ components:
           additionalProperties:
             type: string
       x-internal: false
-    customerAuthentication_PostPut:
-      title: customerAuthentication_PostPut
-      allOf:
-      - properties:
-          force_password_reset:
-            description: If `true`, this customer will be forced to change password on next login.
-            type: boolean
-      - properties:
-          new_password:
-            description: New password for customer. Write only field.
-            type: string
-      type: object
-      x-internal: false
-    Links:
-      title: Links
-      description: Pagination links for the previous and next parts of the whole collection.
+    customerAttributes_Base:
+      description: ''
+      title: customerAttributes_Base
       type: object
       properties:
-        previous:
-          description: Link to the previous page returned in the response.
-          type: string
-        current:
-          description: Link to the current page returned in the response.
-          type: string
-        next:
-          description: Link to the next page returned in the response.
-          type: string
-    formFieldValue:
-      title: Generic Form Field Value
-      type: object
-      required:
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: The form field name.
-          example: color
-        value:
-          oneOf:
-          - type: string
-            example: blue
-          - type: number
-            format: double
-            example: 12.345
-          - type: array
-            example:
-            - red
-            - green
-            - black
-            items:
-              type: string
-    formFieldValue_Customer:
-      title: Customer Form Field Value
-      type: object
-      required:
-      - customer_id
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: The form field name.
-          example: color
-        value:
-          oneOf:
-          - type: string
-            example: blue
-          - type: number
-            format: double
-            example: 12.345
-          - type: array
-            example:
-            - red
-            - green
-            - black
-            items:
-              type: string
-        customer_id:
+        attribute_id:
           type: integer
-    address_Full:
-      title: address_Full
+          format: int32
+          example: 55
+          description: Attribute ID.
+        attribute_value:
+          type: string
+          example: string
+          minLength: 0
+          maxLength: 255
+          description: Attribute value. This will always be a string, regardless of the attribute’s type.
+      x-internal: false
+    customerAddresses_CustomerPost:
+      title: customerAddresses_CustomerPost
+      example:
+        address1: Addr 1
+        address2: ''
+        address_type: residential
+        city: San Francisco
+        company: History
+        country_code: US
+        first_name: Ronald
+        last_name: Swimmer
+        phone: '707070707'
+        postal_code: '33333'
+        state_or_province: California
+        form_fields:
+        - name: test
+          value: test
       type: object
       properties:
         first_name:
-          description: The first name of the customer address.
+          description: The first name associated with the customer address.
           type: string
           minLength: 1
           maxLength: 255
@@ -954,12 +979,12 @@ components:
           minLength: 0
           maxLength: 100
         state_or_province:
-          description: The state or province name.
+          description: The state or province name. Required for countries in which valid addresses must contain a state/province.
           type: string
           minLength: 0
           maxLength: 100
         postal_code:
-          description: The postal code of the customer address.
+          description: The postal code of the customer address. Required for countries in which valid addresses must have postal codes.
           type: string
           minLength: 0
           maxLength: 30
@@ -981,17 +1006,6 @@ components:
           enum:
           - residential
           - commercial
-        customer_id:
-          description: The customer ID.
-          type: integer
-          format: int32
-        id:
-          description: The unique numeric ID of the address.
-          type: integer
-          format: int32
-        country:
-          description: The country name of the customer address.
-          type: string
         form_fields:
           description: Array of form fields. Controlled by `formfields` parameter.
           type: array
@@ -1004,23 +1018,8 @@ components:
       - last_name
       - address1
       - city
-      - state_or_province
-      - postal_code
       - country_code
-      - customer_id
-      - id
-      x-internal: false
-    CustomerStoredCreditAmounts:
-      description: 'Store credit. '
-      type: array
-      format: double
-      items:
-        type: object
-        properties:
-          amount:
-            type: number
-            format: float
-            example: 43.15
+      description: The `address` object for the `customer` objectʼs `addresses` array.
       x-internal: false
     Pagination:
       title: Pagination
@@ -1050,31 +1049,32 @@ components:
         links:
           $ref: '#/components/schemas/Links'
       x-internal: false
-    _metaCollection:
-      title: _metaCollection
-      description: Data about the response, including pagination and collection totals.
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/Pagination'
+    CustomerStoredCreditAmounts:
+      description: 'Store credit. '
+      type: array
+      format: double
+      items:
+        type: object
+        properties:
+          amount:
+            type: number
+            format: float
+            example: 43.15
       x-internal: false
-    customerAttributes_Base:
-      description: ''
-      title: customerAttributes_Base
+    Links:
+      title: Links
+      description: Pagination links for the previous and next parts of the whole collection.
       type: object
       properties:
-        attribute_id:
-          type: integer
-          format: int32
-          example: 55
-          description: Attribute ID.
-        attribute_value:
+        previous:
+          description: Link to the previous page returned in the response.
           type: string
-          example: string
-          minLength: 0
-          maxLength: 255
-          description: Attribute value. This will always be a string, regardless of the attribute’s type.
-      x-internal: false
+        current:
+          description: Link to the current page returned in the response.
+          type: string
+        next:
+          description: Link to the next page returned in the response.
+          type: string
   responses:
     CustomerCollectionResponse:
       description: Customer Collection Response

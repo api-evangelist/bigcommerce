@@ -338,7 +338,7 @@ paths:
       - Redirects
       summary: BigCommerce Get Redirects
       description: Returns a collection of the store's 301 redirects across all sites.
-      operationId: getRedirects
+      operationId: getStorefrontRedirects
       parameters:
       - name: site_id
         in: query
@@ -410,6 +410,8 @@ paths:
                       $ref: '#/components/schemas/301RedirectRead'
                   meta:
                     $ref: '#/components/schemas/MetaPaginationObject'
+      x-operation-id-source: normalized
+      x-operation-id-original: getRedirects
     put:
       tags:
       - Redirects
@@ -445,7 +447,7 @@ paths:
       - Redirects
       summary: BigCommerce Delete Redirects
       description: Deletes redirects.
-      operationId: deleteRedirects
+      operationId: deleteStorefrontRedirects
       parameters:
       - name: id:in
         in: query
@@ -466,6 +468,8 @@ paths:
         '204':
           description: No Content
           content: {}
+      x-operation-id-source: normalized
+      x-operation-id-original: deleteRedirects
     servers:
     - url: https://api.bigcommerce.com/stores/{store_hash}/v3
       variables:
@@ -474,7 +478,35 @@ paths:
           description: Permanent ID of the BigCommerce store.
       description: BigCommerce API Gateway
 components:
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
+    count_Response:
+      title: count_Response
+      type: object
+      properties:
+        count:
+          type: number
+          description: ''
+          example: 27
+      example:
+        count: 27
+      x-internal: false
     redirect:
       title: redirect
       required:
@@ -505,17 +537,6 @@ components:
           ref: 111
         url: http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/
       x-internal: false
-    count_Response:
-      title: count_Response
-      type: object
-      properties:
-        count:
-          type: number
-          description: ''
-          example: 27
-      example:
-        count: 27
-      x-internal: false
     forward:
       title: forward
       type: object
@@ -529,6 +550,57 @@ components:
           type: integer
           description: Reference of the redirect. Dynamic redirects will have the category or product number. Manual redirects will have the url that is being directed to.
           example: 111
+    301RedirectUpsert:
+      required:
+      - from_path
+      - site_id
+      type: object
+      properties:
+        from_path:
+          type: string
+          example: /old-url/
+        site_id:
+          type: integer
+        to:
+          $ref: '#/components/schemas/RedirectTo'
+      description: Data necessary to create or update a redirect. If there’s a conflict on the from_path and site_id, the redirect will be overwritten with new data.
+    RedirectTo:
+      title: RedirectTo
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - product
+          - brand
+          - category
+          - page
+          - post
+          - url
+        entity_id:
+          type: integer
+        url:
+          maxLength: 2048
+          type: string
+          example: /new-url/
+    301RedirectRead:
+      type: object
+      description: Full detail of a Redirect, optionally including the full destination URL.
+      properties:
+        id:
+          type: integer
+        site_id:
+          type: integer
+        from_path:
+          type: string
+          example: /old-url
+        to:
+          $ref: '#/components/schemas/RedirectTo'
+        to_url:
+          type: string
+          description: Full destination URL for the redirect. Must be explicitly included via URL parameter.
+          format: uri
+          example: https://store-domain.com/new-url
     MetaPaginationObject:
       type: object
       properties:
@@ -564,74 +636,6 @@ components:
                 current:
                   type: string
                   example: ?limit=5&page=1
-    RedirectTo:
-      title: RedirectTo
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - product
-          - brand
-          - category
-          - page
-          - post
-          - url
-        entity_id:
-          type: integer
-        url:
-          maxLength: 2048
-          type: string
-          example: /new-url/
-    301RedirectUpsert:
-      required:
-      - from_path
-      - site_id
-      type: object
-      properties:
-        from_path:
-          type: string
-          example: /old-url/
-        site_id:
-          type: integer
-        to:
-          $ref: '#/components/schemas/RedirectTo'
-      description: Data necessary to create or update a redirect. If there’s a conflict on the from_path and site_id, the redirect will be overwritten with new data.
-    301RedirectRead:
-      type: object
-      description: Full detail of a Redirect, optionally including the full destination URL.
-      properties:
-        id:
-          type: integer
-        site_id:
-          type: integer
-        from_path:
-          type: string
-          example: /old-url
-        to:
-          $ref: '#/components/schemas/RedirectTo'
-        to_url:
-          type: string
-          description: Full destination URL for the redirect. Must be explicitly included via URL parameter.
-          format: uri
-          example: https://store-domain.com/new-url
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

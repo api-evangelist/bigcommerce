@@ -92,7 +92,33 @@ paths:
         name: urls:in
         description: Query certificates by one or more URLs
 components:
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
+    EmptyResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties: {}
+        meta:
+          type: object
+          properties: {}
     CertificateWrite:
       title: CertificateWrite
       type: object
@@ -109,16 +135,12 @@ components:
           description: The intermediate certificate(s), as a string.
       x-tags:
       - Models
-    GetCertificatesResponse:
-      title: GetCertificatesResponse
+    MetaOpen:
+      title: Response meta
       type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstalledCertificateDetail'
-        meta:
-          $ref: '#/components/schemas/MetaOpen'
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     CertificateResponse:
       title: CertificateResponse
       type: object
@@ -138,21 +160,6 @@ components:
           $ref: '#/components/schemas/MetaOpen'
       x-tags:
       - Models
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    EmptyResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties: {}
-        meta:
-          type: object
-          properties: {}
     InstallCertificateData:
       type: object
       properties:
@@ -202,23 +209,16 @@ components:
           description: The intermediate certificate(s), as a string.
       x-tags:
       - Models
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
+    GetCertificatesResponse:
+      title: GetCertificatesResponse
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstalledCertificateDetail'
+        meta:
+          $ref: '#/components/schemas/MetaOpen'
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

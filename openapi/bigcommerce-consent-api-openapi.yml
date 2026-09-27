@@ -168,31 +168,6 @@ components:
       schema:
         type: integer
   schemas:
-    Deny:
-      title: Deny
-      type: array
-      uniqueItems: true
-      minItems: 0
-      example:
-      - analytics
-      items:
-        type: string
-        enum:
-        - essential
-        - functional
-        - analytics
-        - targeting
-      x-internal: false
-    DeclareCustomerConsentRequest:
-      title: DeclareCustomerConsentRequest
-      description: Request payload for the BigCommerce API.
-      type: object
-      properties:
-        allow:
-          $ref: '#/components/schemas/consentAllow'
-        deny:
-          $ref: '#/components/schemas/Deny'
-      x-internal: false
     consent_Full:
       title: consent_Full
       description: Response payload for the BigCommerce API.
@@ -207,22 +182,15 @@ components:
           type: string
           format: date-time
       x-internal: false
-    consentAllow:
-      title: consentAllow
-      type: array
-      uniqueItems: true
-      minItems: 0
-      example:
-      - essential
-      - targeting
-      - functional
-      items:
-        type: string
-        enum:
-        - essential
-        - functional
-        - analytics
-        - targeting
+    DeclareCustomerConsentRequest:
+      title: DeclareCustomerConsentRequest
+      description: Request payload for the BigCommerce API.
+      type: object
+      properties:
+        allow:
+          $ref: '#/components/schemas/consentAllow'
+        deny:
+          $ref: '#/components/schemas/Deny'
       x-internal: false
     ErrorResponse:
       title: Error Response
@@ -244,6 +212,38 @@ components:
           type: object
           additionalProperties:
             type: string
+      x-internal: false
+    consentAllow:
+      title: consentAllow
+      type: array
+      uniqueItems: true
+      minItems: 0
+      example:
+      - essential
+      - targeting
+      - functional
+      items:
+        type: string
+        enum:
+        - essential
+        - functional
+        - analytics
+        - targeting
+      x-internal: false
+    Deny:
+      title: Deny
+      type: array
+      uniqueItems: true
+      minItems: 0
+      example:
+      - analytics
+      items:
+        type: string
+        enum:
+        - essential
+        - functional
+        - analytics
+        - targeting
       x-internal: false
     ConsentPreferences:
       type: object

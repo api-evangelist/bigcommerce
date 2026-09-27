@@ -361,19 +361,19 @@ paths:
                 count: 27
 components:
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
       schema:
         type: string
         default: application/json
@@ -421,20 +421,6 @@ components:
           meta_keywords: BigCommerce, welcome, ecommerce
           author: BigCommerce
           thumbnail_path: string
-    publishedDate:
-      type: object
-      x-internal: false
-      properties:
-        timezone_type:
-          type: integer
-          example: 1
-        date:
-          type: string
-          format: date-time
-          example: '2022-08-10 14:39:15.000000'
-        timezone:
-          type: string
-          example: +00:00
     blogPost_Base_Res:
       title: blogPost_Base_Res
       type: object
@@ -503,6 +489,20 @@ components:
           - string
           - 'null'
           description: Local path to a thumbnail uploaded to `/product_images/` using [WebDAV](https://support.bigcommerce.com/s/article/File-Access-WebDAV).
+    publishedDate:
+      type: object
+      x-internal: false
+      properties:
+        timezone_type:
+          type: integer
+          example: 1
+        date:
+          type: string
+          format: date-time
+          example: '2022-08-10 14:39:15.000000'
+        timezone:
+          type: string
+          example: +00:00
     blogPost_Base_Post:
       title: blogPost_Base_Post
       type: object

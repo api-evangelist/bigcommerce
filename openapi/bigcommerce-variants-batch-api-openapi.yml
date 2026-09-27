@@ -708,15 +708,24 @@ paths:
                   '
       x-codegen-request-body-name: body
 components:
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
     pagination_Full:
       title: pagination_Full
       type: object
@@ -775,23 +784,14 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

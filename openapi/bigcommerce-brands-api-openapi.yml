@@ -994,33 +994,32 @@ paths:
           description: ''
           content: {}
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    BrandIdParam:
-      name: brand_id
-      in: path
-      description: 'The ID of the `Brand` to which the resource belongs.
-
-        '
-      required: true
-      schema:
-        type: integer
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   schemas:
+    customUrl_Full:
+      title: customUrl_Full
+      type: object
+      properties:
+        url:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: 'Product URL on the storefront.
+
+            '
+          x-required:
+          - post
+          - put
+          x-url: true
+        is_customized:
+          type: boolean
+          description: 'Returns `true` if the URL has been changed from its default state (the auto-assigned URL that BigCommerce provides).
+
+            '
+          x-required:
+          - post
+          - put
+      description: The custom URL for the product on the storefront.
+      x-internal: false
     pagination_Full:
       title: pagination_Full
       type: object
@@ -1079,30 +1078,13 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-    customUrl_Full:
-      title: customUrl_Full
+    metaCollection_Full:
+      title: metaCollection_Full
       type: object
       properties:
-        url:
-          maxLength: 255
-          minLength: 0
-          type: string
-          description: 'Product URL on the storefront.
-
-            '
-          x-required:
-          - post
-          - put
-          x-url: true
-        is_customized:
-          type: boolean
-          description: 'Returns `true` if the URL has been changed from its default state (the auto-assigned URL that BigCommerce provides).
-
-            '
-          x-required:
-          - post
-          - put
-      description: The custom URL for the product on the storefront.
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
       x-internal: false
     error_Base:
       title: error_Base
@@ -1193,20 +1175,38 @@ components:
           $ref: '#/components/schemas/customUrl_Full'
       description: Common Brand properties.
       x-internal: false
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
     metaEmpty_Full:
       type: object
       title: Response meta
       properties: {}
       additionalProperties: true
       description: Response metadata.
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    BrandIdParam:
+      name: brand_id
+      in: path
+      description: 'The ID of the `Brand` to which the resource belongs.
+
+        '
+      required: true
+      schema:
+        type: integer
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   responses:
     General207Status:
       description: Multi-status. Multiple operations have taken place and the status for each operation can be viewed in the body of the response. Typically indicates that a partial failure has occurred, such as when a `POST` or `PUT` request is successful, but saving the URL or inventory data has failed.

@@ -171,16 +171,6 @@ paths:
       tags:
       - Webhooks Admin
 components:
-  parameters:
-    IsActive:
-      name: is_active
-      in: query
-      description: 'Enables user to filter for webhooks that are active or not. A webhook subscription becomes deactivated after 90 days of inactivity.
-
-        '
-      schema:
-        type: boolean
-        example: true
   responses:
     400_BadRequest:
       description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
@@ -241,24 +231,6 @@ components:
         errors:
           type: object
       x-internal: false
-    error_Full:
-      type: object
-      title: error_Full
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          description: This value is typically a link to BigCommerce API Status codes.
-          type: string
-      x-internal: false
     Pagination:
       type: object
       description: 'Data about the response, including pagination and collection totals.
@@ -293,6 +265,34 @@ components:
               type: string
               description: Link to the next page returned in the response.
       x-internal: false
+    error_Full:
+      type: object
+      title: error_Full
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          description: This value is typically a link to BigCommerce API Status codes.
+          type: string
+      x-internal: false
+  parameters:
+    IsActive:
+      name: is_active
+      in: query
+      description: 'Enables user to filter for webhooks that are active or not. A webhook subscription becomes deactivated after 90 days of inactivity.
+
+        '
+      schema:
+        type: boolean
+        example: true
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

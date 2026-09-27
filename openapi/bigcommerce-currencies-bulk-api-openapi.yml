@@ -125,13 +125,6 @@ paths:
                 type: object
 components:
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
@@ -139,7 +132,30 @@ components:
       schema:
         type: string
         default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
   schemas:
+    currency_Full:
+      title: currency_Full
+      allOf:
+      - $ref: '#/components/schemas/currency_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: ID of the currency. Read only.
+            readOnly: true
+            example: 2
+          last_updated:
+            type: string
+            description: Date the currency was last updated, created or modified.
+            format: date-time
+      x-internal: false
     currency_Base:
       title: currency_Base
       required:
@@ -242,22 +258,6 @@ components:
       x-internal: false
     currency_Post:
       $ref: '#/components/schemas/currency_Base'
-    currency_Full:
-      title: currency_Full
-      allOf:
-      - $ref: '#/components/schemas/currency_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: ID of the currency. Read only.
-            readOnly: true
-            example: 2
-          last_updated:
-            type: string
-            description: Date the currency was last updated, created or modified.
-            format: date-time
-      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
