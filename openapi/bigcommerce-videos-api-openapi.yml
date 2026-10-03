@@ -549,40 +549,62 @@ paths:
           description: ''
           content: {}
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ProductIdParam:
-      name: product_id
-      in: path
-      description: 'The ID of the `Product` to which the resource belongs.
+  schemas:
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    productVideo_Base:
+      title: productVideo_Base
+      type: object
+      description: 'The model for a POST to create a video on a product.
 
         '
-      required: true
-      schema:
-        type: integer
-    VideoIdParam:
-      name: id
-      description: The BigCommerce ID of the `Video`
-      required: true
-      in: path
-      schema:
-        type: integer
-  schemas:
+      x-internal: false
+      properties:
+        title:
+          type: string
+          maxLength: 255
+          minLength: 0
+          description: 'The title for the video. If left blank, this will be filled in according to data on a host site.
+
+            '
+          example: Writing Great Documentation
+        description:
+          type: string
+          description: 'The description for the video. If left blank, this will be filled in according to data on a host site.
+
+            '
+          example: A video about documenation
+        sort_order:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: 'The order in which the video will be displayed on the product page. Higher integers give the video a lower priority. When updating, if the video is given a lower priority, all videos with a `sort_order` the same as or greater than the videoʼs new `sort_order` value will have their `sort_order`s reordered.
+
+            '
+          example: 1
+        type:
+          type: string
+          description: 'The video type (a short name of a host site).
+
+            '
+          enum:
+          - youtube
+        video_id:
+          type: string
+          description: The ID of the video on a host site.
+          example: z3fRu9pkuXE
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     productVideo_Full:
       title: productVideo_Full
       description: 'A product video model.
@@ -666,61 +688,39 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
-    productVideo_Base:
-      title: productVideo_Base
-      type: object
-      description: 'The model for a POST to create a video on a product.
+  parameters:
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs.
 
         '
-      x-internal: false
-      properties:
-        title:
-          type: string
-          maxLength: 255
-          minLength: 0
-          description: 'The title for the video. If left blank, this will be filled in according to data on a host site.
-
-            '
-          example: Writing Great Documentation
-        description:
-          type: string
-          description: 'The description for the video. If left blank, this will be filled in according to data on a host site.
-
-            '
-          example: A video about documenation
-        sort_order:
-          type: integer
-          maximum: 2147483647
-          minimum: -2147483648
-          description: 'The order in which the video will be displayed on the product page. Higher integers give the video a lower priority. When updating, if the video is given a lower priority, all videos with a `sort_order` the same as or greater than the videoʼs new `sort_order` value will have their `sort_order`s reordered.
-
-            '
-          example: 1
-        type:
-          type: string
-          description: 'The video type (a short name of a host site).
-
-            '
-          enum:
-          - youtube
-        video_id:
-          type: string
-          description: The ID of the video on a host site.
-          example: z3fRu9pkuXE
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
+      required: true
+      schema:
+        type: integer
+    VideoIdParam:
+      name: id
+      description: The BigCommerce ID of the `Video`
+      required: true
+      in: path
+      schema:
+        type: integer
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

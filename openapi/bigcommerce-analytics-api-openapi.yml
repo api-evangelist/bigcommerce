@@ -154,77 +154,11 @@ paths:
       tags:
       - Analytics
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
   schemas:
-    ErrorResponse400:
-      type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/Error'
-      x-internal: false
-    ErrorResponse409:
-      type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/Error'
-      x-internal: false
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    Error:
-      description: A standard error object.
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-      required:
-      - code
-      x-internal: false
-      x-tags:
-      - Common
     AnalyticsProviders:
       type: array
       items:
         $ref: '#/components/schemas/AnalyticsProvider'
-      x-internal: false
-    ErrorResponse422:
-      type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/Error'
-      x-internal: false
-    ErrorResponse404:
-      type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/Error'
       x-internal: false
     AnalyticsProvider:
       type: object
@@ -242,6 +176,72 @@ components:
           description: Web Analytics Provider title.
           type: string
       x-internal: false
+    ErrorResponse409:
+      type: object
+      properties:
+        schema:
+          $ref: '#/components/schemas/Error'
+      x-internal: false
+    ErrorResponse400:
+      type: object
+      properties:
+        schema:
+          $ref: '#/components/schemas/Error'
+      x-internal: false
+    Error:
+      description: A standard error object.
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+      - code
+      x-internal: false
+      x-tags:
+      - Common
+    ErrorResponse422:
+      type: object
+      properties:
+        schema:
+          $ref: '#/components/schemas/Error'
+      x-internal: false
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    ErrorResponse404:
+      type: object
+      properties:
+        schema:
+          $ref: '#/components/schemas/Error'
+      x-internal: false
+  parameters:
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

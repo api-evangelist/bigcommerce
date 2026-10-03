@@ -84,30 +84,16 @@ paths:
       tags:
       - Storefront Category
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
   schemas:
+    CategoryListingModeEnumValues:
+      type: string
+      enum:
+      - current_category_only
+      - child_categories
+      - child_categories_if_category_empty
+      title: CategoryListingModeEnumValues
+      x-tags:
+      - Models
     StorefrontCategorySettings:
       type: object
       properties:
@@ -143,15 +129,29 @@ components:
       - relevance
       title: ProductSortEnumValues
       x-internal: false
-    CategoryListingModeEnumValues:
-      type: string
-      enum:
-      - current_category_only
-      - child_categories
-      - child_categories_if_category_empty
-      title: CategoryListingModeEnumValues
-      x-tags:
-      - Models
+  parameters:
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   responses:
     422ErrorResp:
       description: '`422 Unprocessable Entity` Provided settings could not be applied for some reason - detailed errors in the response.

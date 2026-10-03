@@ -235,6 +235,53 @@ paths:
           $ref: '#/components/responses/MethodNotAllowedError'
 components:
   schemas:
+    customFieldPut:
+      title: Custom Field Put
+      type: object
+      properties:
+        name:
+          maxLength: 250
+          minLength: 1
+          type: string
+          description: 'The value of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
+
+            '
+          example: ISBN
+        value:
+          maxLength: 250
+          minLength: 1
+          type: string
+          description: 'The value of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
+
+            '
+          example: '1234567890123'
+      description: Payload for PUT request to update custom fields associated with a product.
+    customFieldData:
+      title: Product Custom Field Data
+      type: object
+      properties:
+        id:
+          minimum: 1
+          type: integer
+          description: The unique numeric ID of the custom field increments sequentially. Read-Only.
+          example: 6
+        name:
+          maxLength: 250
+          minLength: 1
+          type: string
+          description: 'The name of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
+
+            '
+          example: ISBN
+        value:
+          maxLength: 250
+          minLength: 1
+          type: string
+          description: 'The value of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
+
+            '
+          example: '1234567890123'
+      description: Gets custom fields associated with a product. These allow you to specify additional information that will appear on the product’s page, such as a book’s ISBN or a DVD’s release date.
     GeneralError:
       required:
       - status
@@ -254,6 +301,74 @@ components:
         code:
           type: integer
           description: The custom code of the error.
+    MethodNotAllowedError:
+      required:
+      - status
+      - title
+      - type
+      - detail
+      title: Error Response
+      type: object
+      properties:
+        status:
+          type: integer
+          description: The HTTP status code.
+          example: 405
+        title:
+          type: string
+          description: The error title describes the particular error.
+        type:
+          type: string
+        detail:
+          title: Detailed Errors
+          type: string
+          description: The detailed title describes the particular error.
+    GeneralErrorWithErrors:
+      required:
+      - status
+      - title
+      - type
+      - errors
+      title: Error Response
+      type: object
+      properties:
+        status:
+          type: integer
+          description: The HTTP status code.
+        title:
+          type: string
+          description: The error title describes the particular error.
+        type:
+          type: string
+        errors:
+          title: Detailed Errors
+          type: object
+          properties: {}
+          additionalProperties: true
+    customFieldPost:
+      title: Custom Field Post
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          maxLength: 250
+          minLength: 1
+          type: string
+          description: 'The name of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
+
+            '
+          example: ISBN
+        value:
+          maxLength: 250
+          minLength: 1
+          type: string
+          description: 'The value of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
+
+            '
+          example: '1234567890123'
+      description: Payload for POST request to create custom fields associated with a product.
     metaCollectionFull:
       title: metaCollectionFull
       type: object
@@ -317,187 +432,13 @@ components:
                 '
           description: Data about the response, including pagination and collection totals.
       description: Data about the response, including pagination and collection totals.
-    customFieldPut:
-      title: Custom Field Put
-      type: object
-      properties:
-        name:
-          maxLength: 250
-          minLength: 1
-          type: string
-          description: 'The value of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
-
-            '
-          example: ISBN
-        value:
-          maxLength: 250
-          minLength: 1
-          type: string
-          description: 'The value of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
-
-            '
-          example: '1234567890123'
-      description: Payload for PUT request to update custom fields associated with a product.
-    customFieldData:
-      title: Product Custom Field Data
-      type: object
-      properties:
-        id:
-          minimum: 1
-          type: integer
-          description: The unique numeric ID of the custom field increments sequentially. Read-Only.
-          example: 6
-        name:
-          maxLength: 250
-          minLength: 1
-          type: string
-          description: 'The name of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
-
-            '
-          example: ISBN
-        value:
-          maxLength: 250
-          minLength: 1
-          type: string
-          description: 'The value of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
-
-            '
-          example: '1234567890123'
-      description: Gets custom fields associated with a product. These allow you to specify additional information that will appear on the product’s page, such as a book’s ISBN or a DVD’s release date.
-    customFieldPost:
-      title: Custom Field Post
-      required:
-      - name
-      - value
-      type: object
-      properties:
-        name:
-          maxLength: 250
-          minLength: 1
-          type: string
-          description: 'The name of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
-
-            '
-          example: ISBN
-        value:
-          maxLength: 250
-          minLength: 1
-          type: string
-          description: 'The value of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
-
-            '
-          example: '1234567890123'
-      description: Payload for POST request to create custom fields associated with a product.
-    MethodNotAllowedError:
-      required:
-      - status
-      - title
-      - type
-      - detail
-      title: Error Response
-      type: object
-      properties:
-        status:
-          type: integer
-          description: The HTTP status code.
-          example: 405
-        title:
-          type: string
-          description: The error title describes the particular error.
-        type:
-          type: string
-        detail:
-          title: Detailed Errors
-          type: string
-          description: The detailed title describes the particular error.
     metaEmptyFull:
       type: object
       title: Response meta
       properties: {}
       additionalProperties: true
       description: Response metadata.
-    GeneralErrorWithErrors:
-      required:
-      - status
-      - title
-      - type
-      - errors
-      title: Error Response
-      type: object
-      properties:
-        status:
-          type: integer
-          description: The HTTP status code.
-        title:
-          type: string
-          description: The error title describes the particular error.
-        type:
-          type: string
-        errors:
-          title: Detailed Errors
-          type: object
-          properties: {}
-          additionalProperties: true
-  parameters:
-    CustomFieldIdParam:
-      name: custom_field_id
-      description: 'The ID of the `CustomField`.
-
-        '
-      required: true
-      in: path
-      schema:
-        type: integer
-    ProductIdParam:
-      name: product_id
-      in: path
-      description: 'The ID of the `Product` to which the resource belongs.
-
-        '
-      required: true
-      schema:
-        type: integer
   responses:
-    MethodNotAllowedError:
-      description: 405 Method Not Allowed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/MethodNotAllowedError'
-    GeneralErrorWithErrors:
-      description: General Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GeneralErrorWithErrors'
-    UnauthorizedError:
-      description: 401 Unauthorized
-      content:
-        plain/text:
-          schema:
-            type: string
-    UnsupportedMediaTypeError:
-      description: 415 Unsupported Media Type
-      content:
-        text/html:
-          schema:
-            type: string
-    CustomFieldResponse:
-      description: Gets Custom field.
-      content:
-        application/json:
-          schema:
-            properties:
-              data:
-                $ref: '#/components/schemas/customFieldData'
-              meta:
-                $ref: '#/components/schemas/metaEmptyFull'
-    GeneralError:
-      description: General Error.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GeneralError'
     CustomFieldsResponse:
       description: Gets array of Custom fields.
       content:
@@ -510,6 +451,65 @@ components:
                   $ref: '#/components/schemas/customFieldData'
               meta:
                 $ref: '#/components/schemas/metaCollectionFull'
+    UnauthorizedError:
+      description: 401 Unauthorized
+      content:
+        plain/text:
+          schema:
+            type: string
+    UnsupportedMediaTypeError:
+      description: 415 Unsupported Media Type
+      content:
+        text/html:
+          schema:
+            type: string
+    MethodNotAllowedError:
+      description: 405 Method Not Allowed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MethodNotAllowedError'
+    GeneralError:
+      description: General Error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GeneralError'
+    GeneralErrorWithErrors:
+      description: General Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GeneralErrorWithErrors'
+    CustomFieldResponse:
+      description: Gets Custom field.
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                $ref: '#/components/schemas/customFieldData'
+              meta:
+                $ref: '#/components/schemas/metaEmptyFull'
+  parameters:
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs.
+
+        '
+      required: true
+      schema:
+        type: integer
+    CustomFieldIdParam:
+      name: custom_field_id
+      description: 'The ID of the `CustomField`.
+
+        '
+      required: true
+      in: path
+      schema:
+        type: integer
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

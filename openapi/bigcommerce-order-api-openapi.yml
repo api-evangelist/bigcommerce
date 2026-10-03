@@ -70,83 +70,16 @@ paths:
                 $ref: '#/components/schemas/Order'
 components:
   schemas:
-    ConsignmentFormField:
-      title: ConsignmentFormField
+    CustomField:
+      title: Custom Field
       type: object
       properties:
-        name:
+        fieldId:
           type: string
-          example: special note
-        value:
-          type:
-          - string
-          - 'null'
-          example: super rare
-      x-internal: false
-    OrderItemGiftCertificate:
-      title: Order Item Gift Certificate
-      type: object
-      properties:
-        name:
+          description: ''
+        fieldValue:
           type: string
-          description: The itemʼs product name.
-        quantity:
-          type: number
-          description: Quantity of this item.
-          format: double
-        isTaxable:
-          type: boolean
-          description: Whether the item is taxable.
-        amount:
-          type: number
-          description: Price of the item
-          format: double
-        type:
-          type: string
-          description: Explicitly specifying the gift certificate type
-      x-internal: false
-    Currency:
-      title: Currency
-      type: object
-      properties:
-        name:
-          type: string
-          description: The currency name.
-        code:
-          type: string
-          description: 'ISO-4217 currency code. (See: http://en.wikipedia.org/wiki/ISO_4217.)'
-        symbol:
-          type: string
-          description: The currency symbol.
-        decimalPlaces:
-          type: number
-          description: Number of decimal places for the currency. For example, USD currency has two decimal places.
-          format: double
-      description: This will always be the same between cart and checkout.
-      x-internal: false
-    OrderLineItem:
-      title: Order Line Item
-      required:
-      - digitalItems
-      - giftCertificate
-      - physicalItems
-      type: object
-      properties:
-        physicalItems:
-          type: array
-          description: Array of `ItemPhysical` objects.
-          items:
-            $ref: '#/components/schemas/ItemPhysical'
-        digitalItems:
-          type: array
-          description: Array of `ItemDigital` objects.
-          items:
-            $ref: '#/components/schemas/OrderItemDigital'
-        giftCertificate:
-          type: array
-          description: Array of `ItemGiftCertificate` objects.
-          items:
-            $ref: '#/components/schemas/OrderItemGiftCertificate'
+          description: This can also be an array for fields that need to support list of values; for example, a set of checkboxes.
       x-internal: false
     ShippingConsignment:
       title: ShippingConsignment
@@ -281,113 +214,6 @@ components:
           - name: special note
             value: super rare
       x-internal: false
-    AppliedCoupon:
-      title: Applied Coupon
-      required:
-      - code
-      type: object
-      properties:
-        id:
-          type: string
-          description: The coupon ID.
-        code:
-          type: string
-          description: the coupon code
-        displayName:
-          type: string
-          description: The coupon title based on different types provided in control panel section.
-        couponType:
-          type: string
-          description: Key name to identify the type of coupon.
-        discountedAmount:
-          type: number
-          description: The discounted amount applied within a given context.
-          format: double
-      x-internal: false
-    GiftWrapping:
-      title: Gift Wrapping
-      type: object
-      properties:
-        name:
-          type: string
-          description: ''
-        message:
-          type: string
-          description: ''
-        amount:
-          type: number
-          description: ''
-          format: double
-      x-internal: false
-    Status:
-      title: Status
-      type: string
-      description: Order status.
-      example: INCOMPLETE
-      enum:
-      - INCOMPLETE
-      - PENDING
-      - SHIPPED
-      - PARTIALLY_SHIPPED
-      - REFUNDED
-      - CANCELLED
-      - DECLINED
-      - AWAITING_PAYMENT
-      - AWAITING_PICKUP
-      - AWAITING_SHIPMENT
-      - COMPLETED
-      - AWAITING_FULFILLMENT
-      - MANUAL_VERIFICATION_REQUIRED
-      - DISPUTED
-      - PARTIALLY_REFUNDED
-      x-internal: false
-    Consignments:
-      title: Consignments
-      type: object
-      properties:
-        shipping:
-          type: array
-          description: List of shipping consignments
-          items:
-            $ref: '#/components/schemas/ShippingConsignment'
-      description: All the consignments of the order.
-      x-examples:
-        example-1:
-          shipping:
-          - lineItems:
-            - id: 8
-            shippingAddressId: 1
-            firstName: first1
-            lastName: last1
-            company: company1
-            address1: 2802 Skyway Cir
-            address2: Balcony
-            city: Austin
-            stateOrProvince: Texas
-            postalCode: '78704'
-            country: United States
-            countryCode: US
-            email: first1@bigcommerce.com
-            phone: '0410123452'
-            itemsTotal: 1
-            itemsShipped: 0
-            shippingMethod: Flat Rate
-            baseCost: 15.5
-            costExTax: 15.5
-            costIncTax: 16.7
-            costTax: 1.2
-            costTaxClassId: 2
-            baseHandlingCost: 0
-            handlingCostExTax: 0
-            handlingCostIncTax: 0
-            handlingCostTax: 0
-            handlingCostTaxClassId: 2
-            shippingZoneId: 1
-            shippingZoneName: United States
-            customFields:
-            - name: special note
-              value: super rare
-      x-internal: false
     ItemPhysical:
       title: Item Physical
       required:
@@ -475,16 +301,127 @@ components:
           items:
             type: object
       x-internal: false
-    CustomField:
-      title: Custom Field
+    GiftWrapping:
+      title: Gift Wrapping
       type: object
       properties:
-        fieldId:
+        name:
           type: string
           description: ''
-        fieldValue:
+        message:
           type: string
-          description: This can also be an array for fields that need to support list of values; for example, a set of checkboxes.
+          description: ''
+        amount:
+          type: number
+          description: ''
+          format: double
+      x-internal: false
+    AppliedDiscount:
+      title: Applied Discount
+      type: object
+      properties:
+        coupon:
+          type: number
+          description: Property key is discount ID; property value is discount amount.
+          example: 8.28
+      x-internal: false
+    OrderLineItem:
+      title: Order Line Item
+      required:
+      - digitalItems
+      - giftCertificate
+      - physicalItems
+      type: object
+      properties:
+        physicalItems:
+          type: array
+          description: Array of `ItemPhysical` objects.
+          items:
+            $ref: '#/components/schemas/ItemPhysical'
+        digitalItems:
+          type: array
+          description: Array of `ItemDigital` objects.
+          items:
+            $ref: '#/components/schemas/OrderItemDigital'
+        giftCertificate:
+          type: array
+          description: Array of `ItemGiftCertificate` objects.
+          items:
+            $ref: '#/components/schemas/OrderItemGiftCertificate'
+      x-internal: false
+    Status:
+      title: Status
+      type: string
+      description: Order status.
+      example: INCOMPLETE
+      enum:
+      - INCOMPLETE
+      - PENDING
+      - SHIPPED
+      - PARTIALLY_SHIPPED
+      - REFUNDED
+      - CANCELLED
+      - DECLINED
+      - AWAITING_PAYMENT
+      - AWAITING_PICKUP
+      - AWAITING_SHIPMENT
+      - COMPLETED
+      - AWAITING_FULFILLMENT
+      - MANUAL_VERIFICATION_REQUIRED
+      - DISPUTED
+      - PARTIALLY_REFUNDED
+      x-internal: false
+    AddressProperties:
+      title: Address Properties
+      required:
+      - countryCode
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: ''
+        lastName:
+          type: string
+          description: ''
+        email:
+          type: string
+          description: ''
+        company:
+          type: string
+          description: ''
+        address1:
+          type: string
+          description: ''
+        address2:
+          type: string
+          description: ''
+        city:
+          type: string
+          description: ''
+        stateOrProvince:
+          type: string
+          description: Represents state or province.
+        stateOrProvinceCode:
+          type: string
+          description: ''
+        country:
+          type: string
+          description: ''
+        countryCode:
+          type: string
+          description: 'ISO 3166-1 alpha-2 country code. (See: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).'
+        postalCode:
+          type: string
+          description: ''
+        phone:
+          pattern: ^\+?[1-9]\d{1,14}(x\d{1-5})?$
+          type: string
+          description: ''
+        customFields:
+          type: array
+          description: ''
+          items:
+            $ref: '#/components/schemas/CustomField'
       x-internal: false
     Order:
       title: Order
@@ -578,6 +515,139 @@ components:
         consignments:
           $ref: '#/components/schemas/Consignments'
       x-internal: false
+    Currency:
+      title: Currency
+      type: object
+      properties:
+        name:
+          type: string
+          description: The currency name.
+        code:
+          type: string
+          description: 'ISO-4217 currency code. (See: http://en.wikipedia.org/wiki/ISO_4217.)'
+        symbol:
+          type: string
+          description: The currency symbol.
+        decimalPlaces:
+          type: number
+          description: Number of decimal places for the currency. For example, USD currency has two decimal places.
+          format: double
+      description: This will always be the same between cart and checkout.
+      x-internal: false
+    AppliedCoupon:
+      title: Applied Coupon
+      required:
+      - code
+      type: object
+      properties:
+        id:
+          type: string
+          description: The coupon ID.
+        code:
+          type: string
+          description: the coupon code
+        displayName:
+          type: string
+          description: The coupon title based on different types provided in control panel section.
+        couponType:
+          type: string
+          description: Key name to identify the type of coupon.
+        discountedAmount:
+          type: number
+          description: The discounted amount applied within a given context.
+          format: double
+      x-internal: false
+    OrderItemGiftCertificate:
+      title: Order Item Gift Certificate
+      type: object
+      properties:
+        name:
+          type: string
+          description: The itemʼs product name.
+        quantity:
+          type: number
+          description: Quantity of this item.
+          format: double
+        isTaxable:
+          type: boolean
+          description: Whether the item is taxable.
+        amount:
+          type: number
+          description: Price of the item
+          format: double
+        type:
+          type: string
+          description: Explicitly specifying the gift certificate type
+      x-internal: false
+    Consignments:
+      title: Consignments
+      type: object
+      properties:
+        shipping:
+          type: array
+          description: List of shipping consignments
+          items:
+            $ref: '#/components/schemas/ShippingConsignment'
+      description: All the consignments of the order.
+      x-examples:
+        example-1:
+          shipping:
+          - lineItems:
+            - id: 8
+            shippingAddressId: 1
+            firstName: first1
+            lastName: last1
+            company: company1
+            address1: 2802 Skyway Cir
+            address2: Balcony
+            city: Austin
+            stateOrProvince: Texas
+            postalCode: '78704'
+            country: United States
+            countryCode: US
+            email: first1@bigcommerce.com
+            phone: '0410123452'
+            itemsTotal: 1
+            itemsShipped: 0
+            shippingMethod: Flat Rate
+            baseCost: 15.5
+            costExTax: 15.5
+            costIncTax: 16.7
+            costTax: 1.2
+            costTaxClassId: 2
+            baseHandlingCost: 0
+            handlingCostExTax: 0
+            handlingCostIncTax: 0
+            handlingCostTax: 0
+            handlingCostTaxClassId: 2
+            shippingZoneId: 1
+            shippingZoneName: United States
+            customFields:
+            - name: special note
+              value: super rare
+      x-internal: false
+    ConsignmentFormField:
+      title: ConsignmentFormField
+      type: object
+      properties:
+        name:
+          type: string
+          example: special note
+        value:
+          type:
+          - string
+          - 'null'
+          example: super rare
+      x-internal: false
+    ConsignmentLineItem:
+      title: ConsignmentLineItem
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+      description: ''
+      x-internal: false
     OrderItemDigital:
       title: Order Item Digital
       required:
@@ -668,74 +738,4 @@ components:
           description: Categories the item belongs to.
           items:
             type: object
-      x-internal: false
-    AddressProperties:
-      title: Address Properties
-      required:
-      - countryCode
-      type: object
-      properties:
-        firstName:
-          type: string
-          description: ''
-        lastName:
-          type: string
-          description: ''
-        email:
-          type: string
-          description: ''
-        company:
-          type: string
-          description: ''
-        address1:
-          type: string
-          description: ''
-        address2:
-          type: string
-          description: ''
-        city:
-          type: string
-          description: ''
-        stateOrProvince:
-          type: string
-          description: Represents state or province.
-        stateOrProvinceCode:
-          type: string
-          description: ''
-        country:
-          type: string
-          description: ''
-        countryCode:
-          type: string
-          description: 'ISO 3166-1 alpha-2 country code. (See: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).'
-        postalCode:
-          type: string
-          description: ''
-        phone:
-          pattern: ^\+?[1-9]\d{1,14}(x\d{1-5})?$
-          type: string
-          description: ''
-        customFields:
-          type: array
-          description: ''
-          items:
-            $ref: '#/components/schemas/CustomField'
-      x-internal: false
-    ConsignmentLineItem:
-      title: ConsignmentLineItem
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 4
-      description: ''
-      x-internal: false
-    AppliedDiscount:
-      title: Applied Discount
-      type: object
-      properties:
-        coupon:
-          type: number
-          description: Property key is discount ID; property value is discount amount.
-          example: 8.28
       x-internal: false

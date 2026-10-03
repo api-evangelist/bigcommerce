@@ -1421,6 +1421,14 @@ paths:
       description: BigCommerce API Gateway
 components:
   parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
     ContentType:
       name: Content-Type
       in: header
@@ -1438,14 +1446,6 @@ components:
       required: true
       schema:
         type: integer
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     CategoryIdParam:
       name: category_id
       in: path
@@ -1453,6 +1453,15 @@ components:
 
         '
       required: true
+      schema:
+        type: integer
+    ValueIdParam:
+      name: value_id
+      description: 'The ID of the `Modifier/Option Value`.
+
+        '
+      required: true
+      in: path
       schema:
         type: integer
     ProductIdParam:
@@ -1467,15 +1476,6 @@ components:
     ModifierIdParam:
       name: modifier_id
       description: 'The ID of the `Modifier`.
-
-        '
-      required: true
-      in: path
-      schema:
-        type: integer
-    ValueIdParam:
-      name: value_id
-      description: 'The ID of the `Modifier/Option Value`.
 
         '
       required: true
@@ -1516,6 +1516,64 @@ components:
       properties: {}
       additionalProperties: true
       description: Response metadata.
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    productImage_Full:
+      title: productImage_Full
+      description: Common ProductImage properties.
+      allOf:
+      - $ref: '#/components/schemas/productImage_Base'
+      - title: productImage
+        type: object
+        properties:
+          id:
+            type: integer
+            description: 'The unique numeric ID of the image; increments sequentially.
+
+              '
+          product_id:
+            type: integer
+            description: 'The unique numeric identifier for the product with which the image is associated.
+
+              '
+          url_zoom:
+            readOnly: true
+            type: string
+            description: 'The zoom URL for this image. By default, this is used as the zoom image on product pages when zoom images are enabled. You should provide an image smaller than 1280x1280; otherwise, the API returns a resized image.
+
+              '
+          url_standard:
+            readOnly: true
+            type: string
+            description: 'The standard URL for this image. By default, this is used for product-page images.
+
+              '
+          url_thumbnail:
+            readOnly: true
+            type: string
+            description: 'The thumbnail URL for this image. By default, this is the image size used on the category page and in side panels.
+
+              '
+          url_tiny:
+            readOnly: true
+            type: string
+            description: 'The tiny URL for this image. By default, this is the image size used for thumbnails beneath the product image on a product page.
+
+              '
+          date_modified:
+            type: string
+            description: 'The date on which the product image was modified.
+
+              '
+            format: date-time
+        description: Common ProductImage properties.
+      x-internal: false
     pagination_Full:
       title: pagination_Full
       type: object
@@ -1572,14 +1630,6 @@ components:
           description: 'Pagination links for the previous and next parts of the whole collection.
 
             '
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
       description: Data about the response, including pagination and collection totals.
       x-internal: false
     productImage_Put:
@@ -1654,56 +1704,6 @@ components:
           type: string
           description: Must be a fully qualified URL path, including protocol. Limit of 8MB per file.
       description: Common ProductImage properties.
-      x-internal: false
-    productImage_Full:
-      title: productImage_Full
-      description: Common ProductImage properties.
-      allOf:
-      - $ref: '#/components/schemas/productImage_Base'
-      - title: productImage
-        type: object
-        properties:
-          id:
-            type: integer
-            description: 'The unique numeric ID of the image; increments sequentially.
-
-              '
-          product_id:
-            type: integer
-            description: 'The unique numeric identifier for the product with which the image is associated.
-
-              '
-          url_zoom:
-            readOnly: true
-            type: string
-            description: 'The zoom URL for this image. By default, this is used as the zoom image on product pages when zoom images are enabled. You should provide an image smaller than 1280x1280; otherwise, the API returns a resized image.
-
-              '
-          url_standard:
-            readOnly: true
-            type: string
-            description: 'The standard URL for this image. By default, this is used for product-page images.
-
-              '
-          url_thumbnail:
-            readOnly: true
-            type: string
-            description: 'The thumbnail URL for this image. By default, this is the image size used on the category page and in side panels.
-
-              '
-          url_tiny:
-            readOnly: true
-            type: string
-            description: 'The tiny URL for this image. By default, this is the image size used for thumbnails beneath the product image on a product page.
-
-              '
-          date_modified:
-            type: string
-            description: 'The date on which the product image was modified.
-
-              '
-            format: date-time
-        description: Common ProductImage properties.
       x-internal: false
   securitySchemes:
     X-Auth-Token:

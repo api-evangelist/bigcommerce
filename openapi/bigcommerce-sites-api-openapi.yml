@@ -134,54 +134,6 @@ paths:
       description: Delete a site with site ID `{site_id}`.
 components:
   schemas:
-    post_Site:
-      type: object
-      properties:
-        url:
-          type: string
-          description: The Fully Qualified URL (including host and scheme) where this site is hosted. All URLs generated for this site will be appended to this.
-          example: http://kittens.mybigcommerce.com/
-        channel_id:
-          type: integer
-          description: The channel this site is attached to. Each site belongs to a single channel, and each channel can have either zero or one sites.
-      title: post_Site
-      x-internal: false
-    _site:
-      type: object
-      description: ''
-      title: ''
-      properties:
-        id:
-          type: integer
-        url:
-          type: string
-          description: The fully qualified URL (including host and scheme) where this site is hosted. All URLs generated for this site will be appended to this.
-          example: http://kittens.mybigcommerce.com/
-        channel_id:
-          type: integer
-          description: The channel to which this site is attached. Each site belongs to a single channel, and each channel can have either zero or more sites.
-        created_at:
-          type: string
-          description: The date-time that this site was created, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
-          example: '2022-01-04T04:15:50.000Z'
-        updated_at:
-          type: string
-          description: The date-time that this site was last updated, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
-          example: '2022-01-04T04:15:50.000Z'
-        ssl_status:
-          type: string
-          enum:
-          - dedicated
-          - shared
-          description: Indicates whether a site is using a private/dedicated SSL or a shared SSL.
-        urls:
-          type: array
-          description: All URLs that belong to the site, including `primary`, `canonical`, and `checkout` URLs.
-          items:
-            $ref: '#/components/schemas/Url'
-        is_checkout_url_customized:
-          type: boolean
-          description: Indicates whether the channel uses a custom checkout domain. When `false`, the checkout domain falls back to the default channel’s primary URL.
     Url:
       type: object
       properties:
@@ -258,6 +210,42 @@ components:
           example: http://kittens.mybigcommerce.com/
       title: put_Site
       x-internal: false
+    _site:
+      type: object
+      description: ''
+      title: ''
+      properties:
+        id:
+          type: integer
+        url:
+          type: string
+          description: The fully qualified URL (including host and scheme) where this site is hosted. All URLs generated for this site will be appended to this.
+          example: http://kittens.mybigcommerce.com/
+        channel_id:
+          type: integer
+          description: The channel to which this site is attached. Each site belongs to a single channel, and each channel can have either zero or more sites.
+        created_at:
+          type: string
+          description: The date-time that this site was created, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
+          example: '2022-01-04T04:15:50.000Z'
+        updated_at:
+          type: string
+          description: The date-time that this site was last updated, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
+          example: '2022-01-04T04:15:50.000Z'
+        ssl_status:
+          type: string
+          enum:
+          - dedicated
+          - shared
+          description: Indicates whether a site is using a private/dedicated SSL or a shared SSL.
+        urls:
+          type: array
+          description: All URLs that belong to the site, including `primary`, `canonical`, and `checkout` URLs.
+          items:
+            $ref: '#/components/schemas/Url'
+        is_checkout_url_customized:
+          type: boolean
+          description: Indicates whether the channel uses a custom checkout domain. When `false`, the checkout domain falls back to the default channel’s primary URL.
     error_Full:
       type: object
       title: error_Full
@@ -275,24 +263,64 @@ components:
         type:
           type: string
       x-internal: false
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
+    post_Site:
+      type: object
+      properties:
+        url:
+          type: string
+          description: The Fully Qualified URL (including host and scheme) where this site is hosted. All URLs generated for this site will be appended to this.
+          example: http://kittens.mybigcommerce.com/
+        channel_id:
+          type: integer
+          description: The channel this site is attached to. Each site belongs to a single channel, and each channel can have either zero or one sites.
+      title: post_Site
+      x-internal: false
   responses:
+    504_GatewayTimeout:
+      description: If this occurs, you should retry the request. Typically retrying the request several times will result in a successful request; However, if you are unable to successfully make a request, please check the BigCommerce system status [here](https://status.bigcommerce.com/). A service is likely down and the request will need to be made again when it is back up (in several hours usually).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 504
+                title: Gateway Timeout
+                type: /api-docs/getting-started/api-status-codes
+                errors: {}
+    404_NotFound:
+      description: Requested resource not founded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+    403_Unauthorized:
+      description: ''
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 403
+                title: Unauthorized Access. You do not have permission to make this request.
+                type: /api-docs/getting-started/api-status-codes
+    site_RespCollection:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/_site'
+              meta:
+                $ref: '#/components/schemas/_metaCollection'
+          examples: {}
     response_Site:
       description: ''
       content:
@@ -333,19 +361,6 @@ components:
                     offset: 0
                     limit: 50
                     total_items: 1
-    504_GatewayTimeout:
-      description: If this occurs, you should retry the request. Typically retrying the request several times will result in a successful request; However, if you are unable to successfully make a request, please check the BigCommerce system status [here](https://status.bigcommerce.com/). A service is likely down and the request will need to be made again when it is back up (in several hours usually).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 504
-                title: Gateway Timeout
-                type: /api-docs/getting-started/api-status-codes
-                errors: {}
     400_BadRequest:
       description: 'Malformed request syntax. Typically need to fix the JSON
 
@@ -360,38 +375,23 @@ components:
                 status: 400
                 title: Input is invalid.
                 type: /api-docs/getting-started/api-status-codes
-    site_RespCollection:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/components/schemas/_site'
-              meta:
-                $ref: '#/components/schemas/_metaCollection'
-          examples: {}
-    403_Unauthorized:
-      description: ''
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 403
-                title: Unauthorized Access. You do not have permission to make this request.
-                type: /api-docs/getting-started/api-status-codes
-    404_NotFound:
-      description: Requested resource not founded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

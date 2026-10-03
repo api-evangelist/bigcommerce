@@ -149,24 +149,19 @@ paths:
                     AU: '817355'
                     ALL: '501000'
 components:
-  parameters:
-    ContentType:
-      in: header
-      name: Content-Type
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      in: header
-      name: Accept
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
+    harmonizedSystemCodes:
+      title: harmonizedSystemCodes
+      description: "Key-value pairs that are commonly used in the following form:  \n\n`countryISO2: '/^[0-9A-Za-z]{6,14}$/'`\n\nThis key-value pair represents a country and the associated `hs_code` that applies to that country. \n\nYou can also use the `ALL` key in place of an ISO2 key to specify that the `hs_code` applies to all countries. The `ALL` key can be combined with other countries in the `hs_code` object."
+      type: object
+      properties: {}
+      additionalProperties: true
+      example:
+        ALL: '501000'
+        CA: '508313'
+        US: '641000'
+        AU: '817355'
+      x-internal: false
     customsInformation_request:
       title: customsInformationRequest
       description: Data about the customs information object.
@@ -203,60 +198,6 @@ components:
       - commodity_description
       - international_shipping
       - hs_codes
-    harmonizedSystemCodes:
-      title: harmonizedSystemCodes
-      description: "Key-value pairs that are commonly used in the following form:  \n\n`countryISO2: '/^[0-9A-Za-z]{6,14}$/'`\n\nThis key-value pair represents a country and the associated `hs_code` that applies to that country. \n\nYou can also use the `ALL` key in place of an ISO2 key to specify that the `hs_code` applies to all countries. The `ALL` key can be combined with other countries in the `hs_code` object."
-      type: object
-      properties: {}
-      additionalProperties: true
-      example:
-        ALL: '501000'
-        CA: '508313'
-        US: '641000'
-        AU: '817355'
-      x-internal: false
-    customsInformation:
-      title: customsInformation
-      description: Data about the customs information object.
-      type: object
-      x-internal: false
-      properties:
-        product_id:
-          description: The ID of the product which the customs information data will apply to.
-          type: integer
-          format: int32
-          example: 77
-        country_of_origin:
-          type: string
-          description: The country of manufacture, production, or growth represented in ISO 3166-1 alpha-2 format.
-          example: US
-        commodity_description:
-          description: Description that provides information for customs to identify and verify shapes physical characteristics and packaging of each shipment.
-          type: string
-          minLength: 0
-          maxLength: 100
-          example: Baseball caps
-        international_shipping:
-          description: Flag to determine whether this product will be shipped internationally.
-          type: boolean
-          enum:
-          - true
-          - false
-          example: true
-        hs_codes:
-          $ref: '#/components/schemas/harmonizedSystemCodes'
-        created_at:
-          type: string
-          description: Date and time when the customs information was created.
-          readOnly: true
-          format: date-time
-          example: 2022-09-21 14:15:00+00:00
-        updated_at:
-          type: string
-          description: Date and time when the customs information was last updated.
-          readOnly: true
-          format: date-time
-          example: 2022-09-21 14:15:00+00:00
     metaCollection:
       title: metaCollection
       description: Meta data relating to pagination.
@@ -301,6 +242,65 @@ components:
                   description: Query string appended to the resource to show the current page.
                   example: ?limit=1&page=2
       x-internal: false
+    customsInformation:
+      title: customsInformation
+      description: Data about the customs information object.
+      type: object
+      x-internal: false
+      properties:
+        product_id:
+          description: The ID of the product which the customs information data will apply to.
+          type: integer
+          format: int32
+          example: 77
+        country_of_origin:
+          type: string
+          description: The country of manufacture, production, or growth represented in ISO 3166-1 alpha-2 format.
+          example: US
+        commodity_description:
+          description: Description that provides information for customs to identify and verify shapes physical characteristics and packaging of each shipment.
+          type: string
+          minLength: 0
+          maxLength: 100
+          example: Baseball caps
+        international_shipping:
+          description: Flag to determine whether this product will be shipped internationally.
+          type: boolean
+          enum:
+          - true
+          - false
+          example: true
+        hs_codes:
+          $ref: '#/components/schemas/harmonizedSystemCodes'
+        created_at:
+          type: string
+          description: Date and time when the customs information was created.
+          readOnly: true
+          format: date-time
+          example: 2022-09-21 14:15:00+00:00
+        updated_at:
+          type: string
+          description: Date and time when the customs information was last updated.
+          readOnly: true
+          format: date-time
+          example: 2022-09-21 14:15:00+00:00
+  parameters:
+    Accept:
+      in: header
+      name: Accept
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      in: header
+      name: Content-Type
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

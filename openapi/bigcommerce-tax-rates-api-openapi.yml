@@ -214,44 +214,6 @@ components:
           description: ID of an associated tax zone. You must associate a tax rate with a tax zone.
           example: 2
       x-examples: {}
-    Meta:
-      type: object
-      properties:
-        pagination:
-          type: object
-          properties:
-            total:
-              type: integer
-            count:
-              type: integer
-            per_page:
-              type: integer
-            current_page:
-              type: integer
-            total_pages:
-              type: integer
-            links:
-              type: object
-              properties:
-                current:
-                  type: string
-      x-examples:
-        Example 1:
-          pagination:
-            total: 1
-            count: 1
-            per_page: 50
-            current_page: 1
-            total_pages: 1
-            links:
-              current: ?tax_zone_id%3Ain=1&page=1&limit=50
-      title: Meta
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     Tax_RatePOST:
       type: object
       properties:
@@ -292,6 +254,44 @@ components:
       - class_rates
       - name
       - tax_zone_id
+    Meta:
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            total:
+              type: integer
+            count:
+              type: integer
+            per_page:
+              type: integer
+            current_page:
+              type: integer
+            total_pages:
+              type: integer
+            links:
+              type: object
+              properties:
+                current:
+                  type: string
+      x-examples:
+        Example 1:
+          pagination:
+            total: 1
+            count: 1
+            per_page: 50
+            current_page: 1
+            total_pages: 1
+            links:
+              current: ?tax_zone_id%3Ain=1&page=1&limit=50
+      title: Meta
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   requestBodies:
     Tax_RateArrayPOST:
       content:
@@ -331,26 +331,6 @@ components:
                   tax_class_id: 0
       required: true
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    rateIdIn:
-      name: id:in
-      in: query
-      schema:
-        type: array
-        items:
-          type: integer
-        minItems: 1
-      style: form
-      explode: false
-      description: Filter by tax rate `id`. Use a comma-separated CSV string of IDs for multiple tax rates. For example, `5` or `12,34,56`.
-      required: false
     taxZoneIdIn:
       name: tax_zone_id:in
       in: query
@@ -363,6 +343,26 @@ components:
       explode: false
       description: Filter by tax zone `id`. Use a comma-separated CSV string of IDs for multiple tax zones. For example, `5` or `12,34,56`.
       required: false
+    rateIdIn:
+      name: id:in
+      in: query
+      schema:
+        type: array
+        items:
+          type: integer
+        minItems: 1
+      style: form
+      explode: false
+      description: Filter by tax rate `id`. Use a comma-separated CSV string of IDs for multiple tax rates. For example, `5` or `12,34,56`.
+      required: false
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
     Content-Type:
       name: Content-Type
       in: header

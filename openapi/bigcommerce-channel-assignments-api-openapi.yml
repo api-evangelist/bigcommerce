@@ -111,31 +111,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/beta5ErrorResponse'
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
-    beta5ErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseError'
-      - type: object
-        properties:
-          errors:
-            $ref: '#/components/schemas/beta5DetailedErrors'
+    beta5DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
       x-tags:
       - Models
     BaseError:
@@ -160,18 +140,21 @@ components:
           type: string
       x-tags:
       - Models
+    beta5ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - type: object
+        properties:
+          errors:
+            $ref: '#/components/schemas/beta5DetailedErrors'
+      x-tags:
+      - Models
     ProductChannelAssignment:
       properties:
         product_id:
           type: integer
         channel_id:
           type: integer
-      x-tags:
-      - Models
-    beta5DetailedErrors:
-      type: object
-      properties: {}
-      additionalProperties: true
       x-tags:
       - Models
     MetaPaginationObject:
@@ -211,6 +194,23 @@ components:
                   example: ?limit=5&page=1
       x-tags:
       - Models
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

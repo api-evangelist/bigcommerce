@@ -73,51 +73,44 @@ paths:
       - Menus
       summary: BigCommerce Delete Channel Menus
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
+  schemas:
+    channel_menus_Post:
+      type: object
+      properties:
+        bigcommerce_protected_app_sections:
+          $ref: '#/components/schemas/BigCommerceProtectedAppSections'
+        custom_app_sections:
+          $ref: '#/components/schemas/CustomAppSections'
+    EmptyMeta:
+      type: object
+      title: Empty meta response.
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    CustomAppSections:
+      type: array
+      items:
+        type: object
+        properties:
+          title:
+            type: string
+            description: Text displayed to the merchant.
+          query_path:
+            type: string
+            description: Value used in the `section` query param.
+        x-internal: false
+    BigCommerceProtectedAppSections:
+      type: array
+      description: List of channel-specific control panel menu navigation items and corresponding settings pages an app developer can choose to enable for the subject channel. Protected settings override any settings set in those UI sections at the storewide level. Learn more in the [Building Storefront Channels](/docs/integrations/channels/guide/storefronts#protected-ui-sections) tutorial.
+      items:
         type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    channel_id_path_param:
-      name: channel_id
-      description: The ID of a channel.
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
-  responses:
-    channel_menus_Resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                type: object
-                properties:
-                  bigcommerce_protected_app_sections:
-                    $ref: '#/components/schemas/BigCommerceProtectedAppSections'
-                  custom_app_sections:
-                    $ref: '#/components/schemas/CustomAppSections'
-              meta:
-                $ref: '#/components/schemas/EmptyMeta'
-          examples:
-            response:
-              $ref: '#/components/examples/channel_menus_resp_example'
+        enum:
+        - storefront_settings
+        - social
+        - carousel
+        - domains
+        - currencies
+        - notifications
   examples:
     channel_menus_resp_example:
       value:
@@ -139,44 +132,51 @@ components:
           - title: Settings
             query_path: settings
         meta: {}
-  schemas:
-    BigCommerceProtectedAppSections:
-      type: array
-      description: List of channel-specific control panel menu navigation items and corresponding settings pages an app developer can choose to enable for the subject channel. Protected settings override any settings set in those UI sections at the storewide level. Learn more in the [Building Storefront Channels](/docs/integrations/channels/guide/storefronts#protected-ui-sections) tutorial.
-      items:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
         type: string
-        enum:
-        - storefront_settings
-        - social
-        - carousel
-        - domains
-        - currencies
-        - notifications
-    CustomAppSections:
-      type: array
-      items:
-        type: object
-        properties:
-          title:
-            type: string
-            description: Text displayed to the merchant.
-          query_path:
-            type: string
-            description: Value used in the `section` query param.
-        x-internal: false
-    EmptyMeta:
-      type: object
-      title: Empty meta response.
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    channel_menus_Post:
-      type: object
-      properties:
-        bigcommerce_protected_app_sections:
-          $ref: '#/components/schemas/BigCommerceProtectedAppSections'
-        custom_app_sections:
-          $ref: '#/components/schemas/CustomAppSections'
+        default: application/json
+    channel_id_path_param:
+      name: channel_id
+      description: The ID of a channel.
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  responses:
+    channel_menus_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  bigcommerce_protected_app_sections:
+                    $ref: '#/components/schemas/BigCommerceProtectedAppSections'
+                  custom_app_sections:
+                    $ref: '#/components/schemas/CustomAppSections'
+              meta:
+                $ref: '#/components/schemas/EmptyMeta'
+          examples:
+            response:
+              $ref: '#/components/examples/channel_menus_resp_example'
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

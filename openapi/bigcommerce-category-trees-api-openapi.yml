@@ -185,48 +185,7 @@ paths:
       tags:
       - Category Trees
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
-    beta4ErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseError'
-      - type: object
-        properties:
-          errors:
-            $ref: '#/components/schemas/beta4DetailedErrors'
-      x-tags:
-      - Models
-    beta4DetailedErrors:
-      type: object
-      properties: {}
-      additionalProperties: true
-      x-tags:
-      - Models
-    CategoryNodeTree:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CategoryNode'
-        meta:
-          $ref: '#/components/schemas/metaEmpty_Full'
     BaseError:
       type: object
       description: 'Error payload for the BigCommerce API.
@@ -249,22 +208,7 @@ components:
           type: string
       x-tags:
       - Models
-    Tree:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-          minLength: 1
-          maxLength: 255
-        channels:
-          type: array
-          items:
-            type: integer
-      x-tags:
-      - Models
-    CategoryTree:
+    CategoryTreeList:
       type: object
       properties:
         data:
@@ -272,16 +216,28 @@ components:
           items:
             $ref: '#/components/schemas/Tree'
         meta:
-          $ref: '#/components/schemas/metaEmpty_Full'
-    CategoryTreeListRequest:
-      type: array
-      items:
-        $ref: '#/components/schemas/Tree'
-      example:
-      - id: 0
-        name: string
-        channels:
-        - 0
+          $ref: '#/components/schemas/MetaPaginationObject'
+    beta4DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      x-tags:
+      - Models
+    beta4ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - type: object
+        properties:
+          errors:
+            $ref: '#/components/schemas/beta4DetailedErrors'
+      x-tags:
+      - Models
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     CategoryNode:
       type: object
       properties:
@@ -305,7 +261,7 @@ components:
             $ref: '#/components/schemas/CategoryNode'
       x-tags:
       - Models
-    CategoryTreeList:
+    CategoryTree:
       type: object
       properties:
         data:
@@ -313,7 +269,40 @@ components:
           items:
             $ref: '#/components/schemas/Tree'
         meta:
-          $ref: '#/components/schemas/MetaPaginationObject'
+          $ref: '#/components/schemas/metaEmpty_Full'
+    CategoryNodeTree:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryNode'
+        meta:
+          $ref: '#/components/schemas/metaEmpty_Full'
+    Tree:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        channels:
+          type: array
+          items:
+            type: integer
+      x-tags:
+      - Models
+    CategoryTreeListRequest:
+      type: array
+      items:
+        $ref: '#/components/schemas/Tree'
+      example:
+      - id: 0
+        name: string
+        channels:
+        - 0
     MetaPaginationObject:
       type: object
       properties:
@@ -351,12 +340,23 @@ components:
                   example: ?limit=5&page=1
       x-tags:
       - Models
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

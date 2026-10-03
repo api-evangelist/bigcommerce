@@ -94,124 +94,21 @@ paths:
                 title: Not Found
       summary: BigCommerce Get Transactions
 components:
+  responses:
+    TransactionCollection_Resp:
+      description: Response payload for the BigCommerce Order Transactions API.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+              meta:
+                $ref: '#/components/schemas/metaCollection_Full'
   schemas:
-    pagination_Full:
-      type: object
-      title: pagination_Full
-      properties:
-        total:
-          description: Total number of items in the result set.
-          type: integer
-          format: int32
-        count:
-          description: Total number of items in the collection response.
-          type: integer
-          format: int32
-        per_page:
-          description: The amount of items returned in the collection per page, controlled by the limit parameter.
-          type: integer
-          format: int32
-        current_page:
-          description: The page you are currently on within the collection.
-          type: integer
-          format: int32
-        total_pages:
-          description: The total number of pages in the collection.
-          type: integer
-          format: int32
-        links:
-          $ref: '#/components/schemas/links_Full'
-      x-internal: false
-    metaCollection_Full:
-      type: object
-      title: metaCollection_Full
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      x-internal: false
-      x-examples:
-        example-1:
-          pagination:
-            total: 0
-            count: 0
-            per_page: 0
-            current_page: 0
-            total_pages: 0
-            links:
-              previous: string
-              current: ?page=1&limit=50
-              next: string
-    CreditCard:
-      type: object
-      description: A credit-card model.
-      title: Credit Card
-      properties:
-        card_type:
-          type: string
-          enum:
-          - alelo
-          - alia
-          - american_express
-          - cabal
-          - carnet
-          - dankort
-          - diners_club
-          - discover
-          - elo
-          - forbrugsforeningen
-          - jcb
-          - maestro
-          - master
-          - naranja
-          - sodexo
-          - unionpay
-          - visa
-          - vr
-          description: '**Allowed values**: alelo, alia, american_express, cabal, carnet, dankort, diners_club, discover, elo, forbrugsforeningen, jcb, maestro, master, naranja, sodexo, unionpay, visa, vr'
-        card_iin:
-          description: 'The IIN of a credit-card number.
-
-            '
-          type: string
-        card_last4:
-          description: 'The last 4 digits of a credit-card number.
-
-            '
-          type: string
-        card_expiry_month:
-          description: 'The expiry month of a credit-card.
-
-            '
-          type: integer
-          minimum: 1
-          maximum: 12
-        card_expiry_year:
-          description: 'The expiry year of a credit-card.
-
-            '
-          type: integer
-      x-internal: false
-    links_Full:
-      type: object
-      properties:
-        previous:
-          type: string
-          description: 'Link to the previous page returned in the response.
-
-            '
-        current:
-          type: string
-          description: 'Link to the current page returned in the response.
-
-            '
-          example: ?page=1&limit=50
-        next:
-          type: string
-          description: 'Link to the next page returned in the response.
-
-            '
-      title: links_Full
-      x-internal: false
     Transaction:
       allOf:
       - title: Transaction Base
@@ -511,15 +408,124 @@ components:
           store_credit:
             remaining_balance: 35.42
       description: ''
+    pagination_Full:
+      type: object
+      title: pagination_Full
+      properties:
+        total:
+          description: Total number of items in the result set.
+          type: integer
+          format: int32
+        count:
+          description: Total number of items in the collection response.
+          type: integer
+          format: int32
+        per_page:
+          description: The amount of items returned in the collection per page, controlled by the limit parameter.
+          type: integer
+          format: int32
+        current_page:
+          description: The page you are currently on within the collection.
+          type: integer
+          format: int32
+        total_pages:
+          description: The total number of pages in the collection.
+          type: integer
+          format: int32
+        links:
+          $ref: '#/components/schemas/links_Full'
+      x-internal: false
+    CreditCard:
+      type: object
+      description: A credit-card model.
+      title: Credit Card
+      properties:
+        card_type:
+          type: string
+          enum:
+          - alelo
+          - alia
+          - american_express
+          - cabal
+          - carnet
+          - dankort
+          - diners_club
+          - discover
+          - elo
+          - forbrugsforeningen
+          - jcb
+          - maestro
+          - master
+          - naranja
+          - sodexo
+          - unionpay
+          - visa
+          - vr
+          description: '**Allowed values**: alelo, alia, american_express, cabal, carnet, dankort, diners_club, discover, elo, forbrugsforeningen, jcb, maestro, master, naranja, sodexo, unionpay, visa, vr'
+        card_iin:
+          description: 'The IIN of a credit-card number.
+
+            '
+          type: string
+        card_last4:
+          description: 'The last 4 digits of a credit-card number.
+
+            '
+          type: string
+        card_expiry_month:
+          description: 'The expiry month of a credit-card.
+
+            '
+          type: integer
+          minimum: 1
+          maximum: 12
+        card_expiry_year:
+          description: 'The expiry year of a credit-card.
+
+            '
+          type: integer
+      x-internal: false
+    links_Full:
+      type: object
+      properties:
+        previous:
+          type: string
+          description: 'Link to the previous page returned in the response.
+
+            '
+        current:
+          type: string
+          description: 'Link to the current page returned in the response.
+
+            '
+          example: ?page=1&limit=50
+        next:
+          type: string
+          description: 'Link to the next page returned in the response.
+
+            '
+      title: links_Full
+      x-internal: false
+    metaCollection_Full:
+      type: object
+      title: metaCollection_Full
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      x-internal: false
+      x-examples:
+        example-1:
+          pagination:
+            total: 0
+            count: 0
+            per_page: 0
+            current_page: 0
+            total_pages: 0
+            links:
+              previous: string
+              current: ?page=1&limit=50
+              next: string
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     OrderIdParam:
       name: order_id
       in: path
@@ -529,20 +535,14 @@ components:
       required: true
       schema:
         type: integer
-  responses:
-    TransactionCollection_Resp:
-      description: Response payload for the BigCommerce Order Transactions API.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Transaction'
-              meta:
-                $ref: '#/components/schemas/metaCollection_Full'
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

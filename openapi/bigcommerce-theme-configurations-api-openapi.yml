@@ -135,14 +135,6 @@ paths:
               $ref: '#/components/schemas/themeConfiguration_Write'
 components:
   parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
     ThemeIdParam:
       name: uuid
       description: The theme identifier.
@@ -150,6 +142,15 @@ components:
       required: true
       schema:
         type: string
+    LimitParam:
+      name: limit
+      description: 'Controls the number of items per page in a limited (paginated) list of products.
+
+        '
+      required: false
+      in: query
+      schema:
+        type: integer
     Accept:
       name: Accept
       in: header
@@ -167,28 +168,49 @@ components:
       in: query
       schema:
         type: integer
-    LimitParam:
-      name: limit
-      description: 'Controls the number of items per page in a limited (paginated) list of products.
-
-        '
-      required: false
-      in: query
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
       schema:
-        type: integer
+        type: string
+        default: application/json
+  responses:
+    themesConfigurations_RespCollection:
+      description: ''
+      content:
+        application/json:
+          schema:
+            description: 'Response payload for the BigCommerce API.
+
+              '
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/themeConfiguration_Full'
+              meta:
+                $ref: '#/components/schemas/ThemesCollectionMeta'
+          examples:
+            response:
+              value:
+                data:
+                - uuid: in
+                  theme_uuid: amet Ut
+                  variation_id: ut
+                  settings: {}
+                  date_created: ei
+                  site_id: 52736226
+                meta:
+                  pagination:
+                    total: 36
+                    count: 36
+                    per_page: 50
+                    current_page: 1
+                    total_pages: 1
   schemas:
-    themeConfiguration_Write:
-      description: A theme.
-      type: object
-      properties:
-        variation_id:
-          type: string
-          description: The Variation to which the Configuration belongs.
-        settings:
-          type: object
-          description: The content of the configuration, which is a JSON object which will vary in structure from theme to theme.
-      title: themeConfiguration_Write
-      x-internal: false
     ErrorResponse:
       allOf:
       - type: object
@@ -219,28 +241,6 @@ components:
             additionalProperties: true
             title: Detailed Errors
       title: Error Response
-      x-internal: false
-    themeConfiguration_Full:
-      description: A theme.
-      type: object
-      properties:
-        uuid:
-          type: string
-        theme_uuid:
-          type: string
-          description: The Theme to which the Configuration belongs.
-        variation_id:
-          type: string
-          description: The Variation to which the Configuration belongs.
-        settings:
-          type: object
-          description: The content of the configuration, which is a JSON object which will vary in structure from theme to theme.
-        date_created:
-          type: string
-        site_id:
-          type: integer
-          description: Site ID to which this configuration belongs. Will be 0 for the original configuration for a Theme.
-      title: themeConfiguration_Full
       x-internal: false
     ThemesCollectionMeta:
       type: object
@@ -283,40 +283,40 @@ components:
               example: 1
       title: Themes Collection Meta
       x-internal: false
-  responses:
-    themesConfigurations_RespCollection:
-      description: ''
-      content:
-        application/json:
-          schema:
-            description: 'Response payload for the BigCommerce API.
-
-              '
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/components/schemas/themeConfiguration_Full'
-              meta:
-                $ref: '#/components/schemas/ThemesCollectionMeta'
-          examples:
-            response:
-              value:
-                data:
-                - uuid: in
-                  theme_uuid: amet Ut
-                  variation_id: ut
-                  settings: {}
-                  date_created: ei
-                  site_id: 52736226
-                meta:
-                  pagination:
-                    total: 36
-                    count: 36
-                    per_page: 50
-                    current_page: 1
-                    total_pages: 1
+    themeConfiguration_Write:
+      description: A theme.
+      type: object
+      properties:
+        variation_id:
+          type: string
+          description: The Variation to which the Configuration belongs.
+        settings:
+          type: object
+          description: The content of the configuration, which is a JSON object which will vary in structure from theme to theme.
+      title: themeConfiguration_Write
+      x-internal: false
+    themeConfiguration_Full:
+      description: A theme.
+      type: object
+      properties:
+        uuid:
+          type: string
+        theme_uuid:
+          type: string
+          description: The Theme to which the Configuration belongs.
+        variation_id:
+          type: string
+          description: The Variation to which the Configuration belongs.
+        settings:
+          type: object
+          description: The content of the configuration, which is a JSON object which will vary in structure from theme to theme.
+        date_created:
+          type: string
+        site_id:
+          type: integer
+          description: Site ID to which this configuration belongs. Will be 0 for the original configuration for a Theme.
+      title: themeConfiguration_Full
+      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

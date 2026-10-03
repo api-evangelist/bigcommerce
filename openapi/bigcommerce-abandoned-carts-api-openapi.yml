@@ -61,39 +61,7 @@ paths:
       tags:
       - Abandoned Carts
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   responses:
-    502_GatewayError:
-      description: If something happens during the request that causes it to fail, a 502 response will be returned. A new request should be made; however, it could fail.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 502
-                title: A login URL could not be generated. Please try another request.
-                type: /api-docs/getting-started/api-status-codes
-    abandonedCart_Resp:
-      description: Returned on `GET` requests to `/abandoned_carts`.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                $ref: '#/components/schemas/abandonedCartInfo_Full'
-              meta:
-                $ref: '#/components/schemas/metaEmpty_Full'
     504_GatewayTimeout:
       description: If this occurs, you should retry the request. Typically retrying the request several times will result in a successful request; However, if you are unable to successfully make a request, please check the BigCommerce system status [here](https://status.bigcommerce.com/). A service is likely down and the request will need to be made again when it is back up (in several hours usually)
       content:
@@ -119,10 +87,8 @@ components:
                 status: 503
                 title: Service Unavailable
                 type: /api-docs/getting-started/api-status-codes
-    400_BadRequest:
-      description: 'Malformed request syntax. Typically need to fix the JSON
-
-        Body to resend successfully.'
+    404_NotFound:
+      description: If the requested account resource is not found for the franchise, return a 404 Not Found.
       content:
         application/json:
           schema:
@@ -130,9 +96,32 @@ components:
           examples:
             response:
               value:
-                status: 400
-                title: Input is invalid.
+                status: 404
+                title: Account with {id} not found
                 type: /api-docs/getting-started/api-status-codes
+    502_GatewayError:
+      description: If something happens during the request that causes it to fail, a 502 response will be returned. A new request should be made; however, it could fail.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 502
+                title: A login URL could not be generated. Please try another request.
+                type: /api-docs/getting-started/api-status-codes
+    abandonedCart_Resp:
+      description: Returned on `GET` requests to `/abandoned_carts`.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/abandonedCartInfo_Full'
+              meta:
+                $ref: '#/components/schemas/metaEmpty_Full'
     422_UnprocessableEntity:
       description: This occurs when missing or unacceptable data is passed for one or more fields. Please correct the values for the fields listed in the errors object.
       content:
@@ -148,8 +137,10 @@ components:
                 errors:
                   name: error.expected.jsstring
                   primary_contact.district: error.expected.jsstring.
-    404_NotFound:
-      description: If the requested account resource is not found for the franchise, return a 404 Not Found.
+    400_BadRequest:
+      description: 'Malformed request syntax. Typically need to fix the JSON
+
+        Body to resend successfully.'
       content:
         application/json:
           schema:
@@ -157,8 +148,8 @@ components:
           examples:
             response:
               value:
-                status: 404
-                title: Account with {id} not found
+                status: 400
+                title: Input is invalid.
                 type: /api-docs/getting-started/api-status-codes
   schemas:
     abandonedCartInfo_Full:
@@ -169,6 +160,12 @@ components:
           type: string
           description: The `cart_id` of the abandoned cart. Can be used to display the abandoned cart to the customer using storefront cart or server-to-server cart APIs.
       x-internal: false
+    metaEmpty_Full:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     errorDetailed_Full:
       type: object
       properties:
@@ -179,12 +176,6 @@ components:
           title: DetailedErrors
       title: errorDetailed_Full
       x-internal: false
-    metaEmpty_Full:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     error_Full:
       type: object
       title: error_Full
@@ -202,6 +193,15 @@ components:
         type:
           type: string
       x-internal: false
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

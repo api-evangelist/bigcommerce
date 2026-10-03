@@ -478,24 +478,20 @@ paths:
           description: Permanent ID of the BigCommerce store.
       description: BigCommerce API Gateway
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
+    forward:
+      title: forward
+      type: object
+      x-internal: false
+      properties:
+        type:
+          type: string
+          description: The type of redirect. If it is a `manual` redirect then type will always be manual. Dynamic redirects will have the type of the page. Such as product or category.
+          example: product
+        ref:
+          type: integer
+          description: Reference of the redirect. Dynamic redirects will have the category or product number. Manual redirects will have the url that is being directed to.
+          example: 111
     count_Response:
       title: count_Response
       type: object
@@ -537,33 +533,6 @@ components:
           ref: 111
         url: http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/
       x-internal: false
-    forward:
-      title: forward
-      type: object
-      x-internal: false
-      properties:
-        type:
-          type: string
-          description: The type of redirect. If it is a `manual` redirect then type will always be manual. Dynamic redirects will have the type of the page. Such as product or category.
-          example: product
-        ref:
-          type: integer
-          description: Reference of the redirect. Dynamic redirects will have the category or product number. Manual redirects will have the url that is being directed to.
-          example: 111
-    301RedirectUpsert:
-      required:
-      - from_path
-      - site_id
-      type: object
-      properties:
-        from_path:
-          type: string
-          example: /old-url/
-        site_id:
-          type: integer
-        to:
-          $ref: '#/components/schemas/RedirectTo'
-      description: Data necessary to create or update a redirect. If there’s a conflict on the from_path and site_id, the redirect will be overwritten with new data.
     RedirectTo:
       title: RedirectTo
       type: object
@@ -583,6 +552,20 @@ components:
           maxLength: 2048
           type: string
           example: /new-url/
+    301RedirectUpsert:
+      required:
+      - from_path
+      - site_id
+      type: object
+      properties:
+        from_path:
+          type: string
+          example: /old-url/
+        site_id:
+          type: integer
+        to:
+          $ref: '#/components/schemas/RedirectTo'
+      description: Data necessary to create or update a redirect. If there’s a conflict on the from_path and site_id, the redirect will be overwritten with new data.
     301RedirectRead:
       type: object
       description: Full detail of a Redirect, optionally including the full destination URL.
@@ -636,6 +619,23 @@ components:
                 current:
                   type: string
                   example: ?limit=5&page=1
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

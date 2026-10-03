@@ -1631,6 +1631,12 @@ components:
         type: string
         default: application/json
   schemas:
+    PickupOption:
+      type: object
+      title: Pickup Option
+      properties:
+        pickup_method_id:
+          type: integer
     AppliedCoupon:
       title: Applied Coupon
       required:
@@ -2374,18 +2380,6 @@ components:
                     text:
                       type: string
                       description: Text of the banner.
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    PickupOption:
-      type: object
-      title: Pickup Option
-      properties:
-        pickup_method_id:
-          type: integer
     Checkout_Put:
       title: Checkout_Put
       required:
@@ -2396,51 +2390,12 @@ components:
           type: string
           description: ''
       x-internal: false
-    checkout_Put:
-      title: checkout_Put
+    MetaOpen:
+      title: Response meta
       type: object
-      properties:
-        customerMessage:
-          type: string
-          description: ''
-      x-internal: false
-    CheckoutCoupon:
-      title: Checkout Coupon
-      required:
-      - code
-      type: object
-      properties:
-        id:
-          type: integer
-          description: The coupon ID.
-        code:
-          type: string
-          description: the coupon code
-        displayName:
-          type: string
-          description: The coupon title based on different types provided in control panel section.
-        couponType:
-          type: integer
-          description: '|Type `int`|Type Name|
-
-            |-|-|
-
-            |`0`|`per_item_discount`|
-
-            |`1`|`percentage_discount`|
-
-            |`2`|`per_total_discount`|
-
-            |`3`|`shipping_discount`|
-
-            |`4`|`free_shipping`|
-
-            |`5`|`promotion`|'
-        discountedAmount:
-          type: number
-          description: The discounted amount applied within a given context.
-          format: double
-      x-internal: false
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     checkouts_Resp:
       title: checkouts_Resp
       type: object
@@ -3182,6 +3137,51 @@ components:
               description: '`true` value indicates StoreCredit has been applied.
 
                 '
+      x-internal: false
+    checkout_Put:
+      title: checkout_Put
+      type: object
+      properties:
+        customerMessage:
+          type: string
+          description: ''
+      x-internal: false
+    CheckoutCoupon:
+      title: Checkout Coupon
+      required:
+      - code
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The coupon ID.
+        code:
+          type: string
+          description: the coupon code
+        displayName:
+          type: string
+          description: The coupon title based on different types provided in control panel section.
+        couponType:
+          type: integer
+          description: '|Type `int`|Type Name|
+
+            |-|-|
+
+            |`0`|`per_item_discount`|
+
+            |`1`|`percentage_discount`|
+
+            |`2`|`per_total_discount`|
+
+            |`3`|`shipping_discount`|
+
+            |`4`|`free_shipping`|
+
+            |`5`|`promotion`|'
+        discountedAmount:
+          type: number
+          description: The discounted amount applied within a given context.
+          format: double
       x-internal: false
   securitySchemes:
     X-Auth-Token:

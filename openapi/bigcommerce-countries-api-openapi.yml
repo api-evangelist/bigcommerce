@@ -112,56 +112,6 @@ paths:
       operationId: getCountriesCount
       description: Returns a count of all countries.
 components:
-  responses:
-    countryCollection_Resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/country_Full'
-          example:
-          - id: 1
-            country: Afghanistan
-            country_iso2: AF
-            country_iso3: AFG
-            states:
-              url: https://api.bigcommerce.com/stores/store_hash/v2/countries/1/states
-              resource: /countries/1/states
-          - id: 2
-            country: Albania
-            country_iso2: AL
-            country_iso3: ALB
-            states:
-              url: https://api.bigcommerce.com/stores/store_hash/v2/countries/2/states
-              resource: /countries/2/states
-    countriesResponse:
-      description: ''
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/country_Full'
-          examples:
-            response:
-              value:
-                id: 1
-                country: Afghanistan
-                country_iso2: AF
-                country_iso3: AFG
-                states:
-                  url: https://api.bigcommerce.com/stores/h10wocxy6s/v2/countries/1/states
-                  resource: /countries/1/states
-    countResponse:
-      description: ''
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/count_Full'
-          examples:
-            response:
-              value:
-                count: 241
   schemas:
     countriesStates_Full:
       title: countriesStates_Full
@@ -176,30 +126,6 @@ components:
           example: /countries/13/states
           type: string
       description: Refers to the `states` object return in `GET` countries requests.
-      x-internal: false
-    country_Base:
-      type: object
-      title: country_Base
-      properties:
-        country:
-          type: string
-          example: Australia
-          description: Country name.
-        country_iso2:
-          type: string
-          description: 2-letter country code.
-          example: AU
-        country_iso3:
-          type: string
-          description: 3-letter country code.
-          example: AUS
-      x-internal: false
-    count_Full:
-      type: object
-      properties:
-        count:
-          type: integer
-          minimum: 1
       x-internal: false
     country_Full:
       title: country_Full
@@ -224,6 +150,80 @@ components:
           states:
             $ref: '#/components/schemas/countriesStates_Full'
       x-internal: false
+    count_Full:
+      type: object
+      properties:
+        count:
+          type: integer
+          minimum: 1
+      x-internal: false
+    country_Base:
+      type: object
+      title: country_Base
+      properties:
+        country:
+          type: string
+          example: Australia
+          description: Country name.
+        country_iso2:
+          type: string
+          description: 2-letter country code.
+          example: AU
+        country_iso3:
+          type: string
+          description: 3-letter country code.
+          example: AUS
+      x-internal: false
+  responses:
+    countResponse:
+      description: ''
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/count_Full'
+          examples:
+            response:
+              value:
+                count: 241
+    countriesResponse:
+      description: ''
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/country_Full'
+          examples:
+            response:
+              value:
+                id: 1
+                country: Afghanistan
+                country_iso2: AF
+                country_iso3: AFG
+                states:
+                  url: https://api.bigcommerce.com/stores/h10wocxy6s/v2/countries/1/states
+                  resource: /countries/1/states
+    countryCollection_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/country_Full'
+          example:
+          - id: 1
+            country: Afghanistan
+            country_iso2: AF
+            country_iso3: AFG
+            states:
+              url: https://api.bigcommerce.com/stores/store_hash/v2/countries/1/states
+              resource: /countries/1/states
+          - id: 2
+            country: Albania
+            country_iso2: AL
+            country_iso3: ALB
+            states:
+              url: https://api.bigcommerce.com/stores/store_hash/v2/countries/2/states
+              resource: /countries/2/states
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

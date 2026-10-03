@@ -128,23 +128,6 @@ paths:
           $ref: '#/components/responses/listing_not_found_resp'
 components:
   schemas:
-    ErrorDetail:
-      type: object
-      description: 'Error detail response payload for the BigCommerce API.
-
-        '
-      example:
-        '1': Unauthorized to delete
-        '2': Metafield does not exist
-    ChannelListingVariantDateCreated:
-      type: string
-      format: date-time
-      description: Date on which the channel listing variant was first created.
-      x-internal: false
-    ChannelProductVariantDescription:
-      type: string
-      description: Description of the product variant for this channel listing specifically. This is an optional field that can be used to override the description of the product variant in the catalog.
-      x-internal: false
     pagination_Partial:
       type: object
       description: 'Data about the pagination.
@@ -188,183 +171,9 @@ components:
 
             '
       x-internal: false
-    Error:
-      type: object
-      description: 'Error response payload for the BigCommerce API.
-
-        '
-      properties:
-        status:
-          type: integer
-          format: int32
-          description: 'The HTTP status code for the error.
-
-            '
-          example: 422
-        title:
-          type: string
-          description: 'The error title describing the particular error.
-
-            '
-          example: Bulk operation has failed
-        type:
-          type: string
-          description: 'The error type.
-
-            '
-          example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
-        errors:
-          $ref: '#/components/schemas/ErrorDetail'
-    ChannelListingDateModified:
-      type: string
-      format: date-time
-      description: Date on which the channel listing was most recently changed.
-      x-internal: false
     ChannelProductName:
       type: string
       description: Name of the product for this channel listing specifically. This is an optional field that can be used to override the product name in the catalog.
-      x-internal: false
-    ChannelProductVariantFull:
-      type: object
-      description: Details about a variant of the product for this channel listing.
-      properties:
-        channel_id:
-          $ref: '#/components/schemas/ChannelIdForListing'
-        product_id:
-          $ref: '#/components/schemas/ProductId'
-        variant_id:
-          $ref: '#/components/schemas/VariantId'
-        external_id:
-          $ref: '#/components/schemas/ExternalId'
-        state:
-          $ref: '#/components/schemas/VariantState'
-        name:
-          $ref: '#/components/schemas/ChannelProductVariantName'
-        description:
-          $ref: '#/components/schemas/ChannelProductVariantDescription'
-        date_created:
-          $ref: '#/components/schemas/ChannelListingVariantDateCreated'
-        date_modified:
-          $ref: '#/components/schemas/ChannelListingVariantDateModified'
-      x-internal: false
-    ChannelProductVariantName:
-      type: string
-      description: Name of the product variant for this channel listing specifically. This is an optional field that can be used to override the name of the product variant in the catalog.
-      x-internal: false
-    ListingId:
-      type: integer
-      format: int64
-      minimum: 1
-      description: The ID of the channel listing that has been created, returned, or updated. In a 422 error, you may receive a response that references the `group_id`. The `group_id` in the Invalid Listing ID example refers to the `listing_id`. Please use `listing_id` instead of `group_id` in the request payload.
-      x-internal: false
-    ExternalId:
-      type: string
-      description: Associated ID within a system / platform outside of BC.
-      x-internal: false
-    EmptyMeta:
-      type: object
-      title: Empty meta response.
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ChannelProductMultipleVariants:
-      type: array
-      items:
-        $ref: '#/components/schemas/ChannelProductVariantPartial'
-      x-internal: false
-    ListingState:
-      type: string
-      description: The state of the product assignment or channel listing.
-      enum:
-      - active
-      - disabled
-      - error
-      - pending
-      - pending_disable
-      - pending_delete
-      - partially_rejected
-      - queued
-      - rejected
-      - submitted
-      - deleted
-      x-internal: false
-    ChannelListingVariantDateModified:
-      type: string
-      format: date-time
-      description: Date on which the channel listing variant was most recently changed.
-      x-internal: false
-    UpdateMultipleListingsReq:
-      type: array
-      items:
-        $ref: '#/components/schemas/UpsertListingWithListingIdReq'
-      x-internal: false
-    ChannelListingDateCreated:
-      type: string
-      format: date-time
-      description: Date on which the channel listing was first created.
-      x-internal: false
-    ChannelIdForListing:
-      type: integer
-      format: int64
-      description: The ID of the channel associated with this channel listing.
-      x-internal: false
-    CreateMultipleListingsReq:
-      type: array
-      items:
-        $ref: '#/components/schemas/UpsertListingWithoutListingIdReq'
-      x-internal: false
-    VariantState:
-      type: string
-      description: The state of the channel listing variant.
-      enum:
-      - active
-      - disabled
-      - error
-      - pending
-      - pending_disable
-      - pending_delete
-      - queued
-      - rejected
-      - submitted
-      - deleted
-      x-internal: false
-    ProductId:
-      type: integer
-      format: int64
-      description: The ID of the product associated with this channel listing.
-      x-internal: false
-    MetaWithPartialPagination:
-      type: object
-      description: Data about the response, including pagination.
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Partial'
-      x-internal: false
-    VariantId:
-      type: integer
-      format: int64
-      description: The ID of the product variant associated with this channel listing.
-      x-internal: false
-    UpsertListingWithoutListingIdReq:
-      type: object
-      description: Details about assigning a product to a specific channel.
-      properties:
-        product_id:
-          $ref: '#/components/schemas/ProductId'
-        external_id:
-          $ref: '#/components/schemas/ExternalId'
-        state:
-          $ref: '#/components/schemas/ListingState'
-        name:
-          $ref: '#/components/schemas/ChannelProductName'
-        description:
-          $ref: '#/components/schemas/ChannelProductDescription'
-        variants:
-          $ref: '#/components/schemas/ChannelProductMultipleVariants'
-      required:
-      - product_id
-      - state
-      - variants
       x-internal: false
     ChannelProductVariantPartial:
       type: object
@@ -387,32 +196,48 @@ components:
       - variant_id
       - state
       x-internal: false
-    Listing:
-      type: object
-      properties:
-        channel_id:
-          $ref: '#/components/schemas/ChannelIdForListing'
-        listing_id:
-          $ref: '#/components/schemas/ListingId'
-        external_id:
-          $ref: '#/components/schemas/ExternalId'
-        product_id:
-          $ref: '#/components/schemas/ProductId'
-        state:
-          $ref: '#/components/schemas/ListingState'
-        name:
-          $ref: '#/components/schemas/ChannelProductName'
-        description:
-          $ref: '#/components/schemas/ChannelProductDescription'
-        date_created:
-          $ref: '#/components/schemas/ChannelListingDateCreated'
-        date_modified:
-          $ref: '#/components/schemas/ChannelListingDateModified'
-        variants:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChannelProductVariantFull'
+    ChannelListingVariantDateCreated:
+      type: string
+      format: date-time
+      description: Date on which the channel listing variant was first created.
       x-internal: false
+    ChannelIdForListing:
+      type: integer
+      format: int64
+      description: The ID of the channel associated with this channel listing.
+      x-internal: false
+    ChannelProductVariantDescription:
+      type: string
+      description: Description of the product variant for this channel listing specifically. This is an optional field that can be used to override the description of the product variant in the catalog.
+      x-internal: false
+    ProductId:
+      type: integer
+      format: int64
+      description: The ID of the product associated with this channel listing.
+      x-internal: false
+    VariantState:
+      type: string
+      description: The state of the channel listing variant.
+      enum:
+      - active
+      - disabled
+      - error
+      - pending
+      - pending_disable
+      - pending_delete
+      - queued
+      - rejected
+      - submitted
+      - deleted
+      x-internal: false
+    ErrorDetail:
+      type: object
+      description: 'Error detail response payload for the BigCommerce API.
+
+        '
+      example:
+        '1': Unauthorized to delete
+        '2': Metafield does not exist
     UpsertListingWithListingIdReq:
       type: object
       description: Details about assigning a product to a specific channel.
@@ -441,44 +266,182 @@ components:
       type: string
       description: Description of the product for this channel listing specifically. This is an optional field that can be used to override the product description in the catalog.
       x-internal: false
+    EmptyMeta:
+      type: object
+      title: Empty meta response.
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    ExternalId:
+      type: string
+      description: Associated ID within a system / platform outside of BC.
+      x-internal: false
+    ChannelProductVariantName:
+      type: string
+      description: Name of the product variant for this channel listing specifically. This is an optional field that can be used to override the name of the product variant in the catalog.
+      x-internal: false
+    CreateMultipleListingsReq:
+      type: array
+      items:
+        $ref: '#/components/schemas/UpsertListingWithoutListingIdReq'
+      x-internal: false
+    ChannelListingDateCreated:
+      type: string
+      format: date-time
+      description: Date on which the channel listing was first created.
+      x-internal: false
+    ListingState:
+      type: string
+      description: The state of the product assignment or channel listing.
+      enum:
+      - active
+      - disabled
+      - error
+      - pending
+      - pending_disable
+      - pending_delete
+      - partially_rejected
+      - queued
+      - rejected
+      - submitted
+      - deleted
+      x-internal: false
+    ChannelProductMultipleVariants:
+      type: array
+      items:
+        $ref: '#/components/schemas/ChannelProductVariantPartial'
+      x-internal: false
+    ChannelProductVariantFull:
+      type: object
+      description: Details about a variant of the product for this channel listing.
+      properties:
+        channel_id:
+          $ref: '#/components/schemas/ChannelIdForListing'
+        product_id:
+          $ref: '#/components/schemas/ProductId'
+        variant_id:
+          $ref: '#/components/schemas/VariantId'
+        external_id:
+          $ref: '#/components/schemas/ExternalId'
+        state:
+          $ref: '#/components/schemas/VariantState'
+        name:
+          $ref: '#/components/schemas/ChannelProductVariantName'
+        description:
+          $ref: '#/components/schemas/ChannelProductVariantDescription'
+        date_created:
+          $ref: '#/components/schemas/ChannelListingVariantDateCreated'
+        date_modified:
+          $ref: '#/components/schemas/ChannelListingVariantDateModified'
+      x-internal: false
+    ChannelListingVariantDateModified:
+      type: string
+      format: date-time
+      description: Date on which the channel listing variant was most recently changed.
+      x-internal: false
+    MetaWithPartialPagination:
+      type: object
+      description: Data about the response, including pagination.
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Partial'
+      x-internal: false
+    UpsertListingWithoutListingIdReq:
+      type: object
+      description: Details about assigning a product to a specific channel.
+      properties:
+        product_id:
+          $ref: '#/components/schemas/ProductId'
+        external_id:
+          $ref: '#/components/schemas/ExternalId'
+        state:
+          $ref: '#/components/schemas/ListingState'
+        name:
+          $ref: '#/components/schemas/ChannelProductName'
+        description:
+          $ref: '#/components/schemas/ChannelProductDescription'
+        variants:
+          $ref: '#/components/schemas/ChannelProductMultipleVariants'
+      required:
+      - product_id
+      - state
+      - variants
+      x-internal: false
+    UpdateMultipleListingsReq:
+      type: array
+      items:
+        $ref: '#/components/schemas/UpsertListingWithListingIdReq'
+      x-internal: false
+    ListingId:
+      type: integer
+      format: int64
+      minimum: 1
+      description: The ID of the channel listing that has been created, returned, or updated. In a 422 error, you may receive a response that references the `group_id`. The `group_id` in the Invalid Listing ID example refers to the `listing_id`. Please use `listing_id` instead of `group_id` in the request payload.
+      x-internal: false
+    Error:
+      type: object
+      description: 'Error response payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: 'The HTTP status code for the error.
+
+            '
+          example: 422
+        title:
+          type: string
+          description: 'The error title describing the particular error.
+
+            '
+          example: Bulk operation has failed
+        type:
+          type: string
+          description: 'The error type.
+
+            '
+          example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+        errors:
+          $ref: '#/components/schemas/ErrorDetail'
+    VariantId:
+      type: integer
+      format: int64
+      description: The ID of the product variant associated with this channel listing.
+      x-internal: false
+    ChannelListingDateModified:
+      type: string
+      format: date-time
+      description: Date on which the channel listing was most recently changed.
+      x-internal: false
+    Listing:
+      type: object
+      properties:
+        channel_id:
+          $ref: '#/components/schemas/ChannelIdForListing'
+        listing_id:
+          $ref: '#/components/schemas/ListingId'
+        external_id:
+          $ref: '#/components/schemas/ExternalId'
+        product_id:
+          $ref: '#/components/schemas/ProductId'
+        state:
+          $ref: '#/components/schemas/ListingState'
+        name:
+          $ref: '#/components/schemas/ChannelProductName'
+        description:
+          $ref: '#/components/schemas/ChannelProductDescription'
+        date_created:
+          $ref: '#/components/schemas/ChannelListingDateCreated'
+        date_modified:
+          $ref: '#/components/schemas/ChannelListingDateModified'
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChannelProductVariantFull'
+      x-internal: false
   parameters:
-    date_modified:
-      name: date_modified
-      description: Filter items by date_modified. For example, `date_modified=2019-09-04T00:00:00`, `date_modified=2019-09-04`, or `date_modified=1567573200`
-      in: query
-      required: false
-      schema:
-        type: string
-    listing_id_path_param:
-      name: listing_id
-      description: The ID of a channel listing.
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    date_created:
-      name: date_created
-      description: Filter items by date_created. For example, `date_created=2019-09-04T00:00:00`, `date_created=2019-09-04`, or `date_created=1567573200`
-      in: query
-      required: false
-      schema:
-        type: string
-    after:
-      name: after
-      description: Specifies the prior listing ID in a limited (paginated) list of listings.
-      in: query
-      required: false
-      schema:
-        type: integer
     date_created_max:
       name: date_created:max
       description: Filter items by maximum date_created. For example, `date_created:max=2019-09-04T00:00:00`, `date_created:max=2019-09-04`, or `date_created:max=1567573200`
@@ -489,6 +452,43 @@ components:
     date_modified_min:
       name: date_modified:min
       description: Filter items by minimum date_modified. For example, `date_modified:min=2019-09-04T00:00:00`, `date_modified:min=2019-09-04`, or `date_modified:min=1567573200`
+      in: query
+      required: false
+      schema:
+        type: string
+    date_modified_max:
+      name: date_modified:max
+      description: Filter items by maximum date_modified. For example, `date_modified:max=2019-09-04T00:00:00`, `date_modified:max=2019-09-04`, or `date_modified:max=1567573200`
+      in: query
+      required: false
+      schema:
+        type: string
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    listing_id_path_param:
+      name: listing_id
+      description: The ID of a channel listing.
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    limit:
+      name: limit
+      description: Controls the number of items per page for paginated responses.
+      in: query
+      required: false
+      schema:
+        type: integer
+    date_modified:
+      name: date_modified
+      description: Filter items by date_modified. For example, `date_modified=2019-09-04T00:00:00`, `date_modified=2019-09-04`, or `date_modified=1567573200`
       in: query
       required: false
       schema:
@@ -505,14 +505,6 @@ components:
         items:
           type: integer
           format: int64
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     channel_id_path_param:
       name: channel_id
       description: The ID of a channel.
@@ -521,20 +513,21 @@ components:
       schema:
         type: integer
         format: int64
-    limit:
-      name: limit
-      description: Controls the number of items per page for paginated responses.
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    after:
+      name: after
+      description: Specifies the prior listing ID in a limited (paginated) list of listings.
       in: query
       required: false
       schema:
         type: integer
-    date_modified_max:
-      name: date_modified:max
-      description: Filter items by maximum date_modified. For example, `date_modified:max=2019-09-04T00:00:00`, `date_modified:max=2019-09-04`, or `date_modified:max=1567573200`
-      in: query
-      required: false
-      schema:
-        type: string
     date_created_min:
       name: date_created:min
       description: Filter items by minimum date_created. For example, `date_created:min=2019-09-04T00:00:00`, `date_created:min=2019-09-04`, or `date_created:min=1567573200`
@@ -542,13 +535,23 @@ components:
       required: false
       schema:
         type: string
+    date_created:
+      name: date_created
+      description: Filter items by date_created. For example, `date_created=2019-09-04T00:00:00`, `date_created=2019-09-04`, or `date_created=1567573200`
+      in: query
+      required: false
+      schema:
+        type: string
   examples:
-    error_400_resp_example:
+    error_422_missing_listing_required_fields_resp_example:
       value:
-        status: 400
-        title: Input is invalid
+        status: 422
+        title: JSON data is missing or invalid
         type: /api-docs/getting-started/api-status-codes
-        errors: {}
+        errors:
+          0.state: error.path.missing
+          0.variants: error.path.missing
+          0.product_id: error.path.missing
     single_listing_with_empty_meta_resp_example:
       value:
         data:
@@ -576,10 +579,19 @@ components:
             date_created: '2021-05-24T17:46:33Z'
             date_modified: '2021-05-24T17:46:33Z'
         meta: {}
-    error_422_product_id_mismatch_resp_example:
+    error_422_missing_listing_variants_required_fields_resp_example:
       value:
         status: 422
-        title: '0/0 product listing group(s) and 0/0 product listing(s) upserted. Invalid fields: '
+        title: JSON data is missing or invalid
+        type: /api-docs/getting-started/api-status-codes
+        errors:
+          0.variants.0.state: error.path.missing
+          0.variants.0.product_id: error.path.missing
+          0.variants.0.variant_id: error.path.missing
+    error_400_resp_example:
+      value:
+        status: 400
+        title: Input is invalid
         type: /api-docs/getting-started/api-status-codes
         errors: {}
     single_listing_resp_example:
@@ -615,6 +627,53 @@ components:
             links:
               current: ?limit=1000
             total_pages: 1
+    error_422_invalid_channel_id_v2_resp_example:
+      value:
+        status: 422
+        title: Channel id (1000000) is not valid for store (1001808665)!
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+    create_multiple_listings_req_example:
+      value:
+      - product_id: 80
+        state: active
+        name: Orbit Terrarium - Large
+        description: The same terrarium, but not a [Sample]
+        variants:
+        - product_id: 80
+          variant_id: 64
+          state: active
+          name: Terrarium with dinosaur
+        - product_id: 80
+          variant_id: 65
+          state: active
+          name: Terrarium with fish
+      - product_id: 100
+        state: pending
+        name: Womenʼs Bold T-Shirt
+        description: The same t-shirt, but not a [Sample]
+        variants:
+        - product_id: 100
+          variant_id: 91
+          state: pending
+          name: Small womenʼs bold t-shirt
+        - product_id: 100
+          variant_id: 92
+          state: pending
+          name: Medium womenʼs bold t-shirt
+    error_422_invalid_listing_id_resp_example:
+      value:
+        status: 422
+        title: '0/0 product listing group(s) and 0/0 product listing(s) upserted. Invalid fields: group_id,'
+        type: /api-docs/getting-started/api-status-codes
+        errors:
+          group_id: Group id (0) for store (1001808665) cannot be less than or equal to zero!
+    error_422_product_id_mismatch_resp_example:
+      value:
+        status: 422
+        title: '0/0 product listing group(s) and 0/0 product listing(s) upserted. Invalid fields: '
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
     update_multiple_listings_req_example:
       value:
       - listing_id: 882789361
@@ -635,33 +694,6 @@ components:
           variant_id: 91
           state: pending
           name: Small womenʼs bold t-shirt
-    create_single_listing_req_example:
-      value:
-      - product_id: 80
-        state: active
-        name: Orbit Terrarium - Large
-        description: The same terrarium, but not a [Sample]
-        variants:
-        - product_id: 80
-          variant_id: 64
-          state: active
-          name: Terrarium with dinosaur
-        - product_id: 80
-          variant_id: 65
-          state: active
-          name: Terrarium with fish
-    error_404_listing_not_found_resp_example:
-      value:
-        status: 404
-        title: Listing [123456789] not found
-        type: /api-docs/getting-started/api-status-codes
-        errors: {}
-    error_422_invalid_filters_resp_example:
-      value:
-        status: 422
-        title: 'The filter(s): a, b are not valid filter parameter(s).'
-        type: /api-docs/getting-started/api-status-codes
-        errors: {}
     multiple_listings_resp_example:
       value:
         data:
@@ -718,27 +750,19 @@ components:
             links:
               current: ?limit=1000
             total_pages: 1
-    update_single_listing_req_example:
-      value:
-      - listing_id: 882998595
-        product_id: 80
-        state: active
-        name: Orbit Terrarium - Large
-        variants:
-        - product_id: 80
-          variant_id: 64
-          state: active
-          name: Terrarium with dinosaur
-    error_422_missing_listing_variants_required_fields_resp_example:
+    error_422_invalid_filters_resp_example:
       value:
         status: 422
-        title: JSON data is missing or invalid
+        title: 'The filter(s): a, b are not valid filter parameter(s).'
         type: /api-docs/getting-started/api-status-codes
-        errors:
-          0.variants.0.state: error.path.missing
-          0.variants.0.product_id: error.path.missing
-          0.variants.0.variant_id: error.path.missing
-    create_multiple_listings_req_example:
+        errors: {}
+    error_422_invalid_filter_value_resp_example:
+      value:
+        status: 422
+        title: 'Query parameter "limit" value must be integer. For input string: "a".'
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
+    create_single_listing_req_example:
       value:
       - product_id: 80
         state: active
@@ -753,57 +777,24 @@ components:
           variant_id: 65
           state: active
           name: Terrarium with fish
-      - product_id: 100
-        state: pending
-        name: Womenʼs Bold T-Shirt
-        description: The same t-shirt, but not a [Sample]
+    update_single_listing_req_example:
+      value:
+      - listing_id: 882998595
+        product_id: 80
+        state: active
+        name: Orbit Terrarium - Large
         variants:
-        - product_id: 100
-          variant_id: 91
-          state: pending
-          name: Small womenʼs bold t-shirt
-        - product_id: 100
-          variant_id: 92
-          state: pending
-          name: Medium womenʼs bold t-shirt
-    error_422_invalid_channel_id_v2_resp_example:
+        - product_id: 80
+          variant_id: 64
+          state: active
+          name: Terrarium with dinosaur
+    error_404_listing_not_found_resp_example:
       value:
-        status: 422
-        title: Channel id (1000000) is not valid for store (1001808665)!
+        status: 404
+        title: Listing [123456789] not found
         type: /api-docs/getting-started/api-status-codes
         errors: {}
-    error_422_invalid_filter_value_resp_example:
-      value:
-        status: 422
-        title: 'Query parameter "limit" value must be integer. For input string: "a".'
-        type: /api-docs/getting-started/api-status-codes
-        errors: {}
-    error_422_missing_listing_required_fields_resp_example:
-      value:
-        status: 422
-        title: JSON data is missing or invalid
-        type: /api-docs/getting-started/api-status-codes
-        errors:
-          0.state: error.path.missing
-          0.variants: error.path.missing
-          0.product_id: error.path.missing
-    error_422_invalid_listing_id_resp_example:
-      value:
-        status: 422
-        title: '0/0 product listing group(s) and 0/0 product listing(s) upserted. Invalid fields: group_id,'
-        type: /api-docs/getting-started/api-status-codes
-        errors:
-          group_id: Group id (0) for store (1001808665) cannot be less than or equal to zero!
   responses:
-    listing_not_found_resp:
-      description: A *Channel Listing* with the provided channel ID and listing ID was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            Listing Not Found:
-              $ref: '#/components/examples/error_404_listing_not_found_resp_example'
     invalid_channel_id_resp:
       description: Invalid channel ID is provided.
       content:
@@ -813,6 +804,31 @@ components:
           examples:
             Invalid Channel ID:
               $ref: '#/components/examples/error_400_resp_example'
+    invalid_filters_resp:
+      description: When an invalid value or invalid query parameter is submitted, a 422 response will be sent.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Invalid Filters:
+              $ref: '#/components/examples/error_422_invalid_filters_resp_example'
+            Invalid Filter Value:
+              $ref: '#/components/examples/error_422_invalid_filter_value_resp_example'
+    single_listing_resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/Listing'
+              meta:
+                $ref: '#/components/schemas/EmptyMeta'
+          examples:
+            response:
+              $ref: '#/components/examples/single_listing_with_empty_meta_resp_example'
     missing_or_invalid_multiple_listings_data_for_post_resp:
       description: The request is missing one or more required fields or invalid data is submitted.
       content:
@@ -828,17 +844,15 @@ components:
               $ref: '#/components/examples/error_422_missing_listing_variants_required_fields_resp_example'
             Invalid Channel ID:
               $ref: '#/components/examples/error_422_invalid_channel_id_v2_resp_example'
-    invalid_filters_resp:
-      description: When an invalid value or invalid query parameter is submitted, a 422 response will be sent.
+    listing_not_found_resp:
+      description: A *Channel Listing* with the provided channel ID and listing ID was not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
           examples:
-            Invalid Filters:
-              $ref: '#/components/examples/error_422_invalid_filters_resp_example'
-            Invalid Filter Value:
-              $ref: '#/components/examples/error_422_invalid_filter_value_resp_example'
+            Listing Not Found:
+              $ref: '#/components/examples/error_404_listing_not_found_resp_example'
     missing_or_invalid_multiple_listings_data_for_put_resp:
       description: The request is missing one or more required fields or invalid data is submitted. Note that the `group_id` in the Invalid Listing ID example refers to `listing_id`. Please use `listing_id` instead of `group_id` in the request payload.
       content:
@@ -874,20 +888,6 @@ components:
               $ref: '#/components/examples/single_listing_resp_example'
             Multiple Listings:
               $ref: '#/components/examples/multiple_listings_resp_example'
-    single_listing_resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                $ref: '#/components/schemas/Listing'
-              meta:
-                $ref: '#/components/schemas/EmptyMeta'
-          examples:
-            response:
-              $ref: '#/components/examples/single_listing_with_empty_meta_resp_example'
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -174,64 +174,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse422'
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
-    ErrorResponse400:
-      type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/betaErrorResponse'
-      x-tags:
-      - Models
-    GlobalOrderSettings:
-      type: object
-      properties:
-        notifications:
-          type: object
-          description: Global notification settings.
-          properties:
-            order_placed:
-              description: Global order notification settings.
-              type: object
-              properties:
-                email_addresses:
-                  description: Email addresses order notifications will be sent to. Empty array disables order notifications. Not nullable.
-                  type: array
-                  items:
-                    type: string
-            forward_invoice:
-              description: Global order invoice forward settings.
-              type: object
-              properties:
-                email_addresses:
-                  description: Email addresses order invoices will be forwarded to. Empty array disables forwarding order invoices. Not nullable.
-                  type: array
-                  items:
-                    type: string
-      example:
-        $ref: '#/components/examples/EnableMultipleOrderNotifications/value'
-      x-tags:
-      - Models
-      title: GlobalOrderSettings
-      x-examples:
-        example-1:
-          $ref: '#/components/examples/EnableMultipleOrderNotifications/value'
     BaseError:
       type: object
       description: 'Error payload for the BigCommerce API.
@@ -284,13 +227,12 @@ components:
       x-tags:
       - Models
       title: ChannelOrderSettings
-    ErrorResponse422:
+    metaEmpty_Full:
       type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/betaErrorResponse'
-      x-tags:
-      - Models
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     betaErrorResponse:
       allOf:
       - $ref: '#/components/schemas/BaseError'
@@ -300,22 +242,67 @@ components:
             type: object
       x-tags:
       - Models
-    metaEmpty_Full:
+    ErrorResponse400:
       type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
+      properties:
+        schema:
+          $ref: '#/components/schemas/betaErrorResponse'
+      x-tags:
+      - Models
+    ErrorResponse422:
+      type: object
+      properties:
+        schema:
+          $ref: '#/components/schemas/betaErrorResponse'
+      x-tags:
+      - Models
+    GlobalOrderSettings:
+      type: object
+      properties:
+        notifications:
+          type: object
+          description: Global notification settings.
+          properties:
+            order_placed:
+              description: Global order notification settings.
+              type: object
+              properties:
+                email_addresses:
+                  description: Email addresses order notifications will be sent to. Empty array disables order notifications. Not nullable.
+                  type: array
+                  items:
+                    type: string
+            forward_invoice:
+              description: Global order invoice forward settings.
+              type: object
+              properties:
+                email_addresses:
+                  description: Email addresses order invoices will be forwarded to. Empty array disables forwarding order invoices. Not nullable.
+                  type: array
+                  items:
+                    type: string
+      example:
+        $ref: '#/components/examples/EnableMultipleOrderNotifications/value'
+      x-tags:
+      - Models
+      title: GlobalOrderSettings
+      x-examples:
+        example-1:
+          $ref: '#/components/examples/EnableMultipleOrderNotifications/value'
   examples:
-    ChannelOrderSettingsOverrideOrderPlacedEmailAddressesAndDisableForwardEmail:
-      summary: Override order placed email addresses and forward email addresses global value for channel
+    ChannelOrderSettingsDisableBothNotifications:
+      summary: Disable order placed notifications for channel
       value:
         notifications:
           order_placed:
-            email_addresses:
-            - admin@example.com
-            - another-email@example.com
+            email_addresses: []
           forward_invoice:
+            email_addresses: []
+    GlobalOrderSettingsDisableOrderPlacedNotificatons:
+      summary: Disable order placed notifications at global level
+      value:
+        notifications:
+          order_placed:
             email_addresses: []
     EnableMultipleOrderNotifications:
       summary: Enable order placed and forward invoice notifications
@@ -337,20 +324,33 @@ components:
             email_addresses: null
           forward_invoice:
             email_addresses: null
-    GlobalOrderSettingsDisableOrderPlacedNotificatons:
-      summary: Disable order placed notifications at global level
+    ChannelOrderSettingsOverrideOrderPlacedEmailAddressesAndDisableForwardEmail:
+      summary: Override order placed email addresses and forward email addresses global value for channel
       value:
         notifications:
           order_placed:
-            email_addresses: []
-    ChannelOrderSettingsDisableBothNotifications:
-      summary: Disable order placed notifications for channel
-      value:
-        notifications:
-          order_placed:
-            email_addresses: []
+            email_addresses:
+            - admin@example.com
+            - another-email@example.com
           forward_invoice:
             email_addresses: []
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

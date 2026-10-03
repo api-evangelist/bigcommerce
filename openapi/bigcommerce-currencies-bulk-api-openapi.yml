@@ -124,22 +124,9 @@ paths:
               schema:
                 type: object
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
   schemas:
+    currency_Post:
+      $ref: '#/components/schemas/currency_Base'
     currency_Full:
       title: currency_Full
       allOf:
@@ -256,8 +243,21 @@ components:
             last_updated: 2018-06-12 14:41:56+00:00
             enabled: false
       x-internal: false
-    currency_Post:
-      $ref: '#/components/schemas/currency_Base'
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -59,23 +59,6 @@ paths:
           description: Invalid JSON request body - missing or invalid data
           content: {}
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
     Token_Full:
       type: object
@@ -87,6 +70,13 @@ components:
           properties: {}
           additionalProperties: true
           description: Response metadata.
+    Token_Base:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT Token for accessing the Storefront API
+      x-internal: false
     TokenPostImpersonation:
       type: object
       x-internal: false
@@ -105,13 +95,23 @@ components:
       required:
       - channel_id
       - expires_at
-    Token_Base:
-      type: object
-      properties:
-        token:
-          type: string
-          description: JWT Token for accessing the Storefront API
-      x-internal: false
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       type: apiKey

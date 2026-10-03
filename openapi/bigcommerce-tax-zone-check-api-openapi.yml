@@ -55,14 +55,6 @@ paths:
           description: The request body does not meet specifications.
 components:
   parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
     Accept:
       name: Accept
       in: header
@@ -71,28 +63,15 @@ components:
       schema:
         type: string
         default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
-    ZoneCheck:
-      type: object
-      properties:
-        country_code:
-          type: string
-          description: Two-letter ISO 3166-1 country code.
-          example: AU
-        subdivision_codes:
-          type: string
-          description: ISO 3166-2 subdivision code, up to three alphanumeric characters.
-          example: NSW
-        postal_code:
-          type: string
-          description: Postal code.
-          example: '2099'
-        customer_group_id:
-          type: integer
-          description: Customer Group ID to which the customer is belongs.
-          example: 0
-      required:
-      - country_code
     TaxZone:
       type: object
       x-examples: {}
@@ -156,6 +135,27 @@ components:
               description: One or more customer groups that a tax zone targets. Empty array if zone applies to all customers.
               items:
                 type: integer
+    ZoneCheck:
+      type: object
+      properties:
+        country_code:
+          type: string
+          description: Two-letter ISO 3166-1 country code.
+          example: AU
+        subdivision_codes:
+          type: string
+          description: ISO 3166-2 subdivision code, up to three alphanumeric characters.
+          example: NSW
+        postal_code:
+          type: string
+          description: Postal code.
+          example: '2099'
+        customer_group_id:
+          type: integer
+          description: Customer Group ID to which the customer is belongs.
+          example: 0
+      required:
+      - country_code
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

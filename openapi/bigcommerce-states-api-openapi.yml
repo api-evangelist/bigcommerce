@@ -181,12 +181,14 @@ paths:
       description: Returns a count of a countryʼs states.
 components:
   responses:
-    countriesStatesResponse:
+    countriesStatesCollectionResponse:
       description: ''
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/countriesState_Full'
+            type: array
+            items:
+              $ref: '#/components/schemas/countriesState_Full'
     countResponse:
       description: ''
       content:
@@ -197,22 +199,13 @@ components:
             response:
               value:
                 count: 241
-    countriesStatesCollectionResponse:
+    countriesStatesResponse:
       description: ''
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/countriesState_Full'
+            $ref: '#/components/schemas/countriesState_Full'
   schemas:
-    count_Full:
-      type: object
-      properties:
-        count:
-          type: integer
-          minimum: 1
-      x-internal: false
     countriesState_Full:
       title: countriesState_Full
       example:
@@ -239,6 +232,13 @@ components:
           example: 13
           type: integer
       description: 'Refers to the state returned in `GET` states requests. '
+      x-internal: false
+    count_Full:
+      type: object
+      properties:
+        count:
+          type: integer
+          minimum: 1
       x-internal: false
   securitySchemes:
     X-Auth-Token:

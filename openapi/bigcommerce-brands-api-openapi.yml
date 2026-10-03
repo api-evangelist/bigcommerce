@@ -994,7 +994,95 @@ paths:
           description: ''
           content: {}
 components:
+  responses:
+    General207Status:
+      description: Multi-status. Multiple operations have taken place and the status for each operation can be viewed in the body of the response. Typically indicates that a partial failure has occurred, such as when a `POST` or `PUT` request is successful, but saving the URL or inventory data has failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Base'
   schemas:
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    brand_Full:
+      title: brand_Full
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique ID of the *Brand*. Read-Only.
+          readOnly: true
+        name:
+          maxLength: 255
+          minLength: 1
+          type: string
+          description: 'The name of the brand. Must be unique.
+
+            Required in POST.'
+          example: Common Good
+          x-required:
+          - post
+          - put
+        page_title:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: 'The title shown in the browser while viewing the brand.
+
+            '
+          example: Common Good
+        meta_keywords:
+          type: array
+          description: 'An array of meta keywords to include in the HTML.
+
+            '
+          items:
+            type: string
+          example:
+          - modern
+          - clean
+          - contemporary
+        meta_description:
+          maxLength: 65535
+          minLength: 0
+          type: string
+          description: 'A meta description to include.
+
+            '
+          example: Common Good is a modern brand.
+        search_keywords:
+          maxLength: 65535
+          minLength: 0
+          type: string
+          description: 'A comma-separated list of keywords that can be used to locate this brand.
+
+            '
+          example: kitchen, laundry, cart, storage
+        image_url:
+          type: string
+          description: 'Image URL used for this category on the storefront. Images can be uploaded via form file post to `/brands/{brandId}/image`, or by providing a publicly accessible URL in this field.
+
+            '
+          example: https://cdn8.bigcommerce.com/s-12345/product_images/k/your-image-name.png
+          x-url: true
+        custom_url:
+          $ref: '#/components/schemas/customUrl_Full'
+      description: Common Brand properties.
+      x-internal: false
     customUrl_Full:
       title: customUrl_Full
       type: object
@@ -1078,14 +1166,6 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
     error_Base:
       title: error_Base
       type: object
@@ -1108,85 +1188,12 @@ components:
 
         '
       x-internal: false
-    brand_Full:
-      title: brand_Full
-      required:
-      - name
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Unique ID of the *Brand*. Read-Only.
-          readOnly: true
-        name:
-          maxLength: 255
-          minLength: 1
-          type: string
-          description: 'The name of the brand. Must be unique.
-
-            Required in POST.'
-          example: Common Good
-          x-required:
-          - post
-          - put
-        page_title:
-          maxLength: 255
-          minLength: 0
-          type: string
-          description: 'The title shown in the browser while viewing the brand.
-
-            '
-          example: Common Good
-        meta_keywords:
-          type: array
-          description: 'An array of meta keywords to include in the HTML.
-
-            '
-          items:
-            type: string
-          example:
-          - modern
-          - clean
-          - contemporary
-        meta_description:
-          maxLength: 65535
-          minLength: 0
-          type: string
-          description: 'A meta description to include.
-
-            '
-          example: Common Good is a modern brand.
-        search_keywords:
-          maxLength: 65535
-          minLength: 0
-          type: string
-          description: 'A comma-separated list of keywords that can be used to locate this brand.
-
-            '
-          example: kitchen, laundry, cart, storage
-        image_url:
-          type: string
-          description: 'Image URL used for this category on the storefront. Images can be uploaded via form file post to `/brands/{brandId}/image`, or by providing a publicly accessible URL in this field.
-
-            '
-          example: https://cdn8.bigcommerce.com/s-12345/product_images/k/your-image-name.png
-          x-url: true
-        custom_url:
-          $ref: '#/components/schemas/customUrl_Full'
-      description: Common Brand properties.
-      x-internal: false
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
   parameters:
-    ContentType:
-      name: Content-Type
+    Accept:
+      name: Accept
       in: header
       required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
       schema:
         type: string
         default: application/json
@@ -1199,21 +1206,14 @@ components:
       required: true
       schema:
         type: integer
-    Accept:
-      name: Accept
+    ContentType:
+      name: Content-Type
       in: header
       required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
       schema:
         type: string
         default: application/json
-  responses:
-    General207Status:
-      description: Multi-status. Multiple operations have taken place and the status for each operation can be viewed in the body of the response. Typically indicates that a partial failure has occurred, such as when a `POST` or `PUT` request is successful, but saving the URL or inventory data has failed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Base'
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

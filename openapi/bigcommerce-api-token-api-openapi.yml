@@ -88,23 +88,6 @@ paths:
           description: Invalid JWT Token provided or missing JWT token header
           content: {}
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
     Token_Full:
       type: object
@@ -116,6 +99,13 @@ components:
           properties: {}
           additionalProperties: true
           description: Response metadata.
+    Token_Base:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT Token for accessing the Storefront API
+      x-internal: false
     TokenPostImpersonation:
       type: object
       x-internal: false
@@ -152,13 +142,23 @@ components:
         example-1:
           allowed_cors_origins:
           - https://www.yourstorefront.com/
-    Token_Base:
-      type: object
-      properties:
-        token:
-          type: string
-          description: JWT Token for accessing the Storefront API
-      x-internal: false
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       type: apiKey

@@ -99,24 +99,24 @@ paths:
                   custom_order_confirmation_script_url: webdav:vtz-order-confirmation/dist/auto-loader.js
                 meta: {}
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    Content-Type:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   schemas:
+    CheckoutsSettingsRequest:
+      title: Checkouts settings request
+      type: object
+      properties:
+        custom_checkout_script_url:
+          type: string
+          description: Custom checkout script URL to replace our default checkout. To reset a store to optimized one-page checkout, pass an empty string for `custom_checkout_script_url` and `custom_order_confirmation_script_url`.
+        order_confirmation_use_custom_checkout_script:
+          type: boolean
+          description: When order_confirmation_use_custom_checkout_script=true, the default custom_order_confirmation_script_url defaults to an empty string.
+        custom_order_confirmation_script_url:
+          type: string
+          description: Custom order confirmation script URL to replace the default order confirmation. To reset a store to optimized one-page checkout, pass an empty string for `custom_checkout_script_url` and `custom_order_confirmation_script_url`.
+        custom_checkout_supports_uco_settings:
+          type: boolean
+          description: Boolean value that specifies whether this checkout supports Optimized One-Page Checkout settings.
+      description: ''
     CheckoutsSettings:
       title: Checkouts Settings
       type: object
@@ -135,23 +135,23 @@ components:
       properties: {}
       additionalProperties: true
       description: Response metadata.
-    CheckoutsSettingsRequest:
-      title: Checkouts settings request
-      type: object
-      properties:
-        custom_checkout_script_url:
-          type: string
-          description: Custom checkout script URL to replace our default checkout. To reset a store to optimized one-page checkout, pass an empty string for `custom_checkout_script_url` and `custom_order_confirmation_script_url`.
-        order_confirmation_use_custom_checkout_script:
-          type: boolean
-          description: When order_confirmation_use_custom_checkout_script=true, the default custom_order_confirmation_script_url defaults to an empty string.
-        custom_order_confirmation_script_url:
-          type: string
-          description: Custom order confirmation script URL to replace the default order confirmation. To reset a store to optimized one-page checkout, pass an empty string for `custom_checkout_script_url` and `custom_order_confirmation_script_url`.
-        custom_checkout_supports_uco_settings:
-          type: boolean
-          description: Boolean value that specifies whether this checkout supports Optimized One-Page Checkout settings.
-      description: ''
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    Content-Type:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -184,23 +184,6 @@ paths:
       description: Delete custom template associations. At least one query parameter must be used.
       operationId: deleteCustomTemplateAssociations
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
     BaseError:
       type: object
@@ -255,6 +238,39 @@ components:
           errors:
             $ref: '#/components/schemas/DetailedErrors'
       x-internal: false
+    DetailedErrors:
+      type: object
+      additionalProperties:
+        type: string
+      x-internal: false
+    CustomTemplateAssociation:
+      title: CustomTemplateAssociation
+      type: object
+      properties:
+        id:
+          type: integer
+        channel_id:
+          type: integer
+        entity_type:
+          type: string
+          enum:
+          - product
+          - category
+          - brand
+          - page
+        entity_id:
+          type: integer
+        file_name:
+          type: string
+          example: custom-product-1.html
+        is_valid:
+          type: boolean
+          description: An invalid file name does not match with an existing custom layout file in the currently active theme for the channel. When an association is invalid the store will fallback to using the default for that entity type.
+        date_created:
+          type: string
+        date_modified:
+          type: string
+      x-internal: false
     MetaPaginationObject:
       type: object
       properties:
@@ -291,39 +307,23 @@ components:
                   type: string
                   example: ?limit=5&page=1
       x-internal: false
-    DetailedErrors:
-      type: object
-      additionalProperties:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
         type: string
-      x-internal: false
-    CustomTemplateAssociation:
-      title: CustomTemplateAssociation
-      type: object
-      properties:
-        id:
-          type: integer
-        channel_id:
-          type: integer
-        entity_type:
-          type: string
-          enum:
-          - product
-          - category
-          - brand
-          - page
-        entity_id:
-          type: integer
-        file_name:
-          type: string
-          example: custom-product-1.html
-        is_valid:
-          type: boolean
-          description: An invalid file name does not match with an existing custom layout file in the currently active theme for the channel. When an association is invalid the store will fallback to using the default for that entity type.
-        date_created:
-          type: string
-        date_modified:
-          type: string
-      x-internal: false
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -172,18 +172,6 @@ paths:
       - Webhooks Admin
 components:
   responses:
-    400_BadRequest:
-      description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 400
-                title: Input is invalid.
-                type: /api-docs/getting-started/api-status-codes
     401_Unauthorized:
       description: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
       content:
@@ -210,27 +198,19 @@ components:
                 type: /api-docs/getting-started/api-status-codes
                 errors:
                   destination: error.path.missing.
+    400_BadRequest:
+      description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 400
+                title: Input is invalid.
+                type: /api-docs/getting-started/api-status-codes
   schemas:
-    errorDetailed_Full:
-      type: object
-      title: errorDetailed_Full
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          description: Typically a link to BigCommerce API Status codes
-          type: string
-        errors:
-          type: object
-      x-internal: false
     Pagination:
       type: object
       description: 'Data about the response, including pagination and collection totals.
@@ -264,6 +244,26 @@ components:
             next:
               type: string
               description: Link to the next page returned in the response.
+      x-internal: false
+    errorDetailed_Full:
+      type: object
+      title: errorDetailed_Full
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          description: Typically a link to BigCommerce API Status codes
+          type: string
+        errors:
+          type: object
       x-internal: false
     error_Full:
       type: object

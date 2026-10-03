@@ -112,31 +112,6 @@ paths:
                   meta:
                     $ref: '#/components/schemas/EmptyMeta'
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    channel_id_path_param:
-      name: channel_id
-      description: The ID of a channel.
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
   schemas:
     Url:
       type: object
@@ -161,6 +136,15 @@ components:
           description: The date-time that this URL was last updated, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
           example: '2018-01-04T04:15:50.000Z'
           format: date-time
+    PutCheckoutUrl:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Unique site checkout URL. Must be valid and a sub-domain of primary channel URL.
+          format: uri
+          example: https://checkout.kittens.mybigcommerce.com
+      title: ''
     Site:
       type: object
       properties:
@@ -198,21 +182,37 @@ components:
         is_checkout_url_customized:
           type: boolean
           description: Indicates whether the channel uses a custom checkout domain. When `false`, the checkout domain falls back to the default channel’s primary URL.
-    PutCheckoutUrl:
-      type: object
-      properties:
-        url:
-          type: string
-          description: Unique site checkout URL. Must be valid and a sub-domain of primary channel URL.
-          format: uri
-          example: https://checkout.kittens.mybigcommerce.com
-      title: ''
     EmptyMeta:
       type: object
       title: Empty meta response.
       properties: {}
       additionalProperties: true
       description: Response metadata.
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    channel_id_path_param:
+      name: channel_id
+      description: The ID of a channel.
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

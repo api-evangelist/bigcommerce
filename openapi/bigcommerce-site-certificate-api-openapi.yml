@@ -92,83 +92,7 @@ paths:
         name: urls:in
         description: Query certificates by one or more URLs
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
-    EmptyResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties: {}
-        meta:
-          type: object
-          properties: {}
-    CertificateWrite:
-      title: CertificateWrite
-      type: object
-      description: ''
-      properties:
-        certificate:
-          type: string
-          description: The primary certificate, as a string.
-        private_key:
-          type: string
-          description: The private key, as a string. Is a "write-only" field, will never be returned after write.
-        intermediate_certificates:
-          type: string
-          description: The intermediate certificate(s), as a string.
-      x-tags:
-      - Models
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    CertificateResponse:
-      title: CertificateResponse
-      type: object
-      description: ''
-      properties:
-        data:
-          type: object
-          properties:
-            status:
-              type: string
-              enum:
-              - shared
-              - dedicated
-            installed_certificate:
-              $ref: '#/components/schemas/InstalledCertificateDetail'
-        meta:
-          $ref: '#/components/schemas/MetaOpen'
-      x-tags:
-      - Models
-    InstallCertificateData:
-      type: object
-      properties:
-        url:
-          type: string
-          description: URL for the site.
-          example: kittens.mybigcommerce.com
-        certificate:
-          $ref: '#/components/schemas/CertificateWrite'
     InstalledCertificateDetail:
       title: CertificateInfo
       description: Details about the installed certificate, including the raw certificate data, without the private key.
@@ -209,6 +133,15 @@ components:
           description: The intermediate certificate(s), as a string.
       x-tags:
       - Models
+    EmptyResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties: {}
+        meta:
+          type: object
+          properties: {}
     GetCertificatesResponse:
       title: GetCertificatesResponse
       type: object
@@ -219,6 +152,73 @@ components:
             $ref: '#/components/schemas/InstalledCertificateDetail'
         meta:
           $ref: '#/components/schemas/MetaOpen'
+    CertificateWrite:
+      title: CertificateWrite
+      type: object
+      description: ''
+      properties:
+        certificate:
+          type: string
+          description: The primary certificate, as a string.
+        private_key:
+          type: string
+          description: The private key, as a string. Is a "write-only" field, will never be returned after write.
+        intermediate_certificates:
+          type: string
+          description: The intermediate certificate(s), as a string.
+      x-tags:
+      - Models
+    InstallCertificateData:
+      type: object
+      properties:
+        url:
+          type: string
+          description: URL for the site.
+          example: kittens.mybigcommerce.com
+        certificate:
+          $ref: '#/components/schemas/CertificateWrite'
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    CertificateResponse:
+      title: CertificateResponse
+      type: object
+      description: ''
+      properties:
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+              enum:
+              - shared
+              - dedicated
+            installed_certificate:
+              $ref: '#/components/schemas/InstalledCertificateDetail'
+        meta:
+          $ref: '#/components/schemas/MetaOpen'
+      x-tags:
+      - Models
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

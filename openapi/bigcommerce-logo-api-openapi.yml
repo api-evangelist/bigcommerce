@@ -81,40 +81,7 @@ paths:
       tags:
       - Logo
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
   schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    LogoSettingsUpdate:
-      type: object
-      properties:
-        logo_text:
-          type: string
-        type:
-          type: string
-          enum:
-          - image
-          - text
-      x-tags:
-      - Models
     LogoSettings:
       type: object
       properties:
@@ -130,6 +97,39 @@ components:
           - image
           - text
       x-internal: false
+    LogoSettingsUpdate:
+      type: object
+      properties:
+        logo_text:
+          type: string
+        type:
+          type: string
+          enum:
+          - image
+          - text
+      x-tags:
+      - Models
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+  parameters:
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

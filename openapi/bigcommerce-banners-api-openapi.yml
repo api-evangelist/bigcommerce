@@ -272,24 +272,31 @@ paths:
               example:
                 count: 27
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
+    banner_Full:
+      title: banner_Full
+      allOf:
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: 'Id of the banner.
+
+              This is a READ-ONLY field; do not set or modify its value in a POST or PUT request.
+
+              '
+            example: 1
+          date_created:
+            type: string
+            description: Date the banner is created.
+      - $ref: '#/components/schemas/banner_Base'
+      x-internal: false
+    banner_Put:
+      title: banner_Put
+      allOf:
+      - type: object
+      - $ref: '#/components/schemas/banner_Base'
+      x-internal: false
     banner_Base:
       title: banner_Base
       required:
@@ -346,30 +353,23 @@ components:
           description: If the banner is on a specific category or brand page, then the item_id will correspond the category or brand ID.
           example: '35'
       x-internal: false
-    banner_Put:
-      title: banner_Put
-      allOf:
-      - type: object
-      - $ref: '#/components/schemas/banner_Base'
-      x-internal: false
-    banner_Full:
-      title: banner_Full
-      allOf:
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: 'Id of the banner.
-
-              This is a READ-ONLY field; do not set or modify its value in a POST or PUT request.
-
-              '
-            example: 1
-          date_created:
-            type: string
-            description: Date the banner is created.
-      - $ref: '#/components/schemas/banner_Base'
-      x-internal: false
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

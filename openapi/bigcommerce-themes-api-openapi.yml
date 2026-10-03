@@ -289,14 +289,6 @@ paths:
         Theme variations can not be deleted using this endpoint. This will delete the theme and all variations.'
 components:
   parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
     ThemeIdParam:
       name: uuid
       description: The theme identifier.
@@ -312,7 +304,78 @@ components:
       schema:
         type: string
         default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
+    CollectionMeta:
+      type: object
+      description: Data about the response, including pagination and collection totals.
+      properties:
+        pagination:
+          type: object
+          description: Data about the response, including pagination and collection totals.
+          title: Pagination
+          properties:
+            total:
+              type: integer
+              description: 'Total number of items in the result set.
+
+                '
+              example: 36
+            count:
+              type: integer
+              description: 'Total number of items in the collection response.
+
+                '
+              example: 36
+            per_page:
+              type: integer
+              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+                '
+              example: 50
+            current_page:
+              type: integer
+              description: 'The page you are currently on within the collection.
+
+                '
+              example: 1
+            total_pages:
+              type: integer
+              description: 'The total number of pages in the collection.
+
+                '
+              example: 1
+            links:
+              type: object
+              description: 'Pagination links for the previous and next parts of the whole collection.
+
+                '
+              properties:
+                previous:
+                  type: string
+                  description: 'Link to the previous page returned in the response.
+
+                    '
+                current:
+                  type: string
+                  description: 'Link to the current page returned in the response.
+
+                    '
+                  example: ?page=1&limit=50
+                next:
+                  type: string
+                  description: 'Link to the next page returned in the response.
+
+                    '
+      title: Collection Meta
+      x-internal: false
     ThemeResponse:
       description: 'Response payload for the BigCommerce API.
 
@@ -325,14 +388,38 @@ components:
         meta:
           $ref: '#/components/schemas/CollectionMeta'
       x-internal: false
-    JobId:
-      description: The job identifier for theme upload or download.
+    Theme:
+      description: A theme.
       type: object
       properties:
-        job_id:
-          description: The job identifier.
+        variations:
+          description: The variations.
+          type: array
+          items:
+            description: A variation.
+            type: object
+            properties:
+              description:
+                description: The description.
+                type: string
+              external_id:
+                description: The external identifier.
+                type: string
+              name:
+                description: The name.
+                type: string
+              uuid:
+                description: The identifier.
+                type: string
+        uuid:
+          description: The identifier.
           type: string
-      title: Job Id
+        name:
+          description: The theme name identifier.
+          type: string
+        is_private:
+          description: Flag to identify private themes.
+          type: boolean
       x-internal: false
     ThemesCollectionResponse:
       description: 'Response payload for the BigCommerce API.
@@ -438,101 +525,14 @@ components:
           title: Collection Meta
       title: Themes Collection Response
       x-internal: false
-    Theme:
-      description: A theme.
+    JobId:
+      description: The job identifier for theme upload or download.
       type: object
       properties:
-        variations:
-          description: The variations.
-          type: array
-          items:
-            description: A variation.
-            type: object
-            properties:
-              description:
-                description: The description.
-                type: string
-              external_id:
-                description: The external identifier.
-                type: string
-              name:
-                description: The name.
-                type: string
-              uuid:
-                description: The identifier.
-                type: string
-        uuid:
-          description: The identifier.
+        job_id:
+          description: The job identifier.
           type: string
-        name:
-          description: The theme name identifier.
-          type: string
-        is_private:
-          description: Flag to identify private themes.
-          type: boolean
-      x-internal: false
-    CollectionMeta:
-      type: object
-      description: Data about the response, including pagination and collection totals.
-      properties:
-        pagination:
-          type: object
-          description: Data about the response, including pagination and collection totals.
-          title: Pagination
-          properties:
-            total:
-              type: integer
-              description: 'Total number of items in the result set.
-
-                '
-              example: 36
-            count:
-              type: integer
-              description: 'Total number of items in the collection response.
-
-                '
-              example: 36
-            per_page:
-              type: integer
-              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
-
-                '
-              example: 50
-            current_page:
-              type: integer
-              description: 'The page you are currently on within the collection.
-
-                '
-              example: 1
-            total_pages:
-              type: integer
-              description: 'The total number of pages in the collection.
-
-                '
-              example: 1
-            links:
-              type: object
-              description: 'Pagination links for the previous and next parts of the whole collection.
-
-                '
-              properties:
-                previous:
-                  type: string
-                  description: 'Link to the previous page returned in the response.
-
-                    '
-                current:
-                  type: string
-                  description: 'Link to the current page returned in the response.
-
-                    '
-                  example: ?page=1&limit=50
-                next:
-                  type: string
-                  description: 'Link to the next page returned in the response.
-
-                    '
-      title: Collection Meta
+      title: Job Id
       x-internal: false
   securitySchemes:
     X-Auth-Token:

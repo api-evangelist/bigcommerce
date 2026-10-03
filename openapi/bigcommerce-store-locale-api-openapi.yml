@@ -96,23 +96,6 @@ paths:
       tags:
       - Store Locale
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   schemas:
     BaseError:
       description: 'Error payload for the BigCommerce API.
@@ -135,12 +118,20 @@ components:
         type:
           type: string
       x-internal: false
-    MetaOpen:
-      title: Response meta
+    ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - properties:
+          errors:
+            $ref: '#/components/schemas/DetailedErrors'
+        type: object
+      x-internal: false
+    DetailedErrors:
       type: object
       properties: {}
       additionalProperties: true
-      description: Response metadata.
+      title: Detailed Errors
+      x-internal: false
     Locale:
       description: The basic locale settings for a store, used to give shopper information about languages, countries, etc.
       type: object
@@ -170,20 +161,29 @@ components:
       required:
       - default_shopper_language
       x-internal: false
-    ErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseError'
-      - properties:
-          errors:
-            $ref: '#/components/schemas/DetailedErrors'
-        type: object
-      x-internal: false
-    DetailedErrors:
+    MetaOpen:
+      title: Response meta
       type: object
       properties: {}
       additionalProperties: true
-      title: Detailed Errors
-      x-internal: false
+      description: Response metadata.
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -1581,199 +1581,7 @@ paths:
           description: ''
           content: {}
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ProductIdParam:
-      name: product_id
-      in: path
-      description: 'The ID of the `Product` to which the resource belongs.
-
-        '
-      required: true
-      schema:
-        type: integer
-    OptionIdParam:
-      name: option_id
-      description: 'The ID of the `Option`.
-
-        '
-      required: true
-      in: path
-      schema:
-        type: integer
   schemas:
-    pagination_Full:
-      title: pagination_Full
-      type: object
-      properties:
-        total:
-          type: integer
-          description: 'Total number of items in the result set.
-
-            '
-          example: 36
-        count:
-          type: integer
-          description: 'Total number of items in the collection response.
-
-            '
-          example: 36
-        per_page:
-          type: integer
-          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
-
-            '
-          example: 50
-        current_page:
-          type: integer
-          description: 'The page you are currently on within the collection.
-
-            '
-          example: 1
-        total_pages:
-          type: integer
-          description: 'The total number of pages in the collection.
-
-            '
-          example: 1
-        links:
-          type: object
-          properties:
-            previous:
-              type: string
-              description: 'Link to the previous page returned in the response.
-
-                '
-            current:
-              type: string
-              description: 'Link to the current page returned in the response.
-
-                '
-              example: ?page=1&limit=50
-            next:
-              type: string
-              description: 'Link to the next page returned in the response.
-
-                '
-          description: 'Pagination links for the previous and next parts of the whole collection.
-
-            '
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
-    productOption_Full:
-      title: productOption_Full
-      allOf:
-      - $ref: '#/components/schemas/productOption_Base'
-      - type: object
-        properties:
-          name:
-            type: string
-            description: 'The unique option name, auto-generated from the display name, a timestamp, and the product ID.
-
-              '
-            example: Add-a-$5-Donation1535042499-187
-      x-internal: false
-    productOption_Base:
-      title: productOption_Base
-      type: object
-      properties:
-        id:
-          type:
-          - integer
-          - 'null'
-          description: 'The unique numerical ID of the option, increments sequentially.
-
-            '
-          example: 55
-        product_id:
-          type: integer
-          description: 'The unique numerical ID of the product to which the option belongs.
-
-            '
-          example: 4
-          x-required:
-          - post
-          - put
-        display_name:
-          maxLength: 255
-          minLength: 1
-          type: string
-          description: 'The name of the option shown on the storefront.
-
-            '
-          example: Add-a-$5-Donation1535042499-187
-          x-required:
-          - post
-          - put
-        type:
-          type: string
-          description: 'The type of option, which determines how it will display on the storefront. Acceptable values: `radio_buttons`, `rectangles`, `dropdown`, `product_list`, `product_list_with_images`, `swatch`. For reference, the former v2 API values are: RB = radio_buttons, RT = rectangles, S = dropdown, P = product_list, PI = product_list_with_images, CS = swatch.
-
-            '
-          enum:
-          - radio_buttons
-          - rectangles
-          - dropdown
-          - product_list
-          - product_list_with_images
-          - swatch
-          x-required:
-          - post
-          - put
-        config:
-          $ref: '#/components/schemas/productOptionConfig_Full'
-        sort_order:
-          type: integer
-          description: 'Order in which the option is displayed on the storefront. '
-          example: 1
-        option_values:
-          type: array
-          items:
-            $ref: '#/components/schemas/productOptionOptionValue_Full'
-      description: Common Option properties.
-      x-internal: false
-    productOptionOptionValue_Full:
-      title: productOptionOptionValue_Full
-      description: Product Option `option_value`.
-      allOf:
-      - $ref: '#/components/schemas/productOptionOptionValue_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: 'The unique numeric ID of the value; increments sequentially.
-
-              '
-      x-internal: false
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     productOptionConfig_Full:
       title: productOptionConfig_Full
       type: object
@@ -1933,6 +1741,14 @@ components:
           - package
       description: The values for option config can vary based on the Modifier created.
       x-internal: false
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
     productOptionOptionValue_Base:
       title: productOptionOptionValue_Base
       required:
@@ -1974,6 +1790,190 @@ components:
             '
       description: Common Product Option `option_value` properties.
       x-internal: false
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    productOption_Base:
+      title: productOption_Base
+      type: object
+      properties:
+        id:
+          type:
+          - integer
+          - 'null'
+          description: 'The unique numerical ID of the option, increments sequentially.
+
+            '
+          example: 55
+        product_id:
+          type: integer
+          description: 'The unique numerical ID of the product to which the option belongs.
+
+            '
+          example: 4
+          x-required:
+          - post
+          - put
+        display_name:
+          maxLength: 255
+          minLength: 1
+          type: string
+          description: 'The name of the option shown on the storefront.
+
+            '
+          example: Add-a-$5-Donation1535042499-187
+          x-required:
+          - post
+          - put
+        type:
+          type: string
+          description: 'The type of option, which determines how it will display on the storefront. Acceptable values: `radio_buttons`, `rectangles`, `dropdown`, `product_list`, `product_list_with_images`, `swatch`. For reference, the former v2 API values are: RB = radio_buttons, RT = rectangles, S = dropdown, P = product_list, PI = product_list_with_images, CS = swatch.
+
+            '
+          enum:
+          - radio_buttons
+          - rectangles
+          - dropdown
+          - product_list
+          - product_list_with_images
+          - swatch
+          x-required:
+          - post
+          - put
+        config:
+          $ref: '#/components/schemas/productOptionConfig_Full'
+        sort_order:
+          type: integer
+          description: 'Order in which the option is displayed on the storefront. '
+          example: 1
+        option_values:
+          type: array
+          items:
+            $ref: '#/components/schemas/productOptionOptionValue_Full'
+      description: Common Option properties.
+      x-internal: false
+    pagination_Full:
+      title: pagination_Full
+      type: object
+      properties:
+        total:
+          type: integer
+          description: 'Total number of items in the result set.
+
+            '
+          example: 36
+        count:
+          type: integer
+          description: 'Total number of items in the collection response.
+
+            '
+          example: 36
+        per_page:
+          type: integer
+          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+            '
+          example: 50
+        current_page:
+          type: integer
+          description: 'The page you are currently on within the collection.
+
+            '
+          example: 1
+        total_pages:
+          type: integer
+          description: 'The total number of pages in the collection.
+
+            '
+          example: 1
+        links:
+          type: object
+          properties:
+            previous:
+              type: string
+              description: 'Link to the previous page returned in the response.
+
+                '
+            current:
+              type: string
+              description: 'Link to the current page returned in the response.
+
+                '
+              example: ?page=1&limit=50
+            next:
+              type: string
+              description: 'Link to the next page returned in the response.
+
+                '
+          description: 'Pagination links for the previous and next parts of the whole collection.
+
+            '
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    productOption_Full:
+      title: productOption_Full
+      allOf:
+      - $ref: '#/components/schemas/productOption_Base'
+      - type: object
+        properties:
+          name:
+            type: string
+            description: 'The unique option name, auto-generated from the display name, a timestamp, and the product ID.
+
+              '
+            example: Add-a-$5-Donation1535042499-187
+      x-internal: false
+    productOptionOptionValue_Full:
+      title: productOptionOptionValue_Full
+      description: Product Option `option_value`.
+      allOf:
+      - $ref: '#/components/schemas/productOptionOptionValue_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: 'The unique numeric ID of the value; increments sequentially.
+
+              '
+      x-internal: false
+  parameters:
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs.
+
+        '
+      required: true
+      schema:
+        type: integer
+    OptionIdParam:
+      name: option_id
+      description: 'The ID of the `Option`.
+
+        '
+      required: true
+      in: path
+      schema:
+        type: integer
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

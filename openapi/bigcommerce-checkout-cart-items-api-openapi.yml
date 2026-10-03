@@ -438,6 +438,165 @@ paths:
                 customerMessage: Thank you, BigCommerce
 components:
   schemas:
+    CartCoupon:
+      title: Cart Coupon
+      required:
+      - code
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The coupon ID.
+        code:
+          type: string
+          description: the coupon code
+        displayName:
+          type: string
+          description: The coupon title based on different types provided in control panel section.
+        couponType:
+          type: string
+          description: Key name to identify the type of coupon.
+          enum:
+          - per_item_discount
+          - percentage_discount
+          - per_total_discount
+          - shipping_discount
+          - free_shipping
+          - promotion
+        discountedAmount:
+          type: number
+          description: The discounted amount applied within a given context.
+          format: double
+      x-internal: false
+    customFields:
+      title: customFields
+      type: object
+      properties:
+        fieldId:
+          type: string
+        fieldValue:
+          type: string
+          description: This can also be an array for fields that need to support list of values; for example, a set of checkboxes. When doing a PUT or POST to the `fieldValue` with a pick list, the input must be a number. The response will be a string.
+      description: When doing a PUT or POST to the `fieldValue` with a pick list, the input must be a number. The response will be a string.
+      x-internal: false
+    cartLineItemGiftCertificate_Put:
+      title: cartLineItemGiftCertificate_Put
+      required:
+      - amount
+      - quantity
+      - recipient
+      - sender
+      - theme
+      type: object
+      properties:
+        theme:
+          type: string
+          description: Currently supports `Birthday`, `Boy`, `Celebration`, `Christmas`, `General`, and `Girl`.
+        amount:
+          maximum: 1000
+          minimum: 1
+          type: number
+          description: ''
+          format: double
+        sender:
+          $ref: '#/components/schemas/contactEntity'
+        recipient:
+          $ref: '#/components/schemas/contactEntity'
+        message:
+          type: string
+          description: Message shown to recipient, as provided by sender.
+        quantity:
+          type: number
+          description: ''
+          format: double
+      x-internal: false
+    consignment_Full:
+      title: consignment_Full
+      type: object
+      properties:
+        id:
+          type: string
+          description: ''
+        shippingAddress:
+          type: object
+          properties: {}
+          x-deprecated: true
+        address:
+          $ref: '#/components/schemas/address_Full'
+        selectedPickupOption:
+          $ref: '#/components/schemas/PickupOption'
+        availableShippingOptions:
+          type: array
+          description: This is available only when "include=consignments.availableShippingOptions" is present in the URL.
+          items:
+            $ref: '#/components/schemas/consignmentAvailableShippingOptions'
+        selectedShippingOption:
+          title: Selected Shipping Option
+          type: object
+          properties:
+            description:
+              type: string
+              description: Read only.
+              readOnly: true
+            id:
+              type: string
+              description: ''
+            type:
+              type: string
+              description: Specifies the type of shipping option; for example, flat rate, UPS, etc.
+            imageUrl:
+              type: string
+              description: ''
+            cost:
+              type: number
+              description: ''
+              format: double
+            transitTime:
+              type: string
+              description: An estimate of the arrival time.
+            additionalDescription:
+              type: string
+              description: Read only. Field used for Shipping Provider API.
+              readOnly: true
+        couponDiscounts:
+          type: array
+          description: List of consignment discounts applied through coupons.
+          items:
+            title: Consignment Coupon Discount
+            type: object
+            properties:
+              code:
+                type: string
+                description: Coupon code that applied this discount.
+              amount:
+                type: number
+                description: ''
+                format: double
+        discounts:
+          type: array
+          description: List of consignment discounts applied through cart level discounts.
+          items:
+            title: Consignment Discount
+            type: object
+            properties:
+              id:
+                type: string
+                description: Discount rule ID that applied this discount.
+        shippingCost:
+          type: number
+          description: The shipping cost for this consignment.
+          format: double
+        handlingCost:
+          type: number
+          description: The handling cost of shipping for this consignment.
+          format: double
+        lineItemIds:
+          type: array
+          description: ''
+          items:
+            type: string
+      description: This allows us to have multiple shipping addresses. Where there is only one shipping address, this array will contain only one value, with all the items.
+      x-internal: false
     address_Base:
       title: address_Base
       required:
@@ -486,6 +645,52 @@ components:
           items:
             $ref: '#/components/schemas/customFields'
       x-internal: false
+    cart_Put:
+      title: cart_Put
+      type: object
+      properties:
+        lineItem:
+          $ref: '#/components/schemas/cartLineItemPut'
+        giftCertificate:
+          $ref: '#/components/schemas/cartLineItemGiftCertificate_Put'
+      x-internal: false
+    consignmentShippingOption_Base:
+      title: consignmentShippingOption_Base
+      type: object
+      properties:
+        description:
+          type: string
+          description: Read only.
+          readOnly: true
+        id:
+          type: string
+          description: ''
+        type:
+          type: string
+          description: Specifies the type of shipping option; for example, flat rate, UPS, etc.
+        imageUrl:
+          type: string
+          description: ''
+        cost:
+          type: number
+          description: ''
+          format: double
+        transitTime:
+          type: string
+          description: An estimate of the arrival time.
+      x-internal: false
+    consignmentAvailableShippingOptions:
+      title: consignmentAvailableShippingOptions
+      allOf:
+      - $ref: '#/components/schemas/consignmentShippingOption_Base'
+      - type: object
+        properties:
+          isRecommended:
+            type: boolean
+            description: Is this shipping method the recommended shipping option or not.
+          additionalDescription:
+            type: string
+      x-internal: false
     address_Full:
       title: address_Full
       description: ''
@@ -500,46 +705,31 @@ components:
             type: boolean
             description: Indicates whether we should add this address to the customer address book.
       x-internal: false
-    checkoutGiftCertificates:
-      title: checkoutGiftCertificates
-      type: array
-      description: Applied gift certificate (as a payment method).
-      items:
-        title: Gift Certificate
-        type: object
-        properties:
-          balance:
-            type: number
-            description: ''
-            format: double
-          code:
-            type: string
-            description: ''
-          purchaseDate:
-            type: string
-            description: ''
-            format: date
-          remaining:
-            type: number
-            description: ''
-            format: double
-          used:
-            type: number
-            description: ''
-            format: double
-        description: The values presented here are projections of how much we would be using out of an existent gift certificate
-      x-internal: false
-    checkoutTax:
-      title: checkoutTax
+    PickupOption:
+      type: object
+      title: Pickup Option
+      description: An option that represents a location where customers can pick up items.
+      properties:
+        pickupMethodId:
+          type: integer
+    cartLineItemPut:
+      title: cartLineItemPut
       type: object
       properties:
-        name:
-          type: string
-          description: Name of the tax.
-        amount:
+        quantity:
           type: number
           description: ''
           format: double
+        productId:
+          type: number
+          description: ''
+          format: double
+        variantId:
+          type: number
+          description: ''
+          format: double
+        giftWrapping:
+          $ref: '#/components/schemas/cartLineItemGiftWrapping_Put'
       x-internal: false
     cartLineItemGiftWrapping_Put:
       title: Gift Wrapping Request Data
@@ -571,18 +761,6 @@ components:
                 type: string
                 description: Custom gift message.
                 example: Happy Birthday
-    consignmentAvailableShippingOptions:
-      title: consignmentAvailableShippingOptions
-      allOf:
-      - $ref: '#/components/schemas/consignmentShippingOption_Base'
-      - type: object
-        properties:
-          isRecommended:
-            type: boolean
-            description: Is this shipping method the recommended shipping option or not.
-          additionalDescription:
-            type: string
-      x-internal: false
     checkoutCart:
       title: checkoutCart
       type: object
@@ -954,35 +1132,34 @@ components:
           description: Time when the cart was last updated.
       description: A cart contains a collection of items, prices, discounts, etc. It does not contain customer-related data.
       x-internal: false
-    CartCoupon:
-      title: Cart Coupon
-      required:
-      - code
-      type: object
-      properties:
-        id:
-          type: integer
-          description: The coupon ID.
-        code:
-          type: string
-          description: the coupon code
-        displayName:
-          type: string
-          description: The coupon title based on different types provided in control panel section.
-        couponType:
-          type: string
-          description: Key name to identify the type of coupon.
-          enum:
-          - per_item_discount
-          - percentage_discount
-          - per_total_discount
-          - shipping_discount
-          - free_shipping
-          - promotion
-        discountedAmount:
-          type: number
-          description: The discounted amount applied within a given context.
-          format: double
+    checkoutGiftCertificates:
+      title: checkoutGiftCertificates
+      type: array
+      description: Applied gift certificate (as a payment method).
+      items:
+        title: Gift Certificate
+        type: object
+        properties:
+          balance:
+            type: number
+            description: ''
+            format: double
+          code:
+            type: string
+            description: ''
+          purchaseDate:
+            type: string
+            description: ''
+            format: date
+          remaining:
+            type: number
+            description: ''
+            format: double
+          used:
+            type: number
+            description: ''
+            format: double
+        description: The values presented here are projections of how much we would be using out of an existent gift certificate
       x-internal: false
     contactEntity:
       title: contactEntity
@@ -995,69 +1172,6 @@ components:
           type: string
           description: ''
       description: Model for sender and receiver objects.
-      x-internal: false
-    PickupOption:
-      type: object
-      title: Pickup Option
-      description: An option that represents a location where customers can pick up items.
-      properties:
-        pickupMethodId:
-          type: integer
-    cartLineItemPut:
-      title: cartLineItemPut
-      type: object
-      properties:
-        quantity:
-          type: number
-          description: ''
-          format: double
-        productId:
-          type: number
-          description: ''
-          format: double
-        variantId:
-          type: number
-          description: ''
-          format: double
-        giftWrapping:
-          $ref: '#/components/schemas/cartLineItemGiftWrapping_Put'
-      x-internal: false
-    CheckoutCoupon:
-      title: Checkout Coupon
-      required:
-      - code
-      type: object
-      properties:
-        id:
-          type: integer
-          description: The coupon ID.
-        code:
-          type: string
-          description: the coupon code
-        displayName:
-          type: string
-          description: The coupon title based on different types provided in control panel section.
-        couponType:
-          type: integer
-          description: '|Type `int`|Type Name|
-
-            |-|-|
-
-            |`0`|`per_item_discount`|
-
-            |`1`|`percentage_discount`|
-
-            |`2`|`per_total_discount`|
-
-            |`3`|`shipping_discount`|
-
-            |`4`|`free_shipping`|
-
-            |`5`|`promotion`|'
-        discountedAmount:
-          type: number
-          description: The discounted amount applied within a given context.
-          format: double
       x-internal: false
     checkout_Full:
       title: checkout_Full
@@ -1139,166 +1253,52 @@ components:
             '
       description: ''
       x-internal: false
-    cartLineItemGiftCertificate_Put:
-      title: cartLineItemGiftCertificate_Put
+    CheckoutCoupon:
+      title: Checkout Coupon
       required:
-      - amount
-      - quantity
-      - recipient
-      - sender
-      - theme
+      - code
       type: object
       properties:
-        theme:
+        id:
+          type: integer
+          description: The coupon ID.
+        code:
           type: string
-          description: Currently supports `Birthday`, `Boy`, `Celebration`, `Christmas`, `General`, and `Girl`.
+          description: the coupon code
+        displayName:
+          type: string
+          description: The coupon title based on different types provided in control panel section.
+        couponType:
+          type: integer
+          description: '|Type `int`|Type Name|
+
+            |-|-|
+
+            |`0`|`per_item_discount`|
+
+            |`1`|`percentage_discount`|
+
+            |`2`|`per_total_discount`|
+
+            |`3`|`shipping_discount`|
+
+            |`4`|`free_shipping`|
+
+            |`5`|`promotion`|'
+        discountedAmount:
+          type: number
+          description: The discounted amount applied within a given context.
+          format: double
+      x-internal: false
+    checkoutTax:
+      title: checkoutTax
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the tax.
         amount:
-          maximum: 1000
-          minimum: 1
           type: number
           description: ''
           format: double
-        sender:
-          $ref: '#/components/schemas/contactEntity'
-        recipient:
-          $ref: '#/components/schemas/contactEntity'
-        message:
-          type: string
-          description: Message shown to recipient, as provided by sender.
-        quantity:
-          type: number
-          description: ''
-          format: double
-      x-internal: false
-    cart_Put:
-      title: cart_Put
-      type: object
-      properties:
-        lineItem:
-          $ref: '#/components/schemas/cartLineItemPut'
-        giftCertificate:
-          $ref: '#/components/schemas/cartLineItemGiftCertificate_Put'
-      x-internal: false
-    consignment_Full:
-      title: consignment_Full
-      type: object
-      properties:
-        id:
-          type: string
-          description: ''
-        shippingAddress:
-          type: object
-          properties: {}
-          x-deprecated: true
-        address:
-          $ref: '#/components/schemas/address_Full'
-        selectedPickupOption:
-          $ref: '#/components/schemas/PickupOption'
-        availableShippingOptions:
-          type: array
-          description: This is available only when "include=consignments.availableShippingOptions" is present in the URL.
-          items:
-            $ref: '#/components/schemas/consignmentAvailableShippingOptions'
-        selectedShippingOption:
-          title: Selected Shipping Option
-          type: object
-          properties:
-            description:
-              type: string
-              description: Read only.
-              readOnly: true
-            id:
-              type: string
-              description: ''
-            type:
-              type: string
-              description: Specifies the type of shipping option; for example, flat rate, UPS, etc.
-            imageUrl:
-              type: string
-              description: ''
-            cost:
-              type: number
-              description: ''
-              format: double
-            transitTime:
-              type: string
-              description: An estimate of the arrival time.
-            additionalDescription:
-              type: string
-              description: Read only. Field used for Shipping Provider API.
-              readOnly: true
-        couponDiscounts:
-          type: array
-          description: List of consignment discounts applied through coupons.
-          items:
-            title: Consignment Coupon Discount
-            type: object
-            properties:
-              code:
-                type: string
-                description: Coupon code that applied this discount.
-              amount:
-                type: number
-                description: ''
-                format: double
-        discounts:
-          type: array
-          description: List of consignment discounts applied through cart level discounts.
-          items:
-            title: Consignment Discount
-            type: object
-            properties:
-              id:
-                type: string
-                description: Discount rule ID that applied this discount.
-        shippingCost:
-          type: number
-          description: The shipping cost for this consignment.
-          format: double
-        handlingCost:
-          type: number
-          description: The handling cost of shipping for this consignment.
-          format: double
-        lineItemIds:
-          type: array
-          description: ''
-          items:
-            type: string
-      description: This allows us to have multiple shipping addresses. Where there is only one shipping address, this array will contain only one value, with all the items.
-      x-internal: false
-    customFields:
-      title: customFields
-      type: object
-      properties:
-        fieldId:
-          type: string
-        fieldValue:
-          type: string
-          description: This can also be an array for fields that need to support list of values; for example, a set of checkboxes. When doing a PUT or POST to the `fieldValue` with a pick list, the input must be a number. The response will be a string.
-      description: When doing a PUT or POST to the `fieldValue` with a pick list, the input must be a number. The response will be a string.
-      x-internal: false
-    consignmentShippingOption_Base:
-      title: consignmentShippingOption_Base
-      type: object
-      properties:
-        description:
-          type: string
-          description: Read only.
-          readOnly: true
-        id:
-          type: string
-          description: ''
-        type:
-          type: string
-          description: Specifies the type of shipping option; for example, flat rate, UPS, etc.
-        imageUrl:
-          type: string
-          description: ''
-        cost:
-          type: number
-          description: ''
-          format: double
-        transitTime:
-          type: string
-          description: An estimate of the arrival time.
       x-internal: false

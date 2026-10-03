@@ -186,98 +186,7 @@ paths:
         '204':
           description: No Content
 components:
-  requestBodies:
-    Tax_ZoneArray:
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/Tax_ZonePUT'
-          examples:
-            Example 1:
-              value:
-              - id: 3
-                name: Australia
-                enabled: false
-                price_display_settings:
-                  show_inclusive: false
-                  show_both_on_detail_view: false
-                  show_both_on_list_view: false
-                shopper_target_settings:
-                  locations:
-                  - country_code: AU
-                    postal_codes:
-                    - '2238'
-                    - '2173'
-                  customer_groups:
-                  - 2
-      required: true
-    Tax_ZoneArrayPOST:
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/Tax_ZonePOST'
-          examples:
-            Example 1:
-              value:
-              - name: example zone
-                enabled: true
-                price_display_settings:
-                  show_inclusive: true
-                  show_both_on_detail_view: true
-                  show_both_on_list_view: true
-                shopper_target_settings:
-                  locations:
-                  - country_code: AR
-                    subdivision_codes:
-                    - T
-                    - V
-                  - country_code: AU
-                    subdivision_codes:
-                    - WA
-                    - VIC
-                  customer_groups:
-                  - 0
-      required: true
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    zoneIdIn:
-      name: id:in
-      in: query
-      schema:
-        type: array
-        items:
-          type: integer
-        minItems: 1
-      style: form
-      explode: false
-      description: Filter by tax zone `id`. Use a comma-separated CSV string of IDs for multiple tax zones. For example, `5` or `12,34,56`.
-      required: false
-    Content-Type:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     Tax_Zone:
       type: object
       x-examples: {}
@@ -403,6 +312,12 @@ components:
                 type: integer
       required:
       - id
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     Tax_ZonePOST:
       type: object
       properties:
@@ -469,6 +384,91 @@ components:
           - locations
       required:
       - name
+  requestBodies:
+    Tax_ZoneArray:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Tax_ZonePUT'
+          examples:
+            Example 1:
+              value:
+              - id: 3
+                name: Australia
+                enabled: false
+                price_display_settings:
+                  show_inclusive: false
+                  show_both_on_detail_view: false
+                  show_both_on_list_view: false
+                shopper_target_settings:
+                  locations:
+                  - country_code: AU
+                    postal_codes:
+                    - '2238'
+                    - '2173'
+                  customer_groups:
+                  - 2
+      required: true
+    Tax_ZoneArrayPOST:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Tax_ZonePOST'
+          examples:
+            Example 1:
+              value:
+              - name: example zone
+                enabled: true
+                price_display_settings:
+                  show_inclusive: true
+                  show_both_on_detail_view: true
+                  show_both_on_list_view: true
+                shopper_target_settings:
+                  locations:
+                  - country_code: AR
+                    subdivision_codes:
+                    - T
+                    - V
+                  - country_code: AU
+                    subdivision_codes:
+                    - WA
+                    - VIC
+                  customer_groups:
+                  - 0
+      required: true
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    zoneIdIn:
+      name: id:in
+      in: query
+      schema:
+        type: array
+        items:
+          type: integer
+        minItems: 1
+      style: form
+      explode: false
+      description: Filter by tax zone `id`. Use a comma-separated CSV string of IDs for multiple tax zones. For example, `5` or `12,34,56`.
+      required: false
+    Content-Type:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

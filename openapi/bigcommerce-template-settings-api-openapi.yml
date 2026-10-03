@@ -60,21 +60,18 @@ paths:
       - $ref: '#/components/parameters/ChannelIdOptional'
       - $ref: '#/components/parameters/ContentType'
 components:
+  schemas:
+    AbandonedCartSettings:
+      title: AbandonedCartSettings
+      type: object
+      properties:
+        use_global:
+          type: boolean
+          description: Boolean value that specifies the inheritance state.
+      required:
+      - use_global
+      x-internal: false
   parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    ChannelIdOptional:
-      in: query
-      name: channel_id
-      description: Channel ID to use for channel-level data.
-      schema:
-        type: integer
     ChannelIdRequired:
       name: channel_id
       in: query
@@ -90,17 +87,20 @@ components:
       schema:
         type: string
         default: application/json
-  schemas:
-    AbandonedCartSettings:
-      title: AbandonedCartSettings
-      type: object
-      properties:
-        use_global:
-          type: boolean
-          description: Boolean value that specifies the inheritance state.
-      required:
-      - use_global
-      x-internal: false
+    ChannelIdOptional:
+      in: query
+      name: channel_id
+      description: Channel ID to use for channel-level data.
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

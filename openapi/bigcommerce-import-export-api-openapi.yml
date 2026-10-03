@@ -244,69 +244,7 @@ paths:
         '404':
           description: The requested export download does not exist.
 components:
-  parameters:
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentTypeFormData:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: multipart/form-data
-    ImportExportIdParam:
-      name: uuid
-      description: The import-export job identifier.
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-    AcceptEventStream:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: text/event-stream
-    ContentTypeCsv:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: text/csv
   schemas:
-    ImportExportJobStatus:
-      type: string
-      enum:
-      - new
-      - working
-      - complete
-      - aborted
-      - failed
-    ImportExportJobType:
-      type: string
-      enum:
-      - import
-      - export
     301RedirectImportExportJobRead:
       type: object
       description: Full detail of a Redirect Import-Export job.
@@ -340,17 +278,11 @@ components:
           format: date-time
           description: The date-time that the import-export job was completed, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
           example: '2022-01-04T04:15:50.000Z'
-    ImportErrors:
-      type: array
-      items:
-        type: object
-        description: Detail of an error that occurred during an import job.
-        properties:
-          row:
-            type: integer
-            description: The row in the import CSV where the error occurred.
-          message:
-            type: string
+    ImportExportJobType:
+      type: string
+      enum:
+      - import
+      - export
     MetaPaginationObject:
       type: object
       properties:
@@ -386,6 +318,74 @@ components:
                 current:
                   type: string
                   example: ?limit=5&page=1
+    ImportErrors:
+      type: array
+      items:
+        type: object
+        description: Detail of an error that occurred during an import job.
+        properties:
+          row:
+            type: integer
+            description: The row in the import CSV where the error occurred.
+          message:
+            type: string
+    ImportExportJobStatus:
+      type: string
+      enum:
+      - new
+      - working
+      - complete
+      - aborted
+      - failed
+  parameters:
+    ContentTypeCsv:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: text/csv
+    AcceptEventStream:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: text/event-stream
+    ImportExportIdParam:
+      name: uuid
+      description: The import-export job identifier.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentTypeFormData:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: multipart/form-data
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

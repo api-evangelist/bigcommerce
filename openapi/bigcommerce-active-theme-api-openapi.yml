@@ -39,14 +39,6 @@ paths:
           $ref: '#/components/responses/active_theme_not_found_resp'
 components:
   schemas:
-    ErrorDetail:
-      type: object
-      description: 'Error detail response payload for the BigCommerce API.
-
-        '
-      example:
-        '1': Unauthorized to delete
-        '2': Metafield does not exist
     ActiveTheme:
       type: object
       description: Details about the Channelʼs relationship to Themes.
@@ -64,6 +56,20 @@ components:
           type: string
           description: The UUID of the most recently saved Theme Configuration. If this is different from the active Theme Configuration UUID, this indicates that some changes have been saved in the control panel Theme Editor that have not yet been published.
       x-internal: false
+    EmptyMeta:
+      type: object
+      title: Empty meta response.
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    ErrorDetail:
+      type: object
+      description: 'Error detail response payload for the BigCommerce API.
+
+        '
+      example:
+        '1': Unauthorized to delete
+        '2': Metafield does not exist
     Error:
       type: object
       description: 'Error response payload for the BigCommerce API.
@@ -91,30 +97,13 @@ components:
           example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
         errors:
           $ref: '#/components/schemas/ErrorDetail'
-    EmptyMeta:
-      type: object
-      title: Empty meta response.
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    channel_id_path_param:
-      name: channel_id
-      description: The ID of a channel.
-      in: path
-      required: true
-      schema:
-        type: integer
-        format: int64
   examples:
+    error_404_active_theme_not_found_resp_example:
+      value:
+        status: 404
+        title: 'No active theme found with channel_id: 123456789'
+        type: /api-docs/getting-started/api-status-codes
+        errors: {}
     single_active_theme_resp_example:
       value:
         data:
@@ -123,13 +112,16 @@ components:
           active_theme_version_uuid: b9911770-8a43-0139-f84a-7e39a3a0bc55
           saved_theme_configuration_uuid: 1c0962a0-9172-0139-70bc-2a81c0049363
         meta: {}
-    error_404_active_theme_not_found_resp_example:
-      value:
-        status: 404
-        title: 'No active theme found with channel_id: 123456789'
-        type: /api-docs/getting-started/api-status-codes
-        errors: {}
   responses:
+    active_theme_not_found_resp:
+      description: Active Theme of the *Channel* was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            Active Theme Not Found:
+              $ref: '#/components/examples/error_404_active_theme_not_found_resp_example'
     channel_active_theme_resp:
       description: ''
       content:
@@ -144,15 +136,23 @@ components:
           examples:
             response:
               $ref: '#/components/examples/single_active_theme_resp_example'
-    active_theme_not_found_resp:
-      description: Active Theme of the *Channel* was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            Active Theme Not Found:
-              $ref: '#/components/examples/error_404_active_theme_not_found_resp_example'
+  parameters:
+    channel_id_path_param:
+      name: channel_id
+      description: The ID of a channel.
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
