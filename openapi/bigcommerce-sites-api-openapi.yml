@@ -134,29 +134,15 @@ paths:
       description: Delete a site with site ID `{site_id}`.
 components:
   schemas:
-    Url:
+    put_Site:
       type: object
       properties:
         url:
           type: string
-          description: URL of site.
-        type:
-          type: string
-          description: Specifies the URL type.
-          enum:
-          - primary
-          - canonical
-          - checkout
-        created_at:
-          type: string
-          description: The date-time that this URL was created, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
-          example: '2018-01-04T04:15:50.000Z'
-          format: date-time
-        updated_at:
-          type: string
-          description: The date-time that this URL was last updated, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
-          example: '2018-01-04T04:15:50.000Z'
-          format: date-time
+          description: The Fully Qualified URL (including host and scheme) where this site is hosted. All URLs generated for this site will be appended to this.
+          example: http://kittens.mybigcommerce.com/
+      title: put_Site
+      x-internal: false
     _metaCollection:
       title: metaCollection
       description: Meta data relating to pagination.
@@ -201,14 +187,34 @@ components:
                   description: Query string appended to the resource to show the current page.
                   example: ?limit=1&page=2
       x-internal: false
-    put_Site:
+    error_Full:
+      type: object
+      title: error_Full
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+      x-internal: false
+    post_Site:
       type: object
       properties:
         url:
           type: string
           description: The Fully Qualified URL (including host and scheme) where this site is hosted. All URLs generated for this site will be appended to this.
           example: http://kittens.mybigcommerce.com/
-      title: put_Site
+        channel_id:
+          type: integer
+          description: The channel this site is attached to. Each site belongs to a single channel, and each channel can have either zero or one sites.
+      title: post_Site
       x-internal: false
     _site:
       type: object
@@ -246,55 +252,30 @@ components:
         is_checkout_url_customized:
           type: boolean
           description: Indicates whether the channel uses a custom checkout domain. When `false`, the checkout domain falls back to the default channel’s primary URL.
-    error_Full:
-      type: object
-      title: error_Full
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-      x-internal: false
-    post_Site:
+    Url:
       type: object
       properties:
         url:
           type: string
-          description: The Fully Qualified URL (including host and scheme) where this site is hosted. All URLs generated for this site will be appended to this.
-          example: http://kittens.mybigcommerce.com/
-        channel_id:
-          type: integer
-          description: The channel this site is attached to. Each site belongs to a single channel, and each channel can have either zero or one sites.
-      title: post_Site
-      x-internal: false
+          description: URL of site.
+        type:
+          type: string
+          description: Specifies the URL type.
+          enum:
+          - primary
+          - canonical
+          - checkout
+        created_at:
+          type: string
+          description: The date-time that this URL was created, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
+          example: '2018-01-04T04:15:50.000Z'
+          format: date-time
+        updated_at:
+          type: string
+          description: The date-time that this URL was last updated, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
+          example: '2018-01-04T04:15:50.000Z'
+          format: date-time
   responses:
-    504_GatewayTimeout:
-      description: If this occurs, you should retry the request. Typically retrying the request several times will result in a successful request; However, if you are unable to successfully make a request, please check the BigCommerce system status [here](https://status.bigcommerce.com/). A service is likely down and the request will need to be made again when it is back up (in several hours usually).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 504
-                title: Gateway Timeout
-                type: /api-docs/getting-started/api-status-codes
-                errors: {}
-    404_NotFound:
-      description: Requested resource not founded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
     403_Unauthorized:
       description: ''
       content:
@@ -307,6 +288,26 @@ components:
                 status: 403
                 title: Unauthorized Access. You do not have permission to make this request.
                 type: /api-docs/getting-started/api-status-codes
+    400_BadRequest:
+      description: 'Malformed request syntax. Typically need to fix the JSON
+
+        request body to resend successfully.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 400
+                title: Input is invalid.
+                type: /api-docs/getting-started/api-status-codes
+    404_NotFound:
+      description: Requested resource not founded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
     site_RespCollection:
       description: ''
       content:
@@ -321,6 +322,19 @@ components:
               meta:
                 $ref: '#/components/schemas/_metaCollection'
           examples: {}
+    504_GatewayTimeout:
+      description: If this occurs, you should retry the request. Typically retrying the request several times will result in a successful request; However, if you are unable to successfully make a request, please check the BigCommerce system status [here](https://status.bigcommerce.com/). A service is likely down and the request will need to be made again when it is back up (in several hours usually).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Full'
+          examples:
+            response:
+              value:
+                status: 504
+                title: Gateway Timeout
+                type: /api-docs/getting-started/api-status-codes
+                errors: {}
     response_Site:
       description: ''
       content:
@@ -361,20 +375,6 @@ components:
                     offset: 0
                     limit: 50
                     total_items: 1
-    400_BadRequest:
-      description: 'Malformed request syntax. Typically need to fix the JSON
-
-        request body to resend successfully.'
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Full'
-          examples:
-            response:
-              value:
-                status: 400
-                title: Input is invalid.
-                type: /api-docs/getting-started/api-status-codes
   parameters:
     Accept:
       name: Accept

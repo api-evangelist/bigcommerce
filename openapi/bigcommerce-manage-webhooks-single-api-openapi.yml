@@ -80,8 +80,8 @@ paths:
       - $ref: '#/components/parameters/Content-Type'
 components:
   responses:
-    404_NotFound:
-      description: If the requested webhook is not found, return a 404 Not Found.
+    400_BadRequest:
+      description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
       content:
         application/json:
           schema:
@@ -89,8 +89,8 @@ components:
           examples:
             response:
               value:
-                status: 404
-                title: Webhook with id [{webhook_id}] not found
+                status: 400
+                title: Input is invalid.
                 type: /api-docs/getting-started/api-status-codes
     401_Unauthorized:
       description: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this store.
@@ -187,8 +187,8 @@ components:
                     per_page: 100
                     total: 5
                     total_pages: 1
-    400_BadRequest:
-      description: Malformed request syntax. Typically need to fix the JSON request body to resend successfully.
+    404_NotFound:
+      description: If the requested webhook is not found, return a 404 Not Found.
       content:
         application/json:
           schema:
@@ -196,10 +196,39 @@ components:
           examples:
             response:
               value:
-                status: 400
-                title: Input is invalid.
+                status: 404
+                title: Webhook with id [{webhook_id}] not found
                 type: /api-docs/getting-started/api-status-codes
   schemas:
+    webhook_Put:
+      type: object
+      title: webhook_Put
+      x-internal: false
+      properties:
+        scope:
+          type: string
+          example: store/order/*
+          description: Event you subscribe to.
+        destination:
+          type: string
+          example: https://665b65a6.ngrok.io/webhooks
+          description: URL must be active, return a 200 response, and be served on port 443. Custom ports arenʼt currently supported.
+        is_active:
+          type: boolean
+          example: true
+          description: Boolean value that indicates whether the webhook is active or not.
+        events_history_enabled:
+          type: boolean
+          example: true
+          description: Boolean value that identifies whether events are stored that could not be received.
+        headers:
+          type:
+          - object
+          - 'null'
+          description: Headers used to validate that webhooks are active. You can pass in any number of custom headers to validate webhooks are being returned.
+          properties: {}
+          additionalProperties:
+            type: string
     Pagination:
       type: object
       description: 'Data about the response, including pagination and collection totals.
@@ -234,35 +263,6 @@ components:
               type: string
               description: Link to the next page returned in the response.
       x-internal: false
-    webhook_Put:
-      type: object
-      title: webhook_Put
-      x-internal: false
-      properties:
-        scope:
-          type: string
-          example: store/order/*
-          description: Event you subscribe to.
-        destination:
-          type: string
-          example: https://665b65a6.ngrok.io/webhooks
-          description: URL must be active, return a 200 response, and be served on port 443. Custom ports arenʼt currently supported.
-        is_active:
-          type: boolean
-          example: true
-          description: Boolean value that indicates whether the webhook is active or not.
-        events_history_enabled:
-          type: boolean
-          example: true
-          description: Boolean value that identifies whether events are stored that could not be received.
-        headers:
-          type:
-          - object
-          - 'null'
-          description: Headers used to validate that webhooks are active. You can pass in any number of custom headers to validate webhooks are being returned.
-          properties: {}
-          additionalProperties:
-            type: string
     error_Full:
       type: object
       title: error_Full

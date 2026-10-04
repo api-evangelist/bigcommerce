@@ -160,15 +160,34 @@ paths:
           description: The [URL authority](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/What_is_a_URL#authority) of the storefront.
 components:
   schemas:
-    DeclareCustomerConsentRequest:
-      title: DeclareCustomerConsentRequest
-      description: Request payload for the BigCommerce API.
+    consent_Full:
+      title: consent_Full
+      description: Response payload for the BigCommerce API.
       type: object
       properties:
         allow:
           $ref: '#/components/schemas/consentAllow'
         deny:
           $ref: '#/components/schemas/Deny'
+        updated_at:
+          description: The date of which the customer consent was last updated.
+          type: string
+          format: date-time
+      x-internal: false
+    Deny:
+      title: Deny
+      type: array
+      uniqueItems: true
+      minItems: 0
+      example:
+      - analytics
+      items:
+        type: string
+        enum:
+        - essential
+        - functional
+        - analytics
+        - targeting
       x-internal: false
     ErrorResponse:
       title: Error Response
@@ -191,21 +210,6 @@ components:
           additionalProperties:
             type: string
       x-internal: false
-    Deny:
-      title: Deny
-      type: array
-      uniqueItems: true
-      minItems: 0
-      example:
-      - analytics
-      items:
-        type: string
-        enum:
-        - essential
-        - functional
-        - analytics
-        - targeting
-      x-internal: false
     consentAllow:
       title: consentAllow
       type: array
@@ -223,19 +227,15 @@ components:
         - analytics
         - targeting
       x-internal: false
-    consent_Full:
-      title: consent_Full
-      description: Response payload for the BigCommerce API.
+    DeclareCustomerConsentRequest:
+      title: DeclareCustomerConsentRequest
+      description: Request payload for the BigCommerce API.
       type: object
       properties:
         allow:
           $ref: '#/components/schemas/consentAllow'
         deny:
           $ref: '#/components/schemas/Deny'
-        updated_at:
-          description: The date of which the customer consent was last updated.
-          type: string
-          format: date-time
       x-internal: false
     ConsentPreferences:
       type: object
@@ -279,6 +279,13 @@ components:
       - allow
       - deny
       x-internal: false
+  responses:
+    consent_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/consent_Full'
   parameters:
     customerId:
       name: customerId
@@ -287,13 +294,6 @@ components:
       description: The ID of the customer.
       schema:
         type: integer
-  responses:
-    consent_Resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/consent_Full'
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

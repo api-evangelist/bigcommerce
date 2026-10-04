@@ -94,21 +94,28 @@ paths:
                 title: Not Found
       summary: BigCommerce Get Transactions
 components:
-  responses:
-    TransactionCollection_Resp:
-      description: Response payload for the BigCommerce Order Transactions API.
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Transaction'
-              meta:
-                $ref: '#/components/schemas/metaCollection_Full'
   schemas:
+    links_Full:
+      type: object
+      properties:
+        previous:
+          type: string
+          description: 'Link to the previous page returned in the response.
+
+            '
+        current:
+          type: string
+          description: 'Link to the current page returned in the response.
+
+            '
+          example: ?page=1&limit=50
+        next:
+          type: string
+          description: 'Link to the next page returned in the response.
+
+            '
+      title: links_Full
+      x-internal: false
     Transaction:
       allOf:
       - title: Transaction Base
@@ -435,6 +442,25 @@ components:
         links:
           $ref: '#/components/schemas/links_Full'
       x-internal: false
+    metaCollection_Full:
+      type: object
+      title: metaCollection_Full
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      x-internal: false
+      x-examples:
+        example-1:
+          pagination:
+            total: 0
+            count: 0
+            per_page: 0
+            current_page: 0
+            total_pages: 0
+            links:
+              previous: string
+              current: ?page=1&limit=50
+              next: string
     CreditCard:
       type: object
       description: A credit-card model.
@@ -485,47 +511,29 @@ components:
             '
           type: integer
       x-internal: false
-    links_Full:
-      type: object
-      properties:
-        previous:
-          type: string
-          description: 'Link to the previous page returned in the response.
-
-            '
-        current:
-          type: string
-          description: 'Link to the current page returned in the response.
-
-            '
-          example: ?page=1&limit=50
-        next:
-          type: string
-          description: 'Link to the next page returned in the response.
-
-            '
-      title: links_Full
-      x-internal: false
-    metaCollection_Full:
-      type: object
-      title: metaCollection_Full
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      x-internal: false
-      x-examples:
-        example-1:
-          pagination:
-            total: 0
-            count: 0
-            per_page: 0
-            current_page: 0
-            total_pages: 0
-            links:
-              previous: string
-              current: ?page=1&limit=50
-              next: string
+  responses:
+    TransactionCollection_Resp:
+      description: Response payload for the BigCommerce Order Transactions API.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+              meta:
+                $ref: '#/components/schemas/metaCollection_Full'
   parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
     OrderIdParam:
       name: order_id
       in: path
@@ -535,14 +543,6 @@ components:
       required: true
       schema:
         type: integer
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -74,13 +74,18 @@ paths:
       summary: BigCommerce Delete Channel Menus
 components:
   schemas:
-    channel_menus_Post:
-      type: object
-      properties:
-        bigcommerce_protected_app_sections:
-          $ref: '#/components/schemas/BigCommerceProtectedAppSections'
-        custom_app_sections:
-          $ref: '#/components/schemas/CustomAppSections'
+    BigCommerceProtectedAppSections:
+      type: array
+      description: List of channel-specific control panel menu navigation items and corresponding settings pages an app developer can choose to enable for the subject channel. Protected settings override any settings set in those UI sections at the storewide level. Learn more in the [Building Storefront Channels](/docs/integrations/channels/guide/storefronts#protected-ui-sections) tutorial.
+      items:
+        type: string
+        enum:
+        - storefront_settings
+        - social
+        - carousel
+        - domains
+        - currencies
+        - notifications
     EmptyMeta:
       type: object
       title: Empty meta response.
@@ -99,48 +104,14 @@ components:
             type: string
             description: Value used in the `section` query param.
         x-internal: false
-    BigCommerceProtectedAppSections:
-      type: array
-      description: List of channel-specific control panel menu navigation items and corresponding settings pages an app developer can choose to enable for the subject channel. Protected settings override any settings set in those UI sections at the storewide level. Learn more in the [Building Storefront Channels](/docs/integrations/channels/guide/storefronts#protected-ui-sections) tutorial.
-      items:
-        type: string
-        enum:
-        - storefront_settings
-        - social
-        - carousel
-        - domains
-        - currencies
-        - notifications
-  examples:
-    channel_menus_resp_example:
-      value:
-        data:
-          bigcommerce_protected_app_sections:
-          - social
-          - carousel
-          - domains
-          - currencies
-          - notifications
-          - storefront_settings
-          custom_app_sections:
-          - title: Overview
-            query_path: overview
-          - title: Products
-            query_path: products
-          - title: Campaigns
-            query_path: campaigns
-          - title: Settings
-            query_path: settings
-        meta: {}
+    channel_menus_Post:
+      type: object
+      properties:
+        bigcommerce_protected_app_sections:
+          $ref: '#/components/schemas/BigCommerceProtectedAppSections'
+        custom_app_sections:
+          $ref: '#/components/schemas/CustomAppSections'
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     channel_id_path_param:
       name: channel_id
       description: The ID of a channel.
@@ -149,6 +120,14 @@ components:
       schema:
         type: integer
         format: int64
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
     ContentType:
       name: Content-Type
       in: header
@@ -177,6 +156,27 @@ components:
           examples:
             response:
               $ref: '#/components/examples/channel_menus_resp_example'
+  examples:
+    channel_menus_resp_example:
+      value:
+        data:
+          bigcommerce_protected_app_sections:
+          - social
+          - carousel
+          - domains
+          - currencies
+          - notifications
+          - storefront_settings
+          custom_app_sections:
+          - title: Overview
+            query_path: overview
+          - title: Products
+            query_path: products
+          - title: Campaigns
+            query_path: campaigns
+          - title: Settings
+            query_path: settings
+        meta: {}
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

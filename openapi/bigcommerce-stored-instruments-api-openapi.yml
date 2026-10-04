@@ -102,26 +102,76 @@ paths:
                 message: Missing scope
 components:
   schemas:
-    ErrorResponse:
-      title: Error Response
+    BillingAddress:
       type: object
       properties:
-        status:
-          description: The HTTP status code.
-          type: integer
-          format: int32
-        title:
-          description: The error title describing the particular error.
+        first_name:
           type: string
+          description: First name of the card holder.
+          example: Tester
+        last_name:
+          type: string
+          description: Last name of the card holder.
+          example: Tester
+        email:
+          type: string
+          example: example@example.com
+        company:
+          type: string
+          description: Company of the card holder.
+          example: Test Company
+        address1:
+          type: string
+          example: 1 Sample Street
+        address2:
+          type: string
+          example: Apt 1
+        city:
+          type: string
+          example: Las Vegas
+        postal_code:
+          type: string
+          example: '90854'
+        state_or_province:
+          type: string
+          description: Represents state or province.
+          example: Nevada
+        state_or_province_code:
+          type: string
+          example: NV
+        country_code:
+          type: string
+          description: ISO-3166-1 2 letter country code.
+          example: US
+        phone:
+          type: string
+          example: 101-192-0293
+      x-internal: false
+    BankAccountInstrument:
+      type: object
+      title: Bank Account Instrument
+      properties:
         type:
-          description: A link to a list of BigCommerce API status codes.
           type: string
-        instance:
+          description: Instrument type.
+          enum:
+          - stored_bank_account
+        token:
           type: string
-        errors:
-          type: object
-          additionalProperties:
-            type: string
+          description: An identifier representing this stored instrument.
+          example: 84596bea275fa254da820056bdc3e495bdf01fd11c51b0336347d447ee16200c
+        is_default:
+          type: boolean
+          description: Identifies whether this stored instrument is default for the customer.
+        masked_account_number:
+          type: string
+          description: A masked bank account number.
+          example: 12XXX56
+        issuer:
+          type: string
+          description: Issuer identifier for the account.
+          example: DE001
+      description: A stored bank account instrument.
       x-internal: false
     CardInstrument:
       type: object
@@ -185,76 +235,26 @@ components:
           example: bc-buyer-paypal-express@example.com
       description: A PayPal account stored instrument.
       x-internal: false
-    BankAccountInstrument:
+    ErrorResponse:
+      title: Error Response
       type: object
-      title: Bank Account Instrument
       properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+          format: int32
+        title:
+          description: The error title describing the particular error.
+          type: string
         type:
+          description: A link to a list of BigCommerce API status codes.
           type: string
-          description: Instrument type.
-          enum:
-          - stored_bank_account
-        token:
+        instance:
           type: string
-          description: An identifier representing this stored instrument.
-          example: 84596bea275fa254da820056bdc3e495bdf01fd11c51b0336347d447ee16200c
-        is_default:
-          type: boolean
-          description: Identifies whether this stored instrument is default for the customer.
-        masked_account_number:
-          type: string
-          description: A masked bank account number.
-          example: 12XXX56
-        issuer:
-          type: string
-          description: Issuer identifier for the account.
-          example: DE001
-      description: A stored bank account instrument.
-      x-internal: false
-    BillingAddress:
-      type: object
-      properties:
-        first_name:
-          type: string
-          description: First name of the card holder.
-          example: Tester
-        last_name:
-          type: string
-          description: Last name of the card holder.
-          example: Tester
-        email:
-          type: string
-          example: example@example.com
-        company:
-          type: string
-          description: Company of the card holder.
-          example: Test Company
-        address1:
-          type: string
-          example: 1 Sample Street
-        address2:
-          type: string
-          example: Apt 1
-        city:
-          type: string
-          example: Las Vegas
-        postal_code:
-          type: string
-          example: '90854'
-        state_or_province:
-          type: string
-          description: Represents state or province.
-          example: Nevada
-        state_or_province_code:
-          type: string
-          example: NV
-        country_code:
-          type: string
-          description: ISO-3166-1 2 letter country code.
-          example: US
-        phone:
-          type: string
-          example: 101-192-0293
+        errors:
+          type: object
+          additionalProperties:
+            type: string
       x-internal: false
   parameters:
     customerId:

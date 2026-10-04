@@ -133,6 +133,25 @@ components:
           description: The intermediate certificate(s), as a string.
       x-tags:
       - Models
+    CertificateResponse:
+      title: CertificateResponse
+      type: object
+      description: ''
+      properties:
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+              enum:
+              - shared
+              - dedicated
+            installed_certificate:
+              $ref: '#/components/schemas/InstalledCertificateDetail'
+        meta:
+          $ref: '#/components/schemas/MetaOpen'
+      x-tags:
+      - Models
     EmptyResponse:
       type: object
       properties:
@@ -142,6 +161,21 @@ components:
         meta:
           type: object
           properties: {}
+    InstallCertificateData:
+      type: object
+      properties:
+        url:
+          type: string
+          description: URL for the site.
+          example: kittens.mybigcommerce.com
+        certificate:
+          $ref: '#/components/schemas/CertificateWrite'
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     GetCertificatesResponse:
       title: GetCertificatesResponse
       type: object
@@ -166,40 +200,6 @@ components:
         intermediate_certificates:
           type: string
           description: The intermediate certificate(s), as a string.
-      x-tags:
-      - Models
-    InstallCertificateData:
-      type: object
-      properties:
-        url:
-          type: string
-          description: URL for the site.
-          example: kittens.mybigcommerce.com
-        certificate:
-          $ref: '#/components/schemas/CertificateWrite'
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    CertificateResponse:
-      title: CertificateResponse
-      type: object
-      description: ''
-      properties:
-        data:
-          type: object
-          properties:
-            status:
-              type: string
-              enum:
-              - shared
-              - dedicated
-            installed_certificate:
-              $ref: '#/components/schemas/InstalledCertificateDetail'
-        meta:
-          $ref: '#/components/schemas/MetaOpen'
       x-tags:
       - Models
   parameters:

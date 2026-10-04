@@ -1606,30 +1606,6 @@ paths:
           description: Permanent ID of the BigCommerce store.
       description: BigCommerce API Gateway
 components:
-  parameters:
-    checkoutId:
-      name: checkoutId
-      in: path
-      description: ID of the checkout; the same as the cart ID.
-      required: true
-      schema:
-        type: string
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    Content-Type:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   schemas:
     PickupOption:
       type: object
@@ -1637,29 +1613,15 @@ components:
       properties:
         pickup_method_id:
           type: integer
-    AppliedCoupon:
-      title: Applied Coupon
+    Checkout_Put:
+      title: Checkout_Put
       required:
-      - code
+      - customer_message
       type: object
       properties:
-        code:
+        customer_message:
           type: string
-          description: The coupon code.
-          example: SHOPNOW
-        id:
-          type: integer
-          description: The coupon ID.
-          example: 1
-        coupon_type:
-          type: string
-          description: Key name to identify the type of coupon.
-          example: percentage_discount
-        discounted_amount:
-          type: number
-          description: The discounted amount applied within a given context.
-          format: float
-          example: 0.9
+          description: ''
       x-internal: false
     Checkout:
       title: Checkout
@@ -2380,22 +2342,44 @@ components:
                     text:
                       type: string
                       description: Text of the banner.
-    Checkout_Put:
-      title: Checkout_Put
-      required:
-      - customer_message
-      type: object
-      properties:
-        customer_message:
-          type: string
-          description: ''
-      x-internal: false
     MetaOpen:
       title: Response meta
       type: object
       properties: {}
       additionalProperties: true
       description: Response metadata.
+    AppliedCoupon:
+      title: Applied Coupon
+      required:
+      - code
+      type: object
+      properties:
+        code:
+          type: string
+          description: The coupon code.
+          example: SHOPNOW
+        id:
+          type: integer
+          description: The coupon ID.
+          example: 1
+        coupon_type:
+          type: string
+          description: Key name to identify the type of coupon.
+          example: percentage_discount
+        discounted_amount:
+          type: number
+          description: The discounted amount applied within a given context.
+          format: float
+          example: 0.9
+      x-internal: false
+    checkout_Put:
+      title: checkout_Put
+      type: object
+      properties:
+        customerMessage:
+          type: string
+          description: ''
+      x-internal: false
     checkouts_Resp:
       title: checkouts_Resp
       type: object
@@ -3138,14 +3122,6 @@ components:
 
                 '
       x-internal: false
-    checkout_Put:
-      title: checkout_Put
-      type: object
-      properties:
-        customerMessage:
-          type: string
-          description: ''
-      x-internal: false
     CheckoutCoupon:
       title: Checkout Coupon
       required:
@@ -3183,6 +3159,30 @@ components:
           description: The discounted amount applied within a given context.
           format: double
       x-internal: false
+  parameters:
+    checkoutId:
+      name: checkoutId
+      in: path
+      description: ID of the checkout; the same as the cart ID.
+      required: true
+      schema:
+        type: string
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    Content-Type:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

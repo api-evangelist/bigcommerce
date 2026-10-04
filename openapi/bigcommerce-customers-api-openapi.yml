@@ -420,65 +420,6 @@ paths:
           description: ''
           headers: {}
 components:
-  responses:
-    CustomerCollectionResponse:
-      description: Customer Collection Response
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customer_Full'
-              meta:
-                $ref: '#/components/schemas/_metaCollection'
-          examples:
-            example-1:
-              value:
-                data:
-                - email: string@example.com
-                  first_name: string
-                  last_name: string
-                  company: string
-                  phone: string
-                  notes: string
-                  tax_exempt_category: string
-                  customer_group_id: 0
-                  addresses:
-                  - first_name: string
-                    last_name: string
-                    address1: Addr1
-                    address2: ''
-                    city: string
-                    state_or_province: string
-                    postal_code: string
-                    country_code: st
-                    phone: string
-                    address_type: residential
-                    customer_id: 0
-                    id: 0
-                    country: string
-                  store_credit_amounts:
-                  - amount: 43.15
-                  accepts_product_review_abandoned_cart_emails: true
-                  channel_ids:
-                  - 1
-                  shopper_profile_id: 82511e54-4040-40fe-b742-2b25655f205b
-                  segment_ids:
-                  - 5bb733a9-5491-47b3-9451-9ae8d6a6bc6b
-                meta:
-                  pagination:
-                    total: 0
-                    count: 0
-                    per_page: 0
-                    current_page: 0
-                    total_pages: 0
-                    links:
-                      previous: string
-                      current: string
-                      next: string
   schemas:
     _metaCollection:
       title: _metaCollection
@@ -487,6 +428,122 @@ components:
       properties:
         pagination:
           $ref: '#/components/schemas/Pagination'
+      x-internal: false
+    customerAttributes_Base:
+      description: ''
+      title: customerAttributes_Base
+      type: object
+      properties:
+        attribute_id:
+          type: integer
+          format: int32
+          example: 55
+          description: Attribute ID.
+        attribute_value:
+          type: string
+          example: string
+          minLength: 0
+          maxLength: 255
+          description: Attribute value. This will always be a string, regardless of the attribute’s type.
+      x-internal: false
+    CustomerStoredCreditAmounts:
+      description: 'Store credit. '
+      type: array
+      format: double
+      items:
+        type: object
+        properties:
+          amount:
+            type: number
+            format: float
+            example: 43.15
+      x-internal: false
+    address_Full:
+      title: address_Full
+      type: object
+      properties:
+        first_name:
+          description: The first name of the customer address.
+          type: string
+          minLength: 1
+          maxLength: 255
+        last_name:
+          description: The last name of the customer address.
+          type: string
+          minLength: 1
+          maxLength: 255
+        company:
+          description: The company of the customer address.
+          type: string
+          minLength: 0
+          maxLength: 255
+        address1:
+          description: The address 1 line.
+          type: string
+        address2:
+          description: The address 2 line.
+          type: string
+        city:
+          description: The city of the customer address.
+          type: string
+          minLength: 0
+          maxLength: 100
+        state_or_province:
+          description: The state or province name.
+          type: string
+          minLength: 0
+          maxLength: 100
+        postal_code:
+          description: The postal code of the customer address.
+          type: string
+          minLength: 0
+          maxLength: 30
+        country_code:
+          description: The country code of the customer address.
+          type: string
+          minLength: 2
+          maxLength: 2
+        phone:
+          description: The phone number of the customer address.
+          type: string
+          minLength: 0
+          maxLength: 50
+        address_type:
+          title: Address Type
+          description: The address type. Residential or Commercial.
+          example: residential
+          type: string
+          enum:
+          - residential
+          - commercial
+        customer_id:
+          description: The customer ID.
+          type: integer
+          format: int32
+        id:
+          description: The unique numeric ID of the address.
+          type: integer
+          format: int32
+        country:
+          description: The country name of the customer address.
+          type: string
+        form_fields:
+          description: Array of form fields. Controlled by `formfields` parameter.
+          type: array
+          items:
+            allOf:
+            - $ref: '#/components/schemas/formFieldValue'
+            title: Customer Address Form Field Value
+      required:
+      - first_name
+      - last_name
+      - address1
+      - city
+      - state_or_province
+      - postal_code
+      - country_code
+      - customer_id
+      - id
       x-internal: false
     customer_Post:
       title: customer_Post
@@ -571,6 +628,20 @@ components:
       - first_name
       - last_name
       x-internal: false
+    Links:
+      title: Links
+      description: Pagination links for the previous and next parts of the whole collection.
+      type: object
+      properties:
+        previous:
+          description: Link to the previous page returned in the response.
+          type: string
+        current:
+          description: Link to the current page returned in the response.
+          type: string
+        next:
+          description: Link to the next page returned in the response.
+          type: string
     customerAddresses_CustomerPost:
       title: customerAddresses_CustomerPost
       example:
@@ -659,102 +730,11 @@ components:
       - country_code
       description: The `address` object for the `customer` objectʼs `addresses` array.
       x-internal: false
-    attribute_Full:
-      description: ''
-      type: object
-      x-examples:
-        Example:
-          attribute_id: 2
-          attribute_value: 'Yes'
-          customer_id: 1
-          date_created: '2021-07-28T19:00:38Z'
-          date_modified: '2021-07-28T19:00:38Z'
-          id: 2
-      properties:
-        attribute_id:
-          type: integer
-          description: Attribute ID.
-          format: int32
-          example: 2
-        attribute_value:
-          type: string
-          minLength: 1
-          description: Attribute value.
-          example: 'Yes'
-        customer_id:
-          type: integer
-          description: Customer ID.
-          example: 1
-          format: int32
-        date_created:
-          type: string
-          minLength: 1
-          description: The date the customer attribute was created.
-          format: date-time
-        date_modified:
-          type: string
-          minLength: 1
-          description: The date the customer attribute was modified.
-          format: date-time
-        id:
-          type: integer
-          description: Attribute value ID.
-          format: int32
-          example: 2
-      x-internal: false
-    ErrorResponse:
-      title: Error Response
-      type: object
-      properties:
-        status:
-          description: The HTTP status code.
-          type: integer
-          format: int32
-        title:
-          description: The error title describing the particular error.
-          type: string
-        type:
-          description: A link to a list of BigCommerce API status codes.
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-          additionalProperties:
-            type: string
-      x-internal: false
-    Pagination:
-      title: Pagination
-      description: Data about the response, including pagination and collection totals.
-      type: object
-      properties:
-        total:
-          description: Total number of items in the result set.
-          type: integer
-          format: int32
-        count:
-          description: Total number of items in the collection response.
-          type: integer
-          format: int32
-        per_page:
-          description: The amount of items returned in the collection per page, controlled by the limit parameter.
-          type: integer
-          format: int32
-        current_page:
-          description: The page you are currently on within the collection.
-          type: integer
-          format: int32
-        total_pages:
-          description: The total number of pages in the collection.
-          type: integer
-          format: int32
-        links:
-          $ref: '#/components/schemas/Links'
-      x-internal: false
-    formFieldValue:
-      title: Generic Form Field Value
+    formFieldValue_Customer:
+      title: Customer Form Field Value
       type: object
       required:
+      - customer_id
       - name
       - value
       properties:
@@ -776,6 +756,8 @@ components:
             - black
             items:
               type: string
+        customer_id:
+          type: integer
     customer_Put:
       title: customer_Put
       type: object
@@ -850,23 +832,6 @@ components:
             $ref: '#/components/schemas/formFieldValue'
       required:
       - id
-      x-internal: false
-    customerAttributes_Base:
-      description: ''
-      title: customerAttributes_Base
-      type: object
-      properties:
-        attribute_id:
-          type: integer
-          format: int32
-          example: 55
-          description: Attribute ID.
-        attribute_value:
-          type: string
-          example: string
-          minLength: 0
-          maxLength: 255
-          description: Attribute value. This will always be a string, regardless of the attribute’s type.
       x-internal: false
     customer_Full:
       title: customer_Full
@@ -971,6 +936,98 @@ components:
         channel_ids:
           $ref: '#/components/schemas/customerChannelIds'
       x-internal: false
+    attribute_Full:
+      description: ''
+      type: object
+      x-examples:
+        Example:
+          attribute_id: 2
+          attribute_value: 'Yes'
+          customer_id: 1
+          date_created: '2021-07-28T19:00:38Z'
+          date_modified: '2021-07-28T19:00:38Z'
+          id: 2
+      properties:
+        attribute_id:
+          type: integer
+          description: Attribute ID.
+          format: int32
+          example: 2
+        attribute_value:
+          type: string
+          minLength: 1
+          description: Attribute value.
+          example: 'Yes'
+        customer_id:
+          type: integer
+          description: Customer ID.
+          example: 1
+          format: int32
+        date_created:
+          type: string
+          minLength: 1
+          description: The date the customer attribute was created.
+          format: date-time
+        date_modified:
+          type: string
+          minLength: 1
+          description: The date the customer attribute was modified.
+          format: date-time
+        id:
+          type: integer
+          description: Attribute value ID.
+          format: int32
+          example: 2
+      x-internal: false
+    Pagination:
+      title: Pagination
+      description: Data about the response, including pagination and collection totals.
+      type: object
+      properties:
+        total:
+          description: Total number of items in the result set.
+          type: integer
+          format: int32
+        count:
+          description: Total number of items in the collection response.
+          type: integer
+          format: int32
+        per_page:
+          description: The amount of items returned in the collection per page, controlled by the limit parameter.
+          type: integer
+          format: int32
+        current_page:
+          description: The page you are currently on within the collection.
+          type: integer
+          format: int32
+        total_pages:
+          description: The total number of pages in the collection.
+          type: integer
+          format: int32
+        links:
+          $ref: '#/components/schemas/Links'
+      x-internal: false
+    ErrorResponse:
+      title: Error Response
+      type: object
+      properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+          format: int32
+        title:
+          description: The error title describing the particular error.
+          type: string
+        type:
+          description: A link to a list of BigCommerce API status codes.
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+      x-internal: false
     customerChannelIds:
       type: array
       title: customerChannelIds
@@ -980,98 +1037,10 @@ components:
         - 1
         - 2
       x-internal: false
-    address_Full:
-      title: address_Full
-      type: object
-      properties:
-        first_name:
-          description: The first name of the customer address.
-          type: string
-          minLength: 1
-          maxLength: 255
-        last_name:
-          description: The last name of the customer address.
-          type: string
-          minLength: 1
-          maxLength: 255
-        company:
-          description: The company of the customer address.
-          type: string
-          minLength: 0
-          maxLength: 255
-        address1:
-          description: The address 1 line.
-          type: string
-        address2:
-          description: The address 2 line.
-          type: string
-        city:
-          description: The city of the customer address.
-          type: string
-          minLength: 0
-          maxLength: 100
-        state_or_province:
-          description: The state or province name.
-          type: string
-          minLength: 0
-          maxLength: 100
-        postal_code:
-          description: The postal code of the customer address.
-          type: string
-          minLength: 0
-          maxLength: 30
-        country_code:
-          description: The country code of the customer address.
-          type: string
-          minLength: 2
-          maxLength: 2
-        phone:
-          description: The phone number of the customer address.
-          type: string
-          minLength: 0
-          maxLength: 50
-        address_type:
-          title: Address Type
-          description: The address type. Residential or Commercial.
-          example: residential
-          type: string
-          enum:
-          - residential
-          - commercial
-        customer_id:
-          description: The customer ID.
-          type: integer
-          format: int32
-        id:
-          description: The unique numeric ID of the address.
-          type: integer
-          format: int32
-        country:
-          description: The country name of the customer address.
-          type: string
-        form_fields:
-          description: Array of form fields. Controlled by `formfields` parameter.
-          type: array
-          items:
-            allOf:
-            - $ref: '#/components/schemas/formFieldValue'
-            title: Customer Address Form Field Value
-      required:
-      - first_name
-      - last_name
-      - address1
-      - city
-      - state_or_province
-      - postal_code
-      - country_code
-      - customer_id
-      - id
-      x-internal: false
-    formFieldValue_Customer:
-      title: Customer Form Field Value
+    formFieldValue:
+      title: Generic Form Field Value
       type: object
       required:
-      - customer_id
       - name
       - value
       properties:
@@ -1093,34 +1062,6 @@ components:
             - black
             items:
               type: string
-        customer_id:
-          type: integer
-    CustomerStoredCreditAmounts:
-      description: 'Store credit. '
-      type: array
-      format: double
-      items:
-        type: object
-        properties:
-          amount:
-            type: number
-            format: float
-            example: 43.15
-      x-internal: false
-    Links:
-      title: Links
-      description: Pagination links for the previous and next parts of the whole collection.
-      type: object
-      properties:
-        previous:
-          description: Link to the previous page returned in the response.
-          type: string
-        current:
-          description: Link to the current page returned in the response.
-          type: string
-        next:
-          description: Link to the next page returned in the response.
-          type: string
     customerAuthentication_PostPut:
       title: customerAuthentication_PostPut
       allOf:
@@ -1134,6 +1075,65 @@ components:
             type: string
       type: object
       x-internal: false
+  responses:
+    CustomerCollectionResponse:
+      description: Customer Collection Response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customer_Full'
+              meta:
+                $ref: '#/components/schemas/_metaCollection'
+          examples:
+            example-1:
+              value:
+                data:
+                - email: string@example.com
+                  first_name: string
+                  last_name: string
+                  company: string
+                  phone: string
+                  notes: string
+                  tax_exempt_category: string
+                  customer_group_id: 0
+                  addresses:
+                  - first_name: string
+                    last_name: string
+                    address1: Addr1
+                    address2: ''
+                    city: string
+                    state_or_province: string
+                    postal_code: string
+                    country_code: st
+                    phone: string
+                    address_type: residential
+                    customer_id: 0
+                    id: 0
+                    country: string
+                  store_credit_amounts:
+                  - amount: 43.15
+                  accepts_product_review_abandoned_cart_emails: true
+                  channel_ids:
+                  - 1
+                  shopper_profile_id: 82511e54-4040-40fe-b742-2b25655f205b
+                  segment_ids:
+                  - 5bb733a9-5491-47b3-9451-9ae8d6a6bc6b
+                meta:
+                  pagination:
+                    total: 0
+                    count: 0
+                    per_page: 0
+                    current_page: 0
+                    total_pages: 0
+                    links:
+                      previous: string
+                      current: string
+                      next: string
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

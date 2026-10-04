@@ -994,28 +994,7 @@ paths:
           description: ''
           content: {}
 components:
-  responses:
-    General207Status:
-      description: Multi-status. Multiple operations have taken place and the status for each operation can be viewed in the body of the response. Typically indicates that a partial failure has occurred, such as when a `POST` or `PUT` request is successful, but saving the URL or inventory data has failed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Base'
   schemas:
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     brand_Full:
       title: brand_Full
       required:
@@ -1083,6 +1062,28 @@ components:
           $ref: '#/components/schemas/customUrl_Full'
       description: Common Brand properties.
       x-internal: false
+    error_Base:
+      title: error_Base
+      type: object
+      properties:
+        status:
+          type: integer
+          description: 'The HTTP status code.
+
+            '
+        title:
+          type: string
+          description: 'The error title describing the particular error.
+
+            '
+        type:
+          type: string
+        instance:
+          type: string
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      x-internal: false
     customUrl_Full:
       title: customUrl_Full
       type: object
@@ -1108,6 +1109,12 @@ components:
           - put
       description: The custom URL for the product on the storefront.
       x-internal: false
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     pagination_Full:
       title: pagination_Full
       type: object
@@ -1166,27 +1173,13 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-    error_Base:
-      title: error_Base
+    metaCollection_Full:
+      title: metaCollection_Full
       type: object
       properties:
-        status:
-          type: integer
-          description: 'The HTTP status code.
-
-            '
-        title:
-          type: string
-          description: 'The error title describing the particular error.
-
-            '
-        type:
-          type: string
-        instance:
-          type: string
-      description: 'Error payload for the BigCommerce API.
-
-        '
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
       x-internal: false
   parameters:
     Accept:
@@ -1214,6 +1207,13 @@ components:
       schema:
         type: string
         default: application/json
+  responses:
+    General207Status:
+      description: Multi-status. Multiple operations have taken place and the status for each operation can be viewed in the body of the response. Typically indicates that a partial failure has occurred, such as when a `POST` or `PUT` request is successful, but saving the URL or inventory data has failed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Base'
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

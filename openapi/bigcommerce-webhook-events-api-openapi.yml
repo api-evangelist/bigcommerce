@@ -56,15 +56,15 @@ paths:
       description: Get a list of events that were sent but not successfully received. Events are stored for not less than one week.
 components:
   parameters:
-    FilterLimitParam:
-      name: limit
+    FilterMaxCreatedAtParam:
+      name: created_at:max
       in: query
-      description: 'Items count per page.
+      description: 'Maximum value for returned data.
 
         '
       required: false
       schema:
-        type: integer
+        type: string
     FilterPageParam:
       name: page
       in: query
@@ -75,19 +75,19 @@ components:
       schema:
         type: integer
         example: 1
-    FilterMinCreatedAtParam:
-      name: created_at:min
+    FilterLimitParam:
+      name: limit
       in: query
-      description: 'Minimum value for returned data.
+      description: 'Items count per page.
 
         '
       required: false
       schema:
-        type: string
-    FilterMaxCreatedAtParam:
-      name: created_at:max
+        type: integer
+    FilterMinCreatedAtParam:
+      name: created_at:min
       in: query
-      description: 'Maximum value for returned data.
+      description: 'Minimum value for returned data.
 
         '
       required: false
@@ -119,6 +119,24 @@ components:
                 title: Input is invalid.
                 type: /api-docs/getting-started/api-status-codes
   schemas:
+    error_Full:
+      type: object
+      title: error_Full
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          description: This value is typically a link to BigCommerce API Status codes.
+          type: string
+      x-internal: false
     Pagination:
       type: object
       description: 'Data about the response, including pagination and collection totals.
@@ -152,24 +170,6 @@ components:
             next:
               type: string
               description: Link to the next page returned in the response.
-      x-internal: false
-    error_Full:
-      type: object
-      title: error_Full
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          description: This value is typically a link to BigCommerce API Status codes.
-          type: string
       x-internal: false
     HistoryEvent:
       type: object

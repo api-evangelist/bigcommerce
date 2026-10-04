@@ -314,20 +314,6 @@ paths:
                 - type
 components:
   schemas:
-    GiftCertificate:
-      title: GiftCertificate
-      type: object
-      properties:
-        type:
-          type: string
-          example: gift_certificate
-        gift_certificate_code:
-          type: string
-          example: ABC-DEF-GXX
-      x-examples:
-        example-1:
-          type: gift_certificate
-          gift_certificate_code: ABC-DEF-GXX
     StoredBankAccount:
       title: StoredBankAccount
       type: object
@@ -347,6 +333,112 @@ components:
         example-1:
           type: stored_bank_account
           token: stringstringstringstringstringstringstringstringstringstringstri
+    StoredCard:
+      title: Stored Card
+      type: object
+      x-internal: false
+      x-examples:
+        example-1:
+          type: stored_card
+          token: stringstringstringstringstringstringstringstringstringstringstri
+          verification_value: 1142
+      properties:
+        type:
+          description: Type to classify this payment instrument (required)
+          example: stored_card
+          type: string
+          default: stored_card
+        token:
+          description: Identifier representing this stored card (required)
+          type: string
+          minLength: 64
+          maxLength: 64
+        verification_value:
+          type: string
+          description: Verification value of this card (CVV)
+          minLength: 3
+          maxLength: 4
+    GiftCertificate:
+      title: GiftCertificate
+      type: object
+      properties:
+        type:
+          type: string
+          example: gift_certificate
+        gift_certificate_code:
+          type: string
+          example: ABC-DEF-GXX
+      x-examples:
+        example-1:
+          type: gift_certificate
+          gift_certificate_code: ABC-DEF-GXX
+    StoredPayPalAccount:
+      title: StoredPayPalAccount
+      type: object
+      x-internal: false
+      properties:
+        type:
+          type: string
+          description: Type to classify this payment instrument (required)
+          enum:
+          - stored_paypal_account
+        token:
+          description: Identifier representing this stored PayPal account (required)
+          type: string
+          minLength: 64
+          maxLength: 64
+      x-examples:
+        example-1:
+          type: stored_paypal_account
+          token: stringstringstringstringstringstringstringstringstringstringstri
+    TokenizedCard:
+      title: Tokenized Card
+      type: object
+      x-internal: false
+      x-examples:
+        example-1:
+          type: tokenized_card
+          token: K7KW-M9GX-6PQ3
+          iin: 4111111
+          last_four_digits: 1111
+          expiration_month: 12
+          expiration_year: 2030
+      properties:
+        type:
+          type: string
+          description: Type to classify this payment instrument (required).
+          enum:
+          - tokenized_card
+        token:
+          description: Identifier representing the tokenized card (required).
+          type: string
+          minLength: 64
+          maxLength: 64
+        iin:
+          type: string
+          description: Issuer identification number.
+        last_four_digits:
+          type: string
+          description: Last four numbers of this card.
+        expiration_month:
+          type: string
+          description: Expiry month of this card.
+        expiration_year:
+          type: string
+          description: Expiry year of this card.
+      required:
+      - type
+      - token
+    StoreCredit:
+      title: StoreCredit
+      type: object
+      properties:
+        type:
+          type: string
+          example: store_credit
+      x-examples:
+        example-1:
+          type: store_credit
     Card:
       title: Card
       type: object
@@ -405,98 +497,6 @@ components:
           type: integer
           format: int32
           description: Issue number of this card
-    StoredCard:
-      title: Stored Card
-      type: object
-      x-internal: false
-      x-examples:
-        example-1:
-          type: stored_card
-          token: stringstringstringstringstringstringstringstringstringstringstri
-          verification_value: 1142
-      properties:
-        type:
-          description: Type to classify this payment instrument (required)
-          example: stored_card
-          type: string
-          default: stored_card
-        token:
-          description: Identifier representing this stored card (required)
-          type: string
-          minLength: 64
-          maxLength: 64
-        verification_value:
-          type: string
-          description: Verification value of this card (CVV)
-          minLength: 3
-          maxLength: 4
-    StoredPayPalAccount:
-      title: StoredPayPalAccount
-      type: object
-      x-internal: false
-      properties:
-        type:
-          type: string
-          description: Type to classify this payment instrument (required)
-          enum:
-          - stored_paypal_account
-        token:
-          description: Identifier representing this stored PayPal account (required)
-          type: string
-          minLength: 64
-          maxLength: 64
-      x-examples:
-        example-1:
-          type: stored_paypal_account
-          token: stringstringstringstringstringstringstringstringstringstringstri
-    StoreCredit:
-      title: StoreCredit
-      type: object
-      properties:
-        type:
-          type: string
-          example: store_credit
-      x-examples:
-        example-1:
-          type: store_credit
-    TokenizedCard:
-      title: Tokenized Card
-      type: object
-      x-internal: false
-      x-examples:
-        example-1:
-          type: tokenized_card
-          token: K7KW-M9GX-6PQ3
-          iin: 4111111
-          last_four_digits: 1111
-          expiration_month: 12
-          expiration_year: 2030
-      properties:
-        type:
-          type: string
-          description: Type to classify this payment instrument (required).
-          enum:
-          - tokenized_card
-        token:
-          description: Identifier representing the tokenized card (required).
-          type: string
-          minLength: 64
-          maxLength: 64
-        iin:
-          type: string
-          description: Issuer identification number.
-        last_four_digits:
-          type: string
-          description: Last four numbers of this card.
-        expiration_month:
-          type: string
-          description: Expiry month of this card.
-        expiration_year:
-          type: string
-          description: Expiry year of this card.
-      required:
-      - type
-      - token
   parameters:
     AcceptPaymentResponse:
       name: Accept

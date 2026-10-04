@@ -205,6 +205,13 @@ components:
         instance:
           type: string
       x-internal: false
+    EmailTemplatesCollection:
+      title: EmailTemplatesCollection
+      type: array
+      items:
+        $ref: '#/components/schemas/EmailTemplate'
+      description: A collection of all email templates.
+      x-internal: false
     LocaleObject:
       title: LocaleObject
       type: object
@@ -220,21 +227,6 @@ components:
           description: Language keys for the template. User-defined. Should match any lang keys used in the template.
       description: A particular localeʼs translations.
       x-internal: false
-    EmailTemplatesCollection:
-      title: EmailTemplatesCollection
-      type: array
-      items:
-        $ref: '#/components/schemas/EmailTemplate'
-      description: A collection of all email templates.
-      x-internal: false
-    ErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseError'
-      - type: object
-        properties:
-          errors:
-            $ref: '#/components/schemas/DetailedErrors'
-      x-internal: false
     DetailedErrors:
       type: object
       additionalProperties:
@@ -246,6 +238,14 @@ components:
       items:
         $ref: '#/components/schemas/LocaleObject'
       description: A collection of locale translations for the static language.
+      x-internal: false
+    ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - type: object
+        properties:
+          errors:
+            $ref: '#/components/schemas/DetailedErrors'
       x-internal: false
     EmailTemplate:
       title: EmailTemplate

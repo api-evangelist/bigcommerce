@@ -235,15 +235,24 @@ paths:
           $ref: '#/components/responses/MethodNotAllowedError'
 components:
   schemas:
-    customFieldPut:
-      title: Custom Field Put
+    metaEmptyFull:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    customFieldPost:
+      title: Custom Field Post
+      required:
+      - name
+      - value
       type: object
       properties:
         name:
           maxLength: 250
           minLength: 1
           type: string
-          description: 'The value of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
+          description: 'The name of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
 
             '
           example: ISBN
@@ -255,7 +264,7 @@ components:
 
             '
           example: '1234567890123'
-      description: Payload for PUT request to update custom fields associated with a product.
+      description: Payload for POST request to create custom fields associated with a product.
     customFieldData:
       title: Product Custom Field Data
       type: object
@@ -282,25 +291,6 @@ components:
             '
           example: '1234567890123'
       description: Gets custom fields associated with a product. These allow you to specify additional information that will appear on the product’s page, such as a book’s ISBN or a DVD’s release date.
-    GeneralError:
-      required:
-      - status
-      - title
-      - type
-      title: Error Response
-      type: object
-      properties:
-        status:
-          type: integer
-          description: The HTTP status code.
-        title:
-          type: string
-          description: The error title describes the particular error.
-        type:
-          type: string
-        code:
-          type: integer
-          description: The custom code of the error.
     MethodNotAllowedError:
       required:
       - status
@@ -345,18 +335,15 @@ components:
           type: object
           properties: {}
           additionalProperties: true
-    customFieldPost:
-      title: Custom Field Post
-      required:
-      - name
-      - value
+    customFieldPut:
+      title: Custom Field Put
       type: object
       properties:
         name:
           maxLength: 250
           minLength: 1
           type: string
-          description: 'The name of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
+          description: 'The value of the field, shown on the storefront, orders, etc. This field is a requirement for /POST requests.
 
             '
           example: ISBN
@@ -368,7 +355,26 @@ components:
 
             '
           example: '1234567890123'
-      description: Payload for POST request to create custom fields associated with a product.
+      description: Payload for PUT request to update custom fields associated with a product.
+    GeneralError:
+      required:
+      - status
+      - title
+      - type
+      title: Error Response
+      type: object
+      properties:
+        status:
+          type: integer
+          description: The HTTP status code.
+        title:
+          type: string
+          description: The error title describes the particular error.
+        type:
+          type: string
+        code:
+          type: integer
+          description: The custom code of the error.
     metaCollectionFull:
       title: metaCollectionFull
       type: object
@@ -432,31 +438,7 @@ components:
                 '
           description: Data about the response, including pagination and collection totals.
       description: Data about the response, including pagination and collection totals.
-    metaEmptyFull:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
   responses:
-    CustomFieldsResponse:
-      description: Gets array of Custom fields.
-      content:
-        application/json:
-          schema:
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/components/schemas/customFieldData'
-              meta:
-                $ref: '#/components/schemas/metaCollectionFull'
-    UnauthorizedError:
-      description: 401 Unauthorized
-      content:
-        plain/text:
-          schema:
-            type: string
     UnsupportedMediaTypeError:
       description: 415 Unsupported Media Type
       content:
@@ -469,6 +451,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/MethodNotAllowedError'
+    CustomFieldsResponse:
+      description: Gets array of Custom fields.
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/customFieldData'
+              meta:
+                $ref: '#/components/schemas/metaCollectionFull'
     GeneralError:
       description: General Error.
       content:
@@ -491,6 +485,12 @@ components:
                 $ref: '#/components/schemas/customFieldData'
               meta:
                 $ref: '#/components/schemas/metaEmptyFull'
+    UnauthorizedError:
+      description: 401 Unauthorized
+      content:
+        plain/text:
+          schema:
+            type: string
   parameters:
     ProductIdParam:
       name: product_id

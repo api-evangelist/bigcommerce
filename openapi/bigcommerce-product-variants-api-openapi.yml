@@ -671,143 +671,33 @@ components:
           bin_picking_number: string
           mpn: string
           gtin: 012345678905
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    productVariantOptionValue_Base:
-      title: productVariantOptionValue_Base
-      type: object
-      properties:
-        id:
-          type: integer
-          description: '`option_value` ID.'
-          example: 146
-        option_id:
-          type: integer
-          description: '`option` ID.'
-          example: 151
-      description: Common Product Variant Option properties.
-      x-internal: false
-    productVariant_Put:
-      title: productVariant_Put
-      description: The model for a PUT to update variants on a product.
+    productVariantOptionValue_Full:
+      title: productVariantOptionValue_Full
       allOf:
-      - $ref: '#/components/schemas/productVariant_Base'
       - type: object
         properties:
-          product_id:
-            type: integer
-            x-required:
-            - post
-          sku:
+          option_display_name:
             maxLength: 255
             minLength: 1
             type: string
+            description: 'The name of the option.
+
+              '
+            example: Color
             x-required:
             - post
+          label:
+            maxLength: 255
+            minLength: 1
+            type: string
+            description: 'The label of the option value.
+
+              '
+            example: Beige
+            x-required:
+            - post
+      - $ref: '#/components/schemas/productVariantOptionValue_Base'
       x-internal: false
-    DetailedErrors:
-      title: DetailedErrors
-      description: Each key-value pair describes a failure or partial success case.
-      type: object
-      properties: {}
-      additionalProperties: true
-      x-internal: false
-    errorMultiStatus:
-      title: errorMultiStatus
-      type: object
-      properties:
-        status:
-          type: integer
-          minLength: 3
-          maxLength: 3
-          description: The [HTTP status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) of the failure or partial success.
-        title:
-          type: string
-          description: A summary of the failure or partial success.
-        type:
-          type: string
-          description: A BigCommerce-defined error signifier.
-        errors:
-          $ref: '#/components/schemas/DetailedErrors'
-    pagination_Full:
-      title: pagination_Full
-      type: object
-      properties:
-        total:
-          type: integer
-          description: 'Total number of items in the result set.
-
-            '
-          example: 36
-        count:
-          type: integer
-          description: 'Total number of items in the collection response.
-
-            '
-          example: 36
-        per_page:
-          type: integer
-          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
-
-            '
-          example: 50
-        current_page:
-          type: integer
-          description: 'The page you are currently on within the collection.
-
-            '
-          example: 1
-        total_pages:
-          type: integer
-          description: 'The total number of pages in the collection.
-
-            '
-          example: 1
-        links:
-          type: object
-          properties:
-            previous:
-              type: string
-              description: 'Link to the previous page returned in the response.
-
-                '
-            current:
-              type: string
-              description: 'Link to the current page returned in the response.
-
-                '
-              example: ?page=1&limit=50
-            next:
-              type: string
-              description: 'Link to the next page returned in the response.
-
-                '
-          description: 'Pagination links for the previous and next parts of the whole collection.
-
-            '
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
-    MultiStatus:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/productVariant_Full'
-        errors:
-          $ref: '#/components/schemas/errorMultiStatus'
-        meta:
-          $ref: '#/components/schemas/metaCollection_Full'
     productVariant_Post:
       title: productVariant_Post
       description: 'The model for a POST to create variants on a product.
@@ -957,32 +847,26 @@ components:
             x-required:
             - post
       x-internal: false
-    productVariantOptionValue_Full:
-      title: productVariantOptionValue_Full
-      allOf:
-      - type: object
-        properties:
-          option_display_name:
-            maxLength: 255
-            minLength: 1
-            type: string
-            description: 'The name of the option.
-
-              '
-            example: Color
-            x-required:
-            - post
-          label:
-            maxLength: 255
-            minLength: 1
-            type: string
-            description: 'The label of the option value.
-
-              '
-            example: Beige
-            x-required:
-            - post
-      - $ref: '#/components/schemas/productVariantOptionValue_Base'
+    productVariantOptionValue_Base:
+      title: productVariantOptionValue_Base
+      type: object
+      properties:
+        id:
+          type: integer
+          description: '`option_value` ID.'
+          example: 146
+        option_id:
+          type: integer
+          description: '`option` ID.'
+          example: 151
+      description: Common Product Variant Option properties.
+      x-internal: false
+    DetailedErrors:
+      title: DetailedErrors
+      description: Each key-value pair describes a failure or partial success case.
+      type: object
+      properties: {}
+      additionalProperties: true
       x-internal: false
     productVariant_Full:
       title: productVariant_Full
@@ -1047,6 +931,122 @@ components:
             option_id: 151
           calculated_price: 0
           calculated_weight: 0
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    MultiStatus:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/productVariant_Full'
+        errors:
+          $ref: '#/components/schemas/errorMultiStatus'
+        meta:
+          $ref: '#/components/schemas/metaCollection_Full'
+    errorMultiStatus:
+      title: errorMultiStatus
+      type: object
+      properties:
+        status:
+          type: integer
+          minLength: 3
+          maxLength: 3
+          description: The [HTTP status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) of the failure or partial success.
+        title:
+          type: string
+          description: A summary of the failure or partial success.
+        type:
+          type: string
+          description: A BigCommerce-defined error signifier.
+        errors:
+          $ref: '#/components/schemas/DetailedErrors'
+    productVariant_Put:
+      title: productVariant_Put
+      description: The model for a PUT to update variants on a product.
+      allOf:
+      - $ref: '#/components/schemas/productVariant_Base'
+      - type: object
+        properties:
+          product_id:
+            type: integer
+            x-required:
+            - post
+          sku:
+            maxLength: 255
+            minLength: 1
+            type: string
+            x-required:
+            - post
+      x-internal: false
+    pagination_Full:
+      title: pagination_Full
+      type: object
+      properties:
+        total:
+          type: integer
+          description: 'Total number of items in the result set.
+
+            '
+          example: 36
+        count:
+          type: integer
+          description: 'Total number of items in the collection response.
+
+            '
+          example: 36
+        per_page:
+          type: integer
+          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+            '
+          example: 50
+        current_page:
+          type: integer
+          description: 'The page you are currently on within the collection.
+
+            '
+          example: 1
+        total_pages:
+          type: integer
+          description: 'The total number of pages in the collection.
+
+            '
+          example: 1
+        links:
+          type: object
+          properties:
+            previous:
+              type: string
+              description: 'Link to the previous page returned in the response.
+
+                '
+            current:
+              type: string
+              description: 'Link to the current page returned in the response.
+
+                '
+              example: ?page=1&limit=50
+            next:
+              type: string
+              description: 'Link to the next page returned in the response.
+
+                '
+          description: 'Pagination links for the previous and next parts of the whole collection.
+
+            '
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
   parameters:
     ProductIdParam:
       name: product_id

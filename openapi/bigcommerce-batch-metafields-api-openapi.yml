@@ -1058,6 +1058,28 @@ paths:
       description: BigCommerce API Gateway
 components:
   schemas:
+    MetaFieldCollectionResponsePartialSuccess_DELETE:
+      type: object
+      description: 'Response payload for the BigCommerce API.
+
+        '
+      properties:
+        data:
+          type: array
+          items:
+            type: integer
+            description: 'The unique identifier for the metafield.
+
+              '
+          example:
+          - 123
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+        meta:
+          $ref: '#/components/schemas/WriteCollectionPartialSuccessMeta'
+      x-internal: false
     MetaFieldCollectionResponse_Batch_POST_PUT:
       type: object
       description: 'Response payload for the BigCommerce API.
@@ -1143,126 +1165,6 @@ components:
       - namespace
       - key
       - value
-    WriteCollectionSuccessMeta:
-      type: object
-      description: Additional data about the response.
-      properties:
-        total:
-          type: integer
-          description: 'Total number of items in the result set.
-
-            '
-          example: 3
-        success:
-          type: integer
-          description: 'Total number of items that were successfully deleted.
-
-            '
-          example: 3
-        failed:
-          type: integer
-          description: 'Total number of items that failed to be deleted.
-
-            '
-          example: 0
-      title: Collection Meta
-      x-internal: false
-    WriteCollectionPartialSuccessMeta:
-      type: object
-      description: Additional data about the response.
-      properties:
-        total:
-          type: integer
-          description: 'Total number of items in the result set.
-
-            '
-          example: 3
-        success:
-          type: integer
-          description: 'Total number of items that were successfully deleted.
-
-            '
-          example: 1
-        failed:
-          type: integer
-          description: 'Total number of items that failed to be deleted.
-
-            '
-          example: 2
-      title: Collection Meta
-      x-internal: false
-    ErrorDetail:
-      type: object
-      description: 'Error detail response payload for the BigCommerce API.
-
-        '
-      example:
-        '1': Unauthorized to delete
-        '2': Metafield does not exist
-    CollectionMeta:
-      type: object
-      description: Data about the response, including pagination and collection totals.
-      properties:
-        pagination:
-          type: object
-          description: Data about the response, including pagination and collection totals.
-          title: Pagination
-          properties:
-            total:
-              type: integer
-              description: 'Total number of items in the result set.
-
-                '
-              example: 36
-            count:
-              type: integer
-              description: 'Total number of items in the collection response.
-
-                '
-              example: 36
-            per_page:
-              type: integer
-              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
-
-                '
-              example: 50
-            current_page:
-              type: integer
-              description: 'The page you are currently on within the collection.
-
-                '
-              example: 1
-            total_pages:
-              type: integer
-              description: 'The total number of pages in the collection.
-
-                '
-              example: 1
-            links:
-              type: object
-              description: 'Pagination links for the previous and next parts of the whole collection.
-
-                '
-              properties:
-                previous:
-                  type: string
-                  description: 'Link to the previous page returned in the response.
-
-                    '
-                current:
-                  type: string
-                  description: 'Link to the current page returned in the response.
-
-                    '
-                  example: ?page=1&limit=50
-                next:
-                  type: string
-                  description: 'Link to the next page returned in the response.
-
-                    '
-      additionalProperties: true
-      title: Collection Meta
-      x-internal: false
     MetafieldBase:
       type: object
       description: 'Common Metafield properties.
@@ -1348,84 +1250,6 @@ components:
           readOnly: true
       required:
       - permission_set
-    MetaFieldCollectionResponsePartialSuccess_POST_PUT:
-      type: object
-      description: 'Response payload for the BigCommerce API.
-
-        '
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Metafield'
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-        meta:
-          $ref: '#/components/schemas/WriteCollectionPartialSuccessMeta'
-    MetaFieldCollectionDeleteResponseSuccess:
-      type: object
-      description: 'Response payload for the BigCommerce API.
-
-        '
-      properties:
-        data:
-          type: array
-          items:
-            type: integer
-            description: 'The unique identifier for the metafield.
-
-              '
-          example:
-          - 123
-          - 124
-          - 125
-        errors:
-          type: array
-          description: Empty for 200 responses.
-          example: []
-        meta:
-          $ref: '#/components/schemas/WriteCollectionSuccessMeta'
-      x-internal: false
-    MetaFieldCollectionResponse_Batch:
-      type: object
-      description: 'Response payload for the BigCommerce API.
-
-        '
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Metafield'
-        meta:
-          $ref: '#/components/schemas/CollectionMeta'
-    Error:
-      type: object
-      description: 'Error response payload for the BigCommerce API.
-
-        '
-      properties:
-        status:
-          type: integer
-          description: 'The HTTP status code for the error.
-
-            '
-          example: 422
-        title:
-          type: string
-          description: 'The error title.
-
-            '
-          example: Bulk operation has failed
-        type:
-          type: string
-          description: 'The error type.
-
-            '
-          example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
-        errors:
-          $ref: '#/components/schemas/ErrorDetail'
     Metafield:
       description: 'Allows app partners to write custom data to various resources in the API.
 
@@ -1453,7 +1277,71 @@ components:
             example: asdfasdfasdfasdfasdfasdfasdf
             readOnly: true
       x-internal: false
-    MetaFieldCollectionResponsePartialSuccess_DELETE:
+    CollectionMeta:
+      type: object
+      description: Data about the response, including pagination and collection totals.
+      properties:
+        pagination:
+          type: object
+          description: Data about the response, including pagination and collection totals.
+          title: Pagination
+          properties:
+            total:
+              type: integer
+              description: 'Total number of items in the result set.
+
+                '
+              example: 36
+            count:
+              type: integer
+              description: 'Total number of items in the collection response.
+
+                '
+              example: 36
+            per_page:
+              type: integer
+              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+                '
+              example: 50
+            current_page:
+              type: integer
+              description: 'The page you are currently on within the collection.
+
+                '
+              example: 1
+            total_pages:
+              type: integer
+              description: 'The total number of pages in the collection.
+
+                '
+              example: 1
+            links:
+              type: object
+              description: 'Pagination links for the previous and next parts of the whole collection.
+
+                '
+              properties:
+                previous:
+                  type: string
+                  description: 'Link to the previous page returned in the response.
+
+                    '
+                current:
+                  type: string
+                  description: 'Link to the current page returned in the response.
+
+                    '
+                  example: ?page=1&limit=50
+                next:
+                  type: string
+                  description: 'Link to the next page returned in the response.
+
+                    '
+      additionalProperties: true
+      title: Collection Meta
+      x-internal: false
+    MetaFieldCollectionDeleteResponseSuccess:
       type: object
       description: 'Response payload for the BigCommerce API.
 
@@ -1468,14 +1356,64 @@ components:
               '
           example:
           - 123
+          - 124
+          - 125
         errors:
           type: array
-          items:
-            $ref: '#/components/schemas/Error'
+          description: Empty for 200 responses.
+          example: []
         meta:
-          $ref: '#/components/schemas/WriteCollectionPartialSuccessMeta'
+          $ref: '#/components/schemas/WriteCollectionSuccessMeta'
       x-internal: false
-    MetaFieldCollectionResponse_POST_PUT:
+    WriteCollectionSuccessMeta:
+      type: object
+      description: Additional data about the response.
+      properties:
+        total:
+          type: integer
+          description: 'Total number of items in the result set.
+
+            '
+          example: 3
+        success:
+          type: integer
+          description: 'Total number of items that were successfully deleted.
+
+            '
+          example: 3
+        failed:
+          type: integer
+          description: 'Total number of items that failed to be deleted.
+
+            '
+          example: 0
+      title: Collection Meta
+      x-internal: false
+    WriteCollectionPartialSuccessMeta:
+      type: object
+      description: Additional data about the response.
+      properties:
+        total:
+          type: integer
+          description: 'Total number of items in the result set.
+
+            '
+          example: 3
+        success:
+          type: integer
+          description: 'Total number of items that were successfully deleted.
+
+            '
+          example: 1
+        failed:
+          type: integer
+          description: 'Total number of items that failed to be deleted.
+
+            '
+          example: 2
+      title: Collection Meta
+      x-internal: false
+    MetaFieldCollectionResponse_Batch:
       type: object
       description: 'Response payload for the BigCommerce API.
 
@@ -1484,13 +1422,59 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Metafield_2'
-        errors:
-          type: array
-          description: Empty for 200 responses.
-          example: []
+            $ref: '#/components/schemas/Metafield'
         meta:
           $ref: '#/components/schemas/CollectionMeta'
+    MetaFieldCollectionResponsePartialSuccess_POST_PUT:
+      type: object
+      description: 'Response payload for the BigCommerce API.
+
+        '
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Metafield'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+        meta:
+          $ref: '#/components/schemas/WriteCollectionPartialSuccessMeta'
+    Error:
+      type: object
+      description: 'Error response payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          type: integer
+          description: 'The HTTP status code for the error.
+
+            '
+          example: 422
+        title:
+          type: string
+          description: 'The error title.
+
+            '
+          example: Bulk operation has failed
+        type:
+          type: string
+          description: 'The error type.
+
+            '
+          example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+        errors:
+          $ref: '#/components/schemas/ErrorDetail'
+    ErrorDetail:
+      type: object
+      description: 'Error detail response payload for the BigCommerce API.
+
+        '
+      example:
+        '1': Unauthorized to delete
+        '2': Metafield does not exist
     MetafieldBase_Put:
       type: object
       description: 'Common Metafield properties.
@@ -1555,6 +1539,22 @@ components:
           minLength: 0
           maxLength: 255
           example: Name of Staff Member
+    MetaFieldCollectionResponse_POST_PUT:
+      type: object
+      description: 'Response payload for the BigCommerce API.
+
+        '
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Metafield_2'
+        errors:
+          type: array
+          description: Empty for 200 responses.
+          example: []
+        meta:
+          $ref: '#/components/schemas/CollectionMeta'
     Metafield_2:
       type: object
       description: 'Common Metafield properties.
@@ -2119,22 +2119,23 @@ components:
         meta:
           $ref: '#/components/schemas/CollectionMeta'
       x-internal: false
-    MetaFieldCollectionResponse_POST_PUT_5:
-      type: object
-      description: 'Response payload for the BigCommerce API.
+    MetafieldPost:
+      description: 'The model for a POST to create metafield.
 
         '
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Metafield_6'
-        errors:
-          type: array
-          description: Empty for 200 responses.
-          example: []
-        meta:
-          $ref: '#/components/schemas/CollectionMeta'
+      allOf:
+      - $ref: '#/components/schemas/MetafieldBase_Post'
+      - type: object
+        properties:
+          resource_id:
+            type: integer
+            example: 42
+            description: 'The ID for the resource with which the metafield is associated.
+
+              '
+        required:
+        - resource_id
+      x-internal: false
     MetafieldPut:
       description: 'The model for a PUT to create metafield.
 
@@ -2152,33 +2153,22 @@ components:
         required:
         - id
       x-internal: false
-    Error_2:
+    MetaFieldCollectionResponse_POST_PUT_5:
       type: object
-      description: 'Error response payload for the BigCommerce API.
+      description: 'Response payload for the BigCommerce API.
 
         '
       properties:
-        status:
-          type: integer
-          format: int32
-          description: 'The HTTP status code for the error.
-
-            '
-          example: 422
-        title:
-          type: string
-          description: 'The error title describing the particular error.
-
-            '
-          example: Bulk operation has failed
-        type:
-          type: string
-          description: 'The error type.
-
-            '
-          example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Metafield_6'
         errors:
-          $ref: '#/components/schemas/ErrorDetail'
+          type: array
+          description: Empty for 200 responses.
+          example: []
+        meta:
+          $ref: '#/components/schemas/CollectionMeta'
     Metafield_6:
       type: object
       description: 'Common Metafield properties.
@@ -2295,23 +2285,6 @@ components:
       - id
       - date_created
       - date_modified
-    MetafieldPost:
-      description: 'The model for a POST to create metafield.
-
-        '
-      allOf:
-      - $ref: '#/components/schemas/MetafieldBase_Post'
-      - type: object
-        properties:
-          resource_id:
-            type: integer
-            example: 42
-            description: 'The ID for the resource with which the metafield is associated.
-
-              '
-        required:
-        - resource_id
-      x-internal: false
     MetaFieldCollectionResponse_5:
       type: object
       description: 'Response payload for the BigCommerce API.
@@ -2325,23 +2298,33 @@ components:
         meta:
           $ref: '#/components/schemas/CollectionMeta'
       x-internal: false
-    MetaFieldCollectionResponse_POST_PUT_6:
+    Error_2:
       type: object
-      description: 'Response payload for the BigCommerce API.
+      description: 'Error response payload for the BigCommerce API.
 
         '
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Metafield_7'
+        status:
+          type: integer
+          format: int32
+          description: 'The HTTP status code for the error.
+
+            '
+          example: 422
+        title:
+          type: string
+          description: 'The error title describing the particular error.
+
+            '
+          example: Bulk operation has failed
+        type:
+          type: string
+          description: 'The error type.
+
+            '
+          example: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
         errors:
-          type: array
-          description: Empty for 200 responses.
-          example: []
-        meta:
-          $ref: '#/components/schemas/CollectionMeta_2'
-      x-internal: false
+          $ref: '#/components/schemas/ErrorDetail'
     MetafieldBase_Post_2:
       type: object
       description: 'Common Metafield properties.
@@ -2412,68 +2395,22 @@ components:
       - namespace
       - key
       - value
-    CollectionMeta_2:
+    MetaFieldCollectionResponse_POST_PUT_6:
       type: object
-      description: Data about the response, including pagination and collection totals.
+      description: 'Response payload for the BigCommerce API.
+
+        '
       properties:
-        pagination:
-          type: object
-          description: Data about the response, including pagination and collection totals.
-          title: Pagination
-          properties:
-            total:
-              type: integer
-              description: 'Total number of items in the result set.
-
-                '
-              example: 36
-            count:
-              type: integer
-              description: 'Total number of items in the collection response.
-
-                '
-              example: 36
-            per_page:
-              type: integer
-              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
-
-                '
-              example: 50
-            current_page:
-              type: integer
-              description: 'The page you are currently on within the collection.
-
-                '
-              example: 1
-            total_pages:
-              type: integer
-              description: 'The total number of pages in the collection.
-
-                '
-              example: 1
-            links:
-              type: object
-              description: 'Pagination links for the previous and next parts of the whole collection.
-
-                '
-              properties:
-                previous:
-                  type: string
-                  description: 'Link to the previous page returned in the response.
-
-                    '
-                current:
-                  type: string
-                  description: 'Link to the current page returned in the response.
-
-                    '
-                  example: ?page=1&limit=50
-                next:
-                  type: string
-                  description: 'Link to the next page returned in the response.
-
-                    '
-      title: Collection Meta
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Metafield_7'
+        errors:
+          type: array
+          description: Empty for 200 responses.
+          example: []
+        meta:
+          $ref: '#/components/schemas/CollectionMeta_2'
       x-internal: false
     MetafieldBase_2:
       type: object
@@ -2595,6 +2532,69 @@ components:
             readOnly: true
       x-internal: false
       x-examples: {}
+    CollectionMeta_2:
+      type: object
+      description: Data about the response, including pagination and collection totals.
+      properties:
+        pagination:
+          type: object
+          description: Data about the response, including pagination and collection totals.
+          title: Pagination
+          properties:
+            total:
+              type: integer
+              description: 'Total number of items in the result set.
+
+                '
+              example: 36
+            count:
+              type: integer
+              description: 'Total number of items in the collection response.
+
+                '
+              example: 36
+            per_page:
+              type: integer
+              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+                '
+              example: 50
+            current_page:
+              type: integer
+              description: 'The page you are currently on within the collection.
+
+                '
+              example: 1
+            total_pages:
+              type: integer
+              description: 'The total number of pages in the collection.
+
+                '
+              example: 1
+            links:
+              type: object
+              description: 'Pagination links for the previous and next parts of the whole collection.
+
+                '
+              properties:
+                previous:
+                  type: string
+                  description: 'Link to the previous page returned in the response.
+
+                    '
+                current:
+                  type: string
+                  description: 'Link to the current page returned in the response.
+
+                    '
+                  example: ?page=1&limit=50
+                next:
+                  type: string
+                  description: 'Link to the next page returned in the response.
+
+                    '
+      title: Collection Meta
+      x-internal: false
     MetaFieldCollectionResponse_6:
       type: object
       description: 'Response payload for the BigCommerce API.
@@ -2609,53 +2609,10 @@ components:
           $ref: '#/components/schemas/CollectionMeta_2'
       x-internal: false
   parameters:
-    PageParam:
-      name: page
-      description: 'Specifies the page number in a limited (paginated) list of products.
-
-        '
-      required: false
+    MetafieldKeyParam:
+      name: key
       in: query
-      schema:
-        type: integer
-    MetafieldKeyInParam:
-      name: key:in
-      in: query
-      description: Filter based on comma-separated metafieldʼs keys. Could be used with vanilla `key` query parameter.
-      required: false
-      style: form
-      explode: false
-      schema:
-        type: array
-        items:
-          type: string
-    DirectionParam:
-      name: direction
-      description: 'Sort direction. Acceptable values are: `asc`, `desc`.
-
-        '
-      required: false
-      in: query
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-    MetafieldNamespaceInParam:
-      name: namespace:in
-      in: query
-      description: Filter based on comma-separated metafieldʼs namespaces. Could be used with vanilla `namespace` query parameter
-      required: false
-      style: form
-      explode: false
-      schema:
-        type: array
-        items:
-          type: string
-    MetafieldNamespaceParam:
-      name: namespace
-      in: query
-      description: Filter based on a metafieldʼs namespaces.
+      description: Filter based on a metafieldʼs key.
       required: false
       schema:
         type: string
@@ -2668,13 +2625,56 @@ components:
       in: query
       schema:
         type: integer
-    MetafieldKeyParam:
-      name: key
+    MetafieldNamespaceParam:
+      name: namespace
       in: query
-      description: Filter based on a metafieldʼs key.
+      description: Filter based on a metafieldʼs namespaces.
       required: false
       schema:
         type: string
+    DirectionParam:
+      name: direction
+      description: 'Sort direction. Acceptable values are: `asc`, `desc`.
+
+        '
+      required: false
+      in: query
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    MetafieldKeyInParam:
+      name: key:in
+      in: query
+      description: Filter based on comma-separated metafieldʼs keys. Could be used with vanilla `key` query parameter.
+      required: false
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+    PageParam:
+      name: page
+      description: 'Specifies the page number in a limited (paginated) list of products.
+
+        '
+      required: false
+      in: query
+      schema:
+        type: integer
+    MetafieldNamespaceInParam:
+      name: namespace:in
+      in: query
+      description: Filter based on comma-separated metafieldʼs namespaces. Could be used with vanilla `namespace` query parameter
+      required: false
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
     MetafieldNamespaceInParam_2:
       name: namespace:in
       in: query
@@ -2719,6 +2719,22 @@ components:
         type: array
         items:
           type: string
+    MetafieldKeyParam_2:
+      name: key
+      in: query
+      description: 'Filter based on a metafieldʼs key.
+
+        '
+      required: false
+      schema:
+        type: string
+    MetafieldNamespaceParam_2:
+      name: namespace
+      in: query
+      description: Filter based on a metafieldʼs namespace.
+      required: false
+      schema:
+        type: string
     DirectionParam_2:
       name: direction
       description: 'Sort direction. Acceptable values are: `asc`, `desc`.'
@@ -2740,15 +2756,17 @@ components:
         type: array
         items:
           type: string
-    MetafieldNamespaceParam_2:
-      name: namespace
+    MetafieldKeyParam_3:
+      name: key
       in: query
-      description: Filter based on a metafieldʼs namespace.
+      description: 'Filter based on a metafieldʼs key.
+
+        '
       required: false
       schema:
         type: string
-    MetafieldKeyParam_2:
-      name: key
+    MetafieldNamespaceParam_3:
+      name: namespace
       in: query
       description: 'Filter based on a metafieldʼs key.
 
@@ -2767,24 +2785,6 @@ components:
         type: array
         items:
           type: string
-    MetafieldNamespaceParam_3:
-      name: namespace
-      in: query
-      description: 'Filter based on a metafieldʼs key.
-
-        '
-      required: false
-      schema:
-        type: string
-    MetafieldKeyParam_3:
-      name: key
-      in: query
-      description: 'Filter based on a metafieldʼs key.
-
-        '
-      required: false
-      schema:
-        type: string
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

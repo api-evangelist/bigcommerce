@@ -101,52 +101,6 @@ paths:
       tags:
       - Storefront SEO
 components:
-  parameters:
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-  schemas:
-    SEOSettings:
-      type: object
-      properties:
-        meta_description:
-          type: string
-        meta_keywords:
-          type: string
-        page_title:
-          type: string
-        www_redirect:
-          type: string
-          enum:
-          - www
-          - no-www
-          - none
-      x-internal: false
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
   responses:
     422ErrorResp:
       description: '`422 Unprocessable Entity` Provided settings could not be applied for some reason - detailed errors in the response.
@@ -185,6 +139,52 @@ components:
                 status: 422
                 title: JSON data is missing or invalid
                 type: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+  schemas:
+    SEOSettings:
+      type: object
+      properties:
+        meta_description:
+          type: string
+        meta_keywords:
+          type: string
+        page_title:
+          type: string
+        www_redirect:
+          type: string
+          enum:
+          - www
+          - no-www
+          - none
+      x-internal: false
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

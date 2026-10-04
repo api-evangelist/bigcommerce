@@ -107,6 +107,20 @@ components:
         type:
           type: string
       x-internal: false
+    DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      title: Detailed Errors
+      x-internal: false
+    ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - properties:
+          errors:
+            $ref: '#/components/schemas/DetailedErrors'
+        type: object
+      x-internal: false
     MeasurementUnitsSettings:
       type: object
       properties:
@@ -141,20 +155,6 @@ components:
           - depth
           - height
           - width
-    ErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseError'
-      - properties:
-          errors:
-            $ref: '#/components/schemas/DetailedErrors'
-        type: object
-      x-internal: false
-    DetailedErrors:
-      type: object
-      properties: {}
-      additionalProperties: true
-      title: Detailed Errors
-      x-internal: false
   parameters:
     ChannelIdParam:
       description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.

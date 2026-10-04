@@ -185,6 +185,23 @@ components:
         type: string
         default: application/json
   schemas:
+    Activate:
+      description: Request definition for activation endpoint.
+      required:
+      - variation_id
+      properties:
+        variation_id:
+          description: The identifier for the variation to activate.
+          type: string
+        which:
+          description: Which configuration to use.
+          type: string
+          enum:
+          - original
+          - last_activated
+          - last_created
+      title: Activate
+      x-internal: false
     NoContent:
       description: No-content response for the BigCommerce API.
       type: object
@@ -202,23 +219,6 @@ components:
         instance:
           type: string
       title: No Content
-      x-internal: false
-    Activate:
-      description: Request definition for activation endpoint.
-      required:
-      - variation_id
-      properties:
-        variation_id:
-          description: The identifier for the variation to activate.
-          type: string
-        which:
-          description: Which configuration to use.
-          type: string
-          enum:
-          - original
-          - last_activated
-          - last_created
-      title: Activate
       x-internal: false
     JobId:
       description: The job identifier for theme upload or download.

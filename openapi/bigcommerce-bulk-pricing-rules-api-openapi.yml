@@ -315,15 +315,6 @@ paths:
                 description: Error payload for the BigCommerce API.
 components:
   parameters:
-    ProductIdParam:
-      name: product_id
-      in: path
-      description: 'The ID of the `Product` to which the resource belongs.
-
-        '
-      required: true
-      schema:
-        type: integer
     BulkPricingRuleIdParam:
       name: bulk_pricing_rule_id
       description: 'The ID of the `BulkPricingRule`.
@@ -331,6 +322,15 @@ components:
         '
       required: true
       in: path
+      schema:
+        type: integer
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs.
+
+        '
+      required: true
       schema:
         type: integer
     Accept:
@@ -350,12 +350,6 @@ components:
         type: string
         default: application/json
   schemas:
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     bulkPricingRule_Full:
       title: bulkPricingRule_Full
       type: object
@@ -406,6 +400,12 @@ components:
       - quantity_max
       - type
       - amount
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -448,48 +448,6 @@ components:
           default: 0
       required:
       - id
-    ResponseErrorDetailed:
-      type: object
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-        detail:
-          type: string
-      required:
-      - status
-    ResponseErrorBrief:
-      type: object
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-      required:
-      - status
     PageBase:
       type: object
       description: Common Page properties.
@@ -560,6 +518,21 @@ components:
       required:
       - name
       - type
+    PageResponse:
+      description: 'Response payload for the BigCommerce API.
+
+        '
+      x-examples: {}
+      allOf:
+      - properties:
+          data:
+            type: object
+            items:
+              $ref: '#/components/schemas/Page'
+          meta:
+            $ref: '#/components/schemas/ResponseMeta'
+      title: PageResponseObject
+      type: object
     ResponseMeta:
       type: object
       description: 'Data about the response, including pagination and collection totals.
@@ -618,6 +591,73 @@ components:
                   description: 'Link to the next page returned in the response.
 
                     '
+    ResponseErrorDetailed:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+        detail:
+          type: string
+      required:
+      - status
+    ResponseErrorBrief:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+      required:
+      - status
+    ResponseErrorItemized:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      title: ResponseErrorItemized
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+      required:
+      - status
     Page:
       allOf:
       - type: object
@@ -710,52 +750,23 @@ components:
       - $ref: '#/components/schemas/PageBase'
       title: ''
       description: ''
-    ResponseErrorItemized:
-      type: object
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      title: ResponseErrorItemized
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-      required:
-      - status
-    PageResponse:
-      description: 'Response payload for the BigCommerce API.
-
-        '
-      x-examples: {}
-      allOf:
-      - properties:
-          data:
-            type: object
-            items:
-              $ref: '#/components/schemas/Page'
-          meta:
-            $ref: '#/components/schemas/ResponseMeta'
-      title: PageResponseObject
-      type: object
-  responses:
-    HTTP204:
-      description: No content. A 204 response with no payload indicates successful deletion of all specified pages.
   parameters:
+    pageIdPath:
+      schema:
+        type: string
+      name: pageId
+      in: path
+      required: true
+      description: The ID of the page to be operated on.
     Accept:
       name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
       in: header
       required: true
       schema:
@@ -769,20 +780,9 @@ components:
       in: query
       name: include
       description: Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content.
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
-    pageIdPath:
-      schema:
-        type: string
-      name: pageId
-      in: path
-      required: true
-      description: The ID of the page to be operated on.
+  responses:
+    HTTP204:
+      description: No content. A 204 response with no payload indicates successful deletion of all specified pages.
   securitySchemes:
     X-Auth-Token:
       type: apiKey

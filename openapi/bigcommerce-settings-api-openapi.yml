@@ -189,12 +189,44 @@ paths:
       operationId: updateChannelCartSettings
 components:
   schemas:
-    GlobalCartSettingsRequest:
+    CartSettings:
+      description: Represents all settings related to the shopping cart functionality of a store.
+      type: object
+      properties:
+        allow_purchasing:
+          type: boolean
+      x-tags:
+      - Models
+    metaCollection_open:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    ChannelCartSettings:
+      description: Represents all settings overrides related to the shopping cart functionality of a store for a channel.
+      type: object
+      properties:
+        allow_purchasing:
+          type:
+          - boolean
+          - 'null'
+      x-tags:
+      - Models
+    ChannelCartSettingsRequest:
       allOf:
-      - $ref: '#/components/schemas/CartSettings'
-      - description: The request object for updating the cart settings of a store at the global level.
-        required:
-        - allow_purchasing
+      - $ref: '#/components/schemas/ChannelCartSettings'
+      - description: The request object for updating the cart settings overrides of a store for a channel.
+      x-tags:
+      - Models
+    GlobalCartSettingsResponse:
+      description: The response object of cart settings at the global level.
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CartSettings'
+        meta:
+          $ref: '#/components/schemas/metaCollection_open'
       x-tags:
       - Models
     ChannelCartSettingsResponse:
@@ -222,44 +254,12 @@ components:
           type: object
       x-tags:
       - Models
-    metaCollection_open:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ChannelCartSettingsRequest:
+    GlobalCartSettingsRequest:
       allOf:
-      - $ref: '#/components/schemas/ChannelCartSettings'
-      - description: The request object for updating the cart settings overrides of a store for a channel.
-      x-tags:
-      - Models
-    ChannelCartSettings:
-      description: Represents all settings overrides related to the shopping cart functionality of a store for a channel.
-      type: object
-      properties:
-        allow_purchasing:
-          type:
-          - boolean
-          - 'null'
-      x-tags:
-      - Models
-    GlobalCartSettingsResponse:
-      description: The response object of cart settings at the global level.
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/CartSettings'
-        meta:
-          $ref: '#/components/schemas/metaCollection_open'
-      x-tags:
-      - Models
-    CartSettings:
-      description: Represents all settings related to the shopping cart functionality of a store.
-      type: object
-      properties:
-        allow_purchasing:
-          type: boolean
+      - $ref: '#/components/schemas/CartSettings'
+      - description: The request object for updating the cart settings of a store at the global level.
+        required:
+        - allow_purchasing
       x-tags:
       - Models
   parameters:

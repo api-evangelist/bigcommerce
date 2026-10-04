@@ -107,30 +107,23 @@ paths:
       tags:
       - Storefront Search
 components:
-  parameters:
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   schemas:
+    ProductSortEnumValues:
+      description: The available sorts for PLP pages.
+      type: string
+      default: bestselling
+      enum:
+      - featured
+      - bestselling
+      - newest
+      - alphaasc
+      - alphadesc
+      - pricedesc
+      - priceasc
+      - avgcustomerreview
+      - relevance
+      title: ProductSortEnumValues
+      x-internal: false
     StorefrontSearchSettings:
       type: object
       properties:
@@ -149,6 +142,12 @@ components:
       - product_filtering_enabled
       - search_suggest
       x-internal: false
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     ContentSortEnumValues:
       type: string
       default: relevance
@@ -158,28 +157,29 @@ components:
       - alphadesc
       title: ContentSortEnumValues
       x-internal: false
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ProductSortEnumValues:
-      description: The available sorts for PLP pages.
-      type: string
-      default: bestselling
-      enum:
-      - featured
-      - bestselling
-      - newest
-      - alphaasc
-      - alphadesc
-      - pricedesc
-      - priceasc
-      - avgcustomerreview
-      - relevance
-      title: ProductSortEnumValues
-      x-internal: false
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

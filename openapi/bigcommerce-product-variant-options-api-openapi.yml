@@ -1581,7 +1581,127 @@ paths:
           description: ''
           content: {}
 components:
+  parameters:
+    OptionIdParam:
+      name: option_id
+      description: 'The ID of the `Option`.
+
+        '
+      required: true
+      in: path
+      schema:
+        type: integer
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs.
+
+        '
+      required: true
+      schema:
+        type: integer
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
+    productOption_Base:
+      title: productOption_Base
+      type: object
+      properties:
+        id:
+          type:
+          - integer
+          - 'null'
+          description: 'The unique numerical ID of the option, increments sequentially.
+
+            '
+          example: 55
+        product_id:
+          type: integer
+          description: 'The unique numerical ID of the product to which the option belongs.
+
+            '
+          example: 4
+          x-required:
+          - post
+          - put
+        display_name:
+          maxLength: 255
+          minLength: 1
+          type: string
+          description: 'The name of the option shown on the storefront.
+
+            '
+          example: Add-a-$5-Donation1535042499-187
+          x-required:
+          - post
+          - put
+        type:
+          type: string
+          description: 'The type of option, which determines how it will display on the storefront. Acceptable values: `radio_buttons`, `rectangles`, `dropdown`, `product_list`, `product_list_with_images`, `swatch`. For reference, the former v2 API values are: RB = radio_buttons, RT = rectangles, S = dropdown, P = product_list, PI = product_list_with_images, CS = swatch.
+
+            '
+          enum:
+          - radio_buttons
+          - rectangles
+          - dropdown
+          - product_list
+          - product_list_with_images
+          - swatch
+          x-required:
+          - post
+          - put
+        config:
+          $ref: '#/components/schemas/productOptionConfig_Full'
+        sort_order:
+          type: integer
+          description: 'Order in which the option is displayed on the storefront. '
+          example: 1
+        option_values:
+          type: array
+          items:
+            $ref: '#/components/schemas/productOptionOptionValue_Full'
+      description: Common Option properties.
+      x-internal: false
+    productOptionOptionValue_Full:
+      title: productOptionOptionValue_Full
+      description: Product Option `option_value`.
+      allOf:
+      - $ref: '#/components/schemas/productOptionOptionValue_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: 'The unique numeric ID of the value; increments sequentially.
+
+              '
+      x-internal: false
+    productOption_Full:
+      title: productOption_Full
+      allOf:
+      - $ref: '#/components/schemas/productOption_Base'
+      - type: object
+        properties:
+          name:
+            type: string
+            description: 'The unique option name, auto-generated from the display name, a timestamp, and the product ID.
+
+              '
+            example: Add-a-$5-Donation1535042499-187
+      x-internal: false
     productOptionConfig_Full:
       title: productOptionConfig_Full
       type: object
@@ -1741,120 +1861,12 @@ components:
           - package
       description: The values for option config can vary based on the Modifier created.
       x-internal: false
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
-    productOptionOptionValue_Base:
-      title: productOptionOptionValue_Base
-      required:
-      - label
-      - sort_order
-      type: object
-      properties:
-        is_default:
-          type: boolean
-          description: 'The flag for preselecting a value as the default on the storefront. This field is not supported for swatch options/modifiers.
-
-            '
-          example: false
-        label:
-          type: string
-          description: 'The text display identifying the value on the storefront. Required in a /POST.
-
-            '
-          example: Green
-          x-required:
-          - post
-        sort_order:
-          maximum: 2147483647
-          minimum: -2147483648
-          type: integer
-          description: 'The order in which the value will be displayed on the product page. Required in a /POST.
-
-            '
-          example: 0
-          x-required:
-          - post
-        value_data:
-          type:
-          - object
-          - 'null'
-          properties: {}
-          description: 'Extra data describing the value, based on the type of option or modifier with which the value is associated. The `swatch` type option can accept an array of `colors`, with up to three hexidecimal color keys; or an `image_url`, which is a full image URL path including protocol. The `product list` type option requires a `product_id`. The `checkbox` type option requires a boolean flag, called `checked_value`, to determine which value is considered to be the checked state. If no data is available, returns `null`.
-
-            '
-      description: Common Product Option `option_value` properties.
-      x-internal: false
     metaEmpty_Full:
       type: object
       title: Response meta
       properties: {}
       additionalProperties: true
       description: Response metadata.
-    productOption_Base:
-      title: productOption_Base
-      type: object
-      properties:
-        id:
-          type:
-          - integer
-          - 'null'
-          description: 'The unique numerical ID of the option, increments sequentially.
-
-            '
-          example: 55
-        product_id:
-          type: integer
-          description: 'The unique numerical ID of the product to which the option belongs.
-
-            '
-          example: 4
-          x-required:
-          - post
-          - put
-        display_name:
-          maxLength: 255
-          minLength: 1
-          type: string
-          description: 'The name of the option shown on the storefront.
-
-            '
-          example: Add-a-$5-Donation1535042499-187
-          x-required:
-          - post
-          - put
-        type:
-          type: string
-          description: 'The type of option, which determines how it will display on the storefront. Acceptable values: `radio_buttons`, `rectangles`, `dropdown`, `product_list`, `product_list_with_images`, `swatch`. For reference, the former v2 API values are: RB = radio_buttons, RT = rectangles, S = dropdown, P = product_list, PI = product_list_with_images, CS = swatch.
-
-            '
-          enum:
-          - radio_buttons
-          - rectangles
-          - dropdown
-          - product_list
-          - product_list_with_images
-          - swatch
-          x-required:
-          - post
-          - put
-        config:
-          $ref: '#/components/schemas/productOptionConfig_Full'
-        sort_order:
-          type: integer
-          description: 'Order in which the option is displayed on the storefront. '
-          example: 1
-        option_values:
-          type: array
-          items:
-            $ref: '#/components/schemas/productOptionOptionValue_Full'
-      description: Common Option properties.
-      x-internal: false
     pagination_Full:
       title: pagination_Full
       type: object
@@ -1913,67 +1925,55 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-    productOption_Full:
-      title: productOption_Full
-      allOf:
-      - $ref: '#/components/schemas/productOption_Base'
-      - type: object
-        properties:
-          name:
-            type: string
-            description: 'The unique option name, auto-generated from the display name, a timestamp, and the product ID.
+    productOptionOptionValue_Base:
+      title: productOptionOptionValue_Base
+      required:
+      - label
+      - sort_order
+      type: object
+      properties:
+        is_default:
+          type: boolean
+          description: 'The flag for preselecting a value as the default on the storefront. This field is not supported for swatch options/modifiers.
 
-              '
-            example: Add-a-$5-Donation1535042499-187
+            '
+          example: false
+        label:
+          type: string
+          description: 'The text display identifying the value on the storefront. Required in a /POST.
+
+            '
+          example: Green
+          x-required:
+          - post
+        sort_order:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: 'The order in which the value will be displayed on the product page. Required in a /POST.
+
+            '
+          example: 0
+          x-required:
+          - post
+        value_data:
+          type:
+          - object
+          - 'null'
+          properties: {}
+          description: 'Extra data describing the value, based on the type of option or modifier with which the value is associated. The `swatch` type option can accept an array of `colors`, with up to three hexidecimal color keys; or an `image_url`, which is a full image URL path including protocol. The `product list` type option requires a `product_id`. The `checkbox` type option requires a boolean flag, called `checked_value`, to determine which value is considered to be the checked state. If no data is available, returns `null`.
+
+            '
+      description: Common Product Option `option_value` properties.
       x-internal: false
-    productOptionOptionValue_Full:
-      title: productOptionOptionValue_Full
-      description: Product Option `option_value`.
-      allOf:
-      - $ref: '#/components/schemas/productOptionOptionValue_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: 'The unique numeric ID of the value; increments sequentially.
-
-              '
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
       x-internal: false
-  parameters:
-    ProductIdParam:
-      name: product_id
-      in: path
-      description: 'The ID of the `Product` to which the resource belongs.
-
-        '
-      required: true
-      schema:
-        type: integer
-    OptionIdParam:
-      name: option_id
-      description: 'The ID of the `Option`.
-
-        '
-      required: true
-      in: path
-      schema:
-        type: integer
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

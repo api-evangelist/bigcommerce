@@ -88,17 +88,24 @@ paths:
           description: Invalid JWT Token provided or missing JWT token header
           content: {}
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
-    Token_Full:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Token_Base'
-        meta:
-          type: object
-          properties: {}
-          additionalProperties: true
-          description: Response metadata.
     Token_Base:
       type: object
       properties:
@@ -106,24 +113,6 @@ components:
           type: string
           description: JWT Token for accessing the Storefront API
       x-internal: false
-    TokenPostImpersonation:
-      type: object
-      x-internal: false
-      x-examples: {}
-      properties:
-        channel_id:
-          type: integer
-          minimum: 1
-          description: Channel ID for requested token
-          example: 1
-        expires_at:
-          type: integer
-          description: Unix timestamp (UTC time) defining when the token should expire. Supports seconds, but does not support milliseconds, microseconds, or nanoseconds.
-          example: 1885635176
-          minimum: 0
-      required:
-      - channel_id
-      - expires_at
     TokenPostSimple:
       type: object
       properties:
@@ -142,23 +131,34 @@ components:
         example-1:
           allowed_cors_origins:
           - https://www.yourstorefront.com/
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
+    Token_Full:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Token_Base'
+        meta:
+          type: object
+          properties: {}
+          additionalProperties: true
+          description: Response metadata.
+    TokenPostImpersonation:
+      type: object
+      x-internal: false
+      x-examples: {}
+      properties:
+        channel_id:
+          type: integer
+          minimum: 1
+          description: Channel ID for requested token
+          example: 1
+        expires_at:
+          type: integer
+          description: Unix timestamp (UTC time) defining when the token should expire. Supports seconds, but does not support milliseconds, microseconds, or nanoseconds.
+          example: 1885635176
+          minimum: 0
+      required:
+      - channel_id
+      - expires_at
   securitySchemes:
     X-Auth-Token:
       type: apiKey

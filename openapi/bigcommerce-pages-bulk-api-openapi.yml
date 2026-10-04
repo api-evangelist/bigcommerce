@@ -235,27 +235,6 @@ paths:
       summary: BigCommerce Delete Pages
 components:
   parameters:
-    includeQuery:
-      schema:
-        type: string
-        enum:
-        - body
-      in: query
-      name: include
-      description: Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content.
-    pageQuery:
-      schema:
-        type: integer
-      in: query
-      name: page
-      description: The ordered grouping of results to return. See `meta.pagination.current_page` in the response body.
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
     nameLikeQuery:
       schema:
         type: string
@@ -268,26 +247,25 @@ components:
       in: query
       name: name
       description: Name of the page.
-    idInQueryDelete:
+    Accept:
+      name: Accept
+      in: header
+      required: true
       schema:
         type: string
+        default: application/json
+    pageQuery:
+      schema:
+        type: integer
       in: query
-      name: id:in
-      description: 'Request deletion of multiple pages by passing a comma-separated string of corresponding page IDs. Supports bulk operations. '
-      required: true
+      name: page
+      description: The ordered grouping of results to return. See `meta.pagination.current_page` in the response body.
     channelIdQuery:
       schema:
         type: integer
       in: query
       name: channel_id
       description: Return only pages associated with the specified channel.
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
     idInQueryGet:
       schema:
         type: string
@@ -300,20 +278,133 @@ components:
       in: query
       name: limit
       description: The number of results to return per request. See `meta.pagination.per_page` in the response body.
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
+    idInQueryDelete:
+      schema:
+        type: string
+      in: query
+      name: id:in
+      description: 'Request deletion of multiple pages by passing a comma-separated string of corresponding page IDs. Supports bulk operations. '
+      required: true
+    includeQuery:
+      schema:
+        type: string
+        enum:
+        - body
+      in: query
+      name: include
+      description: Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content.
   schemas:
-    searchKeywords:
+    PageBase:
       type: object
+      description: Common Page properties.
       properties:
-        search_keywords:
-          type:
-          - string
-          - 'null'
-          description: 'Comma-separated list of keywords that shoppers can use to locate this page when searching the store.
+        name:
+          type: string
+          description: 'The name of the page. Must be unique.
 
             '
-          example: trousers,pockets,luxury
-          default: '""'
-          readOnly: false
+          minLength: 1
+          maxLength: 100
+          example: My Store Page
+        is_visible:
+          type: boolean
+          description: "Determines the visibility of the page in the storefront’s navigation menu.\n\nBoolean value that specifies the visibility of the page in the storefront’s navigation menu.\n          \nIndicates whether the page is available to users and visible in any menus.\n"
+        parent_id:
+          type: integer
+          description: 'ID of any parent Web page.
+
+            '
+          example: 0
+          default: 0
+        sort_order:
+          type: integer
+          description: 'Determines the order in which the page is displayed on the storefront. (Lower integers specify earlier display.)
+
+            '
+          example: 0
+          default: 0
+        type:
+          type: string
+          description: 'Determines the type of the page.
+
+
+            |Value|Description|
+
+            |-|-|
+
+            | `blog` | blog page. Read-only; blog pages can only be created in the store control panel. |
+
+            |`contact_form`|hosts the store''s contact form|
+
+            |`link`|link to another absolute URL|
+
+            |`page`|user-defined plain-text page|
+
+            |`raw`|page that contains markup, such as HTML.|
+
+            |`rss_feed`|contains syndicated content from an RSS feed|'
+          example: page
+          enum:
+          - page
+          - raw
+          - contact_form
+          - feed
+          - link
+          - blog
+        is_homepage:
+          type: boolean
+          description: 'Determines whether this page is the storefront’s home page.
+
+            '
+        is_customers_only:
+          type: boolean
+          description: 'If `true`, this page will only be visible to customers that are logged in to the store.
+
+            '
+      required:
+      - name
+      - type
+    typeFeed:
+      description: ''
+      allOf:
+      - $ref: '#/components/schemas/anyTypePage'
+      - $ref: '#/components/schemas/pageMeta'
+      - $ref: '#/components/schemas/searchKeywords'
+      - properties:
+          feed:
+            type: string
+            description: 'The URL of the RSS feed. Required in a `POST` request if the page type is `rss_feed`.
+
+              '
+        required:
+        - feed
+    ResponseErrorBrief:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+      required:
+      - status
     Page:
       allOf:
       - type: object
@@ -406,100 +497,6 @@ components:
       - $ref: '#/components/schemas/PageBase'
       title: ''
       description: ''
-    pageMeta:
-      type: object
-      properties:
-        meta_title:
-          type:
-          - string
-          - 'null'
-        meta_keywords:
-          description: 'Comma-separated list of SEO-relevant keywords to include in the element of this page.
-
-            '
-          default: '""'
-          type:
-          - string
-          - 'null'
-        meta_description:
-          type:
-          - string
-          - 'null'
-          default: '""'
-          description: 'Description contained within the element of this page.
-
-            '
-    typeBlog:
-      description: ''
-      allOf:
-      - $ref: '#/components/schemas/anyTypePage'
-      - $ref: '#/components/schemas/pageMeta'
-      - $ref: '#/components/schemas/searchKeywords'
-      - properties:
-          url:
-            type: string
-            description: 'Relative URL on the storefront for this page.
-
-              '
-            example: /blog/
-    ResponseMeta:
-      type: object
-      description: 'Data about the response, including pagination and collection totals.
-
-        '
-      properties:
-        pagination:
-          type: object
-          description: 'Data about the response, including pagination and collection totals.
-
-            '
-          properties:
-            total:
-              type: integer
-              description: 'Total number of items in the result set.
-
-                '
-            count:
-              type: integer
-              description: 'Total number of items in the collection response.
-
-                '
-            per_page:
-              type: integer
-              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
-
-                '
-            current_page:
-              type: integer
-              description: 'The page you are currently on within the collection.
-
-                '
-            total_pages:
-              type: integer
-              description: 'The total number of pages in the collection.
-
-                '
-            links:
-              type: object
-              description: 'Pagination links for the previous and next parts of the whole collection.
-
-                '
-              properties:
-                previous:
-                  type: string
-                  description: 'Link to the previous page returned in the response.
-
-                    '
-                current:
-                  type: string
-                  description: 'Link to the current page returned in the response.
-
-                    '
-                next:
-                  type: string
-                  description: 'Link to the next page returned in the response.
-
-                    '
     ResponseErrorItemized:
       type: object
       description: 'Error payload for the BigCommerce API.
@@ -525,36 +522,6 @@ components:
             type: string
       required:
       - status
-    typeLink:
-      description: ''
-      allOf:
-      - $ref: '#/components/schemas/anyTypePage'
-      - properties:
-          link:
-            type: string
-            description: The link for the page type `link`.
-        required:
-        - link
-    typeRaw:
-      description: ''
-      allOf:
-      - $ref: '#/components/schemas/anyTypePage'
-      - $ref: '#/components/schemas/searchKeywords'
-      - properties:
-          body:
-            type:
-            - string
-            - 'null'
-            description: 'HTML or variable that populates the element of this page, in default/desktop view. Required in a `POST` request if the page type is `raw`.
-
-              '
-            example: <div>Hello World!</div>
-          content_type:
-            type: string
-            description: The MIME type of the page body.
-            example: text/html
-        required:
-        - body
     typePage:
       description: 'Schema for a Pages V3 page with `type: page`
 
@@ -625,48 +592,42 @@ components:
       required:
       - name
       - type
-    ResponseErrorDetailed:
+    pageMeta:
       type: object
-      description: 'Error payload for the BigCommerce API.
-
-        '
       properties:
-        status:
-          description: 'The HTTP status code.
+        meta_title:
+          type:
+          - string
+          - 'null'
+        meta_keywords:
+          description: 'Comma-separated list of SEO-relevant keywords to include in the element of this page.
 
             '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
+          default: '""'
+          type:
+          - string
+          - 'null'
+        meta_description:
+          type:
+          - string
+          - 'null'
+          default: '""'
+          description: 'Description contained within the element of this page.
 
             '
-          type: string
-        type:
-          type: string
-        detail:
-          type: string
-      required:
-      - status
-    ResponseErrorBrief:
+    searchKeywords:
       type: object
-      description: 'Error payload for the BigCommerce API.
-
-        '
       properties:
-        status:
-          description: 'The HTTP status code.
+        search_keywords:
+          type:
+          - string
+          - 'null'
+          description: 'Comma-separated list of keywords that shoppers can use to locate this page when searching the store.
 
             '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-      required:
-      - status
+          example: trousers,pockets,luxury
+          default: '""'
+          readOnly: false
     PagePutBulk:
       type: object
       description: Properties of the page modification request body.
@@ -822,109 +783,6 @@ components:
           default: 0
       required:
       - id
-    PageBase:
-      type: object
-      description: Common Page properties.
-      properties:
-        name:
-          type: string
-          description: 'The name of the page. Must be unique.
-
-            '
-          minLength: 1
-          maxLength: 100
-          example: My Store Page
-        is_visible:
-          type: boolean
-          description: "Determines the visibility of the page in the storefront’s navigation menu.\n\nBoolean value that specifies the visibility of the page in the storefront’s navigation menu.\n          \nIndicates whether the page is available to users and visible in any menus.\n"
-        parent_id:
-          type: integer
-          description: 'ID of any parent Web page.
-
-            '
-          example: 0
-          default: 0
-        sort_order:
-          type: integer
-          description: 'Determines the order in which the page is displayed on the storefront. (Lower integers specify earlier display.)
-
-            '
-          example: 0
-          default: 0
-        type:
-          type: string
-          description: 'Determines the type of the page.
-
-
-            |Value|Description|
-
-            |-|-|
-
-            | `blog` | blog page. Read-only; blog pages can only be created in the store control panel. |
-
-            |`contact_form`|hosts the store''s contact form|
-
-            |`link`|link to another absolute URL|
-
-            |`page`|user-defined plain-text page|
-
-            |`raw`|page that contains markup, such as HTML.|
-
-            |`rss_feed`|contains syndicated content from an RSS feed|'
-          example: page
-          enum:
-          - page
-          - raw
-          - contact_form
-          - feed
-          - link
-          - blog
-        is_homepage:
-          type: boolean
-          description: 'Determines whether this page is the storefront’s home page.
-
-            '
-        is_customers_only:
-          type: boolean
-          description: 'If `true`, this page will only be visible to customers that are logged in to the store.
-
-            '
-      required:
-      - name
-      - type
-    PagesCollectionResponse:
-      description: 'Response payload for the BigCommerce API.
-
-        '
-      type: object
-      title: ''
-      properties:
-        data:
-          type: array
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/typePage'
-            - $ref: '#/components/schemas/typeBlog'
-            - $ref: '#/components/schemas/typeContactForm'
-            - $ref: '#/components/schemas/typeFeed'
-            - $ref: '#/components/schemas/typeRaw'
-            - $ref: '#/components/schemas/typeLink'
-        meta:
-          $ref: '#/components/schemas/ResponseMeta'
-    typeFeed:
-      description: ''
-      allOf:
-      - $ref: '#/components/schemas/anyTypePage'
-      - $ref: '#/components/schemas/pageMeta'
-      - $ref: '#/components/schemas/searchKeywords'
-      - properties:
-          feed:
-            type: string
-            description: 'The URL of the RSS feed. Required in a `POST` request if the page type is `rss_feed`.
-
-              '
-        required:
-        - feed
     typeContactForm:
       description: ''
       allOf:
@@ -957,6 +815,148 @@ components:
 
               '
             example: fullname,companyname,phone,orderno,rma
+    typeRaw:
+      description: ''
+      allOf:
+      - $ref: '#/components/schemas/anyTypePage'
+      - $ref: '#/components/schemas/searchKeywords'
+      - properties:
+          body:
+            type:
+            - string
+            - 'null'
+            description: 'HTML or variable that populates the element of this page, in default/desktop view. Required in a `POST` request if the page type is `raw`.
+
+              '
+            example: <div>Hello World!</div>
+          content_type:
+            type: string
+            description: The MIME type of the page body.
+            example: text/html
+        required:
+        - body
+    ResponseErrorDetailed:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+        detail:
+          type: string
+      required:
+      - status
+    typeLink:
+      description: ''
+      allOf:
+      - $ref: '#/components/schemas/anyTypePage'
+      - properties:
+          link:
+            type: string
+            description: The link for the page type `link`.
+        required:
+        - link
+    PagesCollectionResponse:
+      description: 'Response payload for the BigCommerce API.
+
+        '
+      type: object
+      title: ''
+      properties:
+        data:
+          type: array
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/typePage'
+            - $ref: '#/components/schemas/typeBlog'
+            - $ref: '#/components/schemas/typeContactForm'
+            - $ref: '#/components/schemas/typeFeed'
+            - $ref: '#/components/schemas/typeRaw'
+            - $ref: '#/components/schemas/typeLink'
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+    ResponseMeta:
+      type: object
+      description: 'Data about the response, including pagination and collection totals.
+
+        '
+      properties:
+        pagination:
+          type: object
+          description: 'Data about the response, including pagination and collection totals.
+
+            '
+          properties:
+            total:
+              type: integer
+              description: 'Total number of items in the result set.
+
+                '
+            count:
+              type: integer
+              description: 'Total number of items in the collection response.
+
+                '
+            per_page:
+              type: integer
+              description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+                '
+            current_page:
+              type: integer
+              description: 'The page you are currently on within the collection.
+
+                '
+            total_pages:
+              type: integer
+              description: 'The total number of pages in the collection.
+
+                '
+            links:
+              type: object
+              description: 'Pagination links for the previous and next parts of the whole collection.
+
+                '
+              properties:
+                previous:
+                  type: string
+                  description: 'Link to the previous page returned in the response.
+
+                    '
+                current:
+                  type: string
+                  description: 'Link to the current page returned in the response.
+
+                    '
+                next:
+                  type: string
+                  description: 'Link to the next page returned in the response.
+
+                    '
+    typeBlog:
+      description: ''
+      allOf:
+      - $ref: '#/components/schemas/anyTypePage'
+      - $ref: '#/components/schemas/pageMeta'
+      - $ref: '#/components/schemas/searchKeywords'
+      - properties:
+          url:
+            type: string
+            description: 'Relative URL on the storefront for this page.
+
+              '
+            example: /blog/
   responses:
     HTTP201CreatePages:
       description: "Created.\n\nResponse.data will inherit the datatype of the request. A single entry passed as an object will return an object for the data property. Any number of entries passed in an array will return an array for the data property.\n\nProperties associated with a page `type` that are not required to create an entry will be created with default values. \n\nWhen you make bulk requests, an invalid input in any one entry will return 422. The entries that are valid will still be created."
@@ -975,13 +975,13 @@ components:
                 - $ref: '#/components/schemas/typeLink'
               meta:
                 $ref: '#/components/schemas/ResponseMeta'
-    HTTP204:
-      description: No content. A 204 response with no payload indicates successful deletion of all specified pages.
     HTTP207Response:
       description: Multiple operations have occurred and the status for each operation can be viewed in the body of the response. Typically indicates that a partial failure has occurred, such as when a `POST` or `PUT` request is successful, but saving the URL has failed.
       content:
         application/json:
           schema: {}
+    HTTP204:
+      description: No content. A 204 response with no payload indicates successful deletion of all specified pages.
   securitySchemes:
     X-Auth-Token:
       type: apiKey

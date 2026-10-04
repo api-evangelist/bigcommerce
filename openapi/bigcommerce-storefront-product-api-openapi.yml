@@ -66,42 +66,7 @@ paths:
       tags:
       - Storefront Product
 components:
-  parameters:
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   responses:
-    200-storefront-product-settings:
-      description: OK. `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested
-      content:
-        application/json:
-          examples: {}
-          schema:
-            type: object
-            properties:
-              data:
-                $ref: '#/components/schemas/StorefrontProductSettings'
-              meta:
-                $ref: '#/components/schemas/MetaOpen'
     422ErrorResp:
       description: '`422 Unprocessable Entity` Provided settings could not be applied for some reason - detailed errors in the response.
 
@@ -139,6 +104,18 @@ components:
                 status: 422
                 title: JSON data is missing or invalid
                 type: https://developer.bigcommerce.com/api-docs/getting-started/api-status-codes
+    200-storefront-product-settings:
+      description: OK. `null` indicates that a particular field has not been overridden on a channel level when channel level settings are requested
+      content:
+        application/json:
+          examples: {}
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/StorefrontProductSettings'
+              meta:
+                $ref: '#/components/schemas/MetaOpen'
   schemas:
     StorefrontProductSettings:
       type: object
@@ -224,6 +201,29 @@ components:
       properties: {}
       additionalProperties: true
       description: Response metadata.
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

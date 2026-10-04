@@ -113,29 +113,12 @@ paths:
                     $ref: '#/components/schemas/EmptyMeta'
 components:
   schemas:
-    Url:
+    EmptyMeta:
       type: object
-      properties:
-        url:
-          type: string
-          description: URL of site
-        type:
-          type: string
-          description: URL type
-          enum:
-          - primary
-          - canonical
-          - checkout
-        created_at:
-          type: string
-          example: '2018-01-04T04:15:50.000Z'
-          format: date-time
-          description: The date-time that this URL was created, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
-        updated_at:
-          type: string
-          description: The date-time that this URL was last updated, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
-          example: '2018-01-04T04:15:50.000Z'
-          format: date-time
+      title: Empty meta response.
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     PutCheckoutUrl:
       type: object
       properties:
@@ -182,21 +165,30 @@ components:
         is_checkout_url_customized:
           type: boolean
           description: Indicates whether the channel uses a custom checkout domain. When `false`, the checkout domain falls back to the default channel’s primary URL.
-    EmptyMeta:
+    Url:
       type: object
-      title: Empty meta response.
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
+      properties:
+        url:
+          type: string
+          description: URL of site
+        type:
+          type: string
+          description: URL type
+          enum:
+          - primary
+          - canonical
+          - checkout
+        created_at:
+          type: string
+          example: '2018-01-04T04:15:50.000Z'
+          format: date-time
+          description: The date-time that this URL was created, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
+        updated_at:
+          type: string
+          description: The date-time that this URL was last updated, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
+          example: '2018-01-04T04:15:50.000Z'
+          format: date-time
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     channel_id_path_param:
       name: channel_id
       description: The ID of a channel.
@@ -205,6 +197,14 @@ components:
       schema:
         type: integer
         format: int64
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
     ContentType:
       name: Content-Type
       in: header

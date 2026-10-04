@@ -78,27 +78,6 @@ paths:
       description: Update inventory settings
 components:
   schemas:
-    BaseError:
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      type: object
-      properties:
-        instance:
-          type: string
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-      x-internal: false
     InventorySettings:
       type: object
       properties:
@@ -162,13 +141,26 @@ components:
           description: Describes whether out-of-stock messages are shown on product listing pages.
           default: false
           example: true
-    ErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseError'
-      - properties:
-          errors:
-            $ref: '#/components/schemas/DetailedErrors'
-        type: object
+    BaseError:
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      type: object
+      properties:
+        instance:
+          type: string
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
       x-internal: false
     DetailedErrors:
       type: object
@@ -182,13 +174,15 @@ components:
       properties: {}
       additionalProperties: true
       description: Response metadata.
+    ErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - properties:
+          errors:
+            $ref: '#/components/schemas/DetailedErrors'
+        type: object
+      x-internal: false
   parameters:
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
     Accept:
       name: Accept
       in: header
@@ -205,6 +199,12 @@ components:
       schema:
         type: string
         default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

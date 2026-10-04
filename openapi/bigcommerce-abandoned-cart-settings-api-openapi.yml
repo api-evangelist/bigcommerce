@@ -44,6 +44,15 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       parameters: []
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
     GlobalAbandonedCartSettingsResponse:
       description: The response object of abandoned cart settings at the global level
@@ -55,6 +64,28 @@ components:
           $ref: '#/components/schemas/metaEmpty_Full'
       x-tags:
       - Models
+    ErrorResponse:
+      description: The response object containing details of an error
+      type: object
+      properties:
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+      x-tags:
+      - Models
+    metaEmpty_Full:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     AbandonedCartSettings:
       description: Represents all settings related to the abandoned cart functionality of a store
       type: object
@@ -91,37 +122,6 @@ components:
           type: integer
           minimum: 2
           maximum: 1000
-    metaEmpty_Full:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ErrorResponse:
-      description: The response object containing details of an error
-      type: object
-      properties:
-        status:
-          type: integer
-        title:
-          type: string
-        type:
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-      x-tags:
-      - Models
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

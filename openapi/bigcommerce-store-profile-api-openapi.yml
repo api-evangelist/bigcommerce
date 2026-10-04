@@ -110,6 +110,30 @@ components:
         type:
           type: string
       x-internal: false
+    AddressTypeEnumValues:
+      description: Only supports manipulation on a global level.
+      type: string
+      default: Home Office
+      enum:
+      - Home Office
+      - Commercial Office
+      - Retail
+      - Warehouse
+      title: AddressTypeEnumValues
+      x-tags:
+      - Models
+    DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      title: Detailed Errors
+      x-internal: false
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     ErrorResponse:
       allOf:
       - $ref: '#/components/schemas/BaseError'
@@ -134,37 +158,7 @@ components:
           type: string
         store_phone:
           type: string
-    DetailedErrors:
-      type: object
-      properties: {}
-      additionalProperties: true
-      title: Detailed Errors
-      x-internal: false
-    AddressTypeEnumValues:
-      description: Only supports manipulation on a global level.
-      type: string
-      default: Home Office
-      enum:
-      - Home Office
-      - Commercial Office
-      - Retail
-      - Warehouse
-      title: AddressTypeEnumValues
-      x-tags:
-      - Models
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
   parameters:
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
     Accept:
       name: Accept
       in: header
@@ -181,6 +175,12 @@ components:
       schema:
         type: string
         default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

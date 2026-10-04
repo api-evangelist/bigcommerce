@@ -257,23 +257,6 @@ paths:
       description: Delete a site’s route.
 components:
   responses:
-    ErrorResponse:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              title:
-                type: string
-                description: General error message
-              status:
-                type: string
-                description: HTTP status code
-              errors:
-                $ref: '#/components/schemas/_errors'
-              type:
-                type: string
     siteRoute_Resp:
       description: ''
       content:
@@ -329,57 +312,34 @@ components:
                   0.matching.type: Route already exists for site 1 matching 5 for type product
                   1.matching.type: Route already exists for site 1 matching * for type home
                 status: 422
+    ErrorResponse:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: General error message
+              status:
+                type: string
+                description: HTTP status code
+              errors:
+                $ref: '#/components/schemas/_errors'
+              type:
+                type: string
   schemas:
-    siteRoutes_Route_Base:
-      title: siteRoutes_Route_Base
-      type: object
-      properties:
-        type:
-          type: string
-          description: The type of resource being routed to; [supported types](/docs/rest-management/sites#route-types).
-          enum:
-          - product
-          - brand
-          - category
-          - page
-          - blog
-          - home
-          - cart
-          - checkout
-          - search
-          - account
-          - login
-          - returns
-          - static
-        matching:
-          type: string
-          example: '5'
-          description: 'Depending on the resource type, this can be an ID (matching a specific item), or a "*" wildcard (matching all items of that type).
-
-
-            For example, a route with a type: "product" and matching: "5" will be used for the product with the ID of 5.'
-        route:
-          type: string
-          example: /my-amazing-product
-          description: 'The route template that will be used to generate the URL for the requested resource.
-
-
-            Supports several tokens:
-
-            - `{id}` The **ID** of the requested item.
-
-            - `{slug}` The **slug** for the requested item (if available). Note: the `slug` value may contain `/` slash.
-
-            - `{language}` The **language** string that the client is using.'
-      required:
-      - type
-      - matching
-      - route
-      x-internal: false
-    _errors:
-      type: object
-      description: The keys and values in an errors object will vary depending on the error received.
-      title: _errors
+    siteRoute_Full:
+      title: siteRoute_Full
+      description: Route object used in responses.
+      allOf:
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: Unique ID for this route. Required when updating an existing route.
+      - $ref: '#/components/schemas/siteRoute_Base'
       x-internal: false
     _metaCollection:
       title: metaCollection
@@ -425,39 +385,10 @@ components:
                   description: Query string appended to the resource to show the current page.
                   example: ?limit=1&page=2
       x-internal: false
-    siteRoute_Full:
-      title: siteRoute_Full
-      description: Route object used in responses.
-      allOf:
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: Unique ID for this route. Required when updating an existing route.
-      - $ref: '#/components/schemas/siteRoute_Base'
-      x-internal: false
-    _metaEmpty:
+    _errors:
       type: object
-      properties: {}
-      description: Empty meta object; may be used later.
-      title: _metaEmpty
-      x-internal: false
-    error_Full:
-      type: object
-      title: error_Full
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
+      description: The keys and values in an errors object will vary depending on the error received.
+      title: _errors
       x-internal: false
     siteRoute_Base:
       type: object
@@ -507,6 +438,75 @@ components:
       properties: {}
       additionalProperties: true
       description: Response metadata.
+    _metaEmpty:
+      type: object
+      properties: {}
+      description: Empty meta object; may be used later.
+      title: _metaEmpty
+      x-internal: false
+    siteRoutes_Route_Base:
+      title: siteRoutes_Route_Base
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of resource being routed to; [supported types](/docs/rest-management/sites#route-types).
+          enum:
+          - product
+          - brand
+          - category
+          - page
+          - blog
+          - home
+          - cart
+          - checkout
+          - search
+          - account
+          - login
+          - returns
+          - static
+        matching:
+          type: string
+          example: '5'
+          description: 'Depending on the resource type, this can be an ID (matching a specific item), or a "*" wildcard (matching all items of that type).
+
+
+            For example, a route with a type: "product" and matching: "5" will be used for the product with the ID of 5.'
+        route:
+          type: string
+          example: /my-amazing-product
+          description: 'The route template that will be used to generate the URL for the requested resource.
+
+
+            Supports several tokens:
+
+            - `{id}` The **ID** of the requested item.
+
+            - `{slug}` The **slug** for the requested item (if available). Note: the `slug` value may contain `/` slash.
+
+            - `{language}` The **language** string that the client is using.'
+      required:
+      - type
+      - matching
+      - route
+      x-internal: false
+    error_Full:
+      type: object
+      title: error_Full
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+      x-internal: false
   parameters:
     Accept:
       name: Accept

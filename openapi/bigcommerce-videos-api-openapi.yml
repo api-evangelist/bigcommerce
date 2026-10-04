@@ -549,14 +549,64 @@ paths:
           description: ''
           content: {}
 components:
+  parameters:
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs.
+
+        '
+      required: true
+      schema:
+        type: integer
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    VideoIdParam:
+      name: id
+      description: The BigCommerce ID of the `Video`
+      required: true
+      in: path
+      schema:
+        type: integer
   schemas:
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
+    productVideo_Full:
+      title: productVideo_Full
+      description: 'A product video model.
+
+        '
+      allOf:
+      - $ref: '#/components/schemas/productVideo_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: 'The unique numeric ID of the product video; increments sequentially.
+
+              '
+          product_id:
+            type: integer
+            description: 'The unique numeric identifier for the product with which the image is associated.
+
+              '
+          length:
+            type: string
+            description: 'Length of the video. This will be filled in according to data on a host site.
+
+              '
       x-internal: false
     productVideo_Base:
       title: productVideo_Base
@@ -605,31 +655,6 @@ components:
       properties: {}
       additionalProperties: true
       description: Response metadata.
-    productVideo_Full:
-      title: productVideo_Full
-      description: 'A product video model.
-
-        '
-      allOf:
-      - $ref: '#/components/schemas/productVideo_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: 'The unique numeric ID of the product video; increments sequentially.
-
-              '
-          product_id:
-            type: integer
-            description: 'The unique numeric identifier for the product with which the image is associated.
-
-              '
-          length:
-            type: string
-            description: 'Length of the video. This will be filled in according to data on a host site.
-
-              '
-      x-internal: false
     pagination_Full:
       title: pagination_Full
       type: object
@@ -688,39 +713,14 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-  parameters:
-    ProductIdParam:
-      name: product_id
-      in: path
-      description: 'The ID of the `Product` to which the resource belongs.
-
-        '
-      required: true
-      schema:
-        type: integer
-    VideoIdParam:
-      name: id
-      description: The BigCommerce ID of the `Video`
-      required: true
-      in: path
-      schema:
-        type: integer
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

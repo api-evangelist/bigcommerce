@@ -87,7 +87,29 @@ paths:
                 title: Error Response
       description: Returns a theme *Job*. When the job is complete, the results array provides a generated link to access the theme. The link is active for 60 seconds.
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    JobIdParam:
+      name: job_id
+      description: The job identifier.
+      in: path
+      required: true
+      schema:
+        type: string
   schemas:
+    OpenMeta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     JobResponse:
       type: object
       properties:
@@ -148,28 +170,6 @@ components:
       title: Job Response
       description: Response for /GET Jobs by Id.
       x-internal: false
-    OpenMeta:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-  parameters:
-    JobIdParam:
-      name: job_id
-      description: The job identifier.
-      in: path
-      required: true
-      schema:
-        type: string
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

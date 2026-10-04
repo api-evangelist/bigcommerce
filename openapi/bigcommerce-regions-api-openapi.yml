@@ -43,47 +43,7 @@ paths:
         schema:
           type: string
 components:
-  schemas:
-    themeRegion:
-      properties:
-        name:
-          type: string
-          description: The region name.
-      title: themeRegion
-      x-internal: false
-    Meta:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    error_Base:
-      type: object
-      description: Error payload for the BigCommerce API.
-      properties:
-        status:
-          description: The HTTP status code.
-          type: integer
-        title:
-          description: The error title describing the particular error.
-          type: string
-        type:
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-      x-internal: false
-      title: error_Base
   responses:
-    Error422_Resp:
-      description: 'This is the result of missing required fields, or of invalid data. See the response for more details.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Base'
     Error404_Resp:
       description: The resource was not found.
       content:
@@ -98,6 +58,14 @@ components:
                 type: string
                 instance: string
                 errors: {}
+    Error422_Resp:
+      description: 'This is the result of missing required fields, or of invalid data. See the response for more details.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Base'
     ThemeRegions_Resp:
       description: ''
       content:
@@ -118,6 +86,38 @@ components:
                 - name: header_bottom
                 - name: category_header_banner
                 meta: {}
+  schemas:
+    error_Base:
+      type: object
+      description: Error payload for the BigCommerce API.
+      properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+        title:
+          description: The error title describing the particular error.
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+      x-internal: false
+      title: error_Base
+    Meta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    themeRegion:
+      properties:
+        name:
+          type: string
+          description: The region name.
+      title: themeRegion
+      x-internal: false
   parameters:
     Accept:
       name: Accept

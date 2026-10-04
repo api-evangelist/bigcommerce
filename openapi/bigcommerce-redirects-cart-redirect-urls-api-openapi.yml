@@ -63,15 +63,27 @@ paths:
       summary: BigCommerce Create Cart Redirect URL
       operationId: createCartRedirectURL
 components:
+  schemas:
+    Redirect_urls_Post:
+      type: object
+      title: Redirect_urls_Post
+      properties:
+        query_params:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+    metaCollection_open:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   parameters:
-    cartId:
-      name: cartId
-      in: path
-      description: The identifier of a specific cart.
-      required: true
-      schema:
-        type: string
-        format: UUID
     Accept:
       name: Accept
       in: header
@@ -87,6 +99,14 @@ components:
       schema:
         type: string
         default: application/json
+    cartId:
+      name: cartId
+      in: path
+      description: The identifier of a specific cart.
+      required: true
+      schema:
+        type: string
+        format: UUID
   responses:
     CartRedirectResponse:
       description: ''
@@ -121,26 +141,6 @@ components:
                   embedded_checkout_url: https://store.mybigcommerce.com/cart.php?embedded=1&action=loadInCheckout&id=0aa00afa-a000-00a0-00aae-aa0000f000a0&token=00aaaaa0aa0000000000a000a000f0aa0000afa00aa00afa0a000000000aa0a0
                 meta:
                   $ref: '#/components/schemas/metaCollection_open'
-  schemas:
-    metaCollection_open:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    Redirect_urls_Post:
-      type: object
-      title: Redirect_urls_Post
-      properties:
-        query_params:
-          type: array
-          items:
-            type: object
-            properties:
-              key:
-                type: string
-              value:
-                type: string
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

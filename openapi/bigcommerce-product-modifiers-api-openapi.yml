@@ -1610,78 +1610,6 @@ paths:
           content: {}
 components:
   schemas:
-    productModifierOptionValue_Base:
-      title: productModifierOptionValue_Base
-      required:
-      - label
-      - sort_order
-      type: object
-      properties:
-        is_default:
-          type: boolean
-          description: 'The flag for preselecting a value as the default on the storefront. This field is not supported for swatch options/modifiers.
-
-            '
-          example: false
-        label:
-          type: string
-          description: 'The text display identifying the value on the storefront. Required in a /POST.
-
-            '
-          example: Green
-          x-required:
-          - post
-        sort_order:
-          maximum: 2147483647
-          minimum: -2147483648
-          type: integer
-          description: 'The order in which the value will be displayed on the product page. Required in a /POST.
-
-            '
-          example: 0
-          x-required:
-          - post
-        value_data:
-          type:
-          - object
-          - 'null'
-          properties: {}
-          description: 'Extra data describing the value, based on the type of option or modifier with which the value is associated. The `swatch` type option can accept an array of `colors`, with up to three hexidecimal color keys; or an `image_url`, which is a full image URL path including protocol. The `product list` type option requires a `product_id`. The `checkbox` type option requires a boolean flag, called `checked_value`, to determine which value is considered to be the checked state. If no data is available, returns `null`.
-
-            '
-        adjusters:
-          $ref: '#/components/schemas/adjusters_Full'
-      description: Common Product Modifer `option_value` properties.
-      x-internal: false
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    productModifierOptionValue_Full:
-      title: productModifierOptionValue_Full
-      description: Product Modifer `option_value`.
-      allOf:
-      - $ref: '#/components/schemas/productModifierOptionValue_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: 'The unique numeric ID of the value; increments sequentially.
-
-              '
-          option_id:
-            type: integer
-      x-internal: false
     productModifier_Base:
       title: productModifier_Base
       required:
@@ -1776,6 +1704,85 @@ components:
           example: 5
       description: Adjuster for Complex Rules.
       x-internal: false
+    productModifier_Full:
+      title: productModifier_Full
+      description: Product Modifier
+      allOf:
+      - $ref: '#/components/schemas/productModifier_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: 'The unique numeric ID of the modifier; increments sequentially.
+
+              '
+            example: 12
+          product_id:
+            type: integer
+            description: 'The unique numeric ID of the product to which the option belongs.
+
+              '
+            example: 77
+          name:
+            type: string
+            description: 'The unique option name. Auto-generated from the display name, a timestamp, and the product ID.
+
+              '
+            example: Add-a-$5-Donation1535039590-191
+          option_values:
+            type: array
+            items:
+              $ref: '#/components/schemas/productModifierOptionValue_Full'
+      x-internal: false
+    productModifierOptionValue_Base:
+      title: productModifierOptionValue_Base
+      required:
+      - label
+      - sort_order
+      type: object
+      properties:
+        is_default:
+          type: boolean
+          description: 'The flag for preselecting a value as the default on the storefront. This field is not supported for swatch options/modifiers.
+
+            '
+          example: false
+        label:
+          type: string
+          description: 'The text display identifying the value on the storefront. Required in a /POST.
+
+            '
+          example: Green
+          x-required:
+          - post
+        sort_order:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: 'The order in which the value will be displayed on the product page. Required in a /POST.
+
+            '
+          example: 0
+          x-required:
+          - post
+        value_data:
+          type:
+          - object
+          - 'null'
+          properties: {}
+          description: 'Extra data describing the value, based on the type of option or modifier with which the value is associated. The `swatch` type option can accept an array of `colors`, with up to three hexidecimal color keys; or an `image_url`, which is a full image URL path including protocol. The `product list` type option requires a `product_id`. The `checkbox` type option requires a boolean flag, called `checked_value`, to determine which value is considered to be the checked state. If no data is available, returns `null`.
+
+            '
+        adjusters:
+          $ref: '#/components/schemas/adjusters_Full'
+      description: Common Product Modifer `option_value` properties.
+      x-internal: false
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     config_Full:
       title: config_Full
       type: object
@@ -1993,46 +2000,30 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-    productModifier_Full:
-      title: productModifier_Full
-      description: Product Modifier
+    productModifierOptionValue_Full:
+      title: productModifierOptionValue_Full
+      description: Product Modifer `option_value`.
       allOf:
-      - $ref: '#/components/schemas/productModifier_Base'
+      - $ref: '#/components/schemas/productModifierOptionValue_Base'
       - type: object
         properties:
           id:
             type: integer
-            description: 'The unique numeric ID of the modifier; increments sequentially.
+            description: 'The unique numeric ID of the value; increments sequentially.
 
               '
-            example: 12
-          product_id:
+          option_id:
             type: integer
-            description: 'The unique numeric ID of the product to which the option belongs.
-
-              '
-            example: 77
-          name:
-            type: string
-            description: 'The unique option name. Auto-generated from the display name, a timestamp, and the product ID.
-
-              '
-            example: Add-a-$5-Donation1535039590-191
-          option_values:
-            type: array
-            items:
-              $ref: '#/components/schemas/productModifierOptionValue_Full'
+      x-internal: false
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
       x-internal: false
   parameters:
-    ProductIdParam:
-      name: product_id
-      in: path
-      description: 'The ID of the `Product` to which the resource belongs.
-
-        '
-      required: true
-      schema:
-        type: integer
     ModifierIdParam:
       name: modifier_id
       description: 'The ID of the `Modifier`.
@@ -2040,6 +2031,15 @@ components:
         '
       required: true
       in: path
+      schema:
+        type: integer
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs.
+
+        '
+      required: true
       schema:
         type: integer
     Accept:

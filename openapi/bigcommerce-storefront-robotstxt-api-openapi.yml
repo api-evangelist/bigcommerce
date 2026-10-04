@@ -89,12 +89,6 @@ paths:
       - Storefront Robotstxt
 components:
   parameters:
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
-      schema:
-        type: integer
     Accept:
       name: Accept
       in: header
@@ -111,19 +105,25 @@ components:
       schema:
         type: string
         default: application/json
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
+      schema:
+        type: integer
   schemas:
-    RobotsTxtSettings:
-      type: object
-      properties:
-        robots_txt_ssl:
-          type: string
-      x-internal: false
     MetaOpen:
       title: Response meta
       type: object
       properties: {}
       additionalProperties: true
       description: Response metadata.
+    RobotsTxtSettings:
+      type: object
+      properties:
+        robots_txt_ssl:
+          type: string
+      x-internal: false
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

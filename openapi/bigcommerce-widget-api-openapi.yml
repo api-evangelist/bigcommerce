@@ -178,41 +178,93 @@ paths:
           $ref: '#/components/responses/Error422_Resp'
       description: Deletes a **Widget**.
 components:
+  parameters:
+    WidgetUUID:
+      name: uuid
+      description: The identifier for a specific widget.
+      required: true
+      in: path
+      schema:
+        type: string
+        format: uuid
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
   schemas:
-    widgetSchema:
-      type: array
-      description: 'The schema for the widget’s merchant-facing UI. For more information on the available schema settings, see [Widget UI Schema](/docs/storefront/widgets/input-reference/schema). '
-      title: ''
-      items:
-        anyOf:
-        - $ref: '#/components/schemas/widgetSchemaTab'
-        - $ref: '#/components/schemas/widgetSchemaArray'
-        - $ref: '#/components/schemas/widgetSchemaHidden'
+    widget_Put:
+      title: widget_Put
+      allOf:
+      - $ref: '#/components/schemas/widget_Base'
+      - type: object
+        properties:
+          widget_template_uuid:
+            type: string
+            description: The widget template UUID.
+          channel_id:
+            type: integer
+          upgrade:
+            type: boolean
+            description: Upgrade the Widget to latest version of the WidgetTemplate.
       x-internal: false
-    widget_Post:
-      title: widget_Post
-      x-internal: false
+    widget_Base:
       type: object
+      title: widget_Base
       properties:
         name:
           type: string
-          description: User friendly name.
+          description: The user-friendly name.
         description:
           type: string
           description: The user-friendly description.
         widget_configuration:
           type: object
-          description: The JSON data that populates the template.
           format: json
-        widget_template_uuid:
-          type: string
-          description: The widget template UUID.
-        channel_id:
-          type: integer
-          description: The ID of the channel on which to create this widget. Defaults to the first channel created on the store.
-      required:
-      - name
-      - widget_template_uuid
+          description: The JSON data that populates the template.
+      x-internal: false
+      x-examples: {}
+    widgetTemplate_Full:
+      allOf:
+      - $ref: '#/components/schemas/widgetTemplate_Base'
+      - type: object
+        properties:
+          uuid:
+            type: string
+            format: uuid
+            description: The primary identifier.
+          kind:
+            type: string
+            description: The kind of widget template.
+          date_created:
+            type: string
+            format: date-time
+            description: The date on which this object was initially created.
+          date_modified:
+            type: string
+            format: date-time
+            description: The date on which this object was last updated.
+          current_version_uuid:
+            type: string
+            description: The identifier to the current version of this widget template.
+          icon_name:
+            type: string
+            default: default
+            description: A read-only value. Do not attempt to set or modify this value in a POST or PUT operation.
+      title: widgetTemplate_Full
+      description: ''
+      x-internal: false
     widgetSchemaArray:
       type: object
       title: widgetSchemaArray
@@ -250,18 +302,148 @@ components:
             - $ref: '#/components/schemas/widgetSchemaHidden'
             - $ref: '#/components/schemas/widgetSchemaTab'
       x-internal: false
-    widgetTemplate_Full:
+    Meta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    widgetTemplate_Base:
+      type: object
+      title: widgetTemplate_Base
+      properties:
+        name:
+          type: string
+          description: The user-friendly name.
+        schema:
+          $ref: '#/components/schemas/widgetSchema'
+        template:
+          type: string
+          format: html
+          description: The widget template HTML. Supports Handlebars and Paper helpers.
+        storefront_api_query:
+          type: string
+          description: The GraphQL Storefront API query that provides widget data.
+      description: ''
+      x-internal: false
+    error_Base:
+      type: object
+      description: Error payload for the BigCommerce API.
+      properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+        title:
+          description: The error title describing the particular error.
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+      x-internal: false
+      title: error_Base
+    pagination:
+      type: object
+      description: 'Data about the response, including pagination and collection totals.
+
+        '
+      properties:
+        total:
+          type: integer
+          description: 'Total number of items in the result set.
+
+            '
+        count:
+          type: integer
+          description: 'Total number of items in the collection response.
+
+            '
+        per_page:
+          type: integer
+          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+            '
+        current_page:
+          type: integer
+          description: 'The page you are currently on within the collection.
+
+            '
+        total_pages:
+          type: integer
+          description: 'The total number of pages in the collection.
+
+            '
+        links:
+          type: object
+          description: 'Pagination links for the previous and next parts of the whole collection.
+
+            '
+          properties:
+            previous:
+              type: string
+              description: 'Link to the previous page returned in the response.
+
+                '
+            current:
+              type: string
+              description: 'Link to the current page returned in the response.
+
+                '
+            next:
+              type: string
+              description: 'Link to the next page returned in the response.
+
+                '
+      title: pagination
+      x-internal: false
+    widget_Post:
+      title: widget_Post
+      x-internal: false
+      type: object
+      properties:
+        name:
+          type: string
+          description: User friendly name.
+        description:
+          type: string
+          description: The user-friendly description.
+        widget_configuration:
+          type: object
+          description: The JSON data that populates the template.
+          format: json
+        widget_template_uuid:
+          type: string
+          description: The widget template UUID.
+        channel_id:
+          type: integer
+          description: The ID of the channel on which to create this widget. Defaults to the first channel created on the store.
+      required:
+      - name
+      - widget_template_uuid
+    widgetSchema:
+      type: array
+      description: 'The schema for the widget’s merchant-facing UI. For more information on the available schema settings, see [Widget UI Schema](/docs/storefront/widgets/input-reference/schema). '
+      title: ''
+      items:
+        anyOf:
+        - $ref: '#/components/schemas/widgetSchemaTab'
+        - $ref: '#/components/schemas/widgetSchemaArray'
+        - $ref: '#/components/schemas/widgetSchemaHidden'
+      x-internal: false
+    widget_Full:
+      title: widget_Full
       allOf:
-      - $ref: '#/components/schemas/widgetTemplate_Base'
+      - $ref: '#/components/schemas/widget_Base'
       - type: object
         properties:
           uuid:
             type: string
             format: uuid
             description: The primary identifier.
-          kind:
-            type: string
-            description: The kind of widget template.
+          widget_template:
+            $ref: '#/components/schemas/widgetTemplate_Full'
           date_created:
             type: string
             format: date-time
@@ -270,15 +452,12 @@ components:
             type: string
             format: date-time
             description: The date on which this object was last updated.
-          current_version_uuid:
+          version_uuid:
             type: string
-            description: The identifier to the current version of this widget template.
-          icon_name:
-            type: string
-            default: default
-            description: A read-only value. Do not attempt to set or modify this value in a POST or PUT operation.
-      title: widgetTemplate_Full
-      description: ''
+            description: The identifier of the widget template version associated with this widget.
+          channel_id:
+            type: integer
+            description: The ID of the channel on which this widget exists.
       x-internal: false
     widgetSchemaHidden:
       type: object
@@ -367,21 +546,6 @@ components:
                     type: array
                     description: A single-object array containing a value from the `typeMeta`'s `selectOptions`.
                     items: {}
-    widget_Put:
-      title: widget_Put
-      allOf:
-      - $ref: '#/components/schemas/widget_Base'
-      - type: object
-        properties:
-          widget_template_uuid:
-            type: string
-            description: The widget template UUID.
-          channel_id:
-            type: integer
-          upgrade:
-            type: boolean
-            description: Upgrade the Widget to latest version of the WidgetTemplate.
-      x-internal: false
     widgetSchemaTab:
       type: object
       title: widgetSchemaTab
@@ -486,60 +650,6 @@ components:
                           items: {}
       x-internal: false
       x-examples: {}
-    pagination:
-      type: object
-      description: 'Data about the response, including pagination and collection totals.
-
-        '
-      properties:
-        total:
-          type: integer
-          description: 'Total number of items in the result set.
-
-            '
-        count:
-          type: integer
-          description: 'Total number of items in the collection response.
-
-            '
-        per_page:
-          type: integer
-          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
-
-            '
-        current_page:
-          type: integer
-          description: 'The page you are currently on within the collection.
-
-            '
-        total_pages:
-          type: integer
-          description: 'The total number of pages in the collection.
-
-            '
-        links:
-          type: object
-          description: 'Pagination links for the previous and next parts of the whole collection.
-
-            '
-          properties:
-            previous:
-              type: string
-              description: 'Link to the previous page returned in the response.
-
-                '
-            current:
-              type: string
-              description: 'Link to the current page returned in the response.
-
-                '
-            next:
-              type: string
-              description: 'Link to the next page returned in the response.
-
-                '
-      title: pagination
-      x-internal: false
     metaCollection:
       type: object
       description: Data about the response, including pagination and collection totals.
@@ -548,117 +658,29 @@ components:
         pagination:
           $ref: '#/components/schemas/pagination'
       x-internal: false
-    widgetTemplate_Base:
-      type: object
-      title: widgetTemplate_Base
-      properties:
-        name:
-          type: string
-          description: The user-friendly name.
-        schema:
-          $ref: '#/components/schemas/widgetSchema'
-        template:
-          type: string
-          format: html
-          description: The widget template HTML. Supports Handlebars and Paper helpers.
-        storefront_api_query:
-          type: string
-          description: The GraphQL Storefront API query that provides widget data.
-      description: ''
-      x-internal: false
-    error_Base:
-      type: object
-      description: Error payload for the BigCommerce API.
-      properties:
-        status:
-          description: The HTTP status code.
-          type: integer
-        title:
-          description: The error title describing the particular error.
-          type: string
-        type:
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-      x-internal: false
-      title: error_Base
-    widget_Full:
-      title: widget_Full
-      allOf:
-      - $ref: '#/components/schemas/widget_Base'
-      - type: object
-        properties:
-          uuid:
-            type: string
-            format: uuid
-            description: The primary identifier.
-          widget_template:
-            $ref: '#/components/schemas/widgetTemplate_Full'
-          date_created:
-            type: string
-            format: date-time
-            description: The date on which this object was initially created.
-          date_modified:
-            type: string
-            format: date-time
-            description: The date on which this object was last updated.
-          version_uuid:
-            type: string
-            description: The identifier of the widget template version associated with this widget.
-          channel_id:
-            type: integer
-            description: The ID of the channel on which this widget exists.
-      x-internal: false
-    widget_Base:
-      type: object
-      title: widget_Base
-      properties:
-        name:
-          type: string
-          description: The user-friendly name.
-        description:
-          type: string
-          description: The user-friendly description.
-        widget_configuration:
-          type: object
-          format: json
-          description: The JSON data that populates the template.
-      x-internal: false
-      x-examples: {}
-    Meta:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-  parameters:
-    WidgetUUID:
-      name: uuid
-      description: The identifier for a specific widget.
-      required: true
-      in: path
-      schema:
-        type: string
-        format: uuid
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   responses:
+    Error422_Resp:
+      description: 'This is the result of missing required fields, or of invalid data. See the response for more details.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Base'
+    Error404_Resp:
+      description: The resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_Base'
+          examples:
+            example-1:
+              value:
+                status: 0
+                title: string
+                type: string
+                instance: string
+                errors: {}
     WidgetCollection_Resp:
       description: ''
       content:
@@ -789,28 +811,6 @@ components:
                     template_engine: handlebars_v3
                     uuid: f8459145-da8f-4d98-93e4-83aa47da61c6
                 meta: {}
-    Error422_Resp:
-      description: 'This is the result of missing required fields, or of invalid data. See the response for more details.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Base'
-    Error404_Resp:
-      description: The resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_Base'
-          examples:
-            example-1:
-              value:
-                status: 0
-                title: string
-                type: string
-                instance: string
-                errors: {}
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -125,24 +125,6 @@ paths:
                 type: object
 components:
   schemas:
-    currency_Post:
-      $ref: '#/components/schemas/currency_Base'
-    currency_Full:
-      title: currency_Full
-      allOf:
-      - $ref: '#/components/schemas/currency_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: ID of the currency. Read only.
-            readOnly: true
-            example: 2
-          last_updated:
-            type: string
-            description: Date the currency was last updated, created or modified.
-            format: date-time
-      x-internal: false
     currency_Base:
       title: currency_Base
       required:
@@ -242,6 +224,24 @@ components:
             is_default: false
             last_updated: 2018-06-12 14:41:56+00:00
             enabled: false
+      x-internal: false
+    currency_Post:
+      $ref: '#/components/schemas/currency_Base'
+    currency_Full:
+      title: currency_Full
+      allOf:
+      - $ref: '#/components/schemas/currency_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: ID of the currency. Read only.
+            readOnly: true
+            example: 2
+          last_updated:
+            type: string
+            description: Date the currency was last updated, created or modified.
+            format: date-time
       x-internal: false
   parameters:
     Accept:

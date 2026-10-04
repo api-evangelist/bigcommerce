@@ -275,6 +275,77 @@ paths:
       tags:
       - Attributes
 components:
+  schemas:
+    attribute_Put:
+      title: attribute_Put
+      type: object
+      properties:
+        name:
+          description: Attribute name.
+          type: string
+          minLength: 1
+          maxLength: 255
+        id:
+          description: Attribute ID.
+          type: integer
+          format: int32
+      required:
+      - name
+      - id
+      description: Once the data type is set, it can not be changed. The attribute will need to be deleted then created again with the new data type. This will also delete it from the customer.
+      x-internal: false
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    ErrorResponse:
+      title: Error Response
+      type: object
+      properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+          format: int32
+        title:
+          description: The error title describing the particular error.
+          type: string
+        type:
+          description: A link to a list of BigCommerce API status codes.
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+      x-internal: false
+    attribute_Post:
+      title: attribute_Post
+      example:
+        name: attribute_string 01
+        type: string
+      type: object
+      properties:
+        name:
+          description: Attribute name.
+          type: string
+          minLength: 1
+          maxLength: 255
+        type:
+          title: Type
+          description: 'Attribute type should match one of: string, number, date.'
+          example: string
+          type: string
+          enum:
+          - string
+          - number
+          - date
+      required:
+      - name
+      - type
+      x-internal: false
   responses:
     CustomerAttributesResponse:
       description: ''
@@ -333,77 +404,6 @@ components:
                   date_created: '2018-11-13T21:42:06Z'
                   date_modified: '2018-11-14T16:46:23Z'
                 meta: {}
-  schemas:
-    ErrorResponse:
-      title: Error Response
-      type: object
-      properties:
-        status:
-          description: The HTTP status code.
-          type: integer
-          format: int32
-        title:
-          description: The error title describing the particular error.
-          type: string
-        type:
-          description: A link to a list of BigCommerce API status codes.
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-          additionalProperties:
-            type: string
-      x-internal: false
-    attribute_Put:
-      title: attribute_Put
-      type: object
-      properties:
-        name:
-          description: Attribute name.
-          type: string
-          minLength: 1
-          maxLength: 255
-        id:
-          description: Attribute ID.
-          type: integer
-          format: int32
-      required:
-      - name
-      - id
-      description: Once the data type is set, it can not be changed. The attribute will need to be deleted then created again with the new data type. This will also delete it from the customer.
-      x-internal: false
-    attribute_Post:
-      title: attribute_Post
-      example:
-        name: attribute_string 01
-        type: string
-      type: object
-      properties:
-        name:
-          description: Attribute name.
-          type: string
-          minLength: 1
-          maxLength: 255
-        type:
-          title: Type
-          description: 'Attribute type should match one of: string, number, date.'
-          example: string
-          type: string
-          enum:
-          - string
-          - number
-          - date
-      required:
-      - name
-      - type
-      x-internal: false
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

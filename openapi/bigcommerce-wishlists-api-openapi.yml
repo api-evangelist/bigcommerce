@@ -456,26 +456,6 @@ paths:
                     type: string
 components:
   schemas:
-    wishlistItem_Full:
-      title: wishlistItem_Full
-      type: object
-      properties:
-        id:
-          type: integer
-          description: The ID of the item.
-          format: int32
-          example: 12
-        product_id:
-          type: integer
-          description: The ID of the product.
-          format: int32
-          example: 55
-        variant_id:
-          type: integer
-          description: The variant ID of the product.
-          format: int32
-          example: 22
-      x-internal: false
     wishlist_Post:
       title: wishlist_Post
       required:
@@ -513,6 +493,39 @@ components:
                 format: int32
                 example: 152
       x-internal: false
+    wishlist_Full:
+      title: wishlist_Full
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Wishlist ID, provided after creating a wishlist with a POST.
+          format: int32
+          example: 30
+        customer_id:
+          type: integer
+          description: The ID the customer to which the wishlist belongs.
+          format: int32
+          example: 12
+        name:
+          type: string
+          description: The name of the wishlist.
+          example: Christmas List
+        is_public:
+          type: boolean
+          description: Whether the wishlist is available to the public.
+          example: true
+        token:
+          type: string
+          description: The token of the wishlist. This is created internally within BigCommerce. The wishlist ID is to be used for external apps. Read-Only.
+          format: uuid
+          example: 02d55481-13eb-4d1e-9d79-9062b518570d
+        items:
+          type: array
+          description: Array of wishlist items.
+          items:
+            $ref: '#/components/schemas/wishlistItem_Full'
+      x-internal: false
     pagination:
       title: pagination
       type: object
@@ -538,6 +551,33 @@ components:
           description: The total number of pages in the collection.
           format: int32
       description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    metaCollection:
+      title: metaCollection
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination'
+      x-internal: false
+    wishlistItem_Full:
+      title: wishlistItem_Full
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the item.
+          format: int32
+          example: 12
+        product_id:
+          type: integer
+          description: The ID of the product.
+          format: int32
+          example: 55
+        variant_id:
+          type: integer
+          description: The variant ID of the product.
+          format: int32
+          example: 22
       x-internal: false
     wishlist_Put:
       title: wishlist_Put
@@ -579,52 +619,20 @@ components:
                 format: int32
                 example: 22
       x-internal: false
-    metaCollection:
-      title: metaCollection
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination'
-      x-internal: false
-    wishlist_Full:
-      title: wishlist_Full
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Wishlist ID, provided after creating a wishlist with a POST.
-          format: int32
-          example: 30
-        customer_id:
-          type: integer
-          description: The ID the customer to which the wishlist belongs.
-          format: int32
-          example: 12
-        name:
-          type: string
-          description: The name of the wishlist.
-          example: Christmas List
-        is_public:
-          type: boolean
-          description: Whether the wishlist is available to the public.
-          example: true
-        token:
-          type: string
-          description: The token of the wishlist. This is created internally within BigCommerce. The wishlist ID is to be used for external apps. Read-Only.
-          format: uuid
-          example: 02d55481-13eb-4d1e-9d79-9062b518570d
-        items:
-          type: array
-          description: Array of wishlist items.
-          items:
-            $ref: '#/components/schemas/wishlistItem_Full'
-      x-internal: false
   parameters:
     Accept:
       name: Accept
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
       schema:
         type: string
         default: application/json
@@ -636,14 +644,6 @@ components:
       schema:
         type: integer
         format: int32
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

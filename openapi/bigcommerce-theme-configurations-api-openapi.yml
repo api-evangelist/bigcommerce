@@ -134,114 +134,7 @@ paths:
             schema:
               $ref: '#/components/schemas/themeConfiguration_Write'
 components:
-  parameters:
-    ThemeIdParam:
-      name: uuid
-      description: The theme identifier.
-      in: path
-      required: true
-      schema:
-        type: string
-    LimitParam:
-      name: limit
-      description: 'Controls the number of items per page in a limited (paginated) list of products.
-
-        '
-      required: false
-      in: query
-      schema:
-        type: integer
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    PageParam:
-      name: page
-      description: 'Specifies the page number in a limited (paginated) list.
-
-        '
-      required: false
-      in: query
-      schema:
-        type: integer
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
-  responses:
-    themesConfigurations_RespCollection:
-      description: ''
-      content:
-        application/json:
-          schema:
-            description: 'Response payload for the BigCommerce API.
-
-              '
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/components/schemas/themeConfiguration_Full'
-              meta:
-                $ref: '#/components/schemas/ThemesCollectionMeta'
-          examples:
-            response:
-              value:
-                data:
-                - uuid: in
-                  theme_uuid: amet Ut
-                  variation_id: ut
-                  settings: {}
-                  date_created: ei
-                  site_id: 52736226
-                meta:
-                  pagination:
-                    total: 36
-                    count: 36
-                    per_page: 50
-                    current_page: 1
-                    total_pages: 1
   schemas:
-    ErrorResponse:
-      allOf:
-      - type: object
-        description: 'Error payload for the BigCommerce API.
-
-          '
-        properties:
-          status:
-            description: 'The HTTP status code.
-
-              '
-            type: integer
-          title:
-            description: 'The error title describing the particular error.
-
-              '
-            type: string
-          type:
-            type: string
-          instance:
-            type: string
-        title: Base Error
-      - type: object
-        properties:
-          errors:
-            type: object
-            properties: {}
-            additionalProperties: true
-            title: Detailed Errors
-      title: Error Response
-      x-internal: false
     ThemesCollectionMeta:
       type: object
       description: Data about the response, including pagination and collection totals.
@@ -317,6 +210,113 @@ components:
           description: Site ID to which this configuration belongs. Will be 0 for the original configuration for a Theme.
       title: themeConfiguration_Full
       x-internal: false
+    ErrorResponse:
+      allOf:
+      - type: object
+        description: 'Error payload for the BigCommerce API.
+
+          '
+        properties:
+          status:
+            description: 'The HTTP status code.
+
+              '
+            type: integer
+          title:
+            description: 'The error title describing the particular error.
+
+              '
+            type: string
+          type:
+            type: string
+          instance:
+            type: string
+        title: Base Error
+      - type: object
+        properties:
+          errors:
+            type: object
+            properties: {}
+            additionalProperties: true
+            title: Detailed Errors
+      title: Error Response
+      x-internal: false
+  parameters:
+    ThemeIdParam:
+      name: uuid
+      description: The theme identifier.
+      in: path
+      required: true
+      schema:
+        type: string
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    PageParam:
+      name: page
+      description: 'Specifies the page number in a limited (paginated) list.
+
+        '
+      required: false
+      in: query
+      schema:
+        type: integer
+    LimitParam:
+      name: limit
+      description: 'Controls the number of items per page in a limited (paginated) list of products.
+
+        '
+      required: false
+      in: query
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+  responses:
+    themesConfigurations_RespCollection:
+      description: ''
+      content:
+        application/json:
+          schema:
+            description: 'Response payload for the BigCommerce API.
+
+              '
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/themeConfiguration_Full'
+              meta:
+                $ref: '#/components/schemas/ThemesCollectionMeta'
+          examples:
+            response:
+              value:
+                data:
+                - uuid: in
+                  theme_uuid: amet Ut
+                  variation_id: ut
+                  settings: {}
+                  date_created: ei
+                  site_id: 52736226
+                meta:
+                  pagination:
+                    total: 36
+                    count: 36
+                    per_page: 50
+                    current_page: 1
+                    total_pages: 1
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
