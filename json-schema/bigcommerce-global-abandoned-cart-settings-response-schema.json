@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-global-abandoned-cart-settings-response-schema.json",
+  "title": "GlobalAbandonedCartSettingsResponse",
+  "description": "The response object of abandoned cart settings at the global level",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-abandoned-cart-settings-api-openapi.yml#/components/schemas/GlobalAbandonedCartSettingsResponse",
+  "type": "object",
+  "properties": {
+    "data": {
+      "$ref": "#/$defs/AbandonedCartSettings"
+    },
+    "meta": {
+      "$ref": "#/$defs/metaEmpty_Full"
+    }
+  },
+  "x-tags": [
+    "Models"
+  ],
+  "$defs": {
+    "AbandonedCartSettings": {
+      "description": "Represents all settings related to the abandoned cart functionality of a store",
+      "type": "object",
+      "x-tags": [
+        "Models"
+      ],
+      "properties": {
+        "enable_notification": {
+          "description": "Indicates whether or not abandoned cart notification is on",
+          "type": "boolean"
+        },
+        "email_customer_until_cart_is_recovered": {
+          "description": "Indicates whether or not a customer should continue to receive abandoned cart emails until their cart is recovered",
+          "type": "boolean"
+        },
+        "marketing_emails_require_customer_consent": {
+          "description": "Indicates whether or not a customer should receive abandoned cart emails based on their consent. By default customers will not receive emails.",
+          "type": "boolean"
+        },
+        "email_merchant_when_cart_is_converted": {
+          "description": "Indicates whether or not a merchant should receive a notification email when a cart is converted into an order",
+          "type": "boolean"
+        },
+        "email_merchant_when_cart_is_abandoned": {
+          "description": "Indicates whether or not a merchant should receive a notification email when a cart is abandoned",
+          "type": "boolean"
+        },
+        "merchant_email_address": {
+          "description": "The email address for receiving merchant notifications",
+          "type": "string",
+          "format": "email"
+        },
+        "merchant_abandoned_cart_email_frequency_type": {
+          "description": "Indicates whether to send an email for every abandoned cart, or to send a digest email after X number of abandoned carts",
+          "type": "string",
+          "enum": [
+            "digest",
+            "individual"
+          ]
+        },
+        "merchant_abandoned_cart_digest_email_frequency": {
+          "description": "The number of abandoned carts to accumulate before a digest email is sent to a merchant",
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 1000
+        }
+      }
+    },
+    "metaEmpty_Full": {
+      "title": "Response meta",
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true,
+      "description": "Response metadata."
+    }
+  }
+}

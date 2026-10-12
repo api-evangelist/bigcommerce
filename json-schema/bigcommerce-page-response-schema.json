@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-page-response-schema.json",
+  "title": "PageResponseObject",
+  "description": "Response payload for the BigCommerce API.\n",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-pages-single-api-openapi.yml#/components/schemas/PageResponse",
+  "allOf": [
+    {
+      "properties": {
+        "data": {
+          "type": "object",
+          "items": {
+            "$ref": "#/$defs/Page"
+          }
+        },
+        "meta": {
+          "$ref": "#/$defs/ResponseMeta"
+        }
+      }
+    }
+  ],
+  "type": "object",
+  "$defs": {
+    "Page": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "Applicable when the page type is `contact_form`: contact email address that receives messages sent via the form. Must be unique.",
+              "maxLength": 255,
+              "default": ""
+            },
+            "meta_title": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "body": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "HTML or variable that populates this page’s element, in default/desktop view. Required in a `POST` request if the page type is `raw`.\n"
+            },
+            "feed": {
+              "type": "string",
+              "description": "The URL of the RSS feed. Required in a `POST` request if the page type is `rss_feed`.\n"
+            },
+            "link": {
+              "type": "string",
+              "description": "Required in a `POST` request to create a link if the page type is `link`.\n"
+            },
+            "contact_fields": {
+              "type": "string",
+              "description": "Applicable when the page type is `contact_form`: comma-separated list of keywords representing the fields enabled in the control panel for storefront display. Possible fields include:\n\n|Field|Description|\n|-|-|\n|`fullname`|Full name of the customer submitting the form|\n|`phone`|Customer’s phone number, as submitted on the form|\n|`companyname`|Customer’s submitted company name|\n|`orderno`|Customer’s submitted order number|\n|`rma`|Customer’s submitted RMA (Return Merchandise Authorization) number|\n",
+              "default": ""
+            },
+            "meta_keywords": {
+              "description": "Comma-separated list of SEO-relevant keywords to include in the page’s element.\n",
+              "default": "",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "meta_description": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Description contained within this page’s element.\n"
+            },
+            "search_keywords": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Comma-separated list of keywords that shoppers can use to locate this page when searching the store.\n"
+            },
+            "url": {
+              "type": "string",
+              "description": "Relative URL on the storefront for this page.\n"
+            },
+            "channel_id": {
+              "type": "integer",
+              "description": "The Id of the channel where this page should be shown.\n",
+              "default": 1
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/PageBase"
+        }
+      ],
+      "title": "",
+      "description": ""
+    },
+    "PageBase": {
+      "type": "object",
+      "description": "Common Page properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the page. Must be unique.\n",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "is_visible": {
+          "type": "boolean",
+          "description": "Determines the visibility of the page in the storefront’s navigation menu.\n\nBoolean value that specifies the visibility of the page in the storefront’s navigation menu.\n          \nIndicates whether the page is available to users and visible in any menus.\n"
+        },
+        "parent_id": {
+          "type": "integer",
+          "description": "ID of any parent Web page.\n",
+          "default": 0
+        },
+        "sort_order": {
+          "type": "integer",
+          "description": "Determines the order in which the page is displayed on the storefront. (Lower integers specify earlier display.)\n",
+          "default": 0
+        },
+        "type": {
+          "type": "string",
+          "description": "Determines the type of the page.\n\n|Value|Description|\n|-|-|\n| `blog` | blog page. Read-only; blog pages can only be created in the store control panel. |\n|`contact_form`|hosts the store's contact form|\n|`link`|link to another absolute URL|\n|`page`|user-defined plain-text page|\n|`raw`|page that contains markup, such as HTML.|\n|`rss_feed`|contains syndicated content from an RSS feed|",
+          "enum": [
+            "page",
+            "raw",
+            "contact_form",
+            "feed",
+            "link",
+            "blog"
+          ]
+        },
+        "is_homepage": {
+          "type": "boolean",
+          "description": "Determines whether this page is the storefront’s home page.\n"
+        },
+        "is_customers_only": {
+          "type": "boolean",
+          "description": "If `true`, this page will only be visible to customers that are logged in to the store.\n"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ]
+    },
+    "ResponseMeta": {
+      "type": "object",
+      "description": "Data about the response, including pagination and collection totals.\n",
+      "properties": {
+        "pagination": {
+          "type": "object",
+          "description": "Data about the response, including pagination and collection totals.\n",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "description": "Total number of items in the result set.\n"
+            },
+            "count": {
+              "type": "integer",
+              "description": "Total number of items in the collection response.\n"
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "The amount of items returned in the collection per page, controlled by the limit parameter.\n"
+            },
+            "current_page": {
+              "type": "integer",
+              "description": "The page you are currently on within the collection.\n"
+            },
+            "total_pages": {
+              "type": "integer",
+              "description": "The total number of pages in the collection.\n"
+            },
+            "links": {
+              "type": "object",
+              "description": "Pagination links for the previous and next parts of the whole collection.\n",
+              "properties": {
+                "previous": {
+                  "type": "string",
+                  "description": "Link to the previous page returned in the response.\n"
+                },
+                "current": {
+                  "type": "string",
+                  "description": "Link to the current page returned in the response.\n"
+                },
+                "next": {
+                  "type": "string",
+                  "description": "Link to the next page returned in the response.\n"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

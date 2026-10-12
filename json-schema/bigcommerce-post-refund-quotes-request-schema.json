@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-post-refund-quotes-request-schema.json",
+  "title": "Refund Quotes Request - BATCH",
+  "description": "Request body for batch refund quotes.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-payment-actions-api-openapi.yml#/components/schemas/PostRefundQuotesRequest",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/RefundQuote_Post"
+  },
+  "x-internal": false,
+  "$defs": {
+    "Amount": {
+      "type": "number",
+      "format": "float",
+      "description": "A non-negative 2 decimal place rounded value that represents the amount that can be charged/refunded with payment providers.",
+      "title": "Amount",
+      "x-internal": false
+    },
+    "AmountBoundItem": {
+      "type": "object",
+      "title": "Amount Bound Item",
+      "description": "Amount Bound Item\n\nType of refund item that capture refunding of items in the order that are of type amount.\n* `PRODUCT`\n* `ORDER`\n* `GIFT_WRAPPING`\n* `SHIPPING`\n* `HANDLING`\n* `TAX`",
+      "x-internal": false,
+      "properties": {
+        "item_type": {
+          "type": "string",
+          "enum": [
+            "PRODUCT",
+            "ORDER",
+            "GIFT_WRAPPING",
+            "SHIPPING",
+            "HANDLING",
+            "TAX"
+          ],
+          "description": "Type of refund."
+        },
+        "item_id": {
+          "type": "integer",
+          "description": "Order address ID."
+        },
+        "amount": {
+          "$ref": "#/$defs/Amount"
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "Number of items in refund."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Explanation of refund.",
+          "minLength": 0,
+          "maxLength": 1000
+        }
+      }
+    },
+    "ItemsRefund": {
+      "title": "ItemsRefund",
+      "x-internal": false,
+      "oneOf": [
+        {
+          "$ref": "#/$defs/AmountBoundItem"
+        },
+        {
+          "$ref": "#/$defs/QuantityBoundItem"
+        },
+        {
+          "$ref": "#/$defs/TaxExemptItem"
+        }
+      ]
+    },
+    "QuantityBoundItem": {
+      "type": "object",
+      "title": "Quantity Bound Item",
+      "description": "Quantity Bound Item\n\nType of refund item that capture refunding of items in the order that are of type quantity.\n* `ORDER`\n* `PRODUCT`\n* `GIFT_WRAPPING`\n* `SHIPPING`\n* `HANDLING`\n* `TAX`\n",
+      "properties": {
+        "item_type": {
+          "type": "string",
+          "enum": [
+            "ORDER",
+            "PRODUCT",
+            "GIFT_WRAPPING",
+            "SHIPPING",
+            "HANDLING",
+            "TAX"
+          ],
+          "description": "Type of refund."
+        },
+        "item_id": {
+          "type": "integer",
+          "description": "Order Product ID."
+        },
+        "quantity": {
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Reason for refund.",
+          "minLength": 0,
+          "maxLength": 1000
+        }
+      },
+      "x-internal": false
+    },
+    "RefundQuote_Post": {
+      "type": "object",
+      "title": "RefundQuote_Post",
+      "description": "Request body for refund quotes.",
+      "x-internal": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ItemsRefund"
+          }
+        }
+      },
+      "required": [
+        "items"
+      ]
+    },
+    "TaxExemptItem": {
+      "type": "object",
+      "title": "Tax Exempt (Order Level)",
+      "description": "Use this to refund a custom value at the order level. When `item_type` is set to `ORDER`, tax is not re-calculated.",
+      "x-internal": false,
+      "properties": {
+        "item_type": {
+          "type": "string",
+          "description": "The type of refund. When `item_type` is set to `ORDER`, tax is not re-calculated.",
+          "enum": [
+            "ORDER"
+          ]
+        },
+        "item_id": {
+          "type": "number",
+          "description": "Numeric ID of the product in the order."
+        },
+        "amount": {
+          "$ref": "#/$defs/Amount"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Reason for the refund.",
+          "minLength": 0,
+          "maxLength": 1000
+        }
+      }
+    }
+  }
+}

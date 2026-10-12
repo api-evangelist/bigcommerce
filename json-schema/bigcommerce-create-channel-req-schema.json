@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-create-channel-req-schema.json",
+  "title": "CreateChannelReq",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-channels-api-openapi.yml#/components/schemas/CreateChannelReq",
+  "type": "object",
+  "properties": {
+    "config_meta": {
+      "$ref": "#/$defs/ChannelConfigMeta"
+    },
+    "external_id": {
+      "$ref": "#/$defs/ExternalId"
+    },
+    "is_listable_from_ui": {
+      "$ref": "#/$defs/IsListableFromUI"
+    },
+    "is_visible": {
+      "$ref": "#/$defs/IsVisible"
+    },
+    "status": {
+      "$ref": "#/$defs/ChannelStatus"
+    },
+    "name": {
+      "$ref": "#/$defs/ChannelName"
+    },
+    "type": {
+      "$ref": "#/$defs/ChannelType"
+    },
+    "platform": {
+      "$ref": "#/$defs/ChannelPlatform"
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "platform"
+  ],
+  "x-internal": false,
+  "$defs": {
+    "ChannelConfigMeta": {
+      "type": "object",
+      "description": "Optional channel configuration object.",
+      "x-internal": false,
+      "properties": {
+        "app": {
+          "type": "object",
+          "description": "A [channel app](/docs/integrations/channels#channel-apps) config object for optionally configuring the channelʼs user interface in the control panel.",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The unique `id` given to an app registered in [DevTools](https://devtools.bigcommerce.com/); used to create links to the app in channel manager. `app.id` is optional; however, if youʼre building an app that creates or manages a channel, we recommend including it to ensure the user interface in the control panel works properly. Select partners who are promoted in the Channel Manager must build an app, and include the app ID in the create channel request. [Learn how to find an Appʼs ID](/docs/integrations/apps/guide/id)."
+            },
+            "sections": {
+              "type": "array",
+              "description": "Sections are now deprecated under config_meta. The new /channel-menus endpoints should be used instead. If set, when the app is loaded within the control panel, the navigation `sections` will be directly embedded in the control panel navigation.",
+              "deprecated": true,
+              "items": {
+                "type": "object",
+                "deprecated": true,
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "The title of the navigation section.",
+                    "deprecated": true
+                  },
+                  "query_path": {
+                    "type": "string",
+                    "description": "The value that will be passed to the appʼs iFrame in the URL and will allow the app to display the appropriate section within the app iFrame in the control panel.",
+                    "deprecated": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ChannelName": {
+      "type": "string",
+      "description": "Name of the channel as it will appear in the store control panel. The only characters it can include are Latin alphabet letters, Arabic numerals, dashes, and underscores.",
+      "x-internal": false
+    },
+    "ChannelPlatform": {
+      "type": "string",
+      "description": "The name of the platform for the channel; channel `platform` and `type` must be a [valid combination](/docs/rest-management/channels#status).",
+      "x-internal": false
+    },
+    "ChannelStatus": {
+      "type": "string",
+      "description": "The status of the channel; channel `type`, `platform`, and `status` must be a [valid combination](/docs/rest-management/channels#status). `terminated` is not valid for `PUT` or `POST` requests. `deleted` is not valid for `POST` requests.",
+      "enum": [
+        "active",
+        "prelaunch",
+        "inactive",
+        "connected",
+        "disconnected",
+        "archived",
+        "deleted",
+        "terminated"
+      ],
+      "title": "",
+      "x-internal": false
+    },
+    "ChannelType": {
+      "type": "string",
+      "description": "The type of channel; channel `platform` and `type` must be a [valid combination](/docs/rest-management/channels#status).",
+      "enum": [
+        "pos",
+        "marketplace",
+        "storefront",
+        "marketing"
+      ],
+      "x-internal": false
+    },
+    "ExternalId": {
+      "type": "string",
+      "description": "Associated ID within a system / platform outside of BC.",
+      "x-internal": false
+    },
+    "IsListableFromUI": {
+      "type": "boolean",
+      "description": "Indicates if a channel can create listings from the BigCommerce UI. Default value for this field is based on the channel type and platform combination if not specified on create.",
+      "x-internal": false
+    },
+    "IsVisible": {
+      "type": "boolean",
+      "description": "Indicates if a channel is visible within the BigCommerce merchant admin UI (control panel). If `false`, the channel will not show in Channel Manager nor in any channels dropdown throughout the UI. Default value for this field is `true` if not specified on create.",
+      "x-internal": false
+    }
+  }
+}

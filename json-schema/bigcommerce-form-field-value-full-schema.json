@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-form-field-value-full-schema.json",
+  "title": "formFieldValue_Full",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-form-field-values-api-openapi.yml#/components/schemas/formFieldValue_Full",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/formFieldValue_Customer"
+    },
+    {
+      "$ref": "#/$defs/formFieldValue_Address"
+    }
+  ],
+  "x-internal": false,
+  "$defs": {
+    "formFieldValue_Address": {
+      "title": "Customer Address Form Field Value",
+      "type": "object",
+      "required": [
+        "address_id",
+        "name",
+        "value"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The form field name."
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number",
+              "format": "double"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "address_id": {
+          "type": "integer",
+          "description": "The Customer Address ID."
+        }
+      },
+      "x-internal": false
+    },
+    "formFieldValue_Customer": {
+      "title": "Customer Form Field Value",
+      "type": "object",
+      "required": [
+        "customer_id",
+        "name",
+        "value"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The form field name."
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number",
+              "format": "double"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "customer_id": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

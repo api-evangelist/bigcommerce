@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-category-node-tree-schema.json",
+  "title": "CategoryNodeTree",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-category-trees-api-openapi.yml#/components/schemas/CategoryNodeTree",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CategoryNode"
+      }
+    },
+    "meta": {
+      "$ref": "#/$defs/metaEmpty_Full"
+    }
+  },
+  "$defs": {
+    "CategoryNode": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "parent_id": {
+          "type": "integer"
+        },
+        "depth": {
+          "type": "integer"
+        },
+        "path": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "is_visible": {
+          "type": "boolean"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CategoryNode"
+          }
+        }
+      },
+      "x-tags": [
+        "Models"
+      ]
+    },
+    "metaEmpty_Full": {
+      "type": "object",
+      "title": "Response meta",
+      "properties": {},
+      "additionalProperties": true,
+      "description": "Response metadata."
+    }
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-meta-field-collection-post-put-responses-schema.json",
+  "title": "MetaFieldCollectionPostPutResponses",
+  "description": "Response payload for the BigCommerce API.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-customer-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionPostPutResponses",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Metafield"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "description": "Empty for 200 responses."
+    },
+    "meta": {
+      "$ref": "#/$defs/CollectionMeta"
+    }
+  },
+  "$defs": {
+    "CollectionMeta": {
+      "type": "object",
+      "description": "Data about the response, including pagination and collection totals.",
+      "properties": {
+        "pagination": {
+          "type": "object",
+          "description": "Data about the response, including pagination and collection totals.",
+          "title": "Pagination",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "description": "Total number of items in the result set.\n"
+            },
+            "count": {
+              "type": "integer",
+              "description": "Total number of items in the collection response.\n"
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "The amount of items returned in the collection per page, controlled by the limit parameter.\n"
+            },
+            "current_page": {
+              "type": "integer",
+              "description": "The page you are currently on within the collection.\n"
+            },
+            "total_pages": {
+              "type": "integer",
+              "description": "The total number of pages in the collection.\n"
+            },
+            "links": {
+              "type": "object",
+              "description": "Pagination links for the previous and next parts of the whole collection.\n",
+              "properties": {
+                "previous": {
+                  "type": "string",
+                  "description": "Link to the previous page returned in the response.\n"
+                },
+                "current": {
+                  "type": "string",
+                  "description": "Link to the current page returned in the response.\n"
+                },
+                "next": {
+                  "type": "string",
+                  "description": "Link to the next page returned in the response.\n"
+                }
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": true,
+      "title": "Collection Meta",
+      "x-internal": false
+    },
+    "Metafield": {
+      "type": "object",
+      "description": "Common metafield properties.\n",
+      "properties": {
+        "permission_set": {
+          "type": "string",
+          "description": "Determines the visibility and writeability of the field by other API consumers.\n| Value | Description |\n| : | : |\n| `app_only` | Private to the app that owns the field. |\n| `read` | Visible to other API consumers. |\n| `write` | Open for reading and writing by other API consumers. |\n| `read_and_sf_access` | Visible to other API consumers, including on storefront. |\n| `write_and_sf_access` | Open for reading and writing by other API consumers, including on storefront. |\n",
+          "enum": [
+            "app_only",
+            "read",
+            "write",
+            "read_and_sf_access",
+            "write_and_sf_access"
+          ]
+        },
+        "namespace": {
+          "type": "string",
+          "description": "Namespace for the metafield, for organizational purposes.\n",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "key": {
+          "type": "string",
+          "description": "The name of the field, for example: `location_id`, `color`.\n",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "value": {
+          "type": "string",
+          "description": "The value of the field, for example: `1`, `blue`.\n",
+          "minLength": 1,
+          "maxLength": 65535
+        },
+        "description": {
+          "type": "string",
+          "description": "Description for the metafields.\n",
+          "minLength": 0,
+          "maxLength": 255
+        },
+        "resource_type": {
+          "type": "string",
+          "description": "The type of resource with which the metafield is associated.\n",
+          "enum": [
+            "brand",
+            "product",
+            "variant",
+            "category",
+            "cart",
+            "channel",
+            "location",
+            "order",
+            "customer"
+          ]
+        },
+        "resource_id": {
+          "type": "integer",
+          "description": "The unique identifier for the resource with which the metafield is associated.\n",
+          "readOnly": true
+        },
+        "id": {
+          "type": "integer",
+          "description": "The unique identifier for the metafield."
+        },
+        "date_created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date and time of the metafieldʼs creation."
+        },
+        "date_modified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date and time when the metafield was last updated."
+        },
+        "owner_client_id": {
+          "type": "string",
+          "description": "Client ID for the metafieldʼs creator.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "namespace",
+        "key",
+        "value",
+        "permission_set",
+        "resource_type",
+        "resource_id",
+        "description",
+        "id",
+        "date_created",
+        "date_modified"
+      ],
+      "x-interal": false
+    }
+  }
+}

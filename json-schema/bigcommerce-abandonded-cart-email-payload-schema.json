@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-abandonded-cart-email-payload-schema.json",
+  "title": "AbandondedCartEmailPayload",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-abandoned-cart-emails-api-openapi.yml#/components/schemas/AbandondedCartEmailPayload",
+  "type": "object",
+  "properties": {
+    "is_active": {
+      "type": "boolean"
+    },
+    "coupon_code": {
+      "$ref": "#/$defs/CouponCode"
+    },
+    "notify_at_minutes": {
+      "$ref": "#/$defs/NotifyAtMinutes"
+    },
+    "template": {
+      "$ref": "#/$defs/Template"
+    }
+  },
+  "x-internal": false,
+  "$defs": {
+    "CouponCode": {
+      "title": "Coupon Code Field",
+      "type": "string",
+      "x-internal": false
+    },
+    "NotifyAtMinutes": {
+      "type": "integer",
+      "title": "NotifyAtMinutes",
+      "description": "Describes when this email will be sent, in minutes. Only supports certain intervals described in the enum.",
+      "enum": [
+        60,
+        120,
+        180,
+        240,
+        300,
+        360,
+        420,
+        480,
+        540,
+        600,
+        660,
+        720,
+        780,
+        840,
+        900,
+        960,
+        1020,
+        1080,
+        1140,
+        1200,
+        1260,
+        1320,
+        1380,
+        1440,
+        2880,
+        4320,
+        5760,
+        7200,
+        8640,
+        10080,
+        11520,
+        12960,
+        14400
+      ],
+      "x-internal": false
+    },
+    "Template": {
+      "title": "Template",
+      "type": "object",
+      "properties": {
+        "subject": {
+          "type": "string",
+          "maxLength": 255
+        },
+        "body": {
+          "type": "string"
+        },
+        "translations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TranslationDefinition"
+          }
+        }
+      },
+      "required": [
+        "subject",
+        "body",
+        "translations"
+      ],
+      "x-internal": false
+    },
+    "TranslationDefinition": {
+      "title": "TranslationDefinition",
+      "type": "object",
+      "properties": {
+        "locale": {
+          "type": "string",
+          "description": "Locale code for this language, such as 'en', 'en-us', 'fr-ca'."
+        },
+        "keys": {
+          "type": "object",
+          "description": "Language keys for the template. User-defined. Should match any language keys used in the template.",
+          "properties": {},
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "locale",
+        "keys"
+      ],
+      "x-internal": false
+    }
+  }
+}

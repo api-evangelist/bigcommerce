@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-request-cart-schema.json",
+  "title": "Create Cart Request Object",
+  "description": "Cart object used in create cart requests.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-cart-api-openapi.yml#/components/schemas/requestCart",
+  "oneOf": [
+    {
+      "properties": {
+        "lineItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/requestCartPostLineItem"
+          }
+        },
+        "locale": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "lineItems"
+      ]
+    },
+    {
+      "properties": {
+        "giftCertificates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/requestLineItemGiftCertificate"
+          }
+        },
+        "locale": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "giftCertificates"
+      ]
+    },
+    {
+      "properties": {
+        "lineItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/requestCartPostLineItem"
+          }
+        },
+        "giftCertificates": {
+          "$ref": "#/$defs/requestLineItemGiftCertificate"
+        },
+        "locale": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "lineItems",
+        "giftCertificates"
+      ]
+    }
+  ],
+  "type": "object",
+  "x-internal": false,
+  "$defs": {
+    "requestCartPostLineItem": {
+      "title": "Line Item Request Data",
+      "anyOf": [
+        {
+          "properties": {
+            "productId": {
+              "type": "number",
+              "description": "ID of the product."
+            },
+            "quantity": {
+              "type": "number",
+              "description": "Quantity of this item."
+            },
+            "giftWrapping": {
+              "$ref": "#/$defs/requestPostOrPutGiftWrapping"
+            }
+          },
+          "required": [
+            "productId",
+            "quantity"
+          ],
+          "title": "Simple product"
+        },
+        {
+          "properties": {
+            "productId": {
+              "type": "number",
+              "description": "ID of the product."
+            },
+            "quantity": {
+              "type": "number",
+              "description": "Quantity of this item."
+            },
+            "variantId": {
+              "type": "number",
+              "description": "ID of the variant."
+            },
+            "giftWrapping": {
+              "$ref": "#/$defs/requestPostOrPutGiftWrapping"
+            }
+          },
+          "required": [
+            "productId",
+            "quantity",
+            "variantId"
+          ],
+          "title": "Product with a variant"
+        }
+      ],
+      "x-internal": false,
+      "type": "object"
+    },
+    "requestLineItemGiftCertificate": {
+      "title": "Line Item Gift Certificate Request Data",
+      "required": [
+        "amount",
+        "name",
+        "quantity",
+        "recipient",
+        "sender",
+        "theme"
+      ],
+      "type": "object",
+      "properties": {
+        "amount": {
+          "maximum": 1000,
+          "minimum": 1,
+          "type": "number",
+          "description": "Gift-certificate amount."
+        },
+        "message": {
+          "type": "string",
+          "description": "Message shown to recipient, as provided by sender."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name assigned to this gift-certificate line item."
+        },
+        "quantity": {
+          "minimum": 1,
+          "type": "integer",
+          "description": "Quantity of this item."
+        },
+        "recipient": {
+          "$ref": "#/$defs/requestLineItemGiftCertificateRecipient"
+        },
+        "sender": {
+          "$ref": "#/$defs/requestLineItemGiftCertificateSender"
+        },
+        "theme": {
+          "type": "string",
+          "description": "Currently supports `Birthday`, `Boy`, `Celebration`, `Christmas`, `General`, and `Girl`."
+        }
+      },
+      "x-internal": false
+    },
+    "requestLineItemGiftCertificateRecipient": {
+      "title": "Contact Entity",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Contact's email address.",
+          "format": "email"
+        },
+        "name": {
+          "type": "string",
+          "description": "Contact's name."
+        }
+      },
+      "x-internal": false
+    },
+    "requestLineItemGiftCertificateSender": {
+      "title": "Contact Entity",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Contact's email address.",
+          "format": "email"
+        },
+        "name": {
+          "type": "string",
+          "description": "Contact's name."
+        }
+      },
+      "x-internal": false
+    },
+    "requestPostOrPutGiftWrapping": {
+      "title": "Gift Wrapping Request Data",
+      "required": [
+        "wrapTogether",
+        "wrapDetails"
+      ],
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "if passing null, it will remove the current gift wrapping for the item",
+      "properties": {
+        "wrapTogether": {
+          "type": "boolean",
+          "description": "Boolean value that specifies whether items whether items should be wrapped together or wrapped individually."
+        },
+        "wrapDetails": {
+          "type": "array",
+          "description": "Details for the gift wrapping option selected. This can be specified for each line item or together based on wrapTogether value.\nIf wrapTogether is false, each element in the wrapDetails array determines each item's specific wrapping. \n(e.g if this line item has 6 quantity, you can pass at maximum 6 elements for the array to spefified each one's wrapping)  \nIf wrapTogether is true, we will only use 1st element in the wrapDetails array to determine what to be wrapped",
+          "items": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Identifier of the gift wrapping option selected."
+              },
+              "message": {
+                "type": "string",
+                "description": "Custom gift message."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

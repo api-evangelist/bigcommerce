@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-customs-information-schema.json",
+  "title": "customsInformation",
+  "description": "Data about the customs information object.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-customs-information-api-openapi.yml#/components/schemas/customsInformation",
+  "type": "object",
+  "x-internal": false,
+  "properties": {
+    "product_id": {
+      "description": "The ID of the product which the customs information data will apply to.",
+      "type": "integer",
+      "format": "int32"
+    },
+    "country_of_origin": {
+      "type": "string",
+      "description": "The country of manufacture, production, or growth represented in ISO 3166-1 alpha-2 format."
+    },
+    "commodity_description": {
+      "description": "Description that provides information for customs to identify and verify shapes physical characteristics and packaging of each shipment.",
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 100
+    },
+    "international_shipping": {
+      "description": "Flag to determine whether this product will be shipped internationally.",
+      "type": "boolean",
+      "enum": [
+        true,
+        false
+      ]
+    },
+    "hs_codes": {
+      "$ref": "#/$defs/harmonizedSystemCodes"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Date and time when the customs information was created.",
+      "readOnly": true,
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Date and time when the customs information was last updated.",
+      "readOnly": true,
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "harmonizedSystemCodes": {
+      "title": "harmonizedSystemCodes",
+      "description": "Key-value pairs that are commonly used in the following form:  \n\n`countryISO2: '/^[0-9A-Za-z]{6,14}$/'`\n\nThis key-value pair represents a country and the associated `hs_code` that applies to that country. \n\nYou can also use the `ALL` key in place of an ISO2 key to specify that the `hs_code` applies to all countries. The `ALL` key can be combined with other countries in the `hs_code` object.",
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true,
+      "x-internal": false
+    }
+  }
+}

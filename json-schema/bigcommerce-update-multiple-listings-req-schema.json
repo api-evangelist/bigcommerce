@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-update-multiple-listings-req-schema.json",
+  "title": "UpdateMultipleListingsReq",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-listings-api-openapi.yml#/components/schemas/UpdateMultipleListingsReq",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/UpsertListingWithListingIdReq"
+  },
+  "x-internal": false,
+  "$defs": {
+    "ChannelProductDescription": {
+      "type": "string",
+      "description": "Description of the product for this channel listing specifically. This is an optional field that can be used to override the product description in the catalog.",
+      "x-internal": false
+    },
+    "ChannelProductMultipleVariants": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ChannelProductVariantPartial"
+      },
+      "x-internal": false
+    },
+    "ChannelProductName": {
+      "type": "string",
+      "description": "Name of the product for this channel listing specifically. This is an optional field that can be used to override the product name in the catalog.",
+      "x-internal": false
+    },
+    "ChannelProductVariantDescription": {
+      "type": "string",
+      "description": "Description of the product variant for this channel listing specifically. This is an optional field that can be used to override the description of the product variant in the catalog.",
+      "x-internal": false
+    },
+    "ChannelProductVariantName": {
+      "type": "string",
+      "description": "Name of the product variant for this channel listing specifically. This is an optional field that can be used to override the name of the product variant in the catalog.",
+      "x-internal": false
+    },
+    "ChannelProductVariantPartial": {
+      "type": "object",
+      "description": "Details about a variant of the product for this channel listing.",
+      "properties": {
+        "product_id": {
+          "$ref": "#/$defs/ProductId"
+        },
+        "variant_id": {
+          "$ref": "#/$defs/VariantId"
+        },
+        "external_id": {
+          "$ref": "#/$defs/ExternalId"
+        },
+        "state": {
+          "$ref": "#/$defs/VariantState"
+        },
+        "name": {
+          "$ref": "#/$defs/ChannelProductVariantName"
+        },
+        "description": {
+          "$ref": "#/$defs/ChannelProductVariantDescription"
+        }
+      },
+      "required": [
+        "product_id",
+        "variant_id",
+        "state"
+      ],
+      "x-internal": false
+    },
+    "ExternalId": {
+      "type": "string",
+      "description": "Associated ID within a system / platform outside of BC.",
+      "x-internal": false
+    },
+    "ListingId": {
+      "type": "integer",
+      "format": "int64",
+      "minimum": 1,
+      "description": "The ID of the channel listing that has been created, returned, or updated. In a 422 error, you may receive a response that references the `group_id`. The `group_id` in the Invalid Listing ID example refers to the `listing_id`. Please use `listing_id` instead of `group_id` in the request payload.",
+      "x-internal": false
+    },
+    "ListingState": {
+      "type": "string",
+      "description": "The state of the product assignment or channel listing.",
+      "enum": [
+        "active",
+        "disabled",
+        "error",
+        "pending",
+        "pending_disable",
+        "pending_delete",
+        "partially_rejected",
+        "queued",
+        "rejected",
+        "submitted",
+        "deleted"
+      ],
+      "x-internal": false
+    },
+    "ProductId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The ID of the product associated with this channel listing.",
+      "x-internal": false
+    },
+    "UpsertListingWithListingIdReq": {
+      "type": "object",
+      "description": "Details about assigning a product to a specific channel.",
+      "properties": {
+        "listing_id": {
+          "$ref": "#/$defs/ListingId"
+        },
+        "product_id": {
+          "$ref": "#/$defs/ProductId"
+        },
+        "external_id": {
+          "$ref": "#/$defs/ExternalId"
+        },
+        "state": {
+          "$ref": "#/$defs/ListingState"
+        },
+        "name": {
+          "$ref": "#/$defs/ChannelProductName"
+        },
+        "description": {
+          "$ref": "#/$defs/ChannelProductDescription"
+        },
+        "variants": {
+          "$ref": "#/$defs/ChannelProductMultipleVariants"
+        }
+      },
+      "required": [
+        "listing_id",
+        "product_id",
+        "state",
+        "variants"
+      ],
+      "x-internal": false
+    },
+    "VariantId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The ID of the product variant associated with this channel listing.",
+      "x-internal": false
+    },
+    "VariantState": {
+      "type": "string",
+      "description": "The state of the channel listing variant.",
+      "enum": [
+        "active",
+        "disabled",
+        "error",
+        "pending",
+        "pending_disable",
+        "pending_delete",
+        "queued",
+        "rejected",
+        "submitted",
+        "deleted"
+      ],
+      "x-internal": false
+    }
+  }
+}

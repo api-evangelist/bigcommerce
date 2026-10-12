@@ -1,13 +1,419 @@
-name: BigCommerce Domain Vocabulary
-provider: BigCommerce
-providerId: bigcommerce
-description: Tag-derived vocabulary for the BigCommerce API surface; sourced from openapi/ tags.
-terms:
-- term: Checkout
-- term: Checkout Billing Address
-- term: Checkout Consignments
-- term: Checkout Coupons
-- term: Checkout Discounts
-- term: Checkout Orders
-- term: Checkout Settings
-- term: Checkout Token
+generated: '2026-10-12'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/bigcommerce-abandoned-cart-emails-api-openapi.yml
+- openapi/bigcommerce-abandoned-cart-settings-api-openapi.yml
+- openapi/bigcommerce-abandoned-carts-api-openapi.yml
+- openapi/bigcommerce-abandoned-carts-settings-api-openapi.yml
+- openapi/bigcommerce-active-theme-api-openapi.yml
+vocabulary:
+  name: BigCommerce Domain Vocabulary
+  description: 'Terms declared by BigCommerce''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-12'
+  terms:
+  - term: Placement
+    definition: BigCommerce Placements API Definition.
+    tags:
+    - Resource Group
+    source: openapi/bigcommerce-placement-api-openapi.yml
+  - term: Sites
+    definition: Enables creation and management of external sites (domains) where shoppers shop. Allows for the correct shopping experience to
+      be delivered and maintained (i.e. redirect URLs, email links) when a shopper goes through the purchasing process.
+    tags:
+    - Resource Group
+    source: openapi/bigcommerce-sites-api-openapi.yml
+  - term: Subscribers
+    definition: BigCommerce Customers API Definition.
+    tags:
+    - Resource Group
+    source: openapi/bigcommerce-subscribers-api-openapi.yml
+  - term: Widget Template
+    definition: BigCommerce Widget Templates API Definition.
+    tags:
+    - Resource Group
+    source: openapi/bigcommerce-widget-template-api-openapi.yml
+  - term: Template
+    definition: 'Object declared by the contract with fields: subject, body, translations.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-cart-emails-api-openapi.yml#/components/schemas/Template
+  - term: SaveError
+    definition: 'Object declared by the contract with fields: status, title, type, errors.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-cart-emails-api-openapi.yml#/components/schemas/SaveError
+  - term: Response meta
+    definition: Response metadata.
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-cart-emails-api-openapi.yml#/components/schemas/metaCollection_open
+  - term: AbandondedCartEmailPayload
+    definition: 'Object declared by the contract with fields: is_active, coupon_code, notify_at_minutes, template.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-cart-emails-api-openapi.yml#/components/schemas/AbandondedCartEmailPayload
+  - term: TranslationDefinition
+    definition: 'Object declared by the contract with fields: locale, keys.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-cart-emails-api-openapi.yml#/components/schemas/TranslationDefinition
+  - term: AbandondedCartEmail
+    definition: 'Object declared by the contract with fields: id, notify_at_minutes, coupon_code, template, is_active, sent_num.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-cart-emails-api-openapi.yml#/components/schemas/AbandondedCartEmail
+  - term: NotifyAtMinutes
+    definition: Describes when this email will be sent, in minutes. Only supports certain intervals described in the enum.
+    tags:
+    - Enumeration
+    source: openapi/bigcommerce-abandoned-cart-emails-api-openapi.yml#/components/schemas/NotifyAtMinutes
+  - term: GlobalAbandonedCartSettingsResponse
+    definition: The response object of abandoned cart settings at the global level
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-cart-settings-api-openapi.yml#/components/schemas/GlobalAbandonedCartSettingsResponse
+  - term: ErrorResponse
+    definition: The response object containing details of an error
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-cart-settings-api-openapi.yml#/components/schemas/ErrorResponse
+  - term: Response meta
+    definition: Response metadata.
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-cart-settings-api-openapi.yml#/components/schemas/metaEmpty_Full
+  - term: AbandonedCartSettings
+    definition: Represents all settings related to the abandoned cart functionality of a store
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-cart-settings-api-openapi.yml#/components/schemas/AbandonedCartSettings
+  - term: errorDetailed_Full
+    definition: 'Object declared by the contract with fields: errors.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-carts-api-openapi.yml#/components/schemas/errorDetailed_Full
+  - term: abandonedCartInfo_Full
+    definition: 'Object declared by the contract with fields: cart_id.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-carts-api-openapi.yml#/components/schemas/abandonedCartInfo_Full
+  - term: error_Full
+    definition: 'Object declared by the contract with fields: status, title, type.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-carts-api-openapi.yml#/components/schemas/error_Full
+  - term: ChannelAbandonedCartSettings
+    definition: Represents all settings overrides related to the abandoned cart functionality of a store for a channel
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-carts-settings-api-openapi.yml#/components/schemas/ChannelAbandonedCartSettings
+  - term: ChannelAbandonedCartSettingsResponse
+    definition: The response object of abandoned cart settings overrides for a channel
+    tags:
+    - Object
+    source: openapi/bigcommerce-abandoned-carts-settings-api-openapi.yml#/components/schemas/ChannelAbandonedCartSettingsResponse
+  - term: Error
+    definition: Error response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-active-theme-api-openapi.yml#/components/schemas/Error
+  - term: Empty meta response.
+    definition: Response metadata.
+    tags:
+    - Object
+    source: openapi/bigcommerce-active-theme-api-openapi.yml#/components/schemas/EmptyMeta
+  - term: ErrorDetail
+    definition: Error detail response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-active-theme-api-openapi.yml#/components/schemas/ErrorDetail
+  - term: ActiveTheme
+    definition: Details about the Channelʼs relationship to Themes.
+    tags:
+    - Object
+    source: openapi/bigcommerce-active-theme-api-openapi.yml#/components/schemas/ActiveTheme
+  - term: address_Put
+    definition: 'Object declared by the contract with fields: first_name, last_name, company, address1, address2, city, state_or_province, postal_code,
+      country_code, phone, address_type, id. (1 more)'
+    tags:
+    - Object
+    source: openapi/bigcommerce-addresses-api-openapi.yml#/components/schemas/address_Put
+  - term: _metaCollection
+    definition: Data about the response, including pagination and collection totals.
+    tags:
+    - Object
+    source: openapi/bigcommerce-addresses-api-openapi.yml#/components/schemas/_metaCollection
+  - term: Links
+    definition: Pagination links for the previous and next parts of the whole collection.
+    tags:
+    - Object
+    source: openapi/bigcommerce-addresses-api-openapi.yml#/components/schemas/Links
+  - term: Customer Form Field Value
+    definition: 'Object declared by the contract with fields: name, value, customer_id.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-addresses-api-openapi.yml#/components/schemas/formFieldValue_Customer
+  - term: address_Post
+    definition: 'Object declared by the contract with fields: first_name, last_name, company, address1, address2, city, state_or_province, postal_code,
+      country_code, phone, address_type, customer_id. (1 more)'
+    tags:
+    - Object
+    source: openapi/bigcommerce-addresses-api-openapi.yml#/components/schemas/address_Post
+  - term: Customer Address Form Field Value
+    definition: 'Object declared by the contract with fields: name, value, address_id.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-addresses-api-openapi.yml#/components/schemas/formFieldValue_Address
+  - term: Pagination
+    definition: Data about the response, including pagination and collection totals.
+    tags:
+    - Object
+    source: openapi/bigcommerce-addresses-api-openapi.yml#/components/schemas/Pagination
+  - term: Response meta
+    definition: Response metadata.
+    tags:
+    - Object
+    source: openapi/bigcommerce-addresses-api-openapi.yml#/components/schemas/MetaOpen
+  - term: Generic Form Field Value
+    definition: 'Object declared by the contract with fields: name, value.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-addresses-api-openapi.yml#/components/schemas/formFieldValue
+  - term: ErrorResponse404
+    definition: 'Object declared by the contract with fields: schema.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-analytics-api-openapi.yml#/components/schemas/ErrorResponse404
+  - term: ErrorResponse400
+    definition: 'Object declared by the contract with fields: schema.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-analytics-api-openapi.yml#/components/schemas/ErrorResponse400
+  - term: AnalyticsProvider
+    definition: 'Object declared by the contract with fields: code, enabled, id, name.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-analytics-api-openapi.yml#/components/schemas/AnalyticsProvider
+  - term: ErrorResponse422
+    definition: 'Object declared by the contract with fields: schema.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-analytics-api-openapi.yml#/components/schemas/ErrorResponse422
+  - term: ErrorResponse409
+    definition: 'Object declared by the contract with fields: schema.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-analytics-api-openapi.yml#/components/schemas/ErrorResponse409
+  - term: Token_Base
+    definition: 'Object declared by the contract with fields: token.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-api-token-api-openapi.yml#/components/schemas/Token_Base
+  - term: TokenPostSimple
+    definition: 'Object declared by the contract with fields: allowed_cors_origins.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-api-token-api-openapi.yml#/components/schemas/TokenPostSimple
+  - term: Token_Full
+    definition: 'Object declared by the contract with fields: data, meta.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-api-token-api-openapi.yml#/components/schemas/Token_Full
+  - term: TokenPostImpersonation
+    definition: 'Object declared by the contract with fields: channel_id, expires_at.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-api-token-api-openapi.yml#/components/schemas/TokenPostImpersonation
+  - term: attributeValue_Base
+    definition: 'Object declared by the contract with fields: id, attribute_id, value, customer_id.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-attribute-values-api-openapi.yml#/components/schemas/attributeValue_Base
+  - term: attribute_Put
+    definition: Once the data type is set, it can not be changed. The attribute will need to be deleted then created again with the new data type.
+      This will also delete it from the customer.
+    tags:
+    - Object
+    source: openapi/bigcommerce-attributes-api-openapi.yml#/components/schemas/attribute_Put
+  - term: attribute_Post
+    definition: 'Object declared by the contract with fields: name, type.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-attributes-api-openapi.yml#/components/schemas/attribute_Post
+  - term: banner_Base
+    definition: 'Object declared by the contract with fields: name, content, page, location, date_type, date_from, date_to, visible, item_id.'
+    tags:
+    - Object
+    source: openapi/bigcommerce-banners-api-openapi.yml#/components/schemas/banner_Base
+  - term: MetaFieldCollectionResponsePartialSuccess_DELETE
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponsePartialSuccess_DELETE
+  - term: MetaFieldCollectionResponse_Batch_POST_PUT
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponse_Batch_POST_PUT
+  - term: MetafieldBase_Post
+    definition: Common Metafield properties.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetafieldBase_Post
+  - term: MetafieldBase
+    definition: Common Metafield properties.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetafieldBase
+  - term: Metafield
+    definition: Allows app partners to write custom data to various resources in the API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/Metafield
+  - term: Collection Meta
+    definition: Data about the response, including pagination and collection totals.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/CollectionMeta
+  - term: MetaFieldCollectionDeleteResponseSuccess
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionDeleteResponseSuccess
+  - term: Collection Meta
+    definition: Additional data about the response.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/WriteCollectionSuccessMeta
+  - term: Collection Meta
+    definition: Additional data about the response.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/WriteCollectionPartialSuccessMeta
+  - term: MetaFieldCollectionResponse_Batch
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponse_Batch
+  - term: MetaFieldCollectionResponsePartialSuccess_POST_PUT
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponsePartialSuccess_POST_PUT
+  - term: MetafieldBase_Put
+    definition: Common Metafield properties.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetafieldBase_Put
+  - term: MetaFieldCollectionResponse_POST_PUT
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponse_POST_PUT
+  - term: Metafield_2
+    definition: Common Metafield properties.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/Metafield_2
+  - term: MetaFieldCollectionResponse
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponse
+  - term: MetaFieldCollectionResponse_POST_PUT_2
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponse_POST_PUT_2
+  - term: Metafield_3
+    definition: Common Metafield properties.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/Metafield_3
+  - term: MetaFieldCollectionResponse_2
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponse_2
+  - term: MetaFieldCollectionResponse_POST_PUT_3
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponse_POST_PUT_3
+  - term: Metafield_4
+    definition: Common Metafield properties.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/Metafield_4
+  - term: MetaFieldCollectionResponse_3
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponse_3
+  - term: MetaFieldCollectionResponse_POST_PUT_4
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponse_POST_PUT_4
+  - term: Metafield_5
+    definition: Common Metafield properties.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/Metafield_5
+  - term: MetaFieldCollectionResponse_4
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponse_4
+  - term: MetafieldPost
+    definition: The model for a POST to create metafield.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetafieldPost
+  - term: MetafieldPut
+    definition: The model for a PUT to create metafield.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetafieldPut
+  - term: MetaFieldCollectionResponse_POST_PUT_5
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponse_POST_PUT_5
+  - term: Metafield_6
+    definition: Common Metafield properties.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/Metafield_6
+  - term: MetaFieldCollectionResponse_5
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponse_5
+  - term: Error_2
+    definition: Error response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/Error_2
+  - term: MetafieldBase_Post_2
+    definition: Common Metafield properties.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetafieldBase_Post_2
+  - term: MetaFieldCollectionResponse_POST_PUT_6
+    definition: Response payload for the BigCommerce API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetaFieldCollectionResponse_POST_PUT_6
+  - term: MetafieldBase_2
+    definition: Common Metafield properties.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/MetafieldBase_2
+  - term: Metafield_7
+    definition: Allows app partners to write custom data to various resources in the API.
+    tags:
+    - Object
+    source: openapi/bigcommerce-batch-metafields-api-openapi.yml#/components/schemas/Metafield_7

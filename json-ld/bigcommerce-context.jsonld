@@ -1,0 +1,835 @@
+{
+  "@context": {
+    "@vocab": "https://bigcommerce.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "bigcommerce": "https://bigcommerce.com/schema#",
+    "Template": "bigcommerce:Template",
+    "subject": {
+      "@id": "bigcommerce:subject",
+      "@type": "xsd:string"
+    },
+    "body": {
+      "@id": "bigcommerce:body",
+      "@type": "xsd:string"
+    },
+    "translations": {
+      "@id": "bigcommerce:translations",
+      "@container": "@list"
+    },
+    "SaveError": "bigcommerce:SaveError",
+    "status": {
+      "@id": "bigcommerce:status",
+      "@type": "xsd:integer"
+    },
+    "title": {
+      "@id": "bigcommerce:title",
+      "@type": "xsd:string"
+    },
+    "type": {
+      "@id": "bigcommerce:type",
+      "@type": "xsd:string"
+    },
+    "errors": {
+      "@id": "bigcommerce:errors",
+      "@container": "@list"
+    },
+    "AbandondedCartEmailPayload": "bigcommerce:AbandondedCartEmailPayload",
+    "is_active": {
+      "@id": "bigcommerce:is_active",
+      "@type": "xsd:boolean"
+    },
+    "coupon_code": {
+      "@id": "bigcommerce:coupon_code",
+      "@type": "@id"
+    },
+    "notify_at_minutes": {
+      "@id": "bigcommerce:notify_at_minutes",
+      "@type": "@id"
+    },
+    "template": {
+      "@id": "bigcommerce:template",
+      "@type": "@id"
+    },
+    "TranslationDefinition": "bigcommerce:TranslationDefinition",
+    "locale": {
+      "@id": "bigcommerce:locale",
+      "@type": "xsd:string"
+    },
+    "keys": {
+      "@id": "bigcommerce:keys"
+    },
+    "AbandondedCartEmail": "bigcommerce:AbandondedCartEmail",
+    "id": {
+      "@id": "bigcommerce:id",
+      "@type": "xsd:integer"
+    },
+    "sent_num": {
+      "@id": "bigcommerce:sent_num",
+      "@type": "xsd:integer"
+    },
+    "NotifyAtMinutes": "bigcommerce:NotifyAtMinutes",
+    "GlobalAbandonedCartSettingsResponse": "bigcommerce:GlobalAbandonedCartSettingsResponse",
+    "data": {
+      "@id": "bigcommerce:data",
+      "@type": "@id"
+    },
+    "meta": {
+      "@id": "bigcommerce:meta",
+      "@type": "@id"
+    },
+    "ErrorResponse": "bigcommerce:ErrorResponse",
+    "instance": {
+      "@id": "bigcommerce:instance",
+      "@type": "xsd:string"
+    },
+    "AbandonedCartSettings": "bigcommerce:AbandonedCartSettings",
+    "enable_notification": {
+      "@id": "bigcommerce:enable_notification",
+      "@type": "xsd:boolean"
+    },
+    "email_customer_until_cart_is_recovered": {
+      "@id": "bigcommerce:email_customer_until_cart_is_recovered",
+      "@type": "xsd:boolean"
+    },
+    "marketing_emails_require_customer_consent": {
+      "@id": "bigcommerce:marketing_emails_require_customer_consent",
+      "@type": "xsd:boolean"
+    },
+    "email_merchant_when_cart_is_converted": {
+      "@id": "bigcommerce:email_merchant_when_cart_is_converted",
+      "@type": "xsd:boolean"
+    },
+    "email_merchant_when_cart_is_abandoned": {
+      "@id": "bigcommerce:email_merchant_when_cart_is_abandoned",
+      "@type": "xsd:boolean"
+    },
+    "merchant_email_address": {
+      "@id": "bigcommerce:merchant_email_address",
+      "@type": "xsd:string"
+    },
+    "merchant_abandoned_cart_email_frequency_type": {
+      "@id": "bigcommerce:merchant_abandoned_cart_email_frequency_type",
+      "@type": "xsd:string"
+    },
+    "merchant_abandoned_cart_digest_email_frequency": {
+      "@id": "bigcommerce:merchant_abandoned_cart_digest_email_frequency",
+      "@type": "xsd:integer"
+    },
+    "errorDetailed_Full": "bigcommerce:errorDetailed_Full",
+    "abandonedCartInfo_Full": "bigcommerce:abandonedCartInfo_Full",
+    "cart_id": {
+      "@id": "bigcommerce:cart_id",
+      "@type": "xsd:string"
+    },
+    "error_Full": "bigcommerce:error_Full",
+    "ChannelAbandonedCartSettings": "bigcommerce:ChannelAbandonedCartSettings",
+    "ChannelAbandonedCartSettingsResponse": "bigcommerce:ChannelAbandonedCartSettingsResponse",
+    "Error": "bigcommerce:Error",
+    "ActiveTheme": "bigcommerce:ActiveTheme",
+    "active_theme_uuid": {
+      "@id": "bigcommerce:active_theme_uuid",
+      "@type": "xsd:string"
+    },
+    "active_theme_configuration_uuid": {
+      "@id": "bigcommerce:active_theme_configuration_uuid",
+      "@type": "xsd:string"
+    },
+    "active_theme_version_uuid": {
+      "@id": "bigcommerce:active_theme_version_uuid",
+      "@type": "xsd:string"
+    },
+    "saved_theme_configuration_uuid": {
+      "@id": "bigcommerce:saved_theme_configuration_uuid",
+      "@type": "xsd:string"
+    },
+    "address_Put": "bigcommerce:address_Put",
+    "first_name": {
+      "@id": "bigcommerce:first_name",
+      "@type": "xsd:string"
+    },
+    "last_name": {
+      "@id": "bigcommerce:last_name",
+      "@type": "xsd:string"
+    },
+    "company": {
+      "@id": "bigcommerce:company",
+      "@type": "xsd:string"
+    },
+    "address1": {
+      "@id": "bigcommerce:address1",
+      "@type": "xsd:string"
+    },
+    "address2": {
+      "@id": "bigcommerce:address2",
+      "@type": "xsd:string"
+    },
+    "city": {
+      "@id": "bigcommerce:city",
+      "@type": "xsd:string"
+    },
+    "state_or_province": {
+      "@id": "bigcommerce:state_or_province",
+      "@type": "xsd:string"
+    },
+    "postal_code": {
+      "@id": "bigcommerce:postal_code",
+      "@type": "xsd:string"
+    },
+    "country_code": {
+      "@id": "bigcommerce:country_code",
+      "@type": "xsd:string"
+    },
+    "phone": {
+      "@id": "bigcommerce:phone",
+      "@type": "xsd:string"
+    },
+    "address_type": {
+      "@id": "bigcommerce:address_type",
+      "@type": "xsd:string"
+    },
+    "form_fields": {
+      "@id": "bigcommerce:form_fields",
+      "@container": "@list"
+    },
+    "_metaCollection": "bigcommerce:_metaCollection",
+    "pagination": {
+      "@id": "bigcommerce:pagination",
+      "@type": "@id"
+    },
+    "Links": "bigcommerce:Links",
+    "previous": {
+      "@id": "bigcommerce:previous",
+      "@type": "xsd:string"
+    },
+    "current": {
+      "@id": "bigcommerce:current",
+      "@type": "xsd:string"
+    },
+    "next": {
+      "@id": "bigcommerce:next",
+      "@type": "xsd:string"
+    },
+    "formFieldValue_Customer": "bigcommerce:formFieldValue_Customer",
+    "name": {
+      "@id": "bigcommerce:name",
+      "@type": "xsd:string"
+    },
+    "value": {
+      "@id": "bigcommerce:value"
+    },
+    "customer_id": {
+      "@id": "bigcommerce:customer_id",
+      "@type": "xsd:integer"
+    },
+    "address_Post": "bigcommerce:address_Post",
+    "formFieldValue_Address": "bigcommerce:formFieldValue_Address",
+    "address_id": {
+      "@id": "bigcommerce:address_id",
+      "@type": "xsd:integer"
+    },
+    "Pagination": "bigcommerce:Pagination",
+    "total": {
+      "@id": "bigcommerce:total",
+      "@type": "xsd:integer"
+    },
+    "count": {
+      "@id": "bigcommerce:count",
+      "@type": "xsd:integer"
+    },
+    "per_page": {
+      "@id": "bigcommerce:per_page",
+      "@type": "xsd:integer"
+    },
+    "current_page": {
+      "@id": "bigcommerce:current_page",
+      "@type": "xsd:integer"
+    },
+    "total_pages": {
+      "@id": "bigcommerce:total_pages",
+      "@type": "xsd:integer"
+    },
+    "links": {
+      "@id": "bigcommerce:links",
+      "@type": "@id"
+    },
+    "formFieldValue": "bigcommerce:formFieldValue",
+    "ErrorResponse404": "bigcommerce:ErrorResponse404",
+    "ErrorResponse400": "bigcommerce:ErrorResponse400",
+    "AnalyticsProvider": "bigcommerce:AnalyticsProvider",
+    "code": {
+      "@id": "bigcommerce:code",
+      "@type": "xsd:string"
+    },
+    "enabled": {
+      "@id": "bigcommerce:enabled",
+      "@type": "xsd:boolean"
+    },
+    "ErrorResponse422": "bigcommerce:ErrorResponse422",
+    "ErrorResponse409": "bigcommerce:ErrorResponse409",
+    "Token_Base": "bigcommerce:Token_Base",
+    "token": {
+      "@id": "bigcommerce:token",
+      "@type": "xsd:string"
+    },
+    "TokenPostSimple": "bigcommerce:TokenPostSimple",
+    "allowed_cors_origins": {
+      "@id": "bigcommerce:allowed_cors_origins",
+      "@container": "@list"
+    },
+    "Token_Full": "bigcommerce:Token_Full",
+    "TokenPostImpersonation": "bigcommerce:TokenPostImpersonation",
+    "channel_id": {
+      "@id": "bigcommerce:channel_id",
+      "@type": "xsd:integer"
+    },
+    "expires_at": {
+      "@id": "bigcommerce:expires_at",
+      "@type": "xsd:integer"
+    },
+    "attributeValue_Base": "bigcommerce:attributeValue_Base",
+    "attribute_id": {
+      "@id": "bigcommerce:attribute_id",
+      "@type": "xsd:integer"
+    },
+    "attribute_Put": "bigcommerce:attribute_Put",
+    "attribute_Post": "bigcommerce:attribute_Post",
+    "banner_Base": "bigcommerce:banner_Base",
+    "content": {
+      "@id": "bigcommerce:content",
+      "@type": "xsd:string"
+    },
+    "page": {
+      "@id": "bigcommerce:page",
+      "@type": "xsd:string"
+    },
+    "location": {
+      "@id": "bigcommerce:location",
+      "@type": "xsd:string"
+    },
+    "date_type": {
+      "@id": "bigcommerce:date_type",
+      "@type": "xsd:string"
+    },
+    "date_from": {
+      "@id": "bigcommerce:date_from",
+      "@type": "xsd:string"
+    },
+    "date_to": {
+      "@id": "bigcommerce:date_to",
+      "@type": "xsd:string"
+    },
+    "visible": {
+      "@id": "bigcommerce:visible",
+      "@type": "xsd:string"
+    },
+    "item_id": {
+      "@id": "bigcommerce:item_id",
+      "@type": "xsd:string"
+    },
+    "MetaFieldCollectionResponsePartialSuccess_DELETE": "bigcommerce:MetaFieldCollectionResponsePartialSuccess_DELETE",
+    "MetaFieldCollectionResponse_Batch_POST_PUT": "bigcommerce:MetaFieldCollectionResponse_Batch_POST_PUT",
+    "MetafieldBase_Post": "bigcommerce:MetafieldBase_Post",
+    "permission_set": {
+      "@id": "bigcommerce:permission_set",
+      "@type": "xsd:string"
+    },
+    "namespace": {
+      "@id": "bigcommerce:namespace",
+      "@type": "xsd:string"
+    },
+    "key": {
+      "@id": "bigcommerce:key",
+      "@type": "xsd:string"
+    },
+    "description": {
+      "@id": "bigcommerce:description",
+      "@type": "xsd:string"
+    },
+    "MetafieldBase": "bigcommerce:MetafieldBase",
+    "resource_type": {
+      "@id": "bigcommerce:resource_type",
+      "@type": "xsd:string"
+    },
+    "resource_id": {
+      "@id": "bigcommerce:resource_id",
+      "@type": "xsd:string"
+    },
+    "CollectionMeta": "bigcommerce:CollectionMeta",
+    "MetaFieldCollectionDeleteResponseSuccess": "bigcommerce:MetaFieldCollectionDeleteResponseSuccess",
+    "WriteCollectionSuccessMeta": "bigcommerce:WriteCollectionSuccessMeta",
+    "success": {
+      "@id": "bigcommerce:success",
+      "@type": "xsd:integer"
+    },
+    "failed": {
+      "@id": "bigcommerce:failed",
+      "@type": "xsd:integer"
+    },
+    "WriteCollectionPartialSuccessMeta": "bigcommerce:WriteCollectionPartialSuccessMeta",
+    "MetaFieldCollectionResponse_Batch": "bigcommerce:MetaFieldCollectionResponse_Batch",
+    "MetaFieldCollectionResponsePartialSuccess_POST_PUT": "bigcommerce:MetaFieldCollectionResponsePartialSuccess_POST_PUT",
+    "MetafieldBase_Put": "bigcommerce:MetafieldBase_Put",
+    "MetaFieldCollectionResponse_POST_PUT": "bigcommerce:MetaFieldCollectionResponse_POST_PUT",
+    "Metafield_2": "bigcommerce:Metafield_2",
+    "date_created": {
+      "@id": "bigcommerce:date_created",
+      "@type": "xsd:dateTime"
+    },
+    "date_modified": {
+      "@id": "bigcommerce:date_modified",
+      "@type": "xsd:dateTime"
+    },
+    "owner_client_id": {
+      "@id": "bigcommerce:owner_client_id",
+      "@type": "xsd:string"
+    },
+    "MetaFieldCollectionResponse": "bigcommerce:MetaFieldCollectionResponse",
+    "MetaFieldCollectionResponse_POST_PUT_2": "bigcommerce:MetaFieldCollectionResponse_POST_PUT_2",
+    "Metafield_3": "bigcommerce:Metafield_3",
+    "MetaFieldCollectionResponse_2": "bigcommerce:MetaFieldCollectionResponse_2",
+    "MetaFieldCollectionResponse_POST_PUT_3": "bigcommerce:MetaFieldCollectionResponse_POST_PUT_3",
+    "Metafield_4": "bigcommerce:Metafield_4",
+    "MetaFieldCollectionResponse_3": "bigcommerce:MetaFieldCollectionResponse_3",
+    "MetaFieldCollectionResponse_POST_PUT_4": "bigcommerce:MetaFieldCollectionResponse_POST_PUT_4",
+    "Metafield_5": "bigcommerce:Metafield_5",
+    "MetaFieldCollectionResponse_4": "bigcommerce:MetaFieldCollectionResponse_4",
+    "MetaFieldCollectionResponse_POST_PUT_5": "bigcommerce:MetaFieldCollectionResponse_POST_PUT_5",
+    "Metafield_6": "bigcommerce:Metafield_6",
+    "MetaFieldCollectionResponse_5": "bigcommerce:MetaFieldCollectionResponse_5",
+    "Error_2": "bigcommerce:Error_2",
+    "MetafieldBase_Post_2": "bigcommerce:MetafieldBase_Post_2",
+    "MetaFieldCollectionResponse_POST_PUT_6": "bigcommerce:MetaFieldCollectionResponse_POST_PUT_6",
+    "MetafieldBase_2": "bigcommerce:MetafieldBase_2",
+    "CollectionMeta_2": "bigcommerce:CollectionMeta_2",
+    "MetaFieldCollectionResponse_6": "bigcommerce:MetaFieldCollectionResponse_6",
+    "blogPost_Base_Res": "bigcommerce:blogPost_Base_Res",
+    "url": {
+      "@id": "bigcommerce:url",
+      "@type": "xsd:string"
+    },
+    "preview_url": {
+      "@id": "bigcommerce:preview_url",
+      "@type": "xsd:string"
+    },
+    "tags": {
+      "@id": "bigcommerce:tags",
+      "@container": "@list"
+    },
+    "summary": {
+      "@id": "bigcommerce:summary",
+      "@type": "xsd:string"
+    },
+    "is_published": {
+      "@id": "bigcommerce:is_published",
+      "@type": "xsd:boolean"
+    },
+    "published_date": {
+      "@id": "bigcommerce:published_date",
+      "@type": "@id"
+    },
+    "published_date_iso8601": {
+      "@id": "bigcommerce:published_date_iso8601",
+      "@type": "xsd:string"
+    },
+    "meta_description": {
+      "@id": "bigcommerce:meta_description",
+      "@type": "xsd:string"
+    },
+    "meta_keywords": {
+      "@id": "bigcommerce:meta_keywords",
+      "@type": "xsd:string"
+    },
+    "author": {
+      "@id": "bigcommerce:author",
+      "@type": "xsd:string"
+    },
+    "thumbnail_path": {
+      "@id": "bigcommerce:thumbnail_path",
+      "@type": "xsd:string"
+    },
+    "count_Response": "bigcommerce:count_Response",
+    "publishedDate": "bigcommerce:publishedDate",
+    "timezone_type": {
+      "@id": "bigcommerce:timezone_type",
+      "@type": "xsd:integer"
+    },
+    "date": {
+      "@id": "bigcommerce:date",
+      "@type": "xsd:dateTime"
+    },
+    "timezone": {
+      "@id": "bigcommerce:timezone",
+      "@type": "xsd:string"
+    },
+    "blogPost_Base_Post": "bigcommerce:blogPost_Base_Post",
+    "brand_Full": "bigcommerce:brand_Full",
+    "page_title": {
+      "@id": "bigcommerce:page_title",
+      "@type": "xsd:string"
+    },
+    "search_keywords": {
+      "@id": "bigcommerce:search_keywords",
+      "@type": "xsd:string"
+    },
+    "image_url": {
+      "@id": "bigcommerce:image_url",
+      "@type": "xsd:string"
+    },
+    "custom_url": {
+      "@id": "bigcommerce:custom_url",
+      "@type": "@id"
+    },
+    "error_Base": "bigcommerce:error_Base",
+    "customUrl_Full": "bigcommerce:customUrl_Full",
+    "is_customized": {
+      "@id": "bigcommerce:is_customized",
+      "@type": "xsd:boolean"
+    },
+    "pagination_Full": "bigcommerce:pagination_Full",
+    "metaCollection_Full": "bigcommerce:metaCollection_Full",
+    "bulkPricingRule_Full": "bigcommerce:bulkPricingRule_Full",
+    "quantity_min": {
+      "@id": "bigcommerce:quantity_min",
+      "@type": "xsd:integer"
+    },
+    "quantity_max": {
+      "@id": "bigcommerce:quantity_max",
+      "@type": "xsd:integer"
+    },
+    "amount": {
+      "@id": "bigcommerce:amount"
+    },
+    "responseCartLineItemsItemsPhysicalItemsItemsAllOf1": "bigcommerce:responseCartLineItemsItemsPhysicalItemsItemsAllOf1",
+    "giftWrapping": {
+      "@id": "bigcommerce:giftWrapping",
+      "@type": "@id"
+    },
+    "isShippingRequired": {
+      "@id": "bigcommerce:isShippingRequired",
+      "@type": "xsd:boolean"
+    },
+    "responseCartLineItemsCustomItems": "bigcommerce:responseCartLineItemsCustomItems",
+    "extendedListPrice": {
+      "@id": "bigcommerce:extendedListPrice",
+      "@type": "xsd:integer"
+    },
+    "listPrice": {
+      "@id": "bigcommerce:listPrice",
+      "@type": "xsd:integer"
+    },
+    "quantity": {
+      "@id": "bigcommerce:quantity",
+      "@type": "xsd:integer"
+    },
+    "sku": {
+      "@id": "bigcommerce:sku",
+      "@type": "xsd:string"
+    },
+    "responseCartLineItemsPhysicalItemGiftWrapping": "bigcommerce:responseCartLineItemsPhysicalItemGiftWrapping",
+    "message": {
+      "@id": "bigcommerce:message",
+      "@type": "xsd:string"
+    },
+    "responseCartLineItemsDigitalItemsAllOf0OptionsItems": "bigcommerce:responseCartLineItemsDigitalItemsAllOf0OptionsItems",
+    "nameId": {
+      "@id": "bigcommerce:nameId",
+      "@type": "xsd:decimal"
+    },
+    "valueId": {
+      "@id": "bigcommerce:valueId",
+      "@type": "xsd:decimal"
+    },
+    "requestLineItemGiftCertificate": "bigcommerce:requestLineItemGiftCertificate",
+    "recipient": {
+      "@id": "bigcommerce:recipient",
+      "@type": "@id"
+    },
+    "sender": {
+      "@id": "bigcommerce:sender",
+      "@type": "@id"
+    },
+    "theme": {
+      "@id": "bigcommerce:theme",
+      "@type": "xsd:string"
+    },
+    "responseCartLineItemsGiftCertificates": "bigcommerce:responseCartLineItemsGiftCertificates",
+    "isTaxable": {
+      "@id": "bigcommerce:isTaxable",
+      "@type": "xsd:boolean"
+    },
+    "responseCartBaseItem": "bigcommerce:responseCartBaseItem",
+    "options": {
+      "@id": "bigcommerce:options",
+      "@container": "@list"
+    },
+    "brand": {
+      "@id": "bigcommerce:brand",
+      "@type": "xsd:string"
+    },
+    "couponAmount": {
+      "@id": "bigcommerce:couponAmount",
+      "@type": "xsd:decimal"
+    },
+    "discountAmount": {
+      "@id": "bigcommerce:discountAmount",
+      "@type": "xsd:decimal"
+    },
+    "discounts": {
+      "@id": "bigcommerce:discounts",
+      "@type": "@id"
+    },
+    "extendedSalePrice": {
+      "@id": "bigcommerce:extendedSalePrice",
+      "@type": "xsd:decimal"
+    },
+    "imageUrl": {
+      "@id": "bigcommerce:imageUrl",
+      "@type": "@id"
+    },
+    "originalPrice": {
+      "@id": "bigcommerce:originalPrice",
+      "@type": "xsd:decimal"
+    },
+    "parentId": {
+      "@id": "bigcommerce:parentId",
+      "@type": "xsd:decimal"
+    },
+    "productId": {
+      "@id": "bigcommerce:productId",
+      "@type": "xsd:decimal"
+    },
+    "salePrice": {
+      "@id": "bigcommerce:salePrice",
+      "@type": "xsd:decimal"
+    },
+    "variantId": {
+      "@id": "bigcommerce:variantId",
+      "@type": "xsd:decimal"
+    },
+    "responseCartLineItems": "bigcommerce:responseCartLineItems",
+    "customItems": {
+      "@id": "bigcommerce:customItems",
+      "@container": "@list"
+    },
+    "digitalItems": {
+      "@id": "bigcommerce:digitalItems",
+      "@container": "@list"
+    },
+    "giftCertificates": {
+      "@id": "bigcommerce:giftCertificates",
+      "@container": "@list"
+    },
+    "physicalItems": {
+      "@id": "bigcommerce:physicalItems",
+      "@container": "@list"
+    },
+    "responseCartLineItemsGiftCertificatesSender": "bigcommerce:responseCartLineItemsGiftCertificatesSender",
+    "email": {
+      "@id": "bigcommerce:email",
+      "@type": "xsd:string"
+    },
+    "responseCartLineItemsDigitalItemsAllOf0DiscountsItems": "bigcommerce:responseCartLineItemsDigitalItemsAllOf0DiscountsItems",
+    "discountedAmount": {
+      "@id": "bigcommerce:discountedAmount",
+      "@type": "xsd:decimal"
+    },
+    "requestPostOrPutGiftWrapping": "bigcommerce:requestPostOrPutGiftWrapping",
+    "wrapTogether": {
+      "@id": "bigcommerce:wrapTogether",
+      "@type": "xsd:boolean"
+    },
+    "wrapDetails": {
+      "@id": "bigcommerce:wrapDetails",
+      "@container": "@list"
+    },
+    "responseCartLineItemsDigitalItemsAllOf0": "bigcommerce:responseCartLineItemsDigitalItemsAllOf0",
+    "responseCartLineItemsItemsPhysicalItemsItemsAllOf0OptionsItems": "bigcommerce:responseCartLineItemsItemsPhysicalItemsItemsAllOf0OptionsItems",
+    "responseCart": "bigcommerce:responseCart",
+    "customerId": {
+      "@id": "bigcommerce:customerId",
+      "@type": "xsd:integer"
+    },
+    "currency": {
+      "@id": "bigcommerce:currency",
+      "@type": "@id"
+    },
+    "isTaxIncluded": {
+      "@id": "bigcommerce:isTaxIncluded",
+      "@type": "xsd:boolean"
+    },
+    "baseAmount": {
+      "@id": "bigcommerce:baseAmount",
+      "@type": "xsd:decimal"
+    },
+    "cartAmount": {
+      "@id": "bigcommerce:cartAmount",
+      "@type": "xsd:decimal"
+    },
+    "coupons": {
+      "@id": "bigcommerce:coupons",
+      "@type": "@id"
+    },
+    "lineItems": {
+      "@id": "bigcommerce:lineItems",
+      "@type": "@id"
+    },
+    "createdTime": {
+      "@id": "bigcommerce:createdTime",
+      "@type": "xsd:string"
+    },
+    "updatedTime": {
+      "@id": "bigcommerce:updatedTime",
+      "@type": "xsd:string"
+    },
+    "responseCartCurrency": "bigcommerce:responseCartCurrency",
+    "requestLineItemGiftCertificateSender": "bigcommerce:requestLineItemGiftCertificateSender",
+    "requestLineItemGiftCertificateRecipient": "bigcommerce:requestLineItemGiftCertificateRecipient",
+    "responseCartLineItemsGiftCertificatesRecipient": "bigcommerce:responseCartLineItemsGiftCertificatesRecipient",
+    "ItemGiftCertificateGet": "bigcommerce:ItemGiftCertificateGet",
+    "is_taxable": {
+      "@id": "bigcommerce:is_taxable",
+      "@type": "xsd:boolean"
+    },
+    "LineItemsGet": "bigcommerce:LineItemsGet",
+    "physical_items": {
+      "@id": "bigcommerce:physical_items",
+      "@container": "@list"
+    },
+    "digital_items": {
+      "@id": "bigcommerce:digital_items",
+      "@container": "@list"
+    },
+    "gift_certificates": {
+      "@id": "bigcommerce:gift_certificates",
+      "@container": "@list"
+    },
+    "custom_items": {
+      "@id": "bigcommerce:custom_items",
+      "@container": "@list"
+    },
+    "ItemCustomGet": "bigcommerce:ItemCustomGet",
+    "list_price": {
+      "@id": "bigcommerce:list_price",
+      "@type": "xsd:string"
+    },
+    "Cart_Full": "bigcommerce:Cart_Full",
+    "parent_id": {
+      "@id": "bigcommerce:parent_id",
+      "@type": "xsd:string"
+    },
+    "tax_included": {
+      "@id": "bigcommerce:tax_included",
+      "@type": "xsd:boolean"
+    },
+    "base_amount": {
+      "@id": "bigcommerce:base_amount",
+      "@type": "xsd:decimal"
+    },
+    "discount_amount": {
+      "@id": "bigcommerce:discount_amount",
+      "@type": "xsd:decimal"
+    },
+    "cart_amount": {
+      "@id": "bigcommerce:cart_amount",
+      "@type": "xsd:decimal"
+    },
+    "line_items": {
+      "@id": "bigcommerce:line_items",
+      "@type": "@id"
+    },
+    "created_time": {
+      "@id": "bigcommerce:created_time",
+      "@type": "xsd:string"
+    },
+    "updated_time": {
+      "@id": "bigcommerce:updated_time",
+      "@type": "xsd:string"
+    },
+    "promotions": {
+      "@id": "bigcommerce:promotions"
+    },
+    "CartUpdatePutRequestData": "bigcommerce:CartUpdatePutRequestData",
+    "CartCreatePostData": "bigcommerce:CartCreatePostData",
+    "AppliedCoupon": "bigcommerce:AppliedCoupon",
+    "coupon_type": {
+      "@id": "bigcommerce:coupon_type",
+      "@type": "xsd:string"
+    },
+    "discounted_amount": {
+      "@id": "bigcommerce:discounted_amount",
+      "@type": "xsd:decimal"
+    },
+    "cart_PostModifier": "bigcommerce:cart_PostModifier",
+    "product_id": {
+      "@id": "bigcommerce:product_id",
+      "@type": "xsd:decimal"
+    },
+    "option_selections": {
+      "@id": "bigcommerce:option_selections",
+      "@container": "@list"
+    },
+    "cart_PostVariant": "bigcommerce:cart_PostVariant",
+    "variant_id": {
+      "@id": "bigcommerce:variant_id",
+      "@type": "xsd:decimal"
+    },
+    "gift_wrapping": {
+      "@id": "bigcommerce:gift_wrapping"
+    },
+    "CatalogSettings": "bigcommerce:CatalogSettings",
+    "auto_approve_reviews": {
+      "@id": "bigcommerce:auto_approve_reviews",
+      "@type": "xsd:boolean"
+    },
+    "enable_product_comparisons": {
+      "@id": "bigcommerce:enable_product_comparisons",
+      "@type": "xsd:boolean"
+    },
+    "SuccessNoContentResponse": "bigcommerce:SuccessNoContentResponse",
+    "SuccessResponse": "bigcommerce:SuccessResponse",
+    "PartialSuccessResponse": "bigcommerce:PartialSuccessResponse",
+    "ErrorRequest": "bigcommerce:ErrorRequest",
+    "ErrorAdditional": "bigcommerce:ErrorAdditional",
+    "CategoryBase": "bigcommerce:CategoryBase",
+    "views": {
+      "@id": "bigcommerce:views",
+      "@type": "xsd:integer"
+    },
+    "sort_order": {
+      "@id": "bigcommerce:sort_order",
+      "@type": "xsd:integer"
+    },
+    "layout_file": {
+      "@id": "bigcommerce:layout_file",
+      "@type": "xsd:string"
+    },
+    "is_visible": {
+      "@id": "bigcommerce:is_visible",
+      "@type": "xsd:boolean"
+    },
+    "default_product_sort": {
+      "@id": "bigcommerce:default_product_sort",
+      "@type": "xsd:string"
+    },
+    "MetaData": "bigcommerce:MetaData",
+    "PartialSuccessNoContentResponse": "bigcommerce:PartialSuccessNoContentResponse",
+    "ErrorBasic": "bigcommerce:ErrorBasic",
+    "MetaPagination": "bigcommerce:MetaPagination",
+    "CategoryList": "bigcommerce:CategoryList",
+    "Url": "bigcommerce:Url",
+    "category_Full": "bigcommerce:category_Full"
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "BigCommerce API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects BigCommerce's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-12) from openapi/bigcommerce-abandoned-cart-emails-api-openapi.yml, openapi/bigcommerce-abandoned-cart-settings-api-openapi.yml, openapi/bigcommerce-abandoned-carts-api-openapi.yml.",
+  "dcterms:created": "2026-10-12",
+  "dcterms:source": [
+    "openapi/bigcommerce-abandoned-cart-emails-api-openapi.yml",
+    "openapi/bigcommerce-abandoned-cart-settings-api-openapi.yml",
+    "openapi/bigcommerce-abandoned-carts-api-openapi.yml",
+    "openapi/bigcommerce-abandoned-carts-settings-api-openapi.yml",
+    "openapi/bigcommerce-active-theme-api-openapi.yml"
+  ]
+}

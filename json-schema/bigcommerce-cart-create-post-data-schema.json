@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-cart-create-post-data-schema.json",
+  "title": "Cart Create Post Data",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-carts-single-api-openapi.yml#/components/schemas/CartCreatePostData",
+  "type": "object",
+  "x-internal": false,
+  "properties": {
+    "customer_id": {
+      "type": "integer"
+    },
+    "line_items": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/cart_PostVariant"
+          },
+          {
+            "$ref": "#/$defs/cart_PostModifier"
+          }
+        ]
+      }
+    },
+    "custom_items": {
+      "$ref": "#/$defs/cart_PostCustomItem"
+    },
+    "gift_certificates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "title": "Line Item Gift Certificate Request Data",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Given name for the gift certificate line item."
+          },
+          "theme": {
+            "type": "string",
+            "description": "The theme of the gift certificate.",
+            "enum": [
+              "birthday.html",
+              "boy.html",
+              "celebration.html",
+              "christmas.html",
+              "general.html",
+              "girl.html"
+            ]
+          },
+          "amount": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 1000
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sender": {
+            "title": "Contact Entity",
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            }
+          },
+          "recipient": {
+            "title": "Contact Entity",
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "maximum": 200,
+            "description": "Message shown to recipient, as provided by sender."
+          }
+        },
+        "required": [
+          "name",
+          "theme",
+          "amount",
+          "quantity",
+          "sender",
+          "recipient"
+        ]
+      }
+    },
+    "channel_id": {
+      "type": "integer",
+      "description": "The Channel ID. If no channel is specified, defaults to 1."
+    },
+    "currency": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "format": "ISO-4217",
+          "description": "The [transactional currency](/docs/rest-management/currencies#definitions) code for the cart, formatted as an [ISO-4217](https://www.iso.org/iso-4217-currency-codes.html) string. This code is required when multi-currency is enabled. Passing a non-transactional display currency will result in a `400` error."
+        }
+      }
+    },
+    "locale": {
+      "type": "string",
+      "description": "The locale of the cart. Accepts strings of format `xx` or `xx-YY`. Uses the [ISO-639 standard](https://www.iso.org/iso-639-language-codes.html) format.",
+      "format": "ISO-639"
+    }
+  },
+  "$defs": {
+    "cart_PostCustomItem": {
+      "type": "array",
+      "title": "Custom item",
+      "x-internal": false,
+      "items": {
+        "type": "object",
+        "properties": {
+          "sku": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 250
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "list_price": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "cart_PostModifier": {
+      "type": "object",
+      "title": "Item with modifier",
+      "properties": {
+        "quantity": {
+          "type": "number"
+        },
+        "product_id": {
+          "type": "number"
+        },
+        "list_price": {
+          "type": "number",
+          "description": "Optional price override."
+        },
+        "name": {
+          "type": "string",
+          "description": "Optionally, provide a value to override the product name."
+        },
+        "option_selections": {
+          "type": "array",
+          "description": "Needed for Catalog V2.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "option_id": {
+                "type": "integer"
+              },
+              "option_value": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string",
+                "description": "Override for the selected option or modifier name."
+              },
+              "value": {
+                "type": "string",
+                "description": "Override for the selected option value."
+              },
+              "nameId": {
+                "type": "integer"
+              },
+              "valueId": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "quantity",
+        "product_id"
+      ],
+      "description": "Product with a modifier.",
+      "x-internal": false
+    },
+    "cart_PostVariant": {
+      "type": "object",
+      "title": "Item with variant",
+      "x-internal": false,
+      "properties": {
+        "quantity": {
+          "type": "number"
+        },
+        "product_id": {
+          "type": "number"
+        },
+        "list_price": {
+          "type": "number",
+          "description": "Optional price override."
+        },
+        "variant_id": {
+          "type": "number",
+          "description": "Variant ID. Exists only in Catalog V3."
+        },
+        "name": {
+          "type": "string",
+          "description": "Optionally, provide a value to override the product name."
+        },
+        "gift_wrapping": {
+          "type": "object",
+          "properties": {
+            "wrap_together": {
+              "type": "boolean",
+              "description": "Boolean value that specifies whether items whether items should be wrapped together or wrapped individually."
+            },
+            "wrap_details": {
+              "type": "array",
+              "description": "Details for the gift wrapping option selected. This can be specified for each line item.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "description": "Identifier of the gift wrapping option selected."
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Custom gift message."
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "quantity",
+            "product_id"
+          ]
+        }
+      },
+      "description": "Product with a variant."
+    }
+  }
+}

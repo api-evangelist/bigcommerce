@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-email-templates-collection-schema.json",
+  "title": "EmailTemplatesCollection",
+  "description": "A collection of all email templates.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-email-templates-api-openapi.yml#/components/schemas/EmailTemplatesCollection",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/EmailTemplate"
+  },
+  "x-internal": false,
+  "$defs": {
+    "EmailTemplate": {
+      "title": "EmailTemplate",
+      "type": "object",
+      "description": "Data for a particular email template",
+      "properties": {
+        "type_id": {
+          "type": "string",
+          "enum": [
+            "abandoned_cart_email",
+            "account_details_changed_email",
+            "combined_order_status_email",
+            "createaccount_email",
+            "createguestaccount_email",
+            "giftcertificate_email",
+            "invoice_email",
+            "ordermessage_notification",
+            "return_confirmation_email",
+            "return_statuschange_email",
+            "product_review_email",
+            "account_reset_password_email"
+          ]
+        },
+        "body": {
+          "type": "string"
+        },
+        "translations": {
+          "$ref": "#/$defs/LocaleCollection"
+        },
+        "subject": {
+          "type": "string"
+        }
+      },
+      "x-internal": false
+    },
+    "LocaleCollection": {
+      "title": "LocaleCollection",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/LocaleObject"
+      },
+      "description": "A collection of locale translations for the static language.",
+      "x-internal": false
+    },
+    "LocaleObject": {
+      "title": "LocaleObject",
+      "type": "object",
+      "properties": {
+        "locale": {
+          "type": "string",
+          "description": "Locale code for this language, such as \"en\", \"en-us\", \"fr-ca\"."
+        },
+        "keys": {
+          "type": "object",
+          "description": "Language keys for the template. User-defined. Should match any lang keys used in the template."
+        }
+      },
+      "description": "A particular localeʼs translations.",
+      "x-internal": false
+    }
+  }
+}

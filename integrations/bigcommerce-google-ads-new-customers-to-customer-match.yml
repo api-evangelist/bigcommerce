@@ -1,0 +1,76 @@
+arazzo: 1.0.1
+info:
+  title: BigCommerce Google Ads - Add new customers to a Customer Match list
+  summary: Read recently created BigCommerce customers and upload their hashed emails to a Google Ads Customer Match user list.
+  description: >-
+    Mirrors the Zapier template "Add new BigCommerce customers to your Google Ads contact list".
+    Lists customers created since a timestamp from the BigCommerce Customers V3 API, then uploads
+    their identifiers to Google Ads with UploadUserData. Email hashing (SHA-256, normalised) happens
+    client-side between the steps; neither contract performs it.
+  version: 1.0.0
+x-integration:
+  partner: google-ads
+  template: https://zapier.com/apps/bigcommerce/integrations/google-ads/1585390/add-new-bigcommerce-customers-to-your-google-ads-contact-list
+  edge_evidence: https://zapier.com/apps/bigcommerce/integrations/google-ads
+  edge_type: marketplace
+  method: generated
+  generated: '2026-10-12'
+  generator: claude enrichment pass local-v5
+  guessed_steps:
+  - step: uploadToCustomerMatch
+    cause: partner-contract
+    why: customerMatchUserListMetadata.userList resource name and hashed email transform are not settled by either spec; the user list must already exist.
+sourceDescriptions:
+- name: bigcommerceCustomers
+  url: https://raw.githubusercontent.com/api-evangelist/bigcommerce/refs/heads/main/openapi/bigcommerce-customers-api-openapi.yml
+  type: openapi
+- name: googleAdsCustomers
+  url: https://raw.githubusercontent.com/api-evangelist/google-ads/refs/heads/main/openapi/google-ads-customers-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: newCustomersToCustomerMatch
+  summary: Upload new BigCommerce customers to a Google Ads Customer Match list
+  inputs:
+    type: object
+    required: [createdSince, googleAdsCustomerId, userListResourceName, hashedEmails]
+    properties:
+      createdSince: {type: string, description: 'ISO date-time; customers created after this'}
+      googleAdsCustomerId: {type: string}
+      userListResourceName: {type: string, description: 'customers/{id}/userLists/{id}'}
+      hashedEmails: {type: array, description: 'SHA-256 hashed emails computed client-side from listNewCustomers output'}
+  steps:
+  - stepId: listNewCustomers
+    operationId: $sourceDescriptions.bigcommerceCustomers.getCustomers
+    parameters:
+    - name: date_created:min
+      in: query
+      value: $inputs.createdSince
+    - name: limit
+      in: query
+      value: 250
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      customers: $response.body#/data
+  - stepId: uploadToCustomerMatch
+    operationId: $sourceDescriptions.googleAdsCustomers.googleads_customers_uploadUserData
+    parameters:
+    - name: customerId
+      in: path
+      value: $inputs.googleAdsCustomerId
+    requestBody:
+      contentType: application/json
+      payload:
+        customerMatchUserListMetadata:
+          userList: $inputs.userListResourceName
+        operations:
+        - create:
+            userIdentifiers:
+            - hashedEmail: $inputs.hashedEmails
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      receivedOperationsCount: $response.body#/receivedOperationsCount
+  outputs:
+    customers: $steps.listNewCustomers.outputs.customers
+    receivedOperationsCount: $steps.uploadToCustomerMatch.outputs.receivedOperationsCount

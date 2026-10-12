@@ -1,0 +1,140 @@
+generated: '2026-10-12'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/bigcommerce-abandoned-cart-emails-api-openapi.yml
+- openapi/bigcommerce-abandoned-cart-settings-api-openapi.yml
+- openapi/bigcommerce-abandoned-carts-api-openapi.yml
+- openapi/bigcommerce-abandoned-carts-settings-api-openapi.yml
+- openapi/bigcommerce-active-theme-api-openapi.yml
+- openapi/bigcommerce-addresses-api-openapi.yml
+- openapi/bigcommerce-analytics-api-openapi.yml
+- openapi/bigcommerce-api-token-api-openapi.yml
+- openapi/bigcommerce-attribute-values-api-openapi.yml
+- openapi/bigcommerce-attributes-api-openapi.yml
+- openapi/bigcommerce-banners-api-openapi.yml
+- openapi/bigcommerce-batch-metafields-api-openapi.yml
+format: rfc9457
+envelope:
+  media_type: application/json
+  schema: ErrorResponse
+coverage:
+  operations: 534
+  statuses_declared: 15
+problems:
+- status: 400
+  title: Bad Request
+  description: Bad request. Authentication Required.
+  operations: 46
+  media_types:
+  - application/json
+  - application/problem+json
+  schema: error_Full
+- status: 401
+  title: Unauthorized
+  description: Unauthorized - the v3 Auth client ID or token in the request are not a valid combination for this
+    store.
+  operations: 40
+  media_types:
+  - application/json
+  - plain/text
+  schema: ErrorResponse
+- status: 403
+  title: Forbidden
+  description: Missing scope - the v3 Auth token is valid but does not have proper permissions to access this endpoint.
+  operations: 12
+  media_types:
+  - application/json
+  schema: GeneralErrorWithErrors
+- status: 404
+  title: Not Found
+  description: The resource was not found.
+  operations: 115
+  media_types:
+  - application/json
+  - application/problem+json
+  schema: error_Base
+- status: 405
+  title: Method Not Allowed
+  description: 405 Method Not Allowed
+  operations: 5
+  media_types:
+  - application/json
+  schema: MethodNotAllowedError
+- status: 409
+  title: Conflict
+  description: The `Metafield` conflicts with another `Metafield`. This can result from duplicate unique key combinations
+    of the appʼs client id, namespace
+  operations: 31
+  media_types:
+  - application/json
+  schema: ErrorResponse
+- status: 413
+  title: Content Too Large
+  description: The request payload is too large. The maximum number of items allowed in the array is 10.
+  operations: 5
+  media_types:
+  - application/json
+  schema: error_Base
+- status: 415
+  title: Unsupported Media Type
+  description: 415 Unsupported Media Type
+  operations: 2
+  media_types:
+  - text/html
+  schema: null
+- status: 422
+  title: Unprocessable Content
+  description: This is the result of missing required fields, or of invalid data. See the response for more details.
+  operations: 166
+  media_types:
+  - application/json
+  - application/problem+json
+  - Example 1
+  schema: ErrorResponse
+- status: 429
+  title: Too Many Requests
+  description: Allowed number of requests exceeded.
+  operations: 8
+  media_types:
+  - application/json
+  - examples
+  schema: ErrorResponse
+- status: 500
+  title: Internal Server Error
+  description: Internal Server Error
+  operations: 42
+  media_types:
+  - application/json
+  schema: ErrorRequest
+- status: 502
+  title: Bad Gateway
+  description: If something happens during the request that causes it to fail, a 502 response will be returned.
+    A new request should be made; however, it c
+  operations: 5
+  media_types:
+  - application/json
+  schema: error_Full
+- status: 503
+  title: Service Unavailable
+  description: If this occurs, you should retry the request. If you cannot successfully make a request, please check
+    the BigCommerce system status [here](h
+  operations: 5
+  media_types:
+  - application/json
+  schema: error_Base
+- status: 504
+  title: Gateway Timeout
+  description: 'If this occurs, you should retry the request. Typically retrying the request several times will
+    result in a successful request; However, if '
+  operations: 4
+  media_types:
+  - application/json
+  schema: errorDetailed_Full
+- status: default
+  title: null
+  description: Error message.
+  operations: 11
+  media_types:
+  - application/json
+  schema: null

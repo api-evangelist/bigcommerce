@@ -1,0 +1,286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-configured-filters-override-schema.json",
+  "title": "ConfiguredFiltersOverride",
+  "description": "A new set of enabled Product Filtering filters which should display in a particular context, such as on a particular Channel, or while viewing a particular Category. Array order indicates the display order on the storefront.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-search-filters-api-openapi.yml#/components/schemas/ConfiguredFiltersOverride",
+  "type": "object",
+  "properties": {
+    "context": {
+      "$ref": "#/$defs/SearchFilterOverrideContextIdentifier"
+    },
+    "data": {
+      "$ref": "#/$defs/ConfiguredFilters"
+    }
+  },
+  "x-internal": false,
+  "$defs": {
+    "ConfiguredFilter": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/EnabledProductFilter"
+        },
+        {
+          "$ref": "#/$defs/EnabledPriceFilter"
+        },
+        {
+          "$ref": "#/$defs/EnabledCategoryFilter"
+        },
+        {
+          "$ref": "#/$defs/EnabledBrandFilter"
+        },
+        {
+          "$ref": "#/$defs/EnabledRatingFilter"
+        },
+        {
+          "$ref": "#/$defs/EnabledMiscFilter"
+        }
+      ],
+      "title": "ConfiguredFilter",
+      "x-internal": false
+    },
+    "ConfiguredFilters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ConfiguredFilter"
+      },
+      "title": "ConfiguredFilters",
+      "x-internal": false
+    },
+    "EnabledBrandFilter": {
+      "description": "A storefront filter for product brand",
+      "type": "object",
+      "properties": {
+        "collapsed_by_default": {
+          "type": "boolean"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "display_product_count": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "is_enabled": {
+          "type": "boolean"
+        },
+        "items_to_show": {
+          "type": "integer",
+          "enum": [
+            5,
+            10,
+            15
+          ]
+        },
+        "sort_by": {
+          "type": "string",
+          "enum": [
+            "alpha",
+            "item_count"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "brand"
+          ]
+        }
+      },
+      "title": "EnabledBrandFilter",
+      "x-internal": false
+    },
+    "EnabledCategoryFilter": {
+      "description": "A storefront filter for product category",
+      "type": "object",
+      "properties": {
+        "collapsed_by_default": {
+          "type": "boolean"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "display_product_count": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "is_enabled": {
+          "type": "boolean"
+        },
+        "items_to_show": {
+          "type": "integer",
+          "enum": [
+            5,
+            10,
+            15
+          ]
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "category"
+          ]
+        }
+      },
+      "title": "EnabledCategoryFilter",
+      "x-internal": false
+    },
+    "EnabledMiscFilter": {
+      "description": "Miscellaneous Filters which appear as a group.",
+      "type": "object",
+      "properties": {
+        "collapsed_by_default": {
+          "type": "boolean"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "display_product_count": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "is_enabled": {
+          "type": "boolean"
+        },
+        "show_free_shipping_filter": {
+          "type": "boolean"
+        },
+        "show_in_stock_filter": {
+          "type": "boolean"
+        },
+        "show_is_featured_filter": {
+          "type": "boolean"
+        },
+        "show_product_count": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "other"
+          ]
+        }
+      },
+      "title": "EnabledMiscFilter",
+      "x-internal": false
+    },
+    "EnabledPriceFilter": {
+      "description": "A filter based on the product’s price, shown as a price range on the storefront.",
+      "type": "object",
+      "properties": {
+        "collapsed_by_default": {
+          "type": "boolean"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "is_enabled": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "price"
+          ]
+        }
+      },
+      "title": "EnabledPriceFilter",
+      "x-internal": false
+    },
+    "EnabledProductFilter": {
+      "description": "A filter that uses product options and custom field data.",
+      "type": "object",
+      "properties": {
+        "collapsed_by_default": {
+          "type": "boolean"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "display_product_count": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "is_enabled": {
+          "type": "boolean"
+        },
+        "items_to_show": {
+          "type": "integer",
+          "enum": [
+            5,
+            10,
+            15
+          ]
+        },
+        "sort_by": {
+          "type": "string",
+          "enum": [
+            "alpha",
+            "option_values",
+            "item_count"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "product"
+          ]
+        }
+      },
+      "title": "EnabledProductFilter",
+      "x-internal": false
+    },
+    "EnabledRatingFilter": {
+      "description": "A filter based on product review ratings.",
+      "type": "object",
+      "properties": {
+        "collapsed_by_default": {
+          "type": "boolean"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "is_enabled": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "rating"
+          ]
+        }
+      },
+      "title": "EnabledRatingFilter",
+      "x-internal": false
+    },
+    "SearchFilterOverrideContextIdentifier": {
+      "type": "object",
+      "properties": {
+        "category_id": {
+          "type": "integer"
+        },
+        "channel_id": {
+          "type": "integer"
+        }
+      },
+      "title": "ContextIdentifier",
+      "x-internal": false
+    }
+  }
+}

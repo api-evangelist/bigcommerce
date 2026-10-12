@@ -1,0 +1,336 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-pages-collection-response-schema.json",
+  "title": "PagesCollectionResponse",
+  "description": "Response payload for the BigCommerce API.\n",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-pages-bulk-api-openapi.yml#/components/schemas/PagesCollectionResponse",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/typePage"
+          },
+          {
+            "$ref": "#/$defs/typeBlog"
+          },
+          {
+            "$ref": "#/$defs/typeContactForm"
+          },
+          {
+            "$ref": "#/$defs/typeFeed"
+          },
+          {
+            "$ref": "#/$defs/typeRaw"
+          },
+          {
+            "$ref": "#/$defs/typeLink"
+          }
+        ]
+      }
+    },
+    "meta": {
+      "$ref": "#/$defs/ResponseMeta"
+    }
+  },
+  "$defs": {
+    "ResponseMeta": {
+      "type": "object",
+      "description": "Data about the response, including pagination and collection totals.\n",
+      "properties": {
+        "pagination": {
+          "type": "object",
+          "description": "Data about the response, including pagination and collection totals.\n",
+          "properties": {
+            "total": {
+              "type": "integer",
+              "description": "Total number of items in the result set.\n"
+            },
+            "count": {
+              "type": "integer",
+              "description": "Total number of items in the collection response.\n"
+            },
+            "per_page": {
+              "type": "integer",
+              "description": "The amount of items returned in the collection per page, controlled by the limit parameter.\n"
+            },
+            "current_page": {
+              "type": "integer",
+              "description": "The page you are currently on within the collection.\n"
+            },
+            "total_pages": {
+              "type": "integer",
+              "description": "The total number of pages in the collection.\n"
+            },
+            "links": {
+              "type": "object",
+              "description": "Pagination links for the previous and next parts of the whole collection.\n",
+              "properties": {
+                "previous": {
+                  "type": "string",
+                  "description": "Link to the previous page returned in the response.\n"
+                },
+                "current": {
+                  "type": "string",
+                  "description": "Link to the current page returned in the response.\n"
+                },
+                "next": {
+                  "type": "string",
+                  "description": "Link to the next page returned in the response.\n"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "anyTypePage": {
+      "type": "object",
+      "description": "Properties of all Pages V3 pages.\n",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "channel_id": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the page. Must be unique.",
+          "minLength": 1,
+          "maxLength": 100,
+          "uniqueItems": true,
+          "readOnly": false
+        },
+        "is_visible": {
+          "type": "boolean",
+          "default": true,
+          "description": "A boolean value that controls whether the page is available to users or visible in any navigation menus."
+        },
+        "parent_id": {
+          "type": "integer",
+          "description": "ID of the parent page, if any.",
+          "default": 0
+        },
+        "sort_order": {
+          "type": "integer",
+          "description": "Determines the order in which the page is displayed in the parent page’s menu. Pages with lower integers display earlier."
+        },
+        "type": {
+          "type": "string",
+          "description": "Determines the type of page. See [Pages v3 page types](/docs/rest-content/pages#page-types) for more about the differences.",
+          "enum": [
+            "page",
+            "raw",
+            "contact_form",
+            "feed",
+            "link",
+            "blog"
+          ]
+        },
+        "is_homepage": {
+          "type": "boolean",
+          "description": "Determines whether this page loads at the siteʼs root route. For example, at `https://example.com/`.",
+          "default": false
+        },
+        "is_customers_only": {
+          "type": "boolean",
+          "description": "When `true`, this page is not visible to merchant users who are signed in to the store control panel.",
+          "default": false
+        },
+        "url": {
+          "type": "string",
+          "description": "Relative URL on the storefront for this page.\n"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ]
+    },
+    "pageMeta": {
+      "type": "object",
+      "properties": {
+        "meta_title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "meta_keywords": {
+          "description": "Comma-separated list of SEO-relevant keywords to include in the element of this page.\n",
+          "default": "\"\"",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "meta_description": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": "\"\"",
+          "description": "Description contained within the element of this page.\n"
+        }
+      }
+    },
+    "searchKeywords": {
+      "type": "object",
+      "properties": {
+        "search_keywords": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Comma-separated list of keywords that shoppers can use to locate this page when searching the store.\n",
+          "default": "\"\"",
+          "readOnly": false
+        }
+      }
+    },
+    "typeBlog": {
+      "description": "",
+      "allOf": [
+        {
+          "$ref": "#/$defs/anyTypePage"
+        },
+        {
+          "$ref": "#/$defs/pageMeta"
+        },
+        {
+          "$ref": "#/$defs/searchKeywords"
+        },
+        {
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "Relative URL on the storefront for this page.\n"
+            }
+          }
+        }
+      ]
+    },
+    "typeContactForm": {
+      "description": "",
+      "allOf": [
+        {
+          "$ref": "#/$defs/anyTypePage"
+        },
+        {
+          "$ref": "#/$defs/pageMeta"
+        },
+        {
+          "$ref": "#/$defs/searchKeywords"
+        },
+        {
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "Applicable when the page type is `contact_form`: contact email address that receives messages sent via the form. Must be unique.",
+              "maxLength": 255
+            },
+            "contact_fields": {
+              "type": "string",
+              "description": "A comma-separated list of the contact field forms that are enabled in the store control panel for display on the subject storefront. Possible fields include:\n\n| Field | Description |\n|:|:|\n| `fullname` | The full name of the customer submitting the form. |\n| `phone` | The customer’s phone number. |\n| `companyname` | The customer’s company name. |\n| `orderno` | A field that lets customers specify a subject order number. |\n| `rma` | A customer’s submitted RMA (Return Merchandise Authorization) number. |\n"
+            }
+          }
+        }
+      ]
+    },
+    "typeFeed": {
+      "description": "",
+      "allOf": [
+        {
+          "$ref": "#/$defs/anyTypePage"
+        },
+        {
+          "$ref": "#/$defs/pageMeta"
+        },
+        {
+          "$ref": "#/$defs/searchKeywords"
+        },
+        {
+          "properties": {
+            "feed": {
+              "type": "string",
+              "description": "The URL of the RSS feed. Required in a `POST` request if the page type is `rss_feed`.\n"
+            }
+          },
+          "required": [
+            "feed"
+          ]
+        }
+      ]
+    },
+    "typeLink": {
+      "description": "",
+      "allOf": [
+        {
+          "$ref": "#/$defs/anyTypePage"
+        },
+        {
+          "properties": {
+            "link": {
+              "type": "string",
+              "description": "The link for the page type `link`."
+            }
+          },
+          "required": [
+            "link"
+          ]
+        }
+      ]
+    },
+    "typePage": {
+      "description": "Schema for a Pages V3 page with `type: page`\n",
+      "allOf": [
+        {
+          "$ref": "#/$defs/anyTypePage"
+        },
+        {
+          "$ref": "#/$defs/pageMeta"
+        },
+        {
+          "$ref": "#/$defs/searchKeywords"
+        }
+      ]
+    },
+    "typeRaw": {
+      "description": "",
+      "allOf": [
+        {
+          "$ref": "#/$defs/anyTypePage"
+        },
+        {
+          "$ref": "#/$defs/searchKeywords"
+        },
+        {
+          "properties": {
+            "body": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "HTML or variable that populates the element of this page, in default/desktop view. Required in a `POST` request if the page type is `raw`.\n"
+            },
+            "content_type": {
+              "type": "string",
+              "description": "The MIME type of the page body."
+            }
+          },
+          "required": [
+            "body"
+          ]
+        }
+      ]
+    }
+  }
+}

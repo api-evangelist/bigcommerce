@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-blog-post-base-res-schema.json",
+  "title": "blogPost_Base_Res",
+  "description": "blog post base response",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-blog-posts-api-openapi.yml#/components/schemas/blogPost_Base_Res",
+  "type": "object",
+  "x-internal": false,
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title of this blog post."
+    },
+    "url": {
+      "type": "string",
+      "description": "URL for the public blog post."
+    },
+    "preview_url": {
+      "type": "string",
+      "description": "URL to preview the blog post. READ-ONLY.",
+      "readOnly": true
+    },
+    "body": {
+      "type": "string",
+      "description": "Text body of the blog post."
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags to characterize the blog post.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "Summary of the blog post. READ-ONLY.",
+      "readOnly": true
+    },
+    "is_published": {
+      "type": "boolean",
+      "description": "Whether the blog post is published. If you want the post to be or remain published following the request, you must set the field explicitly to true, even if the blog post was already published prior to the request.",
+      "default": false
+    },
+    "published_date": {
+      "$ref": "#/$defs/publishedDate"
+    },
+    "published_date_iso8601": {
+      "type": "string",
+      "description": "Published date in `ISO 8601` format."
+    },
+    "meta_description": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Description text for this blog post’s `<meta/>` element."
+    },
+    "meta_keywords": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Keywords for this blog post’s `<meta/>` element."
+    },
+    "author": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Name of the blog post’s author."
+    },
+    "thumbnail_path": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Local path to a thumbnail uploaded to `/product_images/` using [WebDAV](https://support.bigcommerce.com/s/article/File-Access-WebDAV)."
+    }
+  },
+  "$defs": {
+    "publishedDate": {
+      "type": "object",
+      "x-internal": false,
+      "properties": {
+        "timezone_type": {
+          "type": "integer"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "timezone": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

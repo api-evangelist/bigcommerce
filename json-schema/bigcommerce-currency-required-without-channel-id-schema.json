@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-currency-required-without-channel-id-schema.json",
+  "title": "CurrencyRequiredWithoutChannelId",
+  "description": "Details about currency assignments for a specific channel.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-currency-assignments-api-openapi.yml#/components/schemas/CurrencyRequiredWithoutChannelId",
+  "type": "object",
+  "properties": {
+    "enabled_currencies": {
+      "$ref": "#/$defs/EnabledCurrencies"
+    },
+    "default_currency": {
+      "$ref": "#/$defs/DefaultCurrency"
+    }
+  },
+  "required": [
+    "enabled_currencies",
+    "default_currency"
+  ],
+  "x-internal": false,
+  "$defs": {
+    "DefaultCurrency": {
+      "type": "string",
+      "description": "Default currency for the channel in [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) three character alphabetic format. Will be used on storefront when other currencies cannot.",
+      "x-internal": false
+    },
+    "EnabledCurrencies": {
+      "type": "array",
+      "description": "Currencies that are enabled for the specified channel in [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) three character alphabetic format.",
+      "items": {
+        "type": "string"
+      },
+      "x-internal": false
+    }
+  }
+}

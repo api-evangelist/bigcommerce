@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-bulk-pricing-tier-schema.json",
+  "title": "BulkPricingTier",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-products-api-openapi.yml#/components/schemas/BulkPricingTier",
+  "type": "object",
+  "properties": {
+    "minimum": {
+      "type": "integer",
+      "description": "The minimum quantity required to trigger this bulk pricing discount."
+    },
+    "maximum": {
+      "type": "integer",
+      "description": "The maximum quantity (or 0 for unlimited) to trigger this bulk pricing discount."
+    },
+    "discount_amount": {
+      "type": "number"
+    },
+    "discount_type": {
+      "type": "string",
+      "enum": [
+        "price",
+        "percent",
+        "fixed"
+      ]
+    },
+    "tax_discount_amount": {
+      "type": "array",
+      "description": "Formats the `bulk_pricing.discount_amount` into the tax price amounts.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "as_entered": {
+            "type": "number",
+            "description": "The price provided by the merchant as entered in their catalog/price list; may include or exclude tax."
+          },
+          "tax_inclusive": {
+            "type": "number",
+            "description": "The estimated tax inclusive price for this product based on the provided customer group."
+          },
+          "tax_exclusive": {
+            "type": "number",
+            "description": "The estimated tax exclusive price for this product based on the provided customer group."
+          },
+          "entered_inclusive": {
+            "type": "boolean",
+            "description": "Determines whether the 'as_entered' price is inclusive or exclusive of tax based on the store's tax jurisdiction."
+          }
+        }
+      }
+    }
+  },
+  "x-internal": false
+}

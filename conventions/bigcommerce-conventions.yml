@@ -1,0 +1,57 @@
+generated: '2026-10-12'
+method: searched
+source:
+- https://docs.bigcommerce.com/developer/docs/overview/api-fundamentals/api-accounts
+- https://docs.bigcommerce.com/developer/docs/overview/api-fundamentals/rate-limits
+- openapi/
+auth:
+  style: X-Auth-Token header (store-level or app-level API account access token); Storefront tokens / customer impersonation
+    for GraphQL Storefront
+  docs: https://docs.bigcommerce.com/developer/docs/overview/api-fundamentals/api-accounts
+  artifact: authentication/bigcommerce-authentication.yml
+base_urls:
+- https://api.bigcommerce.com/stores/{store_hash}/v3
+- https://api.bigcommerce.com/stores/{store_hash}/v2
+- https://{store_domain}/api/storefront
+idempotency:
+  coverage: none
+  note: No Idempotency-Key header or replay protection documented or declared in the OpenAPI contracts.
+pagination:
+  style: offset/page
+  params:
+  - page
+  - limit
+  note: page + limit query parameters across V3 list operations; GraphQL Storefront uses cursor connections.
+rate_limit_signaling:
+  status: 429
+  headers:
+  - X-Rate-Limit-Time-Window-Ms
+  - X-Rate-Limit-Time-Reset-Ms
+  - X-Rate-Limit-Requests-Quota
+  - X-Rate-Limit-Requests-Left
+  artifact: rate-limits/bigcommerce-rate-limits.yml
+versioning:
+  style: path (/v2, /v3)
+  artifact: lifecycle/bigcommerce-lifecycle.yml
+errors:
+  artifact: errors/bigcommerce-problem-types.yml
+reversibility:
+  surfaces:
+  - surface: order payments
+    reversal: refund
+    operationIds:
+    - createOrderRefund
+    grade: documented
+    note: Order refunds via payment actions; no window stated in the docs read.
+  - surface: order payments
+    reversal: void
+    operationIds:
+    - voidOrderPayment
+    grade: documented
+  - surface: carts
+    reversal: delete line item / cart
+    operationIds:
+    - deleteCartLineItem
+    - deleteCart
+    grade: documented
+  note: No reversal windows stated in the pages read; none asserted.

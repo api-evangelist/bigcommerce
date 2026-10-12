@@ -1,0 +1,86 @@
+generated: '2026-10-12'
+method: derived
+source:
+- mcp/bigcommerce-mcp.yml
+- openapi/
+surfaces:
+  mcp: https://{store_domain}/api/mcp (per storefront, documented tool tables; live tools/list not probed)
+  openapi: openapi/bigcommerce-*-api-openapi.yml
+crosswalk:
+- tool: add_item_to_cart
+  category: cart
+  rest:
+  - addCartLineItem
+  binding: openapi/bigcommerce-cart-items-api-openapi.yml POST /carts/{cartId}/items
+  confidence: medium
+  note: semantic match by name; MCP tool likely backed by GraphQL Storefront
+- tool: update_cart_item
+  category: cart
+  rest:
+  - updateCartLineItem
+  binding: openapi/bigcommerce-cart-items-api-openapi.yml
+  confidence: medium
+- tool: remove_item_from_cart
+  category: cart
+  rest:
+  - deleteCartLineItem
+  binding: openapi/bigcommerce-cart-items-api-openapi.yml
+  confidence: medium
+- tool: create_checkout_url
+  category: checkout
+  rest:
+  - createCartRedirectURL
+  binding: openapi/bigcommerce-redirects-cart-redirect-urls-api-openapi.yml
+  confidence: low
+- tool: search_products
+  category: catalog
+  rest:
+  - getProducts
+  binding: openapi/bigcommerce-products-api-openapi.yml (admin catalog, not storefront)
+  confidence: low
+- tool: get_product_details
+  category: catalog
+  rest:
+  - getProduct
+  binding: openapi/bigcommerce-products-api-openapi.yml
+  confidence: low
+mcp_only:
+- tool: related_products
+  reason: no public REST equivalent identified
+- tool: create_shopping_list
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: get_shopping_lists
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: get_shopping_list_details
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: update_shopping_list
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: delete_shopping_list
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: add_item_to_shopping_list
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: update_shopping_list_item
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: delete_shopping_list_item
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: submit_shopping_list_for_approval
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: approve_shopping_list
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: reject_shopping_list
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: duplicate_shopping_list
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: get_quotes
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: request_quote
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: get_quote_details
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: send_quote_message
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+- tool: generate_quote_checkout_url
+  reason: B2B Edition shopping list / quote tool; B2B REST specs not mapped in this pass
+coverage:
+  tools: 24
+  mapped: 6

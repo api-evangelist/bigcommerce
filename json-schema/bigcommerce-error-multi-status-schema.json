@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-error-multi-status-schema.json",
+  "title": "errorMultiStatus",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-products-api-openapi.yml#/components/schemas/errorMultiStatus",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "integer",
+      "minLength": 3,
+      "maxLength": 3,
+      "description": "The [HTTP status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) of the failure or partial success."
+    },
+    "title": {
+      "type": "string",
+      "description": "A summary of the failure or partial success."
+    },
+    "type": {
+      "type": "string",
+      "description": "A BigCommerce-defined error signifier."
+    },
+    "errors": {
+      "$ref": "#/$defs/DetailedErrors"
+    }
+  },
+  "$defs": {
+    "DetailedErrors": {
+      "title": "DetailedErrors",
+      "description": "Each key-value pair describes a failure or partial success case.",
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true,
+      "x-internal": false
+    }
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-card-instrument-schema.json",
+  "title": "Card Instrument",
+  "description": "Details about a stored card instrument which includes details around billing, last 4 digits, issuer, etc.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-stored-instruments-api-openapi.yml#/components/schemas/CardInstrument",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Type of instrument.",
+      "enum": [
+        "stored_card"
+      ]
+    },
+    "token": {
+      "type": "string",
+      "description": "An identifier representing this stored instrument."
+    },
+    "is_default": {
+      "type": "boolean",
+      "description": "Identifies whether this stored instrument is default for the customer."
+    },
+    "brand": {
+      "type": "string",
+      "description": "Card brand."
+    },
+    "expiry_month": {
+      "maximum": 12,
+      "minimum": 1,
+      "type": "integer",
+      "description": "Expiry month for this card."
+    },
+    "expiry_year": {
+      "type": "integer",
+      "description": "Expiry year for this card."
+    },
+    "issuer_identification_number": {
+      "type": "string",
+      "description": "Issuer identification number for this card."
+    },
+    "last_4": {
+      "type": "string",
+      "description": "Last four digits of this card."
+    },
+    "billing_address": {
+      "$ref": "#/$defs/BillingAddress"
+    }
+  },
+  "x-internal": false,
+  "$defs": {
+    "BillingAddress": {
+      "type": "object",
+      "properties": {
+        "first_name": {
+          "type": "string",
+          "description": "First name of the card holder."
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name of the card holder."
+        },
+        "email": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string",
+          "description": "Company of the card holder."
+        },
+        "address1": {
+          "type": "string"
+        },
+        "address2": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "postal_code": {
+          "type": "string"
+        },
+        "state_or_province": {
+          "type": "string",
+          "description": "Represents state or province."
+        },
+        "state_or_province_code": {
+          "type": "string"
+        },
+        "country_code": {
+          "type": "string",
+          "description": "ISO-3166-1 2 letter country code."
+        },
+        "phone": {
+          "type": "string"
+        }
+      },
+      "x-internal": false
+    }
+  }
+}

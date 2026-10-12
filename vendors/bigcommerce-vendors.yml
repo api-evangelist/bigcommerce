@@ -1,0 +1,60 @@
+generated: '2026-10-12'
+method: probed
+source: pre-flight dossier (docs platform, portal detections) + CNAME chains and response headers of the hosts apis.yml names
+registry: all/0-working/vendors.yml
+areas_vocabulary:
+- documentation
+- developer-portal
+- api-gateway
+- cdn
+- hosting
+- sdk-generation
+- api-collections
+- status-page
+- support
+- community
+- identity
+- mcp-hosting
+vendors:
+- vendor: cloudflare
+  name: Cloudflare
+  area: cdn
+  host: docs.bigcommerce.com
+  evidence: cname:cloudflare.net
+  signal: cname
+  confidence: high
+  kin_score:
+  - https_enforced
+  - hsts
+- vendor: vercel
+  name: Vercel
+  area: hosting
+  host: www.bigcommerce.com
+  evidence: header:x-vercel-id
+  signal: header
+  confidence: high
+  kin_score: []
+reliance:
+  areas_vendor_served:
+  - cdn
+  - hosting
+  vendor_count: 2
+  areas_observed: 12
+  share_of_observable_areas: 0.167
+  note: areas where a third party was DETECTED serving this provider; an area absent here was either self-run or not observed, and this script
+    cannot tell those apart
+checked:
+- 'docs-platform: not probed'
+- docs.bigcommerce.com (GettingStarted)
+- www.bigcommerce.com (Documentation)
+- support.bigcommerce.com (Support)
+- status.bigcommerce.com (StatusPage)
+- login.bigcommerce.com (Login)
+- docs.bigcommerce.com (APIReference)
+- www.bigcommerce.com (Website)
+- developer.bigcommerce.com (Portal)
+- api.bigcommerce.com (baseURL)
+- '{store_domain} (baseURL)'
+- payments.bigcommerce.com (baseURL)
+- '{app_domain} (baseURL)'
+- '{store_domain} (mcp)'

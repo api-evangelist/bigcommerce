@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-certificate-response-schema.json",
+  "title": "CertificateResponse",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-site-certificate-api-openapi.yml#/components/schemas/CertificateResponse",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "shared",
+            "dedicated"
+          ]
+        },
+        "installed_certificate": {
+          "$ref": "#/$defs/InstalledCertificateDetail"
+        }
+      }
+    },
+    "meta": {
+      "$ref": "#/$defs/MetaOpen"
+    }
+  },
+  "x-tags": [
+    "Models"
+  ],
+  "$defs": {
+    "InstalledCertificateDetail": {
+      "title": "CertificateInfo",
+      "description": "Details about the installed certificate, including the raw certificate data, without the private key.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "common_name": {
+          "type": "string",
+          "description": "Common Name on the TLS certificate."
+        },
+        "subject_alternative_names": {
+          "type": "array",
+          "description": "Subject Alternative Names for which the certificate is also valid.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validity_not_before": {
+          "type": "string",
+          "description": "When does the validity period of this certificate begin? RFC 3339."
+        },
+        "validity_not_after": {
+          "type": "string",
+          "description": "When does the validity period of this certificate end? If this date is in the past, the certificate has expired. RFC 3339."
+        },
+        "signing_algorithm": {
+          "type": "string",
+          "description": "Signing algorithm used to sign the certificate."
+        },
+        "issuer": {
+          "type": "string"
+        },
+        "certificate": {
+          "type": "string",
+          "description": "The primary certificate, as a string."
+        },
+        "intermediate_certificates": {
+          "type": "string",
+          "description": "The intermediate certificate(s), as a string."
+        }
+      },
+      "x-tags": [
+        "Models"
+      ]
+    },
+    "MetaOpen": {
+      "title": "Response meta",
+      "type": "object",
+      "properties": {},
+      "additionalProperties": true,
+      "description": "Response metadata."
+    }
+  }
+}

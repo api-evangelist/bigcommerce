@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bigcommerce/main/json-schema/bigcommerce-product-image-full-schema.json",
+  "title": "productImage_Full",
+  "description": "Common ProductImage properties.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/bigcommerce-images-api-openapi.yml#/components/schemas/productImage_Full",
+  "allOf": [
+    {
+      "$ref": "#/$defs/productImage_Base"
+    },
+    {
+      "title": "productImage",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The unique numeric ID of the image; increments sequentially.\n"
+        },
+        "product_id": {
+          "type": "integer",
+          "description": "The unique numeric identifier for the product with which the image is associated.\n"
+        },
+        "url_zoom": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The zoom URL for this image. By default, this is used as the zoom image on product pages when zoom images are enabled. You should provide an image smaller than 1280x1280; otherwise, the API returns a resized image.\n"
+        },
+        "url_standard": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The standard URL for this image. By default, this is used for product-page images.\n"
+        },
+        "url_thumbnail": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The thumbnail URL for this image. By default, this is the image size used on the category page and in side panels.\n"
+        },
+        "url_tiny": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The tiny URL for this image. By default, this is the image size used for thumbnails beneath the product image on a product page.\n"
+        },
+        "date_modified": {
+          "type": "string",
+          "description": "The date on which the product image was modified.\n",
+          "format": "date-time"
+        }
+      },
+      "description": "Common ProductImage properties."
+    }
+  ],
+  "x-internal": false,
+  "$defs": {
+    "productImage_Base": {
+      "title": "productImage_Base",
+      "type": "object",
+      "properties": {
+        "image_file": {
+          "type": "string",
+          "description": "The local path to the original image file uploaded to BigCommerce. Use image_url when creating a product.\n\nMust be sent as a `multipart/form-data` field in the request body. Limit of 8 MB per file.\n"
+        },
+        "is_thumbnail": {
+          "type": "boolean",
+          "description": "Flag for identifying whether the image is used as the productʼs thumbnail.\n"
+        },
+        "sort_order": {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "type": "integer",
+          "description": "The order in which the image will be displayed on the product page. Higher integers give the image a lower priority. When updating, if the image is given a lower priority, all images with a `sort_order` the same as or greater than the imageʼs new `sort_order` value will have their `sort_order`s reordered.\n"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description for the image.\n"
+        },
+        "image_url": {
+          "type": "string",
+          "description": "Must be a fully qualified URL path, including protocol. Limit of 8MB per file."
+        }
+      },
+      "description": "Common ProductImage properties.",
+      "x-internal": false
+    }
+  }
+}
