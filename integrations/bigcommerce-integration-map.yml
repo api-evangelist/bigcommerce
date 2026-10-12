@@ -1,0 +1,48 @@
+# DERIVED by derive-integration-map.py (roadmap#949): each integration workflow, step by step,
+# resolved to spec file -> tag -> business capability (Turbo EA, CC BY 4.0) and the operation's
+# phrasing intent. Read from our own files; an unmapped link says why.
+slug: bigcommerce
+workflows:
+- file: bigcommerce-google-ads-new-customers-to-customer-match.yml
+  title: BigCommerce Google Ads - Add new customers to a Customer Match list
+  partner: google-ads
+  template: https://zapier.com/apps/bigcommerce/integrations/google-ads/1585390/add-new-bigcommerce-customers-to-your-google-ads-contact-list
+  repos:
+  - bigcommerce
+  - google-ads
+  steps:
+  - step: listNewCustomers
+    repo: bigcommerce
+    spec_file: bigcommerce-customers-api-openapi.yml
+    operationId: getCustomers
+    tag: Customers
+    capability_id: BC-420.10
+    capability: Customer Data Management
+    capability_l1: BC-420
+    intent: null
+    effect: null
+    unmapped: null
+  - step: uploadToCustomerMatch
+    repo: google-ads
+    spec_file: google-ads-customers-api-openapi.yml
+    operationId: googleads_customers_uploadUserData
+    tag: customers
+    capability_id: BC-400.60
+    capability: Digital Marketing Management
+    capability_l1: BC-400
+    intent: Upload user data to a Customer Match list
+    effect: write
+    unmapped: null
+  connects:
+    bigcommerce:
+      capabilities:
+      - BC-420.10
+      tags:
+      - Customers
+    google-ads:
+      capabilities:
+      - BC-400.60
+      tags:
+      - customers
+  intents:
+  - Upload user data to a Customer Match list
