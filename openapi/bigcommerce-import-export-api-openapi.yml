@@ -245,38 +245,6 @@ paths:
           description: The requested export download does not exist.
 components:
   parameters:
-    ContentTypeFormData:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: multipart/form-data
-    ImportExportIdParam:
-      name: uuid
-      description: The import-export job identifier.
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentTypeCsv:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: text/csv
     AcceptEventStream:
       name: Accept
       in: header
@@ -285,11 +253,43 @@ components:
       schema:
         type: string
         default: text/event-stream
+    ContentTypeFormData:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: multipart/form-data
     ContentType:
       name: Content-Type
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    ImportExportIdParam:
+      name: uuid
+      description: The import-export job identifier.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    ContentTypeCsv:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: text/csv
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
       schema:
         type: string
         default: application/json
@@ -327,6 +327,14 @@ components:
           format: date-time
           description: The date-time that the import-export job was completed, formatted as an [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) string.
           example: '2022-01-04T04:15:50.000Z'
+    ImportExportJobStatus:
+      type: string
+      enum:
+      - new
+      - working
+      - complete
+      - aborted
+      - failed
     ImportExportJobType:
       type: string
       enum:
@@ -378,14 +386,6 @@ components:
                 current:
                   type: string
                   example: ?limit=5&page=1
-    ImportExportJobStatus:
-      type: string
-      enum:
-      - new
-      - working
-      - complete
-      - aborted
-      - failed
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

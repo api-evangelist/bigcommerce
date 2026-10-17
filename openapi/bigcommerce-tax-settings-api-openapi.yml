@@ -71,14 +71,6 @@ paths:
           description: The request body does not meet the specification.
 components:
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
@@ -87,13 +79,15 @@ components:
       schema:
         type: string
         default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     Tax_Settings:
       type: object
       properties:
@@ -139,6 +133,12 @@ components:
           default: 1
           type: integer
           description: ID for the tax zone a store uses when subtracting store tax. This setting applies only if a merchant enters tax-inclusive prices and subtracts store tax before tax calculation.
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

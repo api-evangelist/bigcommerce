@@ -1582,6 +1582,14 @@ paths:
           content: {}
 components:
   parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
     OptionIdParam:
       name: option_id
       description: 'The ID of the `Option`.
@@ -1591,6 +1599,14 @@ components:
       in: path
       schema:
         type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
     ProductIdParam:
       name: product_id
       in: path
@@ -1600,23 +1616,26 @@ components:
       required: true
       schema:
         type: integer
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   schemas:
+    productOption_Full:
+      title: productOption_Full
+      allOf:
+      - $ref: '#/components/schemas/productOption_Base'
+      - type: object
+        properties:
+          name:
+            type: string
+            description: 'The unique option name, auto-generated from the display name, a timestamp, and the product ID.
+
+              '
+            example: Add-a-$5-Donation1535042499-187
+      x-internal: false
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     productOption_Base:
       title: productOption_Base
       type: object
@@ -1675,32 +1694,6 @@ components:
           items:
             $ref: '#/components/schemas/productOptionOptionValue_Full'
       description: Common Option properties.
-      x-internal: false
-    productOptionOptionValue_Full:
-      title: productOptionOptionValue_Full
-      description: Product Option `option_value`.
-      allOf:
-      - $ref: '#/components/schemas/productOptionOptionValue_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: 'The unique numeric ID of the value; increments sequentially.
-
-              '
-      x-internal: false
-    productOption_Full:
-      title: productOption_Full
-      allOf:
-      - $ref: '#/components/schemas/productOption_Base'
-      - type: object
-        properties:
-          name:
-            type: string
-            description: 'The unique option name, auto-generated from the display name, a timestamp, and the product ID.
-
-              '
-            example: Add-a-$5-Donation1535042499-187
       x-internal: false
     productOptionConfig_Full:
       title: productOptionConfig_Full
@@ -1861,12 +1854,6 @@ components:
           - package
       description: The values for option config can vary based on the Modifier created.
       x-internal: false
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     pagination_Full:
       title: pagination_Full
       type: object
@@ -1965,6 +1952,19 @@ components:
 
             '
       description: Common Product Option `option_value` properties.
+      x-internal: false
+    productOptionOptionValue_Full:
+      title: productOptionOptionValue_Full
+      description: Product Option `option_value`.
+      allOf:
+      - $ref: '#/components/schemas/productOptionOptionValue_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: 'The unique numeric ID of the value; increments sequentially.
+
+              '
       x-internal: false
     metaCollection_Full:
       title: metaCollection_Full

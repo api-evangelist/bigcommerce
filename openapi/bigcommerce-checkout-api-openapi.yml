@@ -1607,12 +1607,30 @@ paths:
       description: BigCommerce API Gateway
 components:
   schemas:
-    PickupOption:
+    AppliedCoupon:
+      title: Applied Coupon
+      required:
+      - code
       type: object
-      title: Pickup Option
       properties:
-        pickup_method_id:
+        code:
+          type: string
+          description: The coupon code.
+          example: SHOPNOW
+        id:
           type: integer
+          description: The coupon ID.
+          example: 1
+        coupon_type:
+          type: string
+          description: Key name to identify the type of coupon.
+          example: percentage_discount
+        discounted_amount:
+          type: number
+          description: The discounted amount applied within a given context.
+          format: float
+          example: 0.9
+      x-internal: false
     Checkout_Put:
       title: Checkout_Put
       required:
@@ -2348,30 +2366,12 @@ components:
       properties: {}
       additionalProperties: true
       description: Response metadata.
-    AppliedCoupon:
-      title: Applied Coupon
-      required:
-      - code
+    PickupOption:
       type: object
+      title: Pickup Option
       properties:
-        code:
-          type: string
-          description: The coupon code.
-          example: SHOPNOW
-        id:
+        pickup_method_id:
           type: integer
-          description: The coupon ID.
-          example: 1
-        coupon_type:
-          type: string
-          description: Key name to identify the type of coupon.
-          example: percentage_discount
-        discounted_amount:
-          type: number
-          description: The discounted amount applied within a given context.
-          format: float
-          example: 0.9
-      x-internal: false
     checkout_Put:
       title: checkout_Put
       type: object
@@ -3160,6 +3160,14 @@ components:
           format: double
       x-internal: false
   parameters:
+    Content-Type:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
     checkoutId:
       name: checkoutId
       in: path
@@ -3172,14 +3180,6 @@ components:
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    Content-Type:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
       schema:
         type: string
         default: application/json

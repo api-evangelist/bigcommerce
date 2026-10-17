@@ -2255,40 +2255,6 @@ paths:
       description: BigCommerce API Gateway
 components:
   schemas:
-    productImage_Base:
-      title: productImage_Base
-      type: object
-      properties:
-        image_file:
-          type: string
-          description: 'The local path to the original image file uploaded to BigCommerce. Use image_url when creating a product.
-
-
-            Must be sent as a `multipart/form-data` field in the request body. Limit of 8 MB per file.
-
-            '
-        is_thumbnail:
-          type: boolean
-          description: 'Flag for identifying whether the image is used as the productʼs thumbnail.
-
-            '
-        sort_order:
-          maximum: 2147483647
-          minimum: -2147483648
-          type: integer
-          description: 'The order in which the image will be displayed on the product page. Higher integers give the image a lower priority. When updating, if the image is given a lower priority, all images with a `sort_order` the same as or greater than the imageʼs new `sort_order` value will have their `sort_order`s reordered.
-
-            '
-        description:
-          type: string
-          description: 'The description for the image.
-
-            '
-        image_url:
-          type: string
-          description: Must be a fully qualified URL path, including protocol. Limit of 8MB per file.
-      description: Common ProductImage properties.
-      x-internal: false
     productModifier_Full:
       title: productModifier_Full
       description: Product Modifier
@@ -2319,121 +2285,52 @@ components:
             items:
               $ref: '#/components/schemas/productModifierOptionValue_Full'
       x-internal: false
-    bulkPricingRule_Full:
-      title: bulkPricingRule_Full
-      type: object
-      description: Common Bulk Pricing Rule properties
+    productVideo_Full:
+      title: productVideo_Full
+      description: 'A product video model.
+
+        '
+      allOf:
+      - $ref: '#/components/schemas/productVideo_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+            description: 'The unique numeric ID of the product video; increments sequentially.
+
+              '
+          product_id:
+            type: integer
+            description: 'The unique numeric identifier for the product with which the image is associated.
+
+              '
+          length:
+            type: string
+            description: 'Length of the video. This will be filled in according to data on a host site.
+
+              '
       x-internal: false
-      properties:
-        quantity_min:
-          minimum: 0
-          type: integer
-          description: 'The minimum inclusive quantity of a product to satisfy this rule. Must be greater than or equal to zero. For `fixed` rules, the minimum quantity canʼt be less than two.
-
-            Required in /POST.
-
-            '
-          example: 10
-          x-required:
-          - post
-        quantity_max:
-          minimum: 0
-          type: integer
-          description: 'The maximum inclusive quantity of a product to satisfy this rule. Must be greater than the `quantity_min` value – unless this field has a value of 0 (zero), in which case there will be no maximum bound for this rule.
-
-            Required in /POST.'
-          example: 50
-          x-required:
-          - post
-        type:
-          type: string
-          description: 'The type of adjustment that is made. Values: `price` - the adjustment amount per product; `percent` - the adjustment as a percentage of the original price; `fixed` - the adjusted absolute price of the product.
-
-            Required in /POST.'
-          example: price
-          enum:
-          - price
-          - percent
-          - fixed
-          x-required:
-          - post
-        amount:
-          oneOf:
-          - type: number
-            example: 10
-          - type: string
-            example: '.10'
-          description: "You can express the adjustment type as either a fixed dollar amount or a percentage. Send a number; the response will return a number for `price` and `fixed` adjustments.\nDivide the adjustment percentage by 100 and send the result in string format. For example, represent 10% as “.10”. The response will return a float value for both `price` and `percentage` adjustments. \nRequired in /POST."
-      required:
-      - quantity_min
-      - quantity_max
-      - type
-      - amount
-    productOption_Base:
-      title: productOption_Base
+    error_Base:
+      title: error_Base
       type: object
       properties:
-        id:
-          type:
-          - integer
-          - 'null'
-          description: 'The unique numerical ID of the option, increments sequentially.
-
-            '
-          example: 55
-        product_id:
+        status:
           type: integer
-          description: 'The unique numerical ID of the product to which the option belongs.
+          description: 'The HTTP status code.
 
             '
-          example: 4
-          x-required:
-          - post
-          - put
-        display_name:
-          maxLength: 255
-          minLength: 1
+        title:
           type: string
-          description: 'The name of the option shown on the storefront.
+          description: 'The error title describing the particular error.
 
             '
-          example: Add-a-$5-Donation1535042499-187
-          x-required:
-          - post
-          - put
         type:
           type: string
-          description: 'The type of option, which determines how it will display on the storefront. Acceptable values: `radio_buttons`, `rectangles`, `dropdown`, `product_list`, `product_list_with_images`, `swatch`. For reference, the former v2 API values are: RB = radio_buttons, RT = rectangles, S = dropdown, P = product_list, PI = product_list_with_images, CS = swatch.
+        instance:
+          type: string
+      description: 'Error payload for the BigCommerce API.
 
-            '
-          enum:
-          - radio_buttons
-          - rectangles
-          - dropdown
-          - product_list
-          - product_list_with_images
-          - swatch
-          x-required:
-          - post
-          - put
-        config:
-          $ref: '#/components/schemas/productOptionConfig_Full'
-        sort_order:
-          type: integer
-          description: 'Order in which the option is displayed on the storefront. '
-          example: 1
-        option_values:
-          type: array
-          items:
-            $ref: '#/components/schemas/productOptionOptionValue_Full'
-      description: Common Option properties.
-      x-internal: false
-    DetailedErrors:
-      title: DetailedErrors
-      description: Each key-value pair describes a failure or partial success case.
-      type: object
-      properties: {}
-      additionalProperties: true
+        '
       x-internal: false
     productOptionConfig_Full:
       title: productOptionConfig_Full
@@ -2594,126 +2491,77 @@ components:
           - package
       description: The values for option config can vary based on the Modifier created.
       x-internal: false
-    customUrl_Full:
-      title: customUrl_Full
+    productModifier_Base:
+      title: productModifier_Base
+      required:
+      - required
+      - type
       type: object
       properties:
-        url:
-          maxLength: 255
-          minLength: 0
+        type:
           type: string
-          description: 'Product URL on the storefront.
+          description: 'BigCommerce API, which determines how it will display on the storefront. Acceptable values: `date`, `checkbox`, `file`, `text`, `multi_line_text`, `numbers_only_text`, `radio_buttons`, `rectangles`, `dropdown`, `product_list`, `product_list_with_images`, `swatch`. Required in a /POST.
+
+            '
+          enum:
+          - date
+          - checkbox
+          - file
+          - text
+          - multi_line_text
+          - numbers_only_text
+          - radio_buttons
+          - rectangles
+          - dropdown
+          - product_list
+          - product_list_with_images
+          - swatch
+          x-required:
+          - post
+        required:
+          type: boolean
+          description: 'Whether or not this modifer is required or not at checkout. Required in a /POST.
 
             '
           x-required:
           - post
-          - put
-          x-url: true
-        is_customized:
-          type: boolean
-          description: 'Returns `true` if the URL has been changed from its default state (the auto-assigned URL that BigCommerce provides).
-
-            '
-          x-required:
-          - post
-          - put
-        create_redirect:
-          type: boolean
-          description: 'Optional field. This field automatically creates a dynamic 301 redirect when a product URL change occurs with a PUT request. Existing dynamic redirects will automatically update to a new URL to avoid a loop.
-
-            '
-      description: The custom URL for the product on the storefront.
+        sort_order:
+          type: integer
+          description: The order the modifiers display on the product detail page.
+        config:
+          $ref: '#/components/schemas/config_Full'
+        display_name:
+          type: string
+          description: The name of the option shown on the storefront.
+      description: Common Modifier properties.
       x-internal: false
-    productVariant_Full:
-      title: productVariant_Full
+    productOptionOptionValue_Full:
+      title: productOptionOptionValue_Full
+      description: Product Option `option_value`.
       allOf:
-      - $ref: '#/components/schemas/productVariant_Base'
+      - $ref: '#/components/schemas/productOptionOptionValue_Base'
       - type: object
         properties:
-          product_id:
-            type: integer
-            description: Product ID
           id:
             type: integer
-            description: Variant ID
-          sku:
-            type: string
-          option_values:
-            type: array
-            description: Array of option and option values IDs that make up this variant. Will be empty if the variant is the productʼs base variant.
-            items:
-              $ref: '#/components/schemas/productVariantOptionValue_Full'
-          calculated_price:
-            type: number
-            description: 'The price of the variant as seen on the storefront. This price takes into account `sale_price` and any price adjustment rules that are applicable to this variant.
+            description: 'The unique numeric ID of the value; increments sequentially.
 
               '
-            format: double
-          calculated_weight:
-            type: number
-      required:
-      - sku
-      - id
-      - product_id
       x-internal: false
-      description: ''
-      x-examples:
-        example-1:
-          cost_price: 0
-          price: 0
-          sale_price: 0
-          retail_price: 0
-          weight: 0
-          width: 0
-          height: 0
-          depth: 0
-          is_free_shipping: true
-          fixed_cost_shipping_price: 0
-          purchasing_disabled: true
-          purchasing_disabled_message: string
-          upc: string
-          inventory_level: 0
-          inventory_warning_level: 0
-          bin_picking_number: string
-          mpn: string
-          gtin: 012345678905
-          id: 0
-          product_id: 0
-          sku: string
-          sku_id: 0
-          option_values:
-          - option_display_name: Color
-            label: Beige
-            id: 146
-            option_id: 151
-          calculated_price: 0
-          calculated_weight: 0
-    metaCollection_Full:
-      title: metaCollection_Full
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination_Full'
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
-    errorResponse_409:
-      title: errorResponse_409
+    productModifierOptionValue_Full:
+      title: productModifierOptionValue_Full
+      description: Product Modifer `option_value`.
       allOf:
+      - $ref: '#/components/schemas/productModifierOptionValue_Base'
       - type: object
         properties:
-          code:
+          id:
             type: integer
-          status:
+            description: 'The unique numeric ID of the value; increments sequentially.
+
+              '
+          option_id:
             type: integer
-          title:
-            type: string
-            description: The error title describing the particular error.
-          type:
-            type: string
-      - type: object
-        properties:
-          errors:
-            $ref: '#/components/schemas/DetailedErrors'
       x-internal: false
     product_Base:
       title: product_Base
@@ -3301,38 +3149,17 @@ components:
       - type
       - weight
       - price
-    product_Put:
-      title: product_Put
-      description: The model for a PUT to update a product.
+    productImage_Full:
+      title: productImage_Full
+      description: Common ProductImage properties.
       allOf:
-      - $ref: '#/components/schemas/product_Base'
-      - type: object
-      x-internal: false
-    productOptionOptionValue_Full:
-      title: productOptionOptionValue_Full
-      description: Product Option `option_value`.
-      allOf:
-      - $ref: '#/components/schemas/productOptionOptionValue_Base'
-      - type: object
+      - $ref: '#/components/schemas/productImage_Base'
+      - title: productImage
+        type: object
         properties:
           id:
             type: integer
-            description: 'The unique numeric ID of the value; increments sequentially.
-
-              '
-      x-internal: false
-    productVideo_Full:
-      title: productVideo_Full
-      description: 'A product video model.
-
-        '
-      allOf:
-      - $ref: '#/components/schemas/productVideo_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: 'The unique numeric ID of the product video; increments sequentially.
+            description: 'The unique numeric ID of the image; increments sequentially.
 
               '
           product_id:
@@ -3340,30 +3167,94 @@ components:
             description: 'The unique numeric identifier for the product with which the image is associated.
 
               '
-          length:
+          url_zoom:
+            readOnly: true
             type: string
-            description: 'Length of the video. This will be filled in according to data on a host site.
+            description: 'The zoom URL for this image. By default, this is used as the zoom image on product pages when zoom images are enabled. You should provide an image smaller than 1280x1280; otherwise, the API returns a resized image.
 
               '
+          url_standard:
+            readOnly: true
+            type: string
+            description: 'The standard URL for this image. By default, this is used for product-page images.
+
+              '
+          url_thumbnail:
+            readOnly: true
+            type: string
+            description: 'The thumbnail URL for this image. By default, this is the image size used on the category page and in side panels.
+
+              '
+          url_tiny:
+            readOnly: true
+            type: string
+            description: 'The tiny URL for this image. By default, this is the image size used for thumbnails beneath the product image on a product page.
+
+              '
+          date_modified:
+            type: string
+            description: 'The date on which the product image was modified.
+
+              '
+            format: date-time
+        description: Common ProductImage properties.
       x-internal: false
-    errorResponse_422:
-      title: errorResponse_422
+    adjusters_Full:
+      title: adjusters_Full
+      type: object
+      properties:
+        price:
+          $ref: '#/components/schemas/adjuster_Full'
+        weight:
+          $ref: '#/components/schemas/adjuster_Full'
+        image_url:
+          type: string
+          description: 'The URL for an image displayed on the storefront when the modifier value is selected.Limit of 8MB per file.
+
+            '
+          example: https://cdn8.bigcommerce.com/s-{{store_hash}}/products/184/images/445/naturalcanvascart2_1024x1024__92347__29648.1534344533.1280.1280.jpg?c=2
+        purchasing_disabled:
+          type: object
+          properties:
+            status:
+              type: boolean
+              description: 'Flag for whether the modifier value disables purchasing when selected on the storefront. This can be used for temporarily disabling a particular modifier value.
+
+                '
+            message:
+              type: string
+              description: 'The message displayed on the storefront when the purchasing disabled status is `true`.
+
+                '
+      x-internal: false
+    productVariantOptionValue_Full:
+      title: productVariantOptionValue_Full
       allOf:
       - type: object
         properties:
-          code:
-            type: integer
-          status:
-            type: integer
-          title:
+          option_display_name:
+            maxLength: 255
+            minLength: 1
             type: string
-            description: The error title describing the particular error.
-          type:
+            description: 'The name of the option.
+
+              '
+            example: Color
+            x-required:
+            - post
+          label:
+            maxLength: 255
+            minLength: 1
             type: string
-      - type: object
-        properties:
-          errors:
-            $ref: '#/components/schemas/DetailedErrors'
+            description: 'The label of the option value.
+
+              '
+            example: Beige
+            x-required:
+            - post
+      required:
+      - option_display_name
+      - label
       x-internal: false
     pagination_Full:
       title: pagination_Full
@@ -3423,6 +3314,170 @@ components:
             '
       description: Data about the response, including pagination and collection totals.
       x-internal: false
+    productImage_Base:
+      title: productImage_Base
+      type: object
+      properties:
+        image_file:
+          type: string
+          description: 'The local path to the original image file uploaded to BigCommerce. Use image_url when creating a product.
+
+
+            Must be sent as a `multipart/form-data` field in the request body. Limit of 8 MB per file.
+
+            '
+        is_thumbnail:
+          type: boolean
+          description: 'Flag for identifying whether the image is used as the productʼs thumbnail.
+
+            '
+        sort_order:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: 'The order in which the image will be displayed on the product page. Higher integers give the image a lower priority. When updating, if the image is given a lower priority, all images with a `sort_order` the same as or greater than the imageʼs new `sort_order` value will have their `sort_order`s reordered.
+
+            '
+        description:
+          type: string
+          description: 'The description for the image.
+
+            '
+        image_url:
+          type: string
+          description: Must be a fully qualified URL path, including protocol. Limit of 8MB per file.
+      description: Common ProductImage properties.
+      x-internal: false
+    bulkPricingRule_Full:
+      title: bulkPricingRule_Full
+      type: object
+      description: Common Bulk Pricing Rule properties
+      x-internal: false
+      properties:
+        quantity_min:
+          minimum: 0
+          type: integer
+          description: 'The minimum inclusive quantity of a product to satisfy this rule. Must be greater than or equal to zero. For `fixed` rules, the minimum quantity canʼt be less than two.
+
+            Required in /POST.
+
+            '
+          example: 10
+          x-required:
+          - post
+        quantity_max:
+          minimum: 0
+          type: integer
+          description: 'The maximum inclusive quantity of a product to satisfy this rule. Must be greater than the `quantity_min` value – unless this field has a value of 0 (zero), in which case there will be no maximum bound for this rule.
+
+            Required in /POST.'
+          example: 50
+          x-required:
+          - post
+        type:
+          type: string
+          description: 'The type of adjustment that is made. Values: `price` - the adjustment amount per product; `percent` - the adjustment as a percentage of the original price; `fixed` - the adjusted absolute price of the product.
+
+            Required in /POST.'
+          example: price
+          enum:
+          - price
+          - percent
+          - fixed
+          x-required:
+          - post
+        amount:
+          oneOf:
+          - type: number
+            example: 10
+          - type: string
+            example: '.10'
+          description: "You can express the adjustment type as either a fixed dollar amount or a percentage. Send a number; the response will return a number for `price` and `fixed` adjustments.\nDivide the adjustment percentage by 100 and send the result in string format. For example, represent 10% as “.10”. The response will return a float value for both `price` and `percentage` adjustments. \nRequired in /POST."
+      required:
+      - quantity_min
+      - quantity_max
+      - type
+      - amount
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    product_Full:
+      title: product_Full
+      allOf:
+      - type: object
+        properties:
+          id:
+            minimum: 1
+            type: integer
+            description: ID of the product. Read-Only.
+            readOnly: true
+      - $ref: '#/components/schemas/product_Base'
+      - type: object
+        properties:
+          date_created:
+            type: string
+            description: 'The date on which the product was created.
+
+              '
+            format: date-time
+            example: '2018-08-15T14:49:05+00:00'
+          date_modified:
+            type: string
+            description: 'The date on which the product was modified.
+
+              '
+            format: date-time
+            example: '2018-08-24T14:41:00+00:00'
+          base_variant_id:
+            type: integer
+            description: The unique identifier of the base variant associated with a simple product. This value is `null` for complex products.
+          calculated_price:
+            type: number
+            description: The calculated_price is derived from the default price and sale price of the product. It is equal to the sale price if set or the default price if there is not a sale price present. Depending on your store settings and customer group, or channel-specific pricing, this value may or may not be equal to the price seen on the storefront.
+            format: float
+          options:
+            type: array
+            items:
+              $ref: '#/components/schemas/productOption_Base'
+          modifiers:
+            type: array
+            items:
+              $ref: '#/components/schemas/productModifier_Full'
+          map_price:
+            type: number
+            description: Minimum Advertised Price.
+          option_set_id:
+            type: integer
+            description: Indicates that the product is in an Option Set (legacy V2 concept).
+          option_set_display:
+            type: string
+            description: Legacy template setting which controls if the option set shows up to the side of or below the product image and description.
+      x-internal: false
+    adjuster_Full:
+      title: adjuster_Full
+      type: object
+      properties:
+        adjuster:
+          type:
+          - string
+          - 'null'
+          description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+            '
+          enum:
+          - relative
+          - percentage
+        adjuster_value:
+          type: number
+          description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
+
+            '
+          example: 5
+      description: Adjuster for Complex Rules.
+      x-internal: false
     productOptionOptionValue_Base:
       title: productOptionOptionValue_Base
       required:
@@ -3464,27 +3519,227 @@ components:
             '
       description: Common Product Option `option_value` properties.
       x-internal: false
-    adjuster_Full:
-      title: adjuster_Full
+    product_Put_Collection:
+      title: product_Put_Collection
+      description: The model for batch updating products.
+      x-internal: false
+      items:
+        allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: Unique ID of the *Product*. Read-Only.
+              readOnly: true
+          required:
+          - id
+        - $ref: '#/components/schemas/product_Base'
+      x-examples:
+        example-1:
+        - id: 0
+          name: Smith Journal 13
+          type: physical
+          sku: SM-13
+          description: <p><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel metus ac est egestas porta sed quis erat. Integer id nulla massa. Proin vitae enim nisi. Praesent non dignissim nulla. Nulla mattis id massa ac pharetra. Mauris et nisi in dolor aliquam sodales. Aliquam dui nisl, dictum quis leo sit amet, rutrum volutpat metus. Curabitur libero nunc, interdum ac libero non, tristique porttitor metus. Ut non dignissim lorem, in vestibulum leo. Vivamus sodales quis turpis eget.</span></p>
+          weight: 0
+          width: 0
+          depth: 0
+          height: 0
+          price: 0
+          cost_price: 0
+          retail_price: 0
+          sale_price: 0
+          map_price: 0
+          tax_class_id: 0
+          product_tax_code: string
+          categories:
+          - 0
+          brand_id: 0
+          inventory_level: 0
+          inventory_warning_level: 0
+          inventory_tracking: none
+          fixed_cost_shipping_price: 0
+          is_free_shipping: true
+          is_visible: true
+          is_featured: true
+          related_products:
+          - 0
+          warranty: string
+          bin_picking_number: string
+          layout_file: string
+          upc: string
+          search_keywords: string
+          availability: available
+          availability_description: string
+          gift_wrapping_options_type: list
+          gift_wrapping_options_list:
+          - 0
+          sort_order: -2147483648
+          condition: New
+          is_condition_shown: true
+          order_quantity_minimum: 0
+          order_quantity_maximum: 0
+          page_title: string
+          meta_keywords:
+          - string
+          meta_description: string
+          view_count: 0
+          preorder_release_date: '2019-08-24T14:15:22Z'
+          preorder_message: string
+          is_preorder_only: true
+          is_price_hidden: true
+          price_hidden_label: string
+          custom_url:
+            url: string
+            is_customized: true
+          open_graph_type: product
+          open_graph_title: string
+          open_graph_description: string
+          open_graph_use_meta_description: true
+          open_graph_use_product_name: true
+          open_graph_use_image: true
+          brand_name: Common Good
+          gtin: string
+          mpn: string
+          date_last_imported: '2015-07-03T18:16:02+00:00'
+          reviews_rating_sum: 3.2
+          reviews_count: 4
+          total_sold: 80
+          custom_fields:
+          - id: 6
+            name: ISBN
+            value: '1234567890123'
+          bulk_pricing_rules:
+          - id: 0
+            quantity_min: 10
+            quantity_max: 50
+            type: price
+            amount: 10
+          images:
+          - image_file: string
+            is_thumbnail: true
+            sort_order: -2147483648
+            description: string
+            image_url: string
+            id: 0
+            product_id: 0
+            url_zoom: string
+            url_standard: string
+            url_thumbnail: string
+            url_tiny: string
+            date_modified: '2019-08-24T14:15:22Z'
+          videos:
+          - title: Writing Great Documentation
+            description: A video about documenation
+            sort_order: 1
+            type: youtube
+            video_id: z3fRu9pkuXE
+            id: 0
+            product_id: 0
+            length: string
+      type: array
+    productModifierOptionValue_Base:
+      title: productModifierOptionValue_Base
+      required:
+      - label
+      - sort_order
       type: object
       properties:
-        adjuster:
+        is_default:
+          type: boolean
+          description: 'The flag for preselecting a value as the default on the storefront. This field is not supported for swatch options/modifiers.
+
+            '
+          example: false
+        label:
+          type: string
+          description: 'The text display identifying the value on the storefront. Required in a /POST.
+
+            '
+          example: Green
+          x-required:
+          - post
+        sort_order:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+          description: 'The order in which the value will be displayed on the product page. Required in a /POST.
+
+            '
+          example: 0
+          x-required:
+          - post
+        value_data:
           type:
-          - string
+          - object
           - 'null'
-          description: 'The type of adjuster for either the price or the weight of the variant, when the modifier value is selected on the storefront.
+          properties: {}
+          description: 'Extra data describing the value, based on the type of option or modifier with which the value is associated. The `swatch` type option can accept an array of `colors`, with up to three hexidecimal color keys; or an `image_url`, which is a full image URL path including protocol. The `product list` type option requires a `product_id`. The `checkbox` type option requires a boolean flag, called `checked_value`, to determine which value is considered to be the checked state. If no data is available, returns `null`.
+
+            '
+        adjusters:
+          $ref: '#/components/schemas/adjusters_Full'
+      description: Common Product Modifer `option_value` properties.
+      x-internal: false
+    productVideo_Base:
+      title: productVideo_Base
+      type: object
+      description: 'The model for a POST to create a video on a product.
+
+        '
+      x-internal: false
+      properties:
+        title:
+          type: string
+          maxLength: 255
+          minLength: 0
+          description: 'The title for the video. If left blank, this will be filled in according to data on a host site.
+
+            '
+          example: Writing Great Documentation
+        description:
+          type: string
+          description: 'The description for the video. If left blank, this will be filled in according to data on a host site.
+
+            '
+          example: A video about documenation
+        sort_order:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: 'The order in which the video will be displayed on the product page. Higher integers give the video a lower priority. When updating, if the video is given a lower priority, all videos with a `sort_order` the same as or greater than the videoʼs new `sort_order` value will have their `sort_order`s reordered.
+
+            '
+          example: 1
+        type:
+          type: string
+          description: 'The video type (a short name of a host site).
 
             '
           enum:
-          - relative
-          - percentage
-        adjuster_value:
-          type: number
-          description: 'The numeric amount by which the adjuster will change either the price or the weight of the variant, when the modifier value is selected on the storefront.
-
-            '
-          example: 5
-      description: Adjuster for Complex Rules.
+          - youtube
+        video_id:
+          type: string
+          description: The ID of the video on a host site.
+          example: z3fRu9pkuXE
+    errorResponse_422:
+      title: errorResponse_422
+      allOf:
+      - type: object
+        properties:
+          code:
+            type: integer
+          status:
+            type: integer
+          title:
+            type: string
+            description: The error title describing the particular error.
+          type:
+            type: string
+      - type: object
+        properties:
+          errors:
+            $ref: '#/components/schemas/DetailedErrors'
       x-internal: false
     productVariant_Base:
       title: productVariant_Base
@@ -3626,321 +3881,77 @@ components:
           bin_picking_number: string
           mpn: string
           gtin: 012345678905
-    error_Base:
-      title: error_Base
-      type: object
-      properties:
-        status:
-          type: integer
-          description: 'The HTTP status code.
-
-            '
-        title:
-          type: string
-          description: 'The error title describing the particular error.
-
-            '
-        type:
-          type: string
-        instance:
-          type: string
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      x-internal: false
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    productModifier_Base:
-      title: productModifier_Base
-      required:
-      - required
-      - type
-      type: object
-      properties:
-        type:
-          type: string
-          description: 'BigCommerce API, which determines how it will display on the storefront. Acceptable values: `date`, `checkbox`, `file`, `text`, `multi_line_text`, `numbers_only_text`, `radio_buttons`, `rectangles`, `dropdown`, `product_list`, `product_list_with_images`, `swatch`. Required in a /POST.
-
-            '
-          enum:
-          - date
-          - checkbox
-          - file
-          - text
-          - multi_line_text
-          - numbers_only_text
-          - radio_buttons
-          - rectangles
-          - dropdown
-          - product_list
-          - product_list_with_images
-          - swatch
-          x-required:
-          - post
-        required:
-          type: boolean
-          description: 'Whether or not this modifer is required or not at checkout. Required in a /POST.
-
-            '
-          x-required:
-          - post
-        sort_order:
-          type: integer
-          description: The order the modifiers display on the product detail page.
-        config:
-          $ref: '#/components/schemas/config_Full'
-        display_name:
-          type: string
-          description: The name of the option shown on the storefront.
-      description: Common Modifier properties.
-      x-internal: false
-    product_Full:
-      title: product_Full
+    product_Put:
+      title: product_Put
+      description: The model for a PUT to update a product.
       allOf:
-      - type: object
-        properties:
-          id:
-            minimum: 1
-            type: integer
-            description: ID of the product. Read-Only.
-            readOnly: true
       - $ref: '#/components/schemas/product_Base'
       - type: object
-        properties:
-          date_created:
-            type: string
-            description: 'The date on which the product was created.
-
-              '
-            format: date-time
-            example: '2018-08-15T14:49:05+00:00'
-          date_modified:
-            type: string
-            description: 'The date on which the product was modified.
-
-              '
-            format: date-time
-            example: '2018-08-24T14:41:00+00:00'
-          base_variant_id:
-            type: integer
-            description: The unique identifier of the base variant associated with a simple product. This value is `null` for complex products.
-          calculated_price:
-            type: number
-            description: The calculated_price is derived from the default price and sale price of the product. It is equal to the sale price if set or the default price if there is not a sale price present. Depending on your store settings and customer group, or channel-specific pricing, this value may or may not be equal to the price seen on the storefront.
-            format: float
-          options:
-            type: array
-            items:
-              $ref: '#/components/schemas/productOption_Base'
-          modifiers:
-            type: array
-            items:
-              $ref: '#/components/schemas/productModifier_Full'
-          map_price:
-            type: number
-            description: Minimum Advertised Price.
-          option_set_id:
-            type: integer
-            description: Indicates that the product is in an Option Set (legacy V2 concept).
-          option_set_display:
-            type: string
-            description: Legacy template setting which controls if the option set shows up to the side of or below the product image and description.
       x-internal: false
-    adjusters_Full:
-      title: adjusters_Full
-      type: object
-      properties:
-        price:
-          $ref: '#/components/schemas/adjuster_Full'
-        weight:
-          $ref: '#/components/schemas/adjuster_Full'
-        image_url:
-          type: string
-          description: 'The URL for an image displayed on the storefront when the modifier value is selected.Limit of 8MB per file.
-
-            '
-          example: https://cdn8.bigcommerce.com/s-{{store_hash}}/products/184/images/445/naturalcanvascart2_1024x1024__92347__29648.1534344533.1280.1280.jpg?c=2
-        purchasing_disabled:
-          type: object
-          properties:
-            status:
-              type: boolean
-              description: 'Flag for whether the modifier value disables purchasing when selected on the storefront. This can be used for temporarily disabling a particular modifier value.
-
-                '
-            message:
-              type: string
-              description: 'The message displayed on the storefront when the purchasing disabled status is `true`.
-
-                '
-      x-internal: false
-    productVariantOptionValue_Full:
-      title: productVariantOptionValue_Full
+    productVariant_Full:
+      title: productVariant_Full
       allOf:
+      - $ref: '#/components/schemas/productVariant_Base'
       - type: object
         properties:
-          option_display_name:
-            maxLength: 255
-            minLength: 1
-            type: string
-            description: 'The name of the option.
-
-              '
-            example: Color
-            x-required:
-            - post
-          label:
-            maxLength: 255
-            minLength: 1
-            type: string
-            description: 'The label of the option value.
-
-              '
-            example: Beige
-            x-required:
-            - post
-      required:
-      - option_display_name
-      - label
-      x-internal: false
-    productImage_Full:
-      title: productImage_Full
-      description: Common ProductImage properties.
-      allOf:
-      - $ref: '#/components/schemas/productImage_Base'
-      - title: productImage
-        type: object
-        properties:
-          id:
-            type: integer
-            description: 'The unique numeric ID of the image; increments sequentially.
-
-              '
           product_id:
             type: integer
-            description: 'The unique numeric identifier for the product with which the image is associated.
-
-              '
-          url_zoom:
-            readOnly: true
+            description: Product ID
+          id:
+            type: integer
+            description: Variant ID
+          sku:
             type: string
-            description: 'The zoom URL for this image. By default, this is used as the zoom image on product pages when zoom images are enabled. You should provide an image smaller than 1280x1280; otherwise, the API returns a resized image.
+          option_values:
+            type: array
+            description: Array of option and option values IDs that make up this variant. Will be empty if the variant is the productʼs base variant.
+            items:
+              $ref: '#/components/schemas/productVariantOptionValue_Full'
+          calculated_price:
+            type: number
+            description: 'The price of the variant as seen on the storefront. This price takes into account `sale_price` and any price adjustment rules that are applicable to this variant.
 
               '
-          url_standard:
-            readOnly: true
-            type: string
-            description: 'The standard URL for this image. By default, this is used for product-page images.
-
-              '
-          url_thumbnail:
-            readOnly: true
-            type: string
-            description: 'The thumbnail URL for this image. By default, this is the image size used on the category page and in side panels.
-
-              '
-          url_tiny:
-            readOnly: true
-            type: string
-            description: 'The tiny URL for this image. By default, this is the image size used for thumbnails beneath the product image on a product page.
-
-              '
-          date_modified:
-            type: string
-            description: 'The date on which the product image was modified.
-
-              '
-            format: date-time
-        description: Common ProductImage properties.
-      x-internal: false
-    productModifierOptionValue_Base:
-      title: productModifierOptionValue_Base
+            format: double
+          calculated_weight:
+            type: number
       required:
-      - label
-      - sort_order
-      type: object
-      properties:
-        is_default:
-          type: boolean
-          description: 'The flag for preselecting a value as the default on the storefront. This field is not supported for swatch options/modifiers.
-
-            '
-          example: false
-        label:
-          type: string
-          description: 'The text display identifying the value on the storefront. Required in a /POST.
-
-            '
-          example: Green
-          x-required:
-          - post
-        sort_order:
-          maximum: 2147483647
-          minimum: -2147483648
-          type: integer
-          description: 'The order in which the value will be displayed on the product page. Required in a /POST.
-
-            '
-          example: 0
-          x-required:
-          - post
-        value_data:
-          type:
-          - object
-          - 'null'
-          properties: {}
-          description: 'Extra data describing the value, based on the type of option or modifier with which the value is associated. The `swatch` type option can accept an array of `colors`, with up to three hexidecimal color keys; or an `image_url`, which is a full image URL path including protocol. The `product list` type option requires a `product_id`. The `checkbox` type option requires a boolean flag, called `checked_value`, to determine which value is considered to be the checked state. If no data is available, returns `null`.
-
-            '
-        adjusters:
-          $ref: '#/components/schemas/adjusters_Full'
-      description: Common Product Modifer `option_value` properties.
+      - sku
+      - id
+      - product_id
       x-internal: false
-    productVideo_Base:
-      title: productVideo_Base
-      type: object
-      description: 'The model for a POST to create a video on a product.
-
-        '
-      x-internal: false
-      properties:
-        title:
-          type: string
-          maxLength: 255
-          minLength: 0
-          description: 'The title for the video. If left blank, this will be filled in according to data on a host site.
-
-            '
-          example: Writing Great Documentation
-        description:
-          type: string
-          description: 'The description for the video. If left blank, this will be filled in according to data on a host site.
-
-            '
-          example: A video about documenation
-        sort_order:
-          type: integer
-          maximum: 2147483647
-          minimum: -2147483648
-          description: 'The order in which the video will be displayed on the product page. Higher integers give the video a lower priority. When updating, if the video is given a lower priority, all videos with a `sort_order` the same as or greater than the videoʼs new `sort_order` value will have their `sort_order`s reordered.
-
-            '
-          example: 1
-        type:
-          type: string
-          description: 'The video type (a short name of a host site).
-
-            '
-          enum:
-          - youtube
-        video_id:
-          type: string
-          description: The ID of the video on a host site.
-          example: z3fRu9pkuXE
+      description: ''
+      x-examples:
+        example-1:
+          cost_price: 0
+          price: 0
+          sale_price: 0
+          retail_price: 0
+          weight: 0
+          width: 0
+          height: 0
+          depth: 0
+          is_free_shipping: true
+          fixed_cost_shipping_price: 0
+          purchasing_disabled: true
+          purchasing_disabled_message: string
+          upc: string
+          inventory_level: 0
+          inventory_warning_level: 0
+          bin_picking_number: string
+          mpn: string
+          gtin: 012345678905
+          id: 0
+          product_id: 0
+          sku: string
+          sku_id: 0
+          option_values:
+          - option_display_name: Color
+            label: Beige
+            id: 146
+            option_id: 151
+          calculated_price: 0
+          calculated_weight: 0
     productCustomField_Put:
       title: productCustomField_Put
       required:
@@ -3976,6 +3987,65 @@ components:
           x-required:
           - post
       description: The model for a PUT to update a custom field on a product.
+      x-internal: false
+    productOption_Base:
+      title: productOption_Base
+      type: object
+      properties:
+        id:
+          type:
+          - integer
+          - 'null'
+          description: 'The unique numerical ID of the option, increments sequentially.
+
+            '
+          example: 55
+        product_id:
+          type: integer
+          description: 'The unique numerical ID of the product to which the option belongs.
+
+            '
+          example: 4
+          x-required:
+          - post
+          - put
+        display_name:
+          maxLength: 255
+          minLength: 1
+          type: string
+          description: 'The name of the option shown on the storefront.
+
+            '
+          example: Add-a-$5-Donation1535042499-187
+          x-required:
+          - post
+          - put
+        type:
+          type: string
+          description: 'The type of option, which determines how it will display on the storefront. Acceptable values: `radio_buttons`, `rectangles`, `dropdown`, `product_list`, `product_list_with_images`, `swatch`. For reference, the former v2 API values are: RB = radio_buttons, RT = rectangles, S = dropdown, P = product_list, PI = product_list_with_images, CS = swatch.
+
+            '
+          enum:
+          - radio_buttons
+          - rectangles
+          - dropdown
+          - product_list
+          - product_list_with_images
+          - swatch
+          x-required:
+          - post
+          - put
+        config:
+          $ref: '#/components/schemas/productOptionConfig_Full'
+        sort_order:
+          type: integer
+          description: 'Order in which the option is displayed on the storefront. '
+          example: 1
+        option_values:
+          type: array
+          items:
+            $ref: '#/components/schemas/productOptionOptionValue_Full'
+      description: Common Option properties.
       x-internal: false
     config_Full:
       title: config_Full
@@ -4136,6 +4206,62 @@ components:
           - package
       description: The values for option config can vary based on the Modifier created.
       x-internal: false
+    customUrl_Full:
+      title: customUrl_Full
+      type: object
+      properties:
+        url:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: 'Product URL on the storefront.
+
+            '
+          x-required:
+          - post
+          - put
+          x-url: true
+        is_customized:
+          type: boolean
+          description: 'Returns `true` if the URL has been changed from its default state (the auto-assigned URL that BigCommerce provides).
+
+            '
+          x-required:
+          - post
+          - put
+        create_redirect:
+          type: boolean
+          description: 'Optional field. This field automatically creates a dynamic 301 redirect when a product URL change occurs with a PUT request. Existing dynamic redirects will automatically update to a new URL to avoid a loop.
+
+            '
+      description: The custom URL for the product on the storefront.
+      x-internal: false
+    DetailedErrors:
+      title: DetailedErrors
+      description: Each key-value pair describes a failure or partial success case.
+      type: object
+      properties: {}
+      additionalProperties: true
+      x-internal: false
+    errorResponse_409:
+      title: errorResponse_409
+      allOf:
+      - type: object
+        properties:
+          code:
+            type: integer
+          status:
+            type: integer
+          title:
+            type: string
+            description: The error title describing the particular error.
+          type:
+            type: string
+      - type: object
+        properties:
+          errors:
+            $ref: '#/components/schemas/DetailedErrors'
+      x-internal: false
     errorMultiStatus:
       title: errorMultiStatus
       type: object
@@ -4153,140 +4279,14 @@ components:
           description: A BigCommerce-defined error signifier.
         errors:
           $ref: '#/components/schemas/DetailedErrors'
-    productModifierOptionValue_Full:
-      title: productModifierOptionValue_Full
-      description: Product Modifer `option_value`.
-      allOf:
-      - $ref: '#/components/schemas/productModifierOptionValue_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-            description: 'The unique numeric ID of the value; increments sequentially.
-
-              '
-          option_id:
-            type: integer
+    metaCollection_Full:
+      title: metaCollection_Full
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination_Full'
+      description: Data about the response, including pagination and collection totals.
       x-internal: false
-    product_Put_Collection:
-      title: product_Put_Collection
-      description: The model for batch updating products.
-      x-internal: false
-      items:
-        allOf:
-        - type: object
-          properties:
-            id:
-              type: integer
-              description: Unique ID of the *Product*. Read-Only.
-              readOnly: true
-          required:
-          - id
-        - $ref: '#/components/schemas/product_Base'
-      x-examples:
-        example-1:
-        - id: 0
-          name: Smith Journal 13
-          type: physical
-          sku: SM-13
-          description: <p><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel metus ac est egestas porta sed quis erat. Integer id nulla massa. Proin vitae enim nisi. Praesent non dignissim nulla. Nulla mattis id massa ac pharetra. Mauris et nisi in dolor aliquam sodales. Aliquam dui nisl, dictum quis leo sit amet, rutrum volutpat metus. Curabitur libero nunc, interdum ac libero non, tristique porttitor metus. Ut non dignissim lorem, in vestibulum leo. Vivamus sodales quis turpis eget.</span></p>
-          weight: 0
-          width: 0
-          depth: 0
-          height: 0
-          price: 0
-          cost_price: 0
-          retail_price: 0
-          sale_price: 0
-          map_price: 0
-          tax_class_id: 0
-          product_tax_code: string
-          categories:
-          - 0
-          brand_id: 0
-          inventory_level: 0
-          inventory_warning_level: 0
-          inventory_tracking: none
-          fixed_cost_shipping_price: 0
-          is_free_shipping: true
-          is_visible: true
-          is_featured: true
-          related_products:
-          - 0
-          warranty: string
-          bin_picking_number: string
-          layout_file: string
-          upc: string
-          search_keywords: string
-          availability: available
-          availability_description: string
-          gift_wrapping_options_type: list
-          gift_wrapping_options_list:
-          - 0
-          sort_order: -2147483648
-          condition: New
-          is_condition_shown: true
-          order_quantity_minimum: 0
-          order_quantity_maximum: 0
-          page_title: string
-          meta_keywords:
-          - string
-          meta_description: string
-          view_count: 0
-          preorder_release_date: '2019-08-24T14:15:22Z'
-          preorder_message: string
-          is_preorder_only: true
-          is_price_hidden: true
-          price_hidden_label: string
-          custom_url:
-            url: string
-            is_customized: true
-          open_graph_type: product
-          open_graph_title: string
-          open_graph_description: string
-          open_graph_use_meta_description: true
-          open_graph_use_product_name: true
-          open_graph_use_image: true
-          brand_name: Common Good
-          gtin: string
-          mpn: string
-          date_last_imported: '2015-07-03T18:16:02+00:00'
-          reviews_rating_sum: 3.2
-          reviews_count: 4
-          total_sold: 80
-          custom_fields:
-          - id: 6
-            name: ISBN
-            value: '1234567890123'
-          bulk_pricing_rules:
-          - id: 0
-            quantity_min: 10
-            quantity_max: 50
-            type: price
-            amount: 10
-          images:
-          - image_file: string
-            is_thumbnail: true
-            sort_order: -2147483648
-            description: string
-            image_url: string
-            id: 0
-            product_id: 0
-            url_zoom: string
-            url_standard: string
-            url_thumbnail: string
-            url_tiny: string
-            date_modified: '2019-08-24T14:15:22Z'
-          videos:
-          - title: Writing Great Documentation
-            description: A video about documenation
-            sort_order: 1
-            type: youtube
-            video_id: z3fRu9pkuXE
-            id: 0
-            product_id: 0
-            length: string
-      type: array
     BulkPricingTier:
       type: object
       properties:
@@ -4324,11 +4324,11 @@ components:
                 description: Determines whether the 'as_entered' price is inclusive or exclusive of tax based on the store's tax jurisdiction.
       x-internal: false
   parameters:
-    Accept:
-      name: Accept
+    ContentType:
+      name: Content-Type
       in: header
       required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
       schema:
         type: string
         default: application/json
@@ -4341,11 +4341,11 @@ components:
       required: true
       schema:
         type: integer
-    ContentType:
-      name: Content-Type
+    Accept:
+      name: Accept
       in: header
       required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
       schema:
         type: string
         default: application/json

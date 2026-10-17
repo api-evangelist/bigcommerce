@@ -185,22 +185,12 @@ components:
             - another-email@example.com
           forward_invoice:
             email_addresses: []
-    ChannelOrderSettingsDisableBothNotifications:
-      summary: Disable order placed notifications for channel
+    GlobalOrderSettingsDisableOrderPlacedNotificatons:
+      summary: Disable order placed notifications at global level
       value:
         notifications:
           order_placed:
             email_addresses: []
-          forward_invoice:
-            email_addresses: []
-    ChannelOrderSettingsReset:
-      summary: Reset order placed email addresses to global value for channel
-      value:
-        notifications:
-          order_placed:
-            email_addresses: null
-          forward_invoice:
-            email_addresses: null
     EnableMultipleOrderNotifications:
       summary: Enable order placed and forward invoice notifications
       value:
@@ -213,13 +203,68 @@ components:
             email_addresses:
             - admin@example.com
             - another-email@example.com
-    GlobalOrderSettingsDisableOrderPlacedNotificatons:
-      summary: Disable order placed notifications at global level
+    ChannelOrderSettingsReset:
+      summary: Reset order placed email addresses to global value for channel
+      value:
+        notifications:
+          order_placed:
+            email_addresses: null
+          forward_invoice:
+            email_addresses: null
+    ChannelOrderSettingsDisableBothNotifications:
+      summary: Disable order placed notifications for channel
       value:
         notifications:
           order_placed:
             email_addresses: []
+          forward_invoice:
+            email_addresses: []
   schemas:
+    ErrorResponse400:
+      type: object
+      properties:
+        schema:
+          $ref: '#/components/schemas/betaErrorResponse'
+      x-tags:
+      - Models
+    ChannelOrderSettings:
+      type: object
+      properties:
+        notifications:
+          type: object
+          description: Channel notification settings.
+          properties:
+            order_placed:
+              description: Channel order notification settings.
+              type: object
+              properties:
+                email_addresses:
+                  description: Email addresses channel order notifications will be sent to. If null will fall back to global value. Empty array disables order notifications for channel.
+                  type:
+                  - array
+                  - 'null'
+                  items:
+                    type: string
+            forward_invoice:
+              description: Channel order invoice forward settings.
+              type: object
+              properties:
+                email_addresses:
+                  description: Email addresses channel order invoices will be forwarded to. If null will fall back to global value. Empty array disables forwarding order invoices for channel.
+                  type:
+                  - array
+                  - 'null'
+                  items:
+                    type: string
+      x-tags:
+      - Models
+      title: ChannelOrderSettings
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     BaseError:
       type: object
       description: 'Error payload for the BigCommerce API.
@@ -238,6 +283,22 @@ components:
           type: string
         type:
           type: string
+      x-tags:
+      - Models
+    ErrorResponse422:
+      type: object
+      properties:
+        schema:
+          $ref: '#/components/schemas/betaErrorResponse'
+      x-tags:
+      - Models
+    betaErrorResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseError'
+      - type: object
+        properties:
+          errors:
+            type: object
       x-tags:
       - Models
     GlobalOrderSettings:
@@ -273,81 +334,20 @@ components:
       x-examples:
         example-1:
           $ref: '#/components/examples/EnableMultipleOrderNotifications/value'
-    ErrorResponse400:
-      type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/betaErrorResponse'
-      x-tags:
-      - Models
-    ErrorResponse422:
-      type: object
-      properties:
-        schema:
-          $ref: '#/components/schemas/betaErrorResponse'
-      x-tags:
-      - Models
-    betaErrorResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseError'
-      - type: object
-        properties:
-          errors:
-            type: object
-      x-tags:
-      - Models
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    ChannelOrderSettings:
-      type: object
-      properties:
-        notifications:
-          type: object
-          description: Channel notification settings.
-          properties:
-            order_placed:
-              description: Channel order notification settings.
-              type: object
-              properties:
-                email_addresses:
-                  description: Email addresses channel order notifications will be sent to. If null will fall back to global value. Empty array disables order notifications for channel.
-                  type:
-                  - array
-                  - 'null'
-                  items:
-                    type: string
-            forward_invoice:
-              description: Channel order invoice forward settings.
-              type: object
-              properties:
-                email_addresses:
-                  description: Email addresses channel order invoices will be forwarded to. If null will fall back to global value. Empty array disables forwarding order invoices for channel.
-                  type:
-                  - array
-                  - 'null'
-                  items:
-                    type: string
-      x-tags:
-      - Models
-      title: ChannelOrderSettings
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
       schema:
         type: string
         default: application/json

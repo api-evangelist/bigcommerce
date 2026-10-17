@@ -195,6 +195,27 @@ components:
             $ref: '#/components/schemas/Tree'
         meta:
           $ref: '#/components/schemas/MetaPaginationObject'
+    beta4DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      x-tags:
+      - Models
+    CategoryTreeListRequest:
+      type: array
+      items:
+        $ref: '#/components/schemas/Tree'
+      example:
+      - id: 0
+        name: string
+        channels:
+        - 0
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     BaseError:
       type: object
       description: 'Error payload for the BigCommerce API.
@@ -217,34 +238,28 @@ components:
           type: string
       x-tags:
       - Models
-    beta4DetailedErrors:
+    Tree:
       type: object
-      properties: {}
-      additionalProperties: true
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        channels:
+          type: array
+          items:
+            type: integer
       x-tags:
       - Models
-    CategoryTreeListRequest:
-      type: array
-      items:
-        $ref: '#/components/schemas/Tree'
-      example:
-      - id: 0
-        name: string
-        channels:
-        - 0
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    CategoryTree:
+    CategoryNodeTree:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Tree'
+            $ref: '#/components/schemas/CategoryNode'
         meta:
           $ref: '#/components/schemas/metaEmpty_Full'
     beta4ErrorResponse:
@@ -279,15 +294,6 @@ components:
             $ref: '#/components/schemas/CategoryNode'
       x-tags:
       - Models
-    CategoryNodeTree:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CategoryNode'
-        meta:
-          $ref: '#/components/schemas/metaEmpty_Full'
     MetaPaginationObject:
       type: object
       properties:
@@ -325,21 +331,15 @@ components:
                   example: ?limit=5&page=1
       x-tags:
       - Models
-    Tree:
+    CategoryTree:
       type: object
       properties:
-        id:
-          type: integer
-        name:
-          type: string
-          minLength: 1
-          maxLength: 255
-        channels:
+        data:
           type: array
           items:
-            type: integer
-      x-tags:
-      - Models
+            $ref: '#/components/schemas/Tree'
+        meta:
+          $ref: '#/components/schemas/metaEmpty_Full'
   parameters:
     Accept:
       name: Accept

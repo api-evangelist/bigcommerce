@@ -93,6 +93,40 @@ paths:
         description: Query certificates by one or more URLs
 components:
   schemas:
+    EmptyResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties: {}
+        meta:
+          type: object
+          properties: {}
+    InstallCertificateData:
+      type: object
+      properties:
+        url:
+          type: string
+          description: URL for the site.
+          example: kittens.mybigcommerce.com
+        certificate:
+          $ref: '#/components/schemas/CertificateWrite'
+    CertificateWrite:
+      title: CertificateWrite
+      type: object
+      description: ''
+      properties:
+        certificate:
+          type: string
+          description: The primary certificate, as a string.
+        private_key:
+          type: string
+          description: The private key, as a string. Is a "write-only" field, will never be returned after write.
+        intermediate_certificates:
+          type: string
+          description: The intermediate certificate(s), as a string.
+      x-tags:
+      - Models
     InstalledCertificateDetail:
       title: CertificateInfo
       description: Details about the installed certificate, including the raw certificate data, without the private key.
@@ -133,6 +167,16 @@ components:
           description: The intermediate certificate(s), as a string.
       x-tags:
       - Models
+    GetCertificatesResponse:
+      title: GetCertificatesResponse
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstalledCertificateDetail'
+        meta:
+          $ref: '#/components/schemas/MetaOpen'
     CertificateResponse:
       title: CertificateResponse
       type: object
@@ -152,70 +196,26 @@ components:
           $ref: '#/components/schemas/MetaOpen'
       x-tags:
       - Models
-    EmptyResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties: {}
-        meta:
-          type: object
-          properties: {}
-    InstallCertificateData:
-      type: object
-      properties:
-        url:
-          type: string
-          description: URL for the site.
-          example: kittens.mybigcommerce.com
-        certificate:
-          $ref: '#/components/schemas/CertificateWrite'
     MetaOpen:
       title: Response meta
       type: object
       properties: {}
       additionalProperties: true
       description: Response metadata.
-    GetCertificatesResponse:
-      title: GetCertificatesResponse
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstalledCertificateDetail'
-        meta:
-          $ref: '#/components/schemas/MetaOpen'
-    CertificateWrite:
-      title: CertificateWrite
-      type: object
-      description: ''
-      properties:
-        certificate:
-          type: string
-          description: The primary certificate, as a string.
-        private_key:
-          type: string
-          description: The private key, as a string. Is a "write-only" field, will never be returned after write.
-        intermediate_certificates:
-          type: string
-          description: The intermediate certificate(s), as a string.
-      x-tags:
-      - Models
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
       schema:
         type: string
         default: application/json

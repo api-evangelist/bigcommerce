@@ -117,14 +117,12 @@ paths:
       - Email Statuses
 components:
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
       schema:
-        type: string
-        default: application/json
+        type: integer
     ContentType:
       name: Content-Type
       in: header
@@ -133,12 +131,14 @@ components:
       schema:
         type: string
         default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
       schema:
-        type: integer
+        type: string
+        default: application/json
   schemas:
     EnabledTransactionalEmails:
       type: object

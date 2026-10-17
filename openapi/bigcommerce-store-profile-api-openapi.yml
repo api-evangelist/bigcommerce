@@ -89,6 +89,34 @@ paths:
       - Store Profile
 components:
   schemas:
+    StoreProfile:
+      title: Store Profile
+      description: The basic profile settings for a store, used to give the shopper information about the business from which they are purchasing.
+      type: object
+      x-internal: false
+      properties:
+        store_address:
+          type: string
+        store_address_type:
+          $ref: '#/components/schemas/AddressTypeEnumValues'
+        store_email:
+          type: string
+        store_name:
+          type: string
+        store_phone:
+          type: string
+    AddressTypeEnumValues:
+      description: Only supports manipulation on a global level.
+      type: string
+      default: Home Office
+      enum:
+      - Home Office
+      - Commercial Office
+      - Retail
+      - Warehouse
+      title: AddressTypeEnumValues
+      x-tags:
+      - Models
     BaseError:
       description: 'Error payload for the BigCommerce API.
 
@@ -110,30 +138,18 @@ components:
         type:
           type: string
       x-internal: false
-    AddressTypeEnumValues:
-      description: Only supports manipulation on a global level.
-      type: string
-      default: Home Office
-      enum:
-      - Home Office
-      - Commercial Office
-      - Retail
-      - Warehouse
-      title: AddressTypeEnumValues
-      x-tags:
-      - Models
-    DetailedErrors:
-      type: object
-      properties: {}
-      additionalProperties: true
-      title: Detailed Errors
-      x-internal: false
     MetaOpen:
       title: Response meta
       type: object
       properties: {}
       additionalProperties: true
       description: Response metadata.
+    DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      title: Detailed Errors
+      x-internal: false
     ErrorResponse:
       allOf:
       - $ref: '#/components/schemas/BaseError'
@@ -142,31 +158,13 @@ components:
             $ref: '#/components/schemas/DetailedErrors'
         type: object
       x-internal: false
-    StoreProfile:
-      title: Store Profile
-      description: The basic profile settings for a store, used to give the shopper information about the business from which they are purchasing.
-      type: object
-      x-internal: false
-      properties:
-        store_address:
-          type: string
-        store_address_type:
-          $ref: '#/components/schemas/AddressTypeEnumValues'
-        store_email:
-          type: string
-        store_name:
-          type: string
-        store_phone:
-          type: string
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+    ChannelIdParam:
+      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
+      in: query
+      name: channel_id
       schema:
-        type: string
-        default: application/json
+        type: integer
     ContentType:
       name: Content-Type
       in: header
@@ -175,12 +173,14 @@ components:
       schema:
         type: string
         default: application/json
-    ChannelIdParam:
-      description: Channel ID to use for channel-specific setting. If omitted, you will interact with the global setting only.
-      in: query
-      name: channel_id
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
       schema:
-        type: integer
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

@@ -478,24 +478,18 @@ paths:
           description: Permanent ID of the BigCommerce store.
       description: BigCommerce API Gateway
 components:
-  parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   schemas:
+    count_Response:
+      title: count_Response
+      type: object
+      properties:
+        count:
+          type: number
+          description: ''
+          example: 27
+      example:
+        count: 27
+      x-internal: false
     forward:
       title: forward
       type: object
@@ -538,17 +532,6 @@ components:
           type: product
           ref: 111
         url: http://store-store_hash.mybigcommerce.com/towels/bath-towels/hand-towels/
-      x-internal: false
-    count_Response:
-      title: count_Response
-      type: object
-      properties:
-        count:
-          type: number
-          description: ''
-          example: 27
-      example:
-        count: 27
       x-internal: false
     301RedirectUpsert:
       required:
@@ -636,6 +619,23 @@ components:
                 current:
                   type: string
                   example: ?limit=5&page=1
+  parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

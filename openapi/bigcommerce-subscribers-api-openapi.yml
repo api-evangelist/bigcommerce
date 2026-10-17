@@ -469,15 +469,9 @@ paths:
           content: {}
 components:
   schemas:
-    OpenMeta:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
-    subscriber_Post:
-      title: subscriber_Post
-      description: 'The model for a POST to create a subscriber.
+    subscriber_Put:
+      title: subscriber_Put
+      description: 'The model for a PUT to update a subscriber.
 
         '
       allOf:
@@ -554,14 +548,20 @@ components:
           description: The channel ID where the subscriber was created.
       description: Common Subscriber properties.
       x-internal: false
-    subscriber_Put:
-      title: subscriber_Put
-      description: 'The model for a PUT to update a subscriber.
+    subscriber_Post:
+      title: subscriber_Post
+      description: 'The model for a POST to create a subscriber.
 
         '
       allOf:
       - $ref: '#/components/schemas/subscriber_Base'
       x-internal: false
+    OpenMeta:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
     CollectionMeta:
       title: Collection Meta
       type: object
@@ -626,19 +626,19 @@ components:
       description: Data about the response, including pagination and collection totals.
       x-internal: false
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
       schema:
         type: string
         default: application/json

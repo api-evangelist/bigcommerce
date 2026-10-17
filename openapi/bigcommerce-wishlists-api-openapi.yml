@@ -456,43 +456,6 @@ paths:
                     type: string
 components:
   schemas:
-    wishlist_Post:
-      title: wishlist_Post
-      required:
-      - customer_id
-      type: object
-      properties:
-        customer_id:
-          type: integer
-          description: The customer id.
-          format: int32
-          example: 12
-        is_public:
-          type: boolean
-          description: Whether the wishlist is available to the public.
-          example: false
-        name:
-          type: string
-          description: The title of the wishlist.
-          example: School Shopping
-        items:
-          type: array
-          description: Array of wishlist items.
-          items:
-            title: Add item to wishlist
-            type: object
-            properties:
-              product_id:
-                type: integer
-                description: The ID of the product.
-                format: int32
-                example: 12
-              variant_id:
-                type: integer
-                description: The variant ID of the product.
-                format: int32
-                example: 152
-      x-internal: false
     wishlist_Full:
       title: wishlist_Full
       type: object
@@ -552,33 +515,6 @@ components:
           format: int32
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-    metaCollection:
-      title: metaCollection
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/pagination'
-      x-internal: false
-    wishlistItem_Full:
-      title: wishlistItem_Full
-      type: object
-      properties:
-        id:
-          type: integer
-          description: The ID of the item.
-          format: int32
-          example: 12
-        product_id:
-          type: integer
-          description: The ID of the product.
-          format: int32
-          example: 55
-        variant_id:
-          type: integer
-          description: The variant ID of the product.
-          format: int32
-          example: 22
-      x-internal: false
     wishlist_Put:
       title: wishlist_Put
       required:
@@ -618,6 +554,70 @@ components:
                 description: The variant ID of the product.
                 format: int32
                 example: 22
+      x-internal: false
+    metaCollection:
+      title: metaCollection
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/pagination'
+      x-internal: false
+    wishlistItem_Full:
+      title: wishlistItem_Full
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the item.
+          format: int32
+          example: 12
+        product_id:
+          type: integer
+          description: The ID of the product.
+          format: int32
+          example: 55
+        variant_id:
+          type: integer
+          description: The variant ID of the product.
+          format: int32
+          example: 22
+      x-internal: false
+    wishlist_Post:
+      title: wishlist_Post
+      required:
+      - customer_id
+      type: object
+      properties:
+        customer_id:
+          type: integer
+          description: The customer id.
+          format: int32
+          example: 12
+        is_public:
+          type: boolean
+          description: Whether the wishlist is available to the public.
+          example: false
+        name:
+          type: string
+          description: The title of the wishlist.
+          example: School Shopping
+        items:
+          type: array
+          description: Array of wishlist items.
+          items:
+            title: Add item to wishlist
+            type: object
+            properties:
+              product_id:
+                type: integer
+                description: The ID of the product.
+                format: int32
+                example: 12
+              variant_id:
+                type: integer
+                description: The variant ID of the product.
+                format: int32
+                example: 152
       x-internal: false
   parameters:
     Accept:

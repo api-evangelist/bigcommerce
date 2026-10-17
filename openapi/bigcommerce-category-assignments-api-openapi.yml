@@ -112,6 +112,20 @@ paths:
                 $ref: '#/components/schemas/beta5ErrorResponse'
 components:
   schemas:
+    ProductCategoryAssignment:
+      properties:
+        product_id:
+          type: integer
+        category_id:
+          type: integer
+      x-tags:
+      - Models
+    beta5DetailedErrors:
+      type: object
+      properties: {}
+      additionalProperties: true
+      x-tags:
+      - Models
     BaseError:
       type: object
       description: 'Error payload for the BigCommerce API.
@@ -180,34 +194,20 @@ components:
                   example: ?limit=5&page=1
       x-tags:
       - Models
-    beta5DetailedErrors:
-      type: object
-      properties: {}
-      additionalProperties: true
-      x-tags:
-      - Models
-    ProductCategoryAssignment:
-      properties:
-        product_id:
-          type: integer
-        category_id:
-          type: integer
-      x-tags:
-      - Models
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
       schema:
         type: string
         default: application/json

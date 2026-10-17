@@ -44,6 +44,26 @@ paths:
           type: string
 components:
   responses:
+    ThemeRegions_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/themeRegion'
+              meta:
+                $ref: '#/components/schemas/Meta'
+          examples:
+            response:
+              value:
+                data:
+                - name: header_bottom
+                - name: category_header_banner
+                meta: {}
     Error404_Resp:
       description: The resource was not found.
       content:
@@ -66,27 +86,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error_Base'
-    ThemeRegions_Resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/components/schemas/themeRegion'
-              meta:
-                $ref: '#/components/schemas/Meta'
-          examples:
-            response:
-              value:
-                data:
-                - name: header_bottom
-                - name: category_header_banner
-                meta: {}
   schemas:
+    themeRegion:
+      properties:
+        name:
+          type: string
+          description: The region name.
+      title: themeRegion
+      x-internal: false
     error_Base:
       type: object
       description: Error payload for the BigCommerce API.
@@ -111,13 +118,6 @@ components:
       properties: {}
       additionalProperties: true
       description: Response metadata.
-    themeRegion:
-      properties:
-        name:
-          type: string
-          description: The region name.
-      title: themeRegion
-      x-internal: false
   parameters:
     Accept:
       name: Accept

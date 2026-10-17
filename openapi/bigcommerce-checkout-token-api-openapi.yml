@@ -121,22 +121,7 @@ paths:
 
         **Usage Notes** * The response from performing this POST request is a checkout token. * The checkout token is a single-use token that is not order-dependent. You cannot create this token after finalizing an order. * After completing the order, you can redirect the shopper to /order-confirmation/{orderId}?t={checkoutToken}. * After token validation, the /order-confirmation/{orderId} page displays. * The `ORDER_TOKEN` should match the order or the logged-in customer can access the order.'
 components:
-  schemas:
-    MetaOpen:
-      title: Response meta
-      type: object
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
   parameters:
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
     Content-Type:
       name: Content-Type
       in: header
@@ -152,6 +137,21 @@ components:
       required: true
       schema:
         type: string
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+  schemas:
+    MetaOpen:
+      title: Response meta
+      type: object
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

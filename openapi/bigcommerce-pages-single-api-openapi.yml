@@ -294,6 +294,53 @@ paths:
       summary: BigCommerce Delete a Page
 components:
   schemas:
+    ResponseErrorDetailed:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+        detail:
+          type: string
+      required:
+      - status
+    ResponseErrorItemized:
+      type: object
+      description: 'Error payload for the BigCommerce API.
+
+        '
+      title: ResponseErrorItemized
+      properties:
+        status:
+          description: 'The HTTP status code.
+
+            '
+          type: integer
+        title:
+          description: 'The error title describing the particular error.
+
+            '
+          type: string
+        type:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+      required:
+      - status
     PagePut:
       type: object
       description: Properties of the page modification request body.
@@ -448,91 +495,6 @@ components:
           default: 0
       required:
       - id
-    PageBase:
-      type: object
-      description: Common Page properties.
-      properties:
-        name:
-          type: string
-          description: 'The name of the page. Must be unique.
-
-            '
-          minLength: 1
-          maxLength: 100
-          example: My Store Page
-        is_visible:
-          type: boolean
-          description: "Determines the visibility of the page in the storefront’s navigation menu.\n\nBoolean value that specifies the visibility of the page in the storefront’s navigation menu.\n          \nIndicates whether the page is available to users and visible in any menus.\n"
-        parent_id:
-          type: integer
-          description: 'ID of any parent Web page.
-
-            '
-          example: 0
-          default: 0
-        sort_order:
-          type: integer
-          description: 'Determines the order in which the page is displayed on the storefront. (Lower integers specify earlier display.)
-
-            '
-          example: 0
-          default: 0
-        type:
-          type: string
-          description: 'Determines the type of the page.
-
-
-            |Value|Description|
-
-            |-|-|
-
-            | `blog` | blog page. Read-only; blog pages can only be created in the store control panel. |
-
-            |`contact_form`|hosts the store''s contact form|
-
-            |`link`|link to another absolute URL|
-
-            |`page`|user-defined plain-text page|
-
-            |`raw`|page that contains markup, such as HTML.|
-
-            |`rss_feed`|contains syndicated content from an RSS feed|'
-          example: page
-          enum:
-          - page
-          - raw
-          - contact_form
-          - feed
-          - link
-          - blog
-        is_homepage:
-          type: boolean
-          description: 'Determines whether this page is the storefront’s home page.
-
-            '
-        is_customers_only:
-          type: boolean
-          description: 'If `true`, this page will only be visible to customers that are logged in to the store.
-
-            '
-      required:
-      - name
-      - type
-    PageResponse:
-      description: 'Response payload for the BigCommerce API.
-
-        '
-      x-examples: {}
-      allOf:
-      - properties:
-          data:
-            type: object
-            items:
-              $ref: '#/components/schemas/Page'
-          meta:
-            $ref: '#/components/schemas/ResponseMeta'
-      title: PageResponseObject
-      type: object
     ResponseMeta:
       type: object
       description: 'Data about the response, including pagination and collection totals.
@@ -591,28 +553,6 @@ components:
                   description: 'Link to the next page returned in the response.
 
                     '
-    ResponseErrorDetailed:
-      type: object
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-        detail:
-          type: string
-      required:
-      - status
     ResponseErrorBrief:
       type: object
       description: 'Error payload for the BigCommerce API.
@@ -631,31 +571,6 @@ components:
           type: string
         type:
           type: string
-      required:
-      - status
-    ResponseErrorItemized:
-      type: object
-      description: 'Error payload for the BigCommerce API.
-
-        '
-      title: ResponseErrorItemized
-      properties:
-        status:
-          description: 'The HTTP status code.
-
-            '
-          type: integer
-        title:
-          description: 'The error title describing the particular error.
-
-            '
-          type: string
-        type:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
       required:
       - status
     Page:
@@ -750,21 +665,92 @@ components:
       - $ref: '#/components/schemas/PageBase'
       title: ''
       description: ''
+    PageBase:
+      type: object
+      description: Common Page properties.
+      properties:
+        name:
+          type: string
+          description: 'The name of the page. Must be unique.
+
+            '
+          minLength: 1
+          maxLength: 100
+          example: My Store Page
+        is_visible:
+          type: boolean
+          description: "Determines the visibility of the page in the storefront’s navigation menu.\n\nBoolean value that specifies the visibility of the page in the storefront’s navigation menu.\n          \nIndicates whether the page is available to users and visible in any menus.\n"
+        parent_id:
+          type: integer
+          description: 'ID of any parent Web page.
+
+            '
+          example: 0
+          default: 0
+        sort_order:
+          type: integer
+          description: 'Determines the order in which the page is displayed on the storefront. (Lower integers specify earlier display.)
+
+            '
+          example: 0
+          default: 0
+        type:
+          type: string
+          description: 'Determines the type of the page.
+
+
+            |Value|Description|
+
+            |-|-|
+
+            | `blog` | blog page. Read-only; blog pages can only be created in the store control panel. |
+
+            |`contact_form`|hosts the store''s contact form|
+
+            |`link`|link to another absolute URL|
+
+            |`page`|user-defined plain-text page|
+
+            |`raw`|page that contains markup, such as HTML.|
+
+            |`rss_feed`|contains syndicated content from an RSS feed|'
+          example: page
+          enum:
+          - page
+          - raw
+          - contact_form
+          - feed
+          - link
+          - blog
+        is_homepage:
+          type: boolean
+          description: 'Determines whether this page is the storefront’s home page.
+
+            '
+        is_customers_only:
+          type: boolean
+          description: 'If `true`, this page will only be visible to customers that are logged in to the store.
+
+            '
+      required:
+      - name
+      - type
+    PageResponse:
+      description: 'Response payload for the BigCommerce API.
+
+        '
+      x-examples: {}
+      allOf:
+      - properties:
+          data:
+            type: object
+            items:
+              $ref: '#/components/schemas/Page'
+          meta:
+            $ref: '#/components/schemas/ResponseMeta'
+      title: PageResponseObject
+      type: object
   parameters:
-    pageIdPath:
-      schema:
-        type: string
-      name: pageId
-      in: path
-      required: true
-      description: The ID of the page to be operated on.
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      schema:
-        type: string
-        default: application/json
     ContentType:
       name: Content-Type
       in: header
@@ -772,6 +758,13 @@ components:
       schema:
         type: string
         default: application/json
+    pageIdPath:
+      schema:
+        type: string
+      name: pageId
+      in: path
+      required: true
+      description: The ID of the page to be operated on.
     includeQuery:
       schema:
         type: string
@@ -780,6 +773,13 @@ components:
       in: query
       name: include
       description: Include the requested property in the response. The `body` property returns the page’s markup, text, or raw content.
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        default: application/json
   responses:
     HTTP204:
       description: No content. A 204 response with no payload indicates successful deletion of all specified pages.

@@ -160,20 +160,6 @@ paths:
           description: The [URL authority](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/What_is_a_URL#authority) of the storefront.
 components:
   schemas:
-    consent_Full:
-      title: consent_Full
-      description: Response payload for the BigCommerce API.
-      type: object
-      properties:
-        allow:
-          $ref: '#/components/schemas/consentAllow'
-        deny:
-          $ref: '#/components/schemas/Deny'
-        updated_at:
-          description: The date of which the customer consent was last updated.
-          type: string
-          format: date-time
-      x-internal: false
     Deny:
       title: Deny
       type: array
@@ -188,27 +174,6 @@ components:
         - functional
         - analytics
         - targeting
-      x-internal: false
-    ErrorResponse:
-      title: Error Response
-      type: object
-      properties:
-        status:
-          description: The HTTP status code.
-          type: integer
-          format: int32
-        title:
-          description: The error title describing the particular error.
-          type: string
-        type:
-          description: A link to a list of BigCommerce API status codes.
-          type: string
-        instance:
-          type: string
-        errors:
-          type: object
-          additionalProperties:
-            type: string
       x-internal: false
     consentAllow:
       title: consentAllow
@@ -236,6 +201,41 @@ components:
           $ref: '#/components/schemas/consentAllow'
         deny:
           $ref: '#/components/schemas/Deny'
+      x-internal: false
+    consent_Full:
+      title: consent_Full
+      description: Response payload for the BigCommerce API.
+      type: object
+      properties:
+        allow:
+          $ref: '#/components/schemas/consentAllow'
+        deny:
+          $ref: '#/components/schemas/Deny'
+        updated_at:
+          description: The date of which the customer consent was last updated.
+          type: string
+          format: date-time
+      x-internal: false
+    ErrorResponse:
+      title: Error Response
+      type: object
+      properties:
+        status:
+          description: The HTTP status code.
+          type: integer
+          format: int32
+        title:
+          description: The error title describing the particular error.
+          type: string
+        type:
+          description: A link to a list of BigCommerce API status codes.
+          type: string
+        instance:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
       x-internal: false
     ConsentPreferences:
       type: object
@@ -279,13 +279,6 @@ components:
       - allow
       - deny
       x-internal: false
-  responses:
-    consent_Resp:
-      description: ''
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/consent_Full'
   parameters:
     customerId:
       name: customerId
@@ -294,6 +287,13 @@ components:
       description: The ID of the customer.
       schema:
         type: integer
+  responses:
+    consent_Resp:
+      description: ''
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/consent_Full'
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

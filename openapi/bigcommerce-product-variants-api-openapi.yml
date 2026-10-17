@@ -530,6 +530,41 @@ paths:
           description: ''
           content: {}
 components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
+      schema:
+        type: string
+        default: application/json
+    VariantIdParam:
+      name: variant_id
+      in: path
+      description: 'ID of the variant on a product, or on an associated Price List Record.
+
+        '
+      required: true
+      schema:
+        type: integer
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
+    ProductIdParam:
+      name: product_id
+      in: path
+      description: 'The ID of the `Product` to which the resource belongs. Product variant metafield endpoints that have the `product_id` in the request path are successful as long as the parameter is not empty. The `product_id` segment is there only for path consistency.
+
+        '
+      required: true
+      schema:
+        type: integer
   schemas:
     productVariant_Base:
       title: productVariant_Base
@@ -671,6 +706,107 @@ components:
           bin_picking_number: string
           mpn: string
           gtin: 012345678905
+    productVariant_Full:
+      title: productVariant_Full
+      allOf:
+      - $ref: '#/components/schemas/productVariant_Base'
+      - type: object
+        properties:
+          id:
+            type: integer
+          product_id:
+            type: integer
+          sku:
+            type: string
+          sku_id:
+            type:
+            - integer
+            - 'null'
+            description: Read-only reference to v2 APIʼs SKU ID. Null if it is a base variant.
+          option_values:
+            type: array
+            description: Array of option and option values IDs that make up this variant. Will be empty if the variant is the productʼs base variant.
+            items:
+              $ref: '#/components/schemas/productVariantOptionValue_Full'
+          calculated_price:
+            type: number
+            description: 'The price of the variant as seen on the storefront. This price takes into account `sale_price` and any price adjustment rules that are applicable to this variant.
+
+              '
+            format: double
+          calculated_weight:
+            type: number
+      x-internal: false
+      description: ''
+      x-examples:
+        example-1:
+          cost_price: 0
+          price: 0
+          sale_price: 0
+          retail_price: 0
+          weight: 0
+          width: 0
+          height: 0
+          depth: 0
+          is_free_shipping: true
+          fixed_cost_shipping_price: 0
+          purchasing_disabled: true
+          purchasing_disabled_message: string
+          upc: string
+          inventory_level: 0
+          inventory_warning_level: 0
+          bin_picking_number: string
+          mpn: string
+          gtin: 012345678905
+          id: 0
+          product_id: 0
+          sku: string
+          sku_id: 0
+          option_values:
+          - option_display_name: Color
+            label: Beige
+            id: 146
+            option_id: 151
+          calculated_price: 0
+          calculated_weight: 0
+    productVariantOptionValue_Base:
+      title: productVariantOptionValue_Base
+      type: object
+      properties:
+        id:
+          type: integer
+          description: '`option_value` ID.'
+          example: 146
+        option_id:
+          type: integer
+          description: '`option` ID.'
+          example: 151
+      description: Common Product Variant Option properties.
+      x-internal: false
+    metaEmpty_Full:
+      type: object
+      title: Response meta
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+    productVariant_Put:
+      title: productVariant_Put
+      description: The model for a PUT to update variants on a product.
+      allOf:
+      - $ref: '#/components/schemas/productVariant_Base'
+      - type: object
+        properties:
+          product_id:
+            type: integer
+            x-required:
+            - post
+          sku:
+            maxLength: 255
+            minLength: 1
+            type: string
+            x-required:
+            - post
+      x-internal: false
     productVariantOptionValue_Full:
       title: productVariantOptionValue_Full
       allOf:
@@ -697,6 +833,71 @@ components:
             x-required:
             - post
       - $ref: '#/components/schemas/productVariantOptionValue_Base'
+      x-internal: false
+    pagination_Full:
+      title: pagination_Full
+      type: object
+      properties:
+        total:
+          type: integer
+          description: 'Total number of items in the result set.
+
+            '
+          example: 36
+        count:
+          type: integer
+          description: 'Total number of items in the collection response.
+
+            '
+          example: 36
+        per_page:
+          type: integer
+          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
+
+            '
+          example: 50
+        current_page:
+          type: integer
+          description: 'The page you are currently on within the collection.
+
+            '
+          example: 1
+        total_pages:
+          type: integer
+          description: 'The total number of pages in the collection.
+
+            '
+          example: 1
+        links:
+          type: object
+          properties:
+            previous:
+              type: string
+              description: 'Link to the previous page returned in the response.
+
+                '
+            current:
+              type: string
+              description: 'Link to the current page returned in the response.
+
+                '
+              example: ?page=1&limit=50
+            next:
+              type: string
+              description: 'Link to the next page returned in the response.
+
+                '
+          description: 'Pagination links for the previous and next parts of the whole collection.
+
+            '
+      description: Data about the response, including pagination and collection totals.
+      x-internal: false
+    DetailedErrors:
+      title: DetailedErrors
+      description: Each key-value pair describes a failure or partial success case.
+      type: object
+      properties: {}
+      additionalProperties: true
       x-internal: false
     productVariant_Post:
       title: productVariant_Post
@@ -847,96 +1048,6 @@ components:
             x-required:
             - post
       x-internal: false
-    productVariantOptionValue_Base:
-      title: productVariantOptionValue_Base
-      type: object
-      properties:
-        id:
-          type: integer
-          description: '`option_value` ID.'
-          example: 146
-        option_id:
-          type: integer
-          description: '`option` ID.'
-          example: 151
-      description: Common Product Variant Option properties.
-      x-internal: false
-    DetailedErrors:
-      title: DetailedErrors
-      description: Each key-value pair describes a failure or partial success case.
-      type: object
-      properties: {}
-      additionalProperties: true
-      x-internal: false
-    productVariant_Full:
-      title: productVariant_Full
-      allOf:
-      - $ref: '#/components/schemas/productVariant_Base'
-      - type: object
-        properties:
-          id:
-            type: integer
-          product_id:
-            type: integer
-          sku:
-            type: string
-          sku_id:
-            type:
-            - integer
-            - 'null'
-            description: Read-only reference to v2 APIʼs SKU ID. Null if it is a base variant.
-          option_values:
-            type: array
-            description: Array of option and option values IDs that make up this variant. Will be empty if the variant is the productʼs base variant.
-            items:
-              $ref: '#/components/schemas/productVariantOptionValue_Full'
-          calculated_price:
-            type: number
-            description: 'The price of the variant as seen on the storefront. This price takes into account `sale_price` and any price adjustment rules that are applicable to this variant.
-
-              '
-            format: double
-          calculated_weight:
-            type: number
-      x-internal: false
-      description: ''
-      x-examples:
-        example-1:
-          cost_price: 0
-          price: 0
-          sale_price: 0
-          retail_price: 0
-          weight: 0
-          width: 0
-          height: 0
-          depth: 0
-          is_free_shipping: true
-          fixed_cost_shipping_price: 0
-          purchasing_disabled: true
-          purchasing_disabled_message: string
-          upc: string
-          inventory_level: 0
-          inventory_warning_level: 0
-          bin_picking_number: string
-          mpn: string
-          gtin: 012345678905
-          id: 0
-          product_id: 0
-          sku: string
-          sku_id: 0
-          option_values:
-          - option_display_name: Color
-            label: Beige
-            id: 146
-            option_id: 151
-          calculated_price: 0
-          calculated_weight: 0
-    metaEmpty_Full:
-      type: object
-      title: Response meta
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     MultiStatus:
       type: object
       properties:
@@ -963,82 +1074,6 @@ components:
           description: A BigCommerce-defined error signifier.
         errors:
           $ref: '#/components/schemas/DetailedErrors'
-    productVariant_Put:
-      title: productVariant_Put
-      description: The model for a PUT to update variants on a product.
-      allOf:
-      - $ref: '#/components/schemas/productVariant_Base'
-      - type: object
-        properties:
-          product_id:
-            type: integer
-            x-required:
-            - post
-          sku:
-            maxLength: 255
-            minLength: 1
-            type: string
-            x-required:
-            - post
-      x-internal: false
-    pagination_Full:
-      title: pagination_Full
-      type: object
-      properties:
-        total:
-          type: integer
-          description: 'Total number of items in the result set.
-
-            '
-          example: 36
-        count:
-          type: integer
-          description: 'Total number of items in the collection response.
-
-            '
-          example: 36
-        per_page:
-          type: integer
-          description: 'The amount of items returned in the collection per page, controlled by the limit parameter.
-
-            '
-          example: 50
-        current_page:
-          type: integer
-          description: 'The page you are currently on within the collection.
-
-            '
-          example: 1
-        total_pages:
-          type: integer
-          description: 'The total number of pages in the collection.
-
-            '
-          example: 1
-        links:
-          type: object
-          properties:
-            previous:
-              type: string
-              description: 'Link to the previous page returned in the response.
-
-                '
-            current:
-              type: string
-              description: 'Link to the current page returned in the response.
-
-                '
-              example: ?page=1&limit=50
-            next:
-              type: string
-              description: 'Link to the next page returned in the response.
-
-                '
-          description: 'Pagination links for the previous and next parts of the whole collection.
-
-            '
-      description: Data about the response, including pagination and collection totals.
-      x-internal: false
     metaCollection_Full:
       title: metaCollection_Full
       type: object
@@ -1047,41 +1082,6 @@ components:
           $ref: '#/components/schemas/pagination_Full'
       description: Data about the response, including pagination and collection totals.
       x-internal: false
-  parameters:
-    ProductIdParam:
-      name: product_id
-      in: path
-      description: 'The ID of the `Product` to which the resource belongs. Product variant metafield endpoints that have the `product_id` in the request path are successful as long as the parameter is not empty. The `product_id` segment is there only for path consistency.
-
-        '
-      required: true
-      schema:
-        type: integer
-    Accept:
-      name: Accept
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    VariantIdParam:
-      name: variant_id
-      in: path
-      description: 'ID of the variant on a product, or on an associated Price List Record.
-
-        '
-      required: true
-      schema:
-        type: integer
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
-      schema:
-        type: string
-        default: application/json
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token

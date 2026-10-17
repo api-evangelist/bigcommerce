@@ -86,12 +86,6 @@ components:
         - domains
         - currencies
         - notifications
-    EmptyMeta:
-      type: object
-      title: Empty meta response.
-      properties: {}
-      additionalProperties: true
-      description: Response metadata.
     CustomAppSections:
       type: array
       items:
@@ -111,7 +105,42 @@ components:
           $ref: '#/components/schemas/BigCommerceProtectedAppSections'
         custom_app_sections:
           $ref: '#/components/schemas/CustomAppSections'
+    EmptyMeta:
+      type: object
+      title: Empty meta response.
+      properties: {}
+      additionalProperties: true
+      description: Response metadata.
+  examples:
+    channel_menus_resp_example:
+      value:
+        data:
+          bigcommerce_protected_app_sections:
+          - social
+          - carousel
+          - domains
+          - currencies
+          - notifications
+          - storefront_settings
+          custom_app_sections:
+          - title: Overview
+            query_path: overview
+          - title: Products
+            query_path: products
+          - title: Campaigns
+            query_path: campaigns
+          - title: Settings
+            query_path: settings
+        meta: {}
   parameters:
+    ContentType:
+      name: Content-Type
+      in: header
+      required: true
+      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
+      schema:
+        type: string
+        default: application/json
     channel_id_path_param:
       name: channel_id
       description: The ID of a channel.
@@ -125,14 +154,6 @@ components:
       in: header
       required: true
       description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the response body.
-      schema:
-        type: string
-        default: application/json
-    ContentType:
-      name: Content-Type
-      in: header
-      required: true
-      description: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the request body.
       schema:
         type: string
         default: application/json
@@ -156,27 +177,6 @@ components:
           examples:
             response:
               $ref: '#/components/examples/channel_menus_resp_example'
-  examples:
-    channel_menus_resp_example:
-      value:
-        data:
-          bigcommerce_protected_app_sections:
-          - social
-          - carousel
-          - domains
-          - currencies
-          - notifications
-          - storefront_settings
-          custom_app_sections:
-          - title: Overview
-            query_path: overview
-          - title: Products
-            query_path: products
-          - title: Campaigns
-            query_path: campaigns
-          - title: Settings
-            query_path: settings
-        meta: {}
   securitySchemes:
     X-Auth-Token:
       name: X-Auth-Token
