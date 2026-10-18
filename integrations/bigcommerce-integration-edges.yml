@@ -7,7 +7,10 @@ checked:
 - clover/integrations/clover-integration-edges.yml
 - freshbooks/integrations/freshbooks-integration-edges.yml
 - https://composio.dev/toolkits/bigcommerce
+- https://fivetran.com/docs-sitemap.xml
+- https://fivetran.com/docs/connectors/partner-built-program
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
+- https://github.com/meltano/hub
 - https://hightouch.com/docs/destinations/bigcommerce
 - https://monid.ai/tools/bigcommerce
 - https://n8n.io/integrations/bigcommerce/
@@ -1293,6 +1296,63 @@ edges:
   detected: '2026-10-15'
   detected_by: mirror-platform-listings.py
   category: Sanity technology partner
+- partner_name: Fivetran
+  partner: fivetran
+  partner_match: aggregator
+  type: marketplace
+  marketplace: fivetran-connectors
+  channel: elt-connector
+  relationship: ipaas-bridge
+  direction: third-party
+  evidence: https://fivetran.com/docs/connectors/applications/big-commerce
+  category: null
+  contract_reference:
+    register: Fivetran connectors (fivetran.com/docs/connectors, docs-sitemap.xml + Partner-Built program)
+    spec_file: null
+    role: elt-connector:fivetran
+    registered_name: BigCommerce
+    matched_domain: bigcommerce.com
+    matched_by: domain
+    detected_by: sweep-data-integration.py
+    detected: '2026-10-18'
+    signal_note: one edge per (provider, platform); connectors, streams, packages and usage are context, never read
+    connector_paths:
+    - connectors/applications/big-commerce
+    vendor_link: https://www.bigcommerce.com/
+    builder: Fivetran
+  detected_by: sweep-data-integration.py
+  first_seen: '2026-10-18'
+- partner_name: Meltano
+  partner: meltano
+  partner_match: aggregator
+  type: marketplace
+  marketplace: meltano-hub
+  channel: elt-connector
+  relationship: ipaas-bridge
+  direction: third-party
+  evidence: https://hub.meltano.com/extractors/tap-bigcommerce--airbyte
+  category: null
+  contract_reference:
+    register: Meltano Hub (github.com/meltano/hub _data/meltano extractors + loaders)
+    spec_file: null
+    role: elt-connector:meltano-hub
+    registered_name: BigCommerce
+    matched_domain: bigcommerce.com
+    matched_by: domain
+    detected_by: sweep-data-integration.py
+    detected: '2026-10-18'
+    signal_note: one edge per (provider, platform); connectors, streams, packages and usage are context, never read
+    plugins:
+    - tap-bigcommerce--airbyte
+    - tap-bigcommerce--singer-io
+    maintenance_status:
+    - beta
+    - unknown
+    quality:
+    - bronze
+    builder: 'community (Meltano Hub variant maintainers: airbyte, singer-io)'
+  detected_by: sweep-data-integration.py
+  first_seen: '2026-10-18'
 templates:
 - title: Add Contact to Customer List With Email in Google Ads for New Customer in BigCommerce
   url: https://zapier.com/apps/bigcommerce/integrations/google-ads/1008374/add-contact-to-customer-list-with-email-in-google-ads-for-new-customer-in-bigcommerce
