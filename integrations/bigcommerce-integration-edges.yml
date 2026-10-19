@@ -6,7 +6,9 @@ source:
 checked:
 - clover/integrations/clover-integration-edges.yml
 - freshbooks/integrations/freshbooks-integration-edges.yml
+- https://api.nuget.org/v3
 - https://composio.dev/toolkits/bigcommerce
+- https://crates.io/api/v1
 - https://fivetran.com/docs-sitemap.xml
 - https://fivetran.com/docs/connectors/partner-built-program
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
@@ -14,6 +16,11 @@ checked:
 - https://hightouch.com/docs/destinations/bigcommerce
 - https://monid.ai/tools/bigcommerce
 - https://n8n.io/integrations/bigcommerce/
+- https://proxy.golang.org
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
 - https://www.bigcommerce.com/apps/
 - https://zapier.com/api/v4/apps/
 - https://zapier.com/apps/bigcommerce/integrations
@@ -1352,6 +1359,102 @@ edges:
     - bronze
     builder: 'community (Meltano Hub variant maintainers: airbyte, singer-io)'
   detected_by: sweep-data-integration.py
+  first_seen: '2026-10-18'
+- partner_name: npm registry
+  partner: npm
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (JavaScript/TypeScript)
+  evidence: https://www.npmjs.com/package/@bigcommerce/big-design
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@bigcommerce/big-design'
+      version: 5.0.0
+      released: '2026-10-13'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bigcommerce/big-design
+      repo_leg: github-org:bigcommerce
+      publisher_leg: email:bigcommerce.com
+      matched_by: domain
+    - name: '@bigcommerce/catalyst-client'
+      version: 1.0.3
+      released: '2026-10-13'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bigcommerce/catalyst-client
+      repo_leg: github-org:bigcommerce
+      publisher_leg: email:bigcommerce.com
+      matched_by: domain
+    - name: '@bigcommerce/checkout-sdk'
+      version: 1.990.0
+      released: '2026-10-13'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bigcommerce/checkout-sdk
+      repo_leg: github-org:bigcommerce
+      publisher_leg: email:bigcommerce.com
+      matched_by: domain
+    - name: '@bigcommerce/create-catalyst'
+      version: 2.0.7
+      released: '2026-10-13'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bigcommerce/create-catalyst
+      repo_leg: github-org:bigcommerce
+      publisher_leg: email:bigcommerce.com
+      matched_by: domain
+    - name: '@bigcommerce/stencil-cli'
+      version: 10.0.0
+      released: '2026-10-13'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bigcommerce/stencil-cli
+      repo_leg: github-org:bigcommerce
+      publisher_leg: email:bigcommerce.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
+- partner_name: PyPI
+  partner: pypi
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (Python)
+  evidence: https://pypi.org/project/bigcommerce/
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: PyPI (public registry JSON)
+    spec_file: null
+    language: Python
+    packages:
+    - name: bigcommerce
+      version: 0.23.4
+      released: '2024-01-08'
+      released_field: upload_time
+      lapsed: true
+      page: https://pypi.org/project/bigcommerce/
+      repo_leg: github-org:bigcommerce
+      publisher_leg: email:bigcommerce.com
+      matched_by: domain
+    current: false
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
   first_seen: '2026-10-18'
 templates:
 - title: Add Contact to Customer List With Email in Google Ads for New Customer in BigCommerce
