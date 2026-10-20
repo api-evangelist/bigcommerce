@@ -7,14 +7,19 @@ checked:
 - clover/integrations/clover-integration-edges.yml
 - freshbooks/integrations/freshbooks-integration-edges.yml
 - https://api.nuget.org/v3
+- https://cdn.winget.microsoft.com/cache
 - https://cloudsecurityalliance.org/star/registry
 - https://composio.dev/toolkits/bigcommerce
 - https://crates.io/api/v1
 - https://eucoc.cloud/en/public-register/list-of-adherent-services
 - https://fivetran.com/docs-sitemap.xml
 - https://fivetran.com/docs/connectors/partner-built-program
+- https://formulae.brew.sh/api/cask.json
+- https://formulae.brew.sh/api/formula.json
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
 - https://github.com/PipedreamHQ/pipedream/tree/d5872355ef27b4efa769f05352f2820c299a456e/components/
+- https://github.com/ScoopInstaller/Extras
+- https://github.com/ScoopInstaller/Main
 - https://github.com/meltano/hub
 - https://hightouch.com/docs/destinations/bigcommerce
 - https://monid.ai/tools/bigcommerce
@@ -1469,6 +1474,36 @@ edges:
   direction: unknown
   evidence: https://www.bigcommerce.com/apps/sell-on-marketplaces-by-litcommerce/
   category: All
+- partner_name: npm registry
+  partner: npm
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official CLI (npm registry)
+  evidence: https://www.npmjs.com/package/@bigcommerce/stencil-cli
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public package index)
+    spec_file: null
+    packages:
+    - name: '@bigcommerce/stencil-cli'
+      version: 10.0.0
+      released: '2026-10-13'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bigcommerce/stencil-cli
+      cli: bin stencil, stencil-init, stencil-pull
+      repo_leg: github-org:bigcommerce
+      publisher_leg: email:bigcommerce.com
+      matched_by: domain
+    current: true
+    signal_note: 'the provider''s own command-line tool on a package manager: distribution, not an integration;
+      lapsed = no release in 24 months or deprecated / disabled by the manager'
+    detected_by: sweep-official-clis.py
+    detected: '2026-10-20'
+  detected_by: sweep-official-clis.py
+  first_seen: '2026-10-20'
 templates:
 - title: Add Contact to Customer List With Email in Google Ads for New Customer in BigCommerce
   url: https://zapier.com/apps/bigcommerce/integrations/google-ads/1008374/add-contact-to-customer-list-with-email-in-google-ads-for-new-customer-in-bigcommerce
