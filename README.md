@@ -1,4 +1,4 @@
-# BigCommerce (bigcommerce)
+# BigCommerce
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,1200 +66,455 @@
 
 BigCommerce is a leading e-commerce platform providing APIs for building and managing online stores, products, catalogs, orders, customers, checkouts, payments, and shipping. BigCommerce powers tens of thousands of online stores with its open SaaS architecture.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/bigcommerce/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/bigcommerce/refs/heads/main/apis.yml)
-
-## Scope
-
-- **Position:** Consuming
-- **Access:** 3rd-Party
-
-## Tags
-
-- E-Commerce
-- Retail
-- Catalog
-- Orders
-- Checkout
-- Payments
-- SaaS
-
-## Timestamps
-
-- **Created:** 2023-11-21
-- **Modified:** 2026-05-30
-
-## APIs
-
-### Big Commerce Abandoned Cart Emails
-
-BigCommerce Abandoned Cart Emails is a feature that allows online retailers to automatically send personalized emails to customers who have added items to their shopping cart but failed to complete their purchase. These emails are designed to remind customers of the products they were interested in, provide a gentle nudge to complete their purchase, and potentially offer discounts or incentives to incentivize them to return to the website and complete their transaction.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Abandone Carts
-- Carts
-- Emails
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/abandoned-cart-emails-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-management/abandoned-carts)
-
-### Big Commerce Abandoned Carts
-
-BigCommerce Abandoned Carts is a tool designed to help businesses recover potentially lost sales by targeting customers who have added items to their online shopping cart but have not completed the purchase. This tool sends automated emails to remind customers of their abandoned carts and encourages them to complete their purchase through personalized messages, discount offers, or incentives.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Abandoned Carts
-- Carts
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/abandoned-carts-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-management/abandoned-carts)
-
-### Big Commerce Accepted Payment Methods
-
-BigCommerce Accepted Payment Methods provides customers with a variety of options to securely and conveniently make purchases. Customers can choose from a range of payment methods including credit/debit cards, digital wallets, and alternative payment options. BigCommerce Accepted Payment Methods ensures a seamless shopping experience by offering versatile payment solutions that cater to the diverse preferences of customers.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Payment Methods
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/accepted-payment-methods-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Carts
-
-BigCommerce Carts is a leading e-commerce platform that provides users with a powerful and user-friendly shopping cart solution. With BigCommerce Carts, businesses can easily create and customize their online store, add products, and manage orders and inventory with ease. The platform is designed to be scalable and versatile, allowing businesses of all sizes to grow and succeed in the competitive online marketplace.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Carts
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/carts-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-management/carts)
-
-### Big Commerce Catalog  Brands
-
-BigCommerce Catalog - Brands is a feature that allows online store owners to organize and display products by brand. By creating brand profiles and assigning products to specific brands, customers can easily shop by their favorite brands and explore all products offered by a particular brand in one place. This feature enhances the shopping experience by providing a seamless way for customers to discover new brands and find products that match their preferences.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Brands
-- Catalogs
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/catalog-brands-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-catalog/brands)
-
-### Big Commerce Catalog  Categories
-
-BigCommerce Catalog - Categories is a feature that allows merchants to organize and classify their products into different categories. By creating categories, merchants can help customers easily navigate through their online store and find products that are relevant to their needs. This feature also helps in SEO optimization by creating structured hierarchy for products, making it easier for search engines to crawl and index the website.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Catalogs
-- Categories
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/catalog-categories-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-catalog/categories)
-
-### Big Commerce Catalog  Category Trees
-
-BigCommerce Catalog - Category Trees is a feature that allows users to easily organize and categorize products within their online store. This tool provides a visual representation of the product categories and subcategories, making it simpler for customers to navigate through the store and find the items they are looking for. With BigCommerce Catalog - Category Trees, users can easily create, edit, and manage product categories, as well as assign products to specific categories.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Catalogs
-- Category Trees
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/catalog-category-trees-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-catalog/category-trees)
-
-### Big Commerce Catalog  Product Modifiers
-
-BigCommerce Catalog - Product Modifiers is a feature that allows merchants to easily customize and modify their products in their online store. With this tool, sellers can create different versions of the same product by adding variations such as size, color, or material. This enables customers to choose the exact option they prefer, leading to a more personalized shopping experience.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Catalogs
-- Modifiers
-- Products
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/catalog-product-modifiers-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-catalog/product-modifiers)
-
-### Big Commerce Catalog  Product Variant Options
-
-BigCommerce Catalog - Product Variant Options is a feature that allows online retailers to easily set up and manage different options for their products, such as color, size, and style variations. This helps customers to easily select the specific product they want to purchase, as well as simplifying inventory management and order processing for the retailer.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Catalogs
-- Options
-- Products
-- Variants
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/catalog-product-variant-options-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-catalog/product-variant-options)
-
-### Big Commerce Catalog  Product Variants
-
-BigCommerce Catalog - Product Variants is a feature that allows online retailers to easily manage and display different versions or options of a product on their website. This tool enables merchants to create and track various product variants, such as different sizes, colors, or materials, all within a single product listing.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Catalogs
-- Products
-- Variants
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/catalog-product-variants-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-catalog/product-variants)
-
-### Big Commerce Catalog  Products
-
-BigCommerce Catalog - Products is a powerful tool for online retailers to organize and display their inventory. This feature allows businesses to create and manage product listings, including detailed descriptions, pricing information, and images. With BigCommerce Catalog - Products, retailers can easily categorize their items, making it simple for customers to navigate and find the products they are looking for.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Catalogs
-- Products
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/catalog-products-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-catalog/products)
-
-### Big Commerce Channels
-
-BigCommerce Channels is a platform that allows businesses to seamlessly manage and sell their products across multiple online channels, such as Amazon, eBay, Facebook, and Pinterest. By integrating with these channels, BigCommerce Channels streamlines the process of listing products, managing inventory, and fulfilling orders, all from one centralized dashboard. This enables businesses to reach a wider audience and increase their sales potential through various online marketplaces.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Channels
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/channels-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-management/channels)
-
-### Big Commerce Checkouts
-
-BigCommerce Checkouts is an e-commerce platform that streamlines the checkout process for online retailers. By providing a user-friendly and secure online payment gateway, BigCommerce Checkouts allows customers to easily make purchases and complete transactions on a website.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Checkouts
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/checkouts-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-management/checkouts)
-
-### Big Commerce Content
-
-BigCommerce Content is a powerful tool that helps businesses create engaging and informative content for their online store. With a user-friendly interface and a variety of customization options, BigCommerce Content allows users to easily create and manage blog posts, product descriptions, and other types of content. By providing valuable information and engaging storytelling, businesses can attract and retain customers, improve their search engine rankings, and ultimately drive sales.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Content
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/content-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-content/store-content)
-
-### Big Commerce Currencies
-
-BigCommerce Currencies is a feature that allows merchants to accept payments in multiple currencies on their online store. This feature enables businesses to attract customers from around the world by displaying prices in their local currency. BigCommerce Currencies also automatically converts prices to the customer's preferred currency at the most up-to-date exchange rate, providing a seamless shopping experience for international shoppers.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Currencies
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/currencies-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-management/currencies)
-
-### Big Commerce Current Customer
-
-BigCommerce Current Customer is a leading e-commerce platform that enables businesses to create and manage online stores. With a range of customizable templates and powerful features, customers can easily set up their online storefronts, upload products, process payments, and track sales and analytics. The platform also offers marketing tools, integration options with popular third-party apps, and 24/7 customer support to help businesses succeed in the competitive online marketplace.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Customers
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/current-customer-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Custom Template Associations
-
-BigCommerce Custom Template Associations is a feature that allows users to assign specific custom templates to different sections or pages of their online store. This means that merchants can create unique and visually appealing layouts for various aspects of their website, such as product pages, checkout pages, or category pages.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Associations
-- Custom
-- Templates
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/custom-template-associations-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Customer Login (Sso)
-
-BigCommerce Customer Login (SSO) is a feature that allows customers to easily access their account on a BigCommerce site by logging in using a single set of credentials. This seamless process eliminates the need for customers to remember multiple usernames and passwords for different websites, enhancing their user experience. By implementing SSO, businesses can improve customer satisfaction, reduce friction during the checkout process, and potentially increase conversions.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Customers
-- Logins
-- Single-Sign-On
-- SSO
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/customer-login-sso-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Customers
-
-BigCommerce Customers is a platform that helps businesses of all sizes create, design, and manage their online stores. It offers a range of tools and features to help businesses sell products and services online, reach new customers, and grow their online presence. BigCommerce Customers provides a user-friendly interface, customizable themes, and reliable support to help businesses build successful online stores.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Customers
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/customers-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-management/customers)
-
-### Big Commerce Email Templates
-
-BigCommerce Email Templates is a service that offers customizable email templates for businesses using the BigCommerce platform. These templates are designed to help businesses create professional and engaging email campaigns that can drive customer engagement and increase sales. With a variety of templates to choose from, businesses can easily customize their emails to match their branding and messaging.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Emails
-- Templates
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/email-templates-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-content/email-templates)
-
-### Big Commerce Geography
-
-BigCommerce Geography is a division within BigCommerce that focuses on optimizing the geographic reach and impact of online businesses. This team analyzes market trends, consumer behavior, and regional preferences to help businesses expand their reach and grow their customer base in different geographical locations.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Geography
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/geography-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-management/geography)
-
-### Big Commerce Marketing
-
-BigCommerce Marketing is a team dedicated to driving brand awareness and sales growth for businesses using the BigCommerce platform. Our team works closely with clients to create and execute comprehensive marketing strategies that incorporate a variety of channels, such as social media, email, content marketing, and paid advertising. We leverage data and analytics to optimize campaigns and ensure maximum ROI for our clients.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Marketing
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/marketing-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Orders
-
-BigCommerce Orders is a feature within the BigCommerce platform that allows users to manage and track their sales orders efficiently. With BigCommerce Orders, users can easily view and process incoming orders, update order statuses, print packing slips and shipping labels, and manage customer communication throughout the order fulfillment process.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Orders
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/orders-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-management/orders)
-
-### Big Commerce Pages
-
-BigCommerce Pages is a website builder tool that allows users to easily create and customize web pages for their online store. With BigCommerce Pages, users can design landing pages, product pages, and other key pages to enhance the overall user experience and improve conversion rates. The platform provides a user-friendly interface with drag-and-drop functionality, making it easy for users to add text, images, videos, and more to their pages.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Pages
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/pages-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-content/pages)
-
-### Big Commerce Payment Access Token
-
-The BigCommerce Payment Access Token is a secure and unique identifier that allows merchants to securely process payments through their online store. This token acts as a virtual key that grants access to the merchant's payment gateway, allowing them to accept various payment methods such as credit cards, digital wallets, and bank transfers. By using the Payment Access Token, merchants can streamline their checkout process and provide a seamless and secure payment experience for their customers.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Access
-- Payments
-- Tokens
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/payment-access-token-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-payments/tokens)
-
-### Big Commerce Payment Methods (Deprecated)
-
-BigCommerce Payment Methods (Deprecated) was a feature within the BigCommerce platform that allowed merchants to accept a variety of payment methods from customers during checkout. This feature provided users with the ability to easily configure and manage multiple payment gateways, such as PayPal, Stripe, and Authorize.Net, to offer customers a seamless and secure payment experience. Unfortunately, this feature has been deprecated by BigCommerce and is no longer supported.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Payment Methods
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/payment-methods-deprecated-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-payments/methods-deprecated)
-
-### Big Commerce Payment Processing
-
-BigCommerce Payment Processing is a service that allows online businesses to securely accept customer payments through their e-commerce platform. This service integrates with the BigCommerce software, providing merchants with a seamless and streamlined payment processing experience. With this service, businesses can accept a variety of payment methods, including credit cards and digital wallets, making it easy for customers to complete their online transactions.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Payments
-- Processing
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/payment-processing-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-payments/processing)
-
-### Big Commerce Price Lists
-
-BigCommerce Price Lists is a feature that allows merchants to create and manage different pricing structures for their products. This enables businesses to tailor pricing to specific customer groups, such as wholesale buyers or VIP customers, and offer discounts or promotions on certain items. Price Lists also help streamline the process of updating prices across a large inventory, making it easier for businesses to stay competitive and maximize profitability.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Price Lists
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/price-lists-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Pricing
-
-BigCommerce Pricing is a feature that allows businesses to choose a plan that best suits their needs and budget. With a range of pricing options, businesses can select the plan that offers the right level of features and support for their online store. Whether a business is just starting out or has been in operation for years, BigCommerce Pricing ensures that businesses have access to the tools and support they need to succeed in the competitive world of e-commerce.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Prices
-- Pricing
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/pricing-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Redirects
-
-BigCommerce Redirects is a tool that helps ecommerce businesses manage their website redirects efficiently. With this tool, businesses can easily set up redirect rules for old or broken URLs to ensure that customers are seamlessly directed to the correct pages on their website. This helps improve the user experience, reduces bounce rates, and ensures that search engine rankings are maintained.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Redirects
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/redirects-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Scripts
-
-BigCommerce Scripts is a feature within the BigCommerce platform that allows users to customize and enhance their online store through the use of JavaScript. With Scripts, users can add functionality to their store, such as pop-ups, countdown timers, and custom forms, without needing to manually edit their store's code. Additionally, Scripts can be used to track user behavior, set up A/B testing, and implement personalized experiences for customers.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Scripts
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/scripts-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Settings
-
-BigCommerce Settings is a section within the BigCommerce platform that allows users to customize and control various aspects of their online store. Users can adjust settings related to shipping, tax calculation, payment methods, email notifications, and more. This tool gives merchants the flexibility to tailor their store to their specific needs and preferences, ensuring a seamless and efficient shopping experience for their customers.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Settings
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/settings-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-management/settings)
-
-### Big Commerce Shipping
-
-BigCommerce Shipping is a service that helps ecommerce businesses manage and optimize their shipping processes. It provides businesses with access to discounted shipping rates, real-time shipping quotes, and the ability to print shipping labels directly from the BigCommerce platform. Additionally, BigCommerce Shipping streamlines the fulfillment process by automatically updating order status and tracking information for customers.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Shipping
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/shipping-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-management/shipping-v2)
-
-### Big Commerce Shipping Providers
-
-BigCommerce Shipping Providers is a service that offers a range of shipping solutions for online retailers using the BigCommerce platform. By partnering with various shipping carriers, they are able to offer competitive rates and reliable delivery options to help businesses streamline their shipping processes.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Shipping Providers
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/shipping-providers-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Sites
-
-BigCommerce Sites is a website development company that specializes in building high-quality, customized e-commerce websites for online businesses. With a team of experienced web designers and developers, BigCommerce Sites creates visually appealing and easy-to-navigate websites that are optimized for driving sales and increasing revenue.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Sites
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/sites-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-management/channels/site)
-
-### Big Commerce Store Information
-
-BigCommerce Store Information is a feature on the BigCommerce platform that allows store owners to easily access and manage key information about their online store. This feature provides valuable insights into sales metrics, customer data, inventory levels, and marketing performance. Store owners can track their store's performance, analyze trends, and make informed decisions to optimize their online business.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Stores
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/store-information-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-management/store-information)
-
-### Big Commerce Store Logs
-
-BigCommerce Store Logs is a tool designed to give e-commerce store owners insights into the activity on their online store. By analyzing the data in log files, this tool can provide valuable information such as website traffic, visitor behavior, and error messages. Store owners can use this data to identify trends, improve user experience, and troubleshoot any issues that may arise on their website.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Logs
-- Stores
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/store-logs-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Storefront Carts
-
-BigCommerce Storefront Carts is a feature-rich platform that allows businesses to easily create and customize their online store shopping cart. With a simple drag-and-drop interface, users can design a seamless and visually appealing shopping experience for customers. This tool also provides various payment options, shipping methods, and tax calculation capabilities to streamline the checkout process.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Carts
-- Storefronts
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/storefront-carts-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-storefront/carts)
-
-### Big Commerce Storefront Checkouts
-
-BigCommerce Storefront Checkouts is a feature that provides an optimized and streamlined checkout experience for customers shopping on a BigCommerce online store. This tool allows merchants to customize their checkout process to suit their specific needs, providing options for single-page, multi-page, or modal checkout layouts. By making the checkout process as efficient and user-friendly as possible, BigCommerce Storefront Checkouts helps to reduce cart abandonment and increase conversions.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Checkouts
-- Storefronts
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/storefront-checkouts-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-storefront/checkouts)
-
-### Big Commerce Storefront Cookie Consent
-
-The BigCommerce Storefront Cookie Consent app is designed to help online store owners comply with global data protection laws by providing a user-friendly way to inform website visitors about the use of cookies. This app allows businesses to customize their cookie consent banners to match their branding and messaging. By obtaining consent from users before placing cookies on their devices, store owners can enhance data privacy and build trust with customers.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Consents
-- Cookies
-- Storefronts
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/storefront-cookie-consent-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Storefront Customers
-
-BigCommerce Storefront Customers is a platform that provides a user-friendly interface for online merchants to create and manage their e-commerce websites. With a variety of customizable templates, integrations, and marketing tools, BigCommerce Storefront Customers allows businesses to easily showcase their products, process transactions, and drive sales.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Customers
-- Storefronts
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/storefront-customers-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-storefront/customers)
-
-### Big Commerce Storefront form Fields (Beta)
-
-The BigCommerce Storefront Form Fields (Beta) feature enables merchants to easily customize the appearance and functionality of their online store's forms. With this tool, users can add, remove, or reorder form fields in their storefront checkout process, such as adding new fields for customer information or payment options.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Fields
-- Forms
-- Storefronts
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/storefront-form-fields-beta-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Storefront Orders
-
-BigCommerce Storefront Orders is a feature in the BigCommerce platform that allows users to manage and process customer orders directly from their online store. With Storefront Orders, merchants can view and track orders, update order statuses, manage shipping and fulfillment, and communicate with customers about their orders.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Orders
-- Storefronts
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/storefront-orders-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-storefront/orders)
-
-### Big Commerce Storefront Subscriptions
-
-BigCommerce Storefront Subscriptions is a feature that allows businesses to offer subscription-based products and services through their online store. With this feature, customers can sign up for recurring purchases and payments, providing convenience and predictability for both the business and its customers. Storefront Subscriptions also enables businesses to manage and track subscription orders, automate billing and payments, and easily offer discounts or promotions to subscribers.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Storefronts
-- Subscriptions
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/storefront-subscriptions-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-storefront/subscriptions)
-
-### Big Commerce Storefront Token
-
-BigCommerce Storefront Tokens are a form of secure and unique codes that are generated to grant access to specific functionalities and features within a BigCommerce store. These tokens serve as a form of authentication and authorization mechanism, allowing users to perform various actions such as viewing products, adding items to their cart, and completing transactions.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Storefronts
-- Tokens
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/storefront-token-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Subscribers
-
-BigCommerce Subscribers is a service that allows online business owners to build and maintain a subscriber list for their e-commerce website. By collecting and organizing customer contact information, BigCommerce Subscribers enables businesses to communicate with their audience through targeted email marketing campaigns.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Subscribers
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/subscribers-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Tax Classes
-
-BigCommerce Tax Classes is a feature within the BigCommerce platform that allows merchants to easily assign tax rates to different products or categories based on the unique tax requirements of each item. By organizing products into specific tax classes, merchants can ensure that the correct tax rates are applied to each purchase, simplifying the process of tax collection and compliance.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Tax Classes
-- Taxes
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/tax-classes-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Tax Properties
-
-BigCommerce Tax Properties is a company that specializes in helping businesses navigate the complex world of sales tax compliance. They offer a range of services, including tax calculation and reporting, audit defense, and tax consulting. With their expertise and technology solutions, BigCommerce Tax Properties ensures that businesses remain in compliance with changing tax laws and regulations, ultimately helping them avoid costly fines and penalties.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Tax Properties
-- Taxes
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/tax-properties-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Tax Provider
-
-BigCommerce Tax Provider is a powerful tool designed to simplify the complicated process of managing taxes for online businesses. This software seamlessly integrates with the BigCommerce platform to automatically calculate and apply the appropriate tax rates for each transaction based on the customer's location. With this tool, businesses can ensure compliance with tax regulations, reduce the risk of errors, and streamline their tax reporting processes.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Tax Providers
-- Taxes
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/tax-provider-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Tax Provider Connection
-
-The BigCommerce Tax Provider Connection is a feature that allows merchants to seamlessly integrate their online store with various tax providers to facilitate automated and accurate tax calculations. By connecting their BigCommerce store with a tax provider, merchants can ensure that they are compliant with local and international tax laws, reduce the risk of errors in tax calculations, and simplify the process of managing and filing taxes.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Connections
-- Tax Providers
-- Taxes
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/tax-provider-connection-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Tax Rates & Zones
-
-BigCommerce Tax Rates & Zones is a feature within the BigCommerce platform that allows merchants to easily set up and manage tax rates for their online store. With this tool, merchants can create and customize tax rates based on their specific business needs and the locations of their customers.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Tax Rates
-- Tax Zones
-- Taxes
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/tax-rates-zones-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Tax Settings
-
-BigCommerce Tax Settings allows merchants to easily manage and configure their tax settings within their online store. This feature enables businesses to set up and apply the appropriate tax rates based on their location, the location of their customers, and the type of products being sold. Merchants can also specify whether taxes should be included in the product prices or displayed separately at checkout.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Tax Settings
-- Taxes
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/tax-settings-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Tax Zone Check
-
-BigCommerce Tax Zone Check is a feature that automatically calculates and applies the correct sales tax rates based on the location of the customer. It ensures that online businesses are compliant with tax regulations and saves time by eliminating the need to manually input tax rates for different regions. By accurately determining the appropriate tax rates, BigCommerce Tax Zone Check helps businesses avoid costly errors and penalties associated with incorrect tax collection.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Tax Zones
-- Taxes
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/tax-zone-check-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Themes
-
-BigCommerce Themes is a platform that offers a wide range of customizable themes for businesses looking to enhance their online presence. These themes are designed to help businesses create visually appealing and user-friendly websites that showcase their products and services in the best possible light. With a focus on responsive design and seamless integration with the BigCommerce platform, these themes make it easy for businesses to create a professional and engaging online storefront.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Themes
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/themes-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Webhooks V3
-
-BigCommerce Webhooks v3 is an advanced tool that allows users to automate and streamline their e-commerce operations. By utilizing webhooks, users can set up triggers that automatically notify them of specific events such as new orders, product updates, or customer activity. This real-time data allows users to stay informed and respond quickly to changes in their store.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Webhooks
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/webhooks-v3-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [AsyncAPI](asyncapi/bigcommerce-webhooks-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
-- [API Reference](https://developer.bigcommerce.com/docs/integrations/webhooks)
-
-### Big Commerce Widgets
-
-BigCommerce Widgets is a software platform that provides e-commerce businesses with the tools to create and customize widgets for their online stores. These widgets can range from product sliders and image galleries to social media feeds and custom contact forms. By using BigCommerce Widgets, businesses can enhance the functionality and aesthetics of their websites, ultimately improving the user experience and driving more conversions.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Widgets
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/widgets-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developer.bigcommerce.com/docs/rest-content/widgets)
-
-### Big Commerce Wishlist
-
-BigCommerce Wishlist is a feature that allows customers to save products they are interested in to a personalized list for future reference. This enables them to easily keep track of items they like without having to immediately purchase them. Customers can create multiple wishlists, organize products by category, and share their lists with friends and family.
-
-- **Human URL:** [https://developer.bigcommerce.com/](https://developer.bigcommerce.com/)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Wish Lists
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/)
-- [OpenAPI](openapi/wishlist-openapi-original.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Big Commerce Inventory
-
-BigCommerce Inventory API exposes location-aware, item-level inventory data to API consumers. You can get inventory levels at all locations or specific locations and update inventory levels at a specific location using relative or absolute adjustment endpoints. The API enables merchants to manage stock across multiple locations, apply inventory settings, and track adjustments for accurate fulfillment and reporting.
-
-- **Human URL:** [https://developer.bigcommerce.com/docs/rest-management/inventory](https://developer.bigcommerce.com/docs/rest-management/inventory)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Inventory
-- Stock
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/docs/rest-management/inventory)
-- [Postman Collection](collections/accepted-payment-methods.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/accepted-payment-methods.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/payment-access-token.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/payment-access-token.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Big Commerce Locations
-
-BigCommerce Locations API allows merchants to create, read, update, and delete inventory locations for their store. All BigCommerce stores have at least one default location, and additional locations can be created to track inventory against using the API. The API also supports managing metafields on locations, enabling custom data storage for each location. Merchants can have up to 100 active locations.
-
-- **Human URL:** [https://developer.bigcommerce.com/docs/rest-management/locations](https://developer.bigcommerce.com/docs/rest-management/locations)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Inventory
-- Locations
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/docs/rest-management/locations)
-- [Postman Collection](collections/accepted-payment-methods.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/accepted-payment-methods.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/payment-access-token.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/payment-access-token.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Big Commerce Customer Segmentation
-
-BigCommerce Customer Segmentation API enables the creation of externally defined customer segments that can be targeted within promotions and other customized shopping experiences. The API allows merchants to group customers into segments, manage shopper profiles with a one-to-one relationship with registered customers, and associate profiles with segments. This API is available to enterprise customers and integrates with the Promotions API for targeted marketing campaigns.
-
-- **Human URL:** [https://developer.bigcommerce.com/docs/rest-management/customer-segmentation](https://developer.bigcommerce.com/docs/rest-management/customer-segmentation)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Customers
-- Segmentation
-- Segments
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/docs/rest-management/customer-segmentation)
-- [Postman Collection](collections/accepted-payment-methods.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/accepted-payment-methods.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/payment-access-token.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/payment-access-token.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Big Commerce Promotions
-
-BigCommerce Promotions API allows merchants to create, manage, and delete promotional campaigns and discount codes for their online store. A promotion is composed of a condition that a customer can satisfy, such as increasing their cart value above a certain amount or adding an item to their cart, after which an action takes place, such as a free item being added or a discount applying to the order total.
-
-- **Human URL:** [https://developer.bigcommerce.com/docs/rest-management/promotions](https://developer.bigcommerce.com/docs/rest-management/promotions)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Coupons
-- Discounts
-- Promotions
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/docs/rest-management/promotions)
-- [Postman Collection](collections/accepted-payment-methods.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/accepted-payment-methods.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/payment-access-token.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/payment-access-token.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Big Commerce Promotion Settings
-
-BigCommerce Promotion Settings API enables merchants to configure and manage global promotion settings for their online store. This API provides control over how promotions are applied and displayed, allowing businesses to customize the promotional experience and manage rules governing how different promotions interact with each other across the storefront.
-
-- **Human URL:** [https://developer.bigcommerce.com/docs/rest-management/promotion-settings](https://developer.bigcommerce.com/docs/rest-management/promotion-settings)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Promotions
-- Settings
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/docs/rest-management/promotion-settings)
-- [Postman Collection](collections/accepted-payment-methods.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/accepted-payment-methods.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/payment-access-token.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/payment-access-token.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Big Commerce Pickup Methods
-
-BigCommerce Pickup Methods API allows merchants to manage pickup methods for their buy online, pick up in store (BOPIS) fulfillment strategy. This REST Management API enables the creation and configuration of pickup methods that can be associated with store locations, giving customers the option to collect their orders from physical store locations rather than having them shipped.
-
-- **Human URL:** [https://developer.bigcommerce.com/docs/rest-management/pickup-methods](https://developer.bigcommerce.com/docs/rest-management/pickup-methods)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Fulfillment
-- Pickup
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/docs/rest-management/pickup-methods)
-- [Postman Collection](collections/accepted-payment-methods.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/accepted-payment-methods.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/payment-access-token.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/payment-access-token.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Big Commerce Storefront Pickup Options
-
-BigCommerce Storefront Pickup Options API returns up to 10 available pickup options for requested items around a radius of provided search coordinates. The pickup options returned only include options where all requested items are available and can be picked up from a single location. This REST Storefront API endpoint enables shoppers to search for available pickup options near their location during the checkout process.
-
-- **Human URL:** [https://developer.bigcommerce.com/docs/rest-storefront/pickup-options](https://developer.bigcommerce.com/docs/rest-storefront/pickup-options)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Fulfillment
-- Pickup
-- Storefronts
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/docs/rest-storefront/pickup-options)
-- [Postman Collection](collections/accepted-payment-methods.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/accepted-payment-methods.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/payment-access-token.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/payment-access-token.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Big Commerce Transactions
-
-BigCommerce Transactions API provides access to order transaction data and payment actions. The API returns transaction details for orders, including payment method information and fraud details when available from the payment gateway. It also includes endpoints for payment actions such as refunds and void operations, enabling merchants to manage the complete payment lifecycle for their orders.
-
-- **Human URL:** [https://developer.bigcommerce.com/docs/rest-management/transactions](https://developer.bigcommerce.com/docs/rest-management/transactions)
-- **Base URL:** `https://api.example.com`
-
-#### Tags
-
-- Orders
-- Payments
-- Transactions
-
-#### Properties
-
-- [Documentation](https://developer.bigcommerce.com/docs/rest-management/transactions)
-- [Postman Collection](collections/accepted-payment-methods.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/accepted-payment-methods.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/payment-access-token.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/payment-access-token.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [LinkedIn](https://www.linkedin.com/company/bigcommerce)
-- [Portal](https://developer.bigcommerce.com/)
-- [Documentation](https://developer.bigcommerce.com/docs/api)
-- [Getting Started](https://developer.bigcommerce.com/docs/start)
-- [Authentication](https://developer.bigcommerce.com/docs/start/authentication/api-accounts)
-- [Webhooks](https://developer.bigcommerce.com/docs/integrations/webhooks)
-- [GitHub Organization](https://github.com/bigcommerce)
-- [Spectral Rules](https://raw.githubusercontent.com/api-evangelist/bigcommerce/refs/heads/main/rules/bigcommerce-spectral-rules.yml)
-- [Vocabulary](https://raw.githubusercontent.com/api-evangelist/bigcommerce/refs/heads/main/vocabulary/bigcommerce-vocabulary.yaml)
-- [Features](undefined)
-- [Use Cases](undefined)
-- [Integrations](undefined)
-
-## Maintainers
-
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Areas:** E-Commerce · Retail · Catalog · Order · Checkout · Payments · Software-as-a-Service
+
+## BigCommerce on APIs.io
+
+Everything profiled for BigCommerce is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/bigcommerce/](https://apis.io/providers/bigcommerce/)** — or go straight to one of the APIs or properties below.
+
+### APIs (158)
+
+- [Big Commerce Inventory](https://apis.io/apis/bigcommerce/bigcommerce-inventory/) — BigCommerce Inventory API exposes location-aware, item-level inventory data to API consumers. You can get inventory levels at all locations or specific…
+- [Big Commerce Locations](https://apis.io/apis/bigcommerce/bigcommerce-locations/) — BigCommerce Locations API allows merchants to create, read, update, and delete inventory locations for their store. All BigCommerce stores have at least one…
+- [Big Commerce Customer Segmentation](https://apis.io/apis/bigcommerce/bigcommerce-customer-segmentation/) — BigCommerce Customer Segmentation API enables the creation of externally defined customer segments that can be targeted within promotions and other…
+- [Big Commerce Promotions](https://apis.io/apis/bigcommerce/bigcommerce-promotions/) — BigCommerce Promotions API allows merchants to create, manage, and delete promotional campaigns and discount codes for their online store. A promotion is…
+- [Big Commerce Promotion Settings](https://apis.io/apis/bigcommerce/bigcommerce-promotion-settings/) — BigCommerce Promotion Settings API enables merchants to configure and manage global promotion settings for their online store. This API provides control…
+- [Big Commerce Pickup Methods](https://apis.io/apis/bigcommerce/bigcommerce-pickup-methods/) — BigCommerce Pickup Methods API allows merchants to manage pickup methods for their buy online, pick up in store (BOPIS) fulfillment strategy. This REST…
+- [Big Commerce Storefront Pickup Options](https://apis.io/apis/bigcommerce/bigcommerce-storefront-pickup-options/) — BigCommerce Storefront Pickup Options API returns up to 10 available pickup options for requested items around a radius of provided search coordinates. The…
+- [Big Commerce Transactions](https://apis.io/apis/bigcommerce/bigcommerce-transactions/) — BigCommerce Transactions API provides access to order transaction data and payment actions. The API returns transaction details for orders, including…
+- [BigCommerce Abandoned Cart Emails API](https://apis.io/apis/bigcommerce/bigcommerce-abandoned-cart-emails-api/) — The Abandoned Cart Emails API from BigCommerce — 3 operation(s) for abandoned cart emails.
+- [BigCommerce Abandoned Cart Settings API](https://apis.io/apis/bigcommerce/bigcommerce-abandoned-cart-settings-api/) — The Abandoned Cart Settings API from BigCommerce — 1 operation(s) for abandoned cart settings.
+- [BigCommerce Abandoned Carts API](https://apis.io/apis/bigcommerce/bigcommerce-abandoned-carts-api/) — The Abandoned Carts API from BigCommerce — 1 operation(s) for abandoned carts.
+- [BigCommerce Abandoned Carts Settings API](https://apis.io/apis/bigcommerce/bigcommerce-abandoned-carts-settings-api/) — The Abandoned Carts Settings API from BigCommerce — 2 operation(s) for abandoned carts settings.
+- [BigCommerce Active Theme API](https://apis.io/apis/bigcommerce/bigcommerce-active-theme-api/) — The Active Theme API from BigCommerce — 1 operation(s) for active theme.
+- [BigCommerce Addresses API](https://apis.io/apis/bigcommerce/bigcommerce-addresses-api/) — The Addresses API from BigCommerce — 1 operation(s) for addresses.
+- [BigCommerce Analytics API](https://apis.io/apis/bigcommerce/bigcommerce-analytics-api/) — The Analytics API from BigCommerce — 2 operation(s) for analytics.
+- [BigCommerce API Token API](https://apis.io/apis/bigcommerce/bigcommerce-api-token-api/) — The API Token API from BigCommerce — 1 operation(s) for api token.
+- [BigCommerce Attribute Values API](https://apis.io/apis/bigcommerce/bigcommerce-attribute-values-api/) — The Attribute Values API from BigCommerce — 1 operation(s) for attribute values.
+- [BigCommerce Attributes API](https://apis.io/apis/bigcommerce/bigcommerce-attributes-api/) — The Attributes API from BigCommerce — 1 operation(s) for attributes.
+- [BigCommerce Banners API](https://apis.io/apis/bigcommerce/bigcommerce-banners-api/) — The Banners API from BigCommerce — 3 operation(s) for banners.
+- [BigCommerce Batch Metafields API](https://apis.io/apis/bigcommerce/bigcommerce-batch-metafields-api/) — The Batch Metafields API from BigCommerce — 7 operation(s) for batch metafields.
+- [BigCommerce Blog Posts API](https://apis.io/apis/bigcommerce/bigcommerce-blog-posts-api/) — The Blog Posts API from BigCommerce — 3 operation(s) for blog posts.
+- [BigCommerce Blog Tags API](https://apis.io/apis/bigcommerce/bigcommerce-blog-tags-api/) — The Blog Tags API from BigCommerce — 1 operation(s) for blog tags.
+- [BigCommerce Brands API](https://apis.io/apis/bigcommerce/bigcommerce-brands-api/) — The Brands API from BigCommerce — 2 operation(s) for brands.
+- [BigCommerce Bulk Pricing Rules API](https://apis.io/apis/bigcommerce/bigcommerce-bulk-pricing-rules-api/) — The Bulk Pricing Rules API from BigCommerce — 1 operation(s) for bulk pricing rules.
+- [BigCommerce Cart API](https://apis.io/apis/bigcommerce/bigcommerce-cart-api/) — The Cart API from BigCommerce — 2 operation(s) for cart.
+- [BigCommerce Cart Currency API](https://apis.io/apis/bigcommerce/bigcommerce-cart-currency-api/) — The Cart Currency API from BigCommerce — 1 operation(s) for cart currency.
+- [BigCommerce Cart Items API](https://apis.io/apis/bigcommerce/bigcommerce-cart-items-api/) — The Cart Items API from BigCommerce — 2 operation(s) for cart items.
+- [BigCommerce Carts (Single) API](https://apis.io/apis/bigcommerce/bigcommerce-carts-single-api/) — The Carts (Single) API from BigCommerce — 2 operation(s) for carts (single).
+- [BigCommerce Catalog API](https://apis.io/apis/bigcommerce/bigcommerce-catalog-api/) — The Catalog API from BigCommerce — 1 operation(s) for catalog.
+- [BigCommerce Categories API](https://apis.io/apis/bigcommerce/bigcommerce-categories-api/) — The Categories API from BigCommerce — 1 operation(s) for categories.
+- [BigCommerce Categories (Deprecated) API](https://apis.io/apis/bigcommerce/bigcommerce-categories-deprecated-api/) — The Categories (Deprecated) API from BigCommerce — 2 operation(s) for categories (deprecated).
+- [BigCommerce Category Assignments API](https://apis.io/apis/bigcommerce/bigcommerce-category-assignments-api/) — The Category Assignments API from BigCommerce — 1 operation(s) for category assignments.
+- [BigCommerce Category Trees API](https://apis.io/apis/bigcommerce/bigcommerce-category-trees-api/) — The Category Trees API from BigCommerce — 2 operation(s) for category trees.
+- [BigCommerce Channel Assignments API](https://apis.io/apis/bigcommerce/bigcommerce-channel-assignments-api/) — The Channel Assignments API from BigCommerce — 1 operation(s) for channel assignments.
+- [BigCommerce Channel Settings API](https://apis.io/apis/bigcommerce/bigcommerce-channel-settings-api/) — The Channel Settings API from BigCommerce — 1 operation(s) for channel settings.
+- [BigCommerce Channels API](https://apis.io/apis/bigcommerce/bigcommerce-channels-api/) — The Channels API from BigCommerce — 2 operation(s) for channels.
+- [BigCommerce Checkout API](https://apis.io/apis/bigcommerce/bigcommerce-checkout-api/) — The Checkout API from BigCommerce — 1 operation(s) for checkout.
+- [BigCommerce Checkout Billing Address API](https://apis.io/apis/bigcommerce/bigcommerce-checkout-billing-address-api/) — The Checkout Billing Address API from BigCommerce — 2 operation(s) for checkout billing address.
+- [BigCommerce Checkout Cart Items API](https://apis.io/apis/bigcommerce/bigcommerce-checkout-cart-items-api/) — The Checkout Cart Items API from BigCommerce — 1 operation(s) for checkout cart items.
+- [BigCommerce Checkout Consignments API](https://apis.io/apis/bigcommerce/bigcommerce-checkout-consignments-api/) — The Checkout Consignments API from BigCommerce — 2 operation(s) for checkout consignments.
+- [BigCommerce Checkout Coupons API](https://apis.io/apis/bigcommerce/bigcommerce-checkout-coupons-api/) — The Checkout Coupons API from BigCommerce — 2 operation(s) for checkout coupons.
+- [BigCommerce Checkout Discounts API](https://apis.io/apis/bigcommerce/bigcommerce-checkout-discounts-api/) — The Checkout Discounts API from BigCommerce — 1 operation(s) for checkout discounts.
+- [BigCommerce Checkout Gift Certificates API](https://apis.io/apis/bigcommerce/bigcommerce-checkout-gift-certificates-api/) — The Checkout Gift Certificates API from BigCommerce — 2 operation(s) for checkout gift certificates.
+- [BigCommerce Checkout Orders API](https://apis.io/apis/bigcommerce/bigcommerce-checkout-orders-api/) — The Checkout Orders API from BigCommerce — 1 operation(s) for checkout orders.
+- [BigCommerce Checkout Settings API](https://apis.io/apis/bigcommerce/bigcommerce-checkout-settings-api/) — The Checkout Settings API from BigCommerce — 1 operation(s) for checkout settings.
+- [BigCommerce Checkout Spam Protection API](https://apis.io/apis/bigcommerce/bigcommerce-checkout-spam-protection-api/) — The Checkout Spam Protection API from BigCommerce — 1 operation(s) for checkout spam protection.
+- [BigCommerce Checkout Store Credit API](https://apis.io/apis/bigcommerce/bigcommerce-checkout-store-credit-api/) — The Checkout Store Credit API from BigCommerce — 1 operation(s) for checkout store credit.
+- [BigCommerce Checkout Token API](https://apis.io/apis/bigcommerce/bigcommerce-checkout-token-api/) — The Checkout Token API from BigCommerce — 1 operation(s) for checkout token.
+- [BigCommerce Complex Rules API](https://apis.io/apis/bigcommerce/bigcommerce-complex-rules-api/) — The Complex Rules API from BigCommerce — 2 operation(s) for complex rules.
+- [BigCommerce Consent API](https://apis.io/apis/bigcommerce/bigcommerce-consent-api/) — The Consent API from BigCommerce — 2 operation(s) for consent.
+- [BigCommerce Countries API](https://apis.io/apis/bigcommerce/bigcommerce-countries-api/) — The Countries API from BigCommerce — 3 operation(s) for countries.
+- [BigCommerce Coupons API](https://apis.io/apis/bigcommerce/bigcommerce-coupons-api/) — The Coupons API from BigCommerce — 3 operation(s) for coupons.
+- [BigCommerce Currencies (Bulk) API](https://apis.io/apis/bigcommerce/bigcommerce-currencies-bulk-api/) — The Currencies (Bulk) API from BigCommerce — 1 operation(s) for currencies (bulk).
+- [BigCommerce Currencies (Single) API](https://apis.io/apis/bigcommerce/bigcommerce-currencies-single-api/) — The Currencies (Single) API from BigCommerce — 1 operation(s) for currencies (single).
+- [BigCommerce Currency Assignments API](https://apis.io/apis/bigcommerce/bigcommerce-currency-assignments-api/) — The Currency Assignments API from BigCommerce — 2 operation(s) for currency assignments.
+- [BigCommerce Current Customers API](https://apis.io/apis/bigcommerce/bigcommerce-current-customers-api/) — The Current Customers API from BigCommerce — 1 operation(s) for current customers.
+- [BigCommerce Custom Fields API](https://apis.io/apis/bigcommerce/bigcommerce-custom-fields-api/) — The Custom Fields API from BigCommerce — 2 operation(s) for custom fields.
+- [BigCommerce Custom Template Associations API](https://apis.io/apis/bigcommerce/bigcommerce-custom-template-associations-api/) — The Custom Template Associations API from BigCommerce — 1 operation(s) for custom template associations.
+- [BigCommerce Customer Batch Metafields API](https://apis.io/apis/bigcommerce/bigcommerce-customer-batch-metafields-api/) — The Customer Batch Metafields API from BigCommerce — 1 operation(s) for customer batch metafields.
+- [BigCommerce Customer Impersonation Token API](https://apis.io/apis/bigcommerce/bigcommerce-customer-impersonation-token-api/) — The Customer Impersonation Token API from BigCommerce — 1 operation(s) for customer impersonation token.
+- [BigCommerce Customer Metafields API](https://apis.io/apis/bigcommerce/bigcommerce-customer-metafields-api/) — The Customer Metafields API from BigCommerce — 2 operation(s) for customer metafields.
+- [BigCommerce Customers API](https://apis.io/apis/bigcommerce/bigcommerce-customers-api/) — The Customers API from BigCommerce — 1 operation(s) for customers.
+- [BigCommerce Customs Information API](https://apis.io/apis/bigcommerce/bigcommerce-customs-information-api/) — The Customs Information API from BigCommerce — 1 operation(s) for customs information.
+- [BigCommerce Email Statuses API](https://apis.io/apis/bigcommerce/bigcommerce-email-statuses-api/) — The Email Statuses API from BigCommerce — 1 operation(s) for email statuses.
+- [BigCommerce Email Templates API](https://apis.io/apis/bigcommerce/bigcommerce-email-templates-api/) — The Email Templates API from BigCommerce — 2 operation(s) for email templates.
+- [BigCommerce Favicon Image API](https://apis.io/apis/bigcommerce/bigcommerce-favicon-image-api/) — The Favicon Image API from BigCommerce — 1 operation(s) for favicon image.
+- [BigCommerce Form Field Values API](https://apis.io/apis/bigcommerce/bigcommerce-form-field-values-api/) — The Form Field Values API from BigCommerce — 1 operation(s) for form field values.
+- [BigCommerce Form Fields API](https://apis.io/apis/bigcommerce/bigcommerce-form-fields-api/) — The Form Fields API from BigCommerce — 1 operation(s) for form fields.
+- [BigCommerce Gift Certificates API](https://apis.io/apis/bigcommerce/bigcommerce-gift-certificates-api/) — The Gift Certificates API from BigCommerce — 2 operation(s) for gift certificates.
+- [BigCommerce Global Settings API](https://apis.io/apis/bigcommerce/bigcommerce-global-settings-api/) — The Global Settings API from BigCommerce — 1 operation(s) for global settings.
+- [BigCommerce Images API](https://apis.io/apis/bigcommerce/bigcommerce-images-api/) — The Images API from BigCommerce — 6 operation(s) for images.
+- [BigCommerce Import-Export API](https://apis.io/apis/bigcommerce/bigcommerce-import-export-api/) — The Import-Export API from BigCommerce — 6 operation(s) for import-export.
+- [BigCommerce Inventory API](https://apis.io/apis/bigcommerce/bigcommerce-inventory-api/) — The Inventory API from BigCommerce — 1 operation(s) for inventory.
+- [BigCommerce Inventory Notifications API](https://apis.io/apis/bigcommerce/bigcommerce-inventory-notifications-api/) — The Inventory Notifications API from BigCommerce — 1 operation(s) for inventory notifications.
+- [BigCommerce Items API](https://apis.io/apis/bigcommerce/bigcommerce-items-api/) — The Items API from BigCommerce — 2 operation(s) for items.
+- [BigCommerce Listings API](https://apis.io/apis/bigcommerce/bigcommerce-listings-api/) — The Listings API from BigCommerce — 2 operation(s) for listings.
+- [BigCommerce Login Token API](https://apis.io/apis/bigcommerce/bigcommerce-login-token-api/) — The Login Token API from BigCommerce — 1 operation(s) for login token.
+- [BigCommerce Logo API](https://apis.io/apis/bigcommerce/bigcommerce-logo-api/) — The Logo API from BigCommerce — 1 operation(s) for logo.
+- [BigCommerce Logo Image API](https://apis.io/apis/bigcommerce/bigcommerce-logo-image-api/) — The Logo Image API from BigCommerce — 1 operation(s) for logo image.
+- [BigCommerce Manage Webhooks (Bulk) API](https://apis.io/apis/bigcommerce/bigcommerce-manage-webhooks-bulk-api/) — The Manage Webhooks (Bulk) API from BigCommerce — 1 operation(s) for manage webhooks (bulk).
+- [BigCommerce Manage Webhooks (Single) API](https://apis.io/apis/bigcommerce/bigcommerce-manage-webhooks-single-api/) — The Manage Webhooks (Single) API from BigCommerce — 1 operation(s) for manage webhooks (single).
+- [BigCommerce Menus API](https://apis.io/apis/bigcommerce/bigcommerce-menus-api/) — The Menus API from BigCommerce — 1 operation(s) for menus.
+- [BigCommerce Methods API](https://apis.io/apis/bigcommerce/bigcommerce-methods-api/) — The Methods API from BigCommerce — 1 operation(s) for methods.
+- [BigCommerce Order API](https://apis.io/apis/bigcommerce/bigcommerce-order-api/) — The Order API from BigCommerce — 1 operation(s) for order.
+- [BigCommerce Order Settings API](https://apis.io/apis/bigcommerce/bigcommerce-order-settings-api/) — The Order Settings API from BigCommerce — 2 operation(s) for order settings.
+- [BigCommerce Pages API](https://apis.io/apis/bigcommerce/bigcommerce-pages-api/) — The Pages API from BigCommerce — 2 operation(s) for pages.
+- [BigCommerce Pages (Bulk) API](https://apis.io/apis/bigcommerce/bigcommerce-pages-bulk-api/) — The Pages (Bulk) API from BigCommerce — 1 operation(s) for pages (bulk).
+- [BigCommerce Pages (Single) API](https://apis.io/apis/bigcommerce/bigcommerce-pages-single-api/) — The Pages (Single) API from BigCommerce — 1 operation(s) for pages (single).
+- [BigCommerce Payment Actions API](https://apis.io/apis/bigcommerce/bigcommerce-payment-actions-api/) — The Payment Actions API from BigCommerce — 7 operation(s) for payment actions.
+- [BigCommerce Placement API](https://apis.io/apis/bigcommerce/bigcommerce-placement-api/) — BigCommerce Placements API Definition.
+- [BigCommerce Price Lists API](https://apis.io/apis/bigcommerce/bigcommerce-price-lists-api/) — The Price Lists API from BigCommerce — 2 operation(s) for price lists.
+- [BigCommerce Price Lists Assignments API](https://apis.io/apis/bigcommerce/bigcommerce-price-lists-assignments-api/) — The Price Lists Assignments API from BigCommerce — 2 operation(s) for price lists assignments.
+- [BigCommerce Price Lists Records API](https://apis.io/apis/bigcommerce/bigcommerce-price-lists-records-api/) — The Price Lists Records API from BigCommerce — 4 operation(s) for price lists records.
+- [BigCommerce Processing API](https://apis.io/apis/bigcommerce/bigcommerce-processing-api/) — The Processing API from BigCommerce — 1 operation(s) for processing.
+- [BigCommerce Product Modifiers API](https://apis.io/apis/bigcommerce/bigcommerce-product-modifiers-api/) — The Product Modifiers API from BigCommerce — 2 operation(s) for product modifiers.
+- [BigCommerce Product Tax Properties API](https://apis.io/apis/bigcommerce/bigcommerce-product-tax-properties-api/) — The Product Tax Properties API from BigCommerce — 1 operation(s) for product tax properties.
+- [BigCommerce Product Variant Options API](https://apis.io/apis/bigcommerce/bigcommerce-product-variant-options-api/) — The Product Variant Options API from BigCommerce — 2 operation(s) for product variant options.
+- [BigCommerce Product Variants API](https://apis.io/apis/bigcommerce/bigcommerce-product-variants-api/) — The Product Variants API from BigCommerce — 2 operation(s) for product variants.
+- [BigCommerce Products API](https://apis.io/apis/bigcommerce/bigcommerce-products-api/) — The Products API from BigCommerce — 3 operation(s) for products.
+- [BigCommerce Redirects API](https://apis.io/apis/bigcommerce/bigcommerce-redirects-api/) — The Redirects API from BigCommerce — 4 operation(s) for redirects.
+- [BigCommerce Redirects - Cart Redirect URLs API](https://apis.io/apis/bigcommerce/bigcommerce-redirects-cart-redirect-urls-api/) — The Redirects - Cart Redirect URLs API from BigCommerce — 1 operation(s) for redirects - cart redirect urls.
+- [BigCommerce Regions API](https://apis.io/apis/bigcommerce/bigcommerce-regions-api/) — The Regions API from BigCommerce — 1 operation(s) for regions.
+- [BigCommerce Reviews API](https://apis.io/apis/bigcommerce/bigcommerce-reviews-api/) — The Reviews API from BigCommerce — 2 operation(s) for reviews.
+- [BigCommerce Scripts API](https://apis.io/apis/bigcommerce/bigcommerce-scripts-api/) — The Scripts API from BigCommerce — 2 operation(s) for scripts.
+- [BigCommerce Search Filters API](https://apis.io/apis/bigcommerce/bigcommerce-search-filters-api/) — The Search Filters API from BigCommerce — 3 operation(s) for search filters.
+- [BigCommerce Settings API](https://apis.io/apis/bigcommerce/bigcommerce-settings-api/) — The Settings API from BigCommerce — 2 operation(s) for settings.
+- [BigCommerce Shipping Provider API](https://apis.io/apis/bigcommerce/bigcommerce-shipping-provider-api/) — The Shipping Provider API from BigCommerce — 2 operation(s) for shipping provider.
+- [BigCommerce Site API](https://apis.io/apis/bigcommerce/bigcommerce-site-api/) — The Site API from BigCommerce — 1 operation(s) for site.
+- [BigCommerce Site Certificate API](https://apis.io/apis/bigcommerce/bigcommerce-site-certificate-api/) — The Site Certificate API from BigCommerce — 2 operation(s) for site certificate.
+- [BigCommerce Site Checkout URL API](https://apis.io/apis/bigcommerce/bigcommerce-site-checkout-url-api/) — The Site Checkout URL API from BigCommerce — 1 operation(s) for site checkout url.
+- [BigCommerce Site Routes API](https://apis.io/apis/bigcommerce/bigcommerce-site-routes-api/) — The Site Routes API from BigCommerce — 2 operation(s) for site routes.
+- [BigCommerce Sites API](https://apis.io/apis/bigcommerce/bigcommerce-sites-api/) — Enables creation and management of external sites (domains) where shoppers shop. Allows for the correct shopping experience to be delivered and maintained…
+- [BigCommerce Sort Order API](https://apis.io/apis/bigcommerce/bigcommerce-sort-order-api/) — The Sort Order API from BigCommerce — 1 operation(s) for sort order.
+- [BigCommerce States API](https://apis.io/apis/bigcommerce/bigcommerce-states-api/) — The States API from BigCommerce — 5 operation(s) for states.
+- [BigCommerce Store Information API](https://apis.io/apis/bigcommerce/bigcommerce-store-information-api/) — The Store Information API from BigCommerce — 1 operation(s) for store information.
+- [BigCommerce Store Locale API](https://apis.io/apis/bigcommerce/bigcommerce-store-locale-api/) — The Store Locale API from BigCommerce — 1 operation(s) for store locale.
+- [BigCommerce Store Profile API](https://apis.io/apis/bigcommerce/bigcommerce-store-profile-api/) — The Store Profile API from BigCommerce — 1 operation(s) for store profile.
+- [BigCommerce Stored Instruments API](https://apis.io/apis/bigcommerce/bigcommerce-stored-instruments-api/) — The Stored Instruments API from BigCommerce — 1 operation(s) for stored instruments.
+- [BigCommerce Storefront Category API](https://apis.io/apis/bigcommerce/bigcommerce-storefront-category-api/) — The Storefront Category API from BigCommerce — 1 operation(s) for storefront category.
+- [BigCommerce Storefront Product API](https://apis.io/apis/bigcommerce/bigcommerce-storefront-product-api/) — The Storefront Product API from BigCommerce — 1 operation(s) for storefront product.
+- [BigCommerce Storefront Robotstxt API](https://apis.io/apis/bigcommerce/bigcommerce-storefront-robotstxt-api/) — The Storefront Robotstxt API from BigCommerce — 1 operation(s) for storefront robotstxt.
+- [BigCommerce Storefront Search API](https://apis.io/apis/bigcommerce/bigcommerce-storefront-search-api/) — The Storefront Search API from BigCommerce — 1 operation(s) for storefront search.
+- [BigCommerce Storefront Security API](https://apis.io/apis/bigcommerce/bigcommerce-storefront-security-api/) — The Storefront Security API from BigCommerce — 1 operation(s) for storefront security.
+- [BigCommerce Storefront SEO API](https://apis.io/apis/bigcommerce/bigcommerce-storefront-seo-api/) — The Storefront SEO API from BigCommerce — 1 operation(s) for storefront seo.
+- [BigCommerce Storefront Status API](https://apis.io/apis/bigcommerce/bigcommerce-storefront-status-api/) — The Storefront Status API from BigCommerce — 1 operation(s) for storefront status.
+- [BigCommerce Subscribers API](https://apis.io/apis/bigcommerce/bigcommerce-subscribers-api/) — BigCommerce Customers API Definition.
+- [BigCommerce Subscription API](https://apis.io/apis/bigcommerce/bigcommerce-subscription-api/) — The Subscription API from BigCommerce — 1 operation(s) for subscription.
+- [BigCommerce Summary API](https://apis.io/apis/bigcommerce/bigcommerce-summary-api/) — The Summary API from BigCommerce — 1 operation(s) for summary.
+- [BigCommerce System Logs API](https://apis.io/apis/bigcommerce/bigcommerce-system-logs-api/) — The System Logs API from BigCommerce — 1 operation(s) for system logs.
+- [BigCommerce Tax Properties API](https://apis.io/apis/bigcommerce/bigcommerce-tax-properties-api/) — The Tax Properties API from BigCommerce — 1 operation(s) for tax properties.
+- [BigCommerce Tax Provider API](https://apis.io/apis/bigcommerce/bigcommerce-tax-provider-api/) — The Tax Provider API from BigCommerce — 4 operation(s) for tax provider.
+- [BigCommerce Tax Provider Connection API](https://apis.io/apis/bigcommerce/bigcommerce-tax-provider-connection-api/) — The Tax Provider Connection API from BigCommerce — 1 operation(s) for tax provider connection.
+- [BigCommerce Tax Rates API](https://apis.io/apis/bigcommerce/bigcommerce-tax-rates-api/) — The Tax Rates API from BigCommerce — 1 operation(s) for tax rates.
+- [BigCommerce Tax Settings API](https://apis.io/apis/bigcommerce/bigcommerce-tax-settings-api/) — The Tax Settings API from BigCommerce — 1 operation(s) for tax settings.
+- [BigCommerce Tax Zone Check API](https://apis.io/apis/bigcommerce/bigcommerce-tax-zone-check-api/) — The Tax Zone Check API from BigCommerce — 1 operation(s) for tax zone check.
+- [BigCommerce Tax Zones API](https://apis.io/apis/bigcommerce/bigcommerce-tax-zones-api/) — The Tax Zones API from BigCommerce — 1 operation(s) for tax zones.
+- [BigCommerce Taxes API](https://apis.io/apis/bigcommerce/bigcommerce-taxes-api/) — The Taxes API from BigCommerce — 2 operation(s) for taxes.
+- [BigCommerce Template Settings API](https://apis.io/apis/bigcommerce/bigcommerce-template-settings-api/) — The Template Settings API from BigCommerce — 1 operation(s) for template settings.
+- [BigCommerce Theme Actions API](https://apis.io/apis/bigcommerce/bigcommerce-theme-actions-api/) — The Theme Actions API from BigCommerce — 2 operation(s) for theme actions.
+- [BigCommerce Theme Configurations API](https://apis.io/apis/bigcommerce/bigcommerce-theme-configurations-api/) — The Theme Configurations API from BigCommerce — 2 operation(s) for theme configurations.
+- [BigCommerce Theme Custom Templates API](https://apis.io/apis/bigcommerce/bigcommerce-theme-custom-templates-api/) — The Theme Custom Templates API from BigCommerce — 1 operation(s) for theme custom templates.
+- [BigCommerce Theme Jobs API](https://apis.io/apis/bigcommerce/bigcommerce-theme-jobs-api/) — The Theme Jobs API from BigCommerce — 1 operation(s) for theme jobs.
+- [BigCommerce Themes API](https://apis.io/apis/bigcommerce/bigcommerce-themes-api/) — The Themes API from BigCommerce — 2 operation(s) for themes.
+- [BigCommerce Tokens API](https://apis.io/apis/bigcommerce/bigcommerce-tokens-api/) — The Tokens API from BigCommerce — 1 operation(s) for tokens.
+- [BigCommerce Transactions API](https://apis.io/apis/bigcommerce/bigcommerce-transactions-api/) — The Transactions API from BigCommerce — 1 operation(s) for transactions.
+- [BigCommerce Units of Measurement API](https://apis.io/apis/bigcommerce/bigcommerce-units-of-measurement-api/) — The Units of Measurement API from BigCommerce — 1 operation(s) for units of measurement.
+- [BigCommerce Validate Credentials API](https://apis.io/apis/bigcommerce/bigcommerce-validate-credentials-api/) — The Validate Credentials API from BigCommerce — 1 operation(s) for validate credentials.
+- [BigCommerce Values API](https://apis.io/apis/bigcommerce/bigcommerce-values-api/) — The Values API from BigCommerce — 4 operation(s) for values.
+- [BigCommerce Variants (Batch) API](https://apis.io/apis/bigcommerce/bigcommerce-variants-batch-api/) — The Variants (Batch) API from BigCommerce — 1 operation(s) for variants (batch).
+- [BigCommerce Videos API](https://apis.io/apis/bigcommerce/bigcommerce-videos-api/) — The Videos API from BigCommerce — 2 operation(s) for videos.
+- [BigCommerce Webhook Events API](https://apis.io/apis/bigcommerce/bigcommerce-webhook-events-api/) — The Webhook Events API from BigCommerce — 1 operation(s) for webhook events.
+- [BigCommerce Webhooks Admin API](https://apis.io/apis/bigcommerce/bigcommerce-webhooks-admin-api/) — The Webhooks Admin API from BigCommerce — 1 operation(s) for webhooks admin.
+- [BigCommerce Widget API](https://apis.io/apis/bigcommerce/bigcommerce-widget-api/) — The Widget API from BigCommerce — 2 operation(s) for widget.
+- [BigCommerce Widget Template API](https://apis.io/apis/bigcommerce/bigcommerce-widget-template-api/) — BigCommerce Widget Templates API Definition.
+- [BigCommerce Wishlists API](https://apis.io/apis/bigcommerce/bigcommerce-wishlists-api/) — The Wishlists API from BigCommerce — 2 operation(s) for wishlists.
+- [BigCommerce Wishlists Items API](https://apis.io/apis/bigcommerce/bigcommerce-wishlists-items-api/) — The Wishlists Items API from BigCommerce — 2 operation(s) for wishlists items.
+- [BigCommerce Meta Fields API](https://apis.io/apis/bigcommerce/bigcommerce-meta-fields-api/) — The Meta Fields API from BigCommerce — 14 operation(s) for meta fields.
+- [BigCommerce Timezone API](https://apis.io/apis/bigcommerce/bigcommerce-timezone-api/) — The Timezone API from BigCommerce — 1 operation(s) for timezone.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Bigcommerce Webhooks Asyncapi](https://apis.io/asyncapis/bigcommerce/bigcommerce-webhooks-asyncapi/)
+
+#### Event channels (98)
+
+Individual events and webhooks the provider emits.
+
+- [store/app/uninstalled](https://apis.io/channels/bigcommerce/store-app-uninstalled/)
+- [store/brand/metafield/created](https://apis.io/channels/bigcommerce/store-brand-metafield-created/)
+- [store/brand/metafield/deleted](https://apis.io/channels/bigcommerce/store-brand-metafield-deleted/)
+- [store/brand/metafield/updated](https://apis.io/channels/bigcommerce/store-brand-metafield-updated/)
+- [store/cart/abandoned](https://apis.io/channels/bigcommerce/store-cart-abandoned/)
+- [store/cart/converted](https://apis.io/channels/bigcommerce/store-cart-converted/)
+- [store/cart/couponApplied](https://apis.io/channels/bigcommerce/store-cart-couponapplied/)
+- [store/cart/created](https://apis.io/channels/bigcommerce/store-cart-created/)
+- [store/cart/deleted](https://apis.io/channels/bigcommerce/store-cart-deleted/)
+- [store/cart/lineItem/created](https://apis.io/channels/bigcommerce/store-cart-lineitem-created/)
+- [store/cart/lineItem/deleted](https://apis.io/channels/bigcommerce/store-cart-lineitem-deleted/)
+- [store/cart/lineItem/updated](https://apis.io/channels/bigcommerce/store-cart-lineitem-updated/)
+- [store/cart/metafield/created](https://apis.io/channels/bigcommerce/store-cart-metafield-created/)
+- [store/cart/metafield/deleted](https://apis.io/channels/bigcommerce/store-cart-metafield-deleted/)
+- [store/cart/metafield/updated](https://apis.io/channels/bigcommerce/store-cart-metafield-updated/)
+- [store/cart/updated](https://apis.io/channels/bigcommerce/store-cart-updated/)
+- [store/category/created](https://apis.io/channels/bigcommerce/store-category-created/)
+- [store/category/deleted](https://apis.io/channels/bigcommerce/store-category-deleted/)
+- [store/category/metafield/created](https://apis.io/channels/bigcommerce/store-category-metafield-created/)
+- [store/category/metafield/deleted](https://apis.io/channels/bigcommerce/store-category-metafield-deleted/)
+- [store/category/metafield/updated](https://apis.io/channels/bigcommerce/store-category-metafield-updated/)
+- [store/category/updated](https://apis.io/channels/bigcommerce/store-category-updated/)
+- [store/channel/{channel_id}/cart/created](https://apis.io/channels/bigcommerce/store-channel-channel-id-cart-created/)
+- [store/channel/{channel_id}/cart/lineItems/created](https://apis.io/channels/bigcommerce/store-channel-channel-id-cart-lineitems-created/)
+- [store/channel/{channel_id}/category/created](https://apis.io/channels/bigcommerce/store-channel-channel-id-category-created/)
+- …and 73 more published on APIs.io
+
+#### GraphQL (1)
+
+GraphQL schemas.
+
+- [Moved to /providers/bigcommerce/](https://apis.io/graphqls/bigcommerce/bigcommerce-graphql/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [BigCommerce Storefront MCP](https://apis.io/servers/bigcommerce/bigcommerce-storefront-mcp/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Bigcommerce Agentic Access](https://apis.io/agentic-access/bigcommerce/bigcommerce-agentic-access/)
+
+#### JSON Schema (916)
+
+The data models the API reads and writes.
+
+- [301RedirectImportExportJobRead](https://apis.io/schemas/bigcommerce/bigcommerce-301-redirect-import-export-job-read/)
+- [301RedirectRead](https://apis.io/schemas/bigcommerce/bigcommerce-301-redirect-read/)
+- [301RedirectImportExportJobRead](https://apis.io/schemas/bigcommerce/bigcommerce-301redirectimportexportjobread/)
+- [301RedirectRead](https://apis.io/schemas/bigcommerce/bigcommerce-301redirectread/)
+- [301RedirectUpsert](https://apis.io/schemas/bigcommerce/bigcommerce-301redirectupsert/)
+- [AbandondedCartEmail](https://apis.io/schemas/bigcommerce/bigcommerce-abandonded-cart-email/)
+- [AbandondedCartEmailPayload](https://apis.io/schemas/bigcommerce/bigcommerce-abandonded-cart-email-payload/)
+- [AbandondedCartEmail](https://apis.io/schemas/bigcommerce/bigcommerce-abandondedcartemail/)
+- [Bigcommerce Abandondedcartemailpayload](https://apis.io/schemas/bigcommerce/bigcommerce-abandondedcartemailpayload/)
+- [AbandonedCartEmailModel](https://apis.io/schemas/bigcommerce/bigcommerce-abandonedcartemailmodel/)
+- [abandonedCartInfo_Full](https://apis.io/schemas/bigcommerce/bigcommerce-abandonedcartinfo-full/)
+- [AbandonedCartSettings](https://apis.io/schemas/bigcommerce/bigcommerce-abandonedcartsettings/)
+- [Activate](https://apis.io/schemas/bigcommerce/bigcommerce-activate/)
+- [ActiveTheme](https://apis.io/schemas/bigcommerce/bigcommerce-activetheme/)
+- [Address](https://apis.io/schemas/bigcommerce/bigcommerce-address/)
+- [address_Base](https://apis.io/schemas/bigcommerce/bigcommerce-address-base/)
+- [address_Full](https://apis.io/schemas/bigcommerce/bigcommerce-address-full/)
+- [address_Post](https://apis.io/schemas/bigcommerce/bigcommerce-address-post/)
+- [Address Properties](https://apis.io/schemas/bigcommerce/bigcommerce-address-properties/)
+- [address_Put](https://apis.io/schemas/bigcommerce/bigcommerce-address-put/)
+- [addresses](https://apis.io/schemas/bigcommerce/bigcommerce-addresses/)
+- [Address Properties](https://apis.io/schemas/bigcommerce/bigcommerce-addressproperties/)
+- [Address Response](https://apis.io/schemas/bigcommerce/bigcommerce-addressresponse/)
+- [AddressTypeEnumValues](https://apis.io/schemas/bigcommerce/bigcommerce-addresstypeenumvalues/)
+- [adjuster_Full](https://apis.io/schemas/bigcommerce/bigcommerce-adjuster-full/)
+- …and 891 more published on APIs.io
+
+#### JSON Structure (1)
+
+Data models expressed in JSON Structure.
+
+- [Bigcommerce Structure](https://apis.io/json-structure/bigcommerce/bigcommerce-structure/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Bigcommerce Context](https://apis.io/jsonld/bigcommerce/bigcommerce-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Bigcommerce Vocabulary](https://apis.io/vocabularies/bigcommerce/bigcommerce-vocabulary/)
+
+#### Examples (214)
+
+Example requests and responses.
+
+- [Bigcommerce Addcartlineitem Example](https://apis.io/examples/bigcommerce/bigcommerce-addcartlineitem-example/)
+- [Bigcommerce Addcartlineitems Example](https://apis.io/examples/bigcommerce/bigcommerce-addcartlineitems-example/)
+- [Bigcommerce Addcheckoutbillingaddress Example](https://apis.io/examples/bigcommerce/bigcommerce-addcheckoutbillingaddress-example/)
+- [Bigcommerce Addcheckoutconsignment Example](https://apis.io/examples/bigcommerce/bigcommerce-addcheckoutconsignment-example/)
+- [Bigcommerce Addcheckoutcoupon Example](https://apis.io/examples/bigcommerce/bigcommerce-addcheckoutcoupon-example/)
+- [Bigcommerce Addcheckoutdiscount Example](https://apis.io/examples/bigcommerce/bigcommerce-addcheckoutdiscount-example/)
+- [Bigcommerce Addcheckoutgiftcertificate Example](https://apis.io/examples/bigcommerce/bigcommerce-addcheckoutgiftcertificate-example/)
+- [Bigcommerce Addwishlistitem Example](https://apis.io/examples/bigcommerce/bigcommerce-addwishlistitem-example/)
+- [Bigcommerce Adjusttaxquote Example](https://apis.io/examples/bigcommerce/bigcommerce-adjusttaxquote-example/)
+- [Bigcommerce Committaxquote Example](https://apis.io/examples/bigcommerce/bigcommerce-committaxquote-example/)
+- [Bigcommerce Createabandonedcartemailtemplate Example](https://apis.io/examples/bigcommerce/bigcommerce-createabandonedcartemailtemplate-example/)
+- [Bigcommerce Createbanner Example](https://apis.io/examples/bigcommerce/bigcommerce-createbanner-example/)
+- [Bigcommerce Createblogposts Example](https://apis.io/examples/bigcommerce/bigcommerce-createblogposts-example/)
+- [Bigcommerce Createbrand Example](https://apis.io/examples/bigcommerce/bigcommerce-createbrand-example/)
+- [Bigcommerce Createbrandimage Example](https://apis.io/examples/bigcommerce/bigcommerce-createbrandimage-example/)
+- [Bigcommerce Createbrandmetafield Example](https://apis.io/examples/bigcommerce/bigcommerce-createbrandmetafield-example/)
+- [Bigcommerce Createcart Example](https://apis.io/examples/bigcommerce/bigcommerce-createcart-example/)
+- [Bigcommerce Createcartmetafield Example](https://apis.io/examples/bigcommerce/bigcommerce-createcartmetafield-example/)
+- [Bigcommerce Createcategories Example](https://apis.io/examples/bigcommerce/bigcommerce-createcategories-example/)
+- [Bigcommerce Createcategoryimage Example](https://apis.io/examples/bigcommerce/bigcommerce-createcategoryimage-example/)
+- [Bigcommerce Createcategorymetafield Example](https://apis.io/examples/bigcommerce/bigcommerce-createcategorymetafield-example/)
+- [Bigcommerce Createcheckoutconsignment Example](https://apis.io/examples/bigcommerce/bigcommerce-createcheckoutconsignment-example/)
+- [Bigcommerce Createcheckouttoken Example](https://apis.io/examples/bigcommerce/bigcommerce-createcheckouttoken-example/)
+- [Bigcommerce Createcoupon Example](https://apis.io/examples/bigcommerce/bigcommerce-createcoupon-example/)
+- [Bigcommerce Createcustomer Example](https://apis.io/examples/bigcommerce/bigcommerce-createcustomer-example/)
+- …and 189 more published on APIs.io
+
+#### Collections (154)
+
+Postman and Open Collection request collections.
+
+- [BigCommerce Accepted Payment Methods](https://apis.io/collections/bigcommerce/open-accepted-payment-methods/)
+- [BigCommerce Abandoned Cart Emails API](https://apis.io/collections/bigcommerce/open-bigcommerce-abandoned-cart-emails-api/)
+- [BigCommerce Abandoned Cart Emails Abandoned Cart Settings API](https://apis.io/collections/bigcommerce/open-bigcommerce-abandoned-cart-settings-api/)
+- [BigCommerce Abandoned Cart Emails Abandoned Carts API](https://apis.io/collections/bigcommerce/open-bigcommerce-abandoned-carts-api/)
+- [BigCommerce Abandoned Cart Emails Abandoned Carts Settings API](https://apis.io/collections/bigcommerce/open-bigcommerce-abandoned-carts-settings-api/)
+- [BigCommerce Abandoned Cart Emails Access API](https://apis.io/collections/bigcommerce/open-bigcommerce-access-api/)
+- [BigCommerce Abandoned Cart Emails Active Theme API](https://apis.io/collections/bigcommerce/open-bigcommerce-active-theme-api/)
+- [BigCommerce Abandoned Cart Emails Addresses API](https://apis.io/collections/bigcommerce/open-bigcommerce-addresses-api/)
+- [BigCommerce Abandoned Cart Emails Analytics API](https://apis.io/collections/bigcommerce/open-bigcommerce-analytics-api/)
+- [BigCommerce Abandoned Cart Emails API Token API](https://apis.io/collections/bigcommerce/open-bigcommerce-api-token-api/)
+- [BigCommerce Abandoned Cart Emails Attribute Values API](https://apis.io/collections/bigcommerce/open-bigcommerce-attribute-values-api/)
+- [BigCommerce Abandoned Cart Emails Attributes API](https://apis.io/collections/bigcommerce/open-bigcommerce-attributes-api/)
+- [BigCommerce Abandoned Cart Emails Banners API](https://apis.io/collections/bigcommerce/open-bigcommerce-banners-api/)
+- [BigCommerce Abandoned Cart Emails Batch Metafields API](https://apis.io/collections/bigcommerce/open-bigcommerce-batch-metafields-api/)
+- [BigCommerce Abandoned Cart Emails Blog Posts API](https://apis.io/collections/bigcommerce/open-bigcommerce-blog-posts-api/)
+- [BigCommerce Abandoned Cart Emails Blog Tags API](https://apis.io/collections/bigcommerce/open-bigcommerce-blog-tags-api/)
+- [BigCommerce Abandoned Cart Emails Brands API](https://apis.io/collections/bigcommerce/open-bigcommerce-brands-api/)
+- [BigCommerce Abandoned Cart Emails Bulk Pricing Rules API](https://apis.io/collections/bigcommerce/open-bigcommerce-bulk-pricing-rules-api/)
+- [BigCommerce Abandoned Emails Cart API](https://apis.io/collections/bigcommerce/open-bigcommerce-cart-api/)
+- [BigCommerce Abandoned Cart Emails Cart Currency API](https://apis.io/collections/bigcommerce/open-bigcommerce-cart-currency-api/)
+- [BigCommerce Abandoned Cart Emails Cart Items API](https://apis.io/collections/bigcommerce/open-bigcommerce-cart-items-api/)
+- [BigCommerce Abandoned Cart Emails Carts (Single) API](https://apis.io/collections/bigcommerce/open-bigcommerce-carts-single-api/)
+- [BigCommerce Abandoned Cart Emails Catalog API](https://apis.io/collections/bigcommerce/open-bigcommerce-catalog-api/)
+- [BigCommerce Abandoned Cart Emails Categories API](https://apis.io/collections/bigcommerce/open-bigcommerce-categories-api/)
+- [BigCommerce Abandoned Cart Emails Categories (Deprecated) API](https://apis.io/collections/bigcommerce/open-bigcommerce-categories-deprecated-api/)
+- …and 129 more published on APIs.io
+
+#### Governance rules (4)
+
+Spectral rulesets for the provider's contracts.
+
+- [BigCommerce — asyncapi rules](https://apis.io/rules/bigcommerce/bigcommerce-asyncapi-spectral-rules/)
+- [BigCommerce — jsonschema rules](https://apis.io/rules/bigcommerce/bigcommerce-jsonschema-spectral-rules/)
+- [BigCommerce API Rules](https://apis.io/rules/bigcommerce/bigcommerce-rules/)
+- [BigCommerce API Rules](https://apis.io/rules/bigcommerce/bigcommerce-spectral-rules/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Bigcommerce Authentication](https://apis.io/security/bigcommerce/bigcommerce-authentication/)
+- [Bigcommerce Domain Security](https://apis.io/security/bigcommerce/bigcommerce-domain-security/)
+- [Bigcommerce Trust Center](https://apis.io/security/bigcommerce/bigcommerce-trust-center/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Bigcommerce Scopes](https://apis.io/scopes/bigcommerce/bigcommerce-scopes/)
+
+#### Plans and pricing (2)
+
+Published plans, tiers and prices.
+
+- [Bigcommerce Plans Pricing](https://apis.io/plans/bigcommerce/bigcommerce-plans-pricing/)
+- [Bigcommerce Price Estimates](https://apis.io/plans/bigcommerce/bigcommerce-price-estimates/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Bigcommerce Rate Limits](https://apis.io/rate-limits/bigcommerce/bigcommerce-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Bigcommerce Finops](https://apis.io/finops/bigcommerce/bigcommerce-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.bigcommerce.com/)
+- [Documentation](https://www.bigcommerce.com/resources/guides/)
+- [Getting started](https://docs.bigcommerce.com/developer/docs/overview/quick-start)
+- [API reference](https://docs.bigcommerce.com/developer/api-reference/about-our-apis)
+- [Pricing](https://www.bigcommerce.com/pricing/)
+- [Sign up](https://www.bigcommerce.com/start-your-trial/)
+- [Support](https://support.bigcommerce.com)
+- [Changelog](https://docs.bigcommerce.com/developer/changelog)
+- [Blog](https://www.bigcommerce.com/blog/)
+- [Compliance](https://security.bigcommerce.com/)
+- [Terms of service](https://www.bigcommerce.com/terms/)
+- [Privacy policy](https://www.bigcommerce.com/privacy/)
+- [GitHub](https://github.com/bigcommerce)
+- [Status](https://status.bigcommerce.com/)
+
+## API Evangelist rating
+
+**Kin Score 82.5** — exemplar · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 73.1 |
+| Contract governance | 31.8 |
+| Operational transparency | 81.6 |
+| Developer ergonomics | 80.4 |
+| Access clarity | 92.1 |
+
+**Agent readiness 60.5** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | verified |
+| MCP Server | templated |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | mostly |
+
+**Regulatory alignment 35.7** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/bigcommerce/](https://apis.io/providers/bigcommerce/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for BigCommerce: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/bigcommerce/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
